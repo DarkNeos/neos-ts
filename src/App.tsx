@@ -1,9 +1,17 @@
 import React from "react";
 import "./App.css";
 import "./api/ygopro.ts";
-import { io, Socket } from "socket.io-client";
 
 function App() {
+  // test
+  const ws = new WebSocket("ws:/localhost:8000");
+  
+  console.log("websocket connected!");
+
+  ws.onmessage = e => {
+    console.log("websocket recv: " + e.data);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
