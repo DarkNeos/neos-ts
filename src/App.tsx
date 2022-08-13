@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import "./api/ygopro.ts";
+import { io, Socket } from "socket.io-client";
 
 function App() {
   return (
