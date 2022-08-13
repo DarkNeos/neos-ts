@@ -1,0 +1,65 @@
+syntax = "proto3";
+package ygopro;
+
+option go_package = "DarkNeos/ygopropb";
+
+message YgoCtosMsg {
+  int32 proto = 1;
+  oneof msg {
+    CtosPlayerInfo ctos_player_info = 2;
+    CtosJoinGame ctos_join_game = 3;
+    CtosUpdateDeck ctos_update_deck = 4;
+
+    StocJoinGame stoc_join_game = 101;
+    StocChat stoc_chat = 102;
+    StocHsPlayerEnter stoc_hs_player_enter = 103;
+    StocTypeChange stoc_type_change = 104;
+  }  
+}
+
+// ----- CTOS -----
+
+message CtosPlayerInfo {
+  string name = 1;
+}
+
+message CtosJoinGame {
+  int32 version = 1;
+  int32 gameid = 2;
+  string passwd = 3;
+}
+
+message CtosUpdateDeck {
+  repeated int32 main = 1;
+  repeated int32 extra = 2;
+  repeated int32 side = 3;
+}
+
+// ----- STOC -----
+
+message StocJoinGame {
+  int32 lflist = 1;
+  int32 rule = 2;
+  int32 mode = 3;
+  int32 duel_rule = 4;
+  bool no_check_deck = 5;
+  bool no_shuffle_deck = 6;
+  int32 start_lp = 7;
+  int32 start_hand = 8;
+  int32 draw_count = 9;
+  int32 time_limit = 10;
+}
+
+message StocChat {
+  int32 player = 1;
+  string msg = 2;
+}
+
+message StocHsPlayerEnter {
+  string name = 1;
+  int32 pos = 2;
+}
+
+message StocTypeChange {
+  int32 type = 1;
+}
