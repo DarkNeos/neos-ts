@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './api/ygopro.ts';
 
 function App() {
   return (
