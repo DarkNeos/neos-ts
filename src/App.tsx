@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import "./api/ygopro.ts";
+import "./api/ocgcore";
 
 function App() {
   // test
