@@ -1,34 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import { ygopro } from "./api/ocgcore";
 
 export default function JoinHome(props: { addr: string }) {
-  const [isConnected, setConnected] = useState(false);
-  const [message, setMessage] = useState("");
+  const ws = useRef<WebSocket | null>(null);
+  const [username, setUsername] = useState("");
+  const [passwd, setPasswd] = useState("");
+  const [isJoined, setJoined] = useState(false);
 
   useEffect(() => {
-    const ws = new WebSocket(props.addr);
+    ws.current = new WebSocket(props.addr);
 
-    ws.onopen = () => {
+    ws.current.onopen = () => {
       console.log("websocket open");
-      setConnected(true);
     };
 
-    ws.onclose = () => {
+    ws.current.onclose = () => {
       console.log("websocket closed");
-      setConnected(false);
     };
 
-    ws.onmessage = (e) => {
-      const msg = e.data;
-      setMessage(msg);
+    ws.current.onmessage = (e) => {
+      console.log("websocket read message: " + e.data);
     };
 
-    return () => ws.close();
+    const wsCurrent = ws.current;
+
+    return () => wsCurrent.close();
   }, []);
+
+  let handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  let handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPasswd(event.target.value);
+  };
+
+  let handleButtonOnClick = () => {
+    console.log("buttom clicked");
+
+    if (!ws.current) {
+      console.error("websocket not connected");
+    } else {
+      const wsCurrent = ws.current;
+
+      // todo
+    }
+  };
 
   return (
     <div>
-      <p>{"isConnected: " + isConnected}</p>
-      <p>{"message: " + message}</p>
+      <p>
+        <input
+          type="text"
+          title="username"
+          value={username}
+          onChange={handleUsernameChange}
+        ></input>
+      </p>
+      <p>
+        <input
+          type="text"
+          title="passwd"
+          value={passwd}
+          onChange={handlePasswdChange}
+        ></input>
+      </p>
+      <button onClick={handleButtonOnClick}>Join</button>
+      <p>{"isJoined: " + isJoined}</p>
     </div>
   );
 }
