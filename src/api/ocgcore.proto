@@ -4,7 +4,6 @@ package ygopro;
 option go_package = "DarkNeos/ygopropb";
 
 message YgoCtosMsg {
-  int32 proto = 1;
   oneof msg {
     CtosPlayerInfo ctos_player_info = 2;
     CtosJoinGame ctos_join_game = 3;
