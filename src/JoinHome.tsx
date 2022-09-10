@@ -24,8 +24,12 @@ export default function JoinHome(props: { addr: string }) {
 
     const wsCurrent = ws.current;
 
-    return () => wsCurrent.close();
-  }, []);
+    return () => {
+      if (wsCurrent.readyState == 1) {
+        wsCurrent.close()
+      }
+    };
+  }, [ws]);
 
   let handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
