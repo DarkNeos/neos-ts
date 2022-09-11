@@ -5,15 +5,19 @@ option go_package = "DarkNeos/ygopropb";
 
 message YgoCtosMsg {
   oneof msg {
-    CtosPlayerInfo ctos_player_info = 2;
-    CtosJoinGame ctos_join_game = 3;
-    CtosUpdateDeck ctos_update_deck = 4;
-
-    StocJoinGame stoc_join_game = 101;
-    StocChat stoc_chat = 102;
-    StocHsPlayerEnter stoc_hs_player_enter = 103;
-    StocTypeChange stoc_type_change = 104;
+    CtosPlayerInfo ctos_player_info = 1;
+    CtosJoinGame ctos_join_game = 2;
+    CtosUpdateDeck ctos_update_deck = 3;
   }  
+}
+
+message YgoStocMsg {
+  oneof msg {
+    StocJoinGame stoc_join_game = 1;
+    StocChat stoc_chat = 2;
+    StocHsPlayerEnter stoc_hs_player_enter = 3;
+    StocTypeChange stoc_type_change = 4;
+  }
 }
 
 // ----- CTOS -----

@@ -6,7 +6,7 @@
 import * as pb_1 from "google-protobuf";
 export namespace ygopro {
   export class YgoCtosMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[2, 3, 4, 101, 102, 103, 104]];
+    #one_of_decls: number[][] = [[1, 2, 3]];
     constructor(
       data?:
         | any[]
@@ -15,64 +15,16 @@ export namespace ygopro {
                 ctos_player_info?: CtosPlayerInfo;
                 ctos_join_game?: never;
                 ctos_update_deck?: never;
-                stoc_join_game?: never;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: never;
               }
             | {
                 ctos_player_info?: never;
                 ctos_join_game?: CtosJoinGame;
                 ctos_update_deck?: never;
-                stoc_join_game?: never;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: never;
               }
             | {
                 ctos_player_info?: never;
                 ctos_join_game?: never;
                 ctos_update_deck?: CtosUpdateDeck;
-                stoc_join_game?: never;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: never;
-              }
-            | {
-                ctos_player_info?: never;
-                ctos_join_game?: never;
-                ctos_update_deck?: never;
-                stoc_join_game?: StocJoinGame;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: never;
-              }
-            | {
-                ctos_player_info?: never;
-                ctos_join_game?: never;
-                ctos_update_deck?: never;
-                stoc_join_game?: never;
-                stoc_chat?: StocChat;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: never;
-              }
-            | {
-                ctos_player_info?: never;
-                ctos_join_game?: never;
-                ctos_update_deck?: never;
-                stoc_join_game?: never;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: StocHsPlayerEnter;
-                stoc_type_change?: never;
-              }
-            | {
-                ctos_player_info?: never;
-                ctos_join_game?: never;
-                ctos_update_deck?: never;
-                stoc_join_game?: never;
-                stoc_chat?: never;
-                stoc_hs_player_enter?: never;
-                stoc_type_change?: StocTypeChange;
               }
           ))
     ) {
@@ -95,6 +47,202 @@ export namespace ygopro {
         if ("ctos_update_deck" in data && data.ctos_update_deck != undefined) {
           this.ctos_update_deck = data.ctos_update_deck;
         }
+      }
+    }
+    get ctos_player_info() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosPlayerInfo,
+        1
+      ) as CtosPlayerInfo;
+    }
+    set ctos_player_info(value: CtosPlayerInfo) {
+      pb_1.Message.setOneofWrapperField(this, 1, this.#one_of_decls[0], value);
+    }
+    get has_ctos_player_info() {
+      return pb_1.Message.getField(this, 1) != null;
+    }
+    get ctos_join_game() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosJoinGame,
+        2
+      ) as CtosJoinGame;
+    }
+    set ctos_join_game(value: CtosJoinGame) {
+      pb_1.Message.setOneofWrapperField(this, 2, this.#one_of_decls[0], value);
+    }
+    get has_ctos_join_game() {
+      return pb_1.Message.getField(this, 2) != null;
+    }
+    get ctos_update_deck() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosUpdateDeck,
+        3
+      ) as CtosUpdateDeck;
+    }
+    set ctos_update_deck(value: CtosUpdateDeck) {
+      pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
+    }
+    get has_ctos_update_deck() {
+      return pb_1.Message.getField(this, 3) != null;
+    }
+    get msg() {
+      const cases: {
+        [index: number]:
+          | "none"
+          | "ctos_player_info"
+          | "ctos_join_game"
+          | "ctos_update_deck";
+      } = {
+        0: "none",
+        1: "ctos_player_info",
+        2: "ctos_join_game",
+        3: "ctos_update_deck",
+      };
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3])];
+    }
+    static fromObject(data: {
+      ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
+      ctos_join_game?: ReturnType<typeof CtosJoinGame.prototype.toObject>;
+      ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
+    }): YgoCtosMsg {
+      const message = new YgoCtosMsg({});
+      if (data.ctos_player_info != null) {
+        message.ctos_player_info = CtosPlayerInfo.fromObject(
+          data.ctos_player_info
+        );
+      }
+      if (data.ctos_join_game != null) {
+        message.ctos_join_game = CtosJoinGame.fromObject(data.ctos_join_game);
+      }
+      if (data.ctos_update_deck != null) {
+        message.ctos_update_deck = CtosUpdateDeck.fromObject(
+          data.ctos_update_deck
+        );
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
+        ctos_join_game?: ReturnType<typeof CtosJoinGame.prototype.toObject>;
+        ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
+      } = {};
+      if (this.ctos_player_info != null) {
+        data.ctos_player_info = this.ctos_player_info.toObject();
+      }
+      if (this.ctos_join_game != null) {
+        data.ctos_join_game = this.ctos_join_game.toObject();
+      }
+      if (this.ctos_update_deck != null) {
+        data.ctos_update_deck = this.ctos_update_deck.toObject();
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.has_ctos_player_info)
+        writer.writeMessage(1, this.ctos_player_info, () =>
+          this.ctos_player_info.serialize(writer)
+        );
+      if (this.has_ctos_join_game)
+        writer.writeMessage(2, this.ctos_join_game, () =>
+          this.ctos_join_game.serialize(writer)
+        );
+      if (this.has_ctos_update_deck)
+        writer.writeMessage(3, this.ctos_update_deck, () =>
+          this.ctos_update_deck.serialize(writer)
+        );
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): YgoCtosMsg {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new YgoCtosMsg();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            reader.readMessage(
+              message.ctos_player_info,
+              () =>
+                (message.ctos_player_info = CtosPlayerInfo.deserialize(reader))
+            );
+            break;
+          case 2:
+            reader.readMessage(
+              message.ctos_join_game,
+              () => (message.ctos_join_game = CtosJoinGame.deserialize(reader))
+            );
+            break;
+          case 3:
+            reader.readMessage(
+              message.ctos_update_deck,
+              () =>
+                (message.ctos_update_deck = CtosUpdateDeck.deserialize(reader))
+            );
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): YgoCtosMsg {
+      return YgoCtosMsg.deserialize(bytes);
+    }
+  }
+  export class YgoStocMsg extends pb_1.Message {
+    #one_of_decls: number[][] = [[1, 2, 3, 4]];
+    constructor(
+      data?:
+        | any[]
+        | ({} & (
+            | {
+                stoc_join_game?: StocJoinGame;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: StocChat;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: StocHsPlayerEnter;
+                stoc_type_change?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: StocTypeChange;
+              }
+          ))
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
         if ("stoc_join_game" in data && data.stoc_join_game != undefined) {
           this.stoc_join_game = data.stoc_join_game;
         }
@@ -112,163 +260,80 @@ export namespace ygopro {
         }
       }
     }
-    get ctos_player_info() {
-      return pb_1.Message.getWrapperField(
-        this,
-        CtosPlayerInfo,
-        2
-      ) as CtosPlayerInfo;
-    }
-    set ctos_player_info(value: CtosPlayerInfo) {
-      pb_1.Message.setOneofWrapperField(this, 2, this.#one_of_decls[0], value);
-    }
-    get has_ctos_player_info() {
-      return pb_1.Message.getField(this, 2) != null;
-    }
-    get ctos_join_game() {
-      return pb_1.Message.getWrapperField(
-        this,
-        CtosJoinGame,
-        3
-      ) as CtosJoinGame;
-    }
-    set ctos_join_game(value: CtosJoinGame) {
-      pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
-    }
-    get has_ctos_join_game() {
-      return pb_1.Message.getField(this, 3) != null;
-    }
-    get ctos_update_deck() {
-      return pb_1.Message.getWrapperField(
-        this,
-        CtosUpdateDeck,
-        4
-      ) as CtosUpdateDeck;
-    }
-    set ctos_update_deck(value: CtosUpdateDeck) {
-      pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
-    }
-    get has_ctos_update_deck() {
-      return pb_1.Message.getField(this, 4) != null;
-    }
     get stoc_join_game() {
       return pb_1.Message.getWrapperField(
         this,
         StocJoinGame,
-        101
+        1
       ) as StocJoinGame;
     }
     set stoc_join_game(value: StocJoinGame) {
-      pb_1.Message.setOneofWrapperField(
-        this,
-        101,
-        this.#one_of_decls[0],
-        value
-      );
+      pb_1.Message.setOneofWrapperField(this, 1, this.#one_of_decls[0], value);
     }
     get has_stoc_join_game() {
-      return pb_1.Message.getField(this, 101) != null;
+      return pb_1.Message.getField(this, 1) != null;
     }
     get stoc_chat() {
-      return pb_1.Message.getWrapperField(this, StocChat, 102) as StocChat;
+      return pb_1.Message.getWrapperField(this, StocChat, 2) as StocChat;
     }
     set stoc_chat(value: StocChat) {
-      pb_1.Message.setOneofWrapperField(
-        this,
-        102,
-        this.#one_of_decls[0],
-        value
-      );
+      pb_1.Message.setOneofWrapperField(this, 2, this.#one_of_decls[0], value);
     }
     get has_stoc_chat() {
-      return pb_1.Message.getField(this, 102) != null;
+      return pb_1.Message.getField(this, 2) != null;
     }
     get stoc_hs_player_enter() {
       return pb_1.Message.getWrapperField(
         this,
         StocHsPlayerEnter,
-        103
+        3
       ) as StocHsPlayerEnter;
     }
     set stoc_hs_player_enter(value: StocHsPlayerEnter) {
-      pb_1.Message.setOneofWrapperField(
-        this,
-        103,
-        this.#one_of_decls[0],
-        value
-      );
+      pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
     }
     get has_stoc_hs_player_enter() {
-      return pb_1.Message.getField(this, 103) != null;
+      return pb_1.Message.getField(this, 3) != null;
     }
     get stoc_type_change() {
       return pb_1.Message.getWrapperField(
         this,
         StocTypeChange,
-        104
+        4
       ) as StocTypeChange;
     }
     set stoc_type_change(value: StocTypeChange) {
-      pb_1.Message.setOneofWrapperField(
-        this,
-        104,
-        this.#one_of_decls[0],
-        value
-      );
+      pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
     }
     get has_stoc_type_change() {
-      return pb_1.Message.getField(this, 104) != null;
+      return pb_1.Message.getField(this, 4) != null;
     }
     get msg() {
       const cases: {
         [index: number]:
           | "none"
-          | "ctos_player_info"
-          | "ctos_join_game"
-          | "ctos_update_deck"
           | "stoc_join_game"
           | "stoc_chat"
           | "stoc_hs_player_enter"
           | "stoc_type_change";
       } = {
         0: "none",
-        2: "ctos_player_info",
-        3: "ctos_join_game",
-        4: "ctos_update_deck",
-        101: "stoc_join_game",
-        102: "stoc_chat",
-        103: "stoc_hs_player_enter",
-        104: "stoc_type_change",
+        1: "stoc_join_game",
+        2: "stoc_chat",
+        3: "stoc_hs_player_enter",
+        4: "stoc_type_change",
       };
-      return cases[
-        pb_1.Message.computeOneofCase(this, [2, 3, 4, 101, 102, 103, 104])
-      ];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4])];
     }
     static fromObject(data: {
-      ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
-      ctos_join_game?: ReturnType<typeof CtosJoinGame.prototype.toObject>;
-      ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
       stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
       stoc_chat?: ReturnType<typeof StocChat.prototype.toObject>;
       stoc_hs_player_enter?: ReturnType<
         typeof StocHsPlayerEnter.prototype.toObject
       >;
       stoc_type_change?: ReturnType<typeof StocTypeChange.prototype.toObject>;
-    }): YgoCtosMsg {
-      const message = new YgoCtosMsg({});
-      if (data.ctos_player_info != null) {
-        message.ctos_player_info = CtosPlayerInfo.fromObject(
-          data.ctos_player_info
-        );
-      }
-      if (data.ctos_join_game != null) {
-        message.ctos_join_game = CtosJoinGame.fromObject(data.ctos_join_game);
-      }
-      if (data.ctos_update_deck != null) {
-        message.ctos_update_deck = CtosUpdateDeck.fromObject(
-          data.ctos_update_deck
-        );
-      }
+    }): YgoStocMsg {
+      const message = new YgoStocMsg({});
       if (data.stoc_join_game != null) {
         message.stoc_join_game = StocJoinGame.fromObject(data.stoc_join_game);
       }
@@ -289,9 +354,6 @@ export namespace ygopro {
     }
     toObject() {
       const data: {
-        ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
-        ctos_join_game?: ReturnType<typeof CtosJoinGame.prototype.toObject>;
-        ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
         stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
         stoc_chat?: ReturnType<typeof StocChat.prototype.toObject>;
         stoc_hs_player_enter?: ReturnType<
@@ -299,15 +361,6 @@ export namespace ygopro {
         >;
         stoc_type_change?: ReturnType<typeof StocTypeChange.prototype.toObject>;
       } = {};
-      if (this.ctos_player_info != null) {
-        data.ctos_player_info = this.ctos_player_info.toObject();
-      }
-      if (this.ctos_join_game != null) {
-        data.ctos_join_game = this.ctos_join_game.toObject();
-      }
-      if (this.ctos_update_deck != null) {
-        data.ctos_update_deck = this.ctos_update_deck.toObject();
-      }
       if (this.stoc_join_game != null) {
         data.stoc_join_game = this.stoc_join_game.toObject();
       }
@@ -326,78 +379,46 @@ export namespace ygopro {
     serialize(w: pb_1.BinaryWriter): void;
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
       const writer = w || new pb_1.BinaryWriter();
-      if (this.has_ctos_player_info)
-        writer.writeMessage(2, this.ctos_player_info, () =>
-          this.ctos_player_info.serialize(writer)
-        );
-      if (this.has_ctos_join_game)
-        writer.writeMessage(3, this.ctos_join_game, () =>
-          this.ctos_join_game.serialize(writer)
-        );
-      if (this.has_ctos_update_deck)
-        writer.writeMessage(4, this.ctos_update_deck, () =>
-          this.ctos_update_deck.serialize(writer)
-        );
       if (this.has_stoc_join_game)
-        writer.writeMessage(101, this.stoc_join_game, () =>
+        writer.writeMessage(1, this.stoc_join_game, () =>
           this.stoc_join_game.serialize(writer)
         );
       if (this.has_stoc_chat)
-        writer.writeMessage(102, this.stoc_chat, () =>
+        writer.writeMessage(2, this.stoc_chat, () =>
           this.stoc_chat.serialize(writer)
         );
       if (this.has_stoc_hs_player_enter)
-        writer.writeMessage(103, this.stoc_hs_player_enter, () =>
+        writer.writeMessage(3, this.stoc_hs_player_enter, () =>
           this.stoc_hs_player_enter.serialize(writer)
         );
       if (this.has_stoc_type_change)
-        writer.writeMessage(104, this.stoc_type_change, () =>
+        writer.writeMessage(4, this.stoc_type_change, () =>
           this.stoc_type_change.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
-    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): YgoCtosMsg {
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): YgoStocMsg {
       const reader =
           bytes instanceof pb_1.BinaryReader
             ? bytes
             : new pb_1.BinaryReader(bytes),
-        message = new YgoCtosMsg();
+        message = new YgoStocMsg();
       while (reader.nextField()) {
         if (reader.isEndGroup()) break;
         switch (reader.getFieldNumber()) {
-          case 2:
-            reader.readMessage(
-              message.ctos_player_info,
-              () =>
-                (message.ctos_player_info = CtosPlayerInfo.deserialize(reader))
-            );
-            break;
-          case 3:
-            reader.readMessage(
-              message.ctos_join_game,
-              () => (message.ctos_join_game = CtosJoinGame.deserialize(reader))
-            );
-            break;
-          case 4:
-            reader.readMessage(
-              message.ctos_update_deck,
-              () =>
-                (message.ctos_update_deck = CtosUpdateDeck.deserialize(reader))
-            );
-            break;
-          case 101:
+          case 1:
             reader.readMessage(
               message.stoc_join_game,
               () => (message.stoc_join_game = StocJoinGame.deserialize(reader))
             );
             break;
-          case 102:
+          case 2:
             reader.readMessage(
               message.stoc_chat,
               () => (message.stoc_chat = StocChat.deserialize(reader))
             );
             break;
-          case 103:
+          case 3:
             reader.readMessage(
               message.stoc_hs_player_enter,
               () =>
@@ -405,7 +426,7 @@ export namespace ygopro {
                   StocHsPlayerEnter.deserialize(reader))
             );
             break;
-          case 104:
+          case 4:
             reader.readMessage(
               message.stoc_type_change,
               () =>
@@ -421,8 +442,8 @@ export namespace ygopro {
     serializeBinary(): Uint8Array {
       return this.serialize();
     }
-    static deserializeBinary(bytes: Uint8Array): YgoCtosMsg {
-      return YgoCtosMsg.deserialize(bytes);
+    static deserializeBinary(bytes: Uint8Array): YgoStocMsg {
+      return YgoStocMsg.deserialize(bytes);
     }
   }
   export class CtosPlayerInfo extends pb_1.Message {

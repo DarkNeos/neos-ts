@@ -3,8 +3,8 @@ import { ygopro } from "./api/ocgcore";
 
 export default function JoinHome(props: { addr: string }) {
   const ws = useRef<WebSocket | null>(null);
-  const [username, setUsername] = useState("");
-  const [passwd, setPasswd] = useState("");
+  const [userName, setUsername] = useState("");
+  const [passWd, setPasswd] = useState("");
   const [isJoined, setJoined] = useState(false);
 
   useEffect(() => {
@@ -24,8 +24,12 @@ export default function JoinHome(props: { addr: string }) {
 
     const wsCurrent = ws.current;
 
-    return () => wsCurrent.close();
-  }, []);
+    return () => {
+      if (wsCurrent.readyState == 1) {
+        wsCurrent.close();
+      }
+    };
+  }, [ws]);
 
   let handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -43,7 +47,36 @@ export default function JoinHome(props: { addr: string }) {
     } else {
       const wsCurrent = ws.current;
 
-      // todo
+      if (
+        userName != null &&
+        userName.length != 0 &&
+        passWd != null &&
+        passWd.length != 0
+      ) {
+        console.log(
+          "ready to send playerInfo and joinGame packet, userName=" +
+            userName +
+            ", passWd=" +
+            passWd
+        );
+        const playerInfo = new ygopro.YgoCtosMsg({
+          ctos_player_info: new ygopro.CtosPlayerInfo({
+            name: userName,
+          }),
+        });
+
+        wsCurrent.send(playerInfo.serialize());
+
+        const joinGame = new ygopro.YgoCtosMsg({
+          ctos_join_game: new ygopro.CtosJoinGame({
+            version: 4947,
+            gameid: 0,
+            passwd: passWd,
+          }),
+        });
+
+        wsCurrent.send(joinGame.serialize());
+      }
     }
   };
 
@@ -53,7 +86,7 @@ export default function JoinHome(props: { addr: string }) {
         <input
           type="text"
           title="username"
-          value={username}
+          value={userName}
           onChange={handleUsernameChange}
         ></input>
       </p>
@@ -61,7 +94,7 @@ export default function JoinHome(props: { addr: string }) {
         <input
           type="text"
           title="passwd"
-          value={passwd}
+          value={passWd}
           onChange={handlePasswdChange}
         ></input>
       </p>
