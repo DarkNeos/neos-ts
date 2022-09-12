@@ -8,7 +8,9 @@ export default function JoinHome(props: { addr: string }) {
   const [isJoined, setJoined] = useState(false);
 
   useEffect(() => {
-    ws.current = new WebSocket(props.addr);
+    if (!ws.current) {
+      ws.current = new WebSocket(props.addr);
+    }
 
     ws.current.onopen = () => {
       console.log("websocket open");
@@ -40,8 +42,6 @@ export default function JoinHome(props: { addr: string }) {
   };
 
   let handleButtonOnClick = () => {
-    console.log("buttom clicked");
-
     if (!ws.current) {
       console.error("websocket not connected");
     } else {
