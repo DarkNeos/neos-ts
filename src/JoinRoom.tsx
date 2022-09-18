@@ -1,10 +1,10 @@
-import React, { useState, ChangeEvent} from "react";
-import {Link} from "react-router-dom";
+import React, { useState, ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 
 export default function JoinRoom() {
   const [player, setPlayer] = useState("");
   const [passWd, setPasswd] = useState("");
-  const [ip, setIp] = useState("")
+  const [ip, setIp] = useState("");
 
   let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
@@ -13,8 +13,8 @@ export default function JoinRoom() {
     setPasswd(event.target.value);
   };
   let handleIpChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIp(event.target.value)
-  }
+    setIp(event.target.value);
+  };
 
   return (
     <div>
