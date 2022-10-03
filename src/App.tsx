@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import "./api/ocgcore";
 import JoinRoom from "./JoinRoom";
 import WaitRoom from "./WaitRoom";
 import { Routes, Route } from "react-router-dom";

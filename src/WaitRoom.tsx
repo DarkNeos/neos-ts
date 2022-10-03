@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ygopro } from "./api/ocgcore";
+import { ygopro } from "./api/idl/ocgcore";
 
 export default function WaitRoom() {
   const params = useParams<{
