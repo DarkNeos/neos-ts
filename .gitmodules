@@ -1,0 +1,3 @@
+[submodule "neos-protobuf"]
+	path = neos-protobuf
+	url = git@github.com:DarkNeos/neos-protobuf.git
