@@ -6,7 +6,7 @@ export default function Card() {
 
   useEffect(() => {
     const fetchCards = async () => {
-      const res = await axios.get("https://localhost:3000/hello/neos");
+      const res = await axios.get("http://localhost:3030/hello/neos");
 
       setData(res.data);
     };
