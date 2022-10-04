@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "./api/idl/ocgcore";
 
@@ -8,6 +8,9 @@ export default function WaitRoom() {
     passWd?: string;
     ip?: string;
   }>();
+
+  const [joined, setJoined] = useState<string>("false");
+  const [chat, setChat] = useState<string>("");
 
   const ws = useRef<WebSocket | null>(null);
 
@@ -41,8 +44,27 @@ export default function WaitRoom() {
     };
 
     ws.current.onmessage = e => {
-      const pb: ygopro.YgoStocMsg = ygopro.YgoStocMsg.deserializeBinary(e.data);
-      console.log("websocket read message: " + pb);
+      const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
+
+      switch (pb.msg) {
+        case "stoc_join_game": {
+          const msg = pb.stoc_join_game;
+
+          console.log("joinGame msg=" + msg);
+
+          setJoined("true");
+          break;
+        }
+        case "stoc_chat": {
+          const chat = pb.stoc_chat;
+
+          setChat(chat.msg);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     };
 
     const wsCurrent = ws.current;
@@ -56,9 +78,8 @@ export default function WaitRoom() {
 
   return (
     <div>
-      <p>player: {params.player}</p>
-      <p>ip: {params.ip}</p>
-      <p>passwd: {params.passWd}</p>
+      <p>joined: {joined}</p>
+      <p>chat: {chat}</p>
     </div>
   );
 }
