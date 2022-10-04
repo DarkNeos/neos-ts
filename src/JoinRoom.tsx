@@ -29,17 +29,17 @@ export default function JoinRoom() {
       <p>
         <input
           type="text"
-          title="passwd"
-          value={passWd}
-          onChange={handlePasswdChange}
+          title="ip"
+          value={ip}
+          onChange={handleIpChange}
         ></input>
       </p>
       <p>
         <input
           type="text"
-          title="ip"
-          value={ip}
-          onChange={handleIpChange}
+          title="passwd"
+          value={passWd}
+          onChange={handlePasswdChange}
         ></input>
       </p>
       <button>
