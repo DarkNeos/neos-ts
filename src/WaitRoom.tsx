@@ -31,23 +31,8 @@ export default function WaitRoom() {
 
         wsCurrent.binaryType = "arraybuffer";
 
-        const playerInfo = new ygopro.YgoCtosMsg({
-          ctos_player_info: new ygopro.CtosPlayerInfo({
-            name: player
-          })
-        });
-
-        wsCurrent.send(playerInfo.serialize());
-
-        const joinGame = new ygopro.YgoCtosMsg({
-          ctos_join_game: new ygopro.CtosJoinGame({
-            version: 4947, // todo: use config
-            gameid: 0,
-            passwd: passWd
-          })
-        });
-
-        wsCurrent.send(joinGame.serialize());
+        sendPlayerInfo(wsCurrent, player);
+        sendJoinGame(wsCurrent, 4947, passWd);
       }
     };
 
@@ -76,4 +61,26 @@ export default function WaitRoom() {
       <p>passwd: {params.passWd}</p>
     </div>
   );
+}
+
+function sendPlayerInfo(ws: WebSocket, player: string) {
+  const playerInfo = new ygopro.YgoCtosMsg({
+    ctos_player_info: new ygopro.CtosPlayerInfo({
+      name: player
+    })
+  });
+
+  ws.send(playerInfo.serialize());
+}
+
+function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
+  const joinGame = new ygopro.YgoCtosMsg({
+    ctos_join_game: new ygopro.CtosJoinGame({
+      version, // todo: use config
+      gameid: 0,
+      passwd: passWd
+    })
+  });
+
+  ws.send(joinGame.serialize());
 }
