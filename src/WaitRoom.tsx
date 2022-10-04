@@ -29,6 +29,8 @@ export default function WaitRoom() {
       ) {
         const wsCurrent = ws.current;
 
+        wsCurrent.binaryType = "arraybuffer";
+
         const playerInfo = new ygopro.YgoCtosMsg({
           ctos_player_info: new ygopro.CtosPlayerInfo({
             name: player
@@ -54,7 +56,8 @@ export default function WaitRoom() {
     };
 
     ws.current.onmessage = e => {
-      console.log("websocket read message: " + e.data);
+      const pb: ygopro.YgoStocMsg = ygopro.YgoStocMsg.deserializeBinary(e.data);
+      console.log("websocket read message: " + pb);
     };
 
     const wsCurrent = ws.current;
@@ -69,8 +72,8 @@ export default function WaitRoom() {
   return (
     <div>
       <p>player: {params.player}</p>
-      <p>passwd: {params.passWd}</p>
       <p>ip: {params.ip}</p>
+      <p>passwd: {params.passWd}</p>
     </div>
   );
 }
