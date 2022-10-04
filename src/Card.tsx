@@ -9,8 +9,6 @@ export default function Card() {
       const res = await axios.get<IDeck>("http://localhost:3030/deck/hero.ydk");
 
       setData(res.data);
-
-      console.log(res.data);
     };
 
     fetchCards();
