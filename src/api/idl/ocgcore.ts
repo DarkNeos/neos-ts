@@ -1248,37 +1248,73 @@ export namespace ygopro {
     export class StocHsPlayerChange extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            status?: number;
+            state?: StocHsPlayerChange.State;
+            pos?: number;
+            moved_pos?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
-                if ("status" in data && data.status != undefined) {
-                    this.status = data.status;
+                if ("state" in data && data.state != undefined) {
+                    this.state = data.state;
+                }
+                if ("pos" in data && data.pos != undefined) {
+                    this.pos = data.pos;
+                }
+                if ("moved_pos" in data && data.moved_pos != undefined) {
+                    this.moved_pos = data.moved_pos;
                 }
             }
         }
-        get status() {
-            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        get state() {
+            return pb_1.Message.getFieldWithDefault(this, 1, StocHsPlayerChange.State.UNKNOWN) as StocHsPlayerChange.State;
         }
-        set status(value: number) {
+        set state(value: StocHsPlayerChange.State) {
             pb_1.Message.setField(this, 1, value);
         }
+        get pos() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set pos(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get moved_pos() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set moved_pos(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
         static fromObject(data: {
-            status?: number;
+            state?: StocHsPlayerChange.State;
+            pos?: number;
+            moved_pos?: number;
         }): StocHsPlayerChange {
             const message = new StocHsPlayerChange({});
-            if (data.status != null) {
-                message.status = data.status;
+            if (data.state != null) {
+                message.state = data.state;
+            }
+            if (data.pos != null) {
+                message.pos = data.pos;
+            }
+            if (data.moved_pos != null) {
+                message.moved_pos = data.moved_pos;
             }
             return message;
         }
         toObject() {
             const data: {
-                status?: number;
+                state?: StocHsPlayerChange.State;
+                pos?: number;
+                moved_pos?: number;
             } = {};
-            if (this.status != null) {
-                data.status = this.status;
+            if (this.state != null) {
+                data.state = this.state;
+            }
+            if (this.pos != null) {
+                data.pos = this.pos;
+            }
+            if (this.moved_pos != null) {
+                data.moved_pos = this.moved_pos;
             }
             return data;
         }
@@ -1286,8 +1322,12 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.status != 0)
-                writer.writeInt32(1, this.status);
+            if (this.state != StocHsPlayerChange.State.UNKNOWN)
+                writer.writeEnum(1, this.state);
+            if (this.pos != 0)
+                writer.writeInt32(2, this.pos);
+            if (this.moved_pos != 0)
+                writer.writeInt32(3, this.moved_pos);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1298,7 +1338,13 @@ export namespace ygopro {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        message.status = reader.readInt32();
+                        message.state = reader.readEnum();
+                        break;
+                    case 2:
+                        message.pos = reader.readInt32();
+                        break;
+                    case 3:
+                        message.moved_pos = reader.readInt32();
                         break;
                     default: reader.skipField();
                 }
@@ -1310,6 +1356,16 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): StocHsPlayerChange {
             return StocHsPlayerChange.deserialize(bytes);
+        }
+    }
+    export namespace StocHsPlayerChange {
+        export enum State {
+            UNKNOWN = 0,
+            MOVE = 1,
+            READY = 2,
+            NO_READY = 3,
+            LEAVE = 4,
+            TO_OBSERVER = 5
         }
     }
 }

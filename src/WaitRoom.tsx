@@ -62,10 +62,46 @@ export default function WaitRoom() {
           break;
         }
         case "stoc_hs_player_change": {
-          // todo: rerange neos-protobuf, design better API for neos-ts
-          const status = pb.stoc_hs_player_change.status;
+          const change = pb.stoc_hs_player_change;
 
-          console.log("Hs player changed, status=" + status);
+          switch (change.state) {
+            case ygopro.StocHsPlayerChange.State.UNKNOWN: {
+              console.log("Unknown HsPlayerChange State");
+
+              break;
+            }
+            case ygopro.StocHsPlayerChange.State.MOVE: {
+              console.log(
+                "Player " + change.pos + " moved to " + change.moved_pos
+              );
+
+              break;
+            }
+            case ygopro.StocHsPlayerChange.State.READY: {
+              console.log("Player " + change.pos + " has ready");
+
+              break;
+            }
+            case ygopro.StocHsPlayerChange.State.NO_READY: {
+              console.log("Player " + change.pos + " not ready");
+
+              break;
+            }
+            case ygopro.StocHsPlayerChange.State.LEAVE: {
+              console.log("Player " + change.pos + " has leave");
+
+              break;
+            }
+            case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
+              console.log("Player " + change.pos + " has moved to observer");
+
+              break;
+            }
+            default: {
+              break;
+            }
+          }
+
           break;
         }
         default: {
