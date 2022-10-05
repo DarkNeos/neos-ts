@@ -88,7 +88,7 @@ export default function WaitRoom() {
 
   const handleChoseReady = () => {
     if (ws.current) {
-      // todo
+      sendHsReady(ws.current);
     }
   };
 
@@ -138,4 +138,12 @@ function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
   });
 
   ws.send(updateDeck.serialize());
+}
+
+function sendHsReady(ws: WebSocket) {
+  const hasReady = new ygopro.YgoCtosMsg({
+    ctos_hs_ready: new ygopro.CtosHsReady({})
+  });
+
+  ws.send(hasReady.serialize());
 }
