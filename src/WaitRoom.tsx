@@ -104,6 +104,12 @@ export default function WaitRoom() {
 
           break;
         }
+        case "stoc_hs_watch_change": {
+          const count = pb.stoc_hs_watch_change.count;
+
+          console.log("Watch change to " + count);
+          break;
+        }
         default: {
           break;
         }
