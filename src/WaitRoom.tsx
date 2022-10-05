@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "./api/idl/ocgcore";
+import { fetchDeck, IDeck } from "./Card";
 
 export default function WaitRoom() {
   const params = useParams<{
@@ -9,8 +10,9 @@ export default function WaitRoom() {
     ip?: string;
   }>();
 
-  const [joined, setJoined] = useState<string>("false");
+  const [joined, setJoined] = useState<boolean>(false);
   const [chat, setChat] = useState<string>("");
+  const [choseDeck, setChoseDeck] = useState<boolean>(false);
 
   const ws = useRef<WebSocket | null>(null);
 
@@ -49,10 +51,8 @@ export default function WaitRoom() {
       switch (pb.msg) {
         case "stoc_join_game": {
           const msg = pb.stoc_join_game;
-
-          console.log("joinGame msg=" + msg);
-
-          setJoined("true");
+          // todo
+          setJoined(true);
           break;
         }
         case "stoc_chat": {
@@ -76,9 +76,31 @@ export default function WaitRoom() {
     };
   }, [ws]);
 
+  const handleChoseDeck = async () => {
+    if (ws.current) {
+      const deck = await fetchDeck("hero.ydk");
+
+      sendUpdateDeck(ws.current, deck);
+
+      setChoseDeck(true);
+    }
+  };
+
+  const handleChoseReady = () => {
+    if (ws.current) {
+      sendHsReady(ws.current);
+    }
+  };
+
   return (
     <div>
-      <p>joined: {joined}</p>
+      <p>joined: {joined ? "true" : "false"}</p>
+      <button disabled={!joined} onClick={handleChoseDeck}>
+        choose hero.ydk
+      </button>
+      <button disabled={!choseDeck} onClick={handleChoseReady}>
+        ready
+      </button>
       <p>chat: {chat}</p>
     </div>
   );
@@ -104,4 +126,24 @@ function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
   });
 
   ws.send(joinGame.serialize());
+}
+
+function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
+  const updateDeck = new ygopro.YgoCtosMsg({
+    ctos_update_deck: new ygopro.CtosUpdateDeck({
+      main: deck.main,
+      extra: deck.extra,
+      side: deck.side
+    })
+  });
+
+  ws.send(updateDeck.serialize());
+}
+
+function sendHsReady(ws: WebSocket) {
+  const hasReady = new ygopro.YgoCtosMsg({
+    ctos_hs_ready: new ygopro.CtosHsReady({})
+  });
+
+  ws.send(hasReady.serialize());
 }
