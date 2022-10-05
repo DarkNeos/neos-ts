@@ -61,6 +61,13 @@ export default function WaitRoom() {
           setChat(chat.msg);
           break;
         }
+        case "stoc_hs_player_change": {
+          // todo: rerange neos-protobuf, design better API for neos-ts
+          const status = pb.stoc_hs_player_change.status;
+
+          console.log("Hs player changed, status=" + status);
+          break;
+        }
         default: {
           break;
         }

@@ -181,27 +181,37 @@ export namespace ygopro {
         }
     }
     export class YgoStocMsg extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5]];
         constructor(data?: any[] | ({} & (({
             stoc_join_game?: StocJoinGame;
             stoc_chat?: never;
             stoc_hs_player_enter?: never;
             stoc_type_change?: never;
+            stoc_hs_player_change?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: StocChat;
             stoc_hs_player_enter?: never;
             stoc_type_change?: never;
+            stoc_hs_player_change?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
             stoc_hs_player_enter?: StocHsPlayerEnter;
             stoc_type_change?: never;
+            stoc_hs_player_change?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
             stoc_hs_player_enter?: never;
             stoc_type_change?: StocTypeChange;
+            stoc_hs_player_change?: never;
+        } | {
+            stoc_join_game?: never;
+            stoc_chat?: never;
+            stoc_hs_player_enter?: never;
+            stoc_type_change?: never;
+            stoc_hs_player_change?: StocHsPlayerChange;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -217,6 +227,9 @@ export namespace ygopro {
                 }
                 if ("stoc_type_change" in data && data.stoc_type_change != undefined) {
                     this.stoc_type_change = data.stoc_type_change;
+                }
+                if ("stoc_hs_player_change" in data && data.stoc_hs_player_change != undefined) {
+                    this.stoc_hs_player_change = data.stoc_hs_player_change;
                 }
             }
         }
@@ -256,23 +269,34 @@ export namespace ygopro {
         get has_stoc_type_change() {
             return pb_1.Message.getField(this, 4) != null;
         }
+        get stoc_hs_player_change() {
+            return pb_1.Message.getWrapperField(this, StocHsPlayerChange, 5) as StocHsPlayerChange;
+        }
+        set stoc_hs_player_change(value: StocHsPlayerChange) {
+            pb_1.Message.setOneofWrapperField(this, 5, this.#one_of_decls[0], value);
+        }
+        get has_stoc_hs_player_change() {
+            return pb_1.Message.getField(this, 5) != null;
+        }
         get msg() {
             const cases: {
-                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change";
+                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change" | "stoc_hs_player_change";
             } = {
                 0: "none",
                 1: "stoc_join_game",
                 2: "stoc_chat",
                 3: "stoc_hs_player_enter",
-                4: "stoc_type_change"
+                4: "stoc_type_change",
+                5: "stoc_hs_player_change"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5])];
         }
         static fromObject(data: {
             stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
             stoc_chat?: ReturnType<typeof StocChat.prototype.toObject>;
             stoc_hs_player_enter?: ReturnType<typeof StocHsPlayerEnter.prototype.toObject>;
             stoc_type_change?: ReturnType<typeof StocTypeChange.prototype.toObject>;
+            stoc_hs_player_change?: ReturnType<typeof StocHsPlayerChange.prototype.toObject>;
         }): YgoStocMsg {
             const message = new YgoStocMsg({});
             if (data.stoc_join_game != null) {
@@ -287,6 +311,9 @@ export namespace ygopro {
             if (data.stoc_type_change != null) {
                 message.stoc_type_change = StocTypeChange.fromObject(data.stoc_type_change);
             }
+            if (data.stoc_hs_player_change != null) {
+                message.stoc_hs_player_change = StocHsPlayerChange.fromObject(data.stoc_hs_player_change);
+            }
             return message;
         }
         toObject() {
@@ -295,6 +322,7 @@ export namespace ygopro {
                 stoc_chat?: ReturnType<typeof StocChat.prototype.toObject>;
                 stoc_hs_player_enter?: ReturnType<typeof StocHsPlayerEnter.prototype.toObject>;
                 stoc_type_change?: ReturnType<typeof StocTypeChange.prototype.toObject>;
+                stoc_hs_player_change?: ReturnType<typeof StocHsPlayerChange.prototype.toObject>;
             } = {};
             if (this.stoc_join_game != null) {
                 data.stoc_join_game = this.stoc_join_game.toObject();
@@ -307,6 +335,9 @@ export namespace ygopro {
             }
             if (this.stoc_type_change != null) {
                 data.stoc_type_change = this.stoc_type_change.toObject();
+            }
+            if (this.stoc_hs_player_change != null) {
+                data.stoc_hs_player_change = this.stoc_hs_player_change.toObject();
             }
             return data;
         }
@@ -322,6 +353,8 @@ export namespace ygopro {
                 writer.writeMessage(3, this.stoc_hs_player_enter, () => this.stoc_hs_player_enter.serialize(writer));
             if (this.has_stoc_type_change)
                 writer.writeMessage(4, this.stoc_type_change, () => this.stoc_type_change.serialize(writer));
+            if (this.has_stoc_hs_player_change)
+                writer.writeMessage(5, this.stoc_hs_player_change, () => this.stoc_hs_player_change.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -342,6 +375,9 @@ export namespace ygopro {
                         break;
                     case 4:
                         reader.readMessage(message.stoc_type_change, () => message.stoc_type_change = StocTypeChange.deserialize(reader));
+                        break;
+                    case 5:
+                        reader.readMessage(message.stoc_hs_player_change, () => message.stoc_hs_player_change = StocHsPlayerChange.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -1207,6 +1243,73 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): StocTypeChange {
             return StocTypeChange.deserialize(bytes);
+        }
+    }
+    export class StocHsPlayerChange extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            status?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("status" in data && data.status != undefined) {
+                    this.status = data.status;
+                }
+            }
+        }
+        get status() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set status(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        static fromObject(data: {
+            status?: number;
+        }): StocHsPlayerChange {
+            const message = new StocHsPlayerChange({});
+            if (data.status != null) {
+                message.status = data.status;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                status?: number;
+            } = {};
+            if (this.status != null) {
+                data.status = this.status;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.status != 0)
+                writer.writeInt32(1, this.status);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocHsPlayerChange {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new StocHsPlayerChange();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.status = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): StocHsPlayerChange {
+            return StocHsPlayerChange.deserialize(bytes);
         }
     }
 }
