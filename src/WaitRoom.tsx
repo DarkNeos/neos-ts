@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "./api/idl/ocgcore";
 import { fetchDeck, IDeck } from "./Card";
@@ -22,10 +22,12 @@ export default function WaitRoom() {
   const [observerCount, setObserverCount] = useState<number>(0);
   const [player0, setPlayer0] = useState<Player>({});
   const [player1, setPlayer1] = useState<Player>({});
+  const [_, forceUpdate] = useReducer(x => x + 1, 0); // todo: use correct update design
 
   const ws = useRef<WebSocket | null>(null);
 
   const { player, passWd, ip } = params;
+
   useEffect(() => {
     if (!ws.current) {
       ws.current = new WebSocket("ws://" + ip);
@@ -103,22 +105,32 @@ export default function WaitRoom() {
               case ygopro.StocHsPlayerChange.State.READY: {
                 console.log("Player " + change.pos + " has ready");
 
-                const state = "ready";
-                let player = change.pos == 0 ? player0 : player1;
-                player.state = state;
+                const updateState = (player: Player) => {
+                  const state = "ready";
+                  player.state = state;
+                  return player;
+                };
 
-                change.pos == 0 ? setPlayer0(player) : setPlayer1(player);
+                change.pos == 0
+                  ? setPlayer0(updateState)
+                  : setPlayer1(updateState);
+                forceUpdate();
 
                 break;
               }
               case ygopro.StocHsPlayerChange.State.NO_READY: {
                 console.log("Player " + change.pos + " not ready");
 
-                const state = "not ready";
-                let player = change.pos == 0 ? player0 : player1;
-                player.state = state;
+                const updateState = (player: Player) => {
+                  const state = "not ready";
+                  player.state = state;
+                  return player;
+                };
 
-                change.pos == 0 ? setPlayer0(player) : setPlayer1(player);
+                change.pos == 0
+                  ? setPlayer0(updateState)
+                  : setPlayer1(updateState);
+                forceUpdate();
 
                 break;
               }
