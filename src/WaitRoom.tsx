@@ -151,6 +151,29 @@ export default function WaitRoom() {
           setObserverCount(count);
           break;
         }
+        case "stoc_hs_player_enter": {
+          const name = pb.stoc_hs_player_enter.name;
+          const pos = pb.stoc_hs_player_enter.pos;
+
+          if (pos > 1) {
+            console.log("Currently only supported 2v2 mode.");
+          } else {
+            const player = {
+              name,
+              state: "not ready"
+            };
+            pos == 0 ? setPlayer0(player) : setPlayer1(player);
+          }
+
+          break;
+        }
+        case "stoc_type_change": {
+          const t = pb.stoc_type_change.type;
+
+          console.log("STOC type changed: " + t);
+
+          break;
+        }
         default: {
           break;
         }
@@ -198,7 +221,7 @@ export default function WaitRoom() {
         </p>
       </div>
       <div className="roomRegion">
-        <h2>Room PassWd: {passWd}</h2>
+        <h2>Room Passwd: {passWd}</h2>
         <p>
           player0: {player0.name} {player0.state}
         </p>
