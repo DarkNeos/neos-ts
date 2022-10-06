@@ -1,13 +1,17 @@
-body {
-  margin: 0;
-  justify-content: center;
-}
-
-div {
+.container {
+  display: flex;
   margin: auto;
-  padding: 10%;
+  padding: 0;
 }
 
-p {
+.playerRegion {
   text-align: center;
+  flex: 1;
+}
+
+.roomRegion {
+  flex: 1;
+}
+.roomRegion > p {
+  text-align: start;
 }

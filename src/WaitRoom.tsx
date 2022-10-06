@@ -1,7 +1,13 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "./api/idl/ocgcore";
 import { fetchDeck, IDeck } from "./Card";
+import "./css/WaitRoom.css";
+
+type Player = {
+  name?: string;
+  state?: string;
+};
 
 export default function WaitRoom() {
   const params = useParams<{
@@ -13,10 +19,15 @@ export default function WaitRoom() {
   const [joined, setJoined] = useState<boolean>(false);
   const [chat, setChat] = useState<string>("");
   const [choseDeck, setChoseDeck] = useState<boolean>(false);
+  const [observerCount, setObserverCount] = useState<number>(0);
+  const [player0, setPlayer0] = useState<Player>({});
+  const [player1, setPlayer1] = useState<Player>({});
+  const [_, forceUpdate] = useReducer(x => x + 1, 0); // todo: use correct update design
 
   const ws = useRef<WebSocket | null>(null);
 
   const { player, passWd, ip } = params;
+
   useEffect(() => {
     if (!ws.current) {
       ws.current = new WebSocket("ws://" + ip);
@@ -64,41 +75,83 @@ export default function WaitRoom() {
         case "stoc_hs_player_change": {
           const change = pb.stoc_hs_player_change;
 
-          switch (change.state) {
-            case ygopro.StocHsPlayerChange.State.UNKNOWN: {
-              console.log("Unknown HsPlayerChange State");
+          if (change.pos > 1) {
+            console.log("Currently only supported 2v2 mode.");
+          } else {
+            switch (change.state) {
+              case ygopro.StocHsPlayerChange.State.UNKNOWN: {
+                console.log("Unknown HsPlayerChange State");
 
-              break;
-            }
-            case ygopro.StocHsPlayerChange.State.MOVE: {
-              console.log(
-                "Player " + change.pos + " moved to " + change.moved_pos
-              );
+                break;
+              }
+              case ygopro.StocHsPlayerChange.State.MOVE: {
+                console.log(
+                  "Player " + change.pos + " moved to " + change.moved_pos
+                );
 
-              break;
-            }
-            case ygopro.StocHsPlayerChange.State.READY: {
-              console.log("Player " + change.pos + " has ready");
+                let src = change.pos;
+                let dst = change.moved_pos;
 
-              break;
-            }
-            case ygopro.StocHsPlayerChange.State.NO_READY: {
-              console.log("Player " + change.pos + " not ready");
+                if (src === 0 && dst === 1) {
+                  setPlayer1(player0);
+                  setPlayer0({});
+                } else if (src === 1 && dst === 0) {
+                  setPlayer0(player1);
+                  setPlayer1({});
+                }
 
-              break;
-            }
-            case ygopro.StocHsPlayerChange.State.LEAVE: {
-              console.log("Player " + change.pos + " has leave");
+                break;
+              }
+              case ygopro.StocHsPlayerChange.State.READY: {
+                console.log("Player " + change.pos + " has ready");
 
-              break;
-            }
-            case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-              console.log("Player " + change.pos + " has moved to observer");
+                const updateState = (player: Player) => {
+                  const state = "ready";
+                  player.state = state;
+                  return player;
+                };
 
-              break;
-            }
-            default: {
-              break;
+                change.pos == 0
+                  ? setPlayer0(updateState)
+                  : setPlayer1(updateState);
+                forceUpdate();
+
+                break;
+              }
+              case ygopro.StocHsPlayerChange.State.NO_READY: {
+                console.log("Player " + change.pos + " not ready");
+
+                const updateState = (player: Player) => {
+                  const state = "not ready";
+                  player.state = state;
+                  return player;
+                };
+
+                change.pos == 0
+                  ? setPlayer0(updateState)
+                  : setPlayer1(updateState);
+                forceUpdate();
+
+                break;
+              }
+              case ygopro.StocHsPlayerChange.State.LEAVE: {
+                console.log("Player " + change.pos + " has leave");
+
+                change.pos == 0 ? setPlayer0({}) : setPlayer1({});
+
+                break;
+              }
+              case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
+                console.log("Player " + change.pos + " has moved to observer");
+
+                change.pos == 0 ? setPlayer0({}) : setPlayer1({});
+                setObserverCount(observerCount + 1);
+
+                break;
+              }
+              default: {
+                break;
+              }
             }
           }
 
@@ -107,7 +160,30 @@ export default function WaitRoom() {
         case "stoc_hs_watch_change": {
           const count = pb.stoc_hs_watch_change.count;
 
-          console.log("Watch change to " + count);
+          setObserverCount(count);
+          break;
+        }
+        case "stoc_hs_player_enter": {
+          const name = pb.stoc_hs_player_enter.name;
+          const pos = pb.stoc_hs_player_enter.pos;
+
+          if (pos > 1) {
+            console.log("Currently only supported 2v2 mode.");
+          } else {
+            const player = {
+              name,
+              state: "not ready"
+            };
+            pos == 0 ? setPlayer0(player) : setPlayer1(player);
+          }
+
+          break;
+        }
+        case "stoc_type_change": {
+          const t = pb.stoc_type_change.type;
+
+          console.log("STOC type changed: " + t);
+
           break;
         }
         default: {
@@ -142,15 +218,31 @@ export default function WaitRoom() {
   };
 
   return (
-    <div>
-      <p>joined: {joined ? "true" : "false"}</p>
-      <button disabled={!joined} onClick={handleChoseDeck}>
-        choose hero.ydk
-      </button>
-      <button disabled={!choseDeck} onClick={handleChoseReady}>
-        ready
-      </button>
-      <p>chat: {chat}</p>
+    <div className="container">
+      <div className="playerRegion">
+        <h2>{joined ? "Room Joined!" : "Room Not Joined."}</h2>
+        <p>
+          <button disabled={!joined} onClick={handleChoseDeck}>
+            choose hero.ydk
+          </button>
+        </p>
+        <p>
+          <button disabled={!choseDeck} onClick={handleChoseReady}>
+            ready
+          </button>
+        </p>
+      </div>
+      <div className="roomRegion">
+        <h2>Room Passwd: {passWd}</h2>
+        <p>
+          player0: {player0.name} {player0.state}
+        </p>
+        <p>
+          player1: {player1.name} {player1.state}
+        </p>
+        <p>observer: {observerCount}</p>
+        <p>chat: {chat}</p>
+      </div>
     </div>
   );
 }
