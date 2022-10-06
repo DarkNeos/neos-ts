@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  justify-content: center;
+}
+
+div {
+  margin: auto;
+  padding: 10%;
+}
+
+p {
+  text-align: center;
+}
