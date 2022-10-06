@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
+import "./css/WaitRoom.css";
 
 export default function JoinRoom() {
   const [player, setPlayer] = useState("");
@@ -19,6 +20,7 @@ export default function JoinRoom() {
   return (
     <div>
       <p>
+        <label>player: </label>
         <input
           type="text"
           title="player"
@@ -27,6 +29,7 @@ export default function JoinRoom() {
         ></input>
       </p>
       <p>
+        <label>addr: </label>
         <input
           type="text"
           title="ip"
@@ -35,6 +38,7 @@ export default function JoinRoom() {
         ></input>
       </p>
       <p>
+        <label>passwd: </label>
         <input
           type="text"
           title="passwd"
@@ -42,9 +46,11 @@ export default function JoinRoom() {
           onChange={handlePasswdChange}
         ></input>
       </p>
-      <button>
-        <Link to={{ pathname: `/${player}/${passWd}/${ip}` }}>join</Link>
-      </button>
+      <p>
+        <button>
+          <Link to={{ pathname: `/${player}/${passWd}/${ip}` }}>join</Link>
+        </button>
+      </p>
     </div>
   );
 }
