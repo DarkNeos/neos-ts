@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import JoinRoom from "./JoinRoom";
 import WaitRoom from "./WaitRoom";
 import ThreeJs from "./ThreeJs";
