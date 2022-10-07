@@ -166,11 +166,13 @@ export default function WaitRoom() {
           if (pos > 1) {
             console.log("Currently only supported 2v2 mode.");
           } else {
-            const player = {
-              name,
-              state: NO_READY_STATE
+            const updatePlayer = (player: Player) => {
+              player.name = name;
+              return player;
             };
-            pos == 0 ? setPlayer0(player) : setPlayer1(player);
+
+            pos == 0 ? setPlayer0(updatePlayer) : setPlayer1(updatePlayer);
+            forceUpdate();
           }
 
           break;
@@ -203,6 +205,7 @@ export default function WaitRoom() {
                 break;
               }
             }
+            forceUpdate();
           }
 
           break;
@@ -261,11 +264,13 @@ export default function WaitRoom() {
         <p>
           <button
             disabled={
-              isHost &&
-              player0.state != undefined &&
-              player0.state === READY_STATE &&
-              player1.state != undefined &&
-              player1.state === READY_STATE
+              !(
+                isHost &&
+                player0.state != undefined &&
+                player0.state === READY_STATE &&
+                player1.state != undefined &&
+                player1.state === READY_STATE
+              )
             }
             onClick={handleChoseStart}
           >
