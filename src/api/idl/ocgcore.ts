@@ -1295,37 +1295,55 @@ export namespace ygopro {
     export class StocTypeChange extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            type?: number;
+            self_type?: StocTypeChange.SelfType;
+            is_host?: boolean;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
-                if ("type" in data && data.type != undefined) {
-                    this.type = data.type;
+                if ("self_type" in data && data.self_type != undefined) {
+                    this.self_type = data.self_type;
+                }
+                if ("is_host" in data && data.is_host != undefined) {
+                    this.is_host = data.is_host;
                 }
             }
         }
-        get type() {
-            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        get self_type() {
+            return pb_1.Message.getFieldWithDefault(this, 1, StocTypeChange.SelfType.UNKNOWN) as StocTypeChange.SelfType;
         }
-        set type(value: number) {
+        set self_type(value: StocTypeChange.SelfType) {
             pb_1.Message.setField(this, 1, value);
         }
+        get is_host() {
+            return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+        }
+        set is_host(value: boolean) {
+            pb_1.Message.setField(this, 2, value);
+        }
         static fromObject(data: {
-            type?: number;
+            self_type?: StocTypeChange.SelfType;
+            is_host?: boolean;
         }): StocTypeChange {
             const message = new StocTypeChange({});
-            if (data.type != null) {
-                message.type = data.type;
+            if (data.self_type != null) {
+                message.self_type = data.self_type;
+            }
+            if (data.is_host != null) {
+                message.is_host = data.is_host;
             }
             return message;
         }
         toObject() {
             const data: {
-                type?: number;
+                self_type?: StocTypeChange.SelfType;
+                is_host?: boolean;
             } = {};
-            if (this.type != null) {
-                data.type = this.type;
+            if (this.self_type != null) {
+                data.self_type = this.self_type;
+            }
+            if (this.is_host != null) {
+                data.is_host = this.is_host;
             }
             return data;
         }
@@ -1333,8 +1351,10 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.type != 0)
-                writer.writeInt32(1, this.type);
+            if (this.self_type != StocTypeChange.SelfType.UNKNOWN)
+                writer.writeEnum(1, this.self_type);
+            if (this.is_host != false)
+                writer.writeBool(2, this.is_host);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1345,7 +1365,10 @@ export namespace ygopro {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        message.type = reader.readInt32();
+                        message.self_type = reader.readEnum();
+                        break;
+                    case 2:
+                        message.is_host = reader.readBool();
                         break;
                     default: reader.skipField();
                 }
@@ -1357,6 +1380,18 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): StocTypeChange {
             return StocTypeChange.deserialize(bytes);
+        }
+    }
+    export namespace StocTypeChange {
+        export enum SelfType {
+            UNKNOWN = 0,
+            PLAYER1 = 1,
+            PLAYER2 = 2,
+            PLAYER3 = 3,
+            PLAYER4 = 4,
+            PLAYER5 = 5,
+            PLAYER6 = 6,
+            OBSERVER = 100
         }
     }
     export class StocHsPlayerChange extends pb_1.Message {
