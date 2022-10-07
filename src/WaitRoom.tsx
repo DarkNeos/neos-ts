@@ -6,8 +6,12 @@ import "./css/WaitRoom.css";
 
 type Player = {
   name?: string;
-  state?: string;
+  state?: string; // todo: use enum or boolean
+  isHost?: boolean;
 };
+
+const READY_STATE = "ready";
+const NO_READY_STATE = "not ready";
 
 export default function WaitRoom() {
   const params = useParams<{
@@ -22,6 +26,7 @@ export default function WaitRoom() {
   const [observerCount, setObserverCount] = useState<number>(0);
   const [player0, setPlayer0] = useState<Player>({});
   const [player1, setPlayer1] = useState<Player>({});
+  const [isHost, setIsHost] = useState<boolean>(false);
   const [_, forceUpdate] = useReducer(x => x + 1, 0); // todo: use correct update design
 
   const ws = useRef<WebSocket | null>(null);
@@ -104,8 +109,7 @@ export default function WaitRoom() {
               }
               case ygopro.StocHsPlayerChange.State.READY: {
                 const updateState = (player: Player) => {
-                  const state = "ready";
-                  player.state = state;
+                  player.state = READY_STATE;
                   return player;
                 };
 
@@ -117,7 +121,7 @@ export default function WaitRoom() {
               }
               case ygopro.StocHsPlayerChange.State.NO_READY: {
                 const updateState = (player: Player) => {
-                  const state = "not ready";
+                  const state = NO_READY_STATE;
                   player.state = state;
                   return player;
                 };
@@ -164,7 +168,7 @@ export default function WaitRoom() {
           } else {
             const player = {
               name,
-              state: "not ready"
+              state: NO_READY_STATE
             };
             pos == 0 ? setPlayer0(player) : setPlayer1(player);
           }
@@ -172,9 +176,34 @@ export default function WaitRoom() {
           break;
         }
         case "stoc_type_change": {
-          const t = pb.stoc_type_change.type;
+          const selfType = pb.stoc_type_change.self_type;
+          const assertHost = pb.stoc_type_change.is_host;
 
-          console.log("STOC type changed: " + t);
+          setIsHost(assertHost);
+
+          if (assertHost) {
+            const updatePlayer = (player: Player) => {
+              player.isHost = assertHost;
+              player.state = NO_READY_STATE;
+              return player;
+            };
+
+            switch (selfType) {
+              case ygopro.StocTypeChange.SelfType.PLAYER1: {
+                setPlayer0(updatePlayer);
+
+                break;
+              }
+              case ygopro.StocTypeChange.SelfType.PLAYER2: {
+                setPlayer1(updatePlayer);
+
+                break;
+              }
+              default: {
+                break;
+              }
+            }
+          }
 
           break;
         }
@@ -209,6 +238,12 @@ export default function WaitRoom() {
     }
   };
 
+  const handleChoseStart = () => {
+    if (ws.current) {
+      sendHsStart(ws.current);
+    }
+  };
+
   return (
     <div className="container">
       <div className="playerRegion">
@@ -223,14 +258,30 @@ export default function WaitRoom() {
             ready
           </button>
         </p>
+        <p>
+          <button
+            disabled={
+              isHost &&
+              player0.state != undefined &&
+              player0.state === READY_STATE &&
+              player1.state != undefined &&
+              player1.state === READY_STATE
+            }
+            onClick={handleChoseStart}
+          >
+            start
+          </button>
+        </p>
       </div>
       <div className="roomRegion">
         <h2>Room Passwd: {passWd}</h2>
         <p>
-          player0: {player0.name} {player0.state}
+          player0: {player0.isHost == true ? "[Host]" : ""} {player0.name}{" "}
+          {player0.state}
         </p>
         <p>
-          player1: {player1.name} {player1.state}
+          player1: {player1.isHost == true ? "[Host]" : ""} {player1.name}{" "}
+          {player1.state}
         </p>
         <p>observer: {observerCount}</p>
         <p>chat: {chat}</p>
@@ -279,4 +330,12 @@ function sendHsReady(ws: WebSocket) {
   });
 
   ws.send(hasReady.serialize());
+}
+
+function sendHsStart(ws: WebSocket) {
+  const hasStart = new ygopro.YgoCtosMsg({
+    ctos_hs_start: new ygopro.CtosHsStart({})
+  });
+
+  ws.send(hasStart.serialize());
 }
