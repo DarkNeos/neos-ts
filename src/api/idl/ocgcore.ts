@@ -6,37 +6,49 @@
 import * as pb_1 from "google-protobuf";
 export namespace ygopro {
     export class YgoCtosMsg extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6]];
         constructor(data?: any[] | ({} & (({
             ctos_player_info?: CtosPlayerInfo;
             ctos_join_game?: never;
             ctos_update_deck?: never;
             ctos_hs_ready?: never;
             ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: CtosJoinGame;
             ctos_update_deck?: never;
             ctos_hs_ready?: never;
             ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
             ctos_update_deck?: CtosUpdateDeck;
             ctos_hs_ready?: never;
             ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
             ctos_update_deck?: never;
             ctos_hs_ready?: CtosHsReady;
             ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
             ctos_update_deck?: never;
             ctos_hs_ready?: never;
             ctos_hs_start?: CtosHsStart;
+            ctos_hs_not_ready?: never;
+        } | {
+            ctos_player_info?: never;
+            ctos_join_game?: never;
+            ctos_update_deck?: never;
+            ctos_hs_ready?: never;
+            ctos_hs_start?: never;
+            ctos_hs_not_ready?: CtosHsNotReady;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -55,6 +67,9 @@ export namespace ygopro {
                 }
                 if ("ctos_hs_start" in data && data.ctos_hs_start != undefined) {
                     this.ctos_hs_start = data.ctos_hs_start;
+                }
+                if ("ctos_hs_not_ready" in data && data.ctos_hs_not_ready != undefined) {
+                    this.ctos_hs_not_ready = data.ctos_hs_not_ready;
                 }
             }
         }
@@ -103,18 +118,28 @@ export namespace ygopro {
         get has_ctos_hs_start() {
             return pb_1.Message.getField(this, 5) != null;
         }
+        get ctos_hs_not_ready() {
+            return pb_1.Message.getWrapperField(this, CtosHsNotReady, 6) as CtosHsNotReady;
+        }
+        set ctos_hs_not_ready(value: CtosHsNotReady) {
+            pb_1.Message.setOneofWrapperField(this, 6, this.#one_of_decls[0], value);
+        }
+        get has_ctos_hs_not_ready() {
+            return pb_1.Message.getField(this, 6) != null;
+        }
         get msg() {
             const cases: {
-                [index: number]: "none" | "ctos_player_info" | "ctos_join_game" | "ctos_update_deck" | "ctos_hs_ready" | "ctos_hs_start";
+                [index: number]: "none" | "ctos_player_info" | "ctos_join_game" | "ctos_update_deck" | "ctos_hs_ready" | "ctos_hs_start" | "ctos_hs_not_ready";
             } = {
                 0: "none",
                 1: "ctos_player_info",
                 2: "ctos_join_game",
                 3: "ctos_update_deck",
                 4: "ctos_hs_ready",
-                5: "ctos_hs_start"
+                5: "ctos_hs_start",
+                6: "ctos_hs_not_ready"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6])];
         }
         static fromObject(data: {
             ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
@@ -122,6 +147,7 @@ export namespace ygopro {
             ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
             ctos_hs_ready?: ReturnType<typeof CtosHsReady.prototype.toObject>;
             ctos_hs_start?: ReturnType<typeof CtosHsStart.prototype.toObject>;
+            ctos_hs_not_ready?: ReturnType<typeof CtosHsNotReady.prototype.toObject>;
         }): YgoCtosMsg {
             const message = new YgoCtosMsg({});
             if (data.ctos_player_info != null) {
@@ -139,6 +165,9 @@ export namespace ygopro {
             if (data.ctos_hs_start != null) {
                 message.ctos_hs_start = CtosHsStart.fromObject(data.ctos_hs_start);
             }
+            if (data.ctos_hs_not_ready != null) {
+                message.ctos_hs_not_ready = CtosHsNotReady.fromObject(data.ctos_hs_not_ready);
+            }
             return message;
         }
         toObject() {
@@ -148,6 +177,7 @@ export namespace ygopro {
                 ctos_update_deck?: ReturnType<typeof CtosUpdateDeck.prototype.toObject>;
                 ctos_hs_ready?: ReturnType<typeof CtosHsReady.prototype.toObject>;
                 ctos_hs_start?: ReturnType<typeof CtosHsStart.prototype.toObject>;
+                ctos_hs_not_ready?: ReturnType<typeof CtosHsNotReady.prototype.toObject>;
             } = {};
             if (this.ctos_player_info != null) {
                 data.ctos_player_info = this.ctos_player_info.toObject();
@@ -163,6 +193,9 @@ export namespace ygopro {
             }
             if (this.ctos_hs_start != null) {
                 data.ctos_hs_start = this.ctos_hs_start.toObject();
+            }
+            if (this.ctos_hs_not_ready != null) {
+                data.ctos_hs_not_ready = this.ctos_hs_not_ready.toObject();
             }
             return data;
         }
@@ -180,6 +213,8 @@ export namespace ygopro {
                 writer.writeMessage(4, this.ctos_hs_ready, () => this.ctos_hs_ready.serialize(writer));
             if (this.has_ctos_hs_start)
                 writer.writeMessage(5, this.ctos_hs_start, () => this.ctos_hs_start.serialize(writer));
+            if (this.has_ctos_hs_not_ready)
+                writer.writeMessage(6, this.ctos_hs_not_ready, () => this.ctos_hs_not_ready.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -203,6 +238,9 @@ export namespace ygopro {
                         break;
                     case 5:
                         reader.readMessage(message.ctos_hs_start, () => message.ctos_hs_start = CtosHsStart.deserialize(reader));
+                        break;
+                    case 6:
+                        reader.readMessage(message.ctos_hs_not_ready, () => message.ctos_hs_not_ready = CtosHsNotReady.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -796,6 +834,46 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): CtosHsReady {
             return CtosHsReady.deserialize(bytes);
+        }
+    }
+    export class CtosHsNotReady extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {}) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") { }
+        }
+        static fromObject(data: {}): CtosHsNotReady {
+            const message = new CtosHsNotReady({});
+            return message;
+        }
+        toObject() {
+            const data: {} = {};
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosHsNotReady {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CtosHsNotReady();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CtosHsNotReady {
+            return CtosHsNotReady.deserialize(bytes);
         }
     }
     export class CtosHsStart extends pb_1.Message {
