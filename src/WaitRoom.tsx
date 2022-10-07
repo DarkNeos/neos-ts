@@ -34,7 +34,7 @@ export default function WaitRoom() {
     }
 
     ws.current.onopen = () => {
-      console.log("websocket open");
+      console.log("Websocket open");
 
       if (
         player != null &&
@@ -53,7 +53,7 @@ export default function WaitRoom() {
     };
 
     ws.current.onclose = () => {
-      console.log("websocket closed");
+      console.log("Websocket closed");
     };
 
     ws.current.onmessage = e => {
@@ -103,8 +103,6 @@ export default function WaitRoom() {
                 break;
               }
               case ygopro.StocHsPlayerChange.State.READY: {
-                console.log("Player " + change.pos + " has ready");
-
                 const updateState = (player: Player) => {
                   const state = "ready";
                   player.state = state;
@@ -114,13 +112,10 @@ export default function WaitRoom() {
                 change.pos == 0
                   ? setPlayer0(updateState)
                   : setPlayer1(updateState);
-                forceUpdate();
 
                 break;
               }
               case ygopro.StocHsPlayerChange.State.NO_READY: {
-                console.log("Player " + change.pos + " not ready");
-
                 const updateState = (player: Player) => {
                   const state = "not ready";
                   player.state = state;
@@ -130,20 +125,15 @@ export default function WaitRoom() {
                 change.pos == 0
                   ? setPlayer0(updateState)
                   : setPlayer1(updateState);
-                forceUpdate();
 
                 break;
               }
               case ygopro.StocHsPlayerChange.State.LEAVE: {
-                console.log("Player " + change.pos + " has leave");
-
                 change.pos == 0 ? setPlayer0({}) : setPlayer1({});
 
                 break;
               }
               case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-                console.log("Player " + change.pos + " has moved to observer");
-
                 change.pos == 0 ? setPlayer0({}) : setPlayer1({});
                 setObserverCount(observerCount + 1);
 
@@ -153,6 +143,8 @@ export default function WaitRoom() {
                 break;
               }
             }
+
+            forceUpdate();
           }
 
           break;
