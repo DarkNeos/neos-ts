@@ -1,7 +1,7 @@
 import { ygopro } from "../api/idl/ocgcore";
-import { setJoined, selectJoined } from "../reducers/joinSlice";
-import { postChat, selectChat } from "../reducers/chatSlice";
-import { useAppDispatch, useAppSelector } from "../hook";
+import { setJoined } from "../reducers/joinSlice";
+import { postChat } from "../reducers/chatSlice";
+import { store } from "../store";
 import {
   player0Enter,
   player1Enter,
@@ -24,6 +24,9 @@ export enum socketCmd {
 export interface socketAction {
   cmd: socketCmd;
   ip?: string;
+  player?: string;
+  version?: number;
+  passWd?: string;
   payload?: ygopro.YgoCtosMsg;
 }
 
@@ -36,13 +39,21 @@ export default function (action: socketAction) {
   switch (action.cmd) {
     case socketCmd.CONNECT: {
       const ip = action.ip;
-      if (ip) {
+      const player = action.player;
+      const version = action.version;
+      const passWd = action.passWd;
+      if (ip && player && version && passWd) {
         ws = new WebSocket("ws://" + ip);
 
         ws.onopen = () => {
           console.log("WebSocket open.");
 
-          ws!.binaryType = "arraybuffer";
+          if (ws && ws.readyState == 1) {
+            ws.binaryType = "arraybuffer";
+
+            sendPlayerInfo(ws, player);
+            sendJoinGame(ws, version, passWd);
+          }
         };
         ws.onclose = () => {
           console.log("WebSocket closed.");
@@ -50,7 +61,7 @@ export default function (action: socketAction) {
         };
         ws.onmessage = (e) => {
           const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
-          const dispatch = useAppDispatch();
+          const dispatch = store.dispatch;
 
           switch (pb.msg) {
             case "stoc_join_game": {
@@ -209,4 +220,27 @@ export default function (action: socketAction) {
       break;
     }
   }
+}
+
+// todo: move to api/*
+function sendPlayerInfo(ws: WebSocket, player: string) {
+  const playerInfo = new ygopro.YgoCtosMsg({
+    ctos_player_info: new ygopro.CtosPlayerInfo({
+      name: player,
+    }),
+  });
+
+  ws.send(playerInfo.serialize());
+}
+
+function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
+  const joinGame = new ygopro.YgoCtosMsg({
+    ctos_join_game: new ygopro.CtosJoinGame({
+      version, // todo: use config
+      gameid: 0,
+      passwd: passWd,
+    }),
+  });
+
+  ws.send(joinGame.serialize());
 }

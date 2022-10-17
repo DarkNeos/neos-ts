@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "../api/idl/ocgcore";
 import { fetchDeck, IDeck } from "../api/Card";
@@ -16,7 +16,6 @@ import {
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
 
 const READY_STATE = "ready";
-const NO_READY_STATE = "not ready";
 
 export default function WaitRoom() {
   const params = useParams<{
@@ -35,10 +34,13 @@ export default function WaitRoom() {
       passWd != null &&
       passWd.length != 0
     ) {
-      socketMiddleWare({ cmd: socketCmd.CONNECT, ip });
-
-      sendPlayerInfo(player);
-      sendJoinGame(4947, passWd);
+      socketMiddleWare({
+        cmd: socketCmd.CONNECT,
+        ip,
+        player,
+        version: 4947,
+        passWd,
+      });
     }
   }, []);
 
@@ -113,28 +115,7 @@ export default function WaitRoom() {
   );
 }
 
-function sendPlayerInfo(player: string) {
-  const playerInfo = new ygopro.YgoCtosMsg({
-    ctos_player_info: new ygopro.CtosPlayerInfo({
-      name: player,
-    }),
-  });
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: playerInfo });
-}
-
-function sendJoinGame(version: number, passWd: string) {
-  const joinGame = new ygopro.YgoCtosMsg({
-    ctos_join_game: new ygopro.CtosJoinGame({
-      version, // todo: use config
-      gameid: 0,
-      passwd: passWd,
-    }),
-  });
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: joinGame });
-}
-
+// todo: move to api/*
 function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
     ctos_update_deck: new ygopro.CtosUpdateDeck({
