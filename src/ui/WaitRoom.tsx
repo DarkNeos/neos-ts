@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { ygopro } from "../api/idl/ocgcore";
-import { fetchDeck, IDeck } from "../Card";
+import { fetchDeck, IDeck } from "../api/Card";
 import "../css/WaitRoom.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setJoined } from "../reducers/joinSlice";

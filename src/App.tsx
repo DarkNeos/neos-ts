@@ -1,5 +1,5 @@
 import React from "react";
-import JoinRoom from "./JoinRoom";
+import JoinRoom from "./ui/JoinRoom";
 import WaitRoom from "./ui//WaitRoom";
 import ThreeJs from "./ThreeJs";
 import { Routes, Route } from "react-router-dom";
