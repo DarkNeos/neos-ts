@@ -3,23 +3,17 @@ import { useParams } from "react-router-dom";
 import { ygopro } from "../api/idl/ocgcore";
 import { fetchDeck, IDeck } from "../api/Card";
 import "../css/WaitRoom.css";
-import { useAppDispatch, useAppSelector } from "../hook";
-import { setJoined, selectJoined } from "../reducers/joinSlice";
-import { postChat, selectChat } from "../reducers/chatSlice";
+import { useAppSelector } from "../hook";
+import { selectJoined } from "../reducers/joinSlice";
+import { selectChat } from "../reducers/chatSlice";
 import {
-  player0Enter,
-  player1Enter,
-  player0Update,
-  player1Update,
-  hostChange,
-  observerChange,
+  selectIsHost,
+  selectPlayer0,
+  selectPlayer1,
+  selectObserverCount,
 } from "../reducers/playerSlice";
 
-type Player = {
-  name?: string;
-  state?: string; // todo: use enum or boolean
-  isHost?: boolean;
-};
+import socketMiddleWare, { socketCmd } from "../middleware/socket";
 
 const READY_STATE = "ready";
 const NO_READY_STATE = "not ready";
@@ -32,234 +26,43 @@ export default function WaitRoom() {
   }>();
 
   const [choseDeck, setChoseDeck] = useState<boolean>(false);
-  const [observerCount, setObserverCount] = useState<number>(0);
-  const [player0, setPlayer0] = useState<Player>({});
-  const [player1, setPlayer1] = useState<Player>({});
-  const [isHost, setIsHost] = useState<boolean>(false);
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0); // todo: use correct update design
-
-  const ws = useRef<WebSocket | null>(null);
-
-  const dispatch = useAppDispatch();
-
   const { player, passWd, ip } = params;
 
   useEffect(() => {
-    if (!ws.current) {
-      ws.current = new WebSocket("ws://" + ip);
+    if (
+      player != null &&
+      player.length != 0 &&
+      passWd != null &&
+      passWd.length != 0
+    ) {
+      socketMiddleWare({ cmd: socketCmd.CONNECT, ip });
+
+      sendPlayerInfo(player);
+      sendJoinGame(4947, passWd);
     }
-
-    ws.current.onopen = () => {
-      console.log("Websocket open");
-
-      if (
-        player != null &&
-        player.length != 0 &&
-        passWd != null &&
-        passWd.length != 0 &&
-        ws.current
-      ) {
-        const wsCurrent = ws.current;
-
-        wsCurrent.binaryType = "arraybuffer";
-
-        sendPlayerInfo(wsCurrent, player);
-        sendJoinGame(wsCurrent, 4947, passWd);
-      }
-    };
-
-    ws.current.onclose = () => {
-      console.log("Websocket closed");
-    };
-
-    ws.current.onmessage = (e) => {
-      const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
-
-      switch (pb.msg) {
-        case "stoc_join_game": {
-          const msg = pb.stoc_join_game;
-          // todo
-
-          dispatch(setJoined());
-          break;
-        }
-        case "stoc_chat": {
-          const chat = pb.stoc_chat;
-
-          dispatch(postChat(chat.msg));
-          break;
-        }
-        case "stoc_hs_player_change": {
-          const change = pb.stoc_hs_player_change;
-
-          if (change.pos > 1) {
-            console.log("Currently only supported 2v2 mode.");
-          } else {
-            switch (change.state) {
-              case ygopro.StocHsPlayerChange.State.UNKNOWN: {
-                console.log("Unknown HsPlayerChange State");
-
-                break;
-              }
-              case ygopro.StocHsPlayerChange.State.MOVE: {
-                console.log(
-                  "Player " + change.pos + " moved to " + change.moved_pos
-                );
-
-                let src = change.pos;
-                let dst = change.moved_pos;
-
-                if (src === 0 && dst === 1) {
-                  setPlayer1(player0);
-                  setPlayer0({});
-                } else if (src === 1 && dst === 0) {
-                  setPlayer0(player1);
-                  setPlayer1({});
-                }
-
-                break;
-              }
-              case ygopro.StocHsPlayerChange.State.READY: {
-                const updateState = (player: Player) => {
-                  player.state = READY_STATE;
-                  return player;
-                };
-
-                change.pos == 0
-                  ? setPlayer0(updateState)
-                  : setPlayer1(updateState);
-
-                break;
-              }
-              case ygopro.StocHsPlayerChange.State.NO_READY: {
-                const updateState = (player: Player) => {
-                  const state = NO_READY_STATE;
-                  player.state = state;
-                  return player;
-                };
-
-                change.pos == 0
-                  ? setPlayer0(updateState)
-                  : setPlayer1(updateState);
-
-                break;
-              }
-              case ygopro.StocHsPlayerChange.State.LEAVE: {
-                change.pos == 0 ? setPlayer0({}) : setPlayer1({});
-
-                break;
-              }
-              case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-                change.pos == 0 ? setPlayer0({}) : setPlayer1({});
-                setObserverCount(observerCount + 1);
-
-                break;
-              }
-              default: {
-                break;
-              }
-            }
-
-            forceUpdate();
-          }
-
-          break;
-        }
-        case "stoc_hs_watch_change": {
-          const count = pb.stoc_hs_watch_change.count;
-
-          setObserverCount(count);
-          break;
-        }
-        case "stoc_hs_player_enter": {
-          const name = pb.stoc_hs_player_enter.name;
-          const pos = pb.stoc_hs_player_enter.pos;
-
-          if (pos > 1) {
-            console.log("Currently only supported 2v2 mode.");
-          } else {
-            const updatePlayer = (player: Player) => {
-              player.name = name;
-              return player;
-            };
-
-            pos == 0 ? setPlayer0(updatePlayer) : setPlayer1(updatePlayer);
-            forceUpdate();
-          }
-
-          break;
-        }
-        case "stoc_type_change": {
-          const selfType = pb.stoc_type_change.self_type;
-          const assertHost = pb.stoc_type_change.is_host;
-
-          setIsHost(assertHost);
-
-          if (assertHost) {
-            const updatePlayer = (player: Player) => {
-              player.isHost = assertHost;
-              player.state = NO_READY_STATE;
-              return player;
-            };
-
-            switch (selfType) {
-              case ygopro.StocTypeChange.SelfType.PLAYER1: {
-                setPlayer0(updatePlayer);
-
-                break;
-              }
-              case ygopro.StocTypeChange.SelfType.PLAYER2: {
-                setPlayer1(updatePlayer);
-
-                break;
-              }
-              default: {
-                break;
-              }
-            }
-            forceUpdate();
-          }
-
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    };
-
-    const wsCurrent = ws.current;
-
-    return () => {
-      if (wsCurrent.readyState == 1) {
-        wsCurrent.close();
-      }
-    };
-  }, [ws]);
+  }, []);
 
   const joined = useAppSelector(selectJoined);
   const chat = useAppSelector(selectChat);
+  const isHost = useAppSelector(selectIsHost);
+  const player0 = useAppSelector(selectPlayer0);
+  const player1 = useAppSelector(selectPlayer1);
+  const observerCount = useAppSelector(selectObserverCount);
 
   const handleChoseDeck = async () => {
-    if (ws.current) {
-      const deck = await fetchDeck("hero.ydk");
+    const deck = await fetchDeck("hero.ydk");
 
-      sendUpdateDeck(ws.current, deck);
+    sendUpdateDeck(deck);
 
-      setChoseDeck(true);
-    }
+    setChoseDeck(true);
   };
 
   const handleChoseReady = () => {
-    if (ws.current) {
-      sendHsReady(ws.current);
-    }
+    sendHsReady();
   };
 
   const handleChoseStart = () => {
-    if (ws.current) {
-      sendHsStart(ws.current);
-    }
+    sendHsStart();
   };
 
   return (
@@ -310,17 +113,17 @@ export default function WaitRoom() {
   );
 }
 
-function sendPlayerInfo(ws: WebSocket, player: string) {
+function sendPlayerInfo(player: string) {
   const playerInfo = new ygopro.YgoCtosMsg({
     ctos_player_info: new ygopro.CtosPlayerInfo({
       name: player,
     }),
   });
 
-  ws.send(playerInfo.serialize());
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: playerInfo });
 }
 
-function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
+function sendJoinGame(version: number, passWd: string) {
   const joinGame = new ygopro.YgoCtosMsg({
     ctos_join_game: new ygopro.CtosJoinGame({
       version, // todo: use config
@@ -329,10 +132,10 @@ function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
     }),
   });
 
-  ws.send(joinGame.serialize());
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: joinGame });
 }
 
-function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
+function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
     ctos_update_deck: new ygopro.CtosUpdateDeck({
       main: deck.main,
@@ -341,21 +144,21 @@ function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
     }),
   });
 
-  ws.send(updateDeck.serialize());
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: updateDeck });
 }
 
-function sendHsReady(ws: WebSocket) {
+function sendHsReady() {
   const hasReady = new ygopro.YgoCtosMsg({
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
 
-  ws.send(hasReady.serialize());
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasReady });
 }
 
-function sendHsStart(ws: WebSocket) {
+function sendHsStart() {
   const hasStart = new ygopro.YgoCtosMsg({
     ctos_hs_start: new ygopro.CtosHsStart({}),
   });
 
-  ws.send(hasStart.serialize());
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasStart });
 }

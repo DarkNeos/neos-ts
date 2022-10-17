@@ -11,12 +11,14 @@ export interface playerState {
   player0: Player;
   player1: Player;
   observerCount: number;
+  isHost: boolean;
 }
 
 const initialState: playerState = {
   player0: {},
   player1: {},
   observerCount: 0,
+  isHost: false,
 };
 
 const playerSlice = createSlice({
@@ -35,6 +37,12 @@ const playerSlice = createSlice({
     player1Update: (state, action: PayloadAction<string>) => {
       state.player1.state = action.payload;
     },
+    player0Leave: (state) => {
+      state.player0 = {};
+    },
+    player1Leave: (state) => {
+      state.player1 = {};
+    },
     hostChange: (state, action: PayloadAction<number>) => {
       const i = action.payload;
 
@@ -46,8 +54,14 @@ const playerSlice = createSlice({
         state.player0.isHost = false;
       }
     },
+    observerIncrement: (state) => {
+      state.observerCount += 1;
+    },
     observerChange: (state, action: PayloadAction<number>) => {
-      state.observerCount += action.payload;
+      state.observerCount = action.payload;
+    },
+    updateIsHost: (state, action: PayloadAction<boolean>) => {
+      state.isHost = action.payload;
     },
   },
 });
@@ -57,9 +71,16 @@ export const {
   player1Enter,
   player0Update,
   player1Update,
+  player0Leave,
+  player1Leave,
   hostChange,
+  observerIncrement,
   observerChange,
+  updateIsHost,
 } = playerSlice.actions;
 export const selectPlayer0 = (state: RootState) => state.player.player0;
 export const selectPlayer1 = (state: RootState) => state.player.player1;
+export const selectIsHost = (state: RootState) => state.player.isHost;
+export const selectObserverCount = (state: RootState) =>
+  state.player.observerCount;
 export default playerSlice.reducer;
