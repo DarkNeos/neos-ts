@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ygopro } from "../api/idl/ocgcore";
 import { fetchDeck, IDeck } from "../api/Card";
 import "../css/WaitRoom.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { setJoined, selectJoined } from "../reducers/joinSlice";
 import { postChat, selectChat } from "../reducers/chatSlice";
 
@@ -32,7 +32,7 @@ export default function WaitRoom() {
 
   const ws = useRef<WebSocket | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { player, passWd, ip } = params;
 
@@ -229,8 +229,8 @@ export default function WaitRoom() {
     };
   }, [ws]);
 
-  const joined = useSelector(selectJoined);
-  const chat = useSelector(selectChat);
+  const joined = useAppSelector(selectJoined);
+  const chat = useAppSelector(selectChat);
 
   const handleChoseDeck = async () => {
     if (ws.current) {

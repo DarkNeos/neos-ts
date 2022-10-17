@@ -1,21 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-const initialState = false;
+export interface JoinState {
+  value: boolean;
+}
+
+const initialState: JoinState = {
+  value: false,
+};
 
 const joinedSlice = createSlice({
   name: "join",
   initialState,
   reducers: {
-    setJoined(state) {
-      state = true;
+    setJoined: (state) => {
+      state.value = true;
     },
-    setUnJoined(state) {
-      state = false;
+    setUnJoined: (state) => {
+      state.value = false;
     },
   },
 });
 
 export const { setJoined, setUnJoined } = joinedSlice.actions;
-export const selectJoined = (state: RootState) => state.join;
+export const selectJoined = (state: RootState) => state.join.value;
 export default joinedSlice.reducer;
