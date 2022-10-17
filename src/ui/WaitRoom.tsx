@@ -4,7 +4,8 @@ import { ygopro } from "../api/idl/ocgcore";
 import { fetchDeck, IDeck } from "../api/Card";
 import "../css/WaitRoom.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setJoined } from "../reducers/joinSlice";
+import { setJoined, selectJoined } from "../reducers/joinSlice";
+import { postChat, selectChat } from "../reducers/chatSlice";
 
 type Player = {
   name?: string;
@@ -22,7 +23,6 @@ export default function WaitRoom() {
     ip?: string;
   }>();
 
-  const [chat, setChat] = useState<string>("");
   const [choseDeck, setChoseDeck] = useState<boolean>(false);
   const [observerCount, setObserverCount] = useState<number>(0);
   const [player0, setPlayer0] = useState<Player>({});
@@ -78,7 +78,7 @@ export default function WaitRoom() {
         case "stoc_chat": {
           const chat = pb.stoc_chat;
 
-          setChat(chat.msg);
+          dispatch(postChat(chat.msg));
           break;
         }
         case "stoc_hs_player_change": {
@@ -229,7 +229,8 @@ export default function WaitRoom() {
     };
   }, [ws]);
 
-  const joined = useSelector((state) => state);
+  const joined = useSelector(selectJoined);
+  const chat = useSelector(selectChat);
 
   const handleChoseDeck = async () => {
     if (ws.current) {

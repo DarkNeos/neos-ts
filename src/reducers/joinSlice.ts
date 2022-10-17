@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 const initialState = false;
 
@@ -16,4 +17,5 @@ const joinedSlice = createSlice({
 });
 
 export const { setJoined, setUnJoined } = joinedSlice.actions;
+export const selectJoined = (state: RootState) => state.join;
 export default joinedSlice.reducer;
