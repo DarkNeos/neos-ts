@@ -6,6 +6,14 @@ import "../css/WaitRoom.css";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setJoined, selectJoined } from "../reducers/joinSlice";
 import { postChat, selectChat } from "../reducers/chatSlice";
+import {
+  player0Enter,
+  player1Enter,
+  player0Update,
+  player1Update,
+  hostChange,
+  observerChange,
+} from "../reducers/playerSlice";
 
 type Player = {
   name?: string;

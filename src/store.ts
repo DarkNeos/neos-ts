@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import joinedReducer from "./reducers/joinSlice";
 import chatReducer from "./reducers/chatSlice";
+import playerReducer from "./reducers/playerSlice";
 
 export const store = configureStore({
   reducer: {
     join: joinedReducer,
     chat: chatReducer,
+    player: playerReducer,
   },
 });
 
