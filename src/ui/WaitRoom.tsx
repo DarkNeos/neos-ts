@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { ygopro } from "./api/idl/ocgcore";
-import { fetchDeck, IDeck } from "./Card";
-import "./css/WaitRoom.css";
+import { ygopro } from "../api/idl/ocgcore";
+import { fetchDeck, IDeck } from "../api/Card";
+import "../css/WaitRoom.css";
+import { useAppDispatch, useAppSelector } from "../hook";
+import { setJoined, selectJoined } from "../reducers/joinSlice";
+import { postChat, selectChat } from "../reducers/chatSlice";
 
 type Player = {
   name?: string;
@@ -20,16 +23,16 @@ export default function WaitRoom() {
     ip?: string;
   }>();
 
-  const [joined, setJoined] = useState<boolean>(false);
-  const [chat, setChat] = useState<string>("");
   const [choseDeck, setChoseDeck] = useState<boolean>(false);
   const [observerCount, setObserverCount] = useState<number>(0);
   const [player0, setPlayer0] = useState<Player>({});
   const [player1, setPlayer1] = useState<Player>({});
   const [isHost, setIsHost] = useState<boolean>(false);
-  const [_, forceUpdate] = useReducer(x => x + 1, 0); // todo: use correct update design
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0); // todo: use correct update design
 
   const ws = useRef<WebSocket | null>(null);
+
+  const dispatch = useAppDispatch();
 
   const { player, passWd, ip } = params;
 
@@ -61,20 +64,21 @@ export default function WaitRoom() {
       console.log("Websocket closed");
     };
 
-    ws.current.onmessage = e => {
+    ws.current.onmessage = (e) => {
       const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
 
       switch (pb.msg) {
         case "stoc_join_game": {
           const msg = pb.stoc_join_game;
           // todo
-          setJoined(true);
+
+          dispatch(setJoined());
           break;
         }
         case "stoc_chat": {
           const chat = pb.stoc_chat;
 
-          setChat(chat.msg);
+          dispatch(postChat(chat.msg));
           break;
         }
         case "stoc_hs_player_change": {
@@ -225,6 +229,9 @@ export default function WaitRoom() {
     };
   }, [ws]);
 
+  const joined = useAppSelector(selectJoined);
+  const chat = useAppSelector(selectChat);
+
   const handleChoseDeck = async () => {
     if (ws.current) {
       const deck = await fetchDeck("hero.ydk");
@@ -298,8 +305,8 @@ export default function WaitRoom() {
 function sendPlayerInfo(ws: WebSocket, player: string) {
   const playerInfo = new ygopro.YgoCtosMsg({
     ctos_player_info: new ygopro.CtosPlayerInfo({
-      name: player
-    })
+      name: player,
+    }),
   });
 
   ws.send(playerInfo.serialize());
@@ -310,8 +317,8 @@ function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
     ctos_join_game: new ygopro.CtosJoinGame({
       version, // todo: use config
       gameid: 0,
-      passwd: passWd
-    })
+      passwd: passWd,
+    }),
   });
 
   ws.send(joinGame.serialize());
@@ -322,8 +329,8 @@ function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
     ctos_update_deck: new ygopro.CtosUpdateDeck({
       main: deck.main,
       extra: deck.extra,
-      side: deck.side
-    })
+      side: deck.side,
+    }),
   });
 
   ws.send(updateDeck.serialize());
@@ -331,7 +338,7 @@ function sendUpdateDeck(ws: WebSocket, deck: IDeck) {
 
 function sendHsReady(ws: WebSocket) {
   const hasReady = new ygopro.YgoCtosMsg({
-    ctos_hs_ready: new ygopro.CtosHsReady({})
+    ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
 
   ws.send(hasReady.serialize());
@@ -339,7 +346,7 @@ function sendHsReady(ws: WebSocket) {
 
 function sendHsStart(ws: WebSocket) {
   const hasStart = new ygopro.YgoCtosMsg({
-    ctos_hs_start: new ygopro.CtosHsStart({})
+    ctos_hs_start: new ygopro.CtosHsStart({}),
   });
 
   ws.send(hasStart.serialize());

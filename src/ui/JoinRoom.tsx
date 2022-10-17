@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import "./css/JoinRoom.css";
+import "../css/JoinRoom.css";
 
 export default function JoinRoom() {
   const [player, setPlayer] = useState("");
