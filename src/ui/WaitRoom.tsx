@@ -12,7 +12,7 @@ import {
   selectPlayer1,
   selectObserverCount,
 } from "../reducers/playerSlice";
-
+import { sendUpdateDeck, sendHsReady, sendHsStart } from "../api/helper";
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
 
 const READY_STATE = "ready";
@@ -28,18 +28,14 @@ export default function WaitRoom() {
   const { player, passWd, ip } = params;
 
   useEffect(() => {
-    if (
-      player != null &&
-      player.length != 0 &&
-      passWd != null &&
-      passWd.length != 0
-    ) {
+    if (ip && player && player.length != 0 && passWd && passWd.length != 0) {
       socketMiddleWare({
         cmd: socketCmd.CONNECT,
-        ip,
-        player,
-        version: 4947,
-        passWd,
+        initInfo: {
+          ip,
+          player,
+          passWd,
+        },
       });
     }
   }, []);
@@ -113,33 +109,4 @@ export default function WaitRoom() {
       </div>
     </div>
   );
-}
-
-// todo: move to api/*
-function sendUpdateDeck(deck: IDeck) {
-  const updateDeck = new ygopro.YgoCtosMsg({
-    ctos_update_deck: new ygopro.CtosUpdateDeck({
-      main: deck.main,
-      extra: deck.extra,
-      side: deck.side,
-    }),
-  });
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: updateDeck });
-}
-
-function sendHsReady() {
-  const hasReady = new ygopro.YgoCtosMsg({
-    ctos_hs_ready: new ygopro.CtosHsReady({}),
-  });
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasReady });
-}
-
-function sendHsStart() {
-  const hasStart = new ygopro.YgoCtosMsg({
-    ctos_hs_start: new ygopro.CtosHsStart({}),
-  });
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasStart });
 }
