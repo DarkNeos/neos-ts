@@ -14,6 +14,8 @@ import {
   observerChange,
   updateIsHost,
 } from "../reducers/playerSlice";
+import { sendPlayerInfo, sendJoinGame } from "../api/helper";
+import handleSocketOpen from "../service/onSocketOpen";
 
 export enum socketCmd {
   CONNECT,
@@ -23,10 +25,11 @@ export enum socketCmd {
 
 export interface socketAction {
   cmd: socketCmd;
-  ip?: string;
-  player?: string;
-  version?: number;
-  passWd?: string;
+  initInfo?: {
+    ip: string;
+    player: string;
+    passWd: string;
+  };
   payload?: ygopro.YgoCtosMsg;
 }
 
@@ -38,22 +41,12 @@ const NO_READY_STATE = "not ready";
 export default function (action: socketAction) {
   switch (action.cmd) {
     case socketCmd.CONNECT: {
-      const ip = action.ip;
-      const player = action.player;
-      const version = action.version;
-      const passWd = action.passWd;
-      if (ip && player && version && passWd) {
-        ws = new WebSocket("ws://" + ip);
+      const info = action.initInfo;
+      if (info) {
+        ws = new WebSocket("ws://" + info.ip);
 
         ws.onopen = () => {
-          console.log("WebSocket open.");
-
-          if (ws && ws.readyState == 1) {
-            ws.binaryType = "arraybuffer";
-
-            sendPlayerInfo(ws, player);
-            sendJoinGame(ws, version, passWd);
-          }
+          handleSocketOpen(ws, info.ip, info.player, info.passWd);
         };
         ws.onclose = () => {
           console.log("WebSocket closed.");
@@ -220,27 +213,4 @@ export default function (action: socketAction) {
       break;
     }
   }
-}
-
-// todo: move to api/*
-function sendPlayerInfo(ws: WebSocket, player: string) {
-  const playerInfo = new ygopro.YgoCtosMsg({
-    ctos_player_info: new ygopro.CtosPlayerInfo({
-      name: player,
-    }),
-  });
-
-  ws.send(playerInfo.serialize());
-}
-
-function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
-  const joinGame = new ygopro.YgoCtosMsg({
-    ctos_join_game: new ygopro.CtosJoinGame({
-      version, // todo: use config
-      gameid: 0,
-      passwd: passWd,
-    }),
-  });
-
-  ws.send(joinGame.serialize());
 }
