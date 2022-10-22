@@ -1,18 +1,23 @@
 stages:
+  - lint
   - build
   - test
   - deploy
 
-variables:
-  GIT_DEPTH: "1"
+before_script:
+  - npm ci
+
+npm_lint:
+  stage: lint
+  tags:
+    - linux
+  script: npm run lint
 
 npm_build:
   stage: build
   tags:
     - linux
-  script:
-    - npm ci
-    - npm run build
+  script: npm run build
 
 # npm_test:
 #   stage: test

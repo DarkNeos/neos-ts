@@ -1,5 +1,13 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:prettier/recommended"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "eqeqeq": 0
+    "eqeqeq": 0,
+    "no-var": "error",
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ]
   }
 }

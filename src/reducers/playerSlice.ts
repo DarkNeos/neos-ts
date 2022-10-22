@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export type Player = {
+export interface Player {
   name?: string;
   state?: string;
   isHost?: boolean;
-};
+}
 
 export interface playerState {
   player0: Player;
