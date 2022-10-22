@@ -10,8 +10,8 @@ function App() {
     <Routes>
       <Route path="/" element={<JoinRoom />} />
       <Route path="/:player/:passWd/:ip" element={<WaitRoom />} />
-      <Route path="/three.js" element={<ThreeJs />} />
-      <Route path="/babylon.js" element={<BabylonJs />} />
+      <Route path="/three" element={<ThreeJs />} />
+      <Route path="/babylon" element={<BabylonJs />} />
     </Routes>
   );
 }
