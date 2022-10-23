@@ -1,11 +1,7 @@
-import { ygopro } from "./idl/ocgcore";
-
-const PACKET_MIN_LEN = 3;
 const littleEndian: boolean = true;
+const PACKET_MIN_LEN = 3;
 
-const CtosPlayerInfo = 16;
-
-class ygoProPacket {
+export class ygoProPacket {
   packetLen: number;
   proto: number;
   exData: Uint8Array;
@@ -49,16 +45,5 @@ export class ygoArrayBuilder extends ygoProPacket {
     } catch (e) {
       console.log("[e][ygoProPacket][constructor]" + e);
     }
-  }
-}
-
-export class playerInfoPacket extends ygoProPacket {
-  constructor(pb: ygopro.YgoCtosMsg) {
-    const encoder = new TextEncoder();
-
-    const player = pb.ctos_player_info.name;
-    const exData = encoder.encode(player);
-
-    super(exData.length + 1, CtosPlayerInfo, exData);
   }
 }
