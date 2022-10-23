@@ -1,4 +1,4 @@
-import { ygopro } from "../api/idl/ocgcore";
+import { ygopro } from "../api/ocgcore/idl/ocgcore";
 import handleSocketOpen from "../service/onSocketOpen";
 import handleSocketMessage from "../service/onSocketMessage";
 

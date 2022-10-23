@@ -1,6 +1,6 @@
 import { ygopro } from "./idl/ocgcore";
-import socketMiddleWare, { socketCmd } from "../middleware/socket";
-import { IDeck } from "./Card";
+import socketMiddleWare, { socketCmd } from "../../middleware/socket";
+import { IDeck } from "../Card";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({

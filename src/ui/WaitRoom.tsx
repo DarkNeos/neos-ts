@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ygopro } from "../api/idl/ocgcore";
-import { fetchDeck, IDeck } from "../api/Card";
+import { fetchDeck } from "../api/Card";
 import "../css/WaitRoom.css";
 import { useAppSelector } from "../hook";
 import { selectJoined } from "../reducers/joinSlice";
@@ -12,7 +11,11 @@ import {
   selectPlayer1,
   selectObserverCount,
 } from "../reducers/playerSlice";
-import { sendUpdateDeck, sendHsReady, sendHsStart } from "../api/helper";
+import {
+  sendUpdateDeck,
+  sendHsReady,
+  sendHsStart,
+} from "../api/ocgcore/ocgHelper";
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
 
 const READY_STATE = "ready";

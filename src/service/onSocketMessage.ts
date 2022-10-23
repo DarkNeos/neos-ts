@@ -1,4 +1,4 @@
-import { ygopro } from "../api/idl/ocgcore";
+import { ygopro } from "../api/ocgcore/idl/ocgcore";
 import handleHsPlayerChange from "./room/hsPlayerChange";
 import handleTypeChange from "./room/typeChange";
 import handleHsPlayerEnter from "./room/hsPlayerEnter";
