@@ -20,6 +20,7 @@ export function strEncodeUTF16(str: string) {
   return new Uint8Array(buf);
 }
 
+// currently not used, but remain.
 export function utf8ArrayToStr(array: Uint8Array) {
   let out, i, len, c;
   let char2, char3;
