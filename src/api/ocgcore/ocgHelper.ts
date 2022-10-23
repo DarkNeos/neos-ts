@@ -3,6 +3,7 @@ import socketMiddleWare, { socketCmd } from "../../middleware/socket";
 import { IDeck } from "../Card";
 import playerInfoPacket from "./ocgAdapter/ctos/ctosPlayerInfo";
 import joinGamePacket from "./ocgAdapter/ctos/ctosJoinGame";
+import CtosUpdateDeck from "./ocgAdapter/ctos/ctosUpdateDeck";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -12,8 +13,10 @@ export function sendUpdateDeck(deck: IDeck) {
       side: deck.side,
     }),
   });
+  const payload = new CtosUpdateDeck(updateDeck).serialize();
+  console.log(payload);
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: updateDeck });
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
 
 export function sendHsReady() {
@@ -21,7 +24,7 @@ export function sendHsReady() {
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasReady });
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasReady.serialize() });
 }
 
 export function sendHsStart() {
@@ -29,7 +32,7 @@ export function sendHsStart() {
     ctos_hs_start: new ygopro.CtosHsStart({}),
   });
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasStart });
+  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasStart.serialize() });
 }
 
 export function sendPlayerInfo(ws: WebSocket, player: string) {
@@ -38,7 +41,7 @@ export function sendPlayerInfo(ws: WebSocket, player: string) {
       name: player,
     }),
   });
-  const packet = new playerInfoPacket(playerInfo);
+  const packet = new playerInfoPacket(playerInfo); // todo: 需要收敛在一个层次里
 
   ws.send(packet.serialize());
 }
