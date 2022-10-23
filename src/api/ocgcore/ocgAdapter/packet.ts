@@ -1,3 +1,5 @@
+import { ygopro } from "../idl/ocgcore";
+
 const littleEndian: boolean = true;
 const PACKET_MIN_LEN = 3;
 
@@ -46,4 +48,10 @@ export class ygoArrayBuilder extends ygoProPacket {
       console.log("[e][ygoProPacket][constructor]" + e);
     }
   }
+}
+
+export interface ygoProtobuf {
+  readonly packet: ygoProPacket;
+
+  adapt(): ygopro.YgoStocMsg;
 }

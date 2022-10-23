@@ -5,9 +5,24 @@ import handleHsPlayerEnter from "./room/hsPlayerEnter";
 import handleJoinGame from "./room/joinGame";
 import handleChat from "./room/chat";
 import handleHsWatchChange from "./room/hsWatchChange";
+import { ygoArrayBuilder } from "../api/ocgcore/ocgAdapter/packet";
+import StocJoinGame from "../api/ocgcore/ocgAdapter/stocJoinGame";
+import { STOC_JOIN_GAME } from "../api/ocgcore/ocgAdapter/protoDecl";
 
 export default function handleSocketMessage(e: MessageEvent) {
-  const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
+  const packet = new ygoArrayBuilder(e.data);
+  let pb = new ygopro.YgoStocMsg({});
+
+  switch (packet.proto) {
+    case STOC_JOIN_GAME: {
+      pb = new StocJoinGame(packet).adapt();
+
+      break;
+    }
+    default: {
+      break;
+    }
+  }
 
   switch (pb.msg) {
     case "stoc_join_game": {

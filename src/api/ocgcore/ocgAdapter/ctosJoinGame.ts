@@ -1,11 +1,10 @@
 import { ygopro } from "../idl/ocgcore";
 import { ygoProPacket } from "./packet";
+import { CTOS_JOIN_GAME } from "./protoDecl";
 
 const littleEndian: boolean = true;
 
-const CtosJoinGame = 18;
-
-export default class joinGamePacket extends ygoProPacket {
+export default class CtosJoinGamePacket extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const encoder = new TextEncoder();
     const joinGame = pb.ctos_join_game;
@@ -25,6 +24,6 @@ export default class joinGamePacket extends ygoProPacket {
     dataView.setUint8(5, (gameId >> 32) & 0xff);
     exData.slice(6, exDataLen).set(passWd);
 
-    super(exData.length + 1, CtosJoinGame, exData);
+    super(exData.length + 1, CTOS_JOIN_GAME, exData);
   }
 }
