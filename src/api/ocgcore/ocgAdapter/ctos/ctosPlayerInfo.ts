@@ -5,10 +5,8 @@ import { strEncodeUTF16 } from "../util";
 
 export default class CtosPlayerInfoPacket extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
-    const encoder = new TextEncoder();
-
     const player = pb.ctos_player_info.name;
-    const exData = encoder.encode(player);
+    const exData = strEncodeUTF16(player);
 
     super(exData.length + 1, CTOS_PLAYER_INFO, exData);
   }
