@@ -1,9 +1,9 @@
 import { ygopro } from "../idl/ocgcore";
 import { ygoProPacket } from "./packet";
 
-const CtosPlayerInfo = 16;
+const CtosPlayerInfo = 16; // todo: move protos in one place
 
-export class playerInfoPacket extends ygoProPacket {
+export default class playerInfoPacket extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const encoder = new TextEncoder();
 
