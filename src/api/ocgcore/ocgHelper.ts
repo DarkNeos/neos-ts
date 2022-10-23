@@ -1,6 +1,7 @@
 import { ygopro } from "./idl/ocgcore";
 import socketMiddleWare, { socketCmd } from "../../middleware/socket";
 import { IDeck } from "../Card";
+import { playerInfoPacket } from "./ocgAdapter";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -36,8 +37,9 @@ export function sendPlayerInfo(ws: WebSocket, player: string) {
       name: player,
     }),
   });
+  const packet = new playerInfoPacket(playerInfo);
 
-  ws.send(playerInfo.serialize());
+  ws.send(packet.serialize());
 }
 
 export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
