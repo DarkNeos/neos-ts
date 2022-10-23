@@ -20,7 +20,7 @@ export class ygoProPacket {
 
     dataView.setUint16(0, this.packetLen, littleEndian);
     dataView.setUint8(2, this.proto);
-    array.slice(3, this.packetLen + 2).set(this.exData);
+    array.set(this.exData, 3);
 
     return array;
   }
