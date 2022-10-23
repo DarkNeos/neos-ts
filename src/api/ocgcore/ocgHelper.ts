@@ -4,6 +4,7 @@ import { IDeck } from "../Card";
 import playerInfoPacket from "./ocgAdapter/ctos/ctosPlayerInfo";
 import joinGamePacket from "./ocgAdapter/ctos/ctosJoinGame";
 import CtosUpdateDeck from "./ocgAdapter/ctos/ctosUpdateDeck";
+import CtosHsReady from "./ocgAdapter/ctos/ctosHsReady";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -14,7 +15,6 @@ export function sendUpdateDeck(deck: IDeck) {
     }),
   });
   const payload = new CtosUpdateDeck(updateDeck).serialize();
-  console.log(payload);
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
@@ -23,8 +23,9 @@ export function sendHsReady() {
   const hasReady = new ygopro.YgoCtosMsg({
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
+  const payload = new CtosHsReady(hasReady).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload: hasReady.serialize() });
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
 
 export function sendHsStart() {
