@@ -12,6 +12,10 @@ export function strEncodeUTF16(str: string) {
     i++
   ) {
     bufView[i] = str.charCodeAt(i);
+
+    if (i === strLen - 1 && i < bufView.length - 1) {
+      bufView[i + 1] = 0;
+    }
   }
   return new Uint8Array(buf);
 }

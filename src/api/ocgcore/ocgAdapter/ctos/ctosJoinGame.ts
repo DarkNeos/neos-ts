@@ -23,7 +23,7 @@ export default class CtosJoinGamePacket extends ygoProPacket {
     dataView.setUint8(5, (gameId >> 8) & 0xff);
     dataView.setUint8(6, (gameId >> 16) & 0xff);
     dataView.setUint8(7, (gameId >> 32) & 0xff);
-    exData.set(passWd, 3);
+    exData.set(passWd, 8);
 
     super(exData.length + 1, CTOS_JOIN_GAME, exData);
   }
