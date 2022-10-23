@@ -15,7 +15,7 @@ export default class CtosJoinGamePacket extends ygoProPacket {
 
     const exDataLen = 2 + 4 + passWd.length;
     const exData = new Uint8Array(exDataLen);
-    const dataView = new DataView(exData);
+    const dataView = new DataView(exData.buffer);
 
     dataView.setUint16(0, version, littleEndian);
     dataView.setUint8(2, gameId & 0xff);

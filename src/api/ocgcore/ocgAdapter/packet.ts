@@ -20,7 +20,7 @@ export class ygoProPacket {
     const exData = this.exData || new Uint8Array();
 
     const array = new Uint8Array(packetLen + 2);
-    const dataView = new DataView(array);
+    const dataView = new DataView(array.buffer);
 
     dataView.setUint16(0, packetLen, littleEndian);
     dataView.setUint8(2, proto);
@@ -31,22 +31,24 @@ export class ygoProPacket {
 }
 
 export class ygoArrayBuilder extends ygoProPacket {
-  constructor(array: Uint8Array) {
+  constructor(array: ArrayBuffer) {
     try {
-      if (array.length < PACKET_MIN_LEN) {
-        throw new Error("Packet length too short, length = " + array.length);
-      } else {
-        const dataView = new DataView(array);
-
-        const packetLen = dataView.getInt16(0, littleEndian);
-        const proto = dataView.getInt8(2);
-        const exData = array.slice(3, packetLen + 2);
-
-        super(packetLen, proto, exData);
+      if (array.byteLength < PACKET_MIN_LEN) {
+        throw new Error(
+          "Packet length too short, length = " + array.byteLength
+        );
       }
     } catch (e) {
       console.log("[e][ygoProPacket][constructor]" + e);
     }
+
+    const dataView = new DataView(array);
+
+    const packetLen = dataView.getInt16(0, littleEndian);
+    const proto = dataView.getInt8(2);
+    const exData = array.slice(3, packetLen + 2);
+
+    super(packetLen, proto, new Uint8Array(exData));
   }
 }
 
