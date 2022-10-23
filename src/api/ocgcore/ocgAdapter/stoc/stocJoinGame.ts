@@ -1,5 +1,5 @@
-import { ygopro } from "../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "./packet";
+import { ygopro } from "../../idl/ocgcore";
+import { ygoProPacket, ygoProtobuf } from "../packet";
 
 export default class StocJoinGamePB implements ygoProtobuf {
   packet: ygoProPacket;

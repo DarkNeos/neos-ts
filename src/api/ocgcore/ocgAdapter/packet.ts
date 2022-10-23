@@ -15,16 +15,12 @@ export class ygoProPacket {
   }
 
   serialize(): Uint8Array {
-    const packetLen = this.packetLen || 0;
-    const proto = this.proto || 0;
-    const exData = this.exData || new Uint8Array();
-
-    const array = new Uint8Array(packetLen + 2);
+    const array = new Uint8Array(this.packetLen + 2);
     const dataView = new DataView(array.buffer);
 
-    dataView.setUint16(0, packetLen, littleEndian);
-    dataView.setUint8(2, proto);
-    array.slice(3, packetLen + 2).set(exData);
+    dataView.setUint16(0, this.packetLen, littleEndian);
+    dataView.setUint8(2, this.proto);
+    array.slice(3, this.packetLen + 2).set(this.exData);
 
     return array;
   }

@@ -1,8 +1,8 @@
 import { ygopro } from "./idl/ocgcore";
 import socketMiddleWare, { socketCmd } from "../../middleware/socket";
 import { IDeck } from "../Card";
-import playerInfoPacket from "./ocgAdapter/ctosPlayerInfo";
-import joinGamePacket from "./ocgAdapter/ctosJoinGame";
+import playerInfoPacket from "./ocgAdapter/ctos/ctosPlayerInfo";
+import joinGamePacket from "./ocgAdapter/ctos/ctosJoinGame";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({

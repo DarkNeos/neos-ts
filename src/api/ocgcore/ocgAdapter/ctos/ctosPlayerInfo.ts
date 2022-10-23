@@ -1,6 +1,7 @@
-import { ygopro } from "../idl/ocgcore";
-import { ygoProPacket } from "./packet";
-import { CTOS_PLAYER_INFO } from "./protoDecl";
+import { ygopro } from "../../idl/ocgcore";
+import { ygoProPacket } from "../packet";
+import { CTOS_PLAYER_INFO } from "../protoDecl";
+import { strEncodeUTF16 } from "../util";
 
 export default class CtosPlayerInfoPacket extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {

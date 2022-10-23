@@ -6,16 +6,23 @@ import handleJoinGame from "./room/joinGame";
 import handleChat from "./room/chat";
 import handleHsWatchChange from "./room/hsWatchChange";
 import { ygoArrayBuilder } from "../api/ocgcore/ocgAdapter/packet";
-import StocJoinGame from "../api/ocgcore/ocgAdapter/stocJoinGame";
-import { STOC_JOIN_GAME } from "../api/ocgcore/ocgAdapter/protoDecl";
+import StocJoinGame from "../api/ocgcore/ocgAdapter/stoc/stocJoinGame";
+import { STOC_CHAT, STOC_JOIN_GAME } from "../api/ocgcore/ocgAdapter/protoDecl";
+import StocChat from "../api/ocgcore/ocgAdapter/stoc/stocChat";
 
 export default function handleSocketMessage(e: MessageEvent) {
   const packet = new ygoArrayBuilder(e.data);
+  console.log(packet);
   let pb = new ygopro.YgoStocMsg({});
 
   switch (packet.proto) {
     case STOC_JOIN_GAME: {
       pb = new StocJoinGame(packet).adapt();
+
+      break;
+    }
+    case STOC_CHAT: {
+      pb = new StocChat(packet).adapt();
 
       break;
     }
