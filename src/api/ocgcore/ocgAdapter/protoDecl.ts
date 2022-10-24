@@ -8,3 +8,4 @@ export const STOC_CHAT = 25;
 export const STOC_HS_PLAYER_ENTER = 32;
 export const STOC_HS_PLAYER_CHANGE = 33;
 export const STOC_HS_WATCH_CHANGE = 34;
+export const STOC_TYPE_CHANGE = 19;
