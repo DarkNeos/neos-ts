@@ -11,11 +11,13 @@ import {
   STOC_CHAT,
   STOC_HS_PLAYER_CHANGE,
   STOC_HS_PLAYER_ENTER,
+  STOC_HS_WATCH_CHANGE,
   STOC_JOIN_GAME,
 } from "../api/ocgcore/ocgAdapter/protoDecl";
 import StocChat from "../api/ocgcore/ocgAdapter/stoc/stocChat";
 import StocHsPlayerEnter from "../api/ocgcore/ocgAdapter/stoc/stocHsPlayerEnter";
 import StocHsPlayerChange from "../api/ocgcore/ocgAdapter/stoc/stocHsPlayerChange";
+import StocHsWatchChange from "../api/ocgcore/ocgAdapter/stoc/stocHsWatchChange";
 
 export default function handleSocketMessage(e: MessageEvent) {
   const packet = new ygoArrayBuilder(e.data);
@@ -40,6 +42,11 @@ export default function handleSocketMessage(e: MessageEvent) {
     }
     case STOC_HS_PLAYER_CHANGE: {
       pb = new StocHsPlayerChange(packet).adapt();
+
+      break;
+    }
+    case STOC_HS_WATCH_CHANGE: {
+      pb = new StocHsWatchChange(packet).adapt();
 
       break;
     }

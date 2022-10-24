@@ -7,3 +7,4 @@ export const STOC_JOIN_GAME = 18;
 export const STOC_CHAT = 25;
 export const STOC_HS_PLAYER_ENTER = 32;
 export const STOC_HS_PLAYER_CHANGE = 33;
+export const STOC_HS_WATCH_CHANGE = 34;
