@@ -20,7 +20,8 @@ export default class StocHsPlayerEnter implements ygoProtobuf {
     );
 
     const dataView = new DataView(exData.buffer);
-    const pos = dataView.getInt8(UTF16_BUFFER_MAX_LEN * UINT8_PER_UINT16) & 0x3;
+    const pos =
+      dataView.getUint8(UTF16_BUFFER_MAX_LEN * UINT8_PER_UINT16) & 0x3;
 
     return new ygopro.YgoStocMsg({
       stoc_hs_player_enter: new ygopro.StocHsPlayerEnter({
