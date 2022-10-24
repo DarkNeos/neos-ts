@@ -5,3 +5,4 @@ export const CTOS_HS_READY = 34;
 
 export const STOC_JOIN_GAME = 18;
 export const STOC_CHAT = 25;
+export const STOC_HS_PLAYER_ENTER = 32;

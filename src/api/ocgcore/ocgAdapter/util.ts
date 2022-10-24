@@ -1,4 +1,4 @@
-const UTF16_BUFFER_MAX_LEN = 20;
+export const UTF16_BUFFER_MAX_LEN = 20;
 const FILLING_TOKEN: number = 0xcccc;
 
 export function strEncodeUTF16(str: string) {
