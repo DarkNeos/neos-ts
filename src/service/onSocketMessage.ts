@@ -1,13 +1,66 @@
-import { ygopro } from "../api/idl/ocgcore";
+import { ygopro } from "../api/ocgcore/idl/ocgcore";
 import handleHsPlayerChange from "./room/hsPlayerChange";
 import handleTypeChange from "./room/typeChange";
 import handleHsPlayerEnter from "./room/hsPlayerEnter";
 import handleJoinGame from "./room/joinGame";
 import handleChat from "./room/chat";
 import handleHsWatchChange from "./room/hsWatchChange";
+import { ygoArrayBuilder } from "../api/ocgcore/ocgAdapter/packet";
+import StocJoinGame from "../api/ocgcore/ocgAdapter/stoc/stocJoinGame";
+import {
+  STOC_CHAT,
+  STOC_HS_PLAYER_CHANGE,
+  STOC_HS_PLAYER_ENTER,
+  STOC_HS_WATCH_CHANGE,
+  STOC_JOIN_GAME,
+  STOC_TYPE_CHANGE,
+} from "../api/ocgcore/ocgAdapter/protoDecl";
+import StocChat from "../api/ocgcore/ocgAdapter/stoc/stocChat";
+import StocHsPlayerEnter from "../api/ocgcore/ocgAdapter/stoc/stocHsPlayerEnter";
+import StocHsPlayerChange from "../api/ocgcore/ocgAdapter/stoc/stocHsPlayerChange";
+import StocHsWatchChange from "../api/ocgcore/ocgAdapter/stoc/stocHsWatchChange";
+import StocTypeChange from "../api/ocgcore/ocgAdapter/stoc/stocTypeChange";
 
 export default function handleSocketMessage(e: MessageEvent) {
-  const pb = ygopro.YgoStocMsg.deserializeBinary(e.data);
+  const packet = new ygoArrayBuilder(e.data);
+  console.log(packet);
+  let pb = new ygopro.YgoStocMsg({});
+
+  switch (packet.proto) {
+    case STOC_JOIN_GAME: {
+      pb = new StocJoinGame(packet).adapt();
+
+      break;
+    }
+    case STOC_CHAT: {
+      pb = new StocChat(packet).adapt();
+
+      break;
+    }
+    case STOC_HS_PLAYER_ENTER: {
+      pb = new StocHsPlayerEnter(packet).adapt();
+
+      break;
+    }
+    case STOC_HS_PLAYER_CHANGE: {
+      pb = new StocHsPlayerChange(packet).adapt();
+
+      break;
+    }
+    case STOC_HS_WATCH_CHANGE: {
+      pb = new StocHsWatchChange(packet).adapt();
+
+      break;
+    }
+    case STOC_TYPE_CHANGE: {
+      pb = new StocTypeChange(packet).adapt();
+
+      break;
+    }
+    default: {
+      break;
+    }
+  }
 
   switch (pb.msg) {
     case "stoc_join_game": {

@@ -1,4 +1,3 @@
-import { ygopro } from "../api/idl/ocgcore";
 import handleSocketOpen from "../service/onSocketOpen";
 import handleSocketMessage from "../service/onSocketMessage";
 
@@ -15,7 +14,7 @@ export interface socketAction {
     player: string;
     passWd: string;
   };
-  payload?: ygopro.YgoCtosMsg;
+  payload?: Uint8Array;
 }
 
 let ws: WebSocket | null = null;
@@ -47,9 +46,9 @@ export default function (action: socketAction) {
       break;
     }
     case socketCmd.SEND: {
-      const pb = action.payload;
-      if (ws && pb) {
-        ws.send(pb.serialize());
+      const payload = action.payload;
+      if (ws && payload) {
+        ws.send(payload);
       }
 
       break;

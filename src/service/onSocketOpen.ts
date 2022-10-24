@@ -1,4 +1,4 @@
-import { sendJoinGame, sendPlayerInfo } from "../api/helper";
+import { sendJoinGame, sendPlayerInfo } from "../api/ocgcore/ocgHelper";
 
 export default function handleSocketOpen(
   ws: WebSocket | null,

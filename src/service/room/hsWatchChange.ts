@@ -1,4 +1,4 @@
-import { ygopro } from "../../api/idl/ocgcore";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { observerChange } from "../../reducers/playerSlice";
 import { store } from "../../store";
 
