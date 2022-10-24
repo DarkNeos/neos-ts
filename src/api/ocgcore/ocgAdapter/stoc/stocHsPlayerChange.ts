@@ -16,6 +16,8 @@ export default class StocHsPlayerChange implements ygoProtobuf {
     const pos = (Status >> 4) & 0xf;
     const state = Status & 0xf;
 
+    pb.pos = pos;
+
     if (pos < 4) {
       if (state < 8) {
         pb.state = ygopro.StocHsPlayerChange.State.MOVE;
