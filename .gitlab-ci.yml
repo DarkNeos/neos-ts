@@ -21,14 +21,14 @@ npm_ci:
     - npm_ci
 
 npm_lint:
-  extens: build
+  extends: build
   stage: lint
   tags:
     - linux
   script: npm run lint
 
 npm_build:
-  extens: .build_base
+  extends: .build_base
   stage: build
   tags:
     - linux
