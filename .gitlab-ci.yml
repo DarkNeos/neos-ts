@@ -1,28 +1,36 @@
 stages:
+  - install
   - lint
-  - build
   - test
+  - build
   - deploy
 
-before_script:
-  - npm ci
+npm_ci:
+  stage: install
+  tags:
+    - linux
+  script: npm ci
+  artifacts:
+    paths:
+      - node_modules
+
+.build_base:
+  tags:
+    - linux
+  dependencies:
+    - npm_ci
 
 npm_lint:
+  extens: build
   stage: lint
   tags:
     - linux
   script: npm run lint
 
 npm_build:
+  extens: .build_base
   stage: build
   tags:
     - linux
   script: npm run build
 
-# npm_test:
-#   stage: test
-#   tags:
-#     - linux
-#   script: npm run test
-#   dependencies:
-#     - npm_build
