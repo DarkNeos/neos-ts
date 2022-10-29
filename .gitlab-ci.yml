@@ -21,7 +21,7 @@ npm_ci:
     - npm_ci
 
 npm_lint:
-  extends: build
+  extends: .build_base
   stage: lint
   tags:
     - linux
