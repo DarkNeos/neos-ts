@@ -1,14 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 
-export default class StocHsPlayerChange implements ygoProtobuf {
+export default class hsPlayerChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     const pb = new ygopro.StocHsPlayerChange({});
     pb.state = ygopro.StocHsPlayerChange.State.UNKNOWN;
 

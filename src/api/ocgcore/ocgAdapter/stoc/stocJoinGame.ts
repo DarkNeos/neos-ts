@@ -1,14 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 
-export default class StocJoinGamePB implements ygoProtobuf {
+export default class joinGameAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     // todo
     return new ygopro.YgoStocMsg({
       stoc_join_game: new ygopro.StocJoinGame({}),
