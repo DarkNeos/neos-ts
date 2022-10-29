@@ -1,6 +1,17 @@
+/*
+ * 一些基础函数。
+ *
+ * */
 export const UTF16_BUFFER_MAX_LEN = 20;
 const FILLING_TOKEN: number = 0xcccc;
 
+/*
+ * 将`string`类型字符串转成`utf-16`编码的二进制数组。
+ *
+ * @param str - The `string` type string
+ * @returns The `utf-16` `Uint8Array`
+ *
+ * */
 export function strEncodeUTF16(str: string) {
   let buf = new ArrayBuffer(UTF16_BUFFER_MAX_LEN * 2);
   let bufView = new Uint16Array(buf);

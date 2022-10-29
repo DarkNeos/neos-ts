@@ -1,3 +1,7 @@
+/*
+ * 加入房间状态更新逻辑
+ *
+ * */
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 

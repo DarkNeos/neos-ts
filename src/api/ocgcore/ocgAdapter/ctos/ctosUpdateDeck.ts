@@ -4,6 +4,18 @@ import { CTOS_UPDATE_DECK } from "../protoDecl";
 
 const BYTES_PER_U32 = 4;
 
+/*
+ * CTOS UpdateDeck
+ *
+ * @param main: unsigned int - 主卡组数目
+ * @param extra: unsigned int - 额外卡组数目
+ * @param side: unsigned int - 副卡组数目
+ * @param mainCards: [unsigned int; main] - 主卡组数据
+ * @param extraCards: [unsigned int; extra] - 额外卡组数据
+ * @param side: [unsigned int; side] - 副卡组数据
+ *
+ * @usage - 更新对局的卡组信息
+ * */
 export default class CtosUpdateDeck extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const updateDeck = pb.ctos_update_deck;

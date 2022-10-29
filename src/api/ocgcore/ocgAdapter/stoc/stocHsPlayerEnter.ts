@@ -4,6 +4,14 @@ import { UTF16_BUFFER_MAX_LEN } from "../util";
 
 const UINT8_PER_UINT16 = 2;
 
+/*
+ * STOC HsPlayerEnter
+ *
+ * @param name: [unsigned short; 20] - 玩家昵称
+ * @param pos: unsigned chat - 玩家进入房间的位置
+ *
+ * @usage - 有新玩家进入房间，更新状态
+ * */
 export default class hsPlayerEnterAdapter implements StocAdapter {
   packet: ygoProPacket;
 

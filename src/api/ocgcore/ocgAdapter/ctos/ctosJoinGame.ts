@@ -3,6 +3,16 @@ import { ygoProPacket } from "../packet";
 import { CTOS_JOIN_GAME } from "../protoDecl";
 import { strEncodeUTF16 } from "../util";
 
+/*
+ * CTOS JoinGame
+ *
+ * @param version: unsigned short - 版本号
+ * @param align: unsigned short - 对齐填充
+ * @param gameid: unsigned int - 永远是0
+ * @param passWd: [unsigned short; 20] - 房间密码
+ *
+ * @usage - 加入房间
+ * */
 export default class CtosJoinGamePacket extends ygoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const joinGame = pb.ctos_join_game;

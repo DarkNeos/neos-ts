@@ -1,3 +1,7 @@
+/*
+ * 一些发ygopro协议数据包的辅助函数，用于简化业务代码。
+ *
+ * */
 import { ygopro } from "./idl/ocgcore";
 import socketMiddleWare, { socketCmd } from "../../middleware/socket";
 import { IDeck } from "../Card";
@@ -16,7 +20,7 @@ export function sendUpdateDeck(deck: IDeck) {
     }),
   });
 
-  // 如果要实现UI层和Adapter层解耦，这里应该不感知具体Adapter类型
+  // FIXME: 如果要实现UI层和Adapter层解耦，这里应该不感知具体Adapter类型
   const payload = new UpdateDeckAdapter(updateDeck).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
@@ -46,7 +50,7 @@ export function sendPlayerInfo(ws: WebSocket, player: string) {
       name: player,
     }),
   });
-  const packet = new PlayerInfoAdapter(playerInfo); // todo: 需要收敛在一个层次里
+  const packet = new PlayerInfoAdapter(playerInfo);
 
   ws.send(packet.serialize());
 }

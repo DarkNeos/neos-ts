@@ -1,6 +1,13 @@
 import { ygopro } from "../../idl/ocgcore";
 import { ygoProPacket, StocAdapter } from "../packet";
 
+/*
+ * STOC HsPlayerChange
+ *
+ * @param todo
+ *
+ * @usage - 更新玩家状态
+ * */
 export default class hsPlayerChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 

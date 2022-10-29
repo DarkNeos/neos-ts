@@ -1,4 +1,4 @@
-import { StocAdapter, ygoProPacket } from "./packet";
+import { ygoProPacket } from "./packet";
 import { ygopro } from "../idl/ocgcore";
 import {
   STOC_CHAT,
@@ -15,6 +15,13 @@ import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
 import StocHsWatchChange from "./stoc/stocHsWatchChange";
 import StocTypeChange from "./stoc/stocTypeChange";
 
+/*
+ * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
+ *
+ * @param packet - The ygoProPacket object
+ * @returns The ygopro.YgoStocMsg object
+ *
+ * */
 export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
   let pb = new ygopro.YgoStocMsg({});
   switch (packet.proto) {
