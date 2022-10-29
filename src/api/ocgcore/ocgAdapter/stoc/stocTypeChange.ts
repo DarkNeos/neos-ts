@@ -1,6 +1,13 @@
 import { ygopro } from "../../idl/ocgcore";
 import { ygoProPacket, StocAdapter } from "../packet";
 
+/*
+ * STOC TypeChange
+ *
+ * @param todo
+ *
+ * @usage - 更新玩家状态
+ * */
 export default class typeChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 

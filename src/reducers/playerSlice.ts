@@ -1,3 +1,7 @@
+/*
+ * 进入房间的玩家状态更新逻辑
+ *
+ * */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 

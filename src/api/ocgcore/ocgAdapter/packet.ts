@@ -1,12 +1,17 @@
+/*
+ * Adapter模块的抽象层。
+ *
+ * */
 import { ygopro } from "../idl/ocgcore";
 
 const littleEndian: boolean = true;
 const PACKET_MIN_LEN = 3;
 
+// Ref: https://www.icode9.com/content-1-1341344.html
 export class ygoProPacket {
-  packetLen: number;
-  proto: number;
-  exData: Uint8Array;
+  packetLen: number; // 数据包长度
+  proto: number; // ygopro协议标识
+  exData: Uint8Array; // 数据包内容
 
   constructor(packetLen: number, proto: number, exData: Uint8Array) {
     this.packetLen = packetLen;
@@ -14,6 +19,11 @@ export class ygoProPacket {
     this.exData = exData;
   }
 
+  /*
+   * 将[`ygoProPacket`]对象序列化，
+   * 返回的二进制数数组可通过长连接发送到ygopro服务端。
+   *
+   * */
   serialize(): Uint8Array {
     const array = new Uint8Array(this.packetLen + 2);
     const dataView = new DataView(array.buffer);
@@ -25,6 +35,11 @@ export class ygoProPacket {
     return array;
   }
 
+  /*
+   * 将二进制数据反序列化成[`ygoProPacket`]对象，
+   * 返回值可用于业务逻辑处理。
+   *
+   * */
   static deserialize(array: ArrayBuffer): ygoProPacket {
     try {
       if (array.byteLength < PACKET_MIN_LEN) {

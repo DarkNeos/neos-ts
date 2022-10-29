@@ -1,3 +1,6 @@
+/*
+ * 全局状态存储模块
+ * */
 import { configureStore } from "@reduxjs/toolkit";
 import joinedReducer from "./reducers/joinSlice";
 import chatReducer from "./reducers/chatSlice";

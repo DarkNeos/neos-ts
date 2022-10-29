@@ -1,6 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
 import { ygoProPacket, StocAdapter } from "../packet";
 
+/*
+ * STOC Chat
+ *
+ * @param player: unsigned short - 玩家编号
+ * @param message: [unsigned short] - 聊天消息文本
+ *
+ * @usage - 更新聊天消息
+ * */
 export default class chatAdapter implements StocAdapter {
   packet: ygoProPacket;
 

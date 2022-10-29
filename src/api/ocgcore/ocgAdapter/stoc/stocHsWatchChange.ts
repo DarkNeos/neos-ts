@@ -1,6 +1,13 @@
 import { ygopro } from "../../idl/ocgcore";
 import { ygoProPacket, StocAdapter } from "../packet";
 
+/*
+ * STOC HsWatchChange
+ *
+ * @param count: unsigned short - 观观者数量
+ *
+ * @usage - 更新观战者数量
+ * */
 export default class hsWatchChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 

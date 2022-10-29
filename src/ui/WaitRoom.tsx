@@ -1,3 +1,7 @@
+/*
+ * 等待房间页面
+ *
+ * */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchDeck } from "../api/Card";
@@ -32,6 +36,7 @@ export default function WaitRoom() {
 
   useEffect(() => {
     if (ip && player && player.length != 0 && passWd && passWd.length != 0) {
+      // 页面第一次渲染时，通过socket中间件向ygopro服务端请求建立长连接
       socketMiddleWare({
         cmd: socketCmd.CONNECT,
         initInfo: {

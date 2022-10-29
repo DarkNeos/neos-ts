@@ -1,3 +1,7 @@
+/*
+ * 长连接消息事件订阅处理逻辑
+ *
+ * */
 import handleHsPlayerChange from "./room/hsPlayerChange";
 import handleTypeChange from "./room/typeChange";
 import handleHsPlayerEnter from "./room/hsPlayerEnter";
@@ -7,6 +11,11 @@ import handleHsWatchChange from "./room/hsWatchChange";
 import { ygoProPacket } from "../api/ocgcore/ocgAdapter/packet";
 import { adaptStoc } from "../api/ocgcore/ocgAdapter/adapter";
 
+/*
+ * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，
+ * 然后再分发到各个处理函数中去处理。
+ *
+ * */
 export default function handleSocketMessage(e: MessageEvent) {
   const packet = ygoProPacket.deserialize(e.data);
   const pb = adaptStoc(packet);

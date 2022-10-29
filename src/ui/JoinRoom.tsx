@@ -1,3 +1,11 @@
+/*
+ * 加入房间页面
+ *
+ * player: 玩家昵称；
+ * addr: IP地址；
+ * passWd: 房间密码。
+ *
+ * */
 import React, { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import "../css/JoinRoom.css";
