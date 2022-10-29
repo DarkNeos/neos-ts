@@ -1,17 +1,17 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 import { UTF16_BUFFER_MAX_LEN } from "../util";
 
 const UINT8_PER_UINT16 = 2;
 
-export default class StocHsPlayerEnter implements ygoProtobuf {
+export default class hsPlayerEnterAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     const exData = this.packet.exData;
 
     const decoder = new TextDecoder("utf-16");

@@ -1,14 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 
-export default class StocHsWatchChange implements ygoProtobuf {
+export default class hsWatchChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     const count = new DataView(this.packet.exData.buffer).getUint16(0, true);
 
     return new ygopro.YgoStocMsg({

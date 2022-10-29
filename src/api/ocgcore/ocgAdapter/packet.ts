@@ -24,10 +24,8 @@ export class ygoProPacket {
 
     return array;
   }
-}
 
-export class ygoArrayBuilder extends ygoProPacket {
-  constructor(array: ArrayBuffer) {
+  static deserialize(array: ArrayBuffer): ygoProPacket {
     try {
       if (array.byteLength < PACKET_MIN_LEN) {
         throw new Error(
@@ -35,7 +33,7 @@ export class ygoArrayBuilder extends ygoProPacket {
         );
       }
     } catch (e) {
-      console.log("[e][ygoProPacket][constructor]" + e);
+      console.log(e);
     }
 
     const dataView = new DataView(array);
@@ -44,12 +42,16 @@ export class ygoArrayBuilder extends ygoProPacket {
     const proto = dataView.getInt8(2);
     const exData = array.slice(3, packetLen + 2);
 
-    super(packetLen, proto, new Uint8Array(exData));
+    return new ygoProPacket(packetLen, proto, new Uint8Array(exData));
   }
 }
 
-export interface ygoProtobuf {
-  readonly packet: ygoProPacket;
+export interface StocAdapter {
+  upcast(): ygopro.YgoStocMsg;
+}
 
-  adapt(): ygopro.YgoStocMsg;
+export interface CtosAdapter {
+  readonly protobuf: ygopro.YgoCtosMsg;
+
+  downcast(): ygoProPacket;
 }

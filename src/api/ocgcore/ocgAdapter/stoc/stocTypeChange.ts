@@ -1,14 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 
-export default class StocTypeChange implements ygoProtobuf {
+export default class typeChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     const type_ = new DataView(this.packet.exData.buffer).getUint8(0);
     const isHost = ((type_ >> 4) & 0xf) != 0;
 

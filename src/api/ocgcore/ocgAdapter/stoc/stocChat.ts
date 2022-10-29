@@ -1,14 +1,14 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, ygoProtobuf } from "../packet";
+import { ygoProPacket, StocAdapter } from "../packet";
 
-export default class StocChatPB implements ygoProtobuf {
+export default class chatAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
     this.packet = packet;
   }
 
-  adapt(): ygopro.YgoStocMsg {
+  upcast(): ygopro.YgoStocMsg {
     const player = new DataView(this.packet.exData.buffer).getInt16(0, true);
 
     const decoder = new TextDecoder("utf-16");
