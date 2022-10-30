@@ -1,5 +1,9 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { store } from "../../store";
+import { selectAble } from "../../reducers/moraSlice";
 
 export default function handleSelectHand(_: ygopro.YgoStocMsg) {
-  console.log("in handleSelectHand!");
+  const dispatch = store.dispatch;
+
+  dispatch(selectAble());
 }
