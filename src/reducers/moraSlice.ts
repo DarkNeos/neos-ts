@@ -6,26 +6,41 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export interface moraState {
-  selectable: boolean;
+  selectHandAble: boolean;
+  selectTpAble: boolean;
 }
 
 const initialState: moraState = {
-  selectable: false,
+  selectHandAble: false,
+  selectTpAble: false,
 };
 
 const moraSlice = createSlice({
   name: "mora",
   initialState,
   reducers: {
-    selectAble: (state) => {
-      state.selectable = true;
+    selectHandAble: (state) => {
+      state.selectHandAble = true;
     },
-    unSelectAble: (state) => {
-      state.selectable = false;
+    unSelectHandAble: (state) => {
+      state.selectHandAble = false;
+    },
+    selectTpAble: (state) => {
+      state.selectTpAble = true;
+    },
+    unSelectTpAble: (state) => {
+      state.selectTpAble = false;
     },
   },
 });
 
-export const { selectAble, unSelectAble } = moraSlice.actions;
-export const selectMoraSelectAble = (state: RootState) => state.mora.selectable;
+export const {
+  selectHandAble,
+  unSelectHandAble,
+  selectTpAble,
+  unSelectTpAble,
+} = moraSlice.actions;
+export const selectHandSelectAble = (state: RootState) =>
+  state.mora.selectHandAble;
+export const selectTpSelectAble = (state: RootState) => state.mora.selectTpAble;
 export default moraSlice.reducer;

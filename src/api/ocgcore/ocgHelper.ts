@@ -11,6 +11,7 @@ import UpdateDeckAdapter from "./ocgAdapter/ctos/ctosUpdateDeck";
 import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
 import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
 import HandResult from "./ocgAdapter/ctos/ctosHandResult";
+import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -85,6 +86,24 @@ export function sendHandResult(result: string) {
     }),
   });
   const payload = new HandResult(handResult).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendTpResult(isFirst: boolean) {
+  let tp = ygopro.CtosTpResult.TpType.UNKNOWN;
+  if (isFirst) {
+    tp = ygopro.CtosTpResult.TpType.FIRST;
+  } else {
+    tp = ygopro.CtosTpResult.TpType.SECOND;
+  }
+
+  const tpResult = new ygopro.YgoCtosMsg({
+    ctos_tp_result: new ygopro.CtosTpResult({
+      tp,
+    }),
+  });
+  const payload = new TpResult(tpResult).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
