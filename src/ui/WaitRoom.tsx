@@ -87,16 +87,15 @@ export default function WaitRoom() {
         </p>
         <p>
           <button
-            // disabled={
-            //   !(
-            //     isHost &&
-            //     player0.state != undefined &&
-            //     player0.state === READY_STATE &&
-            //     player1.state != undefined &&
-            //     player1.state === READY_STATE
-            //   )
-            // }
-            disabled={false}
+            disabled={
+              !(
+                isHost &&
+                player0.state != undefined &&
+                player0.state === READY_STATE &&
+                player1.state != undefined &&
+                player1.state === READY_STATE
+              )
+            }
             onClick={handleChoseStart}
           >
             <Link to={{ pathname: `/mora` }}>start</Link>

@@ -8,6 +8,7 @@ import "../css/Mora.css";
 import { useAppSelector } from "../hook";
 import { selectMoraSelectAble } from "../reducers/moraSlice";
 
+// TODO: 应该展示对手卡组信息和聊天信息
 export default function Mora() {
   const selectAble = useAppSelector(selectMoraSelectAble);
   return (
