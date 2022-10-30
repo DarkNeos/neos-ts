@@ -7,6 +7,7 @@ import {
   STOC_HS_WATCH_CHANGE,
   STOC_JOIN_GAME,
   STOC_TYPE_CHANGE,
+  STOC_SELECT_HAND,
 } from "./protoDecl";
 import StocChat from "./stoc/stocChat";
 import StocJoinGame from "./stoc/stocJoinGame";
@@ -14,6 +15,7 @@ import StocHsPlayerEnter from "./stoc/stocHsPlayerEnter";
 import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
 import StocHsWatchChange from "./stoc/stocHsWatchChange";
 import StocTypeChange from "./stoc/stocTypeChange";
+import StocSelectHand from "./stoc/stocSelectHand";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
@@ -52,6 +54,11 @@ export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_TYPE_CHANGE: {
       pb = new StocTypeChange(packet).upcast();
+
+      break;
+    }
+    case STOC_SELECT_HAND: {
+      pb = new StocSelectHand(packet).upcast();
 
       break;
     }

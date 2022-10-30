@@ -10,6 +10,7 @@ import handleChat from "./room/chat";
 import handleHsWatchChange from "./room/hsWatchChange";
 import { ygoProPacket } from "../api/ocgcore/ocgAdapter/packet";
 import { adaptStoc } from "../api/ocgcore/ocgAdapter/adapter";
+import handleSelectHand from "./mora/selectHand";
 
 /*
  * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，
@@ -48,6 +49,11 @@ export default function handleSocketMessage(e: MessageEvent) {
     }
     case "stoc_type_change": {
       handleTypeChange(pb);
+
+      break;
+    }
+    case "stoc_select_hand": {
+      handleSelectHand(pb);
 
       break;
     }
