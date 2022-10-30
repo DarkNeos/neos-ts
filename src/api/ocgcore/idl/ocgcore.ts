@@ -5,8 +5,14 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export namespace ygopro {
+  export enum HandType {
+    UNKNOWN = 0,
+    SCISSORS = 1,
+    ROCK = 2,
+    PAPER = 3,
+  }
   export class YgoCtosMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8]];
     constructor(
       data?:
         | any[]
@@ -18,6 +24,8 @@ export namespace ygopro {
                 ctos_hs_ready?: never;
                 ctos_hs_start?: never;
                 ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -26,6 +34,8 @@ export namespace ygopro {
                 ctos_hs_ready?: never;
                 ctos_hs_start?: never;
                 ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -34,6 +44,8 @@ export namespace ygopro {
                 ctos_hs_ready?: never;
                 ctos_hs_start?: never;
                 ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -42,6 +54,8 @@ export namespace ygopro {
                 ctos_hs_ready?: CtosHsReady;
                 ctos_hs_start?: never;
                 ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -50,6 +64,8 @@ export namespace ygopro {
                 ctos_hs_ready?: never;
                 ctos_hs_start?: CtosHsStart;
                 ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -58,6 +74,28 @@ export namespace ygopro {
                 ctos_hs_ready?: never;
                 ctos_hs_start?: never;
                 ctos_hs_not_ready?: CtosHsNotReady;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
+              }
+            | {
+                ctos_player_info?: never;
+                ctos_join_game?: never;
+                ctos_update_deck?: never;
+                ctos_hs_ready?: never;
+                ctos_hs_start?: never;
+                ctos_hs_not_ready?: never;
+                ctos_hand_result?: CtosHandResult;
+                ctos_tp_result?: never;
+              }
+            | {
+                ctos_player_info?: never;
+                ctos_join_game?: never;
+                ctos_update_deck?: never;
+                ctos_hs_ready?: never;
+                ctos_hs_start?: never;
+                ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: CtosTpResult;
               }
           ))
     ) {
@@ -91,6 +129,12 @@ export namespace ygopro {
           data.ctos_hs_not_ready != undefined
         ) {
           this.ctos_hs_not_ready = data.ctos_hs_not_ready;
+        }
+        if ("ctos_hand_result" in data && data.ctos_hand_result != undefined) {
+          this.ctos_hand_result = data.ctos_hand_result;
+        }
+        if ("ctos_tp_result" in data && data.ctos_tp_result != undefined) {
+          this.ctos_tp_result = data.ctos_tp_result;
         }
       }
     }
@@ -164,6 +208,32 @@ export namespace ygopro {
     get has_ctos_hs_not_ready() {
       return pb_1.Message.getField(this, 6) != null;
     }
+    get ctos_hand_result() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosHandResult,
+        7
+      ) as CtosHandResult;
+    }
+    set ctos_hand_result(value: CtosHandResult) {
+      pb_1.Message.setOneofWrapperField(this, 7, this.#one_of_decls[0], value);
+    }
+    get has_ctos_hand_result() {
+      return pb_1.Message.getField(this, 7) != null;
+    }
+    get ctos_tp_result() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosTpResult,
+        8
+      ) as CtosTpResult;
+    }
+    set ctos_tp_result(value: CtosTpResult) {
+      pb_1.Message.setOneofWrapperField(this, 8, this.#one_of_decls[0], value);
+    }
+    get has_ctos_tp_result() {
+      return pb_1.Message.getField(this, 8) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -173,7 +243,9 @@ export namespace ygopro {
           | "ctos_update_deck"
           | "ctos_hs_ready"
           | "ctos_hs_start"
-          | "ctos_hs_not_ready";
+          | "ctos_hs_not_ready"
+          | "ctos_hand_result"
+          | "ctos_tp_result";
       } = {
         0: "none",
         1: "ctos_player_info",
@@ -182,8 +254,12 @@ export namespace ygopro {
         4: "ctos_hs_ready",
         5: "ctos_hs_start",
         6: "ctos_hs_not_ready",
+        7: "ctos_hand_result",
+        8: "ctos_tp_result",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6])];
+      return cases[
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8])
+      ];
     }
     static fromObject(data: {
       ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
@@ -192,6 +268,8 @@ export namespace ygopro {
       ctos_hs_ready?: ReturnType<typeof CtosHsReady.prototype.toObject>;
       ctos_hs_start?: ReturnType<typeof CtosHsStart.prototype.toObject>;
       ctos_hs_not_ready?: ReturnType<typeof CtosHsNotReady.prototype.toObject>;
+      ctos_hand_result?: ReturnType<typeof CtosHandResult.prototype.toObject>;
+      ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
     }): YgoCtosMsg {
       const message = new YgoCtosMsg({});
       if (data.ctos_player_info != null) {
@@ -218,6 +296,14 @@ export namespace ygopro {
           data.ctos_hs_not_ready
         );
       }
+      if (data.ctos_hand_result != null) {
+        message.ctos_hand_result = CtosHandResult.fromObject(
+          data.ctos_hand_result
+        );
+      }
+      if (data.ctos_tp_result != null) {
+        message.ctos_tp_result = CtosTpResult.fromObject(data.ctos_tp_result);
+      }
       return message;
     }
     toObject() {
@@ -230,6 +316,8 @@ export namespace ygopro {
         ctos_hs_not_ready?: ReturnType<
           typeof CtosHsNotReady.prototype.toObject
         >;
+        ctos_hand_result?: ReturnType<typeof CtosHandResult.prototype.toObject>;
+        ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
       } = {};
       if (this.ctos_player_info != null) {
         data.ctos_player_info = this.ctos_player_info.toObject();
@@ -248,6 +336,12 @@ export namespace ygopro {
       }
       if (this.ctos_hs_not_ready != null) {
         data.ctos_hs_not_ready = this.ctos_hs_not_ready.toObject();
+      }
+      if (this.ctos_hand_result != null) {
+        data.ctos_hand_result = this.ctos_hand_result.toObject();
+      }
+      if (this.ctos_tp_result != null) {
+        data.ctos_tp_result = this.ctos_tp_result.toObject();
       }
       return data;
     }
@@ -278,6 +372,14 @@ export namespace ygopro {
       if (this.has_ctos_hs_not_ready)
         writer.writeMessage(6, this.ctos_hs_not_ready, () =>
           this.ctos_hs_not_ready.serialize(writer)
+        );
+      if (this.has_ctos_hand_result)
+        writer.writeMessage(7, this.ctos_hand_result, () =>
+          this.ctos_hand_result.serialize(writer)
+        );
+      if (this.has_ctos_tp_result)
+        writer.writeMessage(8, this.ctos_tp_result, () =>
+          this.ctos_tp_result.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -329,6 +431,19 @@ export namespace ygopro {
                 (message.ctos_hs_not_ready = CtosHsNotReady.deserialize(reader))
             );
             break;
+          case 7:
+            reader.readMessage(
+              message.ctos_hand_result,
+              () =>
+                (message.ctos_hand_result = CtosHandResult.deserialize(reader))
+            );
+            break;
+          case 8:
+            reader.readMessage(
+              message.ctos_tp_result,
+              () => (message.ctos_tp_result = CtosTpResult.deserialize(reader))
+            );
+            break;
           default:
             reader.skipField();
         }
@@ -343,7 +458,7 @@ export namespace ygopro {
     }
   }
   export class YgoStocMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9]];
     constructor(
       data?:
         | any[]
@@ -355,6 +470,9 @@ export namespace ygopro {
                 stoc_type_change?: never;
                 stoc_hs_player_change?: never;
                 stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -363,6 +481,9 @@ export namespace ygopro {
                 stoc_type_change?: never;
                 stoc_hs_player_change?: never;
                 stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -371,6 +492,9 @@ export namespace ygopro {
                 stoc_type_change?: never;
                 stoc_hs_player_change?: never;
                 stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -379,6 +503,9 @@ export namespace ygopro {
                 stoc_type_change?: StocTypeChange;
                 stoc_hs_player_change?: never;
                 stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -387,6 +514,9 @@ export namespace ygopro {
                 stoc_type_change?: never;
                 stoc_hs_player_change?: StocHsPlayerChange;
                 stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -395,6 +525,42 @@ export namespace ygopro {
                 stoc_type_change?: never;
                 stoc_hs_player_change?: never;
                 stoc_hs_watch_change?: StocHsWatchChange;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: StocSelectHand;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: StocHandResult;
+                stoc_select_tp?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: StocSelectTp;
               }
           ))
     ) {
@@ -434,6 +600,15 @@ export namespace ygopro {
           data.stoc_hs_watch_change != undefined
         ) {
           this.stoc_hs_watch_change = data.stoc_hs_watch_change;
+        }
+        if ("stoc_select_hand" in data && data.stoc_select_hand != undefined) {
+          this.stoc_select_hand = data.stoc_select_hand;
+        }
+        if ("stoc_hand_result" in data && data.stoc_hand_result != undefined) {
+          this.stoc_hand_result = data.stoc_hand_result;
+        }
+        if ("stoc_select_tp" in data && data.stoc_select_tp != undefined) {
+          this.stoc_select_tp = data.stoc_select_tp;
         }
       }
     }
@@ -511,6 +686,45 @@ export namespace ygopro {
     get has_stoc_hs_watch_change() {
       return pb_1.Message.getField(this, 6) != null;
     }
+    get stoc_select_hand() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocSelectHand,
+        7
+      ) as StocSelectHand;
+    }
+    set stoc_select_hand(value: StocSelectHand) {
+      pb_1.Message.setOneofWrapperField(this, 7, this.#one_of_decls[0], value);
+    }
+    get has_stoc_select_hand() {
+      return pb_1.Message.getField(this, 7) != null;
+    }
+    get stoc_hand_result() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocHandResult,
+        8
+      ) as StocHandResult;
+    }
+    set stoc_hand_result(value: StocHandResult) {
+      pb_1.Message.setOneofWrapperField(this, 8, this.#one_of_decls[0], value);
+    }
+    get has_stoc_hand_result() {
+      return pb_1.Message.getField(this, 8) != null;
+    }
+    get stoc_select_tp() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocSelectTp,
+        9
+      ) as StocSelectTp;
+    }
+    set stoc_select_tp(value: StocSelectTp) {
+      pb_1.Message.setOneofWrapperField(this, 9, this.#one_of_decls[0], value);
+    }
+    get has_stoc_select_tp() {
+      return pb_1.Message.getField(this, 9) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -520,7 +734,10 @@ export namespace ygopro {
           | "stoc_hs_player_enter"
           | "stoc_type_change"
           | "stoc_hs_player_change"
-          | "stoc_hs_watch_change";
+          | "stoc_hs_watch_change"
+          | "stoc_select_hand"
+          | "stoc_hand_result"
+          | "stoc_select_tp";
       } = {
         0: "none",
         1: "stoc_join_game",
@@ -529,8 +746,13 @@ export namespace ygopro {
         4: "stoc_type_change",
         5: "stoc_hs_player_change",
         6: "stoc_hs_watch_change",
+        7: "stoc_select_hand",
+        8: "stoc_hand_result",
+        9: "stoc_select_tp",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6])];
+      return cases[
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+      ];
     }
     static fromObject(data: {
       stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
@@ -545,6 +767,9 @@ export namespace ygopro {
       stoc_hs_watch_change?: ReturnType<
         typeof StocHsWatchChange.prototype.toObject
       >;
+      stoc_select_hand?: ReturnType<typeof StocSelectHand.prototype.toObject>;
+      stoc_hand_result?: ReturnType<typeof StocHandResult.prototype.toObject>;
+      stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
     }): YgoStocMsg {
       const message = new YgoStocMsg({});
       if (data.stoc_join_game != null) {
@@ -573,6 +798,19 @@ export namespace ygopro {
           data.stoc_hs_watch_change
         );
       }
+      if (data.stoc_select_hand != null) {
+        message.stoc_select_hand = StocSelectHand.fromObject(
+          data.stoc_select_hand
+        );
+      }
+      if (data.stoc_hand_result != null) {
+        message.stoc_hand_result = StocHandResult.fromObject(
+          data.stoc_hand_result
+        );
+      }
+      if (data.stoc_select_tp != null) {
+        message.stoc_select_tp = StocSelectTp.fromObject(data.stoc_select_tp);
+      }
       return message;
     }
     toObject() {
@@ -589,6 +827,9 @@ export namespace ygopro {
         stoc_hs_watch_change?: ReturnType<
           typeof StocHsWatchChange.prototype.toObject
         >;
+        stoc_select_hand?: ReturnType<typeof StocSelectHand.prototype.toObject>;
+        stoc_hand_result?: ReturnType<typeof StocHandResult.prototype.toObject>;
+        stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
       } = {};
       if (this.stoc_join_game != null) {
         data.stoc_join_game = this.stoc_join_game.toObject();
@@ -607,6 +848,15 @@ export namespace ygopro {
       }
       if (this.stoc_hs_watch_change != null) {
         data.stoc_hs_watch_change = this.stoc_hs_watch_change.toObject();
+      }
+      if (this.stoc_select_hand != null) {
+        data.stoc_select_hand = this.stoc_select_hand.toObject();
+      }
+      if (this.stoc_hand_result != null) {
+        data.stoc_hand_result = this.stoc_hand_result.toObject();
+      }
+      if (this.stoc_select_tp != null) {
+        data.stoc_select_tp = this.stoc_select_tp.toObject();
       }
       return data;
     }
@@ -637,6 +887,18 @@ export namespace ygopro {
       if (this.has_stoc_hs_watch_change)
         writer.writeMessage(6, this.stoc_hs_watch_change, () =>
           this.stoc_hs_watch_change.serialize(writer)
+        );
+      if (this.has_stoc_select_hand)
+        writer.writeMessage(7, this.stoc_select_hand, () =>
+          this.stoc_select_hand.serialize(writer)
+        );
+      if (this.has_stoc_hand_result)
+        writer.writeMessage(8, this.stoc_hand_result, () =>
+          this.stoc_hand_result.serialize(writer)
+        );
+      if (this.has_stoc_select_tp)
+        writer.writeMessage(9, this.stoc_select_tp, () =>
+          this.stoc_select_tp.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -690,6 +952,26 @@ export namespace ygopro {
               () =>
                 (message.stoc_hs_watch_change =
                   StocHsWatchChange.deserialize(reader))
+            );
+            break;
+          case 7:
+            reader.readMessage(
+              message.stoc_select_hand,
+              () =>
+                (message.stoc_select_hand = StocSelectHand.deserialize(reader))
+            );
+            break;
+          case 8:
+            reader.readMessage(
+              message.stoc_hand_result,
+              () =>
+                (message.stoc_hand_result = StocHandResult.deserialize(reader))
+            );
+            break;
+          case 9:
+            reader.readMessage(
+              message.stoc_select_tp,
+              () => (message.stoc_select_tp = StocSelectTp.deserialize(reader))
             );
             break;
           default:
@@ -1182,6 +1464,177 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): CtosHsStart {
       return CtosHsStart.deserialize(bytes);
+    }
+  }
+  export class CtosHandResult extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            hand?: HandType;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("hand" in data && data.hand != undefined) {
+          this.hand = data.hand;
+        }
+      }
+    }
+    get hand() {
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        1,
+        HandType.UNKNOWN
+      ) as HandType;
+    }
+    set hand(value: HandType) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: { hand?: HandType }): CtosHandResult {
+      const message = new CtosHandResult({});
+      if (data.hand != null) {
+        message.hand = data.hand;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        hand?: HandType;
+      } = {};
+      if (this.hand != null) {
+        data.hand = this.hand;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.hand != HandType.UNKNOWN) writer.writeEnum(1, this.hand);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosHandResult {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CtosHandResult();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.hand = reader.readEnum();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CtosHandResult {
+      return CtosHandResult.deserialize(bytes);
+    }
+  }
+  export class CtosTpResult extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            tp?: CtosTpResult.TpType;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("tp" in data && data.tp != undefined) {
+          this.tp = data.tp;
+        }
+      }
+    }
+    get tp() {
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        1,
+        CtosTpResult.TpType.UNKNOWN
+      ) as CtosTpResult.TpType;
+    }
+    set tp(value: CtosTpResult.TpType) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: { tp?: CtosTpResult.TpType }): CtosTpResult {
+      const message = new CtosTpResult({});
+      if (data.tp != null) {
+        message.tp = data.tp;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        tp?: CtosTpResult.TpType;
+      } = {};
+      if (this.tp != null) {
+        data.tp = this.tp;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.tp != CtosTpResult.TpType.UNKNOWN) writer.writeEnum(1, this.tp);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosTpResult {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CtosTpResult();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.tp = reader.readEnum();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CtosTpResult {
+      return CtosTpResult.deserialize(bytes);
+    }
+  }
+  export namespace CtosTpResult {
+    export enum TpType {
+      UNKNOWN = 0,
+      FIRST = 1,
+      SECOND = 2,
     }
   }
   export class StocJoinGame extends pb_1.Message {
@@ -2004,6 +2457,218 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): StocHsWatchChange {
       return StocHsWatchChange.deserialize(bytes);
+    }
+  }
+  export class StocSelectHand extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+      }
+    }
+    static fromObject(data: {}): StocSelectHand {
+      const message = new StocSelectHand({});
+      return message;
+    }
+    toObject() {
+      const data: {} = {};
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocSelectHand {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocSelectHand();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocSelectHand {
+      return StocSelectHand.deserialize(bytes);
+    }
+  }
+  export class StocHandResult extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            meResult?: HandType;
+            opResult?: HandType;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("meResult" in data && data.meResult != undefined) {
+          this.meResult = data.meResult;
+        }
+        if ("opResult" in data && data.opResult != undefined) {
+          this.opResult = data.opResult;
+        }
+      }
+    }
+    get meResult() {
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        1,
+        HandType.UNKNOWN
+      ) as HandType;
+    }
+    set meResult(value: HandType) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    get opResult() {
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        2,
+        HandType.UNKNOWN
+      ) as HandType;
+    }
+    set opResult(value: HandType) {
+      pb_1.Message.setField(this, 2, value);
+    }
+    static fromObject(data: {
+      meResult?: HandType;
+      opResult?: HandType;
+    }): StocHandResult {
+      const message = new StocHandResult({});
+      if (data.meResult != null) {
+        message.meResult = data.meResult;
+      }
+      if (data.opResult != null) {
+        message.opResult = data.opResult;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        meResult?: HandType;
+        opResult?: HandType;
+      } = {};
+      if (this.meResult != null) {
+        data.meResult = this.meResult;
+      }
+      if (this.opResult != null) {
+        data.opResult = this.opResult;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.meResult != HandType.UNKNOWN) writer.writeEnum(1, this.meResult);
+      if (this.opResult != HandType.UNKNOWN) writer.writeEnum(2, this.opResult);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocHandResult {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocHandResult();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.meResult = reader.readEnum();
+            break;
+          case 2:
+            message.opResult = reader.readEnum();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocHandResult {
+      return StocHandResult.deserialize(bytes);
+    }
+  }
+  export class StocSelectTp extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+      }
+    }
+    static fromObject(data: {}): StocSelectTp {
+      const message = new StocSelectTp({});
+      return message;
+    }
+    toObject() {
+      const data: {} = {};
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocSelectTp {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocSelectTp();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocSelectTp {
+      return StocSelectTp.deserialize(bytes);
     }
   }
 }

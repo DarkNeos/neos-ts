@@ -3,7 +3,7 @@
  *
  * */
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchDeck } from "../api/Card";
 import "../css/WaitRoom.css";
 import { useAppSelector } from "../hook";
@@ -88,17 +88,13 @@ export default function WaitRoom() {
         <p>
           <button
             disabled={
-              !(
-                isHost &&
-                player0.state != undefined &&
-                player0.state === READY_STATE &&
-                player1.state != undefined &&
-                player1.state === READY_STATE
-              )
+              !isHost ||
+              player0.state != READY_STATE ||
+              player1.state != READY_STATE
             }
             onClick={handleChoseStart}
           >
-            start
+            <Link to={{ pathname: `/mora` }}>start</Link>
           </button>
         </p>
       </div>

@@ -10,6 +10,8 @@ import JoinGameAdapter from "./ocgAdapter/ctos/ctosJoinGame";
 import UpdateDeckAdapter from "./ocgAdapter/ctos/ctosUpdateDeck";
 import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
 import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
+import HandResult from "./ocgAdapter/ctos/ctosHandResult";
+import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -66,4 +68,42 @@ export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
   const packet = new JoinGameAdapter(joinGame);
 
   ws.send(packet.serialize());
+}
+
+export function sendHandResult(result: string) {
+  let hand = ygopro.HandType.UNKNOWN;
+  if (result === "scissors") {
+    hand = ygopro.HandType.SCISSORS;
+  } else if (result === "rock") {
+    hand = ygopro.HandType.ROCK;
+  } else if (result === "paper") {
+    hand = ygopro.HandType.PAPER;
+  }
+
+  const handResult = new ygopro.YgoCtosMsg({
+    ctos_hand_result: new ygopro.CtosHandResult({
+      hand,
+    }),
+  });
+  const payload = new HandResult(handResult).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendTpResult(isFirst: boolean) {
+  let tp = ygopro.CtosTpResult.TpType.UNKNOWN;
+  if (isFirst) {
+    tp = ygopro.CtosTpResult.TpType.FIRST;
+  } else {
+    tp = ygopro.CtosTpResult.TpType.SECOND;
+  }
+
+  const tpResult = new ygopro.YgoCtosMsg({
+    ctos_tp_result: new ygopro.CtosTpResult({
+      tp,
+    }),
+  });
+  const payload = new TpResult(tpResult).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
