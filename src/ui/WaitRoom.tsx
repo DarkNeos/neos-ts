@@ -88,13 +88,9 @@ export default function WaitRoom() {
         <p>
           <button
             disabled={
-              !(
-                isHost &&
-                player0.state != undefined &&
-                player0.state === READY_STATE &&
-                player1.state != undefined &&
-                player1.state === READY_STATE
-              )
+              !isHost ||
+              player0.state != READY_STATE ||
+              player1.state != READY_STATE
             }
             onClick={handleChoseStart}
           >

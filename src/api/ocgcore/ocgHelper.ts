@@ -10,6 +10,7 @@ import JoinGameAdapter from "./ocgAdapter/ctos/ctosJoinGame";
 import UpdateDeckAdapter from "./ocgAdapter/ctos/ctosUpdateDeck";
 import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
 import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
+import HandResult from "./ocgAdapter/ctos/ctosHandResult";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -66,4 +67,24 @@ export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
   const packet = new JoinGameAdapter(joinGame);
 
   ws.send(packet.serialize());
+}
+
+export function sendHandResult(result: string) {
+  let hand = ygopro.CtosHandResult.HandType.UNKNOWN;
+  if (result === "scissors") {
+    hand = ygopro.CtosHandResult.HandType.SCISSORS;
+  } else if (result === "rock") {
+    hand = ygopro.CtosHandResult.HandType.ROCK;
+  } else if (result === "paper") {
+    hand = ygopro.CtosHandResult.HandType.PAPER;
+  }
+
+  const handResult = new ygopro.YgoCtosMsg({
+    ctos_hand_result: new ygopro.CtosHandResult({
+      hand,
+    }),
+  });
+  const payload = new HandResult(handResult).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
