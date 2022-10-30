@@ -70,13 +70,13 @@ export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
 }
 
 export function sendHandResult(result: string) {
-  let hand = ygopro.CtosHandResult.HandType.UNKNOWN;
+  let hand = ygopro.HandType.UNKNOWN;
   if (result === "scissors") {
-    hand = ygopro.CtosHandResult.HandType.SCISSORS;
+    hand = ygopro.HandType.SCISSORS;
   } else if (result === "rock") {
-    hand = ygopro.CtosHandResult.HandType.ROCK;
+    hand = ygopro.HandType.ROCK;
   } else if (result === "paper") {
-    hand = ygopro.CtosHandResult.HandType.PAPER;
+    hand = ygopro.HandType.PAPER;
   }
 
   const handResult = new ygopro.YgoCtosMsg({

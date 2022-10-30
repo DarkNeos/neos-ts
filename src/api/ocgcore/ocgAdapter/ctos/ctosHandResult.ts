@@ -18,17 +18,17 @@ export default class CtosHandResultPacket extends ygoProPacket {
     const dataView = new DataView(exData.buffer);
 
     switch (hand) {
-      case ygopro.CtosHandResult.HandType.SCISSORS: {
+      case ygopro.HandType.SCISSORS: {
         dataView.setUint8(0, 1);
 
         break;
       }
-      case ygopro.CtosHandResult.HandType.ROCK: {
+      case ygopro.HandType.ROCK: {
         dataView.setUint8(0, 2);
 
         break;
       }
-      case ygopro.CtosHandResult.HandType.PAPER: {
+      case ygopro.HandType.PAPER: {
         dataView.setUint8(0, 3);
 
         break;
