@@ -458,7 +458,7 @@ export namespace ygopro {
     }
   }
   export class YgoStocMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
     constructor(
       data?:
         | any[]
@@ -473,6 +473,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -484,6 +486,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -495,6 +499,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -506,6 +512,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -517,6 +525,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -528,6 +538,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -539,6 +551,8 @@ export namespace ygopro {
                 stoc_select_hand?: StocSelectHand;
                 stoc_hand_result?: never;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -550,6 +564,8 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: StocHandResult;
                 stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -561,6 +577,34 @@ export namespace ygopro {
                 stoc_select_hand?: never;
                 stoc_hand_result?: never;
                 stoc_select_tp?: StocSelectTp;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+                stoc_deck_count?: StocDeckCount;
+                stoc_duel_start?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: StocDuelStart;
               }
           ))
     ) {
@@ -609,6 +653,12 @@ export namespace ygopro {
         }
         if ("stoc_select_tp" in data && data.stoc_select_tp != undefined) {
           this.stoc_select_tp = data.stoc_select_tp;
+        }
+        if ("stoc_deck_count" in data && data.stoc_deck_count != undefined) {
+          this.stoc_deck_count = data.stoc_deck_count;
+        }
+        if ("stoc_duel_start" in data && data.stoc_duel_start != undefined) {
+          this.stoc_duel_start = data.stoc_duel_start;
         }
       }
     }
@@ -725,6 +775,32 @@ export namespace ygopro {
     get has_stoc_select_tp() {
       return pb_1.Message.getField(this, 9) != null;
     }
+    get stoc_deck_count() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocDeckCount,
+        10
+      ) as StocDeckCount;
+    }
+    set stoc_deck_count(value: StocDeckCount) {
+      pb_1.Message.setOneofWrapperField(this, 10, this.#one_of_decls[0], value);
+    }
+    get has_stoc_deck_count() {
+      return pb_1.Message.getField(this, 10) != null;
+    }
+    get stoc_duel_start() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocDuelStart,
+        11
+      ) as StocDuelStart;
+    }
+    set stoc_duel_start(value: StocDuelStart) {
+      pb_1.Message.setOneofWrapperField(this, 11, this.#one_of_decls[0], value);
+    }
+    get has_stoc_duel_start() {
+      return pb_1.Message.getField(this, 11) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -737,7 +813,9 @@ export namespace ygopro {
           | "stoc_hs_watch_change"
           | "stoc_select_hand"
           | "stoc_hand_result"
-          | "stoc_select_tp";
+          | "stoc_select_tp"
+          | "stoc_deck_count"
+          | "stoc_duel_start";
       } = {
         0: "none",
         1: "stoc_join_game",
@@ -749,9 +827,11 @@ export namespace ygopro {
         7: "stoc_select_hand",
         8: "stoc_hand_result",
         9: "stoc_select_tp",
+        10: "stoc_deck_count",
+        11: "stoc_duel_start",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
       ];
     }
     static fromObject(data: {
@@ -770,6 +850,8 @@ export namespace ygopro {
       stoc_select_hand?: ReturnType<typeof StocSelectHand.prototype.toObject>;
       stoc_hand_result?: ReturnType<typeof StocHandResult.prototype.toObject>;
       stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
+      stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
+      stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
     }): YgoStocMsg {
       const message = new YgoStocMsg({});
       if (data.stoc_join_game != null) {
@@ -811,6 +893,16 @@ export namespace ygopro {
       if (data.stoc_select_tp != null) {
         message.stoc_select_tp = StocSelectTp.fromObject(data.stoc_select_tp);
       }
+      if (data.stoc_deck_count != null) {
+        message.stoc_deck_count = StocDeckCount.fromObject(
+          data.stoc_deck_count
+        );
+      }
+      if (data.stoc_duel_start != null) {
+        message.stoc_duel_start = StocDuelStart.fromObject(
+          data.stoc_duel_start
+        );
+      }
       return message;
     }
     toObject() {
@@ -830,6 +922,8 @@ export namespace ygopro {
         stoc_select_hand?: ReturnType<typeof StocSelectHand.prototype.toObject>;
         stoc_hand_result?: ReturnType<typeof StocHandResult.prototype.toObject>;
         stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
+        stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
+        stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
       } = {};
       if (this.stoc_join_game != null) {
         data.stoc_join_game = this.stoc_join_game.toObject();
@@ -857,6 +951,12 @@ export namespace ygopro {
       }
       if (this.stoc_select_tp != null) {
         data.stoc_select_tp = this.stoc_select_tp.toObject();
+      }
+      if (this.stoc_deck_count != null) {
+        data.stoc_deck_count = this.stoc_deck_count.toObject();
+      }
+      if (this.stoc_duel_start != null) {
+        data.stoc_duel_start = this.stoc_duel_start.toObject();
       }
       return data;
     }
@@ -899,6 +999,14 @@ export namespace ygopro {
       if (this.has_stoc_select_tp)
         writer.writeMessage(9, this.stoc_select_tp, () =>
           this.stoc_select_tp.serialize(writer)
+        );
+      if (this.has_stoc_deck_count)
+        writer.writeMessage(10, this.stoc_deck_count, () =>
+          this.stoc_deck_count.serialize(writer)
+        );
+      if (this.has_stoc_duel_start)
+        writer.writeMessage(11, this.stoc_duel_start, () =>
+          this.stoc_duel_start.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -972,6 +1080,20 @@ export namespace ygopro {
             reader.readMessage(
               message.stoc_select_tp,
               () => (message.stoc_select_tp = StocSelectTp.deserialize(reader))
+            );
+            break;
+          case 10:
+            reader.readMessage(
+              message.stoc_deck_count,
+              () =>
+                (message.stoc_deck_count = StocDeckCount.deserialize(reader))
+            );
+            break;
+          case 11:
+            reader.readMessage(
+              message.stoc_duel_start,
+              () =>
+                (message.stoc_duel_start = StocDuelStart.deserialize(reader))
             );
             break;
           default:
@@ -2669,6 +2791,247 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): StocSelectTp {
       return StocSelectTp.deserialize(bytes);
+    }
+  }
+  export class StocDeckCount extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            meMain?: number;
+            meExtra?: number;
+            meSide?: number;
+            opMain?: number;
+            opExtra?: number;
+            opSide?: number;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("meMain" in data && data.meMain != undefined) {
+          this.meMain = data.meMain;
+        }
+        if ("meExtra" in data && data.meExtra != undefined) {
+          this.meExtra = data.meExtra;
+        }
+        if ("meSide" in data && data.meSide != undefined) {
+          this.meSide = data.meSide;
+        }
+        if ("opMain" in data && data.opMain != undefined) {
+          this.opMain = data.opMain;
+        }
+        if ("opExtra" in data && data.opExtra != undefined) {
+          this.opExtra = data.opExtra;
+        }
+        if ("opSide" in data && data.opSide != undefined) {
+          this.opSide = data.opSide;
+        }
+      }
+    }
+    get meMain() {
+      return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set meMain(value: number) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    get meExtra() {
+      return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set meExtra(value: number) {
+      pb_1.Message.setField(this, 2, value);
+    }
+    get meSide() {
+      return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set meSide(value: number) {
+      pb_1.Message.setField(this, 3, value);
+    }
+    get opMain() {
+      return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+    }
+    set opMain(value: number) {
+      pb_1.Message.setField(this, 4, value);
+    }
+    get opExtra() {
+      return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set opExtra(value: number) {
+      pb_1.Message.setField(this, 5, value);
+    }
+    get opSide() {
+      return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+    }
+    set opSide(value: number) {
+      pb_1.Message.setField(this, 6, value);
+    }
+    static fromObject(data: {
+      meMain?: number;
+      meExtra?: number;
+      meSide?: number;
+      opMain?: number;
+      opExtra?: number;
+      opSide?: number;
+    }): StocDeckCount {
+      const message = new StocDeckCount({});
+      if (data.meMain != null) {
+        message.meMain = data.meMain;
+      }
+      if (data.meExtra != null) {
+        message.meExtra = data.meExtra;
+      }
+      if (data.meSide != null) {
+        message.meSide = data.meSide;
+      }
+      if (data.opMain != null) {
+        message.opMain = data.opMain;
+      }
+      if (data.opExtra != null) {
+        message.opExtra = data.opExtra;
+      }
+      if (data.opSide != null) {
+        message.opSide = data.opSide;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        meMain?: number;
+        meExtra?: number;
+        meSide?: number;
+        opMain?: number;
+        opExtra?: number;
+        opSide?: number;
+      } = {};
+      if (this.meMain != null) {
+        data.meMain = this.meMain;
+      }
+      if (this.meExtra != null) {
+        data.meExtra = this.meExtra;
+      }
+      if (this.meSide != null) {
+        data.meSide = this.meSide;
+      }
+      if (this.opMain != null) {
+        data.opMain = this.opMain;
+      }
+      if (this.opExtra != null) {
+        data.opExtra = this.opExtra;
+      }
+      if (this.opSide != null) {
+        data.opSide = this.opSide;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.meMain != 0) writer.writeInt32(1, this.meMain);
+      if (this.meExtra != 0) writer.writeInt32(2, this.meExtra);
+      if (this.meSide != 0) writer.writeInt32(3, this.meSide);
+      if (this.opMain != 0) writer.writeInt32(4, this.opMain);
+      if (this.opExtra != 0) writer.writeInt32(5, this.opExtra);
+      if (this.opSide != 0) writer.writeInt32(6, this.opSide);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocDeckCount {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocDeckCount();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.meMain = reader.readInt32();
+            break;
+          case 2:
+            message.meExtra = reader.readInt32();
+            break;
+          case 3:
+            message.meSide = reader.readInt32();
+            break;
+          case 4:
+            message.opMain = reader.readInt32();
+            break;
+          case 5:
+            message.opExtra = reader.readInt32();
+            break;
+          case 6:
+            message.opSide = reader.readInt32();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocDeckCount {
+      return StocDeckCount.deserialize(bytes);
+    }
+  }
+  export class StocDuelStart extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+      }
+    }
+    static fromObject(data: {}): StocDuelStart {
+      const message = new StocDuelStart({});
+      return message;
+    }
+    toObject() {
+      const data: {} = {};
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocDuelStart {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocDuelStart();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocDuelStart {
+      return StocDuelStart.deserialize(bytes);
     }
   }
 }
