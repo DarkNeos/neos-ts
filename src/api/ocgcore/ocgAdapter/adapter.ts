@@ -10,6 +10,8 @@ import {
   STOC_SELECT_HAND,
   STOC_SELECT_TP,
   STOC_HAND_RESULT,
+  STOC_DECK_COUNT,
+  STOC_DUEL_START,
 } from "./protoDecl";
 import StocChat from "./stoc/stocChat";
 import StocJoinGame from "./stoc/stocJoinGame";
@@ -19,6 +21,7 @@ import StocHsWatchChange from "./stoc/stocHsWatchChange";
 import StocTypeChange from "./stoc/stocTypeChange";
 import StocSelectHand from "./stoc/stocSelectHand";
 import StocSelectTp from "./stoc/stocSelectTp";
+import StocDeckCount from "./stoc/stocDeckCount";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
@@ -70,6 +73,16 @@ export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
       break;
     }
     case STOC_HAND_RESULT: {
+      // TODO
+
+      break;
+    }
+    case STOC_DECK_COUNT: {
+      pb = new StocDeckCount(packet).upcast();
+
+      break;
+    }
+    case STOC_DUEL_START: {
       // TODO
 
       break;

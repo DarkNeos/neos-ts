@@ -13,13 +13,16 @@ import {
   selectTpSelectAble,
   unSelectTpAble,
 } from "../reducers/moraSlice";
+import { selectPlayer0, selectPlayer1 } from "../reducers/playerSlice";
 import { store } from "../store";
 
-// TODO: 应该展示对手卡组信息和聊天信息
+// TODO: 应该展示聊天信息
 export default function Mora() {
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
   const selectTpAble = useAppSelector(selectTpSelectAble);
+  const player0 = useAppSelector(selectPlayer0);
+  const player1 = useAppSelector(selectPlayer1);
 
   const handleSelectScissors = () => {
     sendHandResult("scissors");
@@ -62,6 +65,16 @@ export default function Mora() {
         <button disabled={!selectTpAble} onClick={handleSelectSecond}>
           second
         </button>
+      </div>
+      <div className="item">
+        <p>
+          Me: main={player0.deckInfo?.mainCnt}, extra=
+          {player0.deckInfo?.extraCnt}, side={player0.deckInfo?.sideCnt}
+        </p>
+        <p>
+          Me: main={player1.deckInfo?.mainCnt}, extra=
+          {player1.deckInfo?.extraCnt}, side={player1.deckInfo?.sideCnt}
+        </p>
       </div>
     </div>
   );
