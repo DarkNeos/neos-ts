@@ -70,6 +70,8 @@ export default function handleSocketMessage(e: MessageEvent) {
       break;
     }
     default: {
+      console.log(packet);
+
       break;
     }
   }
