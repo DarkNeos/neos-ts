@@ -16,7 +16,7 @@ import {
 import { selectPlayer0, selectPlayer1 } from "../reducers/playerSlice";
 import { store } from "../store";
 
-// TODO: 应该展示对手卡组信息和聊天信息
+// TODO: 应该展示聊天信息
 export default function Mora() {
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
