@@ -19,3 +19,5 @@ export const STOC_TYPE_CHANGE = 19;
 export const STOC_SELECT_HAND = 3;
 export const STOC_SELECT_TP = 4;
 export const STOC_HAND_RESULT = 5;
+export const STOC_DECK_COUNT = 9;
+export const STOC_DUEL_START = 21;

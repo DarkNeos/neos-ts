@@ -9,6 +9,13 @@ export interface Player {
   name?: string;
   state?: string;
   isHost?: boolean;
+  deckInfo?: deckInfo;
+}
+
+export interface deckInfo {
+  mainCnt: number;
+  extraCnt: number;
+  sideCnt: number;
 }
 
 export interface playerState {
@@ -47,6 +54,12 @@ const playerSlice = createSlice({
     player1Leave: (state) => {
       state.player1 = {};
     },
+    player0DeckInfo: (state, action: PayloadAction<deckInfo>) => {
+      state.player0.deckInfo = action.payload;
+    },
+    player1DeckInfo: (state, action: PayloadAction<deckInfo>) => {
+      state.player1.deckInfo = action.payload;
+    },
     hostChange: (state, action: PayloadAction<number>) => {
       const i = action.payload;
 
@@ -77,6 +90,8 @@ export const {
   player1Update,
   player0Leave,
   player1Leave,
+  player0DeckInfo,
+  player1DeckInfo,
   hostChange,
   observerIncrement,
   observerChange,

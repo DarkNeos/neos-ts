@@ -14,7 +14,7 @@ export default class joinGameAdapter implements StocAdapter {
   }
 
   upcast(): ygopro.YgoStocMsg {
-    // todo
+    // TODO
     return new ygopro.YgoStocMsg({
       stoc_join_game: new ygopro.StocJoinGame({}),
     });
