@@ -5,6 +5,8 @@
 
 import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../../packet";
+import { MSG_START } from "../../protoDecl";
+import MsgStartAdapter from "./start";
 
 /*
  * STOC GameMsg
@@ -22,7 +24,28 @@ export default class GameMsgAdapter implements StocAdapter {
   }
 
   upcast(): ygopro.YgoStocMsg {
-    // TODO
-    return new ygopro.YgoStocMsg({});
+    const exData = this.packet.exData;
+    const dataView = new DataView(exData.buffer);
+
+    const func = dataView.getUint8(0);
+    const gameData = exData.slice(1);
+    const gameMsg = new ygopro.StocGameMessage({});
+
+    switch (func) {
+      case MSG_START: {
+        gameMsg.start = MsgStartAdapter(gameData);
+
+        break;
+      }
+      default: {
+        console.log("Unhandled GameMessage function=", func);
+
+        break;
+      }
+    }
+
+    return new ygopro.YgoStocMsg({
+      stoc_game_msg: gameMsg,
+    });
   }
 }

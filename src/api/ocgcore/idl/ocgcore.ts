@@ -458,7 +458,7 @@ export namespace ygopro {
     }
   }
   export class YgoStocMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]];
     constructor(
       data?:
         | any[]
@@ -475,6 +475,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -488,6 +489,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -501,6 +503,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -514,6 +517,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -527,6 +531,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -540,6 +545,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -553,6 +559,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -566,6 +573,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -579,6 +587,7 @@ export namespace ygopro {
                 stoc_select_tp?: StocSelectTp;
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -592,6 +601,7 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: StocDeckCount;
                 stoc_duel_start?: never;
+                stoc_game_msg?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -605,6 +615,21 @@ export namespace ygopro {
                 stoc_select_tp?: never;
                 stoc_deck_count?: never;
                 stoc_duel_start?: StocDuelStart;
+                stoc_game_msg?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
+                stoc_game_msg?: StocGameMessage;
               }
           ))
     ) {
@@ -659,6 +684,9 @@ export namespace ygopro {
         }
         if ("stoc_duel_start" in data && data.stoc_duel_start != undefined) {
           this.stoc_duel_start = data.stoc_duel_start;
+        }
+        if ("stoc_game_msg" in data && data.stoc_game_msg != undefined) {
+          this.stoc_game_msg = data.stoc_game_msg;
         }
       }
     }
@@ -801,6 +829,19 @@ export namespace ygopro {
     get has_stoc_duel_start() {
       return pb_1.Message.getField(this, 11) != null;
     }
+    get stoc_game_msg() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage,
+        12
+      ) as StocGameMessage;
+    }
+    set stoc_game_msg(value: StocGameMessage) {
+      pb_1.Message.setOneofWrapperField(this, 12, this.#one_of_decls[0], value);
+    }
+    get has_stoc_game_msg() {
+      return pb_1.Message.getField(this, 12) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -815,7 +856,8 @@ export namespace ygopro {
           | "stoc_hand_result"
           | "stoc_select_tp"
           | "stoc_deck_count"
-          | "stoc_duel_start";
+          | "stoc_duel_start"
+          | "stoc_game_msg";
       } = {
         0: "none",
         1: "stoc_join_game",
@@ -829,9 +871,13 @@ export namespace ygopro {
         9: "stoc_select_tp",
         10: "stoc_deck_count",
         11: "stoc_duel_start",
+        12: "stoc_game_msg",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+        pb_1.Message.computeOneofCase(
+          this,
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        )
       ];
     }
     static fromObject(data: {
@@ -852,6 +898,7 @@ export namespace ygopro {
       stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
       stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
       stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
+      stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
     }): YgoStocMsg {
       const message = new YgoStocMsg({});
       if (data.stoc_join_game != null) {
@@ -903,6 +950,9 @@ export namespace ygopro {
           data.stoc_duel_start
         );
       }
+      if (data.stoc_game_msg != null) {
+        message.stoc_game_msg = StocGameMessage.fromObject(data.stoc_game_msg);
+      }
       return message;
     }
     toObject() {
@@ -924,6 +974,7 @@ export namespace ygopro {
         stoc_select_tp?: ReturnType<typeof StocSelectTp.prototype.toObject>;
         stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
         stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
+        stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
       } = {};
       if (this.stoc_join_game != null) {
         data.stoc_join_game = this.stoc_join_game.toObject();
@@ -957,6 +1008,9 @@ export namespace ygopro {
       }
       if (this.stoc_duel_start != null) {
         data.stoc_duel_start = this.stoc_duel_start.toObject();
+      }
+      if (this.stoc_game_msg != null) {
+        data.stoc_game_msg = this.stoc_game_msg.toObject();
       }
       return data;
     }
@@ -1007,6 +1061,10 @@ export namespace ygopro {
       if (this.has_stoc_duel_start)
         writer.writeMessage(11, this.stoc_duel_start, () =>
           this.stoc_duel_start.serialize(writer)
+        );
+      if (this.has_stoc_game_msg)
+        writer.writeMessage(12, this.stoc_game_msg, () =>
+          this.stoc_game_msg.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -1094,6 +1152,13 @@ export namespace ygopro {
               message.stoc_duel_start,
               () =>
                 (message.stoc_duel_start = StocDuelStart.deserialize(reader))
+            );
+            break;
+          case 12:
+            reader.readMessage(
+              message.stoc_game_msg,
+              () =>
+                (message.stoc_game_msg = StocGameMessage.deserialize(reader))
             );
             break;
           default:
