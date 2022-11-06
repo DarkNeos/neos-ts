@@ -3,8 +3,8 @@
  *
  * */
 
-import React from "react";
+import SimpleDuelPlateImpl from "./simpleDuel";
 
 export default function Duel() {
-  return <div>Duel</div>;
+  return new SimpleDuelPlateImpl().render();
 }

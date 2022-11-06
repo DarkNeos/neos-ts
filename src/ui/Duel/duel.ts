@@ -14,16 +14,19 @@
  *
  *   */
 
-import * as duelData from "./data";
+import * as DuelData from "./data";
+import React from "react";
 import type { RootState } from "../../store";
 
 /*
  * 通用的决斗界面抽象接口
  *
  * */
-interface IDuelPlate {
+export interface IDuelPlate {
+  // 渲染接口，返回一个React组件
+  render(): React.ReactElement;
   // 注册手牌selector
-  registerHands(selector: TypeSelector<duelData.Card[]>): void;
+  registerHands(selector: TypeSelector<DuelData.Card[]>): void;
 }
 
 export interface TypeSelector<T> {
