@@ -21,5 +21,6 @@ export const STOC_SELECT_TP = 4;
 export const STOC_HAND_RESULT = 5;
 export const STOC_DECK_COUNT = 9;
 export const STOC_DUEL_START = 21;
+export const STOC_GAME_MSG = 1;
 
 export const MSG_START = 4;
