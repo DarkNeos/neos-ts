@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket } from "../packet";
+import { YgoProPacket } from "../packet";
 import { CTOS_JOIN_GAME } from "../protoDecl";
 import { strEncodeUTF16 } from "../util";
 
@@ -13,7 +13,7 @@ import { strEncodeUTF16 } from "../util";
  *
  * @usage - 加入房间
  * */
-export default class CtosJoinGamePacket extends ygoProPacket {
+export default class CtosJoinGamePacket extends YgoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const joinGame = pb.ctos_join_game;
 

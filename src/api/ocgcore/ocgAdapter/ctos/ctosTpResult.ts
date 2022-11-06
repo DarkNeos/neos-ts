@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket } from "../packet";
+import { YgoProPacket } from "../packet";
 import { CTOS_TP_RESULT } from "../protoDecl";
 
 /*
@@ -10,7 +10,7 @@ import { CTOS_TP_RESULT } from "../protoDecl";
  * @usage - 告知服务端当前玩家的先后攻选择
  *
  * */
-export default class CtosTpResultPacket extends ygoProPacket {
+export default class CtosTpResultPacket extends YgoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const tpResult = pb.ctos_tp_result;
 

@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket } from "../packet";
+import { YgoProPacket } from "../packet";
 import { CTOS_UPDATE_DECK } from "../protoDecl";
 
 const BYTES_PER_U32 = 4;
@@ -16,7 +16,7 @@ const BYTES_PER_U32 = 4;
  *
  * @usage - 更新对局的卡组信息
  * */
-export default class CtosUpdateDeck extends ygoProPacket {
+export default class CtosUpdateDeck extends YgoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const updateDeck = pb.ctos_update_deck;
     const main = updateDeck.main;

@@ -8,7 +8,7 @@ import handleHsPlayerEnter from "./room/hsPlayerEnter";
 import handleJoinGame from "./room/joinGame";
 import handleChat from "./room/chat";
 import handleHsWatchChange from "./room/hsWatchChange";
-import { ygoProPacket } from "../api/ocgcore/ocgAdapter/packet";
+import { YgoProPacket } from "../api/ocgcore/ocgAdapter/packet";
 import { adaptStoc } from "../api/ocgcore/ocgAdapter/adapter";
 import handleSelectHand from "./mora/selectHand";
 import handleSelectTp from "./mora/selectTp";
@@ -20,7 +20,7 @@ import handleDeckCount from "./mora/deckCount";
  *
  * */
 export default function handleSocketMessage(e: MessageEvent) {
-  const packet = ygoProPacket.deserialize(e.data);
+  const packet = YgoProPacket.deserialize(e.data);
   const pb = adaptStoc(packet);
 
   switch (pb.msg) {

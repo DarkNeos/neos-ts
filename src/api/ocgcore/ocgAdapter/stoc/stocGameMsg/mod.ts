@@ -4,7 +4,7 @@
  * */
 
 import { ygopro } from "../../../idl/ocgcore";
-import { ygoProPacket, StocAdapter } from "../../packet";
+import { YgoProPacket, StocAdapter } from "../../packet";
 
 /*
  * STOC GameMsg
@@ -15,9 +15,9 @@ import { ygoProPacket, StocAdapter } from "../../packet";
  * @usage - 服务端告诉前端/客户端决斗对局中的UI展示逻辑
  * */
 export default class GameMsgAdapter implements StocAdapter {
-  packet: ygoProPacket;
+  packet: YgoProPacket;
 
-  constructor(packet: ygoProPacket) {
+  constructor(packet: YgoProPacket) {
     this.packet = packet;
   }
 

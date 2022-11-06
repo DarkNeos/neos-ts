@@ -1,4 +1,4 @@
-import { ygoProPacket } from "./packet";
+import { YgoProPacket } from "./packet";
 import { ygopro } from "../idl/ocgcore";
 import {
   STOC_CHAT,
@@ -30,7 +30,7 @@ import StocDeckCount from "./stoc/stocDeckCount";
  * @returns The ygopro.YgoStocMsg object
  *
  * */
-export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
+export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
   let pb = new ygopro.YgoStocMsg({});
   switch (packet.proto) {
     case STOC_JOIN_GAME: {

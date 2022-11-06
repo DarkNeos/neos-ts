@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, StocAdapter } from "../packet";
+import { YgoProPacket, StocAdapter } from "../packet";
 
 /*
  * STOC JoinGame
@@ -7,9 +7,9 @@ import { ygoProPacket, StocAdapter } from "../packet";
  * @usage - 告知客户端/前端已成功加入房间
  * */
 export default class JoinGameAdapter implements StocAdapter {
-  packet: ygoProPacket;
+  packet: YgoProPacket;
 
-  constructor(packet: ygoProPacket) {
+  constructor(packet: YgoProPacket) {
     this.packet = packet;
   }
 
