@@ -3034,4 +3034,332 @@ export namespace ygopro {
       return StocDuelStart.deserialize(bytes);
     }
   }
+  export class StocGameMessage extends pb_1.Message {
+    #one_of_decls: number[][] = [[1]];
+    constructor(
+      data?:
+        | any[]
+        | ({} & {
+            start?: StocGameMessage.MsgStart;
+          })
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("start" in data && data.start != undefined) {
+          this.start = data.start;
+        }
+      }
+    }
+    get start() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgStart,
+        1
+      ) as StocGameMessage.MsgStart;
+    }
+    set start(value: StocGameMessage.MsgStart) {
+      pb_1.Message.setOneofWrapperField(this, 1, this.#one_of_decls[0], value);
+    }
+    get has_start() {
+      return pb_1.Message.getField(this, 1) != null;
+    }
+    get gameMsg() {
+      const cases: {
+        [index: number]: "none" | "start";
+      } = {
+        0: "none",
+        1: "start",
+      };
+      return cases[pb_1.Message.computeOneofCase(this, [1])];
+    }
+    static fromObject(data: {
+      start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
+    }): StocGameMessage {
+      const message = new StocGameMessage({});
+      if (data.start != null) {
+        message.start = StocGameMessage.MsgStart.fromObject(data.start);
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
+      } = {};
+      if (this.start != null) {
+        data.start = this.start.toObject();
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.has_start)
+        writer.writeMessage(1, this.start, () => this.start.serialize(writer));
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocGameMessage();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            reader.readMessage(
+              message.start,
+              () =>
+                (message.start = StocGameMessage.MsgStart.deserialize(reader))
+            );
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocGameMessage {
+      return StocGameMessage.deserialize(bytes);
+    }
+  }
+  export namespace StocGameMessage {
+    export class MsgStart extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              playerType?: StocGameMessage.MsgStart.PlayerType;
+              life1?: number;
+              life2?: number;
+              deckSize1?: number;
+              deckSize2?: number;
+              extraSize1?: number;
+              extraSize2?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("playerType" in data && data.playerType != undefined) {
+            this.playerType = data.playerType;
+          }
+          if ("life1" in data && data.life1 != undefined) {
+            this.life1 = data.life1;
+          }
+          if ("life2" in data && data.life2 != undefined) {
+            this.life2 = data.life2;
+          }
+          if ("deckSize1" in data && data.deckSize1 != undefined) {
+            this.deckSize1 = data.deckSize1;
+          }
+          if ("deckSize2" in data && data.deckSize2 != undefined) {
+            this.deckSize2 = data.deckSize2;
+          }
+          if ("extraSize1" in data && data.extraSize1 != undefined) {
+            this.extraSize1 = data.extraSize1;
+          }
+          if ("extraSize2" in data && data.extraSize2 != undefined) {
+            this.extraSize2 = data.extraSize2;
+          }
+        }
+      }
+      get playerType() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          1,
+          StocGameMessage.MsgStart.PlayerType.UNKNOWN
+        ) as StocGameMessage.MsgStart.PlayerType;
+      }
+      set playerType(value: StocGameMessage.MsgStart.PlayerType) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get life1() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set life1(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get life2() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set life2(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get deckSize1() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set deckSize1(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      get deckSize2() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+      }
+      set deckSize2(value: number) {
+        pb_1.Message.setField(this, 5, value);
+      }
+      get extraSize1() {
+        return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+      }
+      set extraSize1(value: number) {
+        pb_1.Message.setField(this, 6, value);
+      }
+      get extraSize2() {
+        return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+      }
+      set extraSize2(value: number) {
+        pb_1.Message.setField(this, 7, value);
+      }
+      static fromObject(data: {
+        playerType?: StocGameMessage.MsgStart.PlayerType;
+        life1?: number;
+        life2?: number;
+        deckSize1?: number;
+        deckSize2?: number;
+        extraSize1?: number;
+        extraSize2?: number;
+      }): MsgStart {
+        const message = new MsgStart({});
+        if (data.playerType != null) {
+          message.playerType = data.playerType;
+        }
+        if (data.life1 != null) {
+          message.life1 = data.life1;
+        }
+        if (data.life2 != null) {
+          message.life2 = data.life2;
+        }
+        if (data.deckSize1 != null) {
+          message.deckSize1 = data.deckSize1;
+        }
+        if (data.deckSize2 != null) {
+          message.deckSize2 = data.deckSize2;
+        }
+        if (data.extraSize1 != null) {
+          message.extraSize1 = data.extraSize1;
+        }
+        if (data.extraSize2 != null) {
+          message.extraSize2 = data.extraSize2;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          playerType?: StocGameMessage.MsgStart.PlayerType;
+          life1?: number;
+          life2?: number;
+          deckSize1?: number;
+          deckSize2?: number;
+          extraSize1?: number;
+          extraSize2?: number;
+        } = {};
+        if (this.playerType != null) {
+          data.playerType = this.playerType;
+        }
+        if (this.life1 != null) {
+          data.life1 = this.life1;
+        }
+        if (this.life2 != null) {
+          data.life2 = this.life2;
+        }
+        if (this.deckSize1 != null) {
+          data.deckSize1 = this.deckSize1;
+        }
+        if (this.deckSize2 != null) {
+          data.deckSize2 = this.deckSize2;
+        }
+        if (this.extraSize1 != null) {
+          data.extraSize1 = this.extraSize1;
+        }
+        if (this.extraSize2 != null) {
+          data.extraSize2 = this.extraSize2;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.playerType != StocGameMessage.MsgStart.PlayerType.UNKNOWN)
+          writer.writeEnum(1, this.playerType);
+        if (this.life1 != 0) writer.writeInt32(2, this.life1);
+        if (this.life2 != 0) writer.writeInt32(3, this.life2);
+        if (this.deckSize1 != 0) writer.writeInt32(4, this.deckSize1);
+        if (this.deckSize2 != 0) writer.writeInt32(5, this.deckSize2);
+        if (this.extraSize1 != 0) writer.writeInt32(6, this.extraSize1);
+        if (this.extraSize2 != 0) writer.writeInt32(7, this.extraSize2);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgStart {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgStart();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.playerType = reader.readEnum();
+              break;
+            case 2:
+              message.life1 = reader.readInt32();
+              break;
+            case 3:
+              message.life2 = reader.readInt32();
+              break;
+            case 4:
+              message.deckSize1 = reader.readInt32();
+              break;
+            case 5:
+              message.deckSize2 = reader.readInt32();
+              break;
+            case 6:
+              message.extraSize1 = reader.readInt32();
+              break;
+            case 7:
+              message.extraSize2 = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgStart {
+        return MsgStart.deserialize(bytes);
+      }
+    }
+    export namespace MsgStart {
+      export enum PlayerType {
+        UNKNOWN = 0,
+        FirstStrike = 1,
+        SecondStrike = 2,
+        Observer = 3,
+      }
+    }
+  }
 }
