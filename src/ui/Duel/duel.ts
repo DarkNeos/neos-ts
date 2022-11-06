@@ -14,10 +14,18 @@
  *
  *   */
 
+import * as duelData from "./data";
+import type { RootState } from "../../store";
+
 /*
  * 通用的决斗界面抽象接口
  *
  * */
-export default interface IDuelPlate {
-  // TODO
+interface IDuelPlate {
+  // 注册手牌selector
+  registerHands(selector: TypeSelector<duelData.Card[]>): void;
+}
+
+export interface TypeSelector<T> {
+  (state: RootState): T;
 }
