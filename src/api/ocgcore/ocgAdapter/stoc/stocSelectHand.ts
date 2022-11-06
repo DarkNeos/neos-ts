@@ -6,7 +6,7 @@ import { ygoProPacket, StocAdapter } from "../packet";
  *
  * @usage - 通知客户端/前端提醒用户进行猜拳选择
  * */
-export default class selectHand implements StocAdapter {
+export default class SelectHand implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

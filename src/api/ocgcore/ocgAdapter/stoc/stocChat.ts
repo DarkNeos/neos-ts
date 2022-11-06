@@ -9,7 +9,7 @@ import { ygoProPacket, StocAdapter } from "../packet";
  *
  * @usage - 更新聊天消息
  * */
-export default class chatAdapter implements StocAdapter {
+export default class ChatAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

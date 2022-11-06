@@ -8,7 +8,7 @@ import { ygoProPacket, StocAdapter } from "../packet";
  *
  * @usage - 更新观战者数量
  * */
-export default class hsWatchChangeAdapter implements StocAdapter {
+export default class HsWatchChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

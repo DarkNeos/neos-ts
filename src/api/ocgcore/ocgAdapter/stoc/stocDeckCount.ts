@@ -12,7 +12,7 @@ const INT16_BYTE_OFFSET = 2;
  * @usage - 展示双方卡组信息
  * */
 
-export default class deckCountAdapter implements StocAdapter {
+export default class DeckCountAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

@@ -6,7 +6,7 @@ import { ygoProPacket, StocAdapter } from "../packet";
  *
  * @usage - 通知客户端/前端提醒用户进行选先后攻
  * */
-export default class selectTp implements StocAdapter {
+export default class SelectTp implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

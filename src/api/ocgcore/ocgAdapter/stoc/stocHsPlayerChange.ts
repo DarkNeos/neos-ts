@@ -8,7 +8,7 @@ import { ygoProPacket, StocAdapter } from "../packet";
  *
  * @usage - 更新玩家状态
  * */
-export default class hsPlayerChangeAdapter implements StocAdapter {
+export default class HsPlayerChangeAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {

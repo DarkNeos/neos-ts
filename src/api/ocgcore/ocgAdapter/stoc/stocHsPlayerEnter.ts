@@ -12,7 +12,7 @@ const UINT8_PER_UINT16 = 2;
  *
  * @usage - 有新玩家进入房间，更新状态
  * */
-export default class hsPlayerEnterAdapter implements StocAdapter {
+export default class HsPlayerEnterAdapter implements StocAdapter {
   packet: ygoProPacket;
 
   constructor(packet: ygoProPacket) {
