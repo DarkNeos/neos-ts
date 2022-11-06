@@ -1,4 +1,4 @@
-import { ygoProPacket } from "./packet";
+import { YgoProPacket } from "./packet";
 import { ygopro } from "../idl/ocgcore";
 import {
   STOC_CHAT,
@@ -12,6 +12,7 @@ import {
   STOC_HAND_RESULT,
   STOC_DECK_COUNT,
   STOC_DUEL_START,
+  STOC_GAME_MSG,
 } from "./protoDecl";
 import StocChat from "./stoc/stocChat";
 import StocJoinGame from "./stoc/stocJoinGame";
@@ -22,6 +23,7 @@ import StocTypeChange from "./stoc/stocTypeChange";
 import StocSelectHand from "./stoc/stocSelectHand";
 import StocSelectTp from "./stoc/stocSelectTp";
 import StocDeckCount from "./stoc/stocDeckCount";
+import StocGameMsg from "./stoc/stocGameMsg/mod";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
@@ -30,7 +32,7 @@ import StocDeckCount from "./stoc/stocDeckCount";
  * @returns The ygopro.YgoStocMsg object
  *
  * */
-export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
+export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
   let pb = new ygopro.YgoStocMsg({});
   switch (packet.proto) {
     case STOC_JOIN_GAME: {
@@ -84,6 +86,11 @@ export function adaptStoc(packet: ygoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_DUEL_START: {
       // TODO
+
+      break;
+    }
+    case STOC_GAME_MSG: {
+      pb = new StocGameMsg(packet).upcast();
 
       break;
     }

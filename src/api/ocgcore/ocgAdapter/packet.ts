@@ -8,7 +8,7 @@ const littleEndian: boolean = true;
 const PACKET_MIN_LEN = 3;
 
 // Ref: https://www.icode9.com/content-1-1341344.html
-export class ygoProPacket {
+export class YgoProPacket {
   packetLen: number; // 数据包长度
   proto: number; // ygopro协议标识
   exData: Uint8Array; // 数据包内容
@@ -40,7 +40,7 @@ export class ygoProPacket {
    * 返回值可用于业务逻辑处理。
    *
    * */
-  static deserialize(array: ArrayBuffer): ygoProPacket {
+  static deserialize(array: ArrayBuffer): YgoProPacket {
     try {
       if (array.byteLength < PACKET_MIN_LEN) {
         throw new Error(
@@ -57,7 +57,7 @@ export class ygoProPacket {
     const proto = dataView.getInt8(2);
     const exData = array.slice(3, packetLen + 2);
 
-    return new ygoProPacket(packetLen, proto, new Uint8Array(exData));
+    return new YgoProPacket(packetLen, proto, new Uint8Array(exData));
   }
 }
 
@@ -68,5 +68,5 @@ export interface StocAdapter {
 export interface CtosAdapter {
   readonly protobuf: ygopro.YgoCtosMsg;
 
-  downcast(): ygoProPacket;
+  downcast(): YgoProPacket;
 }

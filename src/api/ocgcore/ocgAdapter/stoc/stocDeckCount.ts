@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, StocAdapter } from "../packet";
+import { YgoProPacket, StocAdapter } from "../packet";
 
 const LITTLE_ENDIAN = true;
 const INT16_BYTE_OFFSET = 2;
@@ -12,10 +12,10 @@ const INT16_BYTE_OFFSET = 2;
  * @usage - 展示双方卡组信息
  * */
 
-export default class deckCountAdapter implements StocAdapter {
-  packet: ygoProPacket;
+export default class DeckCountAdapter implements StocAdapter {
+  packet: YgoProPacket;
 
-  constructor(packet: ygoProPacket) {
+  constructor(packet: YgoProPacket) {
     this.packet = packet;
   }
 

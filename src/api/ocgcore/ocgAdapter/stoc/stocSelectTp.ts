@@ -1,15 +1,15 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, StocAdapter } from "../packet";
+import { YgoProPacket, StocAdapter } from "../packet";
 
 /*
  * STOC SelectTp
  *
  * @usage - 通知客户端/前端提醒用户进行选先后攻
  * */
-export default class selectTp implements StocAdapter {
-  packet: ygoProPacket;
+export default class SelectTp implements StocAdapter {
+  packet: YgoProPacket;
 
-  constructor(packet: ygoProPacket) {
+  constructor(packet: YgoProPacket) {
     this.packet = packet;
   }
 

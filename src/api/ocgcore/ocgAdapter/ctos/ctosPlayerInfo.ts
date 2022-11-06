@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket } from "../packet";
+import { YgoProPacket } from "../packet";
 import { CTOS_PLAYER_INFO } from "../protoDecl";
 import { strEncodeUTF16 } from "../util";
 
@@ -10,7 +10,7 @@ import { strEncodeUTF16 } from "../util";
  *
  * @usage - 告诉ygopro服务端当前玩家的昵称
  * */
-export default class CtosPlayerInfoPacket extends ygoProPacket {
+export default class CtosPlayerInfoPacket extends YgoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const player = pb.ctos_player_info.name;
     const exData = strEncodeUTF16(player);

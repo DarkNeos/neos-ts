@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket, StocAdapter } from "../packet";
+import { YgoProPacket, StocAdapter } from "../packet";
 import { UTF16_BUFFER_MAX_LEN } from "../util";
 
 const UINT8_PER_UINT16 = 2;
@@ -12,10 +12,10 @@ const UINT8_PER_UINT16 = 2;
  *
  * @usage - 有新玩家进入房间，更新状态
  * */
-export default class hsPlayerEnterAdapter implements StocAdapter {
-  packet: ygoProPacket;
+export default class HsPlayerEnterAdapter implements StocAdapter {
+  packet: YgoProPacket;
 
-  constructor(packet: ygoProPacket) {
+  constructor(packet: YgoProPacket) {
     this.packet = packet;
   }
 

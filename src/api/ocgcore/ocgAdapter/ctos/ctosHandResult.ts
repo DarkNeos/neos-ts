@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { ygoProPacket } from "../packet";
+import { YgoProPacket } from "../packet";
 import { CTOS_HAND_RESULT } from "../protoDecl";
 
 /*
@@ -9,7 +9,7 @@ import { CTOS_HAND_RESULT } from "../protoDecl";
  *
  * @usage - 告知服务端当前玩家的猜拳选择
  * */
-export default class CtosHandResultPacket extends ygoProPacket {
+export default class CtosHandResultPacket extends YgoProPacket {
   constructor(pb: ygopro.YgoCtosMsg) {
     const handResult = pb.ctos_hand_result;
 
