@@ -10,6 +10,12 @@ import React, { useEffect, useRef } from "react";
 import type { RootState } from "../../store";
 import * as BABYLON from "@babylonjs/core";
 
+// CONFIG
+const GroundShape = { width: 6, height: 6 };
+const CardSlotShape = { width: 0.5, height: 0.75, depth: 0.05 };
+const CardSlotRotation = new BABYLON.Vector3(1.5, 0, 0);
+const HandSlotShape = { width: 0.5, height: 0.75 };
+
 export default class SimpleDuelPlateImpl implements IDuelPlate {
   handsSelector?: TypeSelector<DuelData.Card[]>;
 
@@ -27,6 +33,56 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const createCardSlot = (
+      name: string,
+      position: BABYLON.Vector3,
+      color: BABYLON.Color3,
+      scene: BABYLON.Scene
+    ) => {
+      const cardSlot = BABYLON.MeshBuilder.CreateBox(
+        name,
+        CardSlotShape,
+        scene
+      );
+      cardSlot.position = position;
+      cardSlot.rotation = CardSlotRotation;
+      const boxMaterail = new BABYLON.StandardMaterial("boxMaterail", scene);
+      boxMaterail.diffuseColor = color;
+      cardSlot.material = boxMaterail;
+
+      return cardSlot;
+    };
+
+    const createHandSlot = (
+      name: string,
+      position: BABYLON.Vector3,
+      scene: BABYLON.Scene
+    ) => {
+      const handSlot = BABYLON.MeshBuilder.CreatePlane(
+        name,
+        HandSlotShape,
+        scene
+      );
+      handSlot.position = position;
+      const planeMaterial = new BABYLON.StandardMaterial(
+        "planeMaterial",
+        scene
+      );
+      planeMaterial.diffuseColor = BABYLON.Color3.White();
+      handSlot.material = planeMaterial;
+      handSlot.actionManager = new BABYLON.ActionManager(scene);
+      handSlot.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPickTrigger,
+          (event) => {
+            console.log(event.source + "is clicked");
+          }
+        )
+      );
+
+      return handSlot;
+    };
+
     useEffect(() => {
       // 初始化Scene
       const canvasCurrent = canvasRef.current;
@@ -36,7 +92,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建Camera
       const camera = new BABYLON.FreeCamera(
         "camera1",
-        new BABYLON.Vector3(1, 5, -10), // 俯视方向
+        new BABYLON.Vector3(0, 5, -10), // 俯视方向
         scene
       );
       camera.setTarget(BABYLON.Vector3.Zero()); // 俯视向前
@@ -50,22 +106,95 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       );
       light.intensity = 0.7;
 
-      // 创建卡槽
-      const cardSlot = BABYLON.MeshBuilder.CreateBox(
-        "cardSlot",
-        { width: 0.5, height: 0.75, depth: 0.05 },
+      // 创建魔法陷阱区
+      createCardSlot(
+        "cardSlot0",
+        new BABYLON.Vector3(-2, 0.5, -3),
+        BABYLON.Color3.Blue(),
         scene
       );
-      cardSlot.position = new BABYLON.Vector3(-2, 0.5, -3);
-      cardSlot.rotation = new BABYLON.Vector3(1.5, 0, 0);
-      const boxMaterail = new BABYLON.StandardMaterial("boxMaterail", scene);
-      boxMaterail.diffuseColor = BABYLON.Color3.Blue();
-      cardSlot.material = boxMaterail;
+      createCardSlot(
+        "cardSlot1",
+        new BABYLON.Vector3(-1, 0.5, -3),
+        BABYLON.Color3.Blue(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot2",
+        new BABYLON.Vector3(0, 0.5, -3),
+        BABYLON.Color3.Blue(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot3",
+        new BABYLON.Vector3(1, 0.5, -3),
+        BABYLON.Color3.Blue(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot4",
+        new BABYLON.Vector3(2, 0.5, -3),
+        BABYLON.Color3.Blue(),
+        scene
+      );
+
+      // 创建怪兽区
+      createCardSlot(
+        "cardSlot5",
+        new BABYLON.Vector3(-2, 0.5, -2),
+        BABYLON.Color3.Red(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot6",
+        new BABYLON.Vector3(-1, 0.5, -2),
+        BABYLON.Color3.Red(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot7",
+        new BABYLON.Vector3(0, 0.5, -2),
+        BABYLON.Color3.Red(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot8",
+        new BABYLON.Vector3(1, 0.5, -2),
+        BABYLON.Color3.Red(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot9",
+        new BABYLON.Vector3(2, 0.5, -2),
+        BABYLON.Color3.Red(),
+        scene
+      );
+
+      // 创建额外怪兽区
+      createCardSlot(
+        "cardSlot10",
+        new BABYLON.Vector3(-1, 0.5, -1),
+        BABYLON.Color3.Yellow(),
+        scene
+      );
+      createCardSlot(
+        "cardSlot11",
+        new BABYLON.Vector3(1, 0.5, -1),
+        BABYLON.Color3.Yellow(),
+        scene
+      );
+
+      // 创建手牌
+      createHandSlot("handSlot0", new BABYLON.Vector3(-2, 0.5, -4), scene);
+      createHandSlot("handSlot1", new BABYLON.Vector3(-1, 0.5, -4), scene);
+      createHandSlot("handSlot2", new BABYLON.Vector3(0, 0.5, -4), scene);
+      createHandSlot("handSlot3", new BABYLON.Vector3(1, 0.5, -4), scene);
+      createHandSlot("handSlot4", new BABYLON.Vector3(2, 0.5, -4), scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
         "ground",
-        { width: 6, height: 6 },
+        GroundShape,
         scene
       );
 
