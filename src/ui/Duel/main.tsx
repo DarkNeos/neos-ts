@@ -3,7 +3,7 @@
  *
  * */
 
-import SimpleDuelPlateImpl from "./simpleDuel";
+import SimpleDuelPlateImpl from "./simpleDuel/mod";
 
 export default function Duel() {
   return new SimpleDuelPlateImpl().render();

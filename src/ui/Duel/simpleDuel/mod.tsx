@@ -3,12 +3,13 @@
  *
  * */
 
-import { IDuelPlate, TypeSelector } from "./duel";
-import * as DuelData from "./data";
-import { useAppSelector } from "../../hook";
+import { IDuelPlate, TypeSelector } from "../duel";
+import * as DuelData from "../data";
+import { useAppSelector } from "../../../hook";
 import React, { useEffect, useRef } from "react";
-import type { RootState } from "../../store";
+import type { RootState } from "../../../store";
 import * as BABYLON from "@babylonjs/core";
+import renderHands from "./hands";
 
 // CONFIG
 const GroundShape = { width: 6, height: 6 };
@@ -51,36 +52,6 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       cardSlot.material = boxMaterail;
 
       return cardSlot;
-    };
-
-    const createHandSlot = (
-      name: string,
-      position: BABYLON.Vector3,
-      scene: BABYLON.Scene
-    ) => {
-      const handSlot = BABYLON.MeshBuilder.CreatePlane(
-        name,
-        HandSlotShape,
-        scene
-      );
-      handSlot.position = position;
-      const planeMaterial = new BABYLON.StandardMaterial(
-        "planeMaterial",
-        scene
-      );
-      planeMaterial.diffuseColor = BABYLON.Color3.White();
-      handSlot.material = planeMaterial;
-      handSlot.actionManager = new BABYLON.ActionManager(scene);
-      handSlot.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(
-          BABYLON.ActionManager.OnPickTrigger,
-          (event) => {
-            console.log(event.source + "is clicked");
-          }
-        )
-      );
-
-      return handSlot;
     };
 
     useEffect(() => {
@@ -185,11 +156,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       );
 
       // 创建手牌
-      createHandSlot("handSlot0", new BABYLON.Vector3(-2, 0.5, -4), scene);
-      createHandSlot("handSlot1", new BABYLON.Vector3(-1, 0.5, -4), scene);
-      createHandSlot("handSlot2", new BABYLON.Vector3(0, 0.5, -4), scene);
-      createHandSlot("handSlot3", new BABYLON.Vector3(1, 0.5, -4), scene);
-      createHandSlot("handSlot4", new BABYLON.Vector3(2, 0.5, -4), scene);
+      renderHands(hands, scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
