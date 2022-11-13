@@ -10,12 +10,12 @@ import React, { useEffect, useRef } from "react";
 import type { RootState } from "../../../store";
 import * as BABYLON from "@babylonjs/core";
 import renderHands from "./hands";
+import renderMonsters from "./monsters";
+import renderExtraMonsters from "./extraMonsters";
+import renderMagics from "./magics";
+import * as CONFIG from "./config";
 
 // CONFIG
-const GroundShape = { width: 6, height: 6 };
-const CardSlotShape = { width: 0.5, height: 0.75, depth: 0.05 };
-const CardSlotRotation = new BABYLON.Vector3(1.5, 0, 0);
-const HandSlotShape = { width: 0.5, height: 0.75 };
 
 export default class SimpleDuelPlateImpl implements IDuelPlate {
   handsSelector?: TypeSelector<DuelData.Card[]>;
@@ -33,26 +33,6 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    const createCardSlot = (
-      name: string,
-      position: BABYLON.Vector3,
-      color: BABYLON.Color3,
-      scene: BABYLON.Scene
-    ) => {
-      const cardSlot = BABYLON.MeshBuilder.CreateBox(
-        name,
-        CardSlotShape,
-        scene
-      );
-      cardSlot.position = position;
-      cardSlot.rotation = CardSlotRotation;
-      const boxMaterail = new BABYLON.StandardMaterial("boxMaterail", scene);
-      boxMaterail.diffuseColor = color;
-      cardSlot.material = boxMaterail;
-
-      return cardSlot;
-    };
 
     useEffect(() => {
       // 初始化Scene
@@ -77,83 +57,13 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       );
       light.intensity = 0.7;
 
-      // 创建魔法陷阱区
-      createCardSlot(
-        "cardSlot0",
-        new BABYLON.Vector3(-2, 0.5, -3),
-        BABYLON.Color3.Blue(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot1",
-        new BABYLON.Vector3(-1, 0.5, -3),
-        BABYLON.Color3.Blue(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot2",
-        new BABYLON.Vector3(0, 0.5, -3),
-        BABYLON.Color3.Blue(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot3",
-        new BABYLON.Vector3(1, 0.5, -3),
-        BABYLON.Color3.Blue(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot4",
-        new BABYLON.Vector3(2, 0.5, -3),
-        BABYLON.Color3.Blue(),
-        scene
-      );
-
-      // 创建怪兽区
-      createCardSlot(
-        "cardSlot5",
-        new BABYLON.Vector3(-2, 0.5, -2),
-        BABYLON.Color3.Red(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot6",
-        new BABYLON.Vector3(-1, 0.5, -2),
-        BABYLON.Color3.Red(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot7",
-        new BABYLON.Vector3(0, 0.5, -2),
-        BABYLON.Color3.Red(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot8",
-        new BABYLON.Vector3(1, 0.5, -2),
-        BABYLON.Color3.Red(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot9",
-        new BABYLON.Vector3(2, 0.5, -2),
-        BABYLON.Color3.Red(),
-        scene
-      );
+      // 魔法陷阱区
+      renderMagics(scene);
+      // 怪兽区
+      renderMonsters(scene);
 
       // 创建额外怪兽区
-      createCardSlot(
-        "cardSlot10",
-        new BABYLON.Vector3(-1, 0.5, -1),
-        BABYLON.Color3.Yellow(),
-        scene
-      );
-      createCardSlot(
-        "cardSlot11",
-        new BABYLON.Vector3(1, 0.5, -1),
-        BABYLON.Color3.Yellow(),
-        scene
-      );
+      renderExtraMonsters(scene);
 
       // 创建手牌
       renderHands(hands, scene);
@@ -161,7 +71,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
         "ground",
-        GroundShape,
+        CONFIG.GroundShape(),
         scene
       );
 
