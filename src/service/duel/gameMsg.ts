@@ -10,6 +10,12 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
 
       break;
     }
+    case "draw": {
+      // TODO
+      console.log(msg.draw);
+
+      break;
+    }
     default: {
       console.log("Unhandled GameMsg=" + msg.gameMsg);
 

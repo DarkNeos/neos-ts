@@ -24,3 +24,4 @@ export const STOC_DUEL_START = 21;
 export const STOC_GAME_MSG = 1;
 
 export const MSG_START = 4;
+export const MSG_DRAW = 90;
