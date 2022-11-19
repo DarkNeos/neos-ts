@@ -7,6 +7,7 @@ import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../../packet";
 import * as GAME_MSG from "../../protoDecl";
 import MsgStartAdapter from "./start";
+import MsgDrawAdapter from "./draw";
 
 /*
  * STOC GameMsg
@@ -38,7 +39,7 @@ export default class GameMsgAdapter implements StocAdapter {
         break;
       }
       case GAME_MSG.MSG_DRAW: {
-        // TODO
+        gameMsg.draw = MsgDrawAdapter(gameData);
 
         break;
       }

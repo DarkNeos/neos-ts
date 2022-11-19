@@ -16,10 +16,14 @@ export default (data: Uint8Array) => {
   const player = reader.readUint8();
   const count = reader.readUint8();
 
-  let hands: number[] = [];
+  let cards: number[] = [];
   for (let i = 0; i < count; i++) {
-    hands.push(reader.readUint32());
+    cards.push(reader.readUint32());
   }
 
-  // TODO
+  return new ygopro.StocGameMessage.MsgDraw({
+    player,
+    count,
+    cards,
+  });
 };
