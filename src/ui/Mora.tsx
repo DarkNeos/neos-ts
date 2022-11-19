@@ -14,7 +14,10 @@ import {
   unSelectTpAble,
 } from "../reducers/moraSlice";
 import { selectPlayer0, selectPlayer1 } from "../reducers/playerSlice";
+import { selectDuelHsStart } from "../reducers/duel/mod";
 import { store } from "../store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // TODO: 应该展示聊天信息
 export default function Mora() {
@@ -23,6 +26,16 @@ export default function Mora() {
   const selectTpAble = useAppSelector(selectTpSelectAble);
   const player0 = useAppSelector(selectPlayer0);
   const player1 = useAppSelector(selectPlayer1);
+  const duelHsStart = useAppSelector(selectDuelHsStart);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // 若对局已经开始，自动跳转
+    if (duelHsStart) {
+      navigate("/duel");
+    }
+  }, [duelHsStart]);
 
   const handleSelectScissors = () => {
     sendHandResult("scissors");

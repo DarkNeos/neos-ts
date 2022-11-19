@@ -1,6 +1,7 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { store } from "../../store";
-import { meInfoInit, opInfoInit } from "../../reducers/duel/mod";
+import onMsgStart from "./start";
+import onMsgDraw from "./draw";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -10,28 +11,14 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     case "start": {
       const start = msg.start;
 
-      dispatch(
-        meInfoInit({
-          playerType: start.playerType.toString(),
-          life: start.life1,
-          deckSize: start.deckSize1,
-          extraSize: start.extraSize1,
-        })
-      );
-
-      dispatch(
-        opInfoInit({
-          life: start.life2,
-          deckSize: start.deckSize2,
-          extraSize: start.extraSize2,
-        })
-      );
+      onMsgStart(start, dispatch);
 
       break;
     }
     case "draw": {
-      // TODO
-      console.log(msg.draw);
+      const draw = msg.draw;
+
+      onMsgDraw(draw, dispatch);
 
       break;
     }
