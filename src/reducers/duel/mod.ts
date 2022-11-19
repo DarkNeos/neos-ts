@@ -3,12 +3,15 @@
  *
  * */
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitInfo } from "./initInfoSlice";
+import { createSlice } from "@reduxjs/toolkit";
+import { InitInfo, meInfoInitImpl, opInfoInitImpl } from "./initInfoSlice";
+import { Hands, meAddHandsImpl, opAddHandsImpl } from "./handsSlice";
 
 export interface DuelState {
   meInitInfo?: InitInfo; // 自己的初始状态
   opInitInfo?: InitInfo; // 对手的初始状态
+  meHands?: Hands; // 自己的手牌
+  opHands?: Hands; // 对手的手牌
 }
 
 const initialState: DuelState = {};
@@ -17,14 +20,13 @@ const duelSlice = createSlice({
   name: "duel",
   initialState,
   reducers: {
-    meInfoInit: (state, action: PayloadAction<InitInfo>) => {
-      state.meInitInfo = action.payload;
-    },
-    opInfoInit: (state, action: PayloadAction<InitInfo>) => {
-      state.opInitInfo = action.payload;
-    },
+    meInfoInit: meInfoInitImpl,
+    opInfoInit: opInfoInitImpl,
+    meAddHands: meAddHandsImpl,
+    opAddHands: opAddHandsImpl,
   },
 });
 
-export const { meInfoInit, opInfoInit } = duelSlice.actions;
+export const { meInfoInit, opInfoInit, meAddHands, opAddHands } =
+  duelSlice.actions;
 export default duelSlice.reducer;
