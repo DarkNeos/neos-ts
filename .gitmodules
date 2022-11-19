@@ -1,6 +1,3 @@
 [submodule "neos-protobuf"]
 	path = neos-protobuf
   url = git@git.mycard.moe:mycard/neos-protobuf.git
-[submodule "neos-rs"]
-	path = neos-rs
-	url = git@github.com:DarkNeos/neos-rs.git
