@@ -6,6 +6,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { InitInfo, meInfoInitImpl, opInfoInitImpl } from "./initInfoSlice";
 import { Hands, meAddHandsImpl, opAddHandsImpl } from "./handsSlice";
+import { RootState } from "../../store";
 
 export interface DuelState {
   meInitInfo?: InitInfo; // 自己的初始状态
@@ -29,4 +30,7 @@ const duelSlice = createSlice({
 
 export const { meInfoInit, opInfoInit, meAddHands, opAddHands } =
   duelSlice.actions;
+export const selectDuelHsStart = (state: RootState) => {
+  return state.duel.meInitInfo != null;
+};
 export default duelSlice.reducer;
