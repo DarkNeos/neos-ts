@@ -3100,13 +3100,20 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1]];
+    #one_of_decls: number[][] = [[1, 2]];
     constructor(
       data?:
         | any[]
-        | ({} & {
-            start?: StocGameMessage.MsgStart;
-          })
+        | ({} & (
+            | {
+                start?: StocGameMessage.MsgStart;
+                draw?: never;
+              }
+            | {
+                start?: never;
+                draw?: StocGameMessage.MsgDraw;
+              }
+          ))
     ) {
       super();
       pb_1.Message.initialize(
@@ -3120,6 +3127,9 @@ export namespace ygopro {
       if (!Array.isArray(data) && typeof data == "object") {
         if ("start" in data && data.start != undefined) {
           this.start = data.start;
+        }
+        if ("draw" in data && data.draw != undefined) {
+          this.draw = data.draw;
         }
       }
     }
@@ -3136,30 +3146,52 @@ export namespace ygopro {
     get has_start() {
       return pb_1.Message.getField(this, 1) != null;
     }
+    get draw() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgDraw,
+        2
+      ) as StocGameMessage.MsgDraw;
+    }
+    set draw(value: StocGameMessage.MsgDraw) {
+      pb_1.Message.setOneofWrapperField(this, 2, this.#one_of_decls[0], value);
+    }
+    get has_draw() {
+      return pb_1.Message.getField(this, 2) != null;
+    }
     get gameMsg() {
       const cases: {
-        [index: number]: "none" | "start";
+        [index: number]: "none" | "start" | "draw";
       } = {
         0: "none",
         1: "start",
+        2: "draw",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2])];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
+      draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
         message.start = StocGameMessage.MsgStart.fromObject(data.start);
+      }
+      if (data.draw != null) {
+        message.draw = StocGameMessage.MsgDraw.fromObject(data.draw);
       }
       return message;
     }
     toObject() {
       const data: {
         start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
+        draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
+      }
+      if (this.draw != null) {
+        data.draw = this.draw.toObject();
       }
       return data;
     }
@@ -3169,6 +3201,8 @@ export namespace ygopro {
       const writer = w || new pb_1.BinaryWriter();
       if (this.has_start)
         writer.writeMessage(1, this.start, () => this.start.serialize(writer));
+      if (this.has_draw)
+        writer.writeMessage(2, this.draw, () => this.draw.serialize(writer));
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -3185,6 +3219,12 @@ export namespace ygopro {
               message.start,
               () =>
                 (message.start = StocGameMessage.MsgStart.deserialize(reader))
+            );
+            break;
+          case 2:
+            reader.readMessage(
+              message.draw,
+              () => (message.draw = StocGameMessage.MsgDraw.deserialize(reader))
             );
             break;
           default:
@@ -3424,6 +3464,130 @@ export namespace ygopro {
         FirstStrike = 1,
         SecondStrike = 2,
         Observer = 3,
+      }
+    }
+    export class MsgDraw extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              count?: number;
+              cards?: number[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [3],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("count" in data && data.count != undefined) {
+            this.count = data.count;
+          }
+          if ("cards" in data && data.cards != undefined) {
+            this.cards = data.cards;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get count() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set count(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get cards() {
+        return pb_1.Message.getFieldWithDefault(this, 3, []) as number[];
+      }
+      set cards(value: number[]) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        count?: number;
+        cards?: number[];
+      }): MsgDraw {
+        const message = new MsgDraw({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.count != null) {
+          message.count = data.count;
+        }
+        if (data.cards != null) {
+          message.cards = data.cards;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          count?: number;
+          cards?: number[];
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.count != null) {
+          data.count = this.count;
+        }
+        if (this.cards != null) {
+          data.cards = this.cards;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.count != 0) writer.writeInt32(2, this.count);
+        if (this.cards.length) writer.writePackedInt32(3, this.cards);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgDraw {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgDraw();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.count = reader.readInt32();
+              break;
+            case 3:
+              message.cards = reader.readPackedInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgDraw {
+        return MsgDraw.deserialize(bytes);
       }
     }
   }
