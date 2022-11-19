@@ -1,5 +1,6 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
+import { RootState } from "../../store";
 
 export interface Hands {
   cards: number[]; // TODO: use Card struct Unitly
@@ -28,3 +29,8 @@ export const opAddHandsImpl: CaseReducer<DuelState, PayloadAction<number[]>> = (
     state.opHands = { cards: action.payload };
   }
 };
+
+export const selectMeHands = (state: RootState) =>
+  state.duel.meHands || { cards: [] };
+export const selectOpHands = (state: RootState) =>
+  state.duel.opHands || { cards: [] };
