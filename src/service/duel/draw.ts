@@ -6,6 +6,7 @@ export default (
   draw: ygopro.StocGameMessage.MsgDraw,
   dispatch: AppDispatch
 ) => {
+  // FIXME: draw.player 和先后攻有关系
   if (draw.player === 0) {
     dispatch(meAddHands(draw.cards));
   } else if (draw.player === 1) {

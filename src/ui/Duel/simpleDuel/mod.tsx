@@ -25,7 +25,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
   render(): React.ReactElement {
     // ----- 数据获取 -----
 
-    // 默认的手牌Selector，返回三个code为-1的Card。
+    // 默认的手牌Selector，返回五个code为-1的Card。
     const defaultHandsSelector = (_: RootState) => {
       return new Array(5).fill({ code: -1 });
     };
@@ -79,7 +79,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       engine.runRenderLoop(() => {
         scene.render();
       });
-    }, [canvasRef]);
+    }, [canvasRef, hands]);
 
     return (
       <canvas
