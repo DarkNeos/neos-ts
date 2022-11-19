@@ -14,7 +14,7 @@ const INT32_BYTE_OFFSET = 4;
 export default (data: Uint8Array) => {
   const dataView = new DataView(data.buffer);
 
-  // TODO: 对DataView包装下实现一个BufferIO类，便于解析二进制数据
+  // TODO: use `BufferIO`
   const pT = dataView.getUint8(0);
   const playerType =
     (pT & 0xf) <= 0
