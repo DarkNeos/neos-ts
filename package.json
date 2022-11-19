@@ -24,7 +24,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "(cd neos-rs && cargo run) & vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .ts --ext .tsx src",
