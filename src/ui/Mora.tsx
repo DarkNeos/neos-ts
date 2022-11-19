@@ -28,9 +28,12 @@ export default function Mora() {
   const player1 = useAppSelector(selectPlayer1);
   const duelHsStart = useAppSelector(selectDuelHsStart);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    // 若对局已经开始，自动跳转
     if (duelHsStart) {
-      useNavigate()("/duel");
+      navigate("/duel");
     }
   }, [duelHsStart]);
 
