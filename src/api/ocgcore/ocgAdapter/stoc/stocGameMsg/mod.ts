@@ -5,7 +5,7 @@
 
 import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../../packet";
-import { MSG_START } from "../../protoDecl";
+import * as GAME_MSG from "../../protoDecl";
 import MsgStartAdapter from "./start";
 
 /*
@@ -32,8 +32,13 @@ export default class GameMsgAdapter implements StocAdapter {
     const gameMsg = new ygopro.StocGameMessage({});
 
     switch (func) {
-      case MSG_START: {
+      case GAME_MSG.MSG_START: {
         gameMsg.start = MsgStartAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_DRAW: {
+        // TODO
 
         break;
       }
