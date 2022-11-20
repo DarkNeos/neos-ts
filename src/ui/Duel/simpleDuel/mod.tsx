@@ -14,15 +14,20 @@ import renderMonsters from "./monsters";
 import renderExtraMonsters from "./extraMonsters";
 import renderMagics from "./magics";
 import * as CONFIG from "./config";
+import { fetchCardMetaById } from "../../../reducers/cardsSlice";
+import { store } from "../../../store";
+import { selectCards } from "../../../reducers/cardsSlice";
 
 // CONFIG
 
 export default class SimpleDuelPlateImpl implements IDuelPlate {
-  handsSelector?: TypeSelector<DuelData.Card[]>;
+  handsSelector?: TypeSelector<DuelData.Hand[]>;
 
   constructor() {}
 
   render(): React.ReactElement {
+    const dispatch = store.dispatch;
+
     // ----- 数据获取 -----
 
     // 默认的手牌Selector，返回五个code为-1的Card。
@@ -30,6 +35,12 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       return new Array(5).fill({ code: -1 });
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
+
+    // TODO: 这里应该思考更合理的处理方式
+    hands.forEach((item) => {
+      dispatch(fetchCardMetaById(item.code));
+    });
+    const cardMetas = useAppSelector(selectCards);
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -66,7 +77,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       renderExtraMonsters(scene);
 
       // 创建手牌
-      renderHands(hands, scene);
+      renderHands(hands, cardMetas, scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
@@ -79,7 +90,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       engine.runRenderLoop(() => {
         scene.render();
       });
-    }, [canvasRef, hands]);
+    }, [canvasRef, hands, cardMetas]);
 
     return (
       <canvas
@@ -90,7 +101,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     );
   }
 
-  registerHands(selector: TypeSelector<DuelData.Card[]>): void {
+  registerHands(selector: TypeSelector<DuelData.Hand[]>): void {
     this.handsSelector = selector;
   }
 }

@@ -4,7 +4,7 @@
  * */
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchDeck } from "../api/Card";
+import { fetchDeck } from "../api/deck";
 import "../css/WaitRoom.css";
 import { useAppSelector } from "../hook";
 import { selectJoined } from "../reducers/joinSlice";
