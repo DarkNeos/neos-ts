@@ -26,7 +26,7 @@ export interface IDuelPlate {
   // 渲染接口，返回一个React组件
   render(): React.ReactElement;
   // 注册手牌selector
-  registerHands(selector: TypeSelector<DuelData.Card[]>): void;
+  registerHands(selector: TypeSelector<DuelData.Hand[]>): void;
 }
 
 export interface TypeSelector<T> {

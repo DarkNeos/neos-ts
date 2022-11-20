@@ -3,6 +3,6 @@
  *
  * */
 
-export interface Card {
+export interface Hand {
   code: number; // Currently only code
 }
