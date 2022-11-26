@@ -7,7 +7,6 @@ import chatReducer from "./reducers/chatSlice";
 import playerReducer from "./reducers/playerSlice";
 import moraReducer from "./reducers/moraSlice";
 import duelReducer from "./reducers/duel/mod";
-import cardsReducer from "./reducers/cardsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +15,6 @@ export const store = configureStore({
     player: playerReducer,
     mora: moraReducer,
     duel: duelReducer,
-    cards: cardsReducer,
   },
 });
 
