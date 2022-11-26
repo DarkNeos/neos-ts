@@ -1,7 +1,12 @@
-import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  CaseReducer,
+  createAsyncThunk,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { CardMeta } from "../../api/cards";
+import { CardMeta, fetchCard } from "../../api/cards";
 
 export interface Hands {
   cards: CardMeta[];
@@ -35,6 +40,29 @@ export const opAddHandsImpl: CaseReducer<DuelState, PayloadAction<number[]>> = (
   } else {
     state.opHands = { cards };
   }
+};
+
+export const fetchMeHandsMeta = createAsyncThunk(
+  "duel/fetchMeHandsMeta",
+  async (Ids: number[]) => {
+    return await Promise.all(
+      Ids.map(async (id) => {
+        return await fetchCard(id);
+      })
+    );
+  }
+);
+
+export const meHandsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
+  builder.addCase(fetchMeHandsMeta.fulfilled, (state, action) => {
+    // TODO: 合法性校验
+    const cards = action.payload;
+    if (state.meHands) {
+      state.meHands.cards = cards;
+    } else {
+      state.meHands = { cards };
+    }
+  });
 };
 
 export const selectMeHands = (state: RootState) =>
