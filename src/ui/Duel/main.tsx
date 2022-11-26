@@ -12,11 +12,7 @@ export default function Duel() {
 
   // TODO: opHands
   const handsSelector = (state: RootState) => {
-    const cards = selectMeHands(state).cards;
-
-    return cards.map((item) => {
-      return { code: item };
-    });
+    return selectMeHands(state).cards;
   };
 
   simpleDuelPlate.registerHands(handsSelector);

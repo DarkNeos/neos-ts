@@ -1,13 +1,8 @@
-import { Hand } from "../data";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "./config";
-import { Card } from "../../../reducers/cardsSlice";
+import { CardMeta } from "../../../api/cards";
 
-export default (
-  hands: Hand[],
-  cardMetas: Map<number, Card>,
-  scene: BABYLON.Scene
-) => {
+export default (hands: CardMeta[], scene: BABYLON.Scene) => {
   const groundShape = CONFIG.GroundShape();
   const handShape = CONFIG.HandShape();
   const gap = groundShape.width / hands.length;
@@ -36,9 +31,7 @@ export default (
       new BABYLON.ExecuteCodeAction(
         BABYLON.ActionManager.OnPickTrigger,
         (event) => {
-          const meta = cardMetas.get(item.code);
-
-          console.log(`<Click>hand: ${idx}`, "card:", meta, "event:", event);
+          console.log(`<Click>hand: ${idx}`, "card:", item, "event:", event);
         }
       )
     );

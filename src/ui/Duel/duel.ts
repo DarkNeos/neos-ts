@@ -14,9 +14,9 @@
  *
  *   */
 
-import * as DuelData from "./data";
 import React from "react";
 import type { RootState } from "../../store";
+import { CardMeta } from "../../api/cards";
 
 /*
  * 通用的决斗界面抽象接口
@@ -26,7 +26,7 @@ export interface IDuelPlate {
   // 渲染接口，返回一个React组件
   render(): React.ReactElement;
   // 注册手牌selector
-  registerHands(selector: TypeSelector<DuelData.Hand[]>): void;
+  registerHands(selector: TypeSelector<CardMeta[]>): void;
 }
 
 export interface TypeSelector<T> {
