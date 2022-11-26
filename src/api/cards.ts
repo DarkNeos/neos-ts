@@ -5,7 +5,7 @@ export interface CardMeta {
   data: {
     ot?: number;
     setcode?: number;
-    type?: number;
+    type_?: number;
     atk?: number;
     def?: number;
     level?: number;
@@ -27,7 +27,7 @@ export interface CardMeta {
  *
  * */
 export async function fetchCard(id: number): Promise<CardMeta> {
-  const res = await axios.get<CardMeta>("https://ygocdb.com/api/v0/card/" + id);
+  const res = await axios.get<CardMeta>("http://localhost:3030/cards/" + id);
 
   return res.data;
 }

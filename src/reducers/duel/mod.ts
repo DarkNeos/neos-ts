@@ -5,7 +5,12 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { InitInfo, meInfoInitImpl, opInfoInitImpl } from "./initInfoSlice";
-import { Hands, meAddHandsImpl, opAddHandsImpl } from "./handsSlice";
+import {
+  Hands,
+  meAddHandsImpl,
+  opAddHandsImpl,
+  meHandsCase,
+} from "./handsSlice";
 import { RootState } from "../../store";
 
 export interface DuelState {
@@ -25,6 +30,9 @@ const duelSlice = createSlice({
     opInfoInit: opInfoInitImpl,
     meAddHands: meAddHandsImpl,
     opAddHands: opAddHandsImpl,
+  },
+  extraReducers(builder) {
+    meHandsCase(builder);
   },
 });
 

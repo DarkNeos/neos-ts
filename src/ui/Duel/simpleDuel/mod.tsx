@@ -4,7 +4,6 @@
  * */
 
 import { IDuelPlate, TypeSelector } from "../duel";
-import * as DuelData from "../data";
 import { useAppSelector } from "../../../hook";
 import React, { useEffect, useRef } from "react";
 import type { RootState } from "../../../store";
@@ -14,33 +13,23 @@ import renderMonsters from "./monsters";
 import renderExtraMonsters from "./extraMonsters";
 import renderMagics from "./magics";
 import * as CONFIG from "./config";
-import { fetchCardMetaById } from "../../../reducers/cardsSlice";
-import { store } from "../../../store";
-import { selectCards } from "../../../reducers/cardsSlice";
+import { CardMeta } from "../../../api/cards";
 
 // CONFIG
 
 export default class SimpleDuelPlateImpl implements IDuelPlate {
-  handsSelector?: TypeSelector<DuelData.Hand[]>;
+  handsSelector?: TypeSelector<CardMeta[]>;
 
   constructor() {}
 
   render(): React.ReactElement {
-    const dispatch = store.dispatch;
-
     // ----- 数据获取 -----
 
     // 默认的手牌Selector，返回五个code为-1的Card。
     const defaultHandsSelector = (_: RootState) => {
-      return new Array(5).fill({ code: -1 });
+      return [];
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
-
-    // TODO: 这里应该思考更合理的处理方式
-    hands.forEach((item) => {
-      dispatch(fetchCardMetaById(item.code));
-    });
-    const cardMetas = useAppSelector(selectCards);
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -77,7 +66,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       renderExtraMonsters(scene);
 
       // 创建手牌
-      renderHands(hands, cardMetas, scene);
+      renderHands(hands, scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
@@ -90,7 +79,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       engine.runRenderLoop(() => {
         scene.render();
       });
-    }, [canvasRef, hands, cardMetas]);
+    }, [canvasRef, hands]);
 
     return (
       <canvas
@@ -101,7 +90,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     );
   }
 
-  registerHands(selector: TypeSelector<DuelData.Hand[]>): void {
+  registerHands(selector: TypeSelector<CardMeta[]>): void {
     this.handsSelector = selector;
   }
 }
