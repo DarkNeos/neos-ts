@@ -1,6 +1,9 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
 import { meAddHands, opAddHands } from "../../reducers/duel/mod";
+import {
+  fetchMeHandsMeta,
+} from "../../reducers/duel/handsSlice";
 
 export default (
   draw: ygopro.StocGameMessage.MsgDraw,
@@ -9,6 +12,7 @@ export default (
   // FIXME: draw.player 和先后攻有关系
   if (draw.player === 0) {
     dispatch(meAddHands(draw.cards));
+    dispatch(fetchMeHandsMeta(draw.cards));
   } else if (draw.player === 1) {
     dispatch(opAddHands(draw.cards));
   } else {
