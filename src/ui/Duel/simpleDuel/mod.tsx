@@ -15,6 +15,7 @@ import renderMagics from "./magics";
 import * as CONFIG from "./config";
 import { store } from "../../../store";
 import { CardMeta } from "../../../api/cards";
+import { fetchMeHandsMeta } from "../../../reducers/duel/handsSlice";
 
 // CONFIG
 
@@ -30,9 +31,14 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
     // 默认的手牌Selector，返回五个code为-1的Card。
     const defaultHandsSelector = (_: RootState) => {
-      return new Array(5).fill({ code: -1 });
+      return [];
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
+    // TODO: 每次hands更新的时候，需要更新meta数据
+    const ids = hands.map((hand) => {
+      return hand.id;
+    });
+    dispatch(fetchMeHandsMeta(ids));
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
