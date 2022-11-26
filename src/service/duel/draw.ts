@@ -1,9 +1,7 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
 import { meAddHands, opAddHands } from "../../reducers/duel/mod";
-import {
-  fetchMeHandsMeta,
-} from "../../reducers/duel/handsSlice";
+import { fetchMeHandsMeta } from "../../reducers/duel/handsSlice";
 
 export default (
   draw: ygopro.StocGameMessage.MsgDraw,
