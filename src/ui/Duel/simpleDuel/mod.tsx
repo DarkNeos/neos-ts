@@ -12,6 +12,10 @@ import renderHands from "./hands";
 import renderMonsters from "./monsters";
 import renderExtraMonsters from "./extraMonsters";
 import renderMagics from "./magics";
+import renderDeck from "./deck";
+import renderCemetery from "./cemetery";
+import renderExclusion from "./exclusion";
+import renderField from "./field";
 import * as CONFIG from "./config";
 import { CardMeta } from "../../../api/cards";
 
@@ -43,7 +47,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建Camera
       const camera = new BABYLON.FreeCamera(
         "camera1",
-        new BABYLON.Vector3(0, 5, -10), // 俯视方向
+        new BABYLON.Vector3(0, 8, -10), // 俯视方向
         scene
       );
       camera.setTarget(BABYLON.Vector3.Zero()); // 俯视向前
@@ -59,6 +63,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
       // 魔法陷阱区
       renderMagics(scene);
+
       // 怪兽区
       renderMonsters(scene);
 
@@ -68,7 +73,33 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建手牌
       renderHands(hands, scene);
 
-      // 暂时不创建地板
+      // 创建卡组
+      renderDeck(scene);
+
+      // 创建墓地
+      renderCemetery(scene);
+
+      // 创建除外区
+      renderExclusion(scene);
+
+      // 创建场地
+      renderField(scene);
+
+      // 创建地板
+      const ground = BABYLON.MeshBuilder.CreateGround(
+        "ground",
+        CONFIG.GroundShape(),
+        scene
+      );
+      const groundMaterial = new BABYLON.StandardMaterial(
+        "groundMaterial",
+        scene
+      );
+      groundMaterial.diffuseTexture = new BABYLON.Texture(
+        `http://localhost:3030/images/newfield.png`
+      );
+      groundMaterial.diffuseTexture.hasAlpha = true;
+      ground.material = groundMaterial;
 
       // 渲染循环
       engine.runRenderLoop(() => {
