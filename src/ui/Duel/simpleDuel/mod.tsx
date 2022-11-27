@@ -14,6 +14,7 @@ import renderExtraMonsters from "./extraMonsters";
 import renderMagics from "./magics";
 import renderDeck from "./deck";
 import renderCemetery from "./cemetery";
+import renderExclusion from "./exclusion";
 import * as CONFIG from "./config";
 import { CardMeta } from "../../../api/cards";
 
@@ -76,6 +77,9 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
       // 创建墓地
       renderCemetery(scene);
+
+      // 创建除外区
+      renderExclusion(scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(
