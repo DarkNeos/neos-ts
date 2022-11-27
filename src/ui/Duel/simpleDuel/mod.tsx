@@ -68,12 +68,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建手牌
       renderHands(hands, scene);
 
-      // 创建地板
-      const ground = BABYLON.MeshBuilder.CreateGround(
-        "ground",
-        CONFIG.GroundShape(),
-        scene
-      );
+      // 暂时不创建地板
 
       // 渲染循环
       engine.runRenderLoop(() => {
