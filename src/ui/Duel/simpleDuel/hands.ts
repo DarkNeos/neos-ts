@@ -21,8 +21,11 @@ export default (hands: CardMeta[], scene: BABYLON.Scene) => {
     );
     // 材质
     const handMaterial = new BABYLON.StandardMaterial("handMaterial", scene);
-    // 材质颜色
-    handMaterial.diffuseColor = CONFIG.HandColor();
+    // 材质贴纸
+    handMaterial.diffuseTexture = new BABYLON.Texture(
+      `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.id}.jpg`,
+      scene
+    );
     hand.material = handMaterial;
     // 事件管理
     hand.actionManager = new BABYLON.ActionManager(scene);
