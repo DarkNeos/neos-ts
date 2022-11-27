@@ -9,7 +9,7 @@ export const GroundShape = () => {
   return { width: 9.9, height: 8 };
 };
 export const CardSlotShape = () => {
-  return { width: 1, height: 1.2, depth: 0.05 };
+  return { width: 0.8, height: 1, depth: 0.05 };
 };
 export const CardSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);

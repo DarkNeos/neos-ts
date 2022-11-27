@@ -58,13 +58,13 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       light.intensity = 0.7;
 
       // 魔法陷阱区
-      // renderMagics(scene);
+      renderMagics(scene);
 
       // 怪兽区
       renderMonsters(scene);
 
       // 创建额外怪兽区
-      // renderExtraMonsters(scene);
+      renderExtraMonsters(scene);
 
       // 创建手牌
       renderHands(hands, scene);

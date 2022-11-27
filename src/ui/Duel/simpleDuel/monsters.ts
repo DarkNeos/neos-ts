@@ -11,7 +11,7 @@ export default (scene: BABYLON.Scene) => {
       scene
     );
     // 位置
-    slot.position = new BABYLON.Vector3(left + gap * i, 0.5, -2.5);
+    slot.position = new BABYLON.Vector3(left + gap * i, 0.5, -1.35);
     // 旋转
     slot.rotation = CONFIG.CardSlotRotation();
     // 材质
