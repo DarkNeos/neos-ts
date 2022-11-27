@@ -6,10 +6,10 @@
 import * as BABYLON from "@babylonjs/core";
 
 export const GroundShape = () => {
-  return { width: 6, height: 6 };
+  return { width: 9.9, height: 8 };
 };
 export const CardSlotShape = () => {
-  return { width: 0.5, height: 0.75, depth: 0.05 };
+  return { width: 1, height: 1.2, depth: 0.05 };
 };
 export const CardSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);

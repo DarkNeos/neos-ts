@@ -43,7 +43,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建Camera
       const camera = new BABYLON.FreeCamera(
         "camera1",
-        new BABYLON.Vector3(0, 5, -10), // 俯视方向
+        new BABYLON.Vector3(0, 12, 0), // 俯视方向
         scene
       );
       camera.setTarget(BABYLON.Vector3.Zero()); // 俯视向前
@@ -58,17 +58,31 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       light.intensity = 0.7;
 
       // 魔法陷阱区
-      renderMagics(scene);
+      // renderMagics(scene);
+
       // 怪兽区
       renderMonsters(scene);
 
       // 创建额外怪兽区
-      renderExtraMonsters(scene);
+      // renderExtraMonsters(scene);
 
       // 创建手牌
       renderHands(hands, scene);
 
-      // 暂时不创建地板
+      // 创建地板
+      const ground = BABYLON.MeshBuilder.CreateGround(
+        "ground",
+        CONFIG.GroundShape(),
+        scene
+      );
+      const groundMaterial = new BABYLON.StandardMaterial(
+        "groundMaterial",
+        scene
+      );
+      groundMaterial.diffuseTexture = new BABYLON.Texture(
+        `http://localhost:3030/images/newfield.png`
+      );
+      ground.material = groundMaterial;
 
       // 渲染循环
       engine.runRenderLoop(() => {
