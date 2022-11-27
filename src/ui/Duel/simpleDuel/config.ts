@@ -23,6 +23,9 @@ export const CemeterySlotShape = () => {
 export const ExclusionSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };
+export const FieldSlotShape = () => {
+  return { width: 0.8, height: 1, depth: 0.2 };
+};
 export const CardSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
@@ -33,6 +36,9 @@ export const CemeterySlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 export const ExclusionSlotRotation = () => {
+  return new BABYLON.Vector3(1.5, 0, 0);
+};
+export const FieldSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 
@@ -77,4 +83,9 @@ export const CemeteryColor = () => {
 // 除外区
 export const ExclusionColor = () => {
   return BABYLON.Color3.Black();
+};
+
+// 场地
+export const FieldColor = () => {
+  return BABYLON.Color3.White();
 };
