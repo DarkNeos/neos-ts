@@ -12,7 +12,7 @@ export default (scene: BABYLON.Scene) => {
     slot.position = new BABYLON.Vector3(
       left + gap * i,
       shape.depth / 2 + CONFIG.Floating,
-      -2.5
+      -2.6
     );
     // 旋转
     slot.rotation = CONFIG.CardSlotRotation();

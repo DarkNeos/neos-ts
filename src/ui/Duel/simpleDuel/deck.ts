@@ -12,7 +12,7 @@ export default (scene: BABYLON.Scene) => {
   deck.position = new BABYLON.Vector3(
     3.2,
     CONFIG.DeckSlotShape().depth / 2 + CONFIG.Floating,
-    -3.2
+    -3.3
   );
   // 旋转
   deck.rotation = CONFIG.DeckSlotRotation();
@@ -32,7 +32,7 @@ export default (scene: BABYLON.Scene) => {
   extraDeck.position = new BABYLON.Vector3(
     -3.3,
     CONFIG.ExtraDeckSlotShape().depth / 2 + CONFIG.Floating,
-    -3.2
+    -3.3
   );
   // 旋转
   extraDeck.rotation = CONFIG.DeckSlotRotation();
