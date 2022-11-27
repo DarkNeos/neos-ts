@@ -3,14 +3,20 @@ import * as CONFIG from "./config";
 
 export default (scene: BABYLON.Scene) => {
   const xs = [-1.1, 1];
+  const shape = CONFIG.CardSlotShape();
+
   for (let i in xs) {
     const slot = BABYLON.MeshBuilder.CreateBox(
       `extraMonster${i}`,
-      CONFIG.CardSlotShape(),
+      shape,
       scene
     );
     // 位置
-    slot.position = new BABYLON.Vector3(xs[i], 0.5, 0);
+    slot.position = new BABYLON.Vector3(
+      xs[i],
+      shape.depth / 2 + CONFIG.Floating,
+      0
+    );
     // 旋转
     slot.rotation = CONFIG.CardSlotRotation();
     // 材质

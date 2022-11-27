@@ -9,7 +9,11 @@ export default (scene: BABYLON.Scene) => {
     scene
   );
   // 位置
-  deck.position = new BABYLON.Vector3(3.2, 0.5, -3.2);
+  deck.position = new BABYLON.Vector3(
+    3.2,
+    CONFIG.DeckSlotShape().depth / 2 + CONFIG.Floating,
+    -3.2
+  );
   // 旋转
   deck.rotation = CONFIG.DeckSlotRotation();
   // 材质
@@ -25,7 +29,11 @@ export default (scene: BABYLON.Scene) => {
     scene
   );
   // 位置
-  extraDeck.position = new BABYLON.Vector3(-3.3, 0.5, -3.2);
+  extraDeck.position = new BABYLON.Vector3(
+    -3.3,
+    CONFIG.ExtraDeckSlotShape().depth / 2 + CONFIG.Floating,
+    -3.2
+  );
   // 旋转
   extraDeck.rotation = CONFIG.DeckSlotRotation();
   // 材质

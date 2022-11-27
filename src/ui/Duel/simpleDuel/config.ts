@@ -42,6 +42,9 @@ export const FieldSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 
+// 浮空
+export const Floating = 0.02;
+
 // 手牌
 export const HandShape = () => {
   return { width: 0.5, height: 0.75 };

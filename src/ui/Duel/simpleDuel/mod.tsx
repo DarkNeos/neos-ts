@@ -47,7 +47,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       // 创建Camera
       const camera = new BABYLON.FreeCamera(
         "camera1",
-        new BABYLON.Vector3(0, 12, 0), // 俯视方向
+        new BABYLON.Vector3(0, 8, -10), // 俯视方向
         scene
       );
       camera.setTarget(BABYLON.Vector3.Zero()); // 俯视向前

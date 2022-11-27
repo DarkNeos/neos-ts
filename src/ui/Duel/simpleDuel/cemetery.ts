@@ -3,12 +3,14 @@ import * as CONFIG from "./config";
 
 export default (scene: BABYLON.Scene) => {
   // 墓地
-  const cemetery = BABYLON.MeshBuilder.CreateBox(
-    "cemetery",
-    CONFIG.CemeterySlotShape()
-  );
+  const shape = CONFIG.CemeterySlotShape();
+  const cemetery = BABYLON.MeshBuilder.CreateBox("cemetery", shape);
   // 位置
-  cemetery.position = new BABYLON.Vector3(3.2, 0.5, -2.0);
+  cemetery.position = new BABYLON.Vector3(
+    3.2,
+    shape.depth / 2 + CONFIG.Floating,
+    -2.0
+  );
   // 旋转
   cemetery.rotation = CONFIG.CemeterySlotRotation();
   // 材质

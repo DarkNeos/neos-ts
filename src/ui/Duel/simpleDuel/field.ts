@@ -3,9 +3,14 @@ import * as CONFIG from "./config";
 
 export default (scene: BABYLON.Scene) => {
   // 墓地
-  const field = BABYLON.MeshBuilder.CreateBox("field", CONFIG.FieldSlotShape());
+  const shape = CONFIG.FieldSlotShape();
+  const field = BABYLON.MeshBuilder.CreateBox("field", shape);
   // 位置
-  field.position = new BABYLON.Vector3(-3.3, 0.5, -2.0);
+  field.position = new BABYLON.Vector3(
+    -3.3,
+    shape.depth / 2 + CONFIG.Floating,
+    -2.0
+  );
   // 旋转
   field.rotation = CONFIG.FieldSlotRotation();
   // 材质
