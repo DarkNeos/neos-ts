@@ -86,6 +86,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       groundMaterial.diffuseTexture = new BABYLON.Texture(
         `http://localhost:3030/images/newfield.png`
       );
+      groundMaterial.diffuseTexture.hasAlpha = true;
       ground.material = groundMaterial;
 
       // 渲染循环
