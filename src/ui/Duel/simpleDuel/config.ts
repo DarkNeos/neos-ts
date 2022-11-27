@@ -17,10 +17,16 @@ export const DeckSlotShape = () => {
 export const ExtraDeckSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };
+export const CemeterySlotShape = () => {
+  return { width: 0.8, height: 1, depth: 0.2 };
+};
 export const CardSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 export const DeckSlotRotation = () => {
+  return new BABYLON.Vector3(1.5, 0, 0);
+};
+export const CemeterySlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 
@@ -55,4 +61,9 @@ export const DeckColor = () => {
 // 额外卡组
 export const ExtraDeckColor = () => {
   return BABYLON.Color3.Purple();
+};
+
+// 墓地
+export const CemeteryColor = () => {
+  return BABYLON.Color3.Teal();
 };
