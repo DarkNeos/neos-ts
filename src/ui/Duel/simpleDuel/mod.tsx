@@ -12,6 +12,7 @@ import renderHands from "./hands";
 import renderMonsters from "./monsters";
 import renderExtraMonsters from "./extraMonsters";
 import renderMagics from "./magics";
+import renderDeck from "./deck";
 import * as CONFIG from "./config";
 import { CardMeta } from "../../../api/cards";
 
@@ -68,6 +69,9 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
       // 创建手牌
       renderHands(hands, scene);
+
+      // 创建卡组
+      renderDeck(scene);
 
       // 创建地板
       const ground = BABYLON.MeshBuilder.CreateGround(

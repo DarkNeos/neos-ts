@@ -11,7 +11,16 @@ export const GroundShape = () => {
 export const CardSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.05 };
 };
+export const DeckSlotShape = () => {
+  return { width: 0.8, height: 1, depth: 0.5 };
+};
+export const ExtraDeckSlotShape = () => {
+  return { width: 0.8, height: 1, depth: 0.2 };
+};
 export const CardSlotRotation = () => {
+  return new BABYLON.Vector3(1.5, 0, 0);
+};
+export const DeckSlotRotation = () => {
   return new BABYLON.Vector3(1.5, 0, 0);
 };
 
@@ -36,4 +45,14 @@ export const extraMonsterColor = () => {
 // 魔法陷阱区
 export const MagicColor = () => {
   return BABYLON.Color3.Blue();
+};
+
+// 卡组
+export const DeckColor = () => {
+  return BABYLON.Color3.Gray();
+};
+
+// 额外卡组
+export const ExtraDeckColor = () => {
+  return BABYLON.Color3.Purple();
 };
