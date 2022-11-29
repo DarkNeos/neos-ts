@@ -47,7 +47,10 @@ export const Floating = 0.02;
 
 // 手牌
 export const HandShape = () => {
-  return { width: 0.5, height: 0.75 };
+  return { width: 0.8, height: 1 };
+};
+export const HandRotation = () => {
+  return new BABYLON.Vector3(1, 0, 0);
 };
 export const HandColor = () => {
   return BABYLON.Color3.White();

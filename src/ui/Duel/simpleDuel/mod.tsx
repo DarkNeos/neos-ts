@@ -31,7 +31,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
     // 默认的手牌Selector，返回五个code为-1的Card。
     const defaultHandsSelector = (_: RootState) => {
-      return [];
+      return new Array(5).fill({ id: 10000, data: {}, text: {} });
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
 
