@@ -114,7 +114,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
         prev_hands: CardMeta[] | null,
         cur_hands: CardMeta[]
       ) => {
-        console.log(`${prev_hands} change to ${cur_hands}`);
+        console.log(prev_hands, "change to", cur_hands);
       };
 
       const unsubscribe = observeStore(
