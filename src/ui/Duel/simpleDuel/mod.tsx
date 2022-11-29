@@ -6,7 +6,7 @@
 import { IDuelPlate, TypeSelector } from "../duel";
 import { useAppSelector } from "../../../hook";
 import React, { useEffect, useRef } from "react";
-import type { RootState } from "../../../store";
+import { RootState, observeStore } from "../../../store";
 import * as BABYLON from "@babylonjs/core";
 import renderHands from "./hands";
 import renderMonsters from "./monsters";
@@ -106,6 +106,26 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
         scene.render();
       });
     }, [canvasRef, hands]);
+
+    useEffect(() => {
+      // 监听状态变化，并实现动画
+
+      const onHandsChange = (
+        prev_hands: CardMeta[] | null,
+        cur_hands: CardMeta[]
+      ) => {
+        console.log(prev_hands, "change to", cur_hands);
+      };
+
+      const unsubscribe = observeStore(
+        this.handsSelector || defaultHandsSelector,
+        onHandsChange
+      );
+      return () => {
+        // 取消监听
+        unsubscribe();
+      };
+    }, []);
 
     return (
       <canvas
