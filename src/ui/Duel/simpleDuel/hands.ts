@@ -5,7 +5,7 @@ import { CardMeta } from "../../../api/cards";
 export default (hands: CardMeta[], scene: BABYLON.Scene) => {
   const groundShape = CONFIG.GroundShape();
   const handShape = CONFIG.HandShape();
-  const gap = groundShape.width / hands.length;
+  const gap = groundShape.width / (hands.length - 1);
   const left = -(groundShape.width / 2);
   hands.forEach((item, idx, _) => {
     const hand = BABYLON.MeshBuilder.CreatePlane(
@@ -19,6 +19,7 @@ export default (hands: CardMeta[], scene: BABYLON.Scene) => {
       handShape.height / 2,
       -(groundShape.height / 2) - 1
     );
+    hand.rotation = CONFIG.HandRotation();
     // 材质
     const handMaterial = new BABYLON.StandardMaterial("handMaterial", scene);
     // 材质贴纸
