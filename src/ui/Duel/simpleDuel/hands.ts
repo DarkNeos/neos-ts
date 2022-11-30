@@ -1,5 +1,5 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "./config";
+import * as CONFIG from "../../../config/ui";
 import { CardMeta } from "../../../api/cards";
 
 export default (hands: CardMeta[], scene: BABYLON.Scene) => {

@@ -16,7 +16,7 @@ import renderDeck from "./deck";
 import renderCemetery from "./cemetery";
 import renderExclusion from "./exclusion";
 import renderField from "./field";
-import * as CONFIG from "./config";
+import * as CONFIG from "../../../config/ui";
 import { CardMeta } from "../../../api/cards";
 
 // CONFIG

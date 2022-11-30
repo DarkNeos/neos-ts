@@ -1,5 +1,5 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "./config";
+import * as CONFIG from "../../../config/ui";
 
 export default (scene: BABYLON.Scene) => {
   // 除外区
