@@ -16,13 +16,13 @@ import renderDeck from "./deck";
 import renderCemetery from "./cemetery";
 import renderExclusion from "./exclusion";
 import renderField from "./field";
-import * as CONFIG from "./config";
-import { CardMeta } from "../../../api/cards";
+import * as CONFIG from "../../../config/ui";
+import { Card } from "../../../api/cards";
 
 // CONFIG
 
 export default class SimpleDuelPlateImpl implements IDuelPlate {
-  handsSelector?: TypeSelector<CardMeta[]>;
+  handsSelector?: TypeSelector<Card[]>;
 
   constructor() {}
 
@@ -110,10 +110,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     useEffect(() => {
       // 监听状态变化，并实现动画
 
-      const onHandsChange = (
-        prev_hands: CardMeta[] | null,
-        cur_hands: CardMeta[]
-      ) => {
+      const onHandsChange = (prev_hands: Card[] | null, cur_hands: Card[]) => {
         console.log(prev_hands, "change to", cur_hands);
       };
 
@@ -136,7 +133,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     );
   }
 
-  registerHands(selector: TypeSelector<CardMeta[]>): void {
+  registerHands(selector: TypeSelector<Card[]>): void {
     this.handsSelector = selector;
   }
 }

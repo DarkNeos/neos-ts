@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface CardMeta {
+interface CardMeta {
   id: number;
   data: {
     ot?: number;
@@ -17,6 +17,27 @@ export interface CardMeta {
     types?: string;
     desc?: string;
   };
+}
+
+interface CardTransform {
+  position?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+}
+
+/*
+ * `Neos`中表示卡牌的通用结构
+ * */
+export interface Card {
+  meta: CardMeta;
+  transform: CardTransform;
 }
 
 /*

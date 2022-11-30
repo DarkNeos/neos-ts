@@ -1,12 +1,9 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "./config";
-import { CardMeta } from "../../../api/cards";
+import * as CONFIG from "../../../config/ui";
+import { Card } from "../../../api/cards";
 
-export default (hands: CardMeta[], scene: BABYLON.Scene) => {
-  const groundShape = CONFIG.GroundShape();
+export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
-  const gap = groundShape.width / (hands.length - 1);
-  const left = -(groundShape.width / 2);
   hands.forEach((item, idx, _) => {
     const hand = BABYLON.MeshBuilder.CreatePlane(
       `hand${idx}`,
@@ -15,16 +12,20 @@ export default (hands: CardMeta[], scene: BABYLON.Scene) => {
     );
     // 位置
     hand.position = new BABYLON.Vector3(
-      left + gap * idx,
-      handShape.height / 2,
-      -(groundShape.height / 2) - 1
+      item.transform.position?.x,
+      item.transform.position?.y,
+      item.transform.position?.z
     );
-    hand.rotation = CONFIG.HandRotation();
+    hand.rotation = new BABYLON.Vector3(
+      item.transform.rotation?.x,
+      item.transform.rotation?.y,
+      item.transform.rotation?.z
+    );
     // 材质
     const handMaterial = new BABYLON.StandardMaterial("handMaterial", scene);
     // 材质贴纸
     handMaterial.diffuseTexture = new BABYLON.Texture(
-      `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.id}.jpg`,
+      `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.meta.id}.jpg`,
       scene
     );
     hand.material = handMaterial;
