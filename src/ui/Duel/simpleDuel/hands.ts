@@ -3,10 +3,7 @@ import * as CONFIG from "../../../config/ui";
 import { CardMeta } from "../../../api/cards";
 
 export default (hands: CardMeta[], scene: BABYLON.Scene) => {
-  const groundShape = CONFIG.GroundShape();
   const handShape = CONFIG.HandShape();
-  const gap = groundShape.width / (hands.length - 1);
-  const left = -(groundShape.width / 2);
   hands.forEach((item, idx, _) => {
     const hand = BABYLON.MeshBuilder.CreatePlane(
       `hand${idx}`,
@@ -15,11 +12,15 @@ export default (hands: CardMeta[], scene: BABYLON.Scene) => {
     );
     // 位置
     hand.position = new BABYLON.Vector3(
-      left + gap * idx,
-      handShape.height / 2,
-      -(groundShape.height / 2) - 1
+      item.position?.x,
+      item.position?.y,
+      item.position?.z
     );
-    hand.rotation = CONFIG.HandRotation();
+    hand.rotation = new BABYLON.Vector3(
+      item.rotation?.x,
+      item.rotation?.y,
+      item.rotation?.z
+    );
     // 材质
     const handMaterial = new BABYLON.StandardMaterial("handMaterial", scene);
     // 材质贴纸

@@ -7,6 +7,7 @@ import {
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { CardMeta, fetchCard } from "../../api/cards";
+import * as UICONFIG from "../../config/ui";
 
 export interface Hands {
   cards: CardMeta[];
@@ -20,11 +21,27 @@ export const meAddHandsImpl: CaseReducer<DuelState, PayloadAction<number[]>> = (
   const cards = action.payload.map((id) => {
     return { id, data: {}, text: {} };
   });
+
   if (state.meHands) {
     state.meHands.cards = state.meHands.cards.concat(cards);
   } else {
     state.meHands = { cards };
   }
+
+  // 更新手牌的位置和旋转信息
+  const groundShape = UICONFIG.GroundShape();
+  const handShape = UICONFIG.HandShape();
+  const gap = groundShape.width / (state.meHands.cards.length - 1);
+  const left = -(groundShape.width / 2);
+
+  state.meHands.cards.forEach((hand, idx, _) => {
+    hand.position = {
+      x: left + gap * idx,
+      y: handShape.height / 2,
+      z: -(groundShape.height / 2) - 1,
+    };
+    hand.rotation = UICONFIG.HandRotation();
+  });
 };
 
 // 对手增加手牌
