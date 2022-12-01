@@ -3100,7 +3100,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2]];
+    #one_of_decls: number[][] = [[1, 2, 3]];
     constructor(
       data?:
         | any[]
@@ -3108,10 +3108,17 @@ export namespace ygopro {
             | {
                 start?: StocGameMessage.MsgStart;
                 draw?: never;
+                new_turn?: never;
               }
             | {
                 start?: never;
                 draw?: StocGameMessage.MsgDraw;
+                new_turn?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: StocGameMessage.MsgNewTurn;
               }
           ))
     ) {
@@ -3130,6 +3137,9 @@ export namespace ygopro {
         }
         if ("draw" in data && data.draw != undefined) {
           this.draw = data.draw;
+        }
+        if ("new_turn" in data && data.new_turn != undefined) {
+          this.new_turn = data.new_turn;
         }
       }
     }
@@ -3159,19 +3169,36 @@ export namespace ygopro {
     get has_draw() {
       return pb_1.Message.getField(this, 2) != null;
     }
+    get new_turn() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgNewTurn,
+        3
+      ) as StocGameMessage.MsgNewTurn;
+    }
+    set new_turn(value: StocGameMessage.MsgNewTurn) {
+      pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
+    }
+    get has_new_turn() {
+      return pb_1.Message.getField(this, 3) != null;
+    }
     get gameMsg() {
       const cases: {
-        [index: number]: "none" | "start" | "draw";
+        [index: number]: "none" | "start" | "draw" | "new_turn";
       } = {
         0: "none",
         1: "start",
         2: "draw",
+        3: "new_turn",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3])];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
       draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
+      new_turn?: ReturnType<
+        typeof StocGameMessage.MsgNewTurn.prototype.toObject
+      >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -3180,18 +3207,27 @@ export namespace ygopro {
       if (data.draw != null) {
         message.draw = StocGameMessage.MsgDraw.fromObject(data.draw);
       }
+      if (data.new_turn != null) {
+        message.new_turn = StocGameMessage.MsgNewTurn.fromObject(data.new_turn);
+      }
       return message;
     }
     toObject() {
       const data: {
         start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
         draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
+        new_turn?: ReturnType<
+          typeof StocGameMessage.MsgNewTurn.prototype.toObject
+        >;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
       }
       if (this.draw != null) {
         data.draw = this.draw.toObject();
+      }
+      if (this.new_turn != null) {
+        data.new_turn = this.new_turn.toObject();
       }
       return data;
     }
@@ -3203,6 +3239,10 @@ export namespace ygopro {
         writer.writeMessage(1, this.start, () => this.start.serialize(writer));
       if (this.has_draw)
         writer.writeMessage(2, this.draw, () => this.draw.serialize(writer));
+      if (this.has_new_turn)
+        writer.writeMessage(3, this.new_turn, () =>
+          this.new_turn.serialize(writer)
+        );
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -3225,6 +3265,14 @@ export namespace ygopro {
             reader.readMessage(
               message.draw,
               () => (message.draw = StocGameMessage.MsgDraw.deserialize(reader))
+            );
+            break;
+          case 3:
+            reader.readMessage(
+              message.new_turn,
+              () =>
+                (message.new_turn =
+                  StocGameMessage.MsgNewTurn.deserialize(reader))
             );
             break;
           default:
@@ -3588,6 +3636,84 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgDraw {
         return MsgDraw.deserialize(bytes);
+      }
+    }
+    export class MsgNewTurn extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: { player?: number }): MsgNewTurn {
+        const message = new MsgNewTurn({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgNewTurn {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgNewTurn();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgNewTurn {
+        return MsgNewTurn.deserialize(bytes);
       }
     }
   }

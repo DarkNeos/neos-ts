@@ -2,6 +2,7 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { store } from "../../store";
 import onMsgStart from "./start";
 import onMsgDraw from "./draw";
+import onMsgNewTurn from "./newTurn";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -19,6 +20,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       const draw = msg.draw;
 
       onMsgDraw(draw, dispatch);
+
+      break;
+    }
+    case "new_turn": {
+      const newTurn = msg.new_turn;
+
+      onMsgNewTurn(newTurn, dispatch);
 
       break;
     }

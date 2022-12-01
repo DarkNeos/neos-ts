@@ -25,3 +25,4 @@ export const STOC_GAME_MSG = 1;
 
 export const MSG_START = 4;
 export const MSG_DRAW = 90;
+export const MSG_NEW_TURN = 40;

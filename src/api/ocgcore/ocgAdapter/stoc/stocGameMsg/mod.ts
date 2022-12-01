@@ -8,6 +8,7 @@ import { YgoProPacket, StocAdapter } from "../../packet";
 import * as GAME_MSG from "../../protoDecl";
 import MsgStartAdapter from "./start";
 import MsgDrawAdapter from "./draw";
+import MsgNewTurnAdapter from "./newTurn";
 
 /*
  * STOC GameMsg
@@ -40,6 +41,11 @@ export default class GameMsgAdapter implements StocAdapter {
       }
       case GAME_MSG.MSG_DRAW: {
         gameMsg.draw = MsgDrawAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_NEW_TURN: {
+        gameMsg.new_turn = MsgNewTurnAdapter(gameData);
 
         break;
       }
