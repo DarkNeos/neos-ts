@@ -18,6 +18,7 @@ import renderExclusion from "./exclusion";
 import renderField from "./field";
 import * as CONFIG from "../../../config/ui";
 import { Card } from "../../../api/cards";
+import { selectCurrentPlayer } from "../../../reducers/duel/turnSlice";
 
 // CONFIG
 
@@ -34,6 +35,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       return new Array(5).fill({ id: 10000, data: {}, text: {} });
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
+    const currentPlayer = useAppSelector(selectCurrentPlayer);
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -101,11 +103,16 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
       groundMaterial.diffuseTexture.hasAlpha = true;
       ground.material = groundMaterial;
 
+      /* 一些未处理的逻辑，在这里用日志打印出来 */
+
+      // 当前操作玩家
+      console.log(`currentPlayer:` + currentPlayer);
+
       // 渲染循环
       engine.runRenderLoop(() => {
         scene.render();
       });
-    }, [canvasRef, hands]);
+    }, [canvasRef, hands, currentPlayer]);
 
     useEffect(() => {
       // 监听状态变化，并实现动画
