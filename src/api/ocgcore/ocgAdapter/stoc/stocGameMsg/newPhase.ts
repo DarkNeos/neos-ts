@@ -14,10 +14,10 @@ const LITTLE_ENDIAN = true;
 export default (data: Uint8Array) => {
   const reader = new BufferReader(data, LITTLE_ENDIAN);
 
-  const player = reader.readUint16();
+  const phase = reader.readUint16();
 
   let phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN;
-  switch (player) {
+  switch (phase) {
     case 0x01: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.DRAW;
 

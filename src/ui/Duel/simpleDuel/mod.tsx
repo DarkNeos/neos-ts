@@ -19,6 +19,7 @@ import renderField from "./field";
 import * as CONFIG from "../../../config/ui";
 import { Card } from "../../../api/cards";
 import { selectCurrentPlayer } from "../../../reducers/duel/turnSlice";
+import { selectCurrentPhase } from "../../../reducers/duel/phaseSlice";
 
 // CONFIG
 
@@ -36,6 +37,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     };
     const hands = useAppSelector(this.handsSelector || defaultHandsSelector);
     const currentPlayer = useAppSelector(selectCurrentPlayer);
+    const currentPhase = useAppSelector(selectCurrentPhase);
 
     // ----- WebGL渲染 -----
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -107,6 +109,8 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
 
       // 当前操作玩家
       console.log(`currentPlayer:` + currentPlayer);
+      // 当前阶段
+      console.log(`currentPhase:` + currentPhase);
 
       // 渲染循环
       engine.runRenderLoop(() => {

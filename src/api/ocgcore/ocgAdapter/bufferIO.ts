@@ -29,7 +29,7 @@ export class BufferReader {
   }
 
   readUint16(): number {
-    const ret = this.dataView.getUint16(this.offset);
+    const ret = this.dataView.getUint16(this.offset, this.littleEndian);
     this.offset += OFFSET_UINT16;
 
     return ret;
