@@ -3857,14 +3857,15 @@ export namespace ygopro {
       export enum PhaseType {
         UNKNOWN = 0,
         DRAW = 1,
-        MAIN1 = 2,
-        BATTLE_START = 3,
-        BATTLE_STEP = 4,
-        DAMAGE = 5,
-        DAMAGE_GAL = 6,
-        BATTLE = 7,
-        MAIN2 = 8,
-        END = 9,
+        STANDBY = 2,
+        MAIN1 = 3,
+        BATTLE_START = 4,
+        BATTLE_STEP = 5,
+        DAMAGE = 6,
+        DAMAGE_GAL = 7,
+        BATTLE = 8,
+        MAIN2 = 9,
+        END = 10,
       }
     }
   }
