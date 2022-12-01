@@ -24,6 +24,7 @@ export default (data: Uint8Array) => {
       break;
     }
     case 0x02: {
+      phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.STANDBY;
       break;
     }
     case 0x04: {
