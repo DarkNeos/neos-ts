@@ -12,6 +12,7 @@ import {
   meHandsCase,
 } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
+import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
 
 export interface DuelState {
@@ -20,6 +21,7 @@ export interface DuelState {
   meHands?: Hands; // 自己的手牌
   opHands?: Hands; // 对手的手牌
   currentPlayer?: number; // 当前的操作方
+  currentPhase?: string; // 当前的阶段
 }
 
 const initialState: DuelState = {};
@@ -33,14 +35,21 @@ const duelSlice = createSlice({
     meAddHands: meAddHandsImpl,
     opAddHands: opAddHandsImpl,
     updateTurn: newTurnImpl,
+    updatePhase: newPhaseImpl,
   },
   extraReducers(builder) {
     meHandsCase(builder);
   },
 });
 
-export const { meInfoInit, opInfoInit, meAddHands, opAddHands, updateTurn } =
-  duelSlice.actions;
+export const {
+  meInfoInit,
+  opInfoInit,
+  meAddHands,
+  opAddHands,
+  updateTurn,
+  updatePhase,
+} = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
 };

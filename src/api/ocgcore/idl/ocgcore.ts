@@ -3100,7 +3100,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4]];
     constructor(
       data?:
         | any[]
@@ -3109,16 +3109,25 @@ export namespace ygopro {
                 start?: StocGameMessage.MsgStart;
                 draw?: never;
                 new_turn?: never;
+                new_phase?: never;
               }
             | {
                 start?: never;
                 draw?: StocGameMessage.MsgDraw;
                 new_turn?: never;
+                new_phase?: never;
               }
             | {
                 start?: never;
                 draw?: never;
                 new_turn?: StocGameMessage.MsgNewTurn;
+                new_phase?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: StocGameMessage.MsgNewPhase;
               }
           ))
     ) {
@@ -3140,6 +3149,9 @@ export namespace ygopro {
         }
         if ("new_turn" in data && data.new_turn != undefined) {
           this.new_turn = data.new_turn;
+        }
+        if ("new_phase" in data && data.new_phase != undefined) {
+          this.new_phase = data.new_phase;
         }
       }
     }
@@ -3182,22 +3194,39 @@ export namespace ygopro {
     get has_new_turn() {
       return pb_1.Message.getField(this, 3) != null;
     }
+    get new_phase() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgNewPhase,
+        4
+      ) as StocGameMessage.MsgNewPhase;
+    }
+    set new_phase(value: StocGameMessage.MsgNewPhase) {
+      pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
+    }
+    get has_new_phase() {
+      return pb_1.Message.getField(this, 4) != null;
+    }
     get gameMsg() {
       const cases: {
-        [index: number]: "none" | "start" | "draw" | "new_turn";
+        [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase";
       } = {
         0: "none",
         1: "start",
         2: "draw",
         3: "new_turn",
+        4: "new_phase",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4])];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
       draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
       new_turn?: ReturnType<
         typeof StocGameMessage.MsgNewTurn.prototype.toObject
+      >;
+      new_phase?: ReturnType<
+        typeof StocGameMessage.MsgNewPhase.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -3210,6 +3239,11 @@ export namespace ygopro {
       if (data.new_turn != null) {
         message.new_turn = StocGameMessage.MsgNewTurn.fromObject(data.new_turn);
       }
+      if (data.new_phase != null) {
+        message.new_phase = StocGameMessage.MsgNewPhase.fromObject(
+          data.new_phase
+        );
+      }
       return message;
     }
     toObject() {
@@ -3218,6 +3252,9 @@ export namespace ygopro {
         draw?: ReturnType<typeof StocGameMessage.MsgDraw.prototype.toObject>;
         new_turn?: ReturnType<
           typeof StocGameMessage.MsgNewTurn.prototype.toObject
+        >;
+        new_phase?: ReturnType<
+          typeof StocGameMessage.MsgNewPhase.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -3228,6 +3265,9 @@ export namespace ygopro {
       }
       if (this.new_turn != null) {
         data.new_turn = this.new_turn.toObject();
+      }
+      if (this.new_phase != null) {
+        data.new_phase = this.new_phase.toObject();
       }
       return data;
     }
@@ -3242,6 +3282,10 @@ export namespace ygopro {
       if (this.has_new_turn)
         writer.writeMessage(3, this.new_turn, () =>
           this.new_turn.serialize(writer)
+        );
+      if (this.has_new_phase)
+        writer.writeMessage(4, this.new_phase, () =>
+          this.new_phase.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -3273,6 +3317,14 @@ export namespace ygopro {
               () =>
                 (message.new_turn =
                   StocGameMessage.MsgNewTurn.deserialize(reader))
+            );
+            break;
+          case 4:
+            reader.readMessage(
+              message.new_phase,
+              () =>
+                (message.new_phase =
+                  StocGameMessage.MsgNewPhase.deserialize(reader))
             );
             break;
           default:
@@ -3714,6 +3766,106 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgNewTurn {
         return MsgNewTurn.deserialize(bytes);
+      }
+    }
+    export class MsgNewPhase extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              phase_type?: StocGameMessage.MsgNewPhase.PhaseType;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("phase_type" in data && data.phase_type != undefined) {
+            this.phase_type = data.phase_type;
+          }
+        }
+      }
+      get phase_type() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          1,
+          StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN
+        ) as StocGameMessage.MsgNewPhase.PhaseType;
+      }
+      set phase_type(value: StocGameMessage.MsgNewPhase.PhaseType) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: {
+        phase_type?: StocGameMessage.MsgNewPhase.PhaseType;
+      }): MsgNewPhase {
+        const message = new MsgNewPhase({});
+        if (data.phase_type != null) {
+          message.phase_type = data.phase_type;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          phase_type?: StocGameMessage.MsgNewPhase.PhaseType;
+        } = {};
+        if (this.phase_type != null) {
+          data.phase_type = this.phase_type;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.phase_type != StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN)
+          writer.writeEnum(1, this.phase_type);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgNewPhase {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgNewPhase();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.phase_type = reader.readEnum();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgNewPhase {
+        return MsgNewPhase.deserialize(bytes);
+      }
+    }
+    export namespace MsgNewPhase {
+      export enum PhaseType {
+        UNKNOWN = 0,
+        DRAW = 1,
+        STANDBY = 2,
+        MAIN1 = 3,
+        BATTLE_START = 4,
+        BATTLE_STEP = 5,
+        DAMAGE = 6,
+        DAMAGE_GAL = 7,
+        BATTLE = 8,
+        MAIN2 = 9,
+        END = 10,
       }
     }
   }

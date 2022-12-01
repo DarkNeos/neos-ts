@@ -3,6 +3,7 @@ import { store } from "../../store";
 import onMsgStart from "./start";
 import onMsgDraw from "./draw";
 import onMsgNewTurn from "./newTurn";
+import onMsgNewPhase from "./newPhase";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -27,6 +28,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       const newTurn = msg.new_turn;
 
       onMsgNewTurn(newTurn, dispatch);
+
+      break;
+    }
+    case "new_phase": {
+      const newPhase = msg.new_phase;
+
+      onMsgNewPhase(newPhase, dispatch);
 
       break;
     }
