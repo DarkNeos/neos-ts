@@ -1,5 +1,6 @@
 const OFFSET_UINT8 = 1;
 const OFFSET_INT8 = 1;
+const OFFSET_UINT16 = 2;
 const OFFSET_UINT32 = 4;
 
 export class BufferReader {
@@ -23,6 +24,13 @@ export class BufferReader {
   readInt8(): number {
     const ret = this.dataView.getInt8(this.offset);
     this.offset += OFFSET_INT8;
+
+    return ret;
+  }
+
+  readUint16(): number {
+    const ret = this.dataView.getUint16(this.offset);
+    this.offset += OFFSET_UINT16;
 
     return ret;
   }
