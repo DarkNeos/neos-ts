@@ -7,42 +7,38 @@ import {
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { Card, fetchCard } from "../../api/cards";
+import { judgeSelf } from "./util";
 import * as UICONFIG from "../../config/ui";
 
 export interface Hands {
   cards: Card[];
 }
 
-// 自己增加手牌
-export const meAddHandsImpl: CaseReducer<DuelState, PayloadAction<number[]>> = (
-  state,
-  action
-) => {
-  const cards = action.payload.map((id) => {
+// 增加手牌
+export const addHandsImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, number[]]>
+> = (state, action) => {
+  const player = action.payload[0];
+  const hands = action.payload[1];
+  const selfType = state.selfType;
+
+  const cards = hands.map((id) => {
     return { meta: { id, data: {}, text: {} }, transform: {} };
   });
-
-  if (state.meHands) {
-    state.meHands.cards = state.meHands.cards.concat(cards);
+  if (judgeSelf(player, selfType)) {
+    if (state.meHands) {
+      state.meHands.cards = state.meHands.cards.concat(cards);
+    } else {
+      state.meHands = { cards };
+    }
+    setHandsTransform(state.meHands.cards);
   } else {
-    state.meHands = { cards };
-  }
-
-  setHandsTransform(state.meHands.cards);
-};
-
-// 对手增加手牌
-export const opAddHandsImpl: CaseReducer<DuelState, PayloadAction<number[]>> = (
-  state,
-  action
-) => {
-  const cards = action.payload.map((id) => {
-    return { meta: { id, data: {}, text: {} }, transform: {} };
-  });
-  if (state.opHands) {
-    state.opHands.cards = state.opHands.cards.concat(cards);
-  } else {
-    state.opHands = { cards };
+    if (state.opHands) {
+      state.opHands.cards = state.opHands.cards.concat(cards);
+    } else {
+      state.opHands = { cards };
+    }
   }
 };
 
@@ -83,6 +79,8 @@ export const meHandsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 };
 
 // 更新手牌的位置和旋转信息
+//
+// TODO: 兼容对方手牌
 function setHandsTransform(hands: Card[]): void {
   const groundShape = UICONFIG.GroundShape();
   const handShape = UICONFIG.HandShape();
