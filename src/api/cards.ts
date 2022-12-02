@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface CardMeta {
+export interface CardMeta {
   id: number;
   data: {
     ot?: number;

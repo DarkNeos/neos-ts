@@ -1,12 +1,7 @@
-import {
-  PayloadAction,
-  CaseReducer,
-  createAsyncThunk,
-  ActionReducerMapBuilder,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { Card, fetchCard } from "../../api/cards";
+import { Card, fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf } from "./util";
 import * as UICONFIG from "../../config/ui";
 
@@ -15,65 +10,47 @@ export interface Hands {
 }
 
 // 增加手牌
-export const addHandsImpl: CaseReducer<
-  DuelState,
-  PayloadAction<[number, number[]]>
-> = (state, action) => {
-  const player = action.payload[0];
-  const hands = action.payload[1];
-  const selfType = state.selfType;
+export const fetchHandsMeta = createAsyncThunk(
+  "duel/fetchHandsMeta",
+  async (param: [number, number[]]) => {
+    const player = param[0];
+    const Ids = param[1];
 
-  const cards = hands.map((id) => {
-    return { meta: { id, data: {}, text: {} }, transform: {} };
-  });
-  if (judgeSelf(player, selfType)) {
-    if (state.meHands) {
-      state.meHands.cards = state.meHands.cards.concat(cards);
-    } else {
-      state.meHands = { cards };
-    }
-    setHandsTransform(state.meHands.cards);
-  } else {
-    if (state.opHands) {
-      state.opHands.cards = state.opHands.cards.concat(cards);
-    } else {
-      state.opHands = { cards };
-    }
-  }
-};
-
-export const fetchMeHandsMeta = createAsyncThunk(
-  "duel/fetchMeHandsMeta",
-  async (Ids: number[]) => {
-    return await Promise.all(
-      Ids.map(async (id) => {
+    const metas = await Promise.all(
+      Ids.filter((id) => {
+        return id !== 0;
+      }).map(async (id) => {
         return await fetchCard(id);
       })
     );
+    const response: [number, CardMeta[]] = [player, metas];
+
+    return response;
   }
 );
 
-export const meHandsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
-  builder.addCase(fetchMeHandsMeta.fulfilled, (state, action) => {
-    // TODO: 合法性校验
-    const cardMetas = action.payload;
+export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
+  builder.addCase(fetchHandsMeta.fulfilled, (state, action) => {
+    const player = action.payload[0];
+    const hands = action.payload[1];
+    const selfType = state.selfType;
 
-    if (state.meHands) {
-      for (let meta of cardMetas) {
-        for (let hand of state.meHands.cards) {
-          if (hand.meta.id === meta.id) {
-            hand.meta = meta;
-          }
-        }
+    const cards = hands.map((meta) => {
+      return { meta, transform: {} };
+    });
+    if (judgeSelf(player, selfType)) {
+      if (state.meHands) {
+        state.meHands.cards = state.meHands.cards.concat(cards);
+      } else {
+        state.meHands = { cards };
       }
-    } else {
-      state.meHands = {
-        cards: cardMetas.map((meta) => {
-          return { meta, transform: {} };
-        }),
-      };
-
       setHandsTransform(state.meHands.cards);
+    } else {
+      if (state.opHands) {
+        state.opHands.cards = state.opHands.cards.concat(cards);
+      } else {
+        state.opHands = { cards };
+      }
     }
   });
 };

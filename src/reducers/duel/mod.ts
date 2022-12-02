@@ -5,7 +5,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl } from "./initInfoSlice";
-import { Hands, addHandsImpl, meHandsCase } from "./handsSlice";
+import { Hands, handsCase } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
@@ -30,16 +30,15 @@ const duelSlice = createSlice({
       state.selfType = action.payload;
     },
     infoInit: infoInitImpl,
-    addHands: addHandsImpl,
     updateTurn: newTurnImpl,
     updatePhase: newPhaseImpl,
   },
   extraReducers(builder) {
-    meHandsCase(builder);
+    handsCase(builder);
   },
 });
 
-export const { setSelfType, infoInit, addHands, updateTurn, updatePhase } =
+export const { setSelfType, infoInit, updateTurn, updatePhase } =
   duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
