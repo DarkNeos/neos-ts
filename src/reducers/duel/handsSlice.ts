@@ -17,10 +17,12 @@ export const fetchHandsMeta = createAsyncThunk(
     const Ids = param[1];
 
     const metas = await Promise.all(
-      Ids.filter((id) => {
-        return id !== 0;
-      }).map(async (id) => {
-        return await fetchCard(id);
+      Ids.map(async (id) => {
+        if (id === 0) {
+          return { id, data: {}, text: {} };
+        } else {
+          return await fetchCard(id);
+        }
       })
     );
     const response: [number, CardMeta[]] = [player, metas];
