@@ -3,19 +3,15 @@
  *
  * */
 
-import { createSlice } from "@reduxjs/toolkit";
-import { InitInfo, meInfoInitImpl, opInfoInitImpl } from "./initInfoSlice";
-import {
-  Hands,
-  meAddHandsImpl,
-  opAddHandsImpl,
-  meHandsCase,
-} from "./handsSlice";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { InitInfo, infoInitImpl } from "./initInfoSlice";
+import { Hands, handsCase } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
 
 export interface DuelState {
+  selfType?: number;
   meInitInfo?: InitInfo; // 自己的初始状态
   opInitInfo?: InitInfo; // 对手的初始状态
   meHands?: Hands; // 自己的手牌
@@ -30,26 +26,20 @@ const duelSlice = createSlice({
   name: "duel",
   initialState,
   reducers: {
-    meInfoInit: meInfoInitImpl,
-    opInfoInit: opInfoInitImpl,
-    meAddHands: meAddHandsImpl,
-    opAddHands: opAddHandsImpl,
+    setSelfType: (state, action: PayloadAction<number>) => {
+      state.selfType = action.payload;
+    },
+    infoInit: infoInitImpl,
     updateTurn: newTurnImpl,
     updatePhase: newPhaseImpl,
   },
   extraReducers(builder) {
-    meHandsCase(builder);
+    handsCase(builder);
   },
 });
 
-export const {
-  meInfoInit,
-  opInfoInit,
-  meAddHands,
-  opAddHands,
-  updateTurn,
-  updatePhase,
-} = duelSlice.actions;
+export const { setSelfType, infoInit, updateTurn, updatePhase } =
+  duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
 };

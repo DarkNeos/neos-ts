@@ -1,8 +1,8 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 
 export interface InitInfo {
-  playerType?: string;
   masterRule?: string;
   life: number;
   deckSize: number;
@@ -10,17 +10,17 @@ export interface InitInfo {
 }
 
 // 更新自己的初始生命值，卡组信息
-export const meInfoInitImpl: CaseReducer<DuelState, PayloadAction<InitInfo>> = (
-  state,
-  action
-) => {
-  state.meInitInfo = action.payload;
-};
+export const infoInitImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, InitInfo]>
+> = (state, action) => {
+  const player = action.payload[0];
+  const initInfo = action.payload[1];
+  const selfType = state.selfType;
 
-// 更新对手的初始生命值，卡组信息
-export const opInfoInitImpl: CaseReducer<DuelState, PayloadAction<InitInfo>> = (
-  state,
-  action
-) => {
-  state.opInitInfo = action.payload;
+  if (judgeSelf(player, selfType)) {
+    state.meInitInfo = initInfo;
+  } else {
+    state.opInitInfo = initInfo;
+  }
 };
