@@ -3100,7 +3100,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5]];
     constructor(
       data?:
         | any[]
@@ -3110,24 +3110,35 @@ export namespace ygopro {
                 draw?: never;
                 new_turn?: never;
                 new_phase?: never;
+                hint?: never;
               }
             | {
                 start?: never;
                 draw?: StocGameMessage.MsgDraw;
                 new_turn?: never;
                 new_phase?: never;
+                hint?: never;
               }
             | {
                 start?: never;
                 draw?: never;
                 new_turn?: StocGameMessage.MsgNewTurn;
                 new_phase?: never;
+                hint?: never;
               }
             | {
                 start?: never;
                 draw?: never;
                 new_turn?: never;
                 new_phase?: StocGameMessage.MsgNewPhase;
+                hint?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: StocGameMessage.MsgHint;
               }
           ))
     ) {
@@ -3152,6 +3163,9 @@ export namespace ygopro {
         }
         if ("new_phase" in data && data.new_phase != undefined) {
           this.new_phase = data.new_phase;
+        }
+        if ("hint" in data && data.hint != undefined) {
+          this.hint = data.hint;
         }
       }
     }
@@ -3207,17 +3221,37 @@ export namespace ygopro {
     get has_new_phase() {
       return pb_1.Message.getField(this, 4) != null;
     }
+    get hint() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgHint,
+        5
+      ) as StocGameMessage.MsgHint;
+    }
+    set hint(value: StocGameMessage.MsgHint) {
+      pb_1.Message.setOneofWrapperField(this, 5, this.#one_of_decls[0], value);
+    }
+    get has_hint() {
+      return pb_1.Message.getField(this, 5) != null;
+    }
     get gameMsg() {
       const cases: {
-        [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase";
+        [index: number]:
+          | "none"
+          | "start"
+          | "draw"
+          | "new_turn"
+          | "new_phase"
+          | "hint";
       } = {
         0: "none",
         1: "start",
         2: "draw",
         3: "new_turn",
         4: "new_phase",
+        5: "hint",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5])];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -3228,6 +3262,7 @@ export namespace ygopro {
       new_phase?: ReturnType<
         typeof StocGameMessage.MsgNewPhase.prototype.toObject
       >;
+      hint?: ReturnType<typeof StocGameMessage.MsgHint.prototype.toObject>;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -3244,6 +3279,9 @@ export namespace ygopro {
           data.new_phase
         );
       }
+      if (data.hint != null) {
+        message.hint = StocGameMessage.MsgHint.fromObject(data.hint);
+      }
       return message;
     }
     toObject() {
@@ -3256,6 +3294,7 @@ export namespace ygopro {
         new_phase?: ReturnType<
           typeof StocGameMessage.MsgNewPhase.prototype.toObject
         >;
+        hint?: ReturnType<typeof StocGameMessage.MsgHint.prototype.toObject>;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
@@ -3268,6 +3307,9 @@ export namespace ygopro {
       }
       if (this.new_phase != null) {
         data.new_phase = this.new_phase.toObject();
+      }
+      if (this.hint != null) {
+        data.hint = this.hint.toObject();
       }
       return data;
     }
@@ -3287,6 +3329,8 @@ export namespace ygopro {
         writer.writeMessage(4, this.new_phase, () =>
           this.new_phase.serialize(writer)
         );
+      if (this.has_hint)
+        writer.writeMessage(5, this.hint, () => this.hint.serialize(writer));
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -3325,6 +3369,12 @@ export namespace ygopro {
               () =>
                 (message.new_phase =
                   StocGameMessage.MsgNewPhase.deserialize(reader))
+            );
+            break;
+          case 5:
+            reader.readMessage(
+              message.hint,
+              () => (message.hint = StocGameMessage.MsgHint.deserialize(reader))
             );
             break;
           default:
@@ -3866,6 +3916,146 @@ export namespace ygopro {
         BATTLE = 8,
         MAIN2 = 9,
         END = 10,
+      }
+    }
+    export class MsgHint extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              hint_type?: StocGameMessage.MsgHint.HintType;
+              player?: number;
+              hint_data?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("hint_type" in data && data.hint_type != undefined) {
+            this.hint_type = data.hint_type;
+          }
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("hint_data" in data && data.hint_data != undefined) {
+            this.hint_data = data.hint_data;
+          }
+        }
+      }
+      get hint_type() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          1,
+          StocGameMessage.MsgHint.HintType.UNKNOWN
+        ) as StocGameMessage.MsgHint.HintType;
+      }
+      set hint_type(value: StocGameMessage.MsgHint.HintType) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get hint_data() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set hint_data(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      static fromObject(data: {
+        hint_type?: StocGameMessage.MsgHint.HintType;
+        player?: number;
+        hint_data?: number;
+      }): MsgHint {
+        const message = new MsgHint({});
+        if (data.hint_type != null) {
+          message.hint_type = data.hint_type;
+        }
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.hint_data != null) {
+          message.hint_data = data.hint_data;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          hint_type?: StocGameMessage.MsgHint.HintType;
+          player?: number;
+          hint_data?: number;
+        } = {};
+        if (this.hint_type != null) {
+          data.hint_type = this.hint_type;
+        }
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.hint_data != null) {
+          data.hint_data = this.hint_data;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.hint_type != StocGameMessage.MsgHint.HintType.UNKNOWN)
+          writer.writeEnum(1, this.hint_type);
+        if (this.player != 0) writer.writeInt32(2, this.player);
+        if (this.hint_data != 0) writer.writeInt32(3, this.hint_data);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgHint {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgHint();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.hint_type = reader.readEnum();
+              break;
+            case 2:
+              message.player = reader.readInt32();
+              break;
+            case 3:
+              message.hint_data = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgHint {
+        return MsgHint.deserialize(bytes);
+      }
+    }
+    export namespace MsgHint {
+      export enum HintType {
+        UNKNOWN = 0,
+        SELECT_LOCATION = 1,
+        SELECT_EFFECT = 2,
+        SELECT_RACE = 3,
+        SELECT_ATTRIBUTE = 4,
+        SELECT_NUMBER = 5,
+        SELECT_REGION = 6,
       }
     }
   }

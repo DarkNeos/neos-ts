@@ -4,6 +4,7 @@ import onMsgStart from "./start";
 import onMsgDraw from "./draw";
 import onMsgNewTurn from "./newTurn";
 import onMsgNewPhase from "./newPhase";
+import onMsgHint from "./hint";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -35,6 +36,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       const newPhase = msg.new_phase;
 
       onMsgNewPhase(newPhase, dispatch);
+
+      break;
+    }
+    case "hint": {
+      const hint = msg.hint;
+
+      onMsgHint(hint, dispatch);
 
       break;
     }

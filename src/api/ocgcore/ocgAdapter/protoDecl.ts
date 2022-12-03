@@ -27,3 +27,4 @@ export const MSG_START = 4;
 export const MSG_DRAW = 90;
 export const MSG_NEW_TURN = 40;
 export const MSG_NEW_PHASE = 41;
+export const MSG_HINT = 2;
