@@ -47,8 +47,6 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     default: {
-      console.log("Unhandled GameMsg=" + msg.gameMsg);
-
       break;
     }
   }

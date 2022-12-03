@@ -4050,12 +4050,17 @@ export namespace ygopro {
     export namespace MsgHint {
       export enum HintType {
         UNKNOWN = 0,
-        SELECT_LOCATION = 1,
-        SELECT_EFFECT = 2,
-        SELECT_RACE = 3,
-        SELECT_ATTRIBUTE = 4,
-        SELECT_NUMBER = 5,
-        SELECT_REGION = 6,
+        HINT_EVENT = 1,
+        HINT_MESSAGE = 2,
+        HINT_SELECTMSG = 3,
+        HINT_OPSELECTED = 4,
+        HINT_EFFECT = 5,
+        HINT_RACE = 6,
+        HINT_ATTRIB = 7,
+        HINT_CODE = 8,
+        HINT_NUMBER = 9,
+        HINT_CARD = 10,
+        HINT_ZONE = 11,
       }
     }
   }

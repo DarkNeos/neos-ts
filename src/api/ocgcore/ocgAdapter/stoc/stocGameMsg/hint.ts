@@ -23,57 +23,57 @@ export default (data: Uint8Array) => {
   let hintType = ygopro.StocGameMessage.MsgHint.HintType.UNKNOWN;
   switch (hintCommand) {
     case 0x01: {
-      // TODO
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_EVENT;
 
       break;
     }
     case 0x02: {
-      // TODO
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_MESSAGE;
 
       break;
     }
     case 0x03: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_LOCATION;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_SELECTMSG;
 
       break;
     }
     case 0x04: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_EFFECT;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_OPSELECTED;
 
       break;
     }
     case 0x05: {
-      // TODO
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_EFFECT;
 
       break;
     }
     case 0x06: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_RACE;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_RACE;
 
       break;
     }
     case 0x07: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_ATTRIBUTE;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_ATTRIB;
 
       break;
     }
     case 0x08: {
-      // TODO
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_CODE;
 
       break;
     }
     case 0x09: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_NUMBER;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_NUMBER;
 
       break;
     }
     case 0x0a: {
-      // TODO
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_CARD;
 
       break;
     }
     case 0x0b: {
-      hintType = ygopro.StocGameMessage.MsgHint.HintType.SELECT_REGION;
+      hintType = ygopro.StocGameMessage.MsgHint.HintType.HINT_ZONE;
 
       break;
     }
