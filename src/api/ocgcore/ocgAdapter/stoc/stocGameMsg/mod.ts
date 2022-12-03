@@ -10,6 +10,7 @@ import MsgStartAdapter from "./start";
 import MsgDrawAdapter from "./draw";
 import MsgNewTurnAdapter from "./newTurn";
 import MsgNewPhaseAdapter from "./newPhase";
+import MsgHintAdapter from "./hint";
 
 /*
  * STOC GameMsg
@@ -52,6 +53,11 @@ export default class GameMsgAdapter implements StocAdapter {
       }
       case GAME_MSG.MSG_NEW_PHASE: {
         gameMsg.new_phase = MsgNewPhaseAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_HINT: {
+        gameMsg.hint = MsgHintAdapter(gameData);
 
         break;
       }
