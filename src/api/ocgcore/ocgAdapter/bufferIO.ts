@@ -1,3 +1,5 @@
+import { ygopro } from "../idl/ocgcore";
+
 const OFFSET_UINT8 = 1;
 const OFFSET_INT8 = 1;
 const OFFSET_UINT16 = 2;
@@ -48,5 +50,16 @@ export class BufferReader {
     this.offset += OFFSET_INT32;
 
     return ret;
+  }
+
+  readCardInfo(): ygopro.StocGameMessage.CardInfo {
+    const cardInfo = new ygopro.StocGameMessage.CardInfo({});
+
+    cardInfo.code = this.readUint32();
+    cardInfo.controler = this.readUint8();
+    cardInfo.location = this.readUint8();
+    cardInfo.sequence = this.readUint8();
+
+    return cardInfo;
   }
 }
