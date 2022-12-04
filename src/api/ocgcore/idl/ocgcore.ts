@@ -3100,7 +3100,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6]];
     constructor(
       data?:
         | any[]
@@ -3111,6 +3111,7 @@ export namespace ygopro {
                 new_turn?: never;
                 new_phase?: never;
                 hint?: never;
+                select_idle_cmd?: never;
               }
             | {
                 start?: never;
@@ -3118,6 +3119,7 @@ export namespace ygopro {
                 new_turn?: never;
                 new_phase?: never;
                 hint?: never;
+                select_idle_cmd?: never;
               }
             | {
                 start?: never;
@@ -3125,6 +3127,7 @@ export namespace ygopro {
                 new_turn?: StocGameMessage.MsgNewTurn;
                 new_phase?: never;
                 hint?: never;
+                select_idle_cmd?: never;
               }
             | {
                 start?: never;
@@ -3132,6 +3135,7 @@ export namespace ygopro {
                 new_turn?: never;
                 new_phase?: StocGameMessage.MsgNewPhase;
                 hint?: never;
+                select_idle_cmd?: never;
               }
             | {
                 start?: never;
@@ -3139,6 +3143,15 @@ export namespace ygopro {
                 new_turn?: never;
                 new_phase?: never;
                 hint?: StocGameMessage.MsgHint;
+                select_idle_cmd?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: StocGameMessage.MsgSelectIdleCmd;
               }
           ))
     ) {
@@ -3166,6 +3179,9 @@ export namespace ygopro {
         }
         if ("hint" in data && data.hint != undefined) {
           this.hint = data.hint;
+        }
+        if ("select_idle_cmd" in data && data.select_idle_cmd != undefined) {
+          this.select_idle_cmd = data.select_idle_cmd;
         }
       }
     }
@@ -3234,6 +3250,19 @@ export namespace ygopro {
     get has_hint() {
       return pb_1.Message.getField(this, 5) != null;
     }
+    get select_idle_cmd() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSelectIdleCmd,
+        6
+      ) as StocGameMessage.MsgSelectIdleCmd;
+    }
+    set select_idle_cmd(value: StocGameMessage.MsgSelectIdleCmd) {
+      pb_1.Message.setOneofWrapperField(this, 6, this.#one_of_decls[0], value);
+    }
+    get has_select_idle_cmd() {
+      return pb_1.Message.getField(this, 6) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -3242,7 +3271,8 @@ export namespace ygopro {
           | "draw"
           | "new_turn"
           | "new_phase"
-          | "hint";
+          | "hint"
+          | "select_idle_cmd";
       } = {
         0: "none",
         1: "start",
@@ -3250,8 +3280,9 @@ export namespace ygopro {
         3: "new_turn",
         4: "new_phase",
         5: "hint",
+        6: "select_idle_cmd",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6])];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -3263,6 +3294,9 @@ export namespace ygopro {
         typeof StocGameMessage.MsgNewPhase.prototype.toObject
       >;
       hint?: ReturnType<typeof StocGameMessage.MsgHint.prototype.toObject>;
+      select_idle_cmd?: ReturnType<
+        typeof StocGameMessage.MsgSelectIdleCmd.prototype.toObject
+      >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -3282,6 +3316,11 @@ export namespace ygopro {
       if (data.hint != null) {
         message.hint = StocGameMessage.MsgHint.fromObject(data.hint);
       }
+      if (data.select_idle_cmd != null) {
+        message.select_idle_cmd = StocGameMessage.MsgSelectIdleCmd.fromObject(
+          data.select_idle_cmd
+        );
+      }
       return message;
     }
     toObject() {
@@ -3295,6 +3334,9 @@ export namespace ygopro {
           typeof StocGameMessage.MsgNewPhase.prototype.toObject
         >;
         hint?: ReturnType<typeof StocGameMessage.MsgHint.prototype.toObject>;
+        select_idle_cmd?: ReturnType<
+          typeof StocGameMessage.MsgSelectIdleCmd.prototype.toObject
+        >;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
@@ -3310,6 +3352,9 @@ export namespace ygopro {
       }
       if (this.hint != null) {
         data.hint = this.hint.toObject();
+      }
+      if (this.select_idle_cmd != null) {
+        data.select_idle_cmd = this.select_idle_cmd.toObject();
       }
       return data;
     }
@@ -3331,6 +3376,10 @@ export namespace ygopro {
         );
       if (this.has_hint)
         writer.writeMessage(5, this.hint, () => this.hint.serialize(writer));
+      if (this.has_select_idle_cmd)
+        writer.writeMessage(6, this.select_idle_cmd, () =>
+          this.select_idle_cmd.serialize(writer)
+        );
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -3377,6 +3426,14 @@ export namespace ygopro {
               () => (message.hint = StocGameMessage.MsgHint.deserialize(reader))
             );
             break;
+          case 6:
+            reader.readMessage(
+              message.select_idle_cmd,
+              () =>
+                (message.select_idle_cmd =
+                  StocGameMessage.MsgSelectIdleCmd.deserialize(reader))
+            );
+            break;
           default:
             reader.skipField();
         }
@@ -3391,6 +3448,152 @@ export namespace ygopro {
     }
   }
   export namespace StocGameMessage {
+    export class CardInfo extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              controler?: number;
+              location?: number;
+              sequence?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("controler" in data && data.controler != undefined) {
+            this.controler = data.controler;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+          if ("sequence" in data && data.sequence != undefined) {
+            this.sequence = data.sequence;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get controler() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set controler(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get location() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set location(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get sequence() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set sequence(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      static fromObject(data: {
+        code?: number;
+        controler?: number;
+        location?: number;
+        sequence?: number;
+      }): CardInfo {
+        const message = new CardInfo({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.controler != null) {
+          message.controler = data.controler;
+        }
+        if (data.location != null) {
+          message.location = data.location;
+        }
+        if (data.sequence != null) {
+          message.sequence = data.sequence;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          controler?: number;
+          location?: number;
+          sequence?: number;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.controler != null) {
+          data.controler = this.controler;
+        }
+        if (this.location != null) {
+          data.location = this.location;
+        }
+        if (this.sequence != null) {
+          data.sequence = this.sequence;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.controler != 0) writer.writeInt32(2, this.controler);
+        if (this.location != 0) writer.writeInt32(3, this.location);
+        if (this.sequence != 0) writer.writeInt32(4, this.sequence);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CardInfo {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new CardInfo();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              message.controler = reader.readInt32();
+              break;
+            case 3:
+              message.location = reader.readInt32();
+              break;
+            case 4:
+              message.sequence = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): CardInfo {
+        return CardInfo.deserialize(bytes);
+      }
+    }
     export class MsgStart extends pb_1.Message {
       #one_of_decls: number[][] = [];
       constructor(
@@ -4061,6 +4264,487 @@ export namespace ygopro {
         HINT_NUMBER = 9,
         HINT_CARD = 10,
         HINT_ZONE = 11,
+      }
+    }
+    export class MsgSelectIdleCmd extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              idle_cmds?: StocGameMessage.MsgSelectIdleCmd.IdleCmd[];
+              enable_bp?: boolean;
+              enable_ep?: boolean;
+              enable_shuffle?: boolean;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [2],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("idle_cmds" in data && data.idle_cmds != undefined) {
+            this.idle_cmds = data.idle_cmds;
+          }
+          if ("enable_bp" in data && data.enable_bp != undefined) {
+            this.enable_bp = data.enable_bp;
+          }
+          if ("enable_ep" in data && data.enable_ep != undefined) {
+            this.enable_ep = data.enable_ep;
+          }
+          if ("enable_shuffle" in data && data.enable_shuffle != undefined) {
+            this.enable_shuffle = data.enable_shuffle;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get idle_cmds() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectIdleCmd.IdleCmd,
+          2
+        ) as StocGameMessage.MsgSelectIdleCmd.IdleCmd[];
+      }
+      set idle_cmds(value: StocGameMessage.MsgSelectIdleCmd.IdleCmd[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 2, value);
+      }
+      get enable_bp() {
+        return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+      }
+      set enable_bp(value: boolean) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get enable_ep() {
+        return pb_1.Message.getFieldWithDefault(this, 4, false) as boolean;
+      }
+      set enable_ep(value: boolean) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      get enable_shuffle() {
+        return pb_1.Message.getFieldWithDefault(this, 5, false) as boolean;
+      }
+      set enable_shuffle(value: boolean) {
+        pb_1.Message.setField(this, 5, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        idle_cmds?: ReturnType<
+          typeof StocGameMessage.MsgSelectIdleCmd.IdleCmd.prototype.toObject
+        >[];
+        enable_bp?: boolean;
+        enable_ep?: boolean;
+        enable_shuffle?: boolean;
+      }): MsgSelectIdleCmd {
+        const message = new MsgSelectIdleCmd({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.idle_cmds != null) {
+          message.idle_cmds = data.idle_cmds.map((item) =>
+            StocGameMessage.MsgSelectIdleCmd.IdleCmd.fromObject(item)
+          );
+        }
+        if (data.enable_bp != null) {
+          message.enable_bp = data.enable_bp;
+        }
+        if (data.enable_ep != null) {
+          message.enable_ep = data.enable_ep;
+        }
+        if (data.enable_shuffle != null) {
+          message.enable_shuffle = data.enable_shuffle;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          idle_cmds?: ReturnType<
+            typeof StocGameMessage.MsgSelectIdleCmd.IdleCmd.prototype.toObject
+          >[];
+          enable_bp?: boolean;
+          enable_ep?: boolean;
+          enable_shuffle?: boolean;
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.idle_cmds != null) {
+          data.idle_cmds = this.idle_cmds.map(
+            (item: StocGameMessage.MsgSelectIdleCmd.IdleCmd) => item.toObject()
+          );
+        }
+        if (this.enable_bp != null) {
+          data.enable_bp = this.enable_bp;
+        }
+        if (this.enable_ep != null) {
+          data.enable_ep = this.enable_ep;
+        }
+        if (this.enable_shuffle != null) {
+          data.enable_shuffle = this.enable_shuffle;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.idle_cmds.length)
+          writer.writeRepeatedMessage(
+            2,
+            this.idle_cmds,
+            (item: StocGameMessage.MsgSelectIdleCmd.IdleCmd) =>
+              item.serialize(writer)
+          );
+        if (this.enable_bp != false) writer.writeBool(3, this.enable_bp);
+        if (this.enable_ep != false) writer.writeBool(4, this.enable_ep);
+        if (this.enable_shuffle != false)
+          writer.writeBool(5, this.enable_shuffle);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgSelectIdleCmd {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSelectIdleCmd();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(message.idle_cmds, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  2,
+                  StocGameMessage.MsgSelectIdleCmd.IdleCmd.deserialize(reader),
+                  StocGameMessage.MsgSelectIdleCmd.IdleCmd
+                )
+              );
+              break;
+            case 3:
+              message.enable_bp = reader.readBool();
+              break;
+            case 4:
+              message.enable_ep = reader.readBool();
+              break;
+            case 5:
+              message.enable_shuffle = reader.readBool();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSelectIdleCmd {
+        return MsgSelectIdleCmd.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectIdleCmd {
+      export class IdleCmd extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                idle_type?: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType;
+                idle_datas?: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData[];
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [2],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("idle_type" in data && data.idle_type != undefined) {
+              this.idle_type = data.idle_type;
+            }
+            if ("idle_datas" in data && data.idle_datas != undefined) {
+              this.idle_datas = data.idle_datas;
+            }
+          }
+        }
+        get idle_type() {
+          return pb_1.Message.getFieldWithDefault(
+            this,
+            1,
+            StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType.UNKNOWN
+          ) as StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType;
+        }
+        set idle_type(
+          value: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType
+        ) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get idle_datas() {
+          return pb_1.Message.getRepeatedWrapperField(
+            this,
+            StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData,
+            2
+          ) as StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData[];
+        }
+        set idle_datas(
+          value: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData[]
+        ) {
+          pb_1.Message.setRepeatedWrapperField(this, 2, value);
+        }
+        static fromObject(data: {
+          idle_type?: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType;
+          idle_datas?: ReturnType<
+            typeof StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData.prototype.toObject
+          >[];
+        }): IdleCmd {
+          const message = new IdleCmd({});
+          if (data.idle_type != null) {
+            message.idle_type = data.idle_type;
+          }
+          if (data.idle_datas != null) {
+            message.idle_datas = data.idle_datas.map((item) =>
+              StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData.fromObject(item)
+            );
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            idle_type?: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType;
+            idle_datas?: ReturnType<
+              typeof StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData.prototype.toObject
+            >[];
+          } = {};
+          if (this.idle_type != null) {
+            data.idle_type = this.idle_type;
+          }
+          if (this.idle_datas != null) {
+            data.idle_datas = this.idle_datas.map(
+              (item: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData) =>
+                item.toObject()
+            );
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (
+            this.idle_type !=
+            StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleType.UNKNOWN
+          )
+            writer.writeEnum(1, this.idle_type);
+          if (this.idle_datas.length)
+            writer.writeRepeatedMessage(
+              2,
+              this.idle_datas,
+              (item: StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData) =>
+                item.serialize(writer)
+            );
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IdleCmd {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new IdleCmd();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.idle_type = reader.readEnum();
+                break;
+              case 2:
+                reader.readMessage(message.idle_datas, () =>
+                  pb_1.Message.addToRepeatedWrapperField(
+                    message,
+                    2,
+                    StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData.deserialize(
+                      reader
+                    ),
+                    StocGameMessage.MsgSelectIdleCmd.IdleCmd.IdleData
+                  )
+                );
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): IdleCmd {
+          return IdleCmd.deserialize(bytes);
+        }
+      }
+      export namespace IdleCmd {
+        export enum IdleType {
+          UNKNOWN = 0,
+          SUMMON = 1,
+          SPSUMMON = 2,
+          POS_CHANGE = 3,
+          MSET = 4,
+          SSET = 5,
+          ACTIVATE = 6,
+          TO_BP = 7,
+          TO_EP = 8,
+          SHUFFLE = 9,
+        }
+        export class IdleData extends pb_1.Message {
+          #one_of_decls: number[][] = [];
+          constructor(
+            data?:
+              | any[]
+              | {
+                  card_info?: StocGameMessage.CardInfo;
+                  effect_description?: number;
+                }
+          ) {
+            super();
+            pb_1.Message.initialize(
+              this,
+              Array.isArray(data) ? data : [],
+              0,
+              -1,
+              [],
+              this.#one_of_decls
+            );
+            if (!Array.isArray(data) && typeof data == "object") {
+              if ("card_info" in data && data.card_info != undefined) {
+                this.card_info = data.card_info;
+              }
+              if (
+                "effect_description" in data &&
+                data.effect_description != undefined
+              ) {
+                this.effect_description = data.effect_description;
+              }
+            }
+          }
+          get card_info() {
+            return pb_1.Message.getWrapperField(
+              this,
+              StocGameMessage.CardInfo,
+              1
+            ) as StocGameMessage.CardInfo;
+          }
+          set card_info(value: StocGameMessage.CardInfo) {
+            pb_1.Message.setWrapperField(this, 1, value);
+          }
+          get has_card_info() {
+            return pb_1.Message.getField(this, 1) != null;
+          }
+          get effect_description() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+          }
+          set effect_description(value: number) {
+            pb_1.Message.setField(this, 2, value);
+          }
+          static fromObject(data: {
+            card_info?: ReturnType<
+              typeof StocGameMessage.CardInfo.prototype.toObject
+            >;
+            effect_description?: number;
+          }): IdleData {
+            const message = new IdleData({});
+            if (data.card_info != null) {
+              message.card_info = StocGameMessage.CardInfo.fromObject(
+                data.card_info
+              );
+            }
+            if (data.effect_description != null) {
+              message.effect_description = data.effect_description;
+            }
+            return message;
+          }
+          toObject() {
+            const data: {
+              card_info?: ReturnType<
+                typeof StocGameMessage.CardInfo.prototype.toObject
+              >;
+              effect_description?: number;
+            } = {};
+            if (this.card_info != null) {
+              data.card_info = this.card_info.toObject();
+            }
+            if (this.effect_description != null) {
+              data.effect_description = this.effect_description;
+            }
+            return data;
+          }
+          serialize(): Uint8Array;
+          serialize(w: pb_1.BinaryWriter): void;
+          serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_card_info)
+              writer.writeMessage(1, this.card_info, () =>
+                this.card_info.serialize(writer)
+              );
+            if (this.effect_description != 0)
+              writer.writeInt32(2, this.effect_description);
+            if (!w) return writer.getResultBuffer();
+          }
+          static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IdleData {
+            const reader =
+                bytes instanceof pb_1.BinaryReader
+                  ? bytes
+                  : new pb_1.BinaryReader(bytes),
+              message = new IdleData();
+            while (reader.nextField()) {
+              if (reader.isEndGroup()) break;
+              switch (reader.getFieldNumber()) {
+                case 1:
+                  reader.readMessage(
+                    message.card_info,
+                    () =>
+                      (message.card_info =
+                        StocGameMessage.CardInfo.deserialize(reader))
+                  );
+                  break;
+                case 2:
+                  message.effect_description = reader.readInt32();
+                  break;
+                default:
+                  reader.skipField();
+              }
+            }
+            return message;
+          }
+          serializeBinary(): Uint8Array {
+            return this.serialize();
+          }
+          static deserializeBinary(bytes: Uint8Array): IdleData {
+            return IdleData.deserialize(bytes);
+          }
+        }
       }
     }
   }
