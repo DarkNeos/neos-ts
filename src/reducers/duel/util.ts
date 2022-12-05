@@ -30,6 +30,7 @@ export function judgeSelf(
 export interface Card {
   meta: CardMeta;
   transform: CardTransform;
+  interactivities: Interactivity[];
 }
 
 interface CardTransform {
@@ -43,4 +44,25 @@ interface CardTransform {
     y: number;
     z: number;
   };
+}
+
+export enum InteractType {
+  // 可普通召唤
+  SUMMON,
+  // 可特殊召唤
+  SP_SUMMON,
+  // 可改变表示形式
+  POS_CHANGE,
+  // 可前场放置
+  MSET,
+  // 可后场放置
+  SSET,
+  // 可发动效果
+  ACTIVATE,
+}
+
+interface Interactivity {
+  interactType: InteractType;
+  // 如果`interactType`是`ACTIVATE`，这个字段是对应的效果编号
+  activateIndex: number;
 }

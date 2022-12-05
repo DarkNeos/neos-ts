@@ -39,7 +39,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const selfType = state.selfType;
 
     const cards = hands.map((meta) => {
-      return { meta, transform: {} };
+      return { meta, transform: {}, interactivities: [] };
     });
     if (judgeSelf(player, selfType)) {
       if (state.meHands) {
