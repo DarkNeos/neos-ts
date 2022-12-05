@@ -45,7 +45,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
     for (let data of cmd.idle_datas) {
       const card_info = data.card_info;
-      if (card_info.location === 0) {
+      if (card_info.location === 2) {
         // 目前只处理手牌场景
         if (interactType === InteractType.ACTIVATE) {
           // 发动效果会多一个字段
