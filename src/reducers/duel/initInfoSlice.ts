@@ -16,9 +16,8 @@ export const infoInitImpl: CaseReducer<
 > = (state, action) => {
   const player = action.payload[0];
   const initInfo = action.payload[1];
-  const selfType = state.selfType;
 
-  if (judgeSelf(player, selfType)) {
+  if (judgeSelf(player, state)) {
     state.meInitInfo = initInfo;
   } else {
     state.opInitInfo = initInfo;

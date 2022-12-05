@@ -4,14 +4,14 @@
  * */
 
 import { CardMeta } from "../../api/cards";
+import { DuelState } from "./mod";
+import { Draft } from "@reduxjs/toolkit";
 
 /*
  * 通过`player`和`selfType`判断是应该处理自己还是对手
  * */
-export function judgeSelf(
-  player: number,
-  selfType: number | undefined
-): boolean {
+export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
+  const selfType = state.selfType;
   if (selfType === 1) {
     // 自己是先攻
     return player === 0;
@@ -61,8 +61,8 @@ export enum InteractType {
   ACTIVATE,
 }
 
-interface Interactivity {
+export interface Interactivity {
   interactType: InteractType;
   // 如果`interactType`是`ACTIVATE`，这个字段是对应的效果编号
-  activateIndex: number;
+  activateIndex?: number;
 }

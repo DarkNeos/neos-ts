@@ -4,7 +4,4 @@ import { AppDispatch } from "../../store";
 export default (
   selectIdleCmd: ygopro.StocGameMessage.MsgSelectIdleCmd,
   dispatch: AppDispatch
-) => {
-  // TODO
-  console.log(selectIdleCmd);
-};
+) => {};

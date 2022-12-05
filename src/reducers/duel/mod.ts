@@ -5,7 +5,12 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl } from "./initInfoSlice";
-import { Hands, handsCase } from "./handsSlice";
+import {
+  Hands,
+  handsCase,
+  clearHandsInteractivityImpl,
+  addHandsInteractivityImpl,
+} from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
@@ -32,6 +37,10 @@ const duelSlice = createSlice({
     infoInit: infoInitImpl,
     updateTurn: newTurnImpl,
     updatePhase: newPhaseImpl,
+
+    // 手牌相关`Reducer`
+    clearHandsInteractivity: clearHandsInteractivityImpl,
+    addHandsInteractivity: addHandsInteractivityImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
