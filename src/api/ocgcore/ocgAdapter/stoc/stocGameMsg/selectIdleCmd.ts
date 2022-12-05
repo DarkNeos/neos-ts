@@ -18,7 +18,7 @@ export default (data: Uint8Array) => {
   const msg = new MsgSelectIdleCmd({});
   msg.player = reader.readUint8();
 
-  // summon
+  // 通常召唤
   const summonCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.SUMMON,
     idle_datas: [],
@@ -31,7 +31,7 @@ export default (data: Uint8Array) => {
     summonCmd.idle_datas.push(idleData);
   }
 
-  // spsummon
+  // 特殊召唤
   const spSummonCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.SPSUMMON,
     idle_datas: [],
@@ -44,7 +44,7 @@ export default (data: Uint8Array) => {
     spSummonCmd.idle_datas.push(idleData);
   }
 
-  // pos change
+  // 表示形式改变
   const posChangeCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.POS_CHANGE,
     idle_datas: [],
@@ -57,7 +57,7 @@ export default (data: Uint8Array) => {
     posChangeCmd.idle_datas.push(idleData);
   }
 
-  // mset
+  // 前场放置
   const mSetCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.MSET,
     idle_datas: [],
@@ -70,7 +70,7 @@ export default (data: Uint8Array) => {
     mSetCmd.idle_datas.push(idleData);
   }
 
-  // sset
+  // 后场放置
   const sSetCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.SSET,
     idle_datas: [],
@@ -83,7 +83,7 @@ export default (data: Uint8Array) => {
     sSetCmd.idle_datas.push(idleData);
   }
 
-  // activate
+  // 发动效果/灵摆发动
   const activateCmd = new MsgSelectIdleCmd.IdleCmd({
     idle_type: MsgSelectIdleCmd.IdleCmd.IdleType.ACTIVATE,
     idle_datas: [],
@@ -106,8 +106,11 @@ export default (data: Uint8Array) => {
     activateCmd,
   ];
 
+  // 进入战斗阶段
   msg.enable_bp = reader.readUint8() === 1;
+  // 结束回合
   msg.enable_ep = reader.readUint8() === 1;
+  // 切洗手牌
   msg.enable_shuffle = reader.readUint8() === 1;
 
   return msg;
