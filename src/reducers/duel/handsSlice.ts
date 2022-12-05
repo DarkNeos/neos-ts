@@ -7,7 +7,7 @@ import {
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard, CardMeta } from "../../api/cards";
-import { judgeSelf, Card, InteractType, Interactivity } from "./util";
+import { judgeSelf, Card, Interactivity } from "./util";
 import * as UICONFIG from "../../config/ui";
 
 export interface Hands {

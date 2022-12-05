@@ -47,8 +47,14 @@ const duelSlice = createSlice({
   },
 });
 
-export const { setSelfType, infoInit, updateTurn, updatePhase } =
-  duelSlice.actions;
+export const {
+  setSelfType,
+  infoInit,
+  updateTurn,
+  updatePhase,
+  clearHandsInteractivity,
+  addHandsInteractivity,
+} = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
 };
