@@ -17,7 +17,7 @@ import renderCemetery from "./cemetery";
 import renderExclusion from "./exclusion";
 import renderField from "./field";
 import * as CONFIG from "../../../config/ui";
-import { Card } from "../../../api/cards";
+import { Card } from "../../../reducers/duel/util";
 import { selectCurrentPlayer } from "../../../reducers/duel/turnSlice";
 import { selectCurrentPhase } from "../../../reducers/duel/phaseSlice";
 

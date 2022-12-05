@@ -1,11 +1,17 @@
-import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  ActionReducerMapBuilder,
+  CaseReducer,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { Card, fetchCard, CardMeta } from "../../api/cards";
-import { judgeSelf } from "./util";
+import { fetchCard, CardMeta } from "../../api/cards";
+import { judgeSelf, Card, Interactivity } from "./util";
 import * as UICONFIG from "../../config/ui";
 
 export interface Hands {
+  // 注意：手牌的位置顺序是有约束的
   cards: Card[];
 }
 
@@ -35,12 +41,11 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchHandsMeta.fulfilled, (state, action) => {
     const player = action.payload[0];
     const hands = action.payload[1];
-    const selfType = state.selfType;
 
     const cards = hands.map((meta) => {
-      return { meta, transform: {} };
+      return { meta, transform: {}, interactivities: [] };
     });
-    if (judgeSelf(player, selfType)) {
+    if (judgeSelf(player, state)) {
       if (state.meHands) {
         state.meHands.cards = state.meHands.cards.concat(cards);
       } else {
@@ -77,6 +82,42 @@ function setHandsTransform(hands: Card[]): void {
     hand.transform.rotation = { x: rotation.x, y: rotation.y, z: rotation.z };
   });
 }
+
+// 清空手牌互动性
+export const clearHandsInteractivityImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const player = action.payload;
+
+  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+
+  if (hands) {
+    for (let hand of hands.cards) {
+      hand.interactivities = [];
+    }
+  }
+};
+
+// 添加手牌互动性
+export const addHandsInteractivityImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    player: number;
+    index: number;
+    interactivity: Interactivity;
+  }>
+> = (state, action) => {
+  const player = action.payload.player;
+
+  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+  if (hands) {
+    const index = action.payload.index;
+    const interactivity = action.payload.interactivity;
+
+    hands.cards[index].interactivities.push(interactivity);
+  }
+};
 
 export const selectMeHands = (state: RootState) =>
   state.duel.meHands || { cards: [] };
