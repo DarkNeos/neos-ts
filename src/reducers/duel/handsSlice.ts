@@ -1,9 +1,10 @@
 import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { Card, fetchCard, CardMeta } from "../../api/cards";
+import { fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf } from "./util";
 import * as UICONFIG from "../../config/ui";
+import { Card } from "./util";
 
 export interface Hands {
   cards: Card[];

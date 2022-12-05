@@ -16,7 +16,7 @@
 
 import React from "react";
 import type { RootState } from "../../store";
-import { Card } from "../../api/cards";
+import { Card } from "../../reducers/duel/util";
 
 /*
  * 通用的决斗界面抽象接口

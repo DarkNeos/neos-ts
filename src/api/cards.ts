@@ -19,27 +19,6 @@ export interface CardMeta {
   };
 }
 
-interface CardTransform {
-  position?: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  rotation?: {
-    x: number;
-    y: number;
-    z: number;
-  };
-}
-
-/*
- * `Neos`中表示卡牌的通用结构
- * */
-export interface Card {
-  meta: CardMeta;
-  transform: CardTransform;
-}
-
 /*
  * 返回卡片元数据
  *

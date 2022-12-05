@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../../config/ui";
-import { Card } from "../../../api/cards";
+import { Card } from "../../../reducers/duel/util";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();

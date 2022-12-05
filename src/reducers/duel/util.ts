@@ -1,7 +1,9 @@
 /*
- * 对局内状态更新逻辑的一些共用函数
+ * 对局内状态更新逻辑的一些共用函数和数据结构
  *
  * */
+
+import { CardMeta } from "../../api/cards";
 
 /*
  * 通过`player`和`selfType`判断是应该处理自己还是对手
@@ -20,4 +22,25 @@ export function judgeSelf(
     // currently never reach
     return false;
   }
+}
+
+/*
+ * `Neos`中表示卡牌的通用结构
+ * */
+export interface Card {
+  meta: CardMeta;
+  transform: CardTransform;
+}
+
+interface CardTransform {
+  position?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
 }
