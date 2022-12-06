@@ -29,6 +29,7 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
       scene
     );
     hand.material = handMaterial;
+
     // 事件管理
     hand.actionManager = new BABYLON.ActionManager(scene);
     // 监听点击事件
@@ -42,13 +43,24 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
     );
     // 监听`Hover`事件
     hand.actionManager.registerAction(
-      new BABYLON.SetValueAction(
-        {
-          trigger: BABYLON.ActionManager.OnPointerOverTrigger,
-        },
-        hand,
-        "scaling",
-        CONFIG.HandHoverScaling()
+      new BABYLON.CombineAction(
+        { trigger: BABYLON.ActionManager.OnPointerOverTrigger },
+        [
+          new BABYLON.SetValueAction(
+            {
+              trigger: BABYLON.ActionManager.OnPointerOverTrigger,
+            },
+            hand,
+            "scaling",
+            CONFIG.HandHoverScaling()
+          ),
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOverTrigger,
+            (event) => {
+              console.log(`<Hover>hand: ${idx}`, "event: ", event);
+            }
+          ),
+        ]
       )
     );
     // 监听`Hover`离开事件
