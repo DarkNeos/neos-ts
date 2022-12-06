@@ -42,11 +42,24 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
     );
     // 监听`Hover`事件
     hand.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPointerOverTrigger,
-        (event) => {
-          console.log(`<Hover>hand: ${idx}`, "card:", item, "event:", event);
-        }
+      new BABYLON.SetValueAction(
+        {
+          trigger: BABYLON.ActionManager.OnPointerOverTrigger,
+        },
+        hand,
+        "scaling",
+        CONFIG.HandHoverScaling()
+      )
+    );
+    // 监听`Hover`离开事件
+    hand.actionManager.registerAction(
+      new BABYLON.SetValueAction(
+        {
+          trigger: BABYLON.ActionManager.OnPointerOutTrigger,
+        },
+        hand,
+        "scaling",
+        CONFIG.HandHoverOutScaling()
       )
     );
   });
