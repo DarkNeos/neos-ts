@@ -48,17 +48,17 @@ interface CardTransform {
 
 export enum InteractType {
   // 可普通召唤
-  SUMMON,
+  SUMMON = 1,
   // 可特殊召唤
-  SP_SUMMON,
+  SP_SUMMON = 2,
   // 可改变表示形式
-  POS_CHANGE,
+  POS_CHANGE = 3,
   // 可前场放置
-  MSET,
+  MSET = 4,
   // 可后场放置
-  SSET,
+  SSET = 5,
   // 可发动效果
-  ACTIVATE,
+  ACTIVATE = 6,
 }
 
 export interface Interactivity {
