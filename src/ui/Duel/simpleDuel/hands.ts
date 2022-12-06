@@ -54,6 +54,7 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
             "scaling",
             CONFIG.HandHoverScaling()
           ),
+          // TODO: 这里后续应该加上显示可操作按钮的处理
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             (event) => {
