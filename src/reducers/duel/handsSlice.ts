@@ -38,12 +38,17 @@ export const fetchHandsMeta = createAsyncThunk(
 );
 
 export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
-  builder.addCase(fetchHandsMeta.fulfilled, (state, action) => {
-    const player = action.payload[0];
-    const hands = action.payload[1];
+  builder.addCase(fetchHandsMeta.pending, (state, action) => {
+    // Meta结果没返回之前先更新手牌`ID`
+    const player = action.meta.arg[0];
+    const ids = action.meta.arg[1];
 
-    const cards = hands.map((meta) => {
-      return { meta, transform: {}, interactivities: [] };
+    const cards = ids.map((id) => {
+      return {
+        meta: { id, data: {}, text: {} },
+        transform: {},
+        interactivities: [],
+      };
     });
     if (judgeSelf(player, state)) {
       if (state.meHands) {
@@ -57,6 +62,22 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
         state.opHands.cards = state.opHands.cards.concat(cards);
       } else {
         state.opHands = { cards };
+      }
+    }
+  });
+  builder.addCase(fetchHandsMeta.fulfilled, (state, action) => {
+    // `Meta`结果回来后更新手牌的`Meta`结果
+    const player = action.payload[0];
+    const metas = action.payload[1];
+
+    const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+    if (hands) {
+      for (let hand of hands.cards) {
+        for (let meta of metas) {
+          if (hand.meta.id === meta.id) {
+            hand.meta = meta;
+          }
+        }
       }
     }
   });
