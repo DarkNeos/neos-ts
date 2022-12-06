@@ -55,6 +55,12 @@ export const HandRotation = () => {
 export const HandColor = () => {
   return BABYLON.Color3.White();
 };
+export const HandHoverScaling = () => {
+  return new BABYLON.Vector3(1.2, 1.2, 1);
+};
+export const HandHoverOutScaling = () => {
+  return new BABYLON.Vector3(1, 1, 1);
+};
 
 // 怪兽区
 export const MonsterColor = () => {
