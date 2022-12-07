@@ -73,12 +73,10 @@ function setupHandInteractivity(
     `handInteractButtion${handIdx}`,
     "test"
   );
-  button.width = interactShape.width;
-  button.height = interactShape.height;
-  button.fontSize = 200;
+  button.fontSize = CONFIG.HandInteractFontSize;
   button.background = "gray";
   button.onPointerClickObservable.add(() => {
-    alert(`<Interact>hand ${handIdx}`);
+    console.log(`<Interact>hand ${handIdx}`);
   });
   advancedTexture.addControl(button);
 }
