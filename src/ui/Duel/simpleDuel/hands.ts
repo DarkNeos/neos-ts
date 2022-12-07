@@ -66,13 +66,25 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
     );
     // 监听`Hover`离开事件
     hand.actionManager.registerAction(
-      new BABYLON.SetValueAction(
-        {
-          trigger: BABYLON.ActionManager.OnPointerOutTrigger,
-        },
-        hand,
-        "scaling",
-        CONFIG.HandHoverOutScaling()
+      new BABYLON.CombineAction(
+        { trigger: BABYLON.ActionManager.OnPointerOutTrigger },
+        [
+          new BABYLON.SetValueAction(
+            {
+              trigger: BABYLON.ActionManager.OnPointerOutTrigger,
+            },
+            hand,
+            "scaling",
+            CONFIG.HandHoverOutScaling()
+          ),
+          // TODO: 这里后续应该加上禁用可操作按钮的处理
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOutTrigger,
+            (event) => {
+              console.log(`<Hover Out>hand: ${idx}`, "event:", event);
+            }
+          ),
+        ]
       )
     );
   });
