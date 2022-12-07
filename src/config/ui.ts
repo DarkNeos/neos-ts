@@ -61,6 +61,10 @@ export const HandHoverScaling = () => {
 export const HandHoverOutScaling = () => {
   return new BABYLON.Vector3(1, 1, 1);
 };
+export const HandInteractShape = () => {
+  return { width: 0.4, height: 0.1 };
+};
+export const HandInteractFontSize = 300;
 
 // 怪兽区
 export const MonsterColor = () => {
