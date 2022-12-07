@@ -1,4 +1,5 @@
 import * as BABYLON from "@babylonjs/core";
+import * as BABYLON_GUI from "@babylonjs/gui";
 import * as CONFIG from "../../../config/ui";
 import { Card } from "../../../reducers/duel/util";
 
@@ -14,6 +15,8 @@ export default (hands: Card[], scene: BABYLON.Scene) => {
     setupHandTransform(hand, item);
     // 材质
     setupHandMaterial(hand, item, scene);
+    // 互动选项
+    setupHandInteractivity(hand, item, idx, scene);
     // 事件管理
     setupHandAction(hand, item, idx, scene);
   });
@@ -47,6 +50,37 @@ function setupHandMaterial(
     scene
   );
   mesh.material = handMaterial;
+}
+
+function setupHandInteractivity(
+  mesh: BABYLON.Mesh,
+  state: Card,
+  handIdx: number,
+  scene: BABYLON.Scene
+) {
+  const interactShape = CONFIG.HandInteractShape();
+  const interact = BABYLON.MeshBuilder.CreatePlane(
+    `handInteract${handIdx}`,
+    interactShape,
+    scene
+  );
+  interact.parent = mesh;
+  interact.position.x = CONFIG.HandShape().width / 2 + interactShape.width / 2;
+
+  const advancedTexture =
+    BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
+  const button = BABYLON_GUI.Button.CreateSimpleButton(
+    `handInteractButtion${handIdx}`,
+    "test"
+  );
+  button.width = interactShape.width;
+  button.height = interactShape.height;
+  button.fontSize = 200;
+  button.background = "gray";
+  button.onPointerClickObservable.add(() => {
+    alert(`<Interact>hand ${handIdx}`);
+  });
+  advancedTexture.addControl(button);
 }
 
 function setupHandAction(

@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@babylonjs/core": "^5.29.0",
+    "@babylonjs/gui": "^5.35.1",
     "@types/google-protobuf": "^3.15.6",
     "@types/three": "^0.144.0",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
