@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core";
 import * as BABYLON_GUI from "@babylonjs/gui";
 import * as CONFIG from "../../../config/ui";
-import { Card } from "../../../reducers/duel/util";
+import { Card, InteractType } from "../../../reducers/duel/util";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
@@ -59,31 +59,37 @@ function setupHandInteractivity(
   scene: BABYLON.Scene
 ) {
   const interactShape = CONFIG.HandInteractShape();
-  const interact = BABYLON.MeshBuilder.CreatePlane(
-    `handInteract${handIdx}`,
-    interactShape,
-    scene
-  );
-  interact.parent = mesh;
-  // 调整位置
-  interact.translate(
-    new BABYLON.Vector3(0, 1, 0),
-    CONFIG.HandShape().height / 2 + interactShape.height / 2
-  );
+  const interactivities = state.interactivities;
 
-  const advancedTexture =
-    BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
-  const button = BABYLON_GUI.Button.CreateImageWithCenterTextButton(
-    `handInteractButtion${handIdx}`,
-    "test",
-    "http://localhost:3030/images/interact_button.png"
-  );
-  button.fontSize = CONFIG.HandInteractFontSize;
-  button.color = "white";
-  button.onPointerClickObservable.add(() => {
-    console.log(`<Interact>hand ${handIdx}`);
-  });
-  advancedTexture.addControl(button);
+  for (let i = 0; i < interactivities.length; i++) {
+    const interact = BABYLON.MeshBuilder.CreatePlane(
+      `handInteract_${handIdx}_${i}`,
+      interactShape,
+      scene
+    );
+    interact.parent = mesh;
+    // 调整位置
+    interact.translate(
+      new BABYLON.Vector3(0, 1, 0),
+      CONFIG.HandShape().height / 2 +
+        interactShape.height / 2 +
+        interactShape.height * i
+    );
+
+    const advancedTexture =
+      BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
+    const button = BABYLON_GUI.Button.CreateImageWithCenterTextButton(
+      `handInteractButtion_${handIdx}_${i}`,
+      interactTypeToString(interactivities[i].interactType),
+      "http://localhost:3030/images/interact_button.png"
+    );
+    button.fontSize = CONFIG.HandInteractFontSize;
+    button.color = "white";
+    button.onPointerClickObservable.add(() => {
+      console.log(`<Interact>hand ${handIdx}`);
+    });
+    advancedTexture.addControl(button);
+  }
 }
 
 function setupHandAction(
@@ -148,4 +154,8 @@ function setupHandAction(
       ]
     )
   );
+}
+
+function interactTypeToString(t: InteractType): string {
+  return InteractType[t];
 }

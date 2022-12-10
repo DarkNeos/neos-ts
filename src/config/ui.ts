@@ -64,7 +64,7 @@ export const HandHoverOutScaling = () => {
 export const HandInteractShape = () => {
   return { width: 0.8, height: 0.2 };
 };
-export const HandInteractFontSize = 300;
+export const HandInteractFontSize = 200;
 
 // 怪兽区
 export const MonsterColor = () => {
