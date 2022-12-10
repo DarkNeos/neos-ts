@@ -89,6 +89,8 @@ function setupHandInteractivity(
       console.log(`<Interact>hand ${handIdx}`);
     });
     advancedTexture.addControl(button);
+
+    interact.visibility = 0;
   }
 }
 
@@ -126,6 +128,9 @@ function setupHandAction(
           BABYLON.ActionManager.OnPointerOverTrigger,
           (event) => {
             console.log(`<Hover>hand: ${handIdx}`, "event: ", event);
+            for (let child of mesh.getChildMeshes()) {
+              child.visibility = 1;
+            }
           }
         ),
       ]
@@ -149,6 +154,9 @@ function setupHandAction(
           BABYLON.ActionManager.OnPointerOutTrigger,
           (event) => {
             console.log(`<Hover Out>hand: ${handIdx}`, "event:", event);
+            for (let child of mesh.getChildMeshes()) {
+              child.visibility = 0;
+            }
           }
         ),
       ]
