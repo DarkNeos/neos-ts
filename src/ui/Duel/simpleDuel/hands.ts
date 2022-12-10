@@ -112,6 +112,8 @@ function setupHandAction(
     )
   );
   // 监听`Hover`事件
+  //
+  // TODO: 应该在`Hover`的时候开启子组件（按钮），`Hover`离开的时候禁用
   mesh.actionManager.registerAction(
     new BABYLON.CombineAction(
       { trigger: BABYLON.ActionManager.OnPointerOverTrigger },
