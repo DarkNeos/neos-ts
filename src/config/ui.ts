@@ -62,7 +62,7 @@ export const HandHoverOutScaling = () => {
   return new BABYLON.Vector3(1, 1, 1);
 };
 export const HandInteractShape = () => {
-  return { width: 0.4, height: 0.1 };
+  return { width: 0.8, height: 0.2 };
 };
 export const HandInteractFontSize = 300;
 

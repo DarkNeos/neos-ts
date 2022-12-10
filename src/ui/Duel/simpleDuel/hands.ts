@@ -65,16 +65,21 @@ function setupHandInteractivity(
     scene
   );
   interact.parent = mesh;
-  interact.position.x = CONFIG.HandShape().width / 2 + interactShape.width / 2;
+  // 调整位置
+  interact.translate(
+    new BABYLON.Vector3(0, 1, 0),
+    CONFIG.HandShape().height / 2 + interactShape.height / 2
+  );
 
   const advancedTexture =
     BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
-  const button = BABYLON_GUI.Button.CreateSimpleButton(
+  const button = BABYLON_GUI.Button.CreateImageWithCenterTextButton(
     `handInteractButtion${handIdx}`,
-    "test"
+    "test",
+    "http://localhost:3030/images/interact_button.png"
   );
   button.fontSize = CONFIG.HandInteractFontSize;
-  button.background = "gray";
+  button.color = "white";
   button.onPointerClickObservable.add(() => {
     console.log(`<Interact>hand ${handIdx}`);
   });
