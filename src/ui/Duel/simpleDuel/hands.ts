@@ -90,7 +90,8 @@ function setupHandInteractivity(
     });
     advancedTexture.addControl(button);
 
-    interact.visibility = 0;
+    interact.visibility = 0.2;
+    // interact.setEnabled(false);
   }
 }
 
@@ -123,15 +124,12 @@ function setupHandAction(
           "scaling",
           CONFIG.HandHoverScaling()
         ),
-        // TODO: 这里后续应该加上显示可操作按钮的处理
-        new BABYLON.ExecuteCodeAction(
+        new BABYLON.InterpolateValueAction(
           BABYLON.ActionManager.OnPointerOverTrigger,
-          (event) => {
-            console.log(`<Hover>hand: ${handIdx}`, "event: ", event);
-            for (let child of mesh.getChildMeshes()) {
-              child.visibility = 1;
-            }
-          }
+          mesh.getChildMeshes(),
+          "visibility",
+          1.0,
+          10
         ),
       ]
     )
@@ -149,15 +147,12 @@ function setupHandAction(
           "scaling",
           CONFIG.HandHoverOutScaling()
         ),
-        // TODO: 这里后续应该加上禁用可操作按钮的处理
-        new BABYLON.ExecuteCodeAction(
-          BABYLON.ActionManager.OnPointerOutTrigger,
-          (event) => {
-            console.log(`<Hover Out>hand: ${handIdx}`, "event:", event);
-            for (let child of mesh.getChildMeshes()) {
-              child.visibility = 0;
-            }
-          }
+        new BABYLON.InterpolateValueAction(
+          BABYLON.ActionManager.OnPointerOverTrigger,
+          mesh.getChildMeshes(),
+          "visibility",
+          0.2,
+          10
         ),
       ]
     )
