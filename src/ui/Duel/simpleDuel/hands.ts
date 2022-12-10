@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core";
 import * as BABYLON_GUI from "@babylonjs/gui";
 import * as CONFIG from "../../../config/ui";
-import { Card } from "../../../reducers/duel/util";
+import { Card, InteractType } from "../../../reducers/duel/util";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
@@ -59,26 +59,40 @@ function setupHandInteractivity(
   scene: BABYLON.Scene
 ) {
   const interactShape = CONFIG.HandInteractShape();
-  const interact = BABYLON.MeshBuilder.CreatePlane(
-    `handInteract${handIdx}`,
-    interactShape,
-    scene
-  );
-  interact.parent = mesh;
-  interact.position.x = CONFIG.HandShape().width / 2 + interactShape.width / 2;
+  const interactivities = state.interactivities;
 
-  const advancedTexture =
-    BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
-  const button = BABYLON_GUI.Button.CreateSimpleButton(
-    `handInteractButtion${handIdx}`,
-    "test"
-  );
-  button.fontSize = CONFIG.HandInteractFontSize;
-  button.background = "gray";
-  button.onPointerClickObservable.add(() => {
-    console.log(`<Interact>hand ${handIdx}`);
-  });
-  advancedTexture.addControl(button);
+  for (let i = 0; i < interactivities.length; i++) {
+    const interact = BABYLON.MeshBuilder.CreatePlane(
+      `handInteract_${handIdx}_${i}`,
+      interactShape,
+      scene
+    );
+    interact.parent = mesh;
+    // 调整位置
+    interact.translate(
+      new BABYLON.Vector3(0, 1, 0),
+      CONFIG.HandShape().height / 2 +
+        interactShape.height / 2 +
+        interactShape.height * i
+    );
+
+    const advancedTexture =
+      BABYLON_GUI.AdvancedDynamicTexture.CreateForMesh(interact);
+    const button = BABYLON_GUI.Button.CreateImageWithCenterTextButton(
+      `handInteractButtion_${handIdx}_${i}`,
+      interactTypeToString(interactivities[i].interactType),
+      "http://localhost:3030/images/interact_button.png"
+    );
+    button.fontSize = CONFIG.HandInteractFontSize;
+    button.color = "white";
+    button.onPointerClickObservable.add(() => {
+      console.log(`<Interact>hand ${handIdx}`);
+    });
+    advancedTexture.addControl(button);
+
+    interact.visibility = 0.2;
+    // interact.setEnabled(false);
+  }
 }
 
 function setupHandAction(
@@ -98,6 +112,8 @@ function setupHandAction(
     )
   );
   // 监听`Hover`事件
+  //
+  // TODO: 应该在`Hover`的时候开启子组件（按钮），`Hover`离开的时候禁用
   mesh.actionManager.registerAction(
     new BABYLON.CombineAction(
       { trigger: BABYLON.ActionManager.OnPointerOverTrigger },
@@ -110,12 +126,12 @@ function setupHandAction(
           "scaling",
           CONFIG.HandHoverScaling()
         ),
-        // TODO: 这里后续应该加上显示可操作按钮的处理
-        new BABYLON.ExecuteCodeAction(
+        new BABYLON.InterpolateValueAction(
           BABYLON.ActionManager.OnPointerOverTrigger,
-          (event) => {
-            console.log(`<Hover>hand: ${handIdx}`, "event: ", event);
-          }
+          mesh.getChildMeshes(),
+          "visibility",
+          1.0,
+          10
         ),
       ]
     )
@@ -133,14 +149,18 @@ function setupHandAction(
           "scaling",
           CONFIG.HandHoverOutScaling()
         ),
-        // TODO: 这里后续应该加上禁用可操作按钮的处理
-        new BABYLON.ExecuteCodeAction(
-          BABYLON.ActionManager.OnPointerOutTrigger,
-          (event) => {
-            console.log(`<Hover Out>hand: ${handIdx}`, "event:", event);
-          }
+        new BABYLON.InterpolateValueAction(
+          BABYLON.ActionManager.OnPointerOverTrigger,
+          mesh.getChildMeshes(),
+          "visibility",
+          0.2,
+          10
         ),
       ]
     )
   );
+}
+
+function interactTypeToString(t: InteractType): string {
+  return InteractType[t];
 }
