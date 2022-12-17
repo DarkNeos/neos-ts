@@ -12,7 +12,7 @@ export namespace ygopro {
     PAPER = 3,
   }
   export class YgoCtosMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9]];
     constructor(
       data?:
         | any[]
@@ -26,6 +26,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -36,6 +37,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -46,6 +48,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -56,6 +59,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -66,6 +70,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -76,6 +81,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: CtosHsNotReady;
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -86,6 +92,7 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: CtosHandResult;
                 ctos_tp_result?: never;
+                ctos_time_confirm?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -96,6 +103,18 @@ export namespace ygopro {
                 ctos_hs_not_ready?: never;
                 ctos_hand_result?: never;
                 ctos_tp_result?: CtosTpResult;
+                ctos_time_confirm?: never;
+              }
+            | {
+                ctos_player_info?: never;
+                ctos_join_game?: never;
+                ctos_update_deck?: never;
+                ctos_hs_ready?: never;
+                ctos_hs_start?: never;
+                ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
+                ctos_time_confirm?: CtosTimeConfirm;
               }
           ))
     ) {
@@ -135,6 +154,12 @@ export namespace ygopro {
         }
         if ("ctos_tp_result" in data && data.ctos_tp_result != undefined) {
           this.ctos_tp_result = data.ctos_tp_result;
+        }
+        if (
+          "ctos_time_confirm" in data &&
+          data.ctos_time_confirm != undefined
+        ) {
+          this.ctos_time_confirm = data.ctos_time_confirm;
         }
       }
     }
@@ -234,6 +259,19 @@ export namespace ygopro {
     get has_ctos_tp_result() {
       return pb_1.Message.getField(this, 8) != null;
     }
+    get ctos_time_confirm() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosTimeConfirm,
+        9
+      ) as CtosTimeConfirm;
+    }
+    set ctos_time_confirm(value: CtosTimeConfirm) {
+      pb_1.Message.setOneofWrapperField(this, 9, this.#one_of_decls[0], value);
+    }
+    get has_ctos_time_confirm() {
+      return pb_1.Message.getField(this, 9) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -245,7 +283,8 @@ export namespace ygopro {
           | "ctos_hs_start"
           | "ctos_hs_not_ready"
           | "ctos_hand_result"
-          | "ctos_tp_result";
+          | "ctos_tp_result"
+          | "ctos_time_confirm";
       } = {
         0: "none",
         1: "ctos_player_info",
@@ -256,9 +295,10 @@ export namespace ygopro {
         6: "ctos_hs_not_ready",
         7: "ctos_hand_result",
         8: "ctos_tp_result",
+        9: "ctos_time_confirm",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9])
       ];
     }
     static fromObject(data: {
@@ -270,6 +310,7 @@ export namespace ygopro {
       ctos_hs_not_ready?: ReturnType<typeof CtosHsNotReady.prototype.toObject>;
       ctos_hand_result?: ReturnType<typeof CtosHandResult.prototype.toObject>;
       ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
+      ctos_time_confirm?: ReturnType<typeof CtosTimeConfirm.prototype.toObject>;
     }): YgoCtosMsg {
       const message = new YgoCtosMsg({});
       if (data.ctos_player_info != null) {
@@ -304,6 +345,11 @@ export namespace ygopro {
       if (data.ctos_tp_result != null) {
         message.ctos_tp_result = CtosTpResult.fromObject(data.ctos_tp_result);
       }
+      if (data.ctos_time_confirm != null) {
+        message.ctos_time_confirm = CtosTimeConfirm.fromObject(
+          data.ctos_time_confirm
+        );
+      }
       return message;
     }
     toObject() {
@@ -318,6 +364,9 @@ export namespace ygopro {
         >;
         ctos_hand_result?: ReturnType<typeof CtosHandResult.prototype.toObject>;
         ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
+        ctos_time_confirm?: ReturnType<
+          typeof CtosTimeConfirm.prototype.toObject
+        >;
       } = {};
       if (this.ctos_player_info != null) {
         data.ctos_player_info = this.ctos_player_info.toObject();
@@ -342,6 +391,9 @@ export namespace ygopro {
       }
       if (this.ctos_tp_result != null) {
         data.ctos_tp_result = this.ctos_tp_result.toObject();
+      }
+      if (this.ctos_time_confirm != null) {
+        data.ctos_time_confirm = this.ctos_time_confirm.toObject();
       }
       return data;
     }
@@ -380,6 +432,10 @@ export namespace ygopro {
       if (this.has_ctos_tp_result)
         writer.writeMessage(8, this.ctos_tp_result, () =>
           this.ctos_tp_result.serialize(writer)
+        );
+      if (this.has_ctos_time_confirm)
+        writer.writeMessage(9, this.ctos_time_confirm, () =>
+          this.ctos_time_confirm.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -444,6 +500,14 @@ export namespace ygopro {
               () => (message.ctos_tp_result = CtosTpResult.deserialize(reader))
             );
             break;
+          case 9:
+            reader.readMessage(
+              message.ctos_time_confirm,
+              () =>
+                (message.ctos_time_confirm =
+                  CtosTimeConfirm.deserialize(reader))
+            );
+            break;
           default:
             reader.skipField();
         }
@@ -458,7 +522,7 @@ export namespace ygopro {
     }
   }
   export class YgoStocMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
     constructor(
       data?:
         | any[]
@@ -476,6 +540,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -490,6 +555,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -504,6 +570,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -518,6 +585,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -532,6 +600,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -546,6 +615,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -560,6 +630,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -574,6 +645,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -588,6 +660,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -602,6 +675,7 @@ export namespace ygopro {
                 stoc_deck_count?: StocDeckCount;
                 stoc_duel_start?: never;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -616,6 +690,7 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: StocDuelStart;
                 stoc_game_msg?: never;
+                stoc_time_limit?: never;
               }
             | {
                 stoc_join_game?: never;
@@ -630,6 +705,22 @@ export namespace ygopro {
                 stoc_deck_count?: never;
                 stoc_duel_start?: never;
                 stoc_game_msg?: StocGameMessage;
+                stoc_time_limit?: never;
+              }
+            | {
+                stoc_join_game?: never;
+                stoc_chat?: never;
+                stoc_hs_player_enter?: never;
+                stoc_type_change?: never;
+                stoc_hs_player_change?: never;
+                stoc_hs_watch_change?: never;
+                stoc_select_hand?: never;
+                stoc_hand_result?: never;
+                stoc_select_tp?: never;
+                stoc_deck_count?: never;
+                stoc_duel_start?: never;
+                stoc_game_msg?: never;
+                stoc_time_limit?: StocTimeLimit;
               }
           ))
     ) {
@@ -687,6 +778,9 @@ export namespace ygopro {
         }
         if ("stoc_game_msg" in data && data.stoc_game_msg != undefined) {
           this.stoc_game_msg = data.stoc_game_msg;
+        }
+        if ("stoc_time_limit" in data && data.stoc_time_limit != undefined) {
+          this.stoc_time_limit = data.stoc_time_limit;
         }
       }
     }
@@ -842,6 +936,19 @@ export namespace ygopro {
     get has_stoc_game_msg() {
       return pb_1.Message.getField(this, 12) != null;
     }
+    get stoc_time_limit() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocTimeLimit,
+        13
+      ) as StocTimeLimit;
+    }
+    set stoc_time_limit(value: StocTimeLimit) {
+      pb_1.Message.setOneofWrapperField(this, 13, this.#one_of_decls[0], value);
+    }
+    get has_stoc_time_limit() {
+      return pb_1.Message.getField(this, 13) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -857,7 +964,8 @@ export namespace ygopro {
           | "stoc_select_tp"
           | "stoc_deck_count"
           | "stoc_duel_start"
-          | "stoc_game_msg";
+          | "stoc_game_msg"
+          | "stoc_time_limit";
       } = {
         0: "none",
         1: "stoc_join_game",
@@ -872,11 +980,12 @@ export namespace ygopro {
         10: "stoc_deck_count",
         11: "stoc_duel_start",
         12: "stoc_game_msg",
+        13: "stoc_time_limit",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
         )
       ];
     }
@@ -899,6 +1008,7 @@ export namespace ygopro {
       stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
       stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
       stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
+      stoc_time_limit?: ReturnType<typeof StocTimeLimit.prototype.toObject>;
     }): YgoStocMsg {
       const message = new YgoStocMsg({});
       if (data.stoc_join_game != null) {
@@ -953,6 +1063,11 @@ export namespace ygopro {
       if (data.stoc_game_msg != null) {
         message.stoc_game_msg = StocGameMessage.fromObject(data.stoc_game_msg);
       }
+      if (data.stoc_time_limit != null) {
+        message.stoc_time_limit = StocTimeLimit.fromObject(
+          data.stoc_time_limit
+        );
+      }
       return message;
     }
     toObject() {
@@ -975,6 +1090,7 @@ export namespace ygopro {
         stoc_deck_count?: ReturnType<typeof StocDeckCount.prototype.toObject>;
         stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
         stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
+        stoc_time_limit?: ReturnType<typeof StocTimeLimit.prototype.toObject>;
       } = {};
       if (this.stoc_join_game != null) {
         data.stoc_join_game = this.stoc_join_game.toObject();
@@ -1011,6 +1127,9 @@ export namespace ygopro {
       }
       if (this.stoc_game_msg != null) {
         data.stoc_game_msg = this.stoc_game_msg.toObject();
+      }
+      if (this.stoc_time_limit != null) {
+        data.stoc_time_limit = this.stoc_time_limit.toObject();
       }
       return data;
     }
@@ -1065,6 +1184,10 @@ export namespace ygopro {
       if (this.has_stoc_game_msg)
         writer.writeMessage(12, this.stoc_game_msg, () =>
           this.stoc_game_msg.serialize(writer)
+        );
+      if (this.has_stoc_time_limit)
+        writer.writeMessage(13, this.stoc_time_limit, () =>
+          this.stoc_time_limit.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -1159,6 +1282,13 @@ export namespace ygopro {
               message.stoc_game_msg,
               () =>
                 (message.stoc_game_msg = StocGameMessage.deserialize(reader))
+            );
+            break;
+          case 13:
+            reader.readMessage(
+              message.stoc_time_limit,
+              () =>
+                (message.stoc_time_limit = StocTimeLimit.deserialize(reader))
             );
             break;
           default:
@@ -1822,6 +1952,57 @@ export namespace ygopro {
       UNKNOWN = 0,
       FIRST = 1,
       SECOND = 2,
+    }
+  }
+  export class CtosTimeConfirm extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+      }
+    }
+    static fromObject(data: {}): CtosTimeConfirm {
+      const message = new CtosTimeConfirm({});
+      return message;
+    }
+    toObject() {
+      const data: {} = {};
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosTimeConfirm {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CtosTimeConfirm();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CtosTimeConfirm {
+      return CtosTimeConfirm.deserialize(bytes);
     }
   }
   export class StocJoinGame extends pb_1.Message {
@@ -3097,6 +3278,108 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): StocDuelStart {
       return StocDuelStart.deserialize(bytes);
+    }
+  }
+  export class StocTimeLimit extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            player?: number;
+            left_time?: number;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("player" in data && data.player != undefined) {
+          this.player = data.player;
+        }
+        if ("left_time" in data && data.left_time != undefined) {
+          this.left_time = data.left_time;
+        }
+      }
+    }
+    get player() {
+      return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set player(value: number) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    get left_time() {
+      return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set left_time(value: number) {
+      pb_1.Message.setField(this, 2, value);
+    }
+    static fromObject(data: {
+      player?: number;
+      left_time?: number;
+    }): StocTimeLimit {
+      const message = new StocTimeLimit({});
+      if (data.player != null) {
+        message.player = data.player;
+      }
+      if (data.left_time != null) {
+        message.left_time = data.left_time;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        player?: number;
+        left_time?: number;
+      } = {};
+      if (this.player != null) {
+        data.player = this.player;
+      }
+      if (this.left_time != null) {
+        data.left_time = this.left_time;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.player != 0) writer.writeInt32(1, this.player);
+      if (this.left_time != 0) writer.writeInt32(2, this.left_time);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocTimeLimit {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new StocTimeLimit();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.player = reader.readInt32();
+            break;
+          case 2:
+            message.left_time = reader.readInt32();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): StocTimeLimit {
+      return StocTimeLimit.deserialize(bytes);
     }
   }
   export class StocGameMessage extends pb_1.Message {

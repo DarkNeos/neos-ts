@@ -12,6 +12,7 @@ import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
 import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
 import HandResult from "./ocgAdapter/ctos/ctosHandResult";
 import TpResult from "./ocgAdapter/ctos/ctosTpResult";
+import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -104,6 +105,15 @@ export function sendTpResult(isFirst: boolean) {
     }),
   });
   const payload = new TpResult(tpResult).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendTimeConfirm() {
+  const timeConfirm = new ygopro.YgoCtosMsg({
+    ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
+  });
+  const payload = new TimeConfirm(timeConfirm).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }

@@ -14,6 +14,7 @@ import handleSelectHand from "./mora/selectHand";
 import handleSelectTp from "./mora/selectTp";
 import handleDeckCount from "./mora/deckCount";
 import handleGameMsg from "./duel/gameMsg";
+import handleTimeLimit from "./duel/timeLimit";
 
 /*
  * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，
@@ -84,6 +85,11 @@ export default function handleSocketMessage(e: MessageEvent) {
     }
     case "stoc_game_msg": {
       handleGameMsg(pb);
+
+      break;
+    }
+    case "stoc_time_limit": {
+      handleTimeLimit(pb.stoc_time_limit);
 
       break;
     }

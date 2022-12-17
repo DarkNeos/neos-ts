@@ -9,6 +9,7 @@ export const CTOS_HS_READY = 34;
 export const CTOS_HS_START = 37;
 export const CTOS_HAND_RESULT = 3;
 export const CTOS_TP_RESULT = 4;
+export const CTOS_TIME_CONFIRM = 21;
 
 export const STOC_JOIN_GAME = 18;
 export const STOC_CHAT = 25;
@@ -22,6 +23,7 @@ export const STOC_HAND_RESULT = 5;
 export const STOC_DECK_COUNT = 9;
 export const STOC_DUEL_START = 21;
 export const STOC_GAME_MSG = 1;
+export const STOC_TIME_LIMIT = 24;
 
 export const MSG_START = 4;
 export const MSG_DRAW = 90;
