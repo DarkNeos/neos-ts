@@ -5,6 +5,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl } from "./initInfoSlice";
+import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
 import {
   Hands,
   handsCase,
@@ -21,6 +22,8 @@ export interface DuelState {
   opInitInfo?: InitInfo; // 对手的初始状态
   meHands?: Hands; // 自己的手牌
   opHands?: Hands; // 对手的手牌
+  meTimeLimit?: TimeLimit; // 自己的计时
+  opTimeLimit?: TimeLimit; // 对手的计时
   currentPlayer?: number; // 当前的操作方
   currentPhase?: string; // 当前的阶段
 }
@@ -37,6 +40,7 @@ const duelSlice = createSlice({
     infoInit: infoInitImpl,
     updateTurn: newTurnImpl,
     updatePhase: newPhaseImpl,
+    updateTimeLimit: updateTimeLimitImpl,
 
     // 手牌相关`Reducer`
     clearHandsInteractivity: clearHandsInteractivityImpl,
@@ -54,6 +58,7 @@ export const {
   updatePhase,
   clearHandsInteractivity,
   addHandsInteractivity,
+  updateTimeLimit,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
