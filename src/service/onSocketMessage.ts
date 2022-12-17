@@ -87,6 +87,11 @@ export default function handleSocketMessage(e: MessageEvent) {
 
       break;
     }
+    case "stoc_time_limit": {
+      // TODO
+
+      break;
+    }
     default: {
       console.log(packet);
 

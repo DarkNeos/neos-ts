@@ -13,6 +13,7 @@ import {
   STOC_DECK_COUNT,
   STOC_DUEL_START,
   STOC_GAME_MSG,
+  STOC_TIME_LIMIT,
 } from "./protoDecl";
 import StocChat from "./stoc/stocChat";
 import StocJoinGame from "./stoc/stocJoinGame";
@@ -23,6 +24,7 @@ import StocTypeChange from "./stoc/stocTypeChange";
 import StocSelectHand from "./stoc/stocSelectHand";
 import StocSelectTp from "./stoc/stocSelectTp";
 import StocDeckCount from "./stoc/stocDeckCount";
+import StocTimeLimit from "./stoc/stocTimeLimit";
 import StocGameMsg from "./stoc/stocGameMsg/mod";
 
 /*
@@ -91,6 +93,11 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_GAME_MSG: {
       pb = new StocGameMsg(packet).upcast();
+
+      break;
+    }
+    case STOC_TIME_LIMIT: {
+      pb = new StocTimeLimit(packet).upcast();
 
       break;
     }
