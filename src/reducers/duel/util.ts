@@ -65,4 +65,6 @@ export interface Interactivity {
   interactType: InteractType;
   // 如果`interactType`是`ACTIVATE`，这个字段是对应的效果编号
   activateIndex?: number;
+  // 用户点击后，需要回传给服务端的`response`
+  response: number;
 }

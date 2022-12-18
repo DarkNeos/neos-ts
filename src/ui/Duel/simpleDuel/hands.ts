@@ -2,6 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import * as BABYLON_GUI from "@babylonjs/gui";
 import * as CONFIG from "../../../config/ui";
 import { Card, InteractType } from "../../../reducers/duel/util";
+import { sendSelectIdleCmdResponse } from "../../../api/ocgcore/ocgHelper";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
@@ -87,6 +88,8 @@ function setupHandInteractivity(
     button.color = "white";
     button.onPointerClickObservable.add(() => {
       console.log(`<Interact>hand ${handIdx}`);
+
+      sendSelectIdleCmdResponse(interactivities[i].response);
     });
     advancedTexture.addControl(button);
 
