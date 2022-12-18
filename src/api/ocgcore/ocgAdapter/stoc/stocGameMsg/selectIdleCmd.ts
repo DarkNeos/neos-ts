@@ -27,6 +27,7 @@ export default (data: Uint8Array) => {
   for (let i = 0; i < summonCount; i++) {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
+      response: (i << 16) + 0,
     });
     summonCmd.idle_datas.push(idleData);
   }
@@ -40,6 +41,7 @@ export default (data: Uint8Array) => {
   for (let i = 0; i < spSummonCount; i++) {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
+      response: (i << 16) + 1,
     });
     spSummonCmd.idle_datas.push(idleData);
   }
@@ -53,6 +55,7 @@ export default (data: Uint8Array) => {
   for (let i = 0; i < posChangeCount; i++) {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
+      response: (i << 16) + 2,
     });
     posChangeCmd.idle_datas.push(idleData);
   }
@@ -66,6 +69,7 @@ export default (data: Uint8Array) => {
   for (let i = 0; i < mSetCount; i++) {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
+      response: (i << 16) + 3,
     });
     mSetCmd.idle_datas.push(idleData);
   }
@@ -79,6 +83,7 @@ export default (data: Uint8Array) => {
   for (let i = 0; i < sSetCount; i++) {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
+      response: (i << 16) + 4,
     });
     sSetCmd.idle_datas.push(idleData);
   }
@@ -93,6 +98,7 @@ export default (data: Uint8Array) => {
     const idleData = new MsgSelectIdleCmd.IdleCmd.IdleData({
       card_info: reader.readCardInfo(),
       effect_description: reader.readUint32(),
+      response: (i << 16) + 5,
     });
     activateCmd.idle_datas.push(idleData);
   }
