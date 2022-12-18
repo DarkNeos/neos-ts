@@ -93,7 +93,7 @@ function setupHandInteractivity(
     });
     advancedTexture.addControl(button);
 
-    interact.visibility = 0.2;
+    interact.visibility = 0.01;
     // interact.setEnabled(false);
   }
 }
@@ -156,7 +156,7 @@ function setupHandAction(
           BABYLON.ActionManager.OnPointerOverTrigger,
           mesh.getChildMeshes(),
           "visibility",
-          0.2,
+          0.01,
           10
         ),
       ]
