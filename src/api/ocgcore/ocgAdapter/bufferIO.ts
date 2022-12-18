@@ -63,3 +63,30 @@ export class BufferReader {
     return cardInfo;
   }
 }
+
+export class BufferWriter {
+  dataView: DataView;
+  littleEndian: boolean;
+  offset: number;
+
+  constructor(data: Uint8Array, littleEndian: boolean) {
+    this.dataView = new DataView(data.buffer);
+    this.littleEndian = littleEndian;
+    this.offset = 0;
+  }
+
+  writeUint8(value: number) {
+    this.dataView.setUint8(this.offset, value);
+    this.offset += OFFSET_UINT8;
+  }
+
+  writeInt8(value: number) {
+    this.dataView.setInt8(this.offset, value);
+    this.offset += OFFSET_INT8;
+  }
+
+  writeUint32(value: number) {
+    this.dataView.setUint32(this.offset, value);
+    this.offset += OFFSET_UINT32;
+  }
+}
