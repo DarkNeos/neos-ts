@@ -56,6 +56,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
               interactivity: {
                 interactType,
                 activateIndex: data.effect_description,
+                response: data.response,
               },
             })
           );
@@ -64,7 +65,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
             addHandsInteractivity({
               player,
               index: card_info.sequence,
-              interactivity: { interactType },
+              interactivity: { interactType, response: data.response },
             })
           );
         }
