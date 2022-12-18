@@ -13,6 +13,7 @@ import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
 import HandResult from "./ocgAdapter/ctos/ctosHandResult";
 import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
+import GameMsgResponse from "./ocgAdapter/ctos/ctosGameMsgResponse/mod";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -114,6 +115,19 @@ export function sendTimeConfirm() {
     ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
   });
   const payload = new TimeConfirm(timeConfirm).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendSelectIdleCmdResponse(value: number) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_idle_cmd: new ygopro.CtosGameMsgResponse.SelectIdleCmdResponse({
+        code: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
