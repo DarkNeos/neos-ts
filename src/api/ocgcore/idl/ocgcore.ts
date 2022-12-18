@@ -12,7 +12,7 @@ export namespace ygopro {
     PAPER = 3,
   }
   export class YgoCtosMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
     constructor(
       data?:
         | any[]
@@ -27,6 +27,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -38,6 +39,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -49,6 +51,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -60,6 +63,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -71,6 +75,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -82,6 +87,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -93,6 +99,7 @@ export namespace ygopro {
                 ctos_hand_result?: CtosHandResult;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -104,6 +111,7 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: CtosTpResult;
                 ctos_time_confirm?: never;
+                ctos_response?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -115,6 +123,19 @@ export namespace ygopro {
                 ctos_hand_result?: never;
                 ctos_tp_result?: never;
                 ctos_time_confirm?: CtosTimeConfirm;
+                ctos_response?: never;
+              }
+            | {
+                ctos_player_info?: never;
+                ctos_join_game?: never;
+                ctos_update_deck?: never;
+                ctos_hs_ready?: never;
+                ctos_hs_start?: never;
+                ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
+                ctos_time_confirm?: never;
+                ctos_response?: CtosGameMsgResponse;
               }
           ))
     ) {
@@ -160,6 +181,9 @@ export namespace ygopro {
           data.ctos_time_confirm != undefined
         ) {
           this.ctos_time_confirm = data.ctos_time_confirm;
+        }
+        if ("ctos_response" in data && data.ctos_response != undefined) {
+          this.ctos_response = data.ctos_response;
         }
       }
     }
@@ -272,6 +296,19 @@ export namespace ygopro {
     get has_ctos_time_confirm() {
       return pb_1.Message.getField(this, 9) != null;
     }
+    get ctos_response() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse,
+        10
+      ) as CtosGameMsgResponse;
+    }
+    set ctos_response(value: CtosGameMsgResponse) {
+      pb_1.Message.setOneofWrapperField(this, 10, this.#one_of_decls[0], value);
+    }
+    get has_ctos_response() {
+      return pb_1.Message.getField(this, 10) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -284,7 +321,8 @@ export namespace ygopro {
           | "ctos_hs_not_ready"
           | "ctos_hand_result"
           | "ctos_tp_result"
-          | "ctos_time_confirm";
+          | "ctos_time_confirm"
+          | "ctos_response";
       } = {
         0: "none",
         1: "ctos_player_info",
@@ -296,9 +334,10 @@ export namespace ygopro {
         7: "ctos_hand_result",
         8: "ctos_tp_result",
         9: "ctos_time_confirm",
+        10: "ctos_response",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
       ];
     }
     static fromObject(data: {
@@ -311,6 +350,7 @@ export namespace ygopro {
       ctos_hand_result?: ReturnType<typeof CtosHandResult.prototype.toObject>;
       ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
       ctos_time_confirm?: ReturnType<typeof CtosTimeConfirm.prototype.toObject>;
+      ctos_response?: ReturnType<typeof CtosGameMsgResponse.prototype.toObject>;
     }): YgoCtosMsg {
       const message = new YgoCtosMsg({});
       if (data.ctos_player_info != null) {
@@ -350,6 +390,11 @@ export namespace ygopro {
           data.ctos_time_confirm
         );
       }
+      if (data.ctos_response != null) {
+        message.ctos_response = CtosGameMsgResponse.fromObject(
+          data.ctos_response
+        );
+      }
       return message;
     }
     toObject() {
@@ -366,6 +411,9 @@ export namespace ygopro {
         ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
         ctos_time_confirm?: ReturnType<
           typeof CtosTimeConfirm.prototype.toObject
+        >;
+        ctos_response?: ReturnType<
+          typeof CtosGameMsgResponse.prototype.toObject
         >;
       } = {};
       if (this.ctos_player_info != null) {
@@ -394,6 +442,9 @@ export namespace ygopro {
       }
       if (this.ctos_time_confirm != null) {
         data.ctos_time_confirm = this.ctos_time_confirm.toObject();
+      }
+      if (this.ctos_response != null) {
+        data.ctos_response = this.ctos_response.toObject();
       }
       return data;
     }
@@ -436,6 +487,10 @@ export namespace ygopro {
       if (this.has_ctos_time_confirm)
         writer.writeMessage(9, this.ctos_time_confirm, () =>
           this.ctos_time_confirm.serialize(writer)
+        );
+      if (this.has_ctos_response)
+        writer.writeMessage(10, this.ctos_response, () =>
+          this.ctos_response.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -506,6 +561,14 @@ export namespace ygopro {
               () =>
                 (message.ctos_time_confirm =
                   CtosTimeConfirm.deserialize(reader))
+            );
+            break;
+          case 10:
+            reader.readMessage(
+              message.ctos_response,
+              () =>
+                (message.ctos_response =
+                  CtosGameMsgResponse.deserialize(reader))
             );
             break;
           default:
@@ -2003,6 +2066,201 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): CtosTimeConfirm {
       return CtosTimeConfirm.deserialize(bytes);
+    }
+  }
+  export class CtosGameMsgResponse extends pb_1.Message {
+    #one_of_decls: number[][] = [[1]];
+    constructor(
+      data?:
+        | any[]
+        | ({} & {
+            select_idle_cmd?: CtosGameMsgResponse.SelectIdleCmdResponse;
+          })
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("select_idle_cmd" in data && data.select_idle_cmd != undefined) {
+          this.select_idle_cmd = data.select_idle_cmd;
+        }
+      }
+    }
+    get select_idle_cmd() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse.SelectIdleCmdResponse,
+        1
+      ) as CtosGameMsgResponse.SelectIdleCmdResponse;
+    }
+    set select_idle_cmd(value: CtosGameMsgResponse.SelectIdleCmdResponse) {
+      pb_1.Message.setOneofWrapperField(this, 1, this.#one_of_decls[0], value);
+    }
+    get has_select_idle_cmd() {
+      return pb_1.Message.getField(this, 1) != null;
+    }
+    get gameMsgResponse() {
+      const cases: {
+        [index: number]: "none" | "select_idle_cmd";
+      } = {
+        0: "none",
+        1: "select_idle_cmd",
+      };
+      return cases[pb_1.Message.computeOneofCase(this, [1])];
+    }
+    static fromObject(data: {
+      select_idle_cmd?: ReturnType<
+        typeof CtosGameMsgResponse.SelectIdleCmdResponse.prototype.toObject
+      >;
+    }): CtosGameMsgResponse {
+      const message = new CtosGameMsgResponse({});
+      if (data.select_idle_cmd != null) {
+        message.select_idle_cmd =
+          CtosGameMsgResponse.SelectIdleCmdResponse.fromObject(
+            data.select_idle_cmd
+          );
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        select_idle_cmd?: ReturnType<
+          typeof CtosGameMsgResponse.SelectIdleCmdResponse.prototype.toObject
+        >;
+      } = {};
+      if (this.select_idle_cmd != null) {
+        data.select_idle_cmd = this.select_idle_cmd.toObject();
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.has_select_idle_cmd)
+        writer.writeMessage(1, this.select_idle_cmd, () =>
+          this.select_idle_cmd.serialize(writer)
+        );
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(
+      bytes: Uint8Array | pb_1.BinaryReader
+    ): CtosGameMsgResponse {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CtosGameMsgResponse();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            reader.readMessage(
+              message.select_idle_cmd,
+              () =>
+                (message.select_idle_cmd =
+                  CtosGameMsgResponse.SelectIdleCmdResponse.deserialize(reader))
+            );
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CtosGameMsgResponse {
+      return CtosGameMsgResponse.deserialize(bytes);
+    }
+  }
+  export namespace CtosGameMsgResponse {
+    export class SelectIdleCmdResponse extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: { code?: number }): SelectIdleCmdResponse {
+        const message = new SelectIdleCmdResponse({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): SelectIdleCmdResponse {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new SelectIdleCmdResponse();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): SelectIdleCmdResponse {
+        return SelectIdleCmdResponse.deserialize(bytes);
+      }
     }
   }
   export class StocJoinGame extends pb_1.Message {
@@ -4909,6 +5167,7 @@ export namespace ygopro {
               | {
                   card_info?: StocGameMessage.CardInfo;
                   effect_description?: number;
+                  response?: number;
                 }
           ) {
             super();
@@ -4929,6 +5188,9 @@ export namespace ygopro {
                 data.effect_description != undefined
               ) {
                 this.effect_description = data.effect_description;
+              }
+              if ("response" in data && data.response != undefined) {
+                this.response = data.response;
               }
             }
           }
@@ -4951,11 +5213,18 @@ export namespace ygopro {
           set effect_description(value: number) {
             pb_1.Message.setField(this, 2, value);
           }
+          get response() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+          }
+          set response(value: number) {
+            pb_1.Message.setField(this, 3, value);
+          }
           static fromObject(data: {
             card_info?: ReturnType<
               typeof StocGameMessage.CardInfo.prototype.toObject
             >;
             effect_description?: number;
+            response?: number;
           }): IdleData {
             const message = new IdleData({});
             if (data.card_info != null) {
@@ -4966,6 +5235,9 @@ export namespace ygopro {
             if (data.effect_description != null) {
               message.effect_description = data.effect_description;
             }
+            if (data.response != null) {
+              message.response = data.response;
+            }
             return message;
           }
           toObject() {
@@ -4974,12 +5246,16 @@ export namespace ygopro {
                 typeof StocGameMessage.CardInfo.prototype.toObject
               >;
               effect_description?: number;
+              response?: number;
             } = {};
             if (this.card_info != null) {
               data.card_info = this.card_info.toObject();
             }
             if (this.effect_description != null) {
               data.effect_description = this.effect_description;
+            }
+            if (this.response != null) {
+              data.response = this.response;
             }
             return data;
           }
@@ -4993,6 +5269,7 @@ export namespace ygopro {
               );
             if (this.effect_description != 0)
               writer.writeInt32(2, this.effect_description);
+            if (this.response != 0) writer.writeInt32(3, this.response);
             if (!w) return writer.getResultBuffer();
           }
           static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IdleData {
@@ -5014,6 +5291,9 @@ export namespace ygopro {
                   break;
                 case 2:
                   message.effect_description = reader.readInt32();
+                  break;
+                case 3:
+                  message.response = reader.readInt32();
                   break;
                 default:
                   reader.skipField();
