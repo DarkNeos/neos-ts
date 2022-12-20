@@ -9,6 +9,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import "../css/JoinRoom.css";
+import { Input, Button } from "antd";
 
 export default function JoinRoom() {
   const [player, setPlayer] = useState("");
@@ -28,36 +29,36 @@ export default function JoinRoom() {
   return (
     <div className="login_div">
       <p className="login_p">
-        <label>player: </label>
-        <input
+        <Input
           type="text"
-          title="player"
+          style={{ width: "20%" }}
+          placeholder="player"
           value={player}
           onChange={handlePlayerChange}
-        ></input>
+        />
       </p>
       <p className="login_p">
-        <label>addr: </label>
-        <input
+        <Input
           type="text"
-          title="ip"
+          style={{ width: "20%" }}
+          placeholder="ip"
           value={ip}
           onChange={handleIpChange}
-        ></input>
+        />
       </p>
       <p className="login_p">
-        <label>passwd: </label>
-        <input
+        <Input
           type="text"
-          title="passwd"
+          style={{ width: "20%" }}
+          placeholder="passwd"
           value={passWd}
           onChange={handlePasswdChange}
-        ></input>
+        />
       </p>
       <p className="login_p">
-        <button>
+        <Button>
           <Link to={{ pathname: `/${player}/${passWd}/${ip}` }}>join</Link>
-        </button>
+        </Button>
       </p>
     </div>
   );
