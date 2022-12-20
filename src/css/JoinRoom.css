@@ -3,11 +3,11 @@ body {
   justify-content: center;
 }
 
-div {
+.login_div {
   margin: auto;
   padding: 10%;
 }
 
-p {
+.login_p {
   text-align: center;
 }

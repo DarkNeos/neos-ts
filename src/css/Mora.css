@@ -7,4 +7,6 @@
 .item {
   text-align: center;
   flex: 1;
+  margin: auto;
+  padding: 10%;
 }

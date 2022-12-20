@@ -21,6 +21,7 @@ import {
   sendHsStart,
 } from "../api/ocgcore/ocgHelper";
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
+import { Button } from "antd";
 
 const READY_STATE = "ready";
 
@@ -76,17 +77,17 @@ export default function WaitRoom() {
       <div className="playerRegion">
         <h2>{joined ? "Room Joined!" : "Room Not Joined."}</h2>
         <p>
-          <button disabled={!joined} onClick={handleChoseDeck}>
+          <Button disabled={!joined} onClick={handleChoseDeck}>
             choose hero.ydk
-          </button>
+          </Button>
         </p>
         <p>
-          <button disabled={!choseDeck} onClick={handleChoseReady}>
+          <Button disabled={!choseDeck} onClick={handleChoseReady}>
             ready
-          </button>
+          </Button>
         </p>
         <p>
-          <button onClick={handleChoseStart}>
+          <Button onClick={handleChoseStart}>
             <Link
               to={
                 // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
@@ -100,7 +101,7 @@ export default function WaitRoom() {
             >
               start
             </Link>
-          </button>
+          </Button>
         </p>
       </div>
       <div className="roomRegion">
