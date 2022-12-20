@@ -18,6 +18,7 @@ import { selectDuelHsStart } from "../reducers/duel/mod";
 import { store } from "../store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 
 // TODO: 应该展示聊天信息
 export default function Mora() {
@@ -61,23 +62,23 @@ export default function Mora() {
   return (
     <div className="container">
       <div className="item">
-        <button disabled={!selectHandAble} onClick={handleSelectScissors}>
+        <Button disabled={!selectHandAble} onClick={handleSelectScissors}>
           scissors
-        </button>
-        <button disabled={!selectHandAble} onClick={handleSelectRock}>
+        </Button>
+        <Button disabled={!selectHandAble} onClick={handleSelectRock}>
           rock
-        </button>
-        <button disabled={!selectHandAble} onClick={handleSelectPaper}>
+        </Button>
+        <Button disabled={!selectHandAble} onClick={handleSelectPaper}>
           paper
-        </button>
+        </Button>
       </div>
       <div className="item">
-        <button disabled={!selectTpAble} onClick={handleSelectFirst}>
+        <Button disabled={!selectTpAble} onClick={handleSelectFirst}>
           first
-        </button>
-        <button disabled={!selectTpAble} onClick={handleSelectSecond}>
+        </Button>
+        <Button disabled={!selectTpAble} onClick={handleSelectSecond}>
           second
-        </button>
+        </Button>
       </div>
       <div className="item">
         <p>
