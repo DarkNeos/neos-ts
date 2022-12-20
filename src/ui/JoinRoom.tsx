@@ -26,8 +26,8 @@ export default function JoinRoom() {
   };
 
   return (
-    <div>
-      <p>
+    <div className="login_div">
+      <p className="login_p">
         <label>player: </label>
         <input
           type="text"
@@ -36,7 +36,7 @@ export default function JoinRoom() {
           onChange={handlePlayerChange}
         ></input>
       </p>
-      <p>
+      <p className="login_p">
         <label>addr: </label>
         <input
           type="text"
@@ -45,7 +45,7 @@ export default function JoinRoom() {
           onChange={handleIpChange}
         ></input>
       </p>
-      <p>
+      <p className="login_p">
         <label>passwd: </label>
         <input
           type="text"
@@ -54,7 +54,7 @@ export default function JoinRoom() {
           onChange={handlePasswdChange}
         ></input>
       </p>
-      <p>
+      <p className="login_p">
         <button>
           <Link to={{ pathname: `/${player}/${passWd}/${ip}` }}>join</Link>
         </button>
