@@ -20,6 +20,7 @@ import {
   setCardModalIsOpenImpl,
   setCardModalTextImpl,
   setCardModalImgUrlImpl,
+  setCardModalInteractiviesImpl,
 } from "./modal";
 
 export interface DuelState {
@@ -39,7 +40,7 @@ export interface DuelState {
 
 const initialState: DuelState = {
   modalState: {
-    cardModal: { isOpen: false },
+    cardModal: { isOpen: false, interactivies: [] },
   },
 };
 
@@ -63,6 +64,7 @@ const duelSlice = createSlice({
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
     setCardModalImgUrl: setCardModalImgUrlImpl,
+    setCardModalInteractivies: setCardModalInteractiviesImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -80,6 +82,7 @@ export const {
   setCardModalIsOpen,
   setCardModalText,
   setCardModalImgUrl,
+  setCardModalInteractivies,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
