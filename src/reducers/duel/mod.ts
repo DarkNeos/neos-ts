@@ -77,6 +77,9 @@ export const {
   clearHandsInteractivity,
   addHandsInteractivity,
   updateTimeLimit,
+  setCardModalIsOpen,
+  setCardModalText,
+  setCardModalImgUrl,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
