@@ -15,6 +15,12 @@ import {
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
+import {
+  ModalState,
+  setCardModalIsOpenImpl,
+  setCardModalTextImpl,
+  setCardModalImgUrlImpl,
+} from "./modal";
 
 export interface DuelState {
   selfType?: number;
@@ -26,9 +32,16 @@ export interface DuelState {
   opTimeLimit?: TimeLimit; // 对手的计时
   currentPlayer?: number; // 当前的操作方
   currentPhase?: string; // 当前的阶段
+
+  // UI相关
+  modalState: ModalState;
 }
 
-const initialState: DuelState = {};
+const initialState: DuelState = {
+  modalState: {
+    cardModal: { isOpen: false },
+  },
+};
 
 const duelSlice = createSlice({
   name: "duel",
@@ -45,6 +58,11 @@ const duelSlice = createSlice({
     // 手牌相关`Reducer`
     clearHandsInteractivity: clearHandsInteractivityImpl,
     addHandsInteractivity: addHandsInteractivityImpl,
+
+    // UI相关`Reducer`
+    setCardModalIsOpen: setCardModalIsOpenImpl,
+    setCardModalText: setCardModalTextImpl,
+    setCardModalImgUrl: setCardModalImgUrlImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -59,6 +77,9 @@ export const {
   clearHandsInteractivity,
   addHandsInteractivity,
   updateTimeLimit,
+  setCardModalIsOpen,
+  setCardModalText,
+  setCardModalImgUrl,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

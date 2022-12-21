@@ -20,6 +20,7 @@ import * as CONFIG from "../../../config/ui";
 import { Card } from "../../../reducers/duel/util";
 import { selectCurrentPlayer } from "../../../reducers/duel/turnSlice";
 import { selectCurrentPhase } from "../../../reducers/duel/phaseSlice";
+import CardModal from "./cardModal";
 
 // CONFIG
 
@@ -136,11 +137,14 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
     }, []);
 
     return (
-      <canvas
-        width={window.innerWidth}
-        height={window.innerHeight}
-        ref={canvasRef}
-      />
+      <>
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight}
+          ref={canvasRef}
+        />
+        <CardModal />
+      </>
     );
   }
 

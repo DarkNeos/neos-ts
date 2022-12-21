@@ -3,6 +3,12 @@ import * as BABYLON_GUI from "@babylonjs/gui";
 import * as CONFIG from "../../../config/ui";
 import { Card, InteractType } from "../../../reducers/duel/util";
 import { sendSelectIdleCmdResponse } from "../../../api/ocgcore/ocgHelper";
+import {
+  setCardModalImgUrl,
+  setCardModalIsOpen,
+  setCardModalText,
+} from "../../../reducers/duel/mod";
+import { store } from "../../../store";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
@@ -101,17 +107,27 @@ function setupHandInteractivity(
 function setupHandAction(
   mesh: BABYLON.Mesh,
   state: Card,
-  handIdx: number,
+  _handIdx: number,
   scene: BABYLON.Scene
 ) {
+  const dispatch = store.dispatch;
+
   mesh.actionManager = new BABYLON.ActionManager(scene);
   mesh.actionManager.isRecursive = true;
   // 监听点击事件
   mesh.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(
       BABYLON.ActionManager.OnPickTrigger,
-      (event) => {
-        console.log(`<Click>hand: ${handIdx}`, "card:", state, "event:", event);
+      (_event) => {
+        dispatch(
+          setCardModalText([state.meta.text.name, state.meta.text.desc])
+        );
+        dispatch(
+          setCardModalImgUrl(
+            `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
+          )
+        );
+        dispatch(setCardModalIsOpen(true));
       }
     )
   );
