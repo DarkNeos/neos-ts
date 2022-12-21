@@ -6,9 +6,11 @@ import {
   selectCardModalName,
   selectCardModalDesc,
   selectCardModalImgUrl,
+  selectCardModalInteractivies,
 } from "../../../reducers/duel/modal";
 import { setCardModalIsOpen } from "../../../reducers/duel/mod";
-import { Modal, Card } from "antd";
+import { Modal, Card, Button } from "antd";
+import { sendSelectIdleCmdResponse } from "../../../api/ocgcore/ocgHelper";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;
@@ -19,6 +21,7 @@ const CardModal = () => {
   const name = useAppSelector(selectCardModalName);
   const desc = useAppSelector(selectCardModalDesc);
   const imgUrl = useAppSelector(selectCardModalImgUrl);
+  const interactivies = useAppSelector(selectCardModalInteractivies);
 
   const handleOkOrCancel = () => {
     dispatch(setCardModalIsOpen(false));
@@ -35,6 +38,18 @@ const CardModal = () => {
           <Meta title={name} />
           <p>{desc}</p>
         </Card>
+        {interactivies.map((interactive) => {
+          return (
+            <Button
+              onClick={() => {
+                sendSelectIdleCmdResponse(interactive.response);
+                dispatch(setCardModalIsOpen(false));
+              }}
+            >
+              {interactive.desc}
+            </Button>
+          );
+        })}
       </Modal>
     </>
   );

@@ -9,6 +9,7 @@ export interface ModalState {
     name?: string;
     desc?: string;
     imgUrl?: string;
+    interactivies: { desc: string; response: number }[];
   };
 }
 
@@ -40,6 +41,14 @@ export const setCardModalImgUrlImpl: CaseReducer<
   state.modalState.cardModal.imgUrl = action.payload;
 };
 
+// 更新卡牌弹窗互动选项
+export const setCardModalInteractiviesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ desc: string; response: number }[]>
+> = (state, action) => {
+  state.modalState.cardModal.interactivies = action.payload;
+};
+
 export const selectCardModalIsOpen = (state: RootState) =>
   state.duel.modalState.cardModal.isOpen;
 export const selectCardModalName = (state: RootState) =>
@@ -48,3 +57,5 @@ export const selectCardModalDesc = (state: RootState) =>
   state.duel.modalState.cardModal.desc;
 export const selectCardModalImgUrl = (state: RootState) =>
   state.duel.modalState.cardModal.imgUrl;
+export const selectCardModalInteractivies = (state: RootState) =>
+  state.duel.modalState.cardModal.interactivies;
