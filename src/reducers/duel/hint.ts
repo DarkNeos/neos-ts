@@ -44,5 +44,5 @@ export const hintCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
 };
 
-export const selectMeHint = (state: RootState) => state.duel.meHint || "";
-export const selectOpHint = (state: RootState) => state.duel.opHint || "";
+export const selectMeHint = (state: RootState) => state.duel.meHint;
+export const selectOpHint = (state: RootState) => state.duel.opHint;
