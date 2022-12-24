@@ -29,7 +29,7 @@ export const fetchSelectPlaceHintMeta = createAsyncThunk(
     const player = param[0];
     const hintData = param[1];
 
-    const hintMeta = (await fetchCard(hintData)).text.name || "";
+    const hintMeta = (await fetchCard(hintData)).text.name || "[?]";
     const response: [number, string] = [player, hintMeta];
 
     return response;
