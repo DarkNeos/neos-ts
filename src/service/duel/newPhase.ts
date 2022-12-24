@@ -6,5 +6,9 @@ export default (
   newPhase: ygopro.StocGameMessage.MsgNewPhase,
   dispatch: AppDispatch
 ) => {
-  dispatch(updatePhase(newPhase.phase_type.toString()));
+  dispatch(
+    updatePhase(
+      ygopro.StocGameMessage.MsgNewPhase.PhaseType[newPhase.phase_type]
+    )
+  );
 };

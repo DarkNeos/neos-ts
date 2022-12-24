@@ -15,14 +15,14 @@ import {
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
-import { HintState, hintCase } from "./hint";
+import { HintState, hintCase } from "./hintSlice";
 import {
   ModalState,
   setCardModalIsOpenImpl,
   setCardModalTextImpl,
   setCardModalImgUrlImpl,
   setCardModalInteractiviesImpl,
-} from "./modal";
+} from "./modalSlice";
 
 export interface DuelState {
   selfType?: number;

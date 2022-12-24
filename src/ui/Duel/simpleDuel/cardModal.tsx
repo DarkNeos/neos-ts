@@ -7,7 +7,7 @@ import {
   selectCardModalDesc,
   selectCardModalImgUrl,
   selectCardModalInteractivies,
-} from "../../../reducers/duel/modal";
+} from "../../../reducers/duel/modalSlice";
 import { setCardModalIsOpen } from "../../../reducers/duel/mod";
 import { Modal, Card, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "../../../api/ocgcore/ocgHelper";
