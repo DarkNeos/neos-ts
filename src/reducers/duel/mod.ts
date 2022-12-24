@@ -15,6 +15,7 @@ import {
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
 import { RootState } from "../../store";
+import { HintState, hintCase } from "./hint";
 import {
   ModalState,
   setCardModalIsOpenImpl,
@@ -31,6 +32,8 @@ export interface DuelState {
   opHands?: Hands; // 对手的手牌
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
+  meHint?: HintState; // 自己的提示
+  opHint?: HintState; // 对手的提示
   currentPlayer?: number; // 当前的操作方
   currentPhase?: string; // 当前的阶段
 
@@ -68,6 +71,7 @@ const duelSlice = createSlice({
   },
   extraReducers(builder) {
     handsCase(builder);
+    hintCase(builder);
   },
 });
 
