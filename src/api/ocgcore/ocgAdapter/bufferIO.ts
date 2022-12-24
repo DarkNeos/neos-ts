@@ -86,7 +86,7 @@ export class BufferWriter {
   }
 
   writeUint32(value: number) {
-    this.dataView.setUint32(this.offset, value);
+    this.dataView.setUint32(this.offset, value, this.littleEndian);
     this.offset += OFFSET_UINT32;
   }
 }
