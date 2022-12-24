@@ -15,7 +15,11 @@ export const fetchHintMeta = createAsyncThunk(
     const player = param[0];
     const hintData = param[1];
 
-    const hintMeta = await fetchStrings("!system", hintData);
+    // TODO: 可以思考下这里怎么处理比较合理
+    const hintMeta =
+      hintData < 10000
+        ? await fetchStrings("!system", hintData)
+        : await fetchStrings("!card", hintData);
     const response: [number, string] = [player, hintMeta];
 
     return response;
