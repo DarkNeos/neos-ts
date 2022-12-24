@@ -21,6 +21,7 @@ import { Card } from "../../../reducers/duel/util";
 import { selectCurrentPlayer } from "../../../reducers/duel/turnSlice";
 import { selectCurrentPhase } from "../../../reducers/duel/phaseSlice";
 import CardModal from "./cardModal";
+import HintNotification from "./hintNotification";
 
 // CONFIG
 
@@ -144,6 +145,7 @@ export default class SimpleDuelPlateImpl implements IDuelPlate {
           ref={canvasRef}
         />
         <CardModal />
+        <HintNotification />
       </>
     );
   }
