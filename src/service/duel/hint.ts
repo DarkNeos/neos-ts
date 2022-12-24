@@ -7,7 +7,8 @@ export default (hint: MsgHint, dispatch: AppDispatch) => {
   const player = hint.player;
   switch (hint.hint_type) {
     case MsgHint.HintType.HINT_EVENT:
-    case MsgHint.HintType.HINT_MESSAGE: {
+    case MsgHint.HintType.HINT_MESSAGE:
+    case MsgHint.HintType.HINT_SELECTMSG: {
       dispatch(fetchHintMeta([player, hint.hint_data]));
       break;
     }
