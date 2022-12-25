@@ -4,7 +4,7 @@ import WaitRoom from "./WaitRoom";
 import ThreeJs from "./ThreeJs";
 import { Routes, Route } from "react-router-dom";
 import Mora from "./Mora";
-import Duel from "./Duel/main";
+import Duel from "./Duel/mod";
 
 export default function () {
   // FIXME: 这里Mora/Duel路由应该由每个房间指定一个路径

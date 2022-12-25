@@ -1,13 +1,13 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../../config/ui";
-import { Card, InteractType } from "../../../reducers/duel/util";
+import * as CONFIG from "../../config/ui";
+import { Card, InteractType } from "../../reducers/duel/util";
 import {
   setCardModalImgUrl,
   setCardModalIsOpen,
   setCardModalText,
   setCardModalInteractivies,
-} from "../../../reducers/duel/mod";
-import { store } from "../../../store";
+} from "../../reducers/duel/mod";
+import { store } from "../../store";
 
 export default (hands: Card[], scene: BABYLON.Scene) => {
   const handShape = CONFIG.HandShape();
