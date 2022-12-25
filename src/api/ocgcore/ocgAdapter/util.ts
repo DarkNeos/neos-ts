@@ -2,6 +2,9 @@
  * 一些基础函数。
  *
  * */
+
+import { ygopro } from "../idl/ocgcore";
+
 export const UTF16_BUFFER_MAX_LEN = 20;
 const FILLING_TOKEN: number = 0xcccc;
 
@@ -71,4 +74,42 @@ export function utf8ArrayToStr(array: Uint8Array) {
   }
 
   return out;
+}
+
+export function cardZoneToNumber(zone: ygopro.CardZone): number {
+  switch (zone) {
+    case ygopro.CardZone.DECK: {
+      return 0x01;
+    }
+    case ygopro.CardZone.HAND: {
+      return 0x02;
+    }
+    case ygopro.CardZone.MZONE: {
+      return 0x04;
+    }
+    case ygopro.CardZone.SZONE: {
+      return 0x08;
+    }
+    case ygopro.CardZone.GRAVE: {
+      return 0x10;
+    }
+    case ygopro.CardZone.REMOVED: {
+      return 0x20;
+    }
+    case ygopro.CardZone.EXTRA: {
+      return 0x40;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      return 0x80;
+    }
+    case ygopro.CardZone.ONFIELD: {
+      return 0x0c;
+    }
+    case ygopro.CardZone.FZONE: {
+      return 0x100;
+    }
+    case ygopro.CardZone.PZONE: {
+      return 0x200;
+    }
+  }
 }

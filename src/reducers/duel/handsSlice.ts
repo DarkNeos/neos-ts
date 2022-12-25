@@ -126,7 +126,7 @@ export const addHandsInteractivityImpl: CaseReducer<
   PayloadAction<{
     player: number;
     index: number;
-    interactivity: Interactivity;
+    interactivity: Interactivity<number>;
   }>
 > = (state, action) => {
   const player = action.payload.player;

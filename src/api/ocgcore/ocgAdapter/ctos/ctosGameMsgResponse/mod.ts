@@ -2,6 +2,7 @@ import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket } from "../../packet";
 import { CTOS_RESPONSE } from "../../protoDecl";
 import adaptSelectIdleCmdResponse from "./selectIdleCmd";
+import adaptSelectPlaceResponse from "./selectPlace";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -19,6 +20,11 @@ export default class CtosResponsePacket extends YgoProPacket {
     switch (response.gameMsgResponse) {
       case "select_idle_cmd": {
         extraData = adaptSelectIdleCmdResponse(response.select_idle_cmd);
+
+        break;
+      }
+      case "select_place": {
+        extraData = adaptSelectPlaceResponse(response.select_place);
 
         break;
       }

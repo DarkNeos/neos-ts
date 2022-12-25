@@ -23,17 +23,30 @@ import {
   setCardModalImgUrlImpl,
   setCardModalInteractiviesImpl,
 } from "./modalSlice";
+import {
+  MonsterState,
+  initMonstersImpl,
+  addMonsterPlaceSelectAbleImpl,
+  clearMonsterSelectInfoImpl,
+} from "./monstersSlice";
 
 export interface DuelState {
   selfType?: number;
   meInitInfo?: InitInfo; // 自己的初始状态
   opInitInfo?: InitInfo; // 对手的初始状态
+
   meHands?: Hands; // 自己的手牌
   opHands?: Hands; // 对手的手牌
+
+  meMonsters?: MonsterState; // 自己的怪兽区状态
+  opMonsters?: MonsterState; // 对手的怪兽区状态
+
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
+
   meHint?: HintState; // 自己的提示
   opHint?: HintState; // 对手的提示
+
   currentPlayer?: number; // 当前的操作方
   currentPhase?: string; // 当前的阶段
 
@@ -63,6 +76,11 @@ const duelSlice = createSlice({
     clearHandsInteractivity: clearHandsInteractivityImpl,
     addHandsInteractivity: addHandsInteractivityImpl,
 
+    // 怪兽区相关`Reducer`
+    initMonsters: initMonstersImpl,
+    addMonsterPlaceSelectAble: addMonsterPlaceSelectAbleImpl,
+    clearMonsterSelectInfo: clearMonsterSelectInfoImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
@@ -87,6 +105,9 @@ export const {
   setCardModalText,
   setCardModalImgUrl,
   setCardModalInteractivies,
+  initMonsters,
+  addMonsterPlaceSelectAble,
+  clearMonsterSelectInfo,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
