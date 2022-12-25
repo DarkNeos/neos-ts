@@ -1,6 +1,9 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
-import { fetchHintMeta } from "../../reducers/duel/hintSlice";
+import {
+  fetchCommonHintMeta,
+  fetchSelectPlaceHintMeta,
+} from "../../reducers/duel/hintSlice";
 import MsgHint = ygopro.StocGameMessage.MsgHint;
 
 export default (hint: MsgHint, dispatch: AppDispatch) => {
@@ -8,7 +11,11 @@ export default (hint: MsgHint, dispatch: AppDispatch) => {
   switch (hint.hint_type) {
     case MsgHint.HintType.HINT_EVENT:
     case MsgHint.HintType.HINT_MESSAGE: {
-      dispatch(fetchHintMeta([player, hint.hint_data]));
+      dispatch(fetchCommonHintMeta([player, hint.hint_data]));
+      break;
+    }
+    case MsgHint.HintType.HINT_SELECTMSG: {
+      dispatch(fetchSelectPlaceHintMeta([player, hint.hint_data]));
       break;
     }
     default: {
