@@ -3,6 +3,7 @@ import * as CONFIG from "../../config/ui";
 import { Monster } from "../../reducers/duel/util";
 import { clearMonsterSelectInfo } from "../../reducers/duel/mod";
 import { store } from "../../store";
+import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 
 export default (monsters: Monster[], scene: BABYLON.Scene) => {
   const left = -2.15;
@@ -83,9 +84,11 @@ function setupMonsterAction(
     new BABYLON.ExecuteCodeAction(
       BABYLON.ActionManager.OnPickTrigger,
       (_event) => {
-        // TODO: send response
-        dispatch(clearMonsterSelectInfo(0));
-        dispatch(clearMonsterSelectInfo(1));
+        if (state.selectInfo) {
+          sendSelectPlaceResponse(state.selectInfo.response);
+          dispatch(clearMonsterSelectInfo(0));
+          dispatch(clearMonsterSelectInfo(1));
+        }
       }
     )
   );
