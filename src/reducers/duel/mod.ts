@@ -23,7 +23,12 @@ import {
   setCardModalImgUrlImpl,
   setCardModalInteractiviesImpl,
 } from "./modalSlice";
-import { MonsterState, initMonstersImpl } from "./monstersSlice";
+import {
+  MonsterState,
+  initMonstersImpl,
+  addMonsterPlaceSelectAbleImpl,
+  clearMonsterSelectInfoImpl,
+} from "./monstersSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -73,6 +78,8 @@ const duelSlice = createSlice({
 
     // 怪兽区相关`Reducer`
     initMonsters: initMonstersImpl,
+    addMonsterPlaceSelectAble: addMonsterPlaceSelectAbleImpl,
+    clearMonsterSelectInfo: clearMonsterSelectInfoImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -99,6 +106,8 @@ export const {
   setCardModalImgUrl,
   setCardModalInteractivies,
   initMonsters,
+  addMonsterPlaceSelectAble,
+  clearMonsterSelectInfo,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

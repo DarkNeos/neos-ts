@@ -1,6 +1,7 @@
-import { judgeSelf, Monster } from "./util";
+import { judgeSelf, Monster, InteractType } from "./util";
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface MonsterState {
   monsters: Monster[];
@@ -34,5 +35,46 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         },
       ],
     };
+  }
+};
+
+export const addMonsterPlaceSelectAbleImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, number]>
+> = (state, action) => {
+  const controler = action.payload[0];
+  const sequence = action.payload[1];
+
+  const monsters = judgeSelf(controler, state)
+    ? state.meMonsters
+    : state.opMonsters;
+  if (monsters) {
+    for (const monster of monsters.monsters) {
+      if (monster.sequence == sequence) {
+        monster.selectInfo = {
+          interactType: InteractType.PLACE_SELECTABLE,
+          response: {
+            controler,
+            zone: ygopro.CardZone.MZONE,
+            sequence,
+          },
+        };
+      }
+    }
+  }
+};
+
+export const clearMonsterSelectInfoImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const player = action.payload;
+
+  const monsters = judgeSelf(player, state)
+    ? state.meMonsters
+    : state.opMonsters;
+
+  if (monsters) {
+    monsters.monsters = [];
   }
 };
