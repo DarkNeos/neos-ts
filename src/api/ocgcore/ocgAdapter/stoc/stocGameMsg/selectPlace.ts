@@ -18,7 +18,7 @@ export default (data: Uint8Array) => {
   const _field = ~reader.readUint32();
 
   // TODO: 暂时和`ygopro2`一样不支持取消操作，后续需要再考虑加上
-  if (count == 0) { count = 1; }
-
-  
+  if (count == 0) {
+    count = 1;
+  }
 };

@@ -5555,6 +5555,8 @@ export namespace ygopro {
         data?:
           | any[]
           | {
+              player?: number;
+              count?: number;
               places?: StocGameMessage.MsgSelectPlace.SelectAblePlace[];
             }
       ) {
@@ -5564,31 +5566,57 @@ export namespace ygopro {
           Array.isArray(data) ? data : [],
           0,
           -1,
-          [1],
+          [3],
           this.#one_of_decls
         );
         if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("count" in data && data.count != undefined) {
+            this.count = data.count;
+          }
           if ("places" in data && data.places != undefined) {
             this.places = data.places;
           }
         }
       }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get count() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set count(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
       get places() {
         return pb_1.Message.getRepeatedWrapperField(
           this,
           StocGameMessage.MsgSelectPlace.SelectAblePlace,
-          1
+          3
         ) as StocGameMessage.MsgSelectPlace.SelectAblePlace[];
       }
       set places(value: StocGameMessage.MsgSelectPlace.SelectAblePlace[]) {
-        pb_1.Message.setRepeatedWrapperField(this, 1, value);
+        pb_1.Message.setRepeatedWrapperField(this, 3, value);
       }
       static fromObject(data: {
+        player?: number;
+        count?: number;
         places?: ReturnType<
           typeof StocGameMessage.MsgSelectPlace.SelectAblePlace.prototype.toObject
         >[];
       }): MsgSelectPlace {
         const message = new MsgSelectPlace({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.count != null) {
+          message.count = data.count;
+        }
         if (data.places != null) {
           message.places = data.places.map((item) =>
             StocGameMessage.MsgSelectPlace.SelectAblePlace.fromObject(item)
@@ -5598,10 +5626,18 @@ export namespace ygopro {
       }
       toObject() {
         const data: {
+          player?: number;
+          count?: number;
           places?: ReturnType<
             typeof StocGameMessage.MsgSelectPlace.SelectAblePlace.prototype.toObject
           >[];
         } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.count != null) {
+          data.count = this.count;
+        }
         if (this.places != null) {
           data.places = this.places.map(
             (item: StocGameMessage.MsgSelectPlace.SelectAblePlace) =>
@@ -5614,9 +5650,11 @@ export namespace ygopro {
       serialize(w: pb_1.BinaryWriter): void;
       serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.count != 0) writer.writeInt32(2, this.count);
         if (this.places.length)
           writer.writeRepeatedMessage(
-            1,
+            3,
             this.places,
             (item: StocGameMessage.MsgSelectPlace.SelectAblePlace) =>
               item.serialize(writer)
@@ -5635,10 +5673,16 @@ export namespace ygopro {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
             case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.count = reader.readInt32();
+              break;
+            case 3:
               reader.readMessage(message.places, () =>
                 pb_1.Message.addToRepeatedWrapperField(
                   message,
-                  1,
+                  3,
                   StocGameMessage.MsgSelectPlace.SelectAblePlace.deserialize(
                     reader
                   ),
@@ -5666,7 +5710,7 @@ export namespace ygopro {
           data?:
             | any[]
             | {
-                player?: number;
+                controler?: number;
                 zone?: CardZone;
                 sequence?: number;
               }
@@ -5681,8 +5725,8 @@ export namespace ygopro {
             this.#one_of_decls
           );
           if (!Array.isArray(data) && typeof data == "object") {
-            if ("player" in data && data.player != undefined) {
-              this.player = data.player;
+            if ("controler" in data && data.controler != undefined) {
+              this.controler = data.controler;
             }
             if ("zone" in data && data.zone != undefined) {
               this.zone = data.zone;
@@ -5692,10 +5736,10 @@ export namespace ygopro {
             }
           }
         }
-        get player() {
+        get controler() {
           return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
         }
-        set player(value: number) {
+        set controler(value: number) {
           pb_1.Message.setField(this, 1, value);
         }
         get zone() {
@@ -5715,13 +5759,13 @@ export namespace ygopro {
           pb_1.Message.setField(this, 3, value);
         }
         static fromObject(data: {
-          player?: number;
+          controler?: number;
           zone?: CardZone;
           sequence?: number;
         }): SelectAblePlace {
           const message = new SelectAblePlace({});
-          if (data.player != null) {
-            message.player = data.player;
+          if (data.controler != null) {
+            message.controler = data.controler;
           }
           if (data.zone != null) {
             message.zone = data.zone;
@@ -5733,12 +5777,12 @@ export namespace ygopro {
         }
         toObject() {
           const data: {
-            player?: number;
+            controler?: number;
             zone?: CardZone;
             sequence?: number;
           } = {};
-          if (this.player != null) {
-            data.player = this.player;
+          if (this.controler != null) {
+            data.controler = this.controler;
           }
           if (this.zone != null) {
             data.zone = this.zone;
@@ -5752,7 +5796,7 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
           const writer = w || new pb_1.BinaryWriter();
-          if (this.player != 0) writer.writeInt32(1, this.player);
+          if (this.controler != 0) writer.writeInt32(1, this.controler);
           if (this.zone != CardZone.DECK) writer.writeEnum(2, this.zone);
           if (this.sequence != 0) writer.writeInt32(3, this.sequence);
           if (!w) return writer.getResultBuffer();
@@ -5769,7 +5813,7 @@ export namespace ygopro {
             if (reader.isEndGroup()) break;
             switch (reader.getFieldNumber()) {
               case 1:
-                message.player = reader.readInt32();
+                message.controler = reader.readInt32();
                 break;
               case 2:
                 message.zone = reader.readEnum();
