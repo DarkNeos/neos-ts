@@ -6,6 +6,7 @@
 import { CardMeta } from "../../api/cards";
 import { DuelState } from "./mod";
 import { Draft } from "@reduxjs/toolkit";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 /*
  * 通过`player`和`selfType`判断是应该处理自己还是对手
@@ -30,7 +31,7 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
 export interface Card {
   meta: CardMeta;
   transform: CardTransform;
-  interactivities: Interactivity[];
+  interactivities: Interactivity<number>[];
 }
 
 interface CardTransform {
@@ -59,12 +60,24 @@ export enum InteractType {
   SSET = 5,
   // 可发动效果
   ACTIVATE = 6,
+  // 可作为位置选择
+  PLACE_SELECTABLE = 7,
 }
 
-export interface Interactivity {
+export interface Interactivity<T> {
   interactType: InteractType;
   // 如果`interactType`是`ACTIVATE`，这个字段是对应的效果编号
   activateIndex?: number;
   // 用户点击后，需要回传给服务端的`response`
-  response: number;
+  response: T;
+}
+
+export interface Monster {
+  sequence: number;
+  occupant?: CardMeta;
+  selectInfo?: Interactivity<{
+    controler: number;
+    zone: ygopro.CardZone;
+    sequence: number;
+  }>;
 }
