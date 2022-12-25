@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useAppSelector } from "../../../hook";
-import { selectMeHint, selectOpHint } from "../../../reducers/duel/hintSlice";
-import { selectCurrentPhase } from "../../../reducers/duel/phaseSlice";
-import { selectChat } from "../../../reducers/chatSlice";
+import { useAppSelector } from "../../hook";
+import { selectMeHint, selectOpHint } from "../../reducers/duel/hintSlice";
+import { selectCurrentPhase } from "../../reducers/duel/phaseSlice";
+import { selectChat } from "../../reducers/chatSlice";
 import { notification } from "antd";
 
 const HintNotification = () => {

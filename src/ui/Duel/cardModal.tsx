@@ -1,16 +1,16 @@
 import React from "react";
-import { useAppSelector } from "../../../hook";
-import { store } from "../../../store";
+import { useAppSelector } from "../../hook";
+import { store } from "../../store";
 import {
   selectCardModalIsOpen,
   selectCardModalName,
   selectCardModalDesc,
   selectCardModalImgUrl,
   selectCardModalInteractivies,
-} from "../../../reducers/duel/modalSlice";
-import { setCardModalIsOpen } from "../../../reducers/duel/mod";
+} from "../../reducers/duel/modalSlice";
+import { setCardModalIsOpen } from "../../reducers/duel/mod";
 import { Modal, Card, Button } from "antd";
-import { sendSelectIdleCmdResponse } from "../../../api/ocgcore/ocgHelper";
+import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;
