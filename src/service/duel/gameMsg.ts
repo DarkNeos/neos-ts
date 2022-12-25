@@ -6,6 +6,7 @@ import onMsgNewTurn from "./newTurn";
 import onMsgNewPhase from "./newPhase";
 import onMsgHint from "./hint";
 import onMsgSelectIdleCmd from "./selectIdleCmd";
+import onMsgSelectPlace from "./selectPlace";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -51,6 +52,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       const selectIdleCmd = msg.select_idle_cmd;
 
       onMsgSelectIdleCmd(selectIdleCmd, dispatch);
+
+      break;
+    }
+    case "select_place": {
+      const selectPlace = msg.select_place;
+
+      onMsgSelectPlace(selectPlace, dispatch);
 
       break;
     }
