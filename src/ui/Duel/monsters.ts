@@ -7,7 +7,7 @@ export default (scene: BABYLON.Scene) => {
   const shape = CONFIG.CardSlotShape();
 
   for (let i = 0; i < 5; i++) {
-    const slot = BABYLON.MeshBuilder.CreateBox(`monster${i}`, shape, scene);
+    const slot = BABYLON.MeshBuilder.CreatePlane(`monster${i}`, shape, scene);
     // 位置
     slot.position = new BABYLON.Vector3(
       left + gap * i,
@@ -21,7 +21,10 @@ export default (scene: BABYLON.Scene) => {
       "monsterMaterial",
       scene
     );
-    monsterMaterial.diffuseColor = CONFIG.MonsterColor();
+    monsterMaterial.diffuseTexture = new BABYLON.Texture(
+      `http://localhost:3030/images/card_slot.png`
+    );
+    monsterMaterial.diffuseTexture.hasAlpha = true;
     slot.material = monsterMaterial;
   }
 };

@@ -6,7 +6,7 @@ export default (scene: BABYLON.Scene) => {
   const shape = CONFIG.CardSlotShape();
 
   for (let i in xs) {
-    const slot = BABYLON.MeshBuilder.CreateBox(
+    const slot = BABYLON.MeshBuilder.CreatePlane(
       `extraMonster${i}`,
       shape,
       scene
@@ -24,7 +24,10 @@ export default (scene: BABYLON.Scene) => {
       "extraMonsterMaterial",
       scene
     );
-    extraMonsterMaterial.diffuseColor = CONFIG.extraMonsterColor();
+    extraMonsterMaterial.diffuseTexture = new BABYLON.Texture(
+      `http://localhost:3030/images/card_slot.png`
+    );
+    extraMonsterMaterial.diffuseTexture.hasAlpha = true;
     slot.material = extraMonsterMaterial;
   }
 };
