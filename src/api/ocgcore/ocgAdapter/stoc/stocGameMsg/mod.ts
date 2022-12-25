@@ -12,6 +12,7 @@ import MsgNewTurnAdapter from "./newTurn";
 import MsgNewPhaseAdapter from "./newPhase";
 import MsgHintAdapter from "./hint";
 import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
+import MsgSelectPlaceAdapter from "./selectPlace";
 
 /*
  * STOC GameMsg
@@ -64,6 +65,11 @@ export default class GameMsgAdapter implements StocAdapter {
       }
       case GAME_MSG.MSG_SELECT_IDLE_CMD: {
         gameMsg.select_idle_cmd = MsgSelectIdleCmdAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_SELECT_PLACE: {
+        gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
 
         break;
       }
