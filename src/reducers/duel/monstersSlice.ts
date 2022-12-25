@@ -2,6 +2,7 @@ import { judgeSelf, Monster, InteractType } from "./util";
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { RootState } from "../../store";
 
 export interface MonsterState {
   monsters: Monster[];
@@ -13,28 +14,30 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   action
 ) => {
   const player = action.payload;
-  let monsters = judgeSelf(player, state) ? state.meMonsters : state.opMonsters;
+  const monsters = {
+    monsters: [
+      {
+        sequence: 0,
+      },
+      {
+        sequence: 1,
+      },
+      {
+        sequence: 2,
+      },
+      {
+        sequence: 3,
+      },
+      {
+        sequence: 4,
+      },
+    ],
+  };
 
-  if (!monsters) {
-    monsters = {
-      monsters: [
-        {
-          sequence: 0,
-        },
-        {
-          sequence: 1,
-        },
-        {
-          sequence: 2,
-        },
-        {
-          sequence: 3,
-        },
-        {
-          sequence: 4,
-        },
-      ],
-    };
+  if (judgeSelf(player, state)) {
+    state.meMonsters = monsters;
+  } else {
+    state.opMonsters = monsters;
   }
 };
 
@@ -78,3 +81,6 @@ export const clearMonsterSelectInfoImpl: CaseReducer<
     monsters.monsters = [];
   }
 };
+
+export const selectMeMonsters = (state: RootState) =>
+  state.duel.meMonsters || { monsters: [] };

@@ -21,6 +21,7 @@ import { selectCurrentPlayer } from "../../reducers/duel/turnSlice";
 import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 import { selectMeHands } from "../../reducers/duel/handsSlice";
+import { selectMeMonsters } from "../../reducers/duel/monstersSlice";
 
 // CONFIG
 
@@ -28,6 +29,7 @@ const Duel = () => {
   // ----- 数据获取 -----
 
   const hands = useAppSelector(selectMeHands).cards;
+  const monsters = useAppSelector(selectMeMonsters).monsters;
   const currentPlayer = useAppSelector(selectCurrentPlayer);
 
   // ----- WebGL渲染 -----
@@ -60,7 +62,7 @@ const Duel = () => {
     renderMagics(scene);
 
     // 怪兽区
-    renderMonsters(scene);
+    renderMonsters(monsters, scene);
 
     // 创建额外怪兽区
     renderExtraMonsters(scene);
@@ -105,7 +107,7 @@ const Duel = () => {
     engine.runRenderLoop(() => {
       scene.render();
     });
-  }, [canvasRef, hands, currentPlayer]);
+  }, [canvasRef, hands, monsters, currentPlayer]); // FIXME: 这里需要优化，应该分组件按需渲染
 
   useEffect(() => {
     // 监听状态变化，并实现动画
