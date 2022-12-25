@@ -52,8 +52,8 @@ export class BufferReader {
     return ret;
   }
 
-  readCardInfo(): ygopro.StocGameMessage.CardInfo {
-    const cardInfo = new ygopro.StocGameMessage.CardInfo({});
+  readCardInfo(): ygopro.CardInfo {
+    const cardInfo = new ygopro.CardInfo({});
 
     cardInfo.code = this.readUint32();
     cardInfo.controler = this.readUint8();
