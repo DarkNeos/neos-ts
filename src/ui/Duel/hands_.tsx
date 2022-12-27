@@ -1,6 +1,4 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
-import { selectMeHands } from "../../reducers/duel/handsSlice";
 import * as CONFIG from "../../config/ui";
 import { Card, InteractType } from "../../reducers/duel/util";
 import {
@@ -13,13 +11,11 @@ import { store } from "../../store";
 import { useClick, useHover } from "react-babylonjs";
 import { useState, useRef } from "react";
 
-const DuelHands = () => {
-  const hands = useAppSelector(selectMeHands).cards;
-
+const DuelHands = (props: { hands: Card[] }) => {
   return (
     <>
-      {hands.map((hand, idx) => {
-        return <DuelHand state={hand} idx={idx} />;
+      {props.hands.map((hand, idx) => {
+        return <DuelHand state={hand} idx={idx} key={idx} />;
       })}
     </>
   );
@@ -58,6 +54,7 @@ const DuelHand = (props: { state: Card; idx: number }) => {
     );
     dispatch(setCardModalIsOpen(true));
   }, planeRef);
+
   return (
     <>
       <plane
