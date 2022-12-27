@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Engine, Scene } from "react-babylonjs";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
+import DuelHands from "./hands_";
 
 const BabylonCanvas = () => (
   <div>
@@ -9,6 +10,7 @@ const BabylonCanvas = () => (
       <Scene>
         <DuelCamera />
         <DuelLight />
+        <DuelHands />
         <DuelGround />
       </Scene>
     </Engine>
