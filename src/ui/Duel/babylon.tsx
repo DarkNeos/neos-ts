@@ -3,29 +3,19 @@ import { Engine, Scene } from "react-babylonjs";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import DuelHands from "./hands_";
-import { selectMeHands } from "../../reducers/duel/handsSlice";
-import { useAppSelector } from "../../hook";
-import CardModal from "./cardModal";
-import HintNotification from "./hintNotification";
 
-const BabylonCanvas = () => {
-  const hands = useAppSelector(selectMeHands).cards;
-
-  return (
-    <div>
-      <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
-        <Scene>
-          <DuelCamera />
-          <DuelLight />
-          <DuelHands hands={hands} />
-          <DuelGround />
-        </Scene>
-      </Engine>
-      <CardModal />
-      <HintNotification />
-    </div>
-  );
-};
+const BabylonCanvas = () => (
+  <div>
+    <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
+      <Scene>
+        <DuelCamera />
+        <DuelLight />
+        <DuelHands />
+        <DuelGround />
+      </Scene>
+    </Engine>
+  </div>
+);
 
 const DuelCamera = () => (
   <freeCamera
