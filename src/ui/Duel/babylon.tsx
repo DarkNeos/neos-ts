@@ -1,20 +1,25 @@
 import React from "react";
 import { Engine, Scene } from "react-babylonjs";
+import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import DuelHands from "./hands_";
 
 const BabylonCanvas = () => (
-  <div>
-    <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
-      <Scene>
-        <DuelCamera />
-        <DuelLight />
-        <DuelHands />
-        <DuelGround />
-      </Scene>
-    </Engine>
-  </div>
+  <ReactReduxContext.Consumer>
+    {({ store }) => (
+      <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
+        <Scene>
+          <Provider store={store}>
+            <DuelCamera />
+            <DuelLight />
+            <DuelHands />
+            <DuelGround />
+          </Provider>
+        </Scene>
+      </Engine>
+    )}
+  </ReactReduxContext.Consumer>
 );
 
 const DuelCamera = () => (
