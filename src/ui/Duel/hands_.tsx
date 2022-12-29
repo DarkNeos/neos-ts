@@ -19,7 +19,7 @@ const DuelHands = () => {
   return (
     <>
       {hands.map((hand, idx) => {
-        return <DuelHand state={hand} idx={idx} />;
+        return <DuelHand state={hand} idx={idx} key={idx} />;
       })}
     </>
   );
