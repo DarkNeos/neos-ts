@@ -3,14 +3,14 @@ import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
-import Hands from "./hands_";
-import Monsters from "./monsters_";
+import Hands from "./hands";
+import Monsters from "./monsters";
 import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
-import Magics from "./magics_";
-import Field from "./field_";
-import Deck from "./deck_";
-import Exclusion from "./exclusion_";
+import Magics from "./magics";
+import Field from "./field";
+import Deck from "./deck";
+import Exclusion from "./exclusion";
 
 const NeosDuel = () => (
   <>
