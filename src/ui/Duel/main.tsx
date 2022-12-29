@@ -8,6 +8,7 @@ import Monsters from "./monsters_";
 import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 import Magics from "./magics_";
+import Field from "./field_";
 
 const NeosDuel = () => (
   <>
@@ -21,6 +22,7 @@ const NeosDuel = () => (
               <Hands />
               <Monsters />
               <Magics />
+              <Field />
               <Ground />
             </Provider>
           </Scene>
