@@ -27,9 +27,10 @@ const Monsters = () => {
 
 const CMonster = (props: { state: Monster }) => {
   const planeRef = useRef(null);
+  const shape = CONFIG.CardSlotShape();
   const position = new BABYLON.Vector3(
     left + gap * props.state.sequence,
-    CONFIG.CardSlotShape().depth / 2 + CONFIG.Floating,
+    shape.depth / 2 + CONFIG.Floating,
     -1.35
   );
   const rotation = CONFIG.CardSlotRotation();
@@ -53,6 +54,8 @@ const CMonster = (props: { state: Monster }) => {
     <plane
       name={`monster-${props.state.selectInfo}`}
       ref={planeRef}
+      width={shape.width}
+      height={shape.height}
       position={position}
       rotation={rotation}
       enableEdgesRendering

@@ -7,6 +7,7 @@ import Hands from "./hands_";
 import Monsters from "./monsters_";
 import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
+import Magics from "./magics_";
 
 const BabylonCanvas = () => (
   <>
@@ -19,6 +20,7 @@ const BabylonCanvas = () => (
               <Light />
               <Hands />
               <Monsters />
+              <Magics />
               <Ground />
             </Provider>
           </Scene>
