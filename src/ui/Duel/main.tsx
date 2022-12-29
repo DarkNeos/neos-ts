@@ -9,7 +9,7 @@ import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 import Magics from "./magics_";
 
-const BabylonCanvas = () => (
+const NeosDuel = () => (
   <>
     <ReactReduxContext.Consumer>
       {({ store }) => (
@@ -65,4 +65,4 @@ const Ground = () => {
   );
 };
 
-export default BabylonCanvas;
+export default NeosDuel;
