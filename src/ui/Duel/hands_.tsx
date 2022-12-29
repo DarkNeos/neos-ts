@@ -10,7 +10,8 @@ import {
   setCardModalInteractivies,
 } from "../../reducers/duel/mod";
 import { store } from "../../store";
-import { useClick, useHover } from "react-babylonjs";
+import { useHover } from "react-babylonjs";
+import { useClick } from "./hook";
 import { useState, useRef } from "react";
 
 const DuelHands = () => {
@@ -39,25 +40,29 @@ const DuelHand = (props: { state: Card; idx: number }) => {
     planeRef
   );
 
-  useClick(() => {
-    dispatch(setCardModalText([state.meta.text.name, state.meta.text.desc]));
-    dispatch(
-      setCardModalImgUrl(
-        `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
-      )
-    );
-    dispatch(
-      setCardModalInteractivies(
-        state.interactivities.map((interactive) => {
-          return {
-            desc: interactTypeToString(interactive.interactType),
-            response: interactive.response,
-          };
-        })
-      )
-    );
-    dispatch(setCardModalIsOpen(true));
-  }, planeRef);
+  useClick(
+    () => {
+      dispatch(setCardModalText([state.meta.text.name, state.meta.text.desc]));
+      dispatch(
+        setCardModalImgUrl(
+          `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
+        )
+      );
+      dispatch(
+        setCardModalInteractivies(
+          state.interactivities.map((interactive) => {
+            return {
+              desc: interactTypeToString(interactive.interactType),
+              response: interactive.response,
+            };
+          })
+        )
+      );
+      dispatch(setCardModalIsOpen(true));
+    },
+    planeRef,
+    [state]
+  );
   return (
     <>
       <plane
