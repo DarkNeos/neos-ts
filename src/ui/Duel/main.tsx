@@ -10,6 +10,7 @@ import HintNotification from "./hintNotification";
 import Magics from "./magics_";
 import Field from "./field_";
 import Deck from "./deck_";
+import Exclusion from "./exclusion_";
 
 const NeosDuel = () => (
   <>
@@ -25,6 +26,7 @@ const NeosDuel = () => (
               <Magics />
               <Field />
               <Deck />
+              <Exclusion />
               <Ground />
             </Provider>
           </Scene>
