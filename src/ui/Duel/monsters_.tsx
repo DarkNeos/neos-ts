@@ -19,13 +19,14 @@ const Monsters = () => {
   return (
     <>
       {monsters.map((monster, idx) => {
-        return <CMonster state={monster} key={idx} />;
+        return <CommonMonster state={monster} key={idx} />;
       })}
+      <ExtraMonsters />
     </>
   );
 };
 
-const CMonster = (props: { state: Monster }) => {
+const CommonMonster = (props: { state: Monster }) => {
   const planeRef = useRef(null);
   const shape = CONFIG.CardSlotShape();
   const position = new BABYLON.Vector3(
@@ -74,6 +75,35 @@ const CMonster = (props: { state: Monster }) => {
         alpha={0.2}
       ></standardMaterial>
     </plane>
+  );
+};
+
+// TODO: use props and redux
+const ExtraMonsters = () => {
+  const xs = [-1.1, 1];
+  const shape = CONFIG.CardSlotShape();
+  const position = (x: number) =>
+    new BABYLON.Vector3(x, shape.depth / 2 + CONFIG.Floating, 0);
+  const rotation = CONFIG.CardSlotRotation();
+
+  return (
+    <>
+      {xs.map((x, idx) => (
+        <plane
+          name={`extra-monster-${idx}`}
+          position={position(x)}
+          rotation={rotation}
+        >
+          <standardMaterial
+            name={`extra-monster-mat-${idx}`}
+            diffuseTexture={
+              new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
+            }
+            alpha={0.2}
+          ></standardMaterial>
+        </plane>
+      ))}
+    </>
   );
 };
 
