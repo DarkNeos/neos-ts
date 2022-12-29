@@ -14,19 +14,19 @@ import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef } from "react";
 
-const DuelHands = () => {
+const Hands = () => {
   const hands = useAppSelector(selectMeHands).cards;
 
   return (
     <>
       {hands.map((hand, idx) => {
-        return <DuelHand state={hand} idx={idx} key={idx} />;
+        return <Hand state={hand} idx={idx} key={idx} />;
       })}
     </>
   );
 };
 
-const DuelHand = (props: { state: Card; idx: number }) => {
+const Hand = (props: { state: Card; idx: number }) => {
   const handShape = CONFIG.HandShape();
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
@@ -88,7 +88,7 @@ const DuelHand = (props: { state: Card; idx: number }) => {
         }
       >
         <standardMaterial
-          name={`handMaterial-${idx}`}
+          name={`hand-mat-${idx}`}
           diffuseTexture={
             new BABYLON.Texture(
               `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
@@ -126,4 +126,4 @@ function interactTypeToString(t: InteractType): string {
   }
 }
 
-export default DuelHands;
+export default Hands;

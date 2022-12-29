@@ -3,7 +3,8 @@ import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
-import DuelHands from "./hands_";
+import Hands from "./hands_";
+import Monsters from "./monsters_";
 import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 
@@ -14,10 +15,11 @@ const BabylonCanvas = () => (
         <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
           <Scene>
             <Provider store={store}>
-              <DuelCamera />
-              <DuelLight />
-              <DuelHands />
-              <DuelGround />
+              <Camera />
+              <Light />
+              <Hands />
+              <Monsters />
+              <Ground />
             </Provider>
           </Scene>
         </Engine>
@@ -28,7 +30,7 @@ const BabylonCanvas = () => (
   </>
 );
 
-const DuelCamera = () => (
+const Camera = () => (
   <freeCamera
     name="duel-camera"
     position={new BABYLON.Vector3(0, 8, -10)}
@@ -36,7 +38,7 @@ const DuelCamera = () => (
   ></freeCamera>
 );
 
-const DuelLight = () => (
+const Light = () => (
   <hemisphericLight
     name="duel-light"
     direction={new BABYLON.Vector3(1, 2.5, 1)}
@@ -44,7 +46,7 @@ const DuelLight = () => (
   ></hemisphericLight>
 );
 
-const DuelGround = () => {
+const Ground = () => {
   const shape = CONFIG.GroundShape();
   const texture = new BABYLON.Texture(
     `http://localhost:3030/images/newfield.png`
