@@ -29,6 +29,7 @@ const DuelHands = () => {
 const DuelHand = (props: { state: Card; idx: number }) => {
   const handShape = CONFIG.HandShape();
   const hoverScale = CONFIG.HandHoverScaling();
+  const defaultScale = new BABYLON.Vector3(1, 1, 1);
   const planeRef = useRef(null);
   const [state, idx] = [props.state, props.idx];
   const [hovered, setHovered] = useState(false);
@@ -68,8 +69,9 @@ const DuelHand = (props: { state: Card; idx: number }) => {
       <plane
         name={`hand-${idx}`}
         ref={planeRef}
-        width={hovered ? handShape.width * hoverScale.x : handShape.width}
-        height={hovered ? handShape.height * hoverScale.z : handShape.height}
+        width={handShape.width}
+        height={handShape.height}
+        scaling={hovered ? hoverScale : defaultScale}
         position={
           new BABYLON.Vector3(
             state.transform.position?.x,
