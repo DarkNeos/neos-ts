@@ -13,7 +13,7 @@ export default function () {
       <Route path="/" element={<JoinRoom />} />
       <Route path="/:player/:passWd/:ip" element={<WaitRoom />} />
       <Route path="/mora" element={<Mora />} />
-      <Route path="/duel" element={<Duel />} />
+      <Route path="/duel" element={<BabylonCanvas />} />
       <Route path="/react-babylon" element={<BabylonCanvas />} />
     </Routes>
   );
