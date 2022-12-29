@@ -9,6 +9,7 @@ import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 import Magics from "./magics_";
 import Field from "./field_";
+import Deck from "./deck_";
 
 const NeosDuel = () => (
   <>
@@ -23,6 +24,7 @@ const NeosDuel = () => (
               <Monsters />
               <Magics />
               <Field />
+              <Deck />
               <Ground />
             </Provider>
           </Scene>
