@@ -38,9 +38,10 @@ const CardModal = () => {
           <Meta title={name} />
           <p>{desc}</p>
         </Card>
-        {interactivies.map((interactive) => {
+        {interactivies.map((interactive, idx) => {
           return (
             <Button
+              key={idx}
               onClick={() => {
                 sendSelectIdleCmdResponse(interactive.response);
                 dispatch(setCardModalIsOpen(false));
