@@ -29,6 +29,7 @@ import {
   addMonsterPlaceSelectAbleImpl,
   clearMonsterSelectInfoImpl,
 } from "./monstersSlice";
+import { MagicState, initMagicsImpl } from "./magicSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -40,6 +41,9 @@ export interface DuelState {
 
   meMonsters?: MonsterState; // 自己的怪兽区状态
   opMonsters?: MonsterState; // 对手的怪兽区状态
+
+  meMagics?: MagicState; // 自己的魔法陷阱区状态
+  opMagics?: MagicState; // 对手的魔法陷阱区状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -81,6 +85,9 @@ const duelSlice = createSlice({
     addMonsterPlaceSelectAble: addMonsterPlaceSelectAbleImpl,
     clearMonsterSelectInfo: clearMonsterSelectInfoImpl,
 
+    // 魔法陷阱区相关`Reducer`
+    initMagics: initMagicsImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
@@ -108,6 +115,7 @@ export const {
   initMonsters,
   addMonsterPlaceSelectAble,
   clearMonsterSelectInfo,
+  initMagics,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

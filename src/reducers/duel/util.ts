@@ -72,7 +72,7 @@ export interface Interactivity<T> {
   response: T;
 }
 
-export interface Monster {
+export interface SlotState {
   sequence: number;
   occupant?: CardMeta;
   selectInfo?: Interactivity<{
@@ -81,3 +81,7 @@ export interface Monster {
     sequence: number;
   }>;
 }
+
+export type Monster = SlotState;
+
+export type Magic = SlotState;
