@@ -9,6 +9,7 @@ import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import { clearMonsterSelectInfo } from "../../reducers/duel/mod";
 import { useAppSelector } from "../../hook";
 import { selectMeMonsters } from "../../reducers/duel/monstersSlice";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 const left = -2.15; // TODO: config
 const gap = 1.05;
@@ -34,10 +35,20 @@ const CommonMonster = (props: { state: Monster }) => {
     shape.depth / 2 + CONFIG.Floating,
     -1.35
   );
-  const rotation = CONFIG.CardSlotRotation();
+  const rotation =
+    props.state.position === ygopro.CardPosition.DEFENSE ||
+    props.state.position === ygopro.CardPosition.FACEUP_DEFENSE ||
+    props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE
+      ? CONFIG.CardSlotDefenceRotation()
+      : CONFIG.CardSlotRotation();
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const dispatch = store.dispatch;
+
+  const faceDown =
+    props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
+    ygopro.CardPosition.FACEDOWN_ATTACK ||
+    ygopro.CardPosition.FACEDOWN;
 
   useClick(
     (_event) => {
@@ -67,9 +78,13 @@ const CommonMonster = (props: { state: Monster }) => {
         name={`monster-mat-${props.state.sequence}`}
         diffuseTexture={
           props.state.occupant
-            ? new BABYLON.Texture(
-                `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
-              )
+            ? faceDown
+              ? new BABYLON.Texture(
+                  `http://localhost:3030/images/card_back.jpg`
+                )
+              : new BABYLON.Texture(
+                  `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+                )
             : new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
         }
         alpha={props.state.occupant ? 1 : 0}
