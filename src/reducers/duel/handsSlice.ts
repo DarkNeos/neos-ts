@@ -140,6 +140,20 @@ export const addHandsInteractivityImpl: CaseReducer<
   }
 };
 
+// 删除手牌
+export const removeHandImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, number]>
+> = (state, action) => {
+  const controler = action.payload[0];
+  const sequence = action.payload[1];
+
+  const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+  if (hands) {
+    hands.cards = hands.cards.filter((_, idx) => idx != sequence);
+  }
+};
+
 export const selectMeHands = (state: RootState) =>
   state.duel.meHands || { cards: [] };
 export const selectOpHands = (state: RootState) =>

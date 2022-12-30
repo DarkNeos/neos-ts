@@ -11,6 +11,7 @@ import {
   handsCase,
   clearHandsInteractivityImpl,
   addHandsInteractivityImpl,
+  removeHandImpl,
 } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
 import { newPhaseImpl } from "./phaseSlice";
@@ -84,6 +85,7 @@ const duelSlice = createSlice({
     // 手牌相关`Reducer`
     clearHandsInteractivity: clearHandsInteractivityImpl,
     addHandsInteractivity: addHandsInteractivityImpl,
+    removeHand: removeHandImpl,
 
     // 怪兽区相关`Reducer`
     initMonsters: initMonstersImpl,
@@ -125,6 +127,7 @@ export const {
   initMagics,
   addMagicPlaceSelectAble,
   clearMagicSelectInfo,
+  removeHand,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
