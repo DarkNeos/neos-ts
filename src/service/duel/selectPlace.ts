@@ -1,7 +1,10 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
 import MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
-import { addMonsterPlaceSelectAble } from "../../reducers/duel/mod";
+import {
+  addMonsterPlaceSelectAble,
+  addMagicPlaceSelectAble,
+} from "../../reducers/duel/mod";
 
 export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
   if (selectPlace.count != 1) {
@@ -14,6 +17,11 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
     switch (place.zone) {
       case ygopro.CardZone.MZONE: {
         dispatch(addMonsterPlaceSelectAble([place.controler, place.sequence]));
+
+        break;
+      }
+      case ygopro.CardZone.SZONE: {
+        dispatch(addMagicPlaceSelectAble([place.controler, place.sequence]));
 
         break;
       }

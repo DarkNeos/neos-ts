@@ -42,7 +42,7 @@ const CommonMonster = (props: { state: Monster }) => {
   useClick(
     (_event) => {
       if (props.state.selectInfo) {
-        sendSelectPlaceResponse(props.state.selectInfo?.response);
+        sendSelectPlaceResponse(props.state.selectInfo.response);
         dispatch(clearMonsterSelectInfo(0));
         dispatch(clearMonsterSelectInfo(1));
       }
