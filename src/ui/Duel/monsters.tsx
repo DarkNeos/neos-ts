@@ -47,8 +47,8 @@ const CommonMonster = (props: { state: Monster }) => {
 
   const faceDown =
     props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
-    ygopro.CardPosition.FACEDOWN_ATTACK ||
-    ygopro.CardPosition.FACEDOWN;
+    props.state.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    props.state.position === ygopro.CardPosition.FACEDOWN;
 
   useClick(
     (_event) => {
