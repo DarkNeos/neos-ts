@@ -1,6 +1,11 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
-import { infoInit, setSelfType, initMonsters, initMagics } from "../../reducers/duel/mod";
+import {
+  infoInit,
+  setSelfType,
+  initMonsters,
+  initMagics,
+} from "../../reducers/duel/mod";
 
 export default (
   start: ygopro.StocGameMessage.MsgStart,
