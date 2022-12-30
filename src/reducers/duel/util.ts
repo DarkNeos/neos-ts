@@ -27,21 +27,7 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
 
 export interface Hand {
   meta: CardMeta;
-  transform: CardTransform;
   interactivities: Interactivity<number>[];
-}
-
-interface CardTransform {
-  position?: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  rotation?: {
-    x: number;
-    y: number;
-    z: number;
-  };
 }
 
 export enum InteractType {

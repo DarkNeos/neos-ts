@@ -8,7 +8,6 @@ import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf, Hand, Interactivity } from "./util";
-import * as UICONFIG from "../../config/ui";
 
 export interface Hands {
   // 注意：手牌的位置顺序是有约束的
@@ -56,7 +55,6 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       } else {
         state.meHands = { cards };
       }
-      setHandsTransform(state.meHands.cards);
     } else {
       if (state.opHands) {
         state.opHands.cards = state.opHands.cards.concat(cards);
@@ -82,27 +80,6 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     }
   });
 };
-
-// 更新手牌的位置和旋转信息
-//
-// TODO: 兼容对方手牌
-function setHandsTransform(hands: Hand[]): void {
-  const groundShape = UICONFIG.GroundShape();
-  const handShape = UICONFIG.HandShape();
-  const gap = groundShape.width / (hands.length - 1);
-  const left = -(groundShape.width / 2);
-
-  hands.forEach((hand, idx, _) => {
-    hand.transform.position = {
-      x: left + gap * idx,
-      y: handShape.height / 2,
-      z: -(groundShape.height / 2) - 1,
-    };
-
-    const rotation = UICONFIG.HandRotation();
-    hand.transform.rotation = { x: rotation.x, y: rotation.y, z: rotation.z };
-  });
-}
 
 // 清空手牌互动性
 export const clearHandsInteractivityImpl: CaseReducer<

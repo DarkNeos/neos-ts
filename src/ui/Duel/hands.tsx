@@ -14,20 +14,37 @@ import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef } from "react";
 
+const groundShape = CONFIG.GroundShape();
+const left = -(groundShape.width / 2);
+
 const Hands = () => {
   const hands = useAppSelector(selectMeHands).cards;
 
   return (
     <>
       {hands.map((hand, idx) => {
-        return <CHand state={hand} idx={idx} key={idx} />;
+        return (
+          <CHand
+            state={hand}
+            idx={idx}
+            key={idx}
+            gap={groundShape.width / (hands.length - 1)}
+          />
+        );
       })}
     </>
   );
 };
 
-const CHand = (props: { state: Hand; idx: number }) => {
+const CHand = (props: { state: Hand; idx: number; gap: number }) => {
   const handShape = CONFIG.HandShape();
+  const position = new BABYLON.Vector3(
+    left + props.gap * props.idx,
+    handShape.height / 2,
+    -(groundShape.height / 2) - 1
+  );
+  const rotation = CONFIG.HandRotation();
+
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
   const planeRef = useRef(null);
@@ -72,20 +89,8 @@ const CHand = (props: { state: Hand; idx: number }) => {
         width={handShape.width}
         height={handShape.height}
         scaling={hovered ? hoverScale : defaultScale}
-        position={
-          new BABYLON.Vector3(
-            state.transform.position?.x,
-            state.transform.position?.y,
-            state.transform.position?.z
-          )
-        }
-        rotation={
-          new BABYLON.Vector3(
-            state.transform.rotation?.x,
-            state.transform.rotation?.y,
-            state.transform.rotation?.z
-          )
-        }
+        position={position}
+        rotation={rotation}
       >
         <standardMaterial
           name={`hand-mat-${idx}`}
