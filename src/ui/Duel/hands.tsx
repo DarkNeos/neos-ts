@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "../../hook";
 import { selectMeHands } from "../../reducers/duel/handsSlice";
 import * as CONFIG from "../../config/ui";
-import { Card, InteractType } from "../../reducers/duel/util";
+import { Hand, InteractType } from "../../reducers/duel/util";
 import {
   setCardModalImgUrl,
   setCardModalIsOpen,
@@ -20,13 +20,13 @@ const Hands = () => {
   return (
     <>
       {hands.map((hand, idx) => {
-        return <Hand state={hand} idx={idx} key={idx} />;
+        return <CHand state={hand} idx={idx} key={idx} />;
       })}
     </>
   );
 };
 
-const Hand = (props: { state: Card; idx: number }) => {
+const CHand = (props: { state: Hand; idx: number }) => {
   const handShape = CONFIG.HandShape();
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
