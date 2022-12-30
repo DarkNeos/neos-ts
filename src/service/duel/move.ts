@@ -25,7 +25,14 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
 
   switch (to.location) {
     case ygopro.CardZone.MZONE: {
-      dispatch(fetchMonsterMeta([to.controler, to.sequence, code]));
+      dispatch(
+        fetchMonsterMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          position: to.position,
+          code,
+        })
+      );
 
       break;
     }
