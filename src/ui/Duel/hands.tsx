@@ -12,7 +12,8 @@ import {
 import { store } from "../../store";
 import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useSpring, animated } from "./spring";
 
 const groundShape = CONFIG.GroundShape();
 const left = -(groundShape.width / 2);
@@ -38,11 +39,33 @@ const Hands = () => {
 
 const CHand = (props: { state: Hand; idx: number; gap: number }) => {
   const handShape = CONFIG.HandShape();
-  const position = new BABYLON.Vector3(
-    left + props.gap * props.idx,
-    handShape.height / 2,
-    -(groundShape.height / 2) - 1
+
+  const [spring, api] = useSpring(
+    () => ({
+      from: {
+        position: new BABYLON.Vector3(
+          left + props.gap * props.idx,
+          handShape.height / 2,
+          -(groundShape.height / 2) - 1
+        ),
+      },
+      config: {
+        clamp: true,
+      },
+    }),
+    [props.idx, props.gap]
   );
+
+  useEffect(() => {
+    api({
+      position: new BABYLON.Vector3(
+        left + props.gap * props.idx,
+        handShape.height / 2,
+        -(groundShape.height / 2) - 1
+      ),
+    });
+  }, [props.idx, props.gap]);
+
   const rotation = CONFIG.HandRotation();
 
   const hoverScale = CONFIG.HandHoverScaling();
@@ -82,14 +105,15 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
     [state]
   );
   return (
-    <>
-      <plane
+    // @ts-ignore
+    <animated.transformNode name="">
+      <animated.plane
         name={`hand-${idx}`}
         ref={planeRef}
         width={handShape.width}
         height={handShape.height}
         scaling={hovered ? hoverScale : defaultScale}
-        position={position}
+        position={spring.position}
         rotation={rotation}
       >
         <standardMaterial
@@ -100,8 +124,8 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
             )
           }
         />
-      </plane>
-    </>
+      </animated.plane>
+    </animated.transformNode>
   );
 };
 
