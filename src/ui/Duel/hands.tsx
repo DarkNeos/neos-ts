@@ -14,6 +14,7 @@ import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";
 import { useSpring, animated } from "./spring";
+import { config } from "@react-spring/web";
 
 const groundShape = CONFIG.GroundShape();
 const left = -(groundShape.width / 2);
@@ -39,41 +40,53 @@ const Hands = () => {
 
 const CHand = (props: { state: Hand; idx: number; gap: number }) => {
   const handShape = CONFIG.HandShape();
-
-  const [spring, api] = useSpring(
-    () => ({
-      from: {
-        position: new BABYLON.Vector3(
-          left + props.gap * props.idx,
-          handShape.height / 2,
-          -(groundShape.height / 2) - 1
-        ),
-      },
-      config: {
-        clamp: true,
-      },
-    }),
-    [props.idx, props.gap]
-  );
-
-  useEffect(() => {
-    api({
-      position: new BABYLON.Vector3(
-        left + props.gap * props.idx,
-        handShape.height / 2,
-        -(groundShape.height / 2) - 1
-      ),
-    });
-  }, [props.idx, props.gap]);
-
   const rotation = CONFIG.HandRotation();
-
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
   const planeRef = useRef(null);
   const [state, idx] = [props.state, props.idx];
   const [hovered, setHovered] = useState(false);
   const dispatch = store.dispatch;
+
+  const [position, setPosition] = useState(
+    new BABYLON.Vector3(
+      left + props.gap * props.idx,
+      handShape.height / 2,
+      -(groundShape.height / 2) - 1
+    )
+  );
+
+  const [spring, api] = useSpring(
+    () => ({
+      from: {
+        position,
+      },
+      config: {
+        mass: 1.0,
+        tension: 170,
+        friction: 900,
+        precision: 0.01,
+        velocity: 0.0,
+        clamp: true,
+        duration: 2000,
+      },
+    }),
+    []
+  );
+
+  useEffect(() => {
+    const newPosition = new BABYLON.Vector3(
+      left + props.gap * props.idx,
+      handShape.height / 2,
+      -(groundShape.height / 2) - 1
+    );
+
+    api.start({
+      position: newPosition,
+    });
+
+    setPosition(newPosition);
+  }, [props.idx, props.gap]);
 
   useHover(
     () => setHovered(true),
@@ -116,7 +129,7 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
         position={spring.position}
         rotation={rotation}
       >
-        <standardMaterial
+        <animated.standardMaterial
           name={`hand-mat-${idx}`}
           diffuseTexture={
             new BABYLON.Texture(
