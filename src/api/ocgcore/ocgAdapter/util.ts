@@ -156,3 +156,37 @@ export function numberToCardZone(
     }
   }
 }
+
+export function numberToCardPosition(
+  position: number
+): ygopro.CardPosition | undefined {
+  switch (position) {
+    case 0x1: {
+      return ygopro.CardPosition.FACEUP_ATTACK;
+    }
+    case 0x2: {
+      return ygopro.CardPosition.FACEDOWN_ATTACK;
+    }
+    case 0x3: {
+      return ygopro.CardPosition.ATTACK;
+    }
+    case 0x4: {
+      return ygopro.CardPosition.FACEUP_DEFENSE;
+    }
+    case 0x5: {
+      return ygopro.CardPosition.FACEUP;
+    }
+    case 0x8: {
+      return ygopro.CardPosition.FACEDOWN_DEFENSE;
+    }
+    case 0xa: {
+      return ygopro.CardPosition.FACEDOWN;
+    }
+    case 0xc: {
+      return ygopro.CardPosition.DEFENSE;
+    }
+    default: {
+      return undefined;
+    }
+  }
+}

@@ -1,6 +1,10 @@
 import { ygopro } from "../../../idl/ocgcore";
 import { BufferReader } from "../../bufferIO";
-import { cardZoneToNumber, numberToCardZone } from "../../util";
+import {
+  cardZoneToNumber,
+  numberToCardPosition,
+  numberToCardZone,
+} from "../../util";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 
 /*
@@ -28,7 +32,10 @@ export default (data: Uint8Array) => {
     });
 
     if (location != cardZoneToNumber(ygopro.CardZone.OVERLAY)) {
-      cardLocation.position = ss;
+      const position = numberToCardPosition(ss);
+      if (position) {
+        cardLocation.position = position;
+      }
     } else {
       cardLocation.overlay_sequence = ss;
     }

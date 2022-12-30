@@ -37,7 +37,14 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(fetchMagicMeta([to.controler, to.sequence, code]));
+      dispatch(
+        fetchMagicMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          position: to.position,
+          code,
+        })
+      );
 
       break;
     }
