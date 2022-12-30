@@ -29,6 +29,7 @@ import {
   initMonstersImpl,
   addMonsterPlaceSelectAbleImpl,
   clearMonsterSelectInfoImpl,
+  monsterCase,
 } from "./monstersSlice";
 import {
   MagicState,
@@ -106,6 +107,7 @@ const duelSlice = createSlice({
   extraReducers(builder) {
     handsCase(builder);
     hintCase(builder);
+    monsterCase(builder);
   },
 });
 
