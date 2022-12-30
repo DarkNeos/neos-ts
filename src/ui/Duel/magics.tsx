@@ -20,7 +20,7 @@ const Magics = () => {
   return (
     <>
       {magics.map((magic) => {
-        return <CMagic state={magic} />;
+        return <CMagic state={magic} key={magic.sequence} />;
       })}
     </>
   );

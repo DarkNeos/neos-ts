@@ -106,6 +106,7 @@ const ExtraMonsters = () => {
       {xs.map((x, idx) => (
         <plane
           name={`extra-monster-${idx}`}
+          key={idx}
           position={position(x)}
           rotation={rotation}
         >
