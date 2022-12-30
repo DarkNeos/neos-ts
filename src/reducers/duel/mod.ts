@@ -36,6 +36,7 @@ import {
   initMagicsImpl,
   addMagicPlaceSelectAbleImpl,
   clearMagicSelectInfoImpl,
+  magicCase,
 } from "./magicSlice";
 
 export interface DuelState {
@@ -108,6 +109,7 @@ const duelSlice = createSlice({
     handsCase(builder);
     hintCase(builder);
     monsterCase(builder);
+    magicCase(builder);
   },
 });
 

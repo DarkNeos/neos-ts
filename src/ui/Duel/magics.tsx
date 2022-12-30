@@ -71,7 +71,7 @@ const CMagic = (props: { state: Magic }) => {
             ? new BABYLON.Texture(`http://localhost:3030/images/card_back.jpg`)
             : new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
         }
-        alpha={0.2}
+        alpha={state.occupant ? 1 : 0}
       ></standardMaterial>
     </plane>
   );
