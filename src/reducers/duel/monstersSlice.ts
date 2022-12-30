@@ -84,7 +84,9 @@ export const clearMonsterSelectInfoImpl: CaseReducer<
     : state.opMonsters;
 
   if (monsters) {
-    monsters.monsters = [];
+    for (const monster of monsters.monsters) {
+      monster.selectInfo = undefined;
+    }
   }
 };
 

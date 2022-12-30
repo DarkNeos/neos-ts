@@ -72,7 +72,7 @@ const CommonMonster = (props: { state: Monster }) => {
               )
             : new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
         }
-        alpha={0.2}
+        alpha={props.state.occupant ? 1 : 0}
       ></standardMaterial>
     </plane>
   );
