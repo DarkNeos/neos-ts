@@ -8,6 +8,7 @@ import { useAppSelector } from "../../hook";
 import { useRef } from "react";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import { clearMagicSelectInfo } from "../../reducers/duel/mod";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 // TODO: use config
 const left = -2.15;
@@ -19,7 +20,7 @@ const Magics = () => {
   return (
     <>
       {magics.map((magic) => {
-        return <CMagic state={magic} />;
+        return <CMagic state={magic} key={magic.sequence} />;
       })}
     </>
   );
@@ -36,6 +37,10 @@ const CMagic = (props: { state: Magic }) => {
     -2.6
   );
   const rotation = CONFIG.CardSlotRotation();
+  const faceDown =
+    state.position === ygopro.CardPosition.FACEDOWN ||
+    state.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    state.position === ygopro.CardPosition.FACEDOWN_DEFENSE;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const dispatch = store.dispatch;
@@ -68,7 +73,13 @@ const CMagic = (props: { state: Magic }) => {
         name={`magic-mat-${props.state.sequence}`}
         diffuseTexture={
           state.occupant
-            ? new BABYLON.Texture(`http://localhost:3030/images/card_back.jpg`)
+            ? faceDown
+              ? new BABYLON.Texture(
+                  `http://localhost:3030/images/card_back.jpg`
+                )
+              : new BABYLON.Texture(
+                  `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.occupant.id}.jpg`
+                )
             : new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
         }
         alpha={state.occupant ? 1 : 0}

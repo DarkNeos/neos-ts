@@ -93,13 +93,20 @@ export const clearMonsterSelectInfoImpl: CaseReducer<
 // 增加怪兽
 export const fetchMonsterMeta = createAsyncThunk(
   "duel/fetchMonsterMeta",
-  async (param: [number, number, number]) => {
-    const controler = param[0];
-    const sequence = param[1];
-    const code = param[2];
+  async (param: {
+    controler: number;
+    sequence: number;
+    position: ygopro.CardPosition;
+    code: number;
+  }) => {
+    const code = param.code;
 
     const meta = await fetchCard(code);
-    const response: [number, number, CardMeta] = [controler, sequence, meta];
+    const response = {
+      controler: param.controler,
+      sequence: param.sequence,
+      meta,
+    };
 
     return response;
   }
@@ -108,16 +115,18 @@ export const fetchMonsterMeta = createAsyncThunk(
 export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchMonsterMeta.pending, (state, action) => {
     // Meta结果没返回之前先更新`ID`
-    const controler = action.meta.arg[0];
-    const sequence = action.meta.arg[1];
-    const code = action.meta.arg[2];
+    const controler = action.meta.arg.controler;
+    const sequence = action.meta.arg.sequence;
+    const position = action.meta.arg.position;
+    const code = action.meta.arg.code;
 
-    const cardMeta = { id: code, data: {}, text: {} };
+    const meta = { id: code, data: {}, text: {} };
     if (judgeSelf(controler, state)) {
       if (state.meMonsters) {
         for (const monster of state.meMonsters.monsters) {
           if (monster.sequence == sequence) {
-            monster.occupant = cardMeta;
+            monster.occupant = meta;
+            monster.position = position;
           }
         }
       }
@@ -125,16 +134,17 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       if (state.opMonsters) {
         for (const monster of state.opMonsters.monsters) {
           if (monster.sequence == sequence) {
-            monster.occupant = cardMeta;
+            monster.occupant = meta;
+            monster.position = position;
           }
         }
       }
     }
   });
   builder.addCase(fetchMonsterMeta.fulfilled, (state, action) => {
-    const controler = action.payload[0];
-    const sequence = action.payload[1];
-    const meta = action.payload[2];
+    const controler = action.payload.controler;
+    const sequence = action.payload.sequence;
+    const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
       if (state.meMonsters) {

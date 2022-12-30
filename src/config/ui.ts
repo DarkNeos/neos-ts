@@ -27,19 +27,22 @@ export const FieldSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };
 export const CardSlotRotation = () => {
-  return new BABYLON.Vector3(1.5, 0, 0);
+  return new BABYLON.Vector3(1.55, 0, 0);
+};
+export const CardSlotDefenceRotation = () => {
+  return new BABYLON.Vector3(1.55, 1.55, 0);
 };
 export const DeckSlotRotation = () => {
-  return new BABYLON.Vector3(1.5, 0, 0);
+  return new BABYLON.Vector3(1.55, 0, 0);
 };
 export const CemeterySlotRotation = () => {
-  return new BABYLON.Vector3(1.5, 0, 0);
+  return new BABYLON.Vector3(1.55, 0, 0);
 };
 export const ExclusionSlotRotation = () => {
-  return new BABYLON.Vector3(1.5, 0, 0);
+  return new BABYLON.Vector3(1.55, 0, 0);
 };
 export const FieldSlotRotation = () => {
-  return new BABYLON.Vector3(1.5, 0, 0);
+  return new BABYLON.Vector3(1.55, 0, 0);
 };
 
 // 浮空

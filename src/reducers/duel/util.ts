@@ -72,6 +72,7 @@ export interface Interactivity<T> {
 export interface SlotState {
   sequence: number;
   occupant?: CardMeta;
+  position?: ygopro.CardPosition;
   selectInfo?: Interactivity<{
     controler: number;
     zone: ygopro.CardZone;
