@@ -29,7 +29,12 @@ import {
   addMonsterPlaceSelectAbleImpl,
   clearMonsterSelectInfoImpl,
 } from "./monstersSlice";
-import { MagicState, initMagicsImpl } from "./magicSlice";
+import {
+  MagicState,
+  initMagicsImpl,
+  addMagicPlaceSelectAbleImpl,
+  clearMagicSelectInfoImpl,
+} from "./magicSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -87,6 +92,8 @@ const duelSlice = createSlice({
 
     // 魔法陷阱区相关`Reducer`
     initMagics: initMagicsImpl,
+    addMagicPlaceSelectAble: addMagicPlaceSelectAbleImpl,
+    clearMagicSelectInfo: clearMagicSelectInfoImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -116,6 +123,8 @@ export const {
   addMonsterPlaceSelectAble,
   clearMonsterSelectInfo,
   initMagics,
+  addMagicPlaceSelectAble,
+  clearMagicSelectInfo,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
