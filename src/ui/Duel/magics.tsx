@@ -7,7 +7,12 @@ import { store } from "../../store";
 import { useAppSelector } from "../../hook";
 import { useRef } from "react";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
-import { clearMagicSelectInfo } from "../../reducers/duel/mod";
+import {
+  clearMagicSelectInfo,
+  setCardModalImgUrl,
+  setCardModalIsOpen,
+  setCardModalText,
+} from "../../reducers/duel/mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 // TODO: use config
@@ -51,6 +56,16 @@ const CMagic = (props: { state: Magic }) => {
         sendSelectPlaceResponse(state.selectInfo.response);
         dispatch(clearMagicSelectInfo(0));
         dispatch(clearMagicSelectInfo(1));
+      } else if (state.occupant) {
+        dispatch(
+          setCardModalText([state.occupant.text.name, state.occupant.text.desc])
+        );
+        dispatch(
+          setCardModalImgUrl(
+            `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.occupant.id}.jpg`
+          )
+        );
+        dispatch(setCardModalIsOpen(true));
       }
     },
     planeRef,

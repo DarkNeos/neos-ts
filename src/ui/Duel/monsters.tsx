@@ -6,7 +6,12 @@ import { Monster } from "../../reducers/duel/util";
 import "react-babylonjs";
 import { useRef } from "react";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
-import { clearMonsterSelectInfo } from "../../reducers/duel/mod";
+import {
+  clearMonsterSelectInfo,
+  setCardModalImgUrl,
+  setCardModalIsOpen,
+  setCardModalText,
+} from "../../reducers/duel/mod";
 import { useAppSelector } from "../../hook";
 import { selectMeMonsters } from "../../reducers/duel/monstersSlice";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
@@ -56,6 +61,19 @@ const CommonMonster = (props: { state: Monster }) => {
         sendSelectPlaceResponse(props.state.selectInfo.response);
         dispatch(clearMonsterSelectInfo(0));
         dispatch(clearMonsterSelectInfo(1));
+      } else if (props.state.occupant) {
+        dispatch(
+          setCardModalText([
+            props.state.occupant.text.name,
+            props.state.occupant.text.desc,
+          ])
+        );
+        dispatch(
+          setCardModalImgUrl(
+            `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+          )
+        );
+        dispatch(setCardModalIsOpen(true));
       }
     },
     planeRef,
