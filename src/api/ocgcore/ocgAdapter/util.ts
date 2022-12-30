@@ -113,3 +113,46 @@ export function cardZoneToNumber(zone: ygopro.CardZone): number {
     }
   }
 }
+
+export function numberToCardZone(
+  location: number
+): ygopro.CardZone | undefined {
+  switch (location) {
+    case 0x01: {
+      return ygopro.CardZone.DECK;
+    }
+    case 0x02: {
+      return ygopro.CardZone.HAND;
+    }
+    case 0x04: {
+      return ygopro.CardZone.MZONE;
+    }
+    case 0x08: {
+      return ygopro.CardZone.SZONE;
+    }
+    case 0x10: {
+      return ygopro.CardZone.GRAVE;
+    }
+    case 0x20: {
+      return ygopro.CardZone.REMOVED;
+    }
+    case 0x40: {
+      return ygopro.CardZone.EXTRA;
+    }
+    case 0x80: {
+      return ygopro.CardZone.OVERLAY;
+    }
+    case 0x0c: {
+      return ygopro.CardZone.ONFIELD;
+    }
+    case 0x100: {
+      return ygopro.CardZone.FZONE;
+    }
+    case 0x200: {
+      return ygopro.CardZone.PZONE;
+    }
+    default: {
+      return undefined;
+    }
+  }
+}

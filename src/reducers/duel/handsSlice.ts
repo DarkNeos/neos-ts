@@ -7,12 +7,12 @@ import {
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard, CardMeta } from "../../api/cards";
-import { judgeSelf, Card, Interactivity } from "./util";
+import { judgeSelf, Hand, Interactivity } from "./util";
 import * as UICONFIG from "../../config/ui";
 
 export interface Hands {
   // 注意：手牌的位置顺序是有约束的
-  cards: Card[];
+  cards: Hand[];
 }
 
 // 增加手牌
@@ -86,7 +86,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 // 更新手牌的位置和旋转信息
 //
 // TODO: 兼容对方手牌
-function setHandsTransform(hands: Card[]): void {
+function setHandsTransform(hands: Hand[]): void {
   const groundShape = UICONFIG.GroundShape();
   const handShape = UICONFIG.HandShape();
   const gap = groundShape.width / (hands.length - 1);
@@ -137,6 +137,20 @@ export const addHandsInteractivityImpl: CaseReducer<
     const interactivity = action.payload.interactivity;
 
     hands.cards[index].interactivities.push(interactivity);
+  }
+};
+
+// 删除手牌
+export const removeHandImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, number]>
+> = (state, action) => {
+  const controler = action.payload[0];
+  const sequence = action.payload[1];
+
+  const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+  if (hands) {
+    hands.cards = hands.cards.filter((_, idx) => idx != sequence);
   }
 };
 

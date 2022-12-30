@@ -25,10 +25,7 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
   }
 }
 
-/*
- * `Neos`中表示卡牌的通用结构
- * */
-export interface Card {
+export interface Hand {
   meta: CardMeta;
   transform: CardTransform;
   interactivities: Interactivity<number>[];

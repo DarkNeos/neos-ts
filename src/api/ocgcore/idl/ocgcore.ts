@@ -18,6 +18,16 @@ export namespace ygopro {
     FZONE = 9,
     PZONE = 10,
   }
+  export enum CardPosition {
+    FACEUP_ATTACK = 0,
+    FACEDOWN_ATTACK = 1,
+    FACEUP_DEFENSE = 2,
+    FACEDOWN_DEFENSE = 3,
+    FACEUP = 4,
+    FACEDOWN = 5,
+    ATTACK = 6,
+    DEFENSE = 7,
+  }
   export enum HandType {
     UNKNOWN = 0,
     SCISSORS = 1,
@@ -168,6 +178,180 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): CardInfo {
       return CardInfo.deserialize(bytes);
+    }
+  }
+  export class CardLocation extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            controler?: number;
+            location?: number;
+            sequence?: number;
+            position?: CardPosition;
+            overlay_sequence?: number;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("controler" in data && data.controler != undefined) {
+          this.controler = data.controler;
+        }
+        if ("location" in data && data.location != undefined) {
+          this.location = data.location;
+        }
+        if ("sequence" in data && data.sequence != undefined) {
+          this.sequence = data.sequence;
+        }
+        if ("position" in data && data.position != undefined) {
+          this.position = data.position;
+        }
+        if ("overlay_sequence" in data && data.overlay_sequence != undefined) {
+          this.overlay_sequence = data.overlay_sequence;
+        }
+      }
+    }
+    get controler() {
+      return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set controler(value: number) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    get location() {
+      return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set location(value: number) {
+      pb_1.Message.setField(this, 2, value);
+    }
+    get sequence() {
+      return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set sequence(value: number) {
+      pb_1.Message.setField(this, 3, value);
+    }
+    get position() {
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        4,
+        CardPosition.FACEUP_ATTACK
+      ) as CardPosition;
+    }
+    set position(value: CardPosition) {
+      pb_1.Message.setField(this, 4, value);
+    }
+    get overlay_sequence() {
+      return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set overlay_sequence(value: number) {
+      pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+      controler?: number;
+      location?: number;
+      sequence?: number;
+      position?: CardPosition;
+      overlay_sequence?: number;
+    }): CardLocation {
+      const message = new CardLocation({});
+      if (data.controler != null) {
+        message.controler = data.controler;
+      }
+      if (data.location != null) {
+        message.location = data.location;
+      }
+      if (data.sequence != null) {
+        message.sequence = data.sequence;
+      }
+      if (data.position != null) {
+        message.position = data.position;
+      }
+      if (data.overlay_sequence != null) {
+        message.overlay_sequence = data.overlay_sequence;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        controler?: number;
+        location?: number;
+        sequence?: number;
+        position?: CardPosition;
+        overlay_sequence?: number;
+      } = {};
+      if (this.controler != null) {
+        data.controler = this.controler;
+      }
+      if (this.location != null) {
+        data.location = this.location;
+      }
+      if (this.sequence != null) {
+        data.sequence = this.sequence;
+      }
+      if (this.position != null) {
+        data.position = this.position;
+      }
+      if (this.overlay_sequence != null) {
+        data.overlay_sequence = this.overlay_sequence;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.controler != 0) writer.writeInt32(1, this.controler);
+      if (this.location != 0) writer.writeInt32(2, this.location);
+      if (this.sequence != 0) writer.writeInt32(3, this.sequence);
+      if (this.position != CardPosition.FACEUP_ATTACK)
+        writer.writeEnum(4, this.position);
+      if (this.overlay_sequence != 0)
+        writer.writeInt32(5, this.overlay_sequence);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CardLocation {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CardLocation();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.controler = reader.readInt32();
+            break;
+          case 2:
+            message.location = reader.readInt32();
+            break;
+          case 3:
+            message.sequence = reader.readInt32();
+            break;
+          case 4:
+            message.position = reader.readEnum();
+            break;
+          case 5:
+            message.overlay_sequence = reader.readInt32();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CardLocation {
+      return CardLocation.deserialize(bytes);
     }
   }
   export class YgoCtosMsg extends pb_1.Message {
@@ -3979,7 +4163,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8]];
     constructor(
       data?:
         | any[]
@@ -3992,6 +4176,7 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: never;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4001,6 +4186,7 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: never;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4010,6 +4196,7 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: never;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4019,6 +4206,7 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: never;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4028,6 +4216,7 @@ export namespace ygopro {
                 hint?: StocGameMessage.MsgHint;
                 select_idle_cmd?: never;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4037,6 +4226,7 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: StocGameMessage.MsgSelectIdleCmd;
                 select_place?: never;
+                move?: never;
               }
             | {
                 start?: never;
@@ -4046,6 +4236,17 @@ export namespace ygopro {
                 hint?: never;
                 select_idle_cmd?: never;
                 select_place?: StocGameMessage.MsgSelectPlace;
+                move?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: StocGameMessage.MsgMove;
               }
           ))
     ) {
@@ -4079,6 +4280,9 @@ export namespace ygopro {
         }
         if ("select_place" in data && data.select_place != undefined) {
           this.select_place = data.select_place;
+        }
+        if ("move" in data && data.move != undefined) {
+          this.move = data.move;
         }
       }
     }
@@ -4173,6 +4377,19 @@ export namespace ygopro {
     get has_select_place() {
       return pb_1.Message.getField(this, 7) != null;
     }
+    get move() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgMove,
+        8
+      ) as StocGameMessage.MsgMove;
+    }
+    set move(value: StocGameMessage.MsgMove) {
+      pb_1.Message.setOneofWrapperField(this, 8, this.#one_of_decls[0], value);
+    }
+    get has_move() {
+      return pb_1.Message.getField(this, 8) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -4183,7 +4400,8 @@ export namespace ygopro {
           | "new_phase"
           | "hint"
           | "select_idle_cmd"
-          | "select_place";
+          | "select_place"
+          | "move";
       } = {
         0: "none",
         1: "start",
@@ -4193,8 +4411,11 @@ export namespace ygopro {
         5: "hint",
         6: "select_idle_cmd",
         7: "select_place",
+        8: "move",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7])];
+      return cases[
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8])
+      ];
     }
     static fromObject(data: {
       start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -4212,6 +4433,7 @@ export namespace ygopro {
       select_place?: ReturnType<
         typeof StocGameMessage.MsgSelectPlace.prototype.toObject
       >;
+      move?: ReturnType<typeof StocGameMessage.MsgMove.prototype.toObject>;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -4241,6 +4463,9 @@ export namespace ygopro {
           data.select_place
         );
       }
+      if (data.move != null) {
+        message.move = StocGameMessage.MsgMove.fromObject(data.move);
+      }
       return message;
     }
     toObject() {
@@ -4260,6 +4485,7 @@ export namespace ygopro {
         select_place?: ReturnType<
           typeof StocGameMessage.MsgSelectPlace.prototype.toObject
         >;
+        move?: ReturnType<typeof StocGameMessage.MsgMove.prototype.toObject>;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
@@ -4281,6 +4507,9 @@ export namespace ygopro {
       }
       if (this.select_place != null) {
         data.select_place = this.select_place.toObject();
+      }
+      if (this.move != null) {
+        data.move = this.move.toObject();
       }
       return data;
     }
@@ -4310,6 +4539,8 @@ export namespace ygopro {
         writer.writeMessage(7, this.select_place, () =>
           this.select_place.serialize(writer)
         );
+      if (this.has_move)
+        writer.writeMessage(8, this.move, () => this.move.serialize(writer));
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -4370,6 +4601,12 @@ export namespace ygopro {
               () =>
                 (message.select_place =
                   StocGameMessage.MsgSelectPlace.deserialize(reader))
+            );
+            break;
+          case 8:
+            reader.readMessage(
+              message.move,
+              () => (message.move = StocGameMessage.MsgMove.deserialize(reader))
             );
             break;
           default:
@@ -5833,6 +6070,174 @@ export namespace ygopro {
         static deserializeBinary(bytes: Uint8Array): SelectAblePlace {
           return SelectAblePlace.deserialize(bytes);
         }
+      }
+    }
+    export class MsgMove extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              from?: CardLocation;
+              to?: CardLocation;
+              reason?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("from" in data && data.from != undefined) {
+            this.from = data.from;
+          }
+          if ("to" in data && data.to != undefined) {
+            this.to = data.to;
+          }
+          if ("reason" in data && data.reason != undefined) {
+            this.reason = data.reason;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get from() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set from(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_from() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      get to() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          3
+        ) as CardLocation;
+      }
+      set to(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 3, value);
+      }
+      get has_to() {
+        return pb_1.Message.getField(this, 3) != null;
+      }
+      get reason() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set reason(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      static fromObject(data: {
+        code?: number;
+        from?: ReturnType<typeof CardLocation.prototype.toObject>;
+        to?: ReturnType<typeof CardLocation.prototype.toObject>;
+        reason?: number;
+      }): MsgMove {
+        const message = new MsgMove({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.from != null) {
+          message.from = CardLocation.fromObject(data.from);
+        }
+        if (data.to != null) {
+          message.to = CardLocation.fromObject(data.to);
+        }
+        if (data.reason != null) {
+          message.reason = data.reason;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          from?: ReturnType<typeof CardLocation.prototype.toObject>;
+          to?: ReturnType<typeof CardLocation.prototype.toObject>;
+          reason?: number;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.from != null) {
+          data.from = this.from.toObject();
+        }
+        if (this.to != null) {
+          data.to = this.to.toObject();
+        }
+        if (this.reason != null) {
+          data.reason = this.reason;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.has_from)
+          writer.writeMessage(2, this.from, () => this.from.serialize(writer));
+        if (this.has_to)
+          writer.writeMessage(3, this.to, () => this.to.serialize(writer));
+        if (this.reason != 0) writer.writeInt32(4, this.reason);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgMove {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgMove();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.from,
+                () => (message.from = CardLocation.deserialize(reader))
+              );
+              break;
+            case 3:
+              reader.readMessage(
+                message.to,
+                () => (message.to = CardLocation.deserialize(reader))
+              );
+              break;
+            case 4:
+              message.reason = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgMove {
+        return MsgMove.deserialize(bytes);
       }
     }
   }
