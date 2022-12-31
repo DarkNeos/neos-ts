@@ -42,6 +42,8 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
   const rotation = CONFIG.HandRotation();
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
+  const edgesWidth = 2.0;
+  const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const planeRef = useRef(null);
   const [state, idx] = [props.state, props.idx];
   const [hovered, setHovered] = useState(false);
@@ -127,6 +129,9 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
         scaling={hovered ? hoverScale : defaultScale}
         position={spring.position}
         rotation={rotation}
+        enableEdgesRendering
+        edgesWidth={state.interactivities.length == 0 ? 0 : edgesWidth}
+        edgesColor={edgesColor}
       >
         <animated.standardMaterial
           name={`hand-mat-${idx}`}
