@@ -14,7 +14,6 @@ import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";
 import { useSpring, animated } from "./spring";
-import { config } from "@react-spring/web";
 
 const groundShape = CONFIG.GroundShape();
 const left = -(groundShape.width / 2);
