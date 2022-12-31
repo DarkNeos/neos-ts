@@ -9,6 +9,7 @@ import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import {
   clearMonsterSelectInfo,
   setCardModalImgUrl,
+  setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalText,
 } from "../../reducers/duel/mod";
@@ -73,6 +74,7 @@ const CommonMonster = (props: { state: Monster }) => {
             `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
           )
         );
+        dispatch(setCardModalInteractivies([])); // TODO
         dispatch(setCardModalIsOpen(true));
       }
     },
