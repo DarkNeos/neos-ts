@@ -14,7 +14,10 @@ import {
   setCardModalText,
 } from "../../reducers/duel/mod";
 import { useAppSelector } from "../../hook";
-import { selectMeMonsters } from "../../reducers/duel/monstersSlice";
+import {
+  selectMeMonsters,
+  selectOpMonsters,
+} from "../../reducers/duel/monstersSlice";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { zip } from "./util";
 
@@ -25,6 +28,8 @@ const gap = 1.05;
 const Monsters = () => {
   const meMonsters = useAppSelector(selectMeMonsters).monsters;
   const meMonsterPositions = monsterPositions(0, meMonsters);
+  const opMonsters = useAppSelector(selectOpMonsters).monsters;
+  const opMonsterPositions = monsterPositions(1, opMonsters);
 
   return (
     <>
@@ -39,6 +44,18 @@ const Monsters = () => {
           />
         );
       })}
+      {zip(opMonsters, opMonsterPositions).map(([monster, position], idx) => {
+        return (
+          <CommonMonster
+            state={monster}
+            key={idx}
+            position={position}
+            rotation={CONFIG.CardSlotRotation()}
+            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          />
+        );
+      })}
+      <ExtraMonsters />
       <ExtraMonsters />
     </>
   );
