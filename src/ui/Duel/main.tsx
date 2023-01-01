@@ -12,6 +12,7 @@ import Field from "./field";
 import Deck from "./deck";
 import Exclusion from "./exclusion";
 
+// Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
   <>
     <ReactReduxContext.Consumer>

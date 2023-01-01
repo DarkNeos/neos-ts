@@ -14,39 +14,67 @@ import {
   setCardModalText,
 } from "../../reducers/duel/mod";
 import { useAppSelector } from "../../hook";
-import { selectMeMonsters } from "../../reducers/duel/monstersSlice";
+import {
+  selectMeMonsters,
+  selectOpMonsters,
+} from "../../reducers/duel/monstersSlice";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { zip } from "./util";
 
+const shape = CONFIG.CardSlotShape();
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
 const Monsters = () => {
-  const monsters = useAppSelector(selectMeMonsters).monsters;
+  const meMonsters = useAppSelector(selectMeMonsters).monsters;
+  const meMonsterPositions = monsterPositions(0, meMonsters);
+  const opMonsters = useAppSelector(selectOpMonsters).monsters;
+  const opMonsterPositions = monsterPositions(1, opMonsters);
 
   return (
     <>
-      {monsters.map((monster, idx) => {
-        return <CommonMonster state={monster} key={idx} />;
+      {zip(meMonsters, meMonsterPositions).map(([monster, position], idx) => {
+        return (
+          <CommonMonster
+            state={monster}
+            key={idx}
+            position={position}
+            rotation={CONFIG.CardSlotRotation(false)}
+            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          />
+        );
       })}
+      {zip(opMonsters, opMonsterPositions).map(([monster, position], idx) => {
+        return (
+          <CommonMonster
+            state={monster}
+            key={idx}
+            position={position}
+            rotation={CONFIG.CardSlotRotation(true)}
+            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          />
+        );
+      })}
+      <ExtraMonsters />
       <ExtraMonsters />
     </>
   );
 };
 
-const CommonMonster = (props: { state: Monster }) => {
+const CommonMonster = (props: {
+  state: Monster;
+  position: BABYLON.Vector3;
+  rotation: BABYLON.Vector3;
+  deffenseRotation: BABYLON.Vector3;
+}) => {
   const planeRef = useRef(null);
-  const shape = CONFIG.CardSlotShape();
-  const position = new BABYLON.Vector3(
-    left + gap * props.state.sequence,
-    shape.depth / 2 + CONFIG.Floating,
-    -1.35
-  );
+
   const rotation =
     props.state.position === ygopro.CardPosition.DEFENSE ||
     props.state.position === ygopro.CardPosition.FACEUP_DEFENSE ||
     props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE
-      ? CONFIG.CardSlotDefenceRotation()
-      : CONFIG.CardSlotRotation();
+      ? props.deffenseRotation
+      : props.rotation;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const dispatch = store.dispatch;
@@ -88,7 +116,7 @@ const CommonMonster = (props: { state: Monster }) => {
       ref={planeRef}
       width={shape.width}
       height={shape.height}
-      position={position}
+      position={props.position}
       rotation={rotation}
       enableEdgesRendering
       edgesWidth={props.state.selectInfo ? edgesWidth : 0}
@@ -119,7 +147,7 @@ const ExtraMonsters = () => {
   const shape = CONFIG.CardSlotShape();
   const position = (x: number) =>
     new BABYLON.Vector3(x, shape.depth / 2 + CONFIG.Floating, 0);
-  const rotation = CONFIG.CardSlotRotation();
+  const rotation = CONFIG.CardSlotRotation(false);
 
   return (
     <>
@@ -140,6 +168,17 @@ const ExtraMonsters = () => {
         </plane>
       ))}
     </>
+  );
+};
+
+const monsterPositions = (player: number, monsters: Monster[]) => {
+  const x = (sequence: number) =>
+    player == 0 ? left + gap * sequence : -left - gap * sequence;
+  const y = shape.depth / 2 + CONFIG.Floating;
+  const z = player == 0 ? -1.35 : 1.35;
+
+  return monsters.map(
+    (monster) => new BABYLON.Vector3(x(monster.sequence), y, z)
   );
 };
 

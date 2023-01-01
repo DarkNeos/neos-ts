@@ -1,8 +1,8 @@
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "../../hook";
-import { selectMeHands } from "../../reducers/duel/handsSlice";
+import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
 import * as CONFIG from "../../config/ui";
-import { Hand, InteractType } from "../../reducers/duel/util";
+import { Hand } from "../../reducers/duel/util";
 import {
   setCardModalImgUrl,
   setCardModalIsOpen,
@@ -14,22 +14,44 @@ import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";
 import { useSpring, animated } from "./spring";
+import { zip, interactTypeToString } from "./util";
 
 const groundShape = CONFIG.GroundShape();
 const left = -(groundShape.width / 2);
+const handShape = CONFIG.HandShape();
+const handRotation = CONFIG.HandRotation();
 
 const Hands = () => {
-  const hands = useAppSelector(selectMeHands).cards;
+  const meHands = useAppSelector(selectMeHands).cards;
+  const meHandPositions = handPositons(0, meHands);
+  const opHands = useAppSelector(selectOpHands).cards;
+  const opHandPositions = handPositons(1, opHands);
 
   return (
     <>
-      {hands.map((hand, idx) => {
+      {zip(meHands, meHandPositions).map(([hand, position], idx) => {
         return (
           <CHand
-            state={hand}
-            idx={idx}
             key={idx}
-            gap={groundShape.width / (hands.length - 1)}
+            state={hand}
+            sequence={idx}
+            position={position}
+            rotation={handRotation}
+            cover={(id) =>
+              `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${id}.jpg`
+            }
+          />
+        );
+      })}
+      {zip(opHands, opHandPositions).map(([hand, position], idx) => {
+        return (
+          <CHand
+            key={idx}
+            state={hand}
+            sequence={idx}
+            position={position}
+            rotation={handRotation}
+            cover={(_) => `http://localhost:3030/images/card_back.jpg`}
           />
         );
       })}
@@ -37,25 +59,22 @@ const Hands = () => {
   );
 };
 
-const CHand = (props: { state: Hand; idx: number; gap: number }) => {
-  const handShape = CONFIG.HandShape();
-  const rotation = CONFIG.HandRotation();
+const CHand = (props: {
+  state: Hand;
+  sequence: number;
+  position: BABYLON.Vector3;
+  rotation: BABYLON.Vector3;
+  cover: (id: number) => string;
+}) => {
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const planeRef = useRef(null);
-  const [state, idx] = [props.state, props.idx];
+  const state = props.state;
   const [hovered, setHovered] = useState(false);
+  const position = props.position;
   const dispatch = store.dispatch;
-
-  const [position, setPosition] = useState(
-    new BABYLON.Vector3(
-      left + props.gap * props.idx,
-      handShape.height / 2,
-      -(groundShape.height / 2) - 1
-    )
-  );
 
   const [spring, api] = useSpring(
     () => ({
@@ -76,18 +95,10 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
   );
 
   useEffect(() => {
-    const newPosition = new BABYLON.Vector3(
-      left + props.gap * props.idx,
-      handShape.height / 2,
-      -(groundShape.height / 2) - 1
-    );
-
     api.start({
-      position: newPosition,
+      position,
     });
-
-    setPosition(newPosition);
-  }, [props.idx, props.gap]);
+  }, [position]);
 
   useHover(
     () => setHovered(true),
@@ -122,54 +133,35 @@ const CHand = (props: { state: Hand; idx: number; gap: number }) => {
     // @ts-ignore
     <animated.transformNode name="">
       <animated.plane
-        name={`hand-${idx}`}
+        name={`hand-${props.sequence}`}
         ref={planeRef}
         width={handShape.width}
         height={handShape.height}
         scaling={hovered ? hoverScale : defaultScale}
         position={spring.position}
-        rotation={rotation}
+        rotation={props.rotation}
         enableEdgesRendering
         edgesWidth={state.interactivities.length == 0 ? 0 : edgesWidth}
         edgesColor={edgesColor}
       >
         <animated.standardMaterial
-          name={`hand-mat-${idx}`}
-          diffuseTexture={
-            new BABYLON.Texture(
-              `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
-            )
-          }
+          name={`hand-mat-${props.sequence}`}
+          diffuseTexture={new BABYLON.Texture(props.cover(state.meta.id))}
         />
       </animated.plane>
     </animated.transformNode>
   );
 };
 
-function interactTypeToString(t: InteractType): string {
-  switch (t) {
-    case InteractType.SUMMON: {
-      return "普通召唤";
-    }
-    case InteractType.SP_SUMMON: {
-      return "特殊召唤";
-    }
-    case InteractType.POS_CHANGE: {
-      return "改变表示形式";
-    }
-    case InteractType.MSET: {
-      return "前场放置";
-    }
-    case InteractType.SSET: {
-      return "后场放置";
-    }
-    case InteractType.ACTIVATE: {
-      return "发动效果";
-    }
-    default: {
-      return "未知选项";
-    }
-  }
-}
+const handPositons = (player: number, hands: Hand[]) => {
+  const gap = groundShape.width / (hands.length - 1);
+  const x = (idx: number) =>
+    player == 0 ? left + gap * idx : -left - gap * idx;
+  const y = handShape.height / 2;
+  const z =
+    player == 0 ? -(groundShape.height / 2) - 1 : groundShape.height / 2 + 1;
+
+  return hands.map((_, idx) => new BABYLON.Vector3(x(idx), y, z));
+};
 
 export default Hands;

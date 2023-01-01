@@ -8,13 +8,13 @@ import {
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
-import { CardMeta, fetchCard } from "../../api/cards";
+import { fetchCard } from "../../api/cards";
 
 export interface MonsterState {
   monsters: Monster[];
 }
 
-// 初始化自己的怪兽区状态
+// 初始化怪兽区状态
 export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   state,
   action
@@ -168,3 +168,5 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
 export const selectMeMonsters = (state: RootState) =>
   state.duel.meMonsters || { monsters: [] };
+export const selectOpMonsters = (state: RootState) =>
+  state.duel.opMonsters || { monsters: [] };

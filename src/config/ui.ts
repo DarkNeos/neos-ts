@@ -26,8 +26,10 @@ export const ExclusionSlotShape = () => {
 export const FieldSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };
-export const CardSlotRotation = () => {
-  return new BABYLON.Vector3(1.55, 0, 0);
+export const CardSlotRotation = (reverse: boolean) => {
+  return reverse
+    ? new BABYLON.Vector3(1.55, 3.1, 0)
+    : new BABYLON.Vector3(1.55, 0, 0);
 };
 export const CardSlotDefenceRotation = () => {
   return new BABYLON.Vector3(1.55, 1.55, 0);
