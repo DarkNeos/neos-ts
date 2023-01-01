@@ -39,7 +39,7 @@ const Monsters = () => {
             state={monster}
             key={idx}
             position={position}
-            rotation={CONFIG.CardSlotRotation()}
+            rotation={CONFIG.CardSlotRotation(false)}
             deffenseRotation={CONFIG.CardSlotDefenceRotation()}
           />
         );
@@ -50,7 +50,7 @@ const Monsters = () => {
             state={monster}
             key={idx}
             position={position}
-            rotation={CONFIG.CardSlotRotation()}
+            rotation={CONFIG.CardSlotRotation(true)}
             deffenseRotation={CONFIG.CardSlotDefenceRotation()}
           />
         );
@@ -147,7 +147,7 @@ const ExtraMonsters = () => {
   const shape = CONFIG.CardSlotShape();
   const position = (x: number) =>
     new BABYLON.Vector3(x, shape.depth / 2 + CONFIG.Floating, 0);
-  const rotation = CONFIG.CardSlotRotation();
+  const rotation = CONFIG.CardSlotRotation(false);
 
   return (
     <>
