@@ -69,6 +69,7 @@ const CCemetery = (props: {
   return (
     <box
       name="cemetery"
+      ref={boxRef}
       width={shape.width}
       height={shape.height}
       depth={depth * props.state.length}
