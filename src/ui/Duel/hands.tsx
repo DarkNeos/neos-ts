@@ -155,11 +155,13 @@ const CHand = (props: {
 
 const handPositons = (player: number, hands: Hand[]) => {
   const gap = groundShape.width / (hands.length - 1);
+  const x = (idx: number) =>
+    player == 0 ? left + gap * idx : -left - gap * idx;
   const y = handShape.height / 2;
   const z =
     player == 0 ? -(groundShape.height / 2) - 1 : groundShape.height / 2 + 1;
 
-  return hands.map((_, idx) => new BABYLON.Vector3(left + gap * idx, y, z));
+  return hands.map((_, idx) => new BABYLON.Vector3(x(idx), y, z));
 };
 
 export default Hands;
