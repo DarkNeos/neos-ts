@@ -38,7 +38,7 @@ import {
   clearMagicSelectInfoImpl,
   magicCase,
 } from "./magicSlice";
-import { CemeteryState, initCemeteryImpl } from "./cemeretySlice";
+import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
 
 export interface DuelState {
   selfType?: number;
@@ -117,6 +117,7 @@ const duelSlice = createSlice({
     hintCase(builder);
     monsterCase(builder);
     magicCase(builder);
+    cemeteryCase(builder);
   },
 });
 
