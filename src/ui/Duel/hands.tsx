@@ -55,9 +55,8 @@ const CHand = (props: {
   const planeRef = useRef(null);
   const state = props.state;
   const [hovered, setHovered] = useState(false);
+  const position = props.position;
   const dispatch = store.dispatch;
-
-  const [position, setPosition] = useState(props.position);
 
   const [spring, api] = useSpring(
     () => ({
@@ -81,8 +80,6 @@ const CHand = (props: {
     api.start({
       position,
     });
-
-    setPosition(position);
   }, [position]);
 
   useHover(
