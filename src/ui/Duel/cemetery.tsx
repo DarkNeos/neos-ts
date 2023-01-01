@@ -8,7 +8,7 @@ import {
 import { useAppSelector } from "../../hook";
 
 const shape = CONFIG.CemeterySlotShape();
-const depth = 0.2;
+const depth = 0.02;
 
 const Cemeteries = () => {
   const meCemetery = useAppSelector(selectMeCemetery).cemetery;
