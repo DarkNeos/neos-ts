@@ -69,3 +69,8 @@ export interface SlotState {
 export type Monster = SlotState;
 
 export type Magic = SlotState;
+
+export interface Cemetery {
+  sequence: number;
+  meta: CardMeta;
+}

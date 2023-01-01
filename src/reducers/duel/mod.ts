@@ -38,6 +38,7 @@ import {
   clearMagicSelectInfoImpl,
   magicCase,
 } from "./magicSlice";
+import { CemeteryState, initCemeteryImpl } from "./cemeretySlice";
 
 export interface DuelState {
   selfType?: number;
@@ -52,6 +53,9 @@ export interface DuelState {
 
   meMagics?: MagicState; // 自己的魔法陷阱区状态
   opMagics?: MagicState; // 对手的魔法陷阱区状态
+
+  meCemetery?: CemeteryState; // 自己的墓地状态
+  opCemetery?: CemeteryState; // 对手的墓地状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -99,6 +103,9 @@ const duelSlice = createSlice({
     addMagicPlaceSelectAble: addMagicPlaceSelectAbleImpl,
     clearMagicSelectInfo: clearMagicSelectInfoImpl,
 
+    // 墓地相关`Reducer`
+    initCemetery: initCemeteryImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
@@ -132,6 +139,7 @@ export const {
   addMagicPlaceSelectAble,
   clearMagicSelectInfo,
   removeHand,
+  initCemetery,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
