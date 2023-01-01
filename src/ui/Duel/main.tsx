@@ -12,6 +12,7 @@ import Field from "./field";
 import Deck from "./deck";
 import Exclusion from "./exclusion";
 import Cemeteries from "./cemetery";
+import CardListModal from "./cardListModal";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -37,6 +38,7 @@ const NeosDuel = () => (
       )}
     </ReactReduxContext.Consumer>
     <CardModal />
+    <CardListModal />
     <HintNotification />
   </>
 );
