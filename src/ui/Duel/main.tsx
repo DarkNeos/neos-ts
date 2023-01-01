@@ -11,6 +11,7 @@ import Magics from "./magics";
 import Field from "./field";
 import Deck from "./deck";
 import Exclusion from "./exclusion";
+import Cemeteries from "./cemetery";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -27,6 +28,7 @@ const NeosDuel = () => (
               <Magics />
               <Field />
               <Deck />
+              <Cemeteries />
               <Exclusion />
               <Ground />
             </Provider>
