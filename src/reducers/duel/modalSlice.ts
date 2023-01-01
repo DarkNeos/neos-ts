@@ -11,6 +11,15 @@ export interface ModalState {
     imgUrl?: string;
     interactivies: { desc: string; response: number }[];
   };
+  // 卡牌列表弹窗
+  cardListModal: {
+    isOpen: boolean;
+    list: {
+      name?: string;
+      desc?: string;
+      imgUrl?: string;
+    }[];
+  };
 }
 
 // 更新卡牌弹窗打开状态
@@ -49,6 +58,24 @@ export const setCardModalInteractiviesImpl: CaseReducer<
   state.modalState.cardModal.interactivies = action.payload;
 };
 
+// 更新卡牌列表弹窗打开状态
+export const setCardListModalIsOpenImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.cardListModal.isOpen = action.payload;
+};
+
+// 更新卡牌列表文本
+export const setCardListModalInfoImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ name?: string; desc?: string; imgUrl?: string }[]>
+> = (state, action) => {
+  const list = action.payload;
+
+  state.modalState.cardListModal.list = list;
+};
+
 export const selectCardModalIsOpen = (state: RootState) =>
   state.duel.modalState.cardModal.isOpen;
 export const selectCardModalName = (state: RootState) =>
@@ -59,3 +86,7 @@ export const selectCardModalImgUrl = (state: RootState) =>
   state.duel.modalState.cardModal.imgUrl;
 export const selectCardModalInteractivies = (state: RootState) =>
   state.duel.modalState.cardModal.interactivies;
+export const selectCardListModalIsOpen = (state: RootState) =>
+  state.duel.modalState.cardListModal.isOpen;
+export const selectCardListModalInfo = (state: RootState) =>
+  state.duel.modalState.cardListModal.list;
