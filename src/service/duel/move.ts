@@ -4,6 +4,7 @@ import { AppDispatch } from "../../store";
 import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
 import { removeHand } from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
+import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -42,6 +43,17 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           controler: to.controler,
           sequence: to.sequence,
           position: to.position,
+          code,
+        })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.GRAVE: {
+      dispatch(
+        fetchCemeteryMeta({
+          controler: to.controler,
+          sequence: to.sequence,
           code,
         })
       );
