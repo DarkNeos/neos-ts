@@ -8,7 +8,7 @@ import {
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
-import { CardMeta, fetchCard } from "../../api/cards";
+import { fetchCard } from "../../api/cards";
 
 export interface MagicState {
   magics: Magic[];
@@ -164,3 +164,5 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
 export const selectMeMagics = (state: RootState) =>
   state.duel.meMagics || { magics: [] };
+export const selectOpMagics = (state: RootState) =>
+  state.duel.opMagics || { magics: [] };
