@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "../../hook";
-import { selectMeHands } from "../../reducers/duel/handsSlice";
+import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
 import * as CONFIG from "../../config/ui";
 import { Hand } from "../../reducers/duel/util";
 import {
@@ -24,6 +24,8 @@ const handRotation = CONFIG.HandRotation();
 const Hands = () => {
   const meHands = useAppSelector(selectMeHands).cards;
   const meHandPositions = handPositons(0, meHands);
+  const opHands = useAppSelector(selectOpHands).cards;
+  const opHandPositions = handPositons(1, opHands);
 
   return (
     <>
@@ -35,6 +37,21 @@ const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
+            cover={(id) =>
+              `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${id}.jpg`
+            }
+          />
+        );
+      })}
+      {zip(opHands, opHandPositions).map(([hand, position], idx) => {
+        return (
+          <CHand
+            key={idx}
+            state={hand}
+            sequence={idx}
+            position={position}
+            rotation={handRotation}
+            cover={(_) => `http://localhost:3030/images/card_back.jpg`}
           />
         );
       })}
@@ -47,6 +64,7 @@ const CHand = (props: {
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
+  cover: (id: number) => string;
 }) => {
   const hoverScale = CONFIG.HandHoverScaling();
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
@@ -128,11 +146,7 @@ const CHand = (props: {
       >
         <animated.standardMaterial
           name={`hand-mat-${props.sequence}`}
-          diffuseTexture={
-            new BABYLON.Texture(
-              `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
-            )
-          }
+          diffuseTexture={new BABYLON.Texture(props.cover(state.meta.id))}
         />
       </animated.plane>
     </animated.transformNode>
