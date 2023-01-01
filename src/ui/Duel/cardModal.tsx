@@ -31,32 +31,30 @@ const CardModal = () => {
   };
 
   return (
-    <>
-      <Modal open={isOpen} onOk={handleOkOrCancel} onCancel={handleOkOrCancel}>
-        <Card
-          hoverable
-          style={{ width: CARD_WIDTH }}
-          cover={<img alt={name} src={imgUrl} />}
-        >
-          <Meta title={name} />
-          <p>{desc}</p>
-        </Card>
-        {interactivies.map((interactive, idx) => {
-          return (
-            <Button
-              key={idx}
-              onClick={() => {
-                sendSelectIdleCmdResponse(interactive.response);
-                dispatch(setCardModalIsOpen(false));
-                dispatch(clearHandsInteractivity(0));
-              }}
-            >
-              {interactive.desc}
-            </Button>
-          );
-        })}
-      </Modal>
-    </>
+    <Modal open={isOpen} onOk={handleOkOrCancel} onCancel={handleOkOrCancel}>
+      <Card
+        hoverable
+        style={{ width: CARD_WIDTH }}
+        cover={<img alt={name} src={imgUrl} />}
+      >
+        <Meta title={name} />
+        <p>{desc}</p>
+      </Card>
+      {interactivies.map((interactive, idx) => {
+        return (
+          <Button
+            key={idx}
+            onClick={() => {
+              sendSelectIdleCmdResponse(interactive.response);
+              dispatch(setCardModalIsOpen(false));
+              dispatch(clearHandsInteractivity(0));
+            }}
+          >
+            {interactive.desc}
+          </Button>
+        );
+      })}
+    </Modal>
   );
 };
 

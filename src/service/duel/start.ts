@@ -5,6 +5,7 @@ import {
   setSelfType,
   initMonsters,
   initMagics,
+  initCemetery,
 } from "../../reducers/duel/mod";
 
 export default (
@@ -36,4 +37,6 @@ export default (
   dispatch(initMonsters(1));
   dispatch(initMagics(0));
   dispatch(initMagics(1));
+  dispatch(initCemetery(0));
+  dispatch(initCemetery(1));
 };

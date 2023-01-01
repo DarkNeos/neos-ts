@@ -23,6 +23,8 @@ import {
   setCardModalTextImpl,
   setCardModalImgUrlImpl,
   setCardModalInteractiviesImpl,
+  setCardListModalIsOpenImpl,
+  setCardListModalInfoImpl,
 } from "./modalSlice";
 import {
   MonsterState,
@@ -38,6 +40,7 @@ import {
   clearMagicSelectInfoImpl,
   magicCase,
 } from "./magicSlice";
+import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
 
 export interface DuelState {
   selfType?: number;
@@ -52,6 +55,9 @@ export interface DuelState {
 
   meMagics?: MagicState; // 自己的魔法陷阱区状态
   opMagics?: MagicState; // 对手的魔法陷阱区状态
+
+  meCemetery?: CemeteryState; // 自己的墓地状态
+  opCemetery?: CemeteryState; // 对手的墓地状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -69,6 +75,7 @@ export interface DuelState {
 const initialState: DuelState = {
   modalState: {
     cardModal: { isOpen: false, interactivies: [] },
+    cardListModal: { isOpen: false, list: [] },
   },
 };
 
@@ -99,17 +106,23 @@ const duelSlice = createSlice({
     addMagicPlaceSelectAble: addMagicPlaceSelectAbleImpl,
     clearMagicSelectInfo: clearMagicSelectInfoImpl,
 
+    // 墓地相关`Reducer`
+    initCemetery: initCemeteryImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
     setCardModalImgUrl: setCardModalImgUrlImpl,
     setCardModalInteractivies: setCardModalInteractiviesImpl,
+    setCardListModalIsOpen: setCardListModalIsOpenImpl,
+    setCardListModalInfo: setCardListModalInfoImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
     hintCase(builder);
     monsterCase(builder);
     magicCase(builder);
+    cemeteryCase(builder);
   },
 });
 
@@ -132,6 +145,9 @@ export const {
   addMagicPlaceSelectAble,
   clearMagicSelectInfo,
   removeHand,
+  initCemetery,
+  setCardListModalIsOpen,
+  setCardListModalInfo,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
