@@ -5,7 +5,14 @@ import {
   selectMeCemetery,
   selectOpCemetery,
 } from "../../reducers/duel/cemeretySlice";
+import { store } from "../../store";
 import { useAppSelector } from "../../hook";
+import { useClick } from "./hook";
+import { useRef } from "react";
+import {
+  setCardListModalInfo,
+  setCardListModalIsOpen,
+} from "../../reducers/duel/mod";
 
 const shape = CONFIG.CemeterySlotShape();
 const depth = 0.02;
@@ -35,6 +42,30 @@ const CCemetery = (props: {
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
 }) => {
+  const boxRef = useRef(null);
+  const dispatch = store.dispatch;
+
+  useClick(
+    (_event) => {
+      if (props.state.length != 0) {
+        dispatch(
+          setCardListModalInfo(
+            props.state.map((cemetery) => {
+              return {
+                name: cemetery.meta.text.name,
+                desc: cemetery.meta.text.desc,
+                imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${cemetery.meta.id}.jpg`,
+              };
+            })
+          )
+        );
+        dispatch(setCardListModalIsOpen(true));
+      }
+    },
+    boxRef,
+    [props.state]
+  );
+
   return (
     <box
       name="cemetery"
