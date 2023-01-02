@@ -172,6 +172,13 @@ export const checkCardModalCase = (
   });
 };
 
+export const resetCheckCardModalImpl: CaseReducer<DuelState> = (state) => {
+  state.modalState.checkCardModal.isOpen = false;
+  state.modalState.checkCardModal.selectMin = undefined;
+  state.modalState.checkCardModal.selectMax = undefined;
+  state.modalState.checkCardModal.tags = [];
+};
+
 export const selectCardModalIsOpen = (state: RootState) =>
   state.duel.modalState.cardModal.isOpen;
 export const selectCardModalName = (state: RootState) =>
