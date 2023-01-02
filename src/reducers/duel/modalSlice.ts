@@ -7,6 +7,7 @@ import {
 import { fetchCard } from "../../api/cards";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 
 export interface ModalState {
   // 卡牌弹窗
@@ -118,11 +119,13 @@ export const setCheckCardModalMinMaxImpl: CaseReducer<
 export const fetchCheckCardMeta = createAsyncThunk(
   "duel/fetchCheckCardMeta",
   async (param: {
+    controler: number;
     tagName: string;
     option: { code: number; response: number };
   }) => {
     const meta = await fetchCard(param.option.code);
     const response = {
+      controler: param.controler,
       tagName: param.tagName,
       meta: {
         code: meta.id,
@@ -139,12 +142,17 @@ export const checkCardModalCase = (
   builder: ActionReducerMapBuilder<DuelState>
 ) => {
   builder.addCase(fetchCheckCardMeta.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
     const tagName = action.meta.arg.tagName;
     const code = action.meta.arg.option.code;
     const response = action.meta.arg.option.response;
 
+    const combinedTagName = judgeSelf(controler, state)
+      ? `我方的${tagName}`
+      : `对方的${tagName}`;
+
     for (const tag of state.modalState.checkCardModal.tags) {
-      if (tag.tagName === tagName) {
+      if (tag.tagName === combinedTagName) {
         tag.options.push({ code, response });
         return;
       }
@@ -156,11 +164,16 @@ export const checkCardModalCase = (
     });
   });
   builder.addCase(fetchCheckCardMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
     const tagName = action.payload.tagName;
     const meta = action.payload.meta;
 
+    const combinedTagName = judgeSelf(controler, state)
+      ? `我方的${tagName}`
+      : `对方的${tagName}`;
+
     for (const tag of state.modalState.checkCardModal.tags) {
-      if (tag.tagName === tagName) {
+      if (tag.tagName === combinedTagName) {
         for (const option of tag.options) {
           if (option.code == meta.code) {
             option.name = meta.name;
