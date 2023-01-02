@@ -25,6 +25,10 @@ import {
   setCardModalInteractiviesImpl,
   setCardListModalIsOpenImpl,
   setCardListModalInfoImpl,
+  setCheckCardModalIsOpenImpl,
+  setCheckCardModalMinMaxImpl,
+  resetCheckCardModalImpl,
+  checkCardModalCase,
 } from "./modalSlice";
 import {
   MonsterState,
@@ -76,6 +80,7 @@ const initialState: DuelState = {
   modalState: {
     cardModal: { isOpen: false, interactivies: [] },
     cardListModal: { isOpen: false, list: [] },
+    checkCardModal: { isOpen: false, tags: [] },
   },
 };
 
@@ -116,6 +121,9 @@ const duelSlice = createSlice({
     setCardModalInteractivies: setCardModalInteractiviesImpl,
     setCardListModalIsOpen: setCardListModalIsOpenImpl,
     setCardListModalInfo: setCardListModalInfoImpl,
+    setCheckCardModalIsOpen: setCheckCardModalIsOpenImpl,
+    setCheckCardModalMinMax: setCheckCardModalMinMaxImpl,
+    resetCheckCardModal: resetCheckCardModalImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -123,6 +131,7 @@ const duelSlice = createSlice({
     monsterCase(builder);
     magicCase(builder);
     cemeteryCase(builder);
+    checkCardModalCase(builder);
   },
 });
 
@@ -148,6 +157,9 @@ export const {
   initCemetery,
   setCardListModalIsOpen,
   setCardListModalInfo,
+  setCheckCardModalIsOpen,
+  setCheckCardModalMinMax,
+  resetCheckCardModal,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
