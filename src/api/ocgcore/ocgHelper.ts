@@ -150,3 +150,16 @@ export function sendSelectPlaceResponse(value: {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectCardResponse(value: number[]) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_card: new ygopro.CtosGameMsgResponse.SelectCardResponse({
+        selected_ptrs: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
