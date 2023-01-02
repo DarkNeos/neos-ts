@@ -206,3 +206,13 @@ export const selectCardListModalIsOpen = (state: RootState) =>
   state.duel.modalState.cardListModal.isOpen;
 export const selectCardListModalInfo = (state: RootState) =>
   state.duel.modalState.cardListModal.list;
+export const selectCheckCardModalIsOpen = (state: RootState) =>
+  state.duel.modalState.checkCardModal.isOpen;
+export const selectCheckCardModalMinMax = (state: RootState) => {
+  return {
+    min: state.duel.modalState.checkCardModal.selectMin || 0,
+    max: state.duel.modalState.checkCardModal.selectMax || 0,
+  };
+};
+export const selectCheckCardModalTags = (state: RootState) =>
+  state.duel.modalState.checkCardModal.tags;
