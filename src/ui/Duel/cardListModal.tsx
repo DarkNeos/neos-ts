@@ -34,7 +34,6 @@ const CardListModal = () => {
                 cover={<img alt={item.name} src={item.imgUrl} />}
               >
                 <Meta title={item.name} />
-                <p>{item.desc}</p>
               </Card>
             }
           >
