@@ -27,11 +27,24 @@ const CheckCardModal = () => {
       title={`请选择${min}到${max}张卡片`}
       open={isOpen}
       closable={false}
-      footer={null}
+      footer={
+        <Button
+          disabled={response.length < min || response.length > max}
+          onClick={() => {
+            sendSelectCardResponse(response);
+            dispatch(setCheckCardModalIsOpen(false));
+            dispatch(resetCheckCardModal());
+          }}
+        >
+          summit
+        </Button>
+      }
+      width={800}
     >
       <CheckCard.Group
         multiple
         bordered
+        size="small"
         defaultValue={defaultValue}
         onChange={(value) => {
           // @ts-ignore
@@ -43,14 +56,16 @@ const CheckCardModal = () => {
             <Row>
               {tab.options.map((option) => {
                 return (
-                  <Col span={5}>
+                  <Col span={4}>
                     <CheckCard
                       title={option.name}
                       description={option.desc}
+                      style={{ width: 120 }}
                       cover={
                         <img
                           alt={option.code.toString()}
                           src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                          style={{ width: 100 }}
                         />
                       }
                       value={option.response}
@@ -62,15 +77,6 @@ const CheckCardModal = () => {
           );
         })}
       </CheckCard.Group>
-      <Button
-        title="完成"
-        disabled={response.length < min || response.length > max}
-        onClick={() => {
-          sendSelectCardResponse(response);
-          dispatch(setCheckCardModalIsOpen(false));
-          dispatch(resetCheckCardModal());
-        }}
-      />
     </Modal>
   );
 };
