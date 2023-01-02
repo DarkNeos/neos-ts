@@ -76,6 +76,7 @@ const initialState: DuelState = {
   modalState: {
     cardModal: { isOpen: false, interactivies: [] },
     cardListModal: { isOpen: false, list: [] },
+    checkCardModal: { isOpen: false, tags: [] },
   },
 };
 

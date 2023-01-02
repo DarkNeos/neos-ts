@@ -20,6 +20,21 @@ export interface ModalState {
       imgUrl?: string;
     }[];
   };
+  // 卡牌选择弹窗
+  checkCardModal: {
+    isOpen: boolean;
+    selectMin?: number;
+    selectMax?: number;
+    tags: {
+      tagName: string;
+      options: {
+        name?: string;
+        desc?: string;
+        imgUrl?: string;
+        response: number;
+      }[];
+    }[];
+  };
 }
 
 // 更新卡牌弹窗打开状态
@@ -66,7 +81,7 @@ export const setCardListModalIsOpenImpl: CaseReducer<
   state.modalState.cardListModal.isOpen = action.payload;
 };
 
-// 更新卡牌列表文本
+// 更新卡牌列表数据
 export const setCardListModalInfoImpl: CaseReducer<
   DuelState,
   PayloadAction<{ name?: string; desc?: string; imgUrl?: string }[]>
@@ -74,6 +89,23 @@ export const setCardListModalInfoImpl: CaseReducer<
   const list = action.payload;
 
   state.modalState.cardListModal.list = list;
+};
+
+// 更新卡牌选择弹窗打开状态
+export const setCheckCardModalIsOpenImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.checkCardModal.isOpen = action.payload;
+};
+
+// 更新卡牌选择弹窗选择数目状态
+export const setCheckCardModalMinMaxImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ min: number; max: number }>
+> = (state, action) => {
+  state.modalState.checkCardModal.selectMin = action.payload.min;
+  state.modalState.checkCardModal.selectMax = action.payload.max;
 };
 
 export const selectCardModalIsOpen = (state: RootState) =>
