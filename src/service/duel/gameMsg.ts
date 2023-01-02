@@ -8,6 +8,7 @@ import onMsgHint from "./hint";
 import onMsgSelectIdleCmd from "./selectIdleCmd";
 import onMsgSelectPlace from "./selectPlace";
 import onMsgMove from "./move";
+import onMsgSelectCard from "./selectCard";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -67,6 +68,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       const move = msg.move;
 
       onMsgMove(move, dispatch);
+
+      break;
+    }
+    case "select_card": {
+      const selectCard = msg.select_card;
+
+      onMsgSelectCard(selectCard, dispatch);
 
       break;
     }
