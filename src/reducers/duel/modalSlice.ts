@@ -1,4 +1,10 @@
-import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  CaseReducer,
+  createAsyncThunk,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
+import { fetchCard } from "../../api/cards";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 
@@ -28,9 +34,9 @@ export interface ModalState {
     tags: {
       tagName: string;
       options: {
+        code: number;
         name?: string;
         desc?: string;
-        imgUrl?: string;
         response: number;
       }[];
     }[];
@@ -106,6 +112,64 @@ export const setCheckCardModalMinMaxImpl: CaseReducer<
 > = (state, action) => {
   state.modalState.checkCardModal.selectMin = action.payload.min;
   state.modalState.checkCardModal.selectMax = action.payload.max;
+};
+
+// 增加卡牌选择选项
+export const fetchCheckCardMeta = createAsyncThunk(
+  "duel/fetchCheckCardMeta",
+  async (param: {
+    tagName: string;
+    option: { code: number; response: number };
+  }) => {
+    const meta = await fetchCard(param.option.code);
+    const response = {
+      tagName: param.tagName,
+      meta: {
+        code: meta.id,
+        name: meta.text.name,
+        desc: meta.text.desc,
+      },
+    };
+
+    return response;
+  }
+);
+
+export const checkCardModalCase = (
+  builder: ActionReducerMapBuilder<DuelState>
+) => {
+  builder.addCase(fetchCheckCardMeta.pending, (state, action) => {
+    const tagName = action.meta.arg.tagName;
+    const code = action.meta.arg.option.code;
+    const response = action.meta.arg.option.response;
+
+    for (const tag of state.modalState.checkCardModal.tags) {
+      if (tag.tagName === tagName) {
+        tag.options.push({ code, response });
+        return;
+      }
+    }
+
+    state.modalState.checkCardModal.tags.push({
+      tagName,
+      options: [{ code, response }],
+    });
+  });
+  builder.addCase(fetchCheckCardMeta.fulfilled, (state, action) => {
+    const tagName = action.payload.tagName;
+    const meta = action.payload.meta;
+
+    for (const tag of state.modalState.checkCardModal.tags) {
+      if (tag.tagName === tagName) {
+        for (const option of tag.options) {
+          if (option.code == meta.code) {
+            option.name = meta.name;
+            option.desc = meta.desc;
+          }
+        }
+      }
+    }
+  });
 };
 
 export const selectCardModalIsOpen = (state: RootState) =>
