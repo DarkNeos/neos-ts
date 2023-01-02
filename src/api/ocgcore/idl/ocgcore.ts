@@ -2844,8 +2844,7 @@ export namespace ygopro {
         data?:
           | any[]
           | {
-              count?: number;
-              select_ptr?: number[];
+              selected_ptrs?: number[];
             }
       ) {
         super();
@@ -2854,53 +2853,36 @@ export namespace ygopro {
           Array.isArray(data) ? data : [],
           0,
           -1,
-          [2],
+          [1],
           this.#one_of_decls
         );
         if (!Array.isArray(data) && typeof data == "object") {
-          if ("count" in data && data.count != undefined) {
-            this.count = data.count;
-          }
-          if ("select_ptr" in data && data.select_ptr != undefined) {
-            this.select_ptr = data.select_ptr;
+          if ("selected_ptrs" in data && data.selected_ptrs != undefined) {
+            this.selected_ptrs = data.selected_ptrs;
           }
         }
       }
-      get count() {
-        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      get selected_ptrs() {
+        return pb_1.Message.getFieldWithDefault(this, 1, []) as number[];
       }
-      set count(value: number) {
+      set selected_ptrs(value: number[]) {
         pb_1.Message.setField(this, 1, value);
       }
-      get select_ptr() {
-        return pb_1.Message.getFieldWithDefault(this, 2, []) as number[];
-      }
-      set select_ptr(value: number[]) {
-        pb_1.Message.setField(this, 2, value);
-      }
       static fromObject(data: {
-        count?: number;
-        select_ptr?: number[];
+        selected_ptrs?: number[];
       }): SelectCardResponse {
         const message = new SelectCardResponse({});
-        if (data.count != null) {
-          message.count = data.count;
-        }
-        if (data.select_ptr != null) {
-          message.select_ptr = data.select_ptr;
+        if (data.selected_ptrs != null) {
+          message.selected_ptrs = data.selected_ptrs;
         }
         return message;
       }
       toObject() {
         const data: {
-          count?: number;
-          select_ptr?: number[];
+          selected_ptrs?: number[];
         } = {};
-        if (this.count != null) {
-          data.count = this.count;
-        }
-        if (this.select_ptr != null) {
-          data.select_ptr = this.select_ptr;
+        if (this.selected_ptrs != null) {
+          data.selected_ptrs = this.selected_ptrs;
         }
         return data;
       }
@@ -2908,8 +2890,8 @@ export namespace ygopro {
       serialize(w: pb_1.BinaryWriter): void;
       serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
-        if (this.count != 0) writer.writeInt32(1, this.count);
-        if (this.select_ptr.length) writer.writePackedInt32(2, this.select_ptr);
+        if (this.selected_ptrs.length)
+          writer.writePackedInt32(1, this.selected_ptrs);
         if (!w) return writer.getResultBuffer();
       }
       static deserialize(
@@ -2924,10 +2906,7 @@ export namespace ygopro {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
             case 1:
-              message.count = reader.readInt32();
-              break;
-            case 2:
-              message.select_ptr = reader.readPackedInt32();
+              message.selected_ptrs = reader.readPackedInt32();
               break;
             default:
               reader.skipField();
