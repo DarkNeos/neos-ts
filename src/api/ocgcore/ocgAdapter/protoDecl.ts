@@ -34,3 +34,4 @@ export const MSG_HINT = 2;
 export const MSG_SELECT_IDLE_CMD = 11;
 export const MSG_SELECT_PLACE = 18;
 export const MSG_MOVE = 50;
+export const MSG_SELECT_CARD = 15;

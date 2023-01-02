@@ -157,6 +157,7 @@ export function numberToCardZone(
   }
 }
 
+// TODO: 需要考虑超量叠加情况下的位运算
 export function numberToCardPosition(
   position: number
 ): ygopro.CardPosition | undefined {

@@ -1,10 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
 import { BufferReader } from "../../bufferIO";
-import {
-  cardZoneToNumber,
-  numberToCardPosition,
-  numberToCardZone,
-} from "../../util";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 
 /*
@@ -19,32 +14,8 @@ export default (data: Uint8Array) => {
 
   const code = reader.readUint32();
 
-  const readCardLocation = () => {
-    const controler = reader.readUint8();
-    const location = reader.readUint8();
-    const sequence = reader.readUint8();
-    const ss = reader.readUint8();
-
-    const cardLocation = new ygopro.CardLocation({
-      controler,
-      location: numberToCardZone(location),
-      sequence,
-    });
-
-    if (location != cardZoneToNumber(ygopro.CardZone.OVERLAY)) {
-      const position = numberToCardPosition(ss);
-      if (position) {
-        cardLocation.position = position;
-      }
-    } else {
-      cardLocation.overlay_sequence = ss;
-    }
-
-    return cardLocation;
-  };
-
-  const fromLocation = readCardLocation();
-  const toLocation = readCardLocation();
+  const fromLocation = reader.readCardLocation();
+  const toLocation = reader.readCardLocation();
 
   return new MsgMove({
     code,

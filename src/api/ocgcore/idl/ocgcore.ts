@@ -2412,7 +2412,7 @@ export namespace ygopro {
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2]];
+    #one_of_decls: number[][] = [[1, 2, 3]];
     constructor(
       data?:
         | any[]
@@ -2420,10 +2420,17 @@ export namespace ygopro {
             | {
                 select_idle_cmd?: CtosGameMsgResponse.SelectIdleCmdResponse;
                 select_place?: never;
+                select_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: CtosGameMsgResponse.SelectPlaceResponse;
+                select_card?: never;
+              }
+            | {
+                select_idle_cmd?: never;
+                select_place?: never;
+                select_card?: CtosGameMsgResponse.SelectCardResponse;
               }
           ))
     ) {
@@ -2442,6 +2449,9 @@ export namespace ygopro {
         }
         if ("select_place" in data && data.select_place != undefined) {
           this.select_place = data.select_place;
+        }
+        if ("select_card" in data && data.select_card != undefined) {
+          this.select_card = data.select_card;
         }
       }
     }
@@ -2471,15 +2481,33 @@ export namespace ygopro {
     get has_select_place() {
       return pb_1.Message.getField(this, 2) != null;
     }
+    get select_card() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse.SelectCardResponse,
+        3
+      ) as CtosGameMsgResponse.SelectCardResponse;
+    }
+    set select_card(value: CtosGameMsgResponse.SelectCardResponse) {
+      pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
+    }
+    get has_select_card() {
+      return pb_1.Message.getField(this, 3) != null;
+    }
     get gameMsgResponse() {
       const cases: {
-        [index: number]: "none" | "select_idle_cmd" | "select_place";
+        [index: number]:
+          | "none"
+          | "select_idle_cmd"
+          | "select_place"
+          | "select_card";
       } = {
         0: "none",
         1: "select_idle_cmd",
         2: "select_place",
+        3: "select_card",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3])];
     }
     static fromObject(data: {
       select_idle_cmd?: ReturnType<
@@ -2487,6 +2515,9 @@ export namespace ygopro {
       >;
       select_place?: ReturnType<
         typeof CtosGameMsgResponse.SelectPlaceResponse.prototype.toObject
+      >;
+      select_card?: ReturnType<
+        typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
       >;
     }): CtosGameMsgResponse {
       const message = new CtosGameMsgResponse({});
@@ -2500,6 +2531,11 @@ export namespace ygopro {
         message.select_place =
           CtosGameMsgResponse.SelectPlaceResponse.fromObject(data.select_place);
       }
+      if (data.select_card != null) {
+        message.select_card = CtosGameMsgResponse.SelectCardResponse.fromObject(
+          data.select_card
+        );
+      }
       return message;
     }
     toObject() {
@@ -2510,12 +2546,18 @@ export namespace ygopro {
         select_place?: ReturnType<
           typeof CtosGameMsgResponse.SelectPlaceResponse.prototype.toObject
         >;
+        select_card?: ReturnType<
+          typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
+        >;
       } = {};
       if (this.select_idle_cmd != null) {
         data.select_idle_cmd = this.select_idle_cmd.toObject();
       }
       if (this.select_place != null) {
         data.select_place = this.select_place.toObject();
+      }
+      if (this.select_card != null) {
+        data.select_card = this.select_card.toObject();
       }
       return data;
     }
@@ -2530,6 +2572,10 @@ export namespace ygopro {
       if (this.has_select_place)
         writer.writeMessage(2, this.select_place, () =>
           this.select_place.serialize(writer)
+        );
+      if (this.has_select_card)
+        writer.writeMessage(3, this.select_card, () =>
+          this.select_card.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -2558,6 +2604,14 @@ export namespace ygopro {
               () =>
                 (message.select_place =
                   CtosGameMsgResponse.SelectPlaceResponse.deserialize(reader))
+            );
+            break;
+          case 3:
+            reader.readMessage(
+              message.select_card,
+              () =>
+                (message.select_card =
+                  CtosGameMsgResponse.SelectCardResponse.deserialize(reader))
             );
             break;
           default:
@@ -2782,6 +2836,89 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): SelectPlaceResponse {
         return SelectPlaceResponse.deserialize(bytes);
+      }
+    }
+    export class SelectCardResponse extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              selected_ptrs?: number[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [1],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("selected_ptrs" in data && data.selected_ptrs != undefined) {
+            this.selected_ptrs = data.selected_ptrs;
+          }
+        }
+      }
+      get selected_ptrs() {
+        return pb_1.Message.getFieldWithDefault(this, 1, []) as number[];
+      }
+      set selected_ptrs(value: number[]) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: {
+        selected_ptrs?: number[];
+      }): SelectCardResponse {
+        const message = new SelectCardResponse({});
+        if (data.selected_ptrs != null) {
+          message.selected_ptrs = data.selected_ptrs;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          selected_ptrs?: number[];
+        } = {};
+        if (this.selected_ptrs != null) {
+          data.selected_ptrs = this.selected_ptrs;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.selected_ptrs.length)
+          writer.writePackedInt32(1, this.selected_ptrs);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): SelectCardResponse {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new SelectCardResponse();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.selected_ptrs = reader.readPackedInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): SelectCardResponse {
+        return SelectCardResponse.deserialize(bytes);
       }
     }
   }
@@ -4163,7 +4300,7 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9]];
     constructor(
       data?:
         | any[]
@@ -4177,6 +4314,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4187,6 +4325,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4197,6 +4336,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4207,6 +4347,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4217,6 +4358,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4227,6 +4369,7 @@ export namespace ygopro {
                 select_idle_cmd?: StocGameMessage.MsgSelectIdleCmd;
                 select_place?: never;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4237,6 +4380,7 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: StocGameMessage.MsgSelectPlace;
                 move?: never;
+                select_card?: never;
               }
             | {
                 start?: never;
@@ -4247,6 +4391,18 @@ export namespace ygopro {
                 select_idle_cmd?: never;
                 select_place?: never;
                 move?: StocGameMessage.MsgMove;
+                select_card?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: StocGameMessage.MsgSelectCard;
               }
           ))
     ) {
@@ -4283,6 +4439,9 @@ export namespace ygopro {
         }
         if ("move" in data && data.move != undefined) {
           this.move = data.move;
+        }
+        if ("select_card" in data && data.select_card != undefined) {
+          this.select_card = data.select_card;
         }
       }
     }
@@ -4390,6 +4549,19 @@ export namespace ygopro {
     get has_move() {
       return pb_1.Message.getField(this, 8) != null;
     }
+    get select_card() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSelectCard,
+        9
+      ) as StocGameMessage.MsgSelectCard;
+    }
+    set select_card(value: StocGameMessage.MsgSelectCard) {
+      pb_1.Message.setOneofWrapperField(this, 9, this.#one_of_decls[0], value);
+    }
+    get has_select_card() {
+      return pb_1.Message.getField(this, 9) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -4401,7 +4573,8 @@ export namespace ygopro {
           | "hint"
           | "select_idle_cmd"
           | "select_place"
-          | "move";
+          | "move"
+          | "select_card";
       } = {
         0: "none",
         1: "start",
@@ -4412,9 +4585,10 @@ export namespace ygopro {
         6: "select_idle_cmd",
         7: "select_place",
         8: "move",
+        9: "select_card",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9])
       ];
     }
     static fromObject(data: {
@@ -4434,6 +4608,9 @@ export namespace ygopro {
         typeof StocGameMessage.MsgSelectPlace.prototype.toObject
       >;
       move?: ReturnType<typeof StocGameMessage.MsgMove.prototype.toObject>;
+      select_card?: ReturnType<
+        typeof StocGameMessage.MsgSelectCard.prototype.toObject
+      >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -4466,6 +4643,11 @@ export namespace ygopro {
       if (data.move != null) {
         message.move = StocGameMessage.MsgMove.fromObject(data.move);
       }
+      if (data.select_card != null) {
+        message.select_card = StocGameMessage.MsgSelectCard.fromObject(
+          data.select_card
+        );
+      }
       return message;
     }
     toObject() {
@@ -4486,6 +4668,9 @@ export namespace ygopro {
           typeof StocGameMessage.MsgSelectPlace.prototype.toObject
         >;
         move?: ReturnType<typeof StocGameMessage.MsgMove.prototype.toObject>;
+        select_card?: ReturnType<
+          typeof StocGameMessage.MsgSelectCard.prototype.toObject
+        >;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
@@ -4510,6 +4695,9 @@ export namespace ygopro {
       }
       if (this.move != null) {
         data.move = this.move.toObject();
+      }
+      if (this.select_card != null) {
+        data.select_card = this.select_card.toObject();
       }
       return data;
     }
@@ -4541,6 +4729,10 @@ export namespace ygopro {
         );
       if (this.has_move)
         writer.writeMessage(8, this.move, () => this.move.serialize(writer));
+      if (this.has_select_card)
+        writer.writeMessage(9, this.select_card, () =>
+          this.select_card.serialize(writer)
+        );
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -4607,6 +4799,14 @@ export namespace ygopro {
             reader.readMessage(
               message.move,
               () => (message.move = StocGameMessage.MsgMove.deserialize(reader))
+            );
+            break;
+          case 9:
+            reader.readMessage(
+              message.select_card,
+              () =>
+                (message.select_card =
+                  StocGameMessage.MsgSelectCard.deserialize(reader))
             );
             break;
           default:
@@ -6238,6 +6438,343 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgMove {
         return MsgMove.deserialize(bytes);
+      }
+    }
+    export class MsgSelectCard extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              cancelable?: boolean;
+              min?: number;
+              max?: number;
+              cards?: StocGameMessage.MsgSelectCard.SelectAbleCard[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [5],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("cancelable" in data && data.cancelable != undefined) {
+            this.cancelable = data.cancelable;
+          }
+          if ("min" in data && data.min != undefined) {
+            this.min = data.min;
+          }
+          if ("max" in data && data.max != undefined) {
+            this.max = data.max;
+          }
+          if ("cards" in data && data.cards != undefined) {
+            this.cards = data.cards;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get cancelable() {
+        return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+      }
+      set cancelable(value: boolean) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get min() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set min(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get max() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set max(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      get cards() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectCard.SelectAbleCard,
+          5
+        ) as StocGameMessage.MsgSelectCard.SelectAbleCard[];
+      }
+      set cards(value: StocGameMessage.MsgSelectCard.SelectAbleCard[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 5, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        cancelable?: boolean;
+        min?: number;
+        max?: number;
+        cards?: ReturnType<
+          typeof StocGameMessage.MsgSelectCard.SelectAbleCard.prototype.toObject
+        >[];
+      }): MsgSelectCard {
+        const message = new MsgSelectCard({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.cancelable != null) {
+          message.cancelable = data.cancelable;
+        }
+        if (data.min != null) {
+          message.min = data.min;
+        }
+        if (data.max != null) {
+          message.max = data.max;
+        }
+        if (data.cards != null) {
+          message.cards = data.cards.map((item) =>
+            StocGameMessage.MsgSelectCard.SelectAbleCard.fromObject(item)
+          );
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          cancelable?: boolean;
+          min?: number;
+          max?: number;
+          cards?: ReturnType<
+            typeof StocGameMessage.MsgSelectCard.SelectAbleCard.prototype.toObject
+          >[];
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.cancelable != null) {
+          data.cancelable = this.cancelable;
+        }
+        if (this.min != null) {
+          data.min = this.min;
+        }
+        if (this.max != null) {
+          data.max = this.max;
+        }
+        if (this.cards != null) {
+          data.cards = this.cards.map(
+            (item: StocGameMessage.MsgSelectCard.SelectAbleCard) =>
+              item.toObject()
+          );
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.cancelable != false) writer.writeBool(2, this.cancelable);
+        if (this.min != 0) writer.writeInt32(3, this.min);
+        if (this.max != 0) writer.writeInt32(4, this.max);
+        if (this.cards.length)
+          writer.writeRepeatedMessage(
+            5,
+            this.cards,
+            (item: StocGameMessage.MsgSelectCard.SelectAbleCard) =>
+              item.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSelectCard {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSelectCard();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.cancelable = reader.readBool();
+              break;
+            case 3:
+              message.min = reader.readInt32();
+              break;
+            case 4:
+              message.max = reader.readInt32();
+              break;
+            case 5:
+              reader.readMessage(message.cards, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  5,
+                  StocGameMessage.MsgSelectCard.SelectAbleCard.deserialize(
+                    reader
+                  ),
+                  StocGameMessage.MsgSelectCard.SelectAbleCard
+                )
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSelectCard {
+        return MsgSelectCard.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectCard {
+      export class SelectAbleCard extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                code?: number;
+                location?: CardLocation;
+                response?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("code" in data && data.code != undefined) {
+              this.code = data.code;
+            }
+            if ("location" in data && data.location != undefined) {
+              this.location = data.location;
+            }
+            if ("response" in data && data.response != undefined) {
+              this.response = data.response;
+            }
+          }
+        }
+        get code() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set code(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get location() {
+          return pb_1.Message.getWrapperField(
+            this,
+            CardLocation,
+            2
+          ) as CardLocation;
+        }
+        set location(value: CardLocation) {
+          pb_1.Message.setWrapperField(this, 2, value);
+        }
+        get has_location() {
+          return pb_1.Message.getField(this, 2) != null;
+        }
+        get response() {
+          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set response(value: number) {
+          pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          response?: number;
+        }): SelectAbleCard {
+          const message = new SelectAbleCard({});
+          if (data.code != null) {
+            message.code = data.code;
+          }
+          if (data.location != null) {
+            message.location = CardLocation.fromObject(data.location);
+          }
+          if (data.response != null) {
+            message.response = data.response;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            code?: number;
+            location?: ReturnType<typeof CardLocation.prototype.toObject>;
+            response?: number;
+          } = {};
+          if (this.code != null) {
+            data.code = this.code;
+          }
+          if (this.location != null) {
+            data.location = this.location.toObject();
+          }
+          if (this.response != null) {
+            data.response = this.response;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.code != 0) writer.writeInt32(1, this.code);
+          if (this.has_location)
+            writer.writeMessage(2, this.location, () =>
+              this.location.serialize(writer)
+            );
+          if (this.response != 0) writer.writeInt32(3, this.response);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(
+          bytes: Uint8Array | pb_1.BinaryReader
+        ): SelectAbleCard {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new SelectAbleCard();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.code = reader.readInt32();
+                break;
+              case 2:
+                reader.readMessage(
+                  message.location,
+                  () => (message.location = CardLocation.deserialize(reader))
+                );
+                break;
+              case 3:
+                message.response = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SelectAbleCard {
+          return SelectAbleCard.deserialize(bytes);
+        }
       }
     }
   }

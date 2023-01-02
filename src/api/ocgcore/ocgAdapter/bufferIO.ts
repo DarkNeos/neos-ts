@@ -1,4 +1,5 @@
 import { ygopro } from "../idl/ocgcore";
+import { numberToCardPosition, numberToCardZone } from "./util";
 
 const OFFSET_UINT8 = 1;
 const OFFSET_INT8 = 1;
@@ -61,6 +62,30 @@ export class BufferReader {
     cardInfo.sequence = this.readUint8();
 
     return cardInfo;
+  }
+
+  readCardLocation(overlay?: boolean): ygopro.CardLocation {
+    const controler = this.readUint8();
+    const location = this.readUint8();
+    const sequence = this.readUint8();
+    const ss = this.readUint8();
+
+    const cardLocation = new ygopro.CardLocation({
+      controler,
+      location: numberToCardZone(location),
+      sequence,
+    });
+
+    if (overlay && overlay) {
+      cardLocation.overlay_sequence = ss;
+    } else {
+      const position = numberToCardPosition(ss);
+      if (position) {
+        cardLocation.position = position;
+      }
+    }
+
+    return cardLocation;
   }
 }
 
