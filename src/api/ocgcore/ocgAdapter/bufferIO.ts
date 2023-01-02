@@ -76,7 +76,7 @@ export class BufferReader {
       sequence,
     });
 
-    if (overlay) {
+    if (overlay && overlay) {
       cardLocation.overlay_sequence = ss;
     } else {
       const position = numberToCardPosition(ss);
