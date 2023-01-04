@@ -15,6 +15,7 @@ import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
 import MsgSelectPlaceAdapter from "./selectPlace";
 import MsgMoveAdapter from "./move";
 import MsgSelectCardAdapter from "./selectCard";
+import MsgSelectChainAdapter from "./selectChain";
 
 /*
  * STOC GameMsg
@@ -82,6 +83,11 @@ export default class GameMsgAdapter implements StocAdapter {
       }
       case GAME_MSG.MSG_SELECT_CARD: {
         gameMsg.select_card = MsgSelectCardAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_SELECT_CHAIN: {
+        gameMsg.select_chain = MsgSelectChainAdapter(gameData);
 
         break;
       }
