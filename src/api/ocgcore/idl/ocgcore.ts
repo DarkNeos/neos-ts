@@ -6849,7 +6849,7 @@ export namespace ygopro {
           | any[]
           | {
               player?: number;
-              special?: boolean;
+              special_count?: number;
               forced?: boolean;
               hint0?: number;
               hint1?: number;
@@ -6869,8 +6869,8 @@ export namespace ygopro {
           if ("player" in data && data.player != undefined) {
             this.player = data.player;
           }
-          if ("special" in data && data.special != undefined) {
-            this.special = data.special;
+          if ("special_count" in data && data.special_count != undefined) {
+            this.special_count = data.special_count;
           }
           if ("forced" in data && data.forced != undefined) {
             this.forced = data.forced;
@@ -6892,10 +6892,10 @@ export namespace ygopro {
       set player(value: number) {
         pb_1.Message.setField(this, 1, value);
       }
-      get special() {
-        return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+      get special_count() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
       }
-      set special(value: boolean) {
+      set special_count(value: number) {
         pb_1.Message.setField(this, 2, value);
       }
       get forced() {
@@ -6928,7 +6928,7 @@ export namespace ygopro {
       }
       static fromObject(data: {
         player?: number;
-        special?: boolean;
+        special_count?: number;
         forced?: boolean;
         hint0?: number;
         hint1?: number;
@@ -6940,8 +6940,8 @@ export namespace ygopro {
         if (data.player != null) {
           message.player = data.player;
         }
-        if (data.special != null) {
-          message.special = data.special;
+        if (data.special_count != null) {
+          message.special_count = data.special_count;
         }
         if (data.forced != null) {
           message.forced = data.forced;
@@ -6962,7 +6962,7 @@ export namespace ygopro {
       toObject() {
         const data: {
           player?: number;
-          special?: boolean;
+          special_count?: number;
           forced?: boolean;
           hint0?: number;
           hint1?: number;
@@ -6973,8 +6973,8 @@ export namespace ygopro {
         if (this.player != null) {
           data.player = this.player;
         }
-        if (this.special != null) {
-          data.special = this.special;
+        if (this.special_count != null) {
+          data.special_count = this.special_count;
         }
         if (this.forced != null) {
           data.forced = this.forced;
@@ -6997,7 +6997,7 @@ export namespace ygopro {
       serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
         if (this.player != 0) writer.writeInt32(1, this.player);
-        if (this.special != false) writer.writeBool(2, this.special);
+        if (this.special_count != 0) writer.writeInt32(2, this.special_count);
         if (this.forced != false) writer.writeBool(3, this.forced);
         if (this.hint0 != 0) writer.writeInt32(4, this.hint0);
         if (this.hint1 != 0) writer.writeInt32(5, this.hint1);
@@ -7025,7 +7025,7 @@ export namespace ygopro {
               message.player = reader.readInt32();
               break;
             case 2:
-              message.special = reader.readBool();
+              message.special_count = reader.readInt32();
               break;
             case 3:
               message.forced = reader.readBool();
