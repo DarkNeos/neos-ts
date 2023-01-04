@@ -7066,6 +7066,7 @@ export namespace ygopro {
           data?:
             | any[]
             | {
+                flag?: number;
                 code?: number;
                 location?: CardLocation;
                 effect_description?: number;
@@ -7082,6 +7083,9 @@ export namespace ygopro {
             this.#one_of_decls
           );
           if (!Array.isArray(data) && typeof data == "object") {
+            if ("flag" in data && data.flag != undefined) {
+              this.flag = data.flag;
+            }
             if ("code" in data && data.code != undefined) {
               this.code = data.code;
             }
@@ -7099,44 +7103,54 @@ export namespace ygopro {
             }
           }
         }
-        get code() {
+        get flag() {
           return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
         }
-        set code(value: number) {
+        set flag(value: number) {
           pb_1.Message.setField(this, 1, value);
+        }
+        get code() {
+          return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set code(value: number) {
+          pb_1.Message.setField(this, 2, value);
         }
         get location() {
           return pb_1.Message.getWrapperField(
             this,
             CardLocation,
-            2
+            3
           ) as CardLocation;
         }
         set location(value: CardLocation) {
-          pb_1.Message.setWrapperField(this, 2, value);
+          pb_1.Message.setWrapperField(this, 3, value);
         }
         get has_location() {
-          return pb_1.Message.getField(this, 2) != null;
+          return pb_1.Message.getField(this, 3) != null;
         }
         get effect_description() {
-          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
-        }
-        set effect_description(value: number) {
-          pb_1.Message.setField(this, 3, value);
-        }
-        get response() {
           return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
         }
-        set response(value: number) {
+        set effect_description(value: number) {
           pb_1.Message.setField(this, 4, value);
         }
+        get response() {
+          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set response(value: number) {
+          pb_1.Message.setField(this, 5, value);
+        }
         static fromObject(data: {
+          flag?: number;
           code?: number;
           location?: ReturnType<typeof CardLocation.prototype.toObject>;
           effect_description?: number;
           response?: number;
         }): Chain {
           const message = new Chain({});
+          if (data.flag != null) {
+            message.flag = data.flag;
+          }
           if (data.code != null) {
             message.code = data.code;
           }
@@ -7153,11 +7167,15 @@ export namespace ygopro {
         }
         toObject() {
           const data: {
+            flag?: number;
             code?: number;
             location?: ReturnType<typeof CardLocation.prototype.toObject>;
             effect_description?: number;
             response?: number;
           } = {};
+          if (this.flag != null) {
+            data.flag = this.flag;
+          }
           if (this.code != null) {
             data.code = this.code;
           }
@@ -7176,14 +7194,15 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
           const writer = w || new pb_1.BinaryWriter();
-          if (this.code != 0) writer.writeInt32(1, this.code);
+          if (this.flag != 0) writer.writeInt32(1, this.flag);
+          if (this.code != 0) writer.writeInt32(2, this.code);
           if (this.has_location)
-            writer.writeMessage(2, this.location, () =>
+            writer.writeMessage(3, this.location, () =>
               this.location.serialize(writer)
             );
           if (this.effect_description != 0)
-            writer.writeInt32(3, this.effect_description);
-          if (this.response != 0) writer.writeInt32(4, this.response);
+            writer.writeInt32(4, this.effect_description);
+          if (this.response != 0) writer.writeInt32(5, this.response);
           if (!w) return writer.getResultBuffer();
         }
         static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Chain {
@@ -7196,18 +7215,21 @@ export namespace ygopro {
             if (reader.isEndGroup()) break;
             switch (reader.getFieldNumber()) {
               case 1:
-                message.code = reader.readInt32();
+                message.flag = reader.readInt32();
                 break;
               case 2:
+                message.code = reader.readInt32();
+                break;
+              case 3:
                 reader.readMessage(
                   message.location,
                   () => (message.location = CardLocation.deserialize(reader))
                 );
                 break;
-              case 3:
+              case 4:
                 message.effect_description = reader.readInt32();
                 break;
-              case 4:
+              case 5:
                 message.response = reader.readInt32();
                 break;
               default:
