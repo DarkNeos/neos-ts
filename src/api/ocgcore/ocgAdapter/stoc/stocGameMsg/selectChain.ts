@@ -16,7 +16,7 @@ export default (data: Uint8Array) => {
   const player = reader.readUint8();
   const count = reader.readUint8();
   const spCount = reader.readUint8();
-  const forced = reader.readUint8() == 0;
+  const forced = reader.readUint8() != 0;
   const hint0 = reader.readUint32();
   const hint1 = reader.readUint32();
 
