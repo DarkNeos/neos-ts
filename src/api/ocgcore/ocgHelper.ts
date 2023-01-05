@@ -163,3 +163,16 @@ export function sendSelectCardResponse(value: number[]) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectChainResponse(value: number) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_chain: new ygopro.CtosGameMsgResponse.SelectChainResponse({
+        selected_ptr: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

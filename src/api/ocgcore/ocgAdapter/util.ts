@@ -191,3 +191,22 @@ export function numberToCardPosition(
     }
   }
 }
+
+export function numberToChainFlag(
+  flag: number
+): ygopro.StocGameMessage.MsgSelectChain.ChainFlag | undefined {
+  switch (flag) {
+    case 0: {
+      return ygopro.StocGameMessage.MsgSelectChain.ChainFlag.COMMON;
+    }
+    case 1: {
+      return ygopro.StocGameMessage.MsgSelectChain.ChainFlag.EDESC_OPERATION;
+    }
+    case 2: {
+      return ygopro.StocGameMessage.MsgSelectChain.ChainFlag.EDESC_RESET;
+    }
+    default: {
+      return undefined;
+    }
+  }
+}

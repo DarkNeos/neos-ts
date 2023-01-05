@@ -1,6 +1,7 @@
 import { ygopro } from "../../../idl/ocgcore";
 import { BufferReader } from "../../bufferIO";
 import MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
+import { numberToChainFlag } from "../../util";
 
 /*
  * Msg Select Chain
@@ -37,7 +38,7 @@ export default (data: Uint8Array) => {
 
     msg.chains.push(
       new MsgSelectChain.Chain({
-        flag,
+        flag: numberToChainFlag(flag),
         code,
         location,
         effect_description: effect_desc,

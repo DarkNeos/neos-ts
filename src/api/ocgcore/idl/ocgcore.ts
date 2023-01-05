@@ -2412,7 +2412,7 @@ export namespace ygopro {
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4]];
     constructor(
       data?:
         | any[]
@@ -2421,16 +2421,25 @@ export namespace ygopro {
                 select_idle_cmd?: CtosGameMsgResponse.SelectIdleCmdResponse;
                 select_place?: never;
                 select_card?: never;
+                select_chain?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: CtosGameMsgResponse.SelectPlaceResponse;
                 select_card?: never;
+                select_chain?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
                 select_card?: CtosGameMsgResponse.SelectCardResponse;
+                select_chain?: never;
+              }
+            | {
+                select_idle_cmd?: never;
+                select_place?: never;
+                select_card?: never;
+                select_chain?: CtosGameMsgResponse.SelectChainResponse;
               }
           ))
     ) {
@@ -2452,6 +2461,9 @@ export namespace ygopro {
         }
         if ("select_card" in data && data.select_card != undefined) {
           this.select_card = data.select_card;
+        }
+        if ("select_chain" in data && data.select_chain != undefined) {
+          this.select_chain = data.select_chain;
         }
       }
     }
@@ -2494,20 +2506,35 @@ export namespace ygopro {
     get has_select_card() {
       return pb_1.Message.getField(this, 3) != null;
     }
+    get select_chain() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse.SelectChainResponse,
+        4
+      ) as CtosGameMsgResponse.SelectChainResponse;
+    }
+    set select_chain(value: CtosGameMsgResponse.SelectChainResponse) {
+      pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
+    }
+    get has_select_chain() {
+      return pb_1.Message.getField(this, 4) != null;
+    }
     get gameMsgResponse() {
       const cases: {
         [index: number]:
           | "none"
           | "select_idle_cmd"
           | "select_place"
-          | "select_card";
+          | "select_card"
+          | "select_chain";
       } = {
         0: "none",
         1: "select_idle_cmd",
         2: "select_place",
         3: "select_card",
+        4: "select_chain",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3])];
+      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4])];
     }
     static fromObject(data: {
       select_idle_cmd?: ReturnType<
@@ -2518,6 +2545,9 @@ export namespace ygopro {
       >;
       select_card?: ReturnType<
         typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
+      >;
+      select_chain?: ReturnType<
+        typeof CtosGameMsgResponse.SelectChainResponse.prototype.toObject
       >;
     }): CtosGameMsgResponse {
       const message = new CtosGameMsgResponse({});
@@ -2536,6 +2566,10 @@ export namespace ygopro {
           data.select_card
         );
       }
+      if (data.select_chain != null) {
+        message.select_chain =
+          CtosGameMsgResponse.SelectChainResponse.fromObject(data.select_chain);
+      }
       return message;
     }
     toObject() {
@@ -2549,6 +2583,9 @@ export namespace ygopro {
         select_card?: ReturnType<
           typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
         >;
+        select_chain?: ReturnType<
+          typeof CtosGameMsgResponse.SelectChainResponse.prototype.toObject
+        >;
       } = {};
       if (this.select_idle_cmd != null) {
         data.select_idle_cmd = this.select_idle_cmd.toObject();
@@ -2558,6 +2595,9 @@ export namespace ygopro {
       }
       if (this.select_card != null) {
         data.select_card = this.select_card.toObject();
+      }
+      if (this.select_chain != null) {
+        data.select_chain = this.select_chain.toObject();
       }
       return data;
     }
@@ -2576,6 +2616,10 @@ export namespace ygopro {
       if (this.has_select_card)
         writer.writeMessage(3, this.select_card, () =>
           this.select_card.serialize(writer)
+        );
+      if (this.has_select_chain)
+        writer.writeMessage(4, this.select_chain, () =>
+          this.select_chain.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -2612,6 +2656,14 @@ export namespace ygopro {
               () =>
                 (message.select_card =
                   CtosGameMsgResponse.SelectCardResponse.deserialize(reader))
+            );
+            break;
+          case 4:
+            reader.readMessage(
+              message.select_chain,
+              () =>
+                (message.select_chain =
+                  CtosGameMsgResponse.SelectChainResponse.deserialize(reader))
             );
             break;
           default:
@@ -2919,6 +2971,86 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): SelectCardResponse {
         return SelectCardResponse.deserialize(bytes);
+      }
+    }
+    export class SelectChainResponse extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              selected_ptr?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("selected_ptr" in data && data.selected_ptr != undefined) {
+            this.selected_ptr = data.selected_ptr;
+          }
+        }
+      }
+      get selected_ptr() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set selected_ptr(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: { selected_ptr?: number }): SelectChainResponse {
+        const message = new SelectChainResponse({});
+        if (data.selected_ptr != null) {
+          message.selected_ptr = data.selected_ptr;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          selected_ptr?: number;
+        } = {};
+        if (this.selected_ptr != null) {
+          data.selected_ptr = this.selected_ptr;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.selected_ptr != 0) writer.writeInt32(1, this.selected_ptr);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): SelectChainResponse {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new SelectChainResponse();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.selected_ptr = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): SelectChainResponse {
+        return SelectChainResponse.deserialize(bytes);
       }
     }
   }
@@ -7060,13 +7192,18 @@ export namespace ygopro {
       }
     }
     export namespace MsgSelectChain {
+      export enum ChainFlag {
+        COMMON = 0,
+        EDESC_OPERATION = 1,
+        EDESC_RESET = 2,
+      }
       export class Chain extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(
           data?:
             | any[]
             | {
-                flag?: number;
+                flag?: StocGameMessage.MsgSelectChain.ChainFlag;
                 code?: number;
                 location?: CardLocation;
                 effect_description?: number;
@@ -7104,9 +7241,13 @@ export namespace ygopro {
           }
         }
         get flag() {
-          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+          return pb_1.Message.getFieldWithDefault(
+            this,
+            1,
+            StocGameMessage.MsgSelectChain.ChainFlag.COMMON
+          ) as StocGameMessage.MsgSelectChain.ChainFlag;
         }
-        set flag(value: number) {
+        set flag(value: StocGameMessage.MsgSelectChain.ChainFlag) {
           pb_1.Message.setField(this, 1, value);
         }
         get code() {
@@ -7141,7 +7282,7 @@ export namespace ygopro {
           pb_1.Message.setField(this, 5, value);
         }
         static fromObject(data: {
-          flag?: number;
+          flag?: StocGameMessage.MsgSelectChain.ChainFlag;
           code?: number;
           location?: ReturnType<typeof CardLocation.prototype.toObject>;
           effect_description?: number;
@@ -7167,7 +7308,7 @@ export namespace ygopro {
         }
         toObject() {
           const data: {
-            flag?: number;
+            flag?: StocGameMessage.MsgSelectChain.ChainFlag;
             code?: number;
             location?: ReturnType<typeof CardLocation.prototype.toObject>;
             effect_description?: number;
@@ -7194,7 +7335,8 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
           const writer = w || new pb_1.BinaryWriter();
-          if (this.flag != 0) writer.writeInt32(1, this.flag);
+          if (this.flag != StocGameMessage.MsgSelectChain.ChainFlag.COMMON)
+            writer.writeEnum(1, this.flag);
           if (this.code != 0) writer.writeInt32(2, this.code);
           if (this.has_location)
             writer.writeMessage(3, this.location, () =>
@@ -7215,7 +7357,7 @@ export namespace ygopro {
             if (reader.isEndGroup()) break;
             switch (reader.getFieldNumber()) {
               case 1:
-                message.flag = reader.readInt32();
+                message.flag = reader.readEnum();
                 break;
               case 2:
                 message.code = reader.readInt32();
