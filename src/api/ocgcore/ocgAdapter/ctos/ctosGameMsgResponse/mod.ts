@@ -4,6 +4,7 @@ import { CTOS_RESPONSE } from "../../protoDecl";
 import adaptSelectIdleCmdResponse from "./selectIdleCmd";
 import adaptSelectPlaceResponse from "./selectPlace";
 import adaptSelectCardResponse from "./selectCard";
+import adaptSelectChainResponse from "./selectChain";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -31,6 +32,11 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_card": {
         extraData = adaptSelectCardResponse(response.select_card);
+
+        break;
+      }
+      case "select_chain": {
+        extraData = adaptSelectChainResponse(response.select_chain);
 
         break;
       }
