@@ -1,5 +1,6 @@
 import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { setYesNoModalIsOpen } from "../../reducers/duel/mod";
 import { fetchYesNoMeta } from "../../reducers/duel/modalSlice";
 import { AppDispatch } from "../../store";
 import { CardZoneToChinese } from "./util";
@@ -37,4 +38,5 @@ export default (selectEffectYn: MsgSelectEffectYn, dispatch: AppDispatch) => {
       textGenerator,
     })
   );
+  dispatch(setYesNoModalIsOpen(true));
 };
