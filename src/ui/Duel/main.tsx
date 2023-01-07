@@ -14,6 +14,7 @@ import Exclusion from "./exclusion";
 import Cemeteries from "./cemetery";
 import CardListModal from "./cardListModal";
 import CheckCardModal from "./checkCardModal";
+import YesNoModal from "./yesNoModal";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -42,6 +43,7 @@ const NeosDuel = () => (
     <CardListModal />
     <HintNotification />
     <CheckCardModal />
+    <YesNoModal />
   </>
 );
 

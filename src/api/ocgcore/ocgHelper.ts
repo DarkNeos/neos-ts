@@ -176,3 +176,16 @@ export function sendSelectChainResponse(value: number) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectEffectYnResponse(value: boolean) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_effect_yn: new ygopro.CtosGameMsgResponse.SelectEffectYnResponse({
+        selected: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
