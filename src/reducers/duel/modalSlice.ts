@@ -46,6 +46,11 @@ export interface ModalState {
       }[];
     }[];
   };
+  // Yes or No弹窗
+  yesNoModal: {
+    isOpen: boolean;
+    msg?: string;
+  };
 }
 
 // 更新卡牌弹窗打开状态
@@ -216,6 +221,14 @@ export const checkCardModalCase = (
       }
     }
   });
+};
+
+// 更新YesNo弹窗是否打开状态
+export const setYesNoModalIsOpenImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.yesNoModal.isOpen = action.payload;
 };
 
 export const resetCheckCardModalImpl: CaseReducer<DuelState> = (state) => {
