@@ -1,6 +1,8 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { sendSelectChainResponse } from "../../api/ocgcore/ocgHelper";
 import {
+  setCheckCardMOdalCancelAble,
+  setCheckCardModalCancelResponse,
   setCheckCardModalIsOpen,
   setCheckCardModalMinMax,
   setCheckCardModalOnSubmit,
@@ -61,9 +63,11 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
     case 2: // 处理多张
     case 3: {
       // 处理强制发动的卡
-      // TODO：非强制发动的场景需要支持取消
+
       dispatch(setCheckCardModalMinMax({ min: 1, max: 1 }));
       dispatch(setCheckCardModalOnSubmit("sendSelectChainResponse"));
+      dispatch(setCheckCardMOdalCancelAble(!forced));
+      dispatch(setCheckCardModalCancelResponse(-1));
 
       for (const chain of chains) {
         const tagName = CardZoneToChinese(chain.location.location);

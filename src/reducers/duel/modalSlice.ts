@@ -33,6 +33,8 @@ export interface ModalState {
     onSubmit?: string;
     selectMin?: number;
     selectMax?: number;
+    cancelAble: boolean;
+    cancelResponse?: number;
     tags: {
       tagName: string;
       options: {
@@ -125,6 +127,22 @@ export const setCheckCardModalOnSubmitImpl: CaseReducer<
   state.modalState.checkCardModal.onSubmit = action.payload;
 };
 
+// 更新卡牌选择弹窗是否可以取消
+export const setCheckCardMOdalCancelAbleImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.checkCardModal.cancelAble = action.payload;
+};
+
+// 更新卡牌选择弹窗取消时返回给服务端的`Response`
+export const setCheckCardModalCancelResponseImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.modalState.checkCardModal.cancelResponse = action.payload;
+};
+
 // 增加卡牌选择选项
 export const fetchCheckCardMeta = createAsyncThunk(
   "duel/fetchCheckCardMeta",
@@ -204,6 +222,8 @@ export const resetCheckCardModalImpl: CaseReducer<DuelState> = (state) => {
   state.modalState.checkCardModal.isOpen = false;
   state.modalState.checkCardModal.selectMin = undefined;
   state.modalState.checkCardModal.selectMax = undefined;
+  state.modalState.checkCardModal.cancelAble = false;
+  state.modalState.checkCardModal.cancelResponse = undefined;
   state.modalState.checkCardModal.tags = [];
 };
 
@@ -233,3 +253,7 @@ export const selectCheckCardModalTags = (state: RootState) =>
   state.duel.modalState.checkCardModal.tags;
 export const selectCheckCardModalOnSubmit = (state: RootState) =>
   state.duel.modalState.checkCardModal.onSubmit;
+export const selectCheckCardModalCancelAble = (state: RootState) =>
+  state.duel.modalState.checkCardModal.cancelAble;
+export const selectCheckCardModalCacnelResponse = (state: RootState) =>
+  state.duel.modalState.checkCardModal.cancelResponse;
