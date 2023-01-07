@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import {
+  selectCheckCardModalCacnelResponse,
+  selectCheckCardModalCancelAble,
   selectCheckCardModalIsOpen,
   selectCheckCardModalMinMax,
   selectCheckCardModalOnSubmit,
@@ -24,8 +26,29 @@ const CheckCardModal = () => {
   const { min, max } = useAppSelector(selectCheckCardModalMinMax);
   const tabs = useAppSelector(selectCheckCardModalTags);
   const onSubmit = useAppSelector(selectCheckCardModalOnSubmit);
+  const cancelAble = useAppSelector(selectCheckCardModalCancelAble);
+  const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
+
+  // TODO: 这里可以考虑更好地封装
+  const sendResponseHandler = (
+    handlerName: string | undefined,
+    response: number[]
+  ) => {
+    switch (handlerName) {
+      case "sendSelectChainResponse": {
+        sendSelectChainResponse(response[0]);
+        break;
+      }
+      case "sendSelectCardResponse": {
+        sendSelectCardResponse(response);
+        break;
+      }
+      default: {
+      }
+    }
+  };
 
   return (
     <Modal
@@ -33,29 +56,33 @@ const CheckCardModal = () => {
       open={isOpen}
       closable={false}
       footer={
-        <Button
-          disabled={response.length < min || response.length > max}
-          onClick={() => {
-            switch (onSubmit) {
-              case "sendSelectChainResponse": {
-                sendSelectChainResponse(response[0]);
-
-                break;
-              }
-              case "sendSelectCardResponse": {
-                sendSelectCardResponse(response);
-
-                break;
-              }
-              default: {
-              }
-            }
-            dispatch(setCheckCardModalIsOpen(false));
-            dispatch(resetCheckCardModal());
-          }}
-        >
-          submit
-        </Button>
+        <>
+          <Button
+            disabled={response.length < min || response.length > max}
+            onClick={() => {
+              sendResponseHandler(onSubmit, response);
+              dispatch(setCheckCardModalIsOpen(false));
+              dispatch(resetCheckCardModal());
+            }}
+          >
+            submit
+          </Button>
+          {cancelAble ? (
+            <Button
+              onClick={() => {
+                if (cancelResponse) {
+                  sendResponseHandler(onSubmit, [cancelResponse]);
+                }
+                dispatch(setCheckCardModalIsOpen(false));
+                dispatch(resetCheckCardModal());
+              }}
+            >
+              cancel
+            </Button>
+          ) : (
+            <></>
+          )}
+        </>
       }
       width={800}
     >

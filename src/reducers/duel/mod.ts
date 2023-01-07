@@ -28,6 +28,8 @@ import {
   setCheckCardModalIsOpenImpl,
   setCheckCardModalMinMaxImpl,
   setCheckCardModalOnSubmitImpl,
+  setCheckCardMOdalCancelAbleImpl,
+  setCheckCardModalCancelResponseImpl,
   resetCheckCardModalImpl,
   checkCardModalCase,
 } from "./modalSlice";
@@ -81,7 +83,7 @@ const initialState: DuelState = {
   modalState: {
     cardModal: { isOpen: false, interactivies: [] },
     cardListModal: { isOpen: false, list: [] },
-    checkCardModal: { isOpen: false, tags: [] },
+    checkCardModal: { isOpen: false, cancelAble: false, tags: [] },
   },
 };
 
@@ -125,6 +127,8 @@ const duelSlice = createSlice({
     setCheckCardModalIsOpen: setCheckCardModalIsOpenImpl,
     setCheckCardModalMinMax: setCheckCardModalMinMaxImpl,
     setCheckCardModalOnSubmit: setCheckCardModalOnSubmitImpl,
+    setCheckCardMOdalCancelAble: setCheckCardMOdalCancelAbleImpl,
+    setCheckCardModalCancelResponse: setCheckCardModalCancelResponseImpl,
     resetCheckCardModal: resetCheckCardModalImpl,
   },
   extraReducers(builder) {
@@ -162,6 +166,8 @@ export const {
   setCheckCardModalIsOpen,
   setCheckCardModalMinMax,
   setCheckCardModalOnSubmit,
+  setCheckCardMOdalCancelAble,
+  setCheckCardModalCancelResponse,
   resetCheckCardModal,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
