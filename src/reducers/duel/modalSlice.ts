@@ -4,7 +4,9 @@ import {
   createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { fetchCard, getCardStr } from "../../api/cards";
+import { CardMeta, fetchCard, getCardStr } from "../../api/cards";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { fetchStrings } from "../../api/strings";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
@@ -223,6 +225,15 @@ export const checkCardModalCase = (
   });
 };
 
+export const resetCheckCardModalImpl: CaseReducer<DuelState> = (state) => {
+  state.modalState.checkCardModal.isOpen = false;
+  state.modalState.checkCardModal.selectMin = undefined;
+  state.modalState.checkCardModal.selectMax = undefined;
+  state.modalState.checkCardModal.cancelAble = false;
+  state.modalState.checkCardModal.cancelResponse = undefined;
+  state.modalState.checkCardModal.tags = [];
+};
+
 // 更新YesNo弹窗是否打开状态
 export const setYesNoModalIsOpenImpl: CaseReducer<
   DuelState,
@@ -231,13 +242,31 @@ export const setYesNoModalIsOpenImpl: CaseReducer<
   state.modalState.yesNoModal.isOpen = action.payload;
 };
 
-export const resetCheckCardModalImpl: CaseReducer<DuelState> = (state) => {
-  state.modalState.checkCardModal.isOpen = false;
-  state.modalState.checkCardModal.selectMin = undefined;
-  state.modalState.checkCardModal.selectMax = undefined;
-  state.modalState.checkCardModal.cancelAble = false;
-  state.modalState.checkCardModal.cancelResponse = undefined;
-  state.modalState.checkCardModal.tags = [];
+// 设置YesNo弹窗展示内容
+export const fetchYesNoMeta = createAsyncThunk(
+  "duel/fetchYesNoMeta",
+  async (param: {
+    code: number;
+    location: ygopro.CardLocation;
+    descCode: number;
+    textGenerator: (
+      desc: string,
+      cardMeta: CardMeta,
+      cardLocation: ygopro.CardLocation
+    ) => string;
+  }) => {
+    const desc = await fetchStrings("!system", param.descCode);
+    const meta = await fetchCard(param.code);
+
+    // TODO: 国际化文案
+    return param.textGenerator(desc, meta, param.location);
+  }
+);
+
+export const YesNoModalCase = (builder: ActionReducerMapBuilder<DuelState>) => {
+  builder.addCase(fetchYesNoMeta.fulfilled, (state, action) => {
+    state.modalState.yesNoModal.msg = action.payload;
+  });
 };
 
 export const selectCardModalIsOpen = (state: RootState) =>

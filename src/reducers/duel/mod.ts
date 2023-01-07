@@ -33,6 +33,7 @@ import {
   resetCheckCardModalImpl,
   setYesNoModalIsOpenImpl,
   checkCardModalCase,
+  YesNoModalCase,
 } from "./modalSlice";
 import {
   MonsterState,
@@ -141,6 +142,7 @@ const duelSlice = createSlice({
     magicCase(builder);
     cemeteryCase(builder);
     checkCardModalCase(builder);
+    YesNoModalCase(builder);
   },
 });
 
