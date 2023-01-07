@@ -51,12 +51,12 @@ const CheckCardModal = () => {
           setResponse(value);
         }}
       >
-        {tabs.map((tab) => {
+        {tabs.map((tab, idx) => {
           return (
-            <Row>
-              {tab.options.map((option) => {
+            <Row key={idx}>
+              {tab.options.map((option, idx) => {
                 return (
-                  <Col span={4}>
+                  <Col span={4} key={idx}>
                     <CheckCard
                       title={option.name}
                       description={option.desc}
