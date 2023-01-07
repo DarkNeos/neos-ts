@@ -30,6 +30,7 @@ export interface ModalState {
   // 卡牌选择弹窗
   checkCardModal: {
     isOpen: boolean;
+    onSubmit?: string;
     selectMin?: number;
     selectMax?: number;
     tags: {
@@ -114,6 +115,14 @@ export const setCheckCardModalMinMaxImpl: CaseReducer<
 > = (state, action) => {
   state.modalState.checkCardModal.selectMin = action.payload.min;
   state.modalState.checkCardModal.selectMax = action.payload.max;
+};
+
+// 更新卡牌选择弹窗的提交回调
+export const setCheckCardModalOnSubmitImpl: CaseReducer<
+  DuelState,
+  PayloadAction<string>
+> = (state, action) => {
+  state.modalState.checkCardModal.onSubmit = action.payload;
 };
 
 // 增加卡牌选择选项
@@ -222,3 +231,5 @@ export const selectCheckCardModalMinMax = (state: RootState) => {
 };
 export const selectCheckCardModalTags = (state: RootState) =>
   state.duel.modalState.checkCardModal.tags;
+export const selectCheckCardModalOnSubmit = (state: RootState) =>
+  state.duel.modalState.checkCardModal.onSubmit;

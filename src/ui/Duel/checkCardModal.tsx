@@ -4,6 +4,7 @@ import { store } from "../../store";
 import {
   selectCheckCardModalIsOpen,
   selectCheckCardModalMinMax,
+  selectCheckCardModalOnSubmit,
   selectCheckCardModalTags,
 } from "../../reducers/duel/modalSlice";
 import {
@@ -12,13 +13,17 @@ import {
 } from "../../reducers/duel/mod";
 import { Modal, Button, Row, Col, Popover } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
-import { sendSelectCardResponse } from "../../api/ocgcore/ocgHelper";
+import {
+  sendSelectCardResponse,
+  sendSelectChainResponse,
+} from "../../api/ocgcore/ocgHelper";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalIsOpen);
   const { min, max } = useAppSelector(selectCheckCardModalMinMax);
   const tabs = useAppSelector(selectCheckCardModalTags);
+  const onSubmit = useAppSelector(selectCheckCardModalOnSubmit);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
 
@@ -31,12 +36,25 @@ const CheckCardModal = () => {
         <Button
           disabled={response.length < min || response.length > max}
           onClick={() => {
-            sendSelectCardResponse(response);
+            switch (onSubmit) {
+              case "sendSelectChainResponse": {
+                sendSelectChainResponse(response[0]);
+
+                break;
+              }
+              case "sendSelectCardResponse": {
+                sendSelectCardResponse(response);
+
+                break;
+              }
+              default: {
+              }
+            }
             dispatch(setCheckCardModalIsOpen(false));
             dispatch(resetCheckCardModal());
           }}
         >
-          summit
+          submit
         </Button>
       }
       width={800}
