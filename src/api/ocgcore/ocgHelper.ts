@@ -189,3 +189,16 @@ export function sendSelectEffectYnResponse(value: boolean) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectPositionResponse(value: ygopro.CardPosition) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_position: new ygopro.CtosGameMsgResponse.SelectPositionResponse({
+        position: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

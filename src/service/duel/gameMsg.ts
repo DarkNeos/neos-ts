@@ -11,6 +11,7 @@ import onMsgMove from "./move";
 import onMsgSelectCard from "./selectCard";
 import onMsgSelectChain from "./selectChain";
 import onMsgSelectEffectYn from "./selectEffectYn";
+import onMsgSelectPosition from "./selectPosition";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -80,6 +81,12 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     case "select_effect_yn": {
       const selectEffectYn = msg.select_effect_yn;
       onMsgSelectEffectYn(selectEffectYn, dispatch);
+
+      break;
+    }
+    case "select_position": {
+      const selectPosition = msg.select_position;
+      onMsgSelectPosition(selectPosition, dispatch);
 
       break;
     }
