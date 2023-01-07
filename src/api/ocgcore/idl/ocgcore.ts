@@ -7985,7 +7985,7 @@ export namespace ygopro {
           | {
               player?: number;
               code?: number;
-              positions?: CardPosition[];
+              positions?: StocGameMessage.MsgSelectPosition.SelectAblePosition[];
             }
       ) {
         super();
@@ -8022,19 +8022,23 @@ export namespace ygopro {
         pb_1.Message.setField(this, 2, value);
       }
       get positions() {
-        return pb_1.Message.getFieldWithDefault(
+        return pb_1.Message.getRepeatedWrapperField(
           this,
-          3,
-          CardPosition.FACEUP_ATTACK
-        ) as CardPosition[];
+          StocGameMessage.MsgSelectPosition.SelectAblePosition,
+          3
+        ) as StocGameMessage.MsgSelectPosition.SelectAblePosition[];
       }
-      set positions(value: CardPosition[]) {
-        pb_1.Message.setField(this, 3, value);
+      set positions(
+        value: StocGameMessage.MsgSelectPosition.SelectAblePosition[]
+      ) {
+        pb_1.Message.setRepeatedWrapperField(this, 3, value);
       }
       static fromObject(data: {
         player?: number;
         code?: number;
-        positions?: CardPosition[];
+        positions?: ReturnType<
+          typeof StocGameMessage.MsgSelectPosition.SelectAblePosition.prototype.toObject
+        >[];
       }): MsgSelectPosition {
         const message = new MsgSelectPosition({});
         if (data.player != null) {
@@ -8044,7 +8048,11 @@ export namespace ygopro {
           message.code = data.code;
         }
         if (data.positions != null) {
-          message.positions = data.positions;
+          message.positions = data.positions.map((item) =>
+            StocGameMessage.MsgSelectPosition.SelectAblePosition.fromObject(
+              item
+            )
+          );
         }
         return message;
       }
@@ -8052,7 +8060,9 @@ export namespace ygopro {
         const data: {
           player?: number;
           code?: number;
-          positions?: CardPosition[];
+          positions?: ReturnType<
+            typeof StocGameMessage.MsgSelectPosition.SelectAblePosition.prototype.toObject
+          >[];
         } = {};
         if (this.player != null) {
           data.player = this.player;
@@ -8061,7 +8071,10 @@ export namespace ygopro {
           data.code = this.code;
         }
         if (this.positions != null) {
-          data.positions = this.positions;
+          data.positions = this.positions.map(
+            (item: StocGameMessage.MsgSelectPosition.SelectAblePosition) =>
+              item.toObject()
+          );
         }
         return data;
       }
@@ -8071,7 +8084,13 @@ export namespace ygopro {
         const writer = w || new pb_1.BinaryWriter();
         if (this.player != 0) writer.writeInt32(1, this.player);
         if (this.code != 0) writer.writeInt32(2, this.code);
-        if (this.positions.length) writer.writePackedEnum(3, this.positions);
+        if (this.positions.length)
+          writer.writeRepeatedMessage(
+            3,
+            this.positions,
+            (item: StocGameMessage.MsgSelectPosition.SelectAblePosition) =>
+              item.serialize(writer)
+          );
         if (!w) return writer.getResultBuffer();
       }
       static deserialize(
@@ -8092,7 +8111,16 @@ export namespace ygopro {
               message.code = reader.readInt32();
               break;
             case 3:
-              message.positions = reader.readPackedEnum();
+              reader.readMessage(message.positions, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  3,
+                  StocGameMessage.MsgSelectPosition.SelectAblePosition.deserialize(
+                    reader
+                  ),
+                  StocGameMessage.MsgSelectPosition.SelectAblePosition
+                )
+              );
               break;
             default:
               reader.skipField();
@@ -8105,6 +8133,95 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgSelectPosition {
         return MsgSelectPosition.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectPosition {
+      export class SelectAblePosition extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                position?: CardPosition;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("position" in data && data.position != undefined) {
+              this.position = data.position;
+            }
+          }
+        }
+        get position() {
+          return pb_1.Message.getFieldWithDefault(
+            this,
+            1,
+            CardPosition.FACEUP_ATTACK
+          ) as CardPosition;
+        }
+        set position(value: CardPosition) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        static fromObject(data: {
+          position?: CardPosition;
+        }): SelectAblePosition {
+          const message = new SelectAblePosition({});
+          if (data.position != null) {
+            message.position = data.position;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            position?: CardPosition;
+          } = {};
+          if (this.position != null) {
+            data.position = this.position;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.position != CardPosition.FACEUP_ATTACK)
+            writer.writeEnum(1, this.position);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(
+          bytes: Uint8Array | pb_1.BinaryReader
+        ): SelectAblePosition {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new SelectAblePosition();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.position = reader.readEnum();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SelectAblePosition {
+          return SelectAblePosition.deserialize(bytes);
+        }
       }
     }
   }

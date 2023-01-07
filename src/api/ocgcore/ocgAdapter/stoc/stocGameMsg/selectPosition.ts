@@ -24,16 +24,32 @@ export default (data: Uint8Array) => {
   });
 
   if ((positions & 0x1) > 0) {
-    msg.positions.push(ygopro.CardPosition.FACEUP_ATTACK);
+    msg.positions.push(
+      new MsgSelectPosition.SelectAblePosition({
+        position: ygopro.CardPosition.FACEUP_ATTACK,
+      })
+    );
   }
   if ((positions & 0x2) > 0) {
-    msg.positions.push(ygopro.CardPosition.FACEDOWN_ATTACK);
+    msg.positions.push(
+      new MsgSelectPosition.SelectAblePosition({
+        position: ygopro.CardPosition.FACEDOWN_ATTACK,
+      })
+    );
   }
   if ((positions & 0x4) > 0) {
-    msg.positions.push(ygopro.CardPosition.FACEUP_DEFENSE);
+    msg.positions.push(
+      new MsgSelectPosition.SelectAblePosition({
+        position: ygopro.CardPosition.FACEUP_DEFENSE,
+      })
+    );
   }
   if ((positions & 0x8) > 0) {
-    msg.positions.push(ygopro.CardPosition.FACEDOWN_DEFENSE);
+    msg.positions.push(
+      new MsgSelectPosition.SelectAblePosition({
+        position: ygopro.CardPosition.FACEDOWN_DEFENSE,
+      })
+    );
   }
 
   return msg;
