@@ -70,9 +70,13 @@ const CCemetery = (props: {
     <box
       name="cemetery"
       ref={boxRef}
-      width={shape.width}
-      height={shape.height}
-      depth={depth * props.state.length}
+      scaling={
+        new BABYLON.Vector3(
+          shape.width,
+          shape.height,
+          depth * props.state.length
+        )
+      }
       position={props.position}
       rotation={props.rotation}
     >
