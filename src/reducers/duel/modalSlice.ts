@@ -173,7 +173,7 @@ export const checkCardModalCase = (
     }
 
     state.modalState.checkCardModal.tags.push({
-      tagName,
+      tagName: combinedTagName,
       options: [{ code, response }],
     });
   });
