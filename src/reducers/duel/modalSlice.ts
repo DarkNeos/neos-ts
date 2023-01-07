@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { fetchCard } from "../../api/cards";
+import { fetchCard, getCardStr } from "../../api/cards";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
@@ -30,6 +30,7 @@ export interface ModalState {
   // 卡牌选择弹窗
   checkCardModal: {
     isOpen: boolean;
+    onSubmit?: string;
     selectMin?: number;
     selectMax?: number;
     tags: {
@@ -38,6 +39,7 @@ export interface ModalState {
         code: number;
         name?: string;
         desc?: string;
+        effectDesc?: string;
         response: number;
       }[];
     }[];
@@ -115,15 +117,26 @@ export const setCheckCardModalMinMaxImpl: CaseReducer<
   state.modalState.checkCardModal.selectMax = action.payload.max;
 };
 
+// 更新卡牌选择弹窗的提交回调
+export const setCheckCardModalOnSubmitImpl: CaseReducer<
+  DuelState,
+  PayloadAction<string>
+> = (state, action) => {
+  state.modalState.checkCardModal.onSubmit = action.payload;
+};
+
 // 增加卡牌选择选项
 export const fetchCheckCardMeta = createAsyncThunk(
   "duel/fetchCheckCardMeta",
   async (param: {
     controler: number;
     tagName: string;
-    option: { code: number; response: number };
+    option: { code: number; response: number; effectDescCode?: number };
   }) => {
     const meta = await fetchCard(param.option.code);
+    const effectDesc = param.option.effectDescCode
+      ? getCardStr(meta, param.option.effectDescCode & 0xf)
+      : undefined;
     const response = {
       controler: param.controler,
       tagName: param.tagName,
@@ -131,6 +144,7 @@ export const fetchCheckCardMeta = createAsyncThunk(
         code: meta.id,
         name: meta.text.name,
         desc: meta.text.desc,
+        effectDesc,
       },
     };
 
@@ -159,7 +173,7 @@ export const checkCardModalCase = (
     }
 
     state.modalState.checkCardModal.tags.push({
-      tagName,
+      tagName: combinedTagName,
       options: [{ code, response }],
     });
   });
@@ -178,6 +192,7 @@ export const checkCardModalCase = (
           if (option.code == meta.code) {
             option.name = meta.name;
             option.desc = meta.desc;
+            option.effectDesc = meta.effectDesc;
           }
         }
       }
@@ -216,3 +231,5 @@ export const selectCheckCardModalMinMax = (state: RootState) => {
 };
 export const selectCheckCardModalTags = (state: RootState) =>
   state.duel.modalState.checkCardModal.tags;
+export const selectCheckCardModalOnSubmit = (state: RootState) =>
+  state.duel.modalState.checkCardModal.onSubmit;

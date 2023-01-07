@@ -4,21 +4,26 @@ import { store } from "../../store";
 import {
   selectCheckCardModalIsOpen,
   selectCheckCardModalMinMax,
+  selectCheckCardModalOnSubmit,
   selectCheckCardModalTags,
 } from "../../reducers/duel/modalSlice";
 import {
   resetCheckCardModal,
   setCheckCardModalIsOpen,
 } from "../../reducers/duel/mod";
-import { Modal, Button, Row, Col } from "antd";
+import { Modal, Button, Row, Col, Popover } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
-import { sendSelectCardResponse } from "../../api/ocgcore/ocgHelper";
+import {
+  sendSelectCardResponse,
+  sendSelectChainResponse,
+} from "../../api/ocgcore/ocgHelper";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalIsOpen);
   const { min, max } = useAppSelector(selectCheckCardModalMinMax);
   const tabs = useAppSelector(selectCheckCardModalTags);
+  const onSubmit = useAppSelector(selectCheckCardModalOnSubmit);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
 
@@ -31,12 +36,25 @@ const CheckCardModal = () => {
         <Button
           disabled={response.length < min || response.length > max}
           onClick={() => {
-            sendSelectCardResponse(response);
+            switch (onSubmit) {
+              case "sendSelectChainResponse": {
+                sendSelectChainResponse(response[0]);
+
+                break;
+              }
+              case "sendSelectCardResponse": {
+                sendSelectCardResponse(response);
+
+                break;
+              }
+              default: {
+              }
+            }
             dispatch(setCheckCardModalIsOpen(false));
             dispatch(resetCheckCardModal());
           }}
         >
-          summit
+          submit
         </Button>
       }
       width={800}
@@ -51,25 +69,34 @@ const CheckCardModal = () => {
           setResponse(value);
         }}
       >
-        {tabs.map((tab) => {
+        {tabs.map((tab, idx) => {
           return (
-            <Row>
-              {tab.options.map((option) => {
+            <Row key={idx}>
+              {tab.options.map((option, idx) => {
                 return (
-                  <Col span={4}>
-                    <CheckCard
-                      title={option.name}
-                      description={option.desc}
-                      style={{ width: 120 }}
-                      cover={
-                        <img
-                          alt={option.code.toString()}
-                          src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
-                          style={{ width: 100 }}
-                        />
+                  <Col span={4} key={idx}>
+                    <Popover
+                      content={
+                        <div>
+                          <p>{option.name}</p>
+                          <p>{option.effectDesc}</p>
+                        </div>
                       }
-                      value={option.response}
-                    />
+                    >
+                      <CheckCard
+                        title={option.name}
+                        description={option.desc}
+                        style={{ width: 120 }}
+                        cover={
+                          <img
+                            alt={option.code.toString()}
+                            src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                            style={{ width: 100 }}
+                          />
+                        }
+                        value={option.response}
+                      />
+                    </Popover>
                   </Col>
                 );
               })}

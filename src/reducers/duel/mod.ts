@@ -27,6 +27,7 @@ import {
   setCardListModalInfoImpl,
   setCheckCardModalIsOpenImpl,
   setCheckCardModalMinMaxImpl,
+  setCheckCardModalOnSubmitImpl,
   resetCheckCardModalImpl,
   checkCardModalCase,
 } from "./modalSlice";
@@ -123,6 +124,7 @@ const duelSlice = createSlice({
     setCardListModalInfo: setCardListModalInfoImpl,
     setCheckCardModalIsOpen: setCheckCardModalIsOpenImpl,
     setCheckCardModalMinMax: setCheckCardModalMinMaxImpl,
+    setCheckCardModalOnSubmit: setCheckCardModalOnSubmitImpl,
     resetCheckCardModal: resetCheckCardModalImpl,
   },
   extraReducers(builder) {
@@ -159,6 +161,7 @@ export const {
   setCardListModalInfo,
   setCheckCardModalIsOpen,
   setCheckCardModalMinMax,
+  setCheckCardModalOnSubmit,
   resetCheckCardModal,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
