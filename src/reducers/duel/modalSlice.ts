@@ -299,3 +299,7 @@ export const selectCheckCardModalCancelAble = (state: RootState) =>
   state.duel.modalState.checkCardModal.cancelAble;
 export const selectCheckCardModalCacnelResponse = (state: RootState) =>
   state.duel.modalState.checkCardModal.cancelResponse;
+export const selectYesNoModalIsOpen = (state: RootState) =>
+  state.duel.modalState.yesNoModal.isOpen;
+export const selectYesNOModalMsg = (state: RootState) =>
+  state.duel.modalState.yesNoModal.msg;
