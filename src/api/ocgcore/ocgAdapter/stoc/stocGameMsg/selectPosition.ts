@@ -25,11 +25,14 @@ export default (data: Uint8Array) => {
 
   if ((positions & 0x1) > 0) {
     msg.positions.push(ygopro.CardPosition.FACEUP_ATTACK);
-  } else if ((positions & 0x2) > 0) {
+  }
+  if ((positions & 0x2) > 0) {
     msg.positions.push(ygopro.CardPosition.FACEDOWN_ATTACK);
-  } else if ((positions & 0x4) > 0) {
+  }
+  if ((positions & 0x4) > 0) {
     msg.positions.push(ygopro.CardPosition.FACEUP_DEFENSE);
-  } else if ((positions & 0x8) > 0) {
+  }
+  if ((positions & 0x8) > 0) {
     msg.positions.push(ygopro.CardPosition.FACEDOWN_DEFENSE);
   }
 
