@@ -135,7 +135,7 @@ export const fetchCheckCardMeta = createAsyncThunk(
         code: meta.id,
         name: meta.text.name,
         desc: meta.text.desc,
-        effectDesc
+        effectDesc,
       },
     };
 

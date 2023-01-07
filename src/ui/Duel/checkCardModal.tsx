@@ -10,7 +10,7 @@ import {
   resetCheckCardModal,
   setCheckCardModalIsOpen,
 } from "../../reducers/duel/mod";
-import { Modal, Button, Row, Col } from "antd";
+import { Modal, Button, Row, Col, Popover } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import { sendSelectCardResponse } from "../../api/ocgcore/ocgHelper";
 
@@ -57,19 +57,28 @@ const CheckCardModal = () => {
               {tab.options.map((option, idx) => {
                 return (
                   <Col span={4} key={idx}>
-                    <CheckCard
-                      title={option.name}
-                      description={option.desc}
-                      style={{ width: 120 }}
-                      cover={
-                        <img
-                          alt={option.code.toString()}
-                          src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
-                          style={{ width: 100 }}
-                        />
+                    <Popover
+                      content={
+                        <div>
+                          <p>{option.name}</p>
+                          <p>{option.effectDesc}</p>
+                        </div>
                       }
-                      value={option.response}
-                    />
+                    >
+                      <CheckCard
+                        title={option.name}
+                        description={option.desc}
+                        style={{ width: 120 }}
+                        cover={
+                          <img
+                            alt={option.code.toString()}
+                            src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                            style={{ width: 100 }}
+                          />
+                        }
+                        value={option.response}
+                      />
+                    </Popover>
                   </Col>
                 );
               })}
