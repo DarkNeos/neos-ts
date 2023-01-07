@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { fetchCard } from "../../api/cards";
+import { fetchCard, getCardStr } from "../../api/cards";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
@@ -38,6 +38,7 @@ export interface ModalState {
         code: number;
         name?: string;
         desc?: string;
+        effectDesc?: string;
         response: number;
       }[];
     }[];
@@ -121,9 +122,12 @@ export const fetchCheckCardMeta = createAsyncThunk(
   async (param: {
     controler: number;
     tagName: string;
-    option: { code: number; response: number };
+    option: { code: number; response: number; effectDescCode?: number };
   }) => {
     const meta = await fetchCard(param.option.code);
+    const effectDesc = param.option.effectDescCode
+      ? getCardStr(meta, param.option.effectDescCode & 0xf)
+      : undefined;
     const response = {
       controler: param.controler,
       tagName: param.tagName,
@@ -131,6 +135,7 @@ export const fetchCheckCardMeta = createAsyncThunk(
         code: meta.id,
         name: meta.text.name,
         desc: meta.text.desc,
+        effectDesc
       },
     };
 
@@ -178,6 +183,7 @@ export const checkCardModalCase = (
           if (option.code == meta.code) {
             option.name = meta.name;
             option.desc = meta.desc;
+            option.effectDesc = meta.effectDesc;
           }
         }
       }
