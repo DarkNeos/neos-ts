@@ -58,6 +58,11 @@ export interface ModalState {
     isOpen: boolean;
     positions: ygopro.CardPosition[];
   };
+  // 选项选择弹窗
+  optionModal: {
+    isOpen: boolean;
+    options: { msg: string; response: number }[];
+  };
 }
 
 // 更新卡牌弹窗打开状态
@@ -288,9 +293,41 @@ export const setPositionModalPositionsImpl: CaseReducer<
   state.modalState.positionModal.positions = action.payload;
 };
 
+export const setOptionModalIsOpenImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.optionModal.isOpen = action.payload;
+};
+
+export const resetOptionModalImpl: CaseReducer<DuelState> = (state) => {
+  state.modalState.optionModal.options = [];
+};
+
 export const resetPositionModalImpl: CaseReducer<DuelState> = (state) => {
   state.modalState.positionModal.isOpen = false;
   state.modalState.positionModal.positions = [];
+};
+
+// 增加选项
+export const fetchOptionMeta = createAsyncThunk(
+  "duel/fetchOptionMeta",
+  async (param: { code: number; response: number }) => {
+    const meta = await fetchCard(param.code >> 4);
+    const msg = getCardStr(meta, param.code & 0xf) || "[?]";
+
+    const response = { msg, response: param.response };
+
+    return response;
+  }
+);
+
+export const optionModalCase = (
+  builder: ActionReducerMapBuilder<DuelState>
+) => {
+  builder.addCase(fetchOptionMeta.fulfilled, (state, action) => {
+    state.modalState.optionModal.options.push(action.payload);
+  });
 };
 
 export const selectCardModalIsOpen = (state: RootState) =>
@@ -331,3 +368,7 @@ export const selectPositionModalIsOpen = (state: RootState) =>
   state.duel.modalState.positionModal.isOpen;
 export const selectPositionModalPositions = (state: RootState) =>
   state.duel.modalState.positionModal.positions;
+export const selectOptionModalIsOpen = (state: RootState) =>
+  state.duel.modalState.optionModal.isOpen;
+export const selectOptionModalOptions = (state: RootState) =>
+  state.duel.modalState.optionModal.options;
