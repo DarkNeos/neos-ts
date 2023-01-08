@@ -35,7 +35,7 @@ import {
   checkCardModalCase,
   YesNoModalCase,
   setPositionModalIsOpenImpl,
-  addPositionModalPositionImpl,
+  setPositionModalPositionsImpl,
   resetPositionModalImpl,
 } from "./modalSlice";
 import {
@@ -139,7 +139,7 @@ const duelSlice = createSlice({
     resetCheckCardModal: resetCheckCardModalImpl,
     setYesNoModalIsOpen: setYesNoModalIsOpenImpl,
     setPositionModalIsOpen: setPositionModalIsOpenImpl,
-    addPositionModalPosition: addPositionModalPositionImpl,
+    setPositionModalPositions: setPositionModalPositionsImpl,
     resetPositionModal: resetPositionModalImpl,
   },
   extraReducers(builder) {
@@ -183,7 +183,7 @@ export const {
   resetCheckCardModal,
   setYesNoModalIsOpen,
   setPositionModalIsOpen,
-  addPositionModalPosition,
+  setPositionModalPositions,
   resetPositionModal,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {

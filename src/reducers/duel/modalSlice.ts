@@ -281,11 +281,11 @@ export const setPositionModalIsOpenImpl: CaseReducer<
   state.modalState.positionModal.isOpen = action.payload;
 };
 
-export const addPositionModalPositionImpl: CaseReducer<
+export const setPositionModalPositionsImpl: CaseReducer<
   DuelState,
-  PayloadAction<ygopro.CardPosition>
+  PayloadAction<ygopro.CardPosition[]>
 > = (state, action) => {
-  state.modalState.positionModal.positions.push(action.payload);
+  state.modalState.positionModal.positions = action.payload;
 };
 
 export const resetPositionModalImpl: CaseReducer<DuelState> = (state) => {
