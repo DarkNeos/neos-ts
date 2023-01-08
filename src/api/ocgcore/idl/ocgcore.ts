@@ -8442,7 +8442,7 @@ export namespace ygopro {
           | any[]
           | {
               player?: number;
-              options?: number[];
+              options?: StocGameMessage.MsgSelectOption.Option[];
             }
       ) {
         super();
@@ -8470,34 +8470,46 @@ export namespace ygopro {
         pb_1.Message.setField(this, 1, value);
       }
       get options() {
-        return pb_1.Message.getFieldWithDefault(this, 2, []) as number[];
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectOption.Option,
+          2
+        ) as StocGameMessage.MsgSelectOption.Option[];
       }
-      set options(value: number[]) {
-        pb_1.Message.setField(this, 2, value);
+      set options(value: StocGameMessage.MsgSelectOption.Option[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 2, value);
       }
       static fromObject(data: {
         player?: number;
-        options?: number[];
+        options?: ReturnType<
+          typeof StocGameMessage.MsgSelectOption.Option.prototype.toObject
+        >[];
       }): MsgSelectOption {
         const message = new MsgSelectOption({});
         if (data.player != null) {
           message.player = data.player;
         }
         if (data.options != null) {
-          message.options = data.options;
+          message.options = data.options.map((item) =>
+            StocGameMessage.MsgSelectOption.Option.fromObject(item)
+          );
         }
         return message;
       }
       toObject() {
         const data: {
           player?: number;
-          options?: number[];
+          options?: ReturnType<
+            typeof StocGameMessage.MsgSelectOption.Option.prototype.toObject
+          >[];
         } = {};
         if (this.player != null) {
           data.player = this.player;
         }
         if (this.options != null) {
-          data.options = this.options;
+          data.options = this.options.map(
+            (item: StocGameMessage.MsgSelectOption.Option) => item.toObject()
+          );
         }
         return data;
       }
@@ -8506,7 +8518,13 @@ export namespace ygopro {
       serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
         if (this.player != 0) writer.writeInt32(1, this.player);
-        if (this.options.length) writer.writePackedInt32(2, this.options);
+        if (this.options.length)
+          writer.writeRepeatedMessage(
+            2,
+            this.options,
+            (item: StocGameMessage.MsgSelectOption.Option) =>
+              item.serialize(writer)
+          );
         if (!w) return writer.getResultBuffer();
       }
       static deserialize(
@@ -8524,7 +8542,14 @@ export namespace ygopro {
               message.player = reader.readInt32();
               break;
             case 2:
-              message.options = reader.readPackedInt32();
+              reader.readMessage(message.options, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  2,
+                  StocGameMessage.MsgSelectOption.Option.deserialize(reader),
+                  StocGameMessage.MsgSelectOption.Option
+                )
+              );
               break;
             default:
               reader.skipField();
@@ -8537,6 +8562,107 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgSelectOption {
         return MsgSelectOption.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectOption {
+      export class Option extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                code?: number;
+                response?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("code" in data && data.code != undefined) {
+              this.code = data.code;
+            }
+            if ("response" in data && data.response != undefined) {
+              this.response = data.response;
+            }
+          }
+        }
+        get code() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set code(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get response() {
+          return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set response(value: number) {
+          pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: { code?: number; response?: number }): Option {
+          const message = new Option({});
+          if (data.code != null) {
+            message.code = data.code;
+          }
+          if (data.response != null) {
+            message.response = data.response;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            code?: number;
+            response?: number;
+          } = {};
+          if (this.code != null) {
+            data.code = this.code;
+          }
+          if (this.response != null) {
+            data.response = this.response;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.code != 0) writer.writeInt32(1, this.code);
+          if (this.response != 0) writer.writeInt32(2, this.response);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Option {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new Option();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.code = reader.readInt32();
+                break;
+              case 2:
+                message.response = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Option {
+          return Option.deserialize(bytes);
+        }
       }
     }
   }
