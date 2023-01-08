@@ -327,3 +327,7 @@ export const selectYesNoModalIsOpen = (state: RootState) =>
   state.duel.modalState.yesNoModal.isOpen;
 export const selectYesNOModalMsg = (state: RootState) =>
   state.duel.modalState.yesNoModal.msg;
+export const selectPositionModalIsOpen = (state: RootState) =>
+  state.duel.modalState.positionModal.isOpen;
+export const selectPositionModalPositions = (state: RootState) =>
+  state.duel.modalState.positionModal.positions;
