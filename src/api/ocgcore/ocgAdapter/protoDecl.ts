@@ -38,3 +38,4 @@ export const MSG_SELECT_CARD = 15;
 export const MSG_SELECT_CHAIN = 16;
 export const MSG_SELECT_EFFECTYN = 12;
 export const MSG_SELECT_POSITION = 19;
+export const MSG_SELECT_OPTION = 14;
