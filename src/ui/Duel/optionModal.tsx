@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+import { useAppSelector } from "../../hook";
+import { store } from "../../store";
+import { Modal, Button } from "antd";
+import { CheckCard } from "@ant-design/pro-components";
+import {
+  selectOptionModalIsOpen,
+  selectOptionModalOptions,
+} from "../../reducers/duel/modalSlice";
+import { sendSelectOptionResponse } from "../../api/ocgcore/ocgHelper";
+import {
+  resetOptionModal,
+  setOptionModalIsOpen,
+} from "../../reducers/duel/mod";
+
+const OptionModal = () => {
+  const dispatch = store.dispatch;
+  const isOpen = useAppSelector(selectOptionModalIsOpen);
+  const options = useAppSelector(selectOptionModalOptions);
+  const [selected, setSelected] = useState<number | undefined>(undefined);
+
+  return (
+    <Modal
+      title="请选择表示形式"
+      open={isOpen}
+      closable={false}
+      footer={
+        <Button
+          disabled={selected === undefined}
+          onClick={() => {
+            if (selected !== undefined) {
+              sendSelectOptionResponse(selected);
+              dispatch(setOptionModalIsOpen(false));
+              dispatch(resetOptionModal());
+            }
+          }}
+        >
+          submit
+        </Button>
+      }
+    >
+      <CheckCard.Group
+        bordered
+        size="small"
+        onChange={(value) => {
+          // @ts-ignore
+          setSelected(value);
+        }}
+      >
+        {options.map((option, idx) => (
+          <CheckCard key={idx} title={option.msg} value={option.response} />
+        ))}
+      </CheckCard.Group>
+    </Modal>
+  );
+};
+
+export default OptionModal;

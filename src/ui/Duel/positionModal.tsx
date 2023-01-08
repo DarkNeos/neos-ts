@@ -34,7 +34,7 @@ const PositionModal = () => {
             if (selected !== undefined) {
               sendSelectPositionResponse(selected);
               dispatch(setPositionModalIsOpen(false));
-              dispatch(resetPositionModal);
+              dispatch(resetPositionModal());
             }
           }}
         >
