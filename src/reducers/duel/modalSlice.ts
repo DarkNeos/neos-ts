@@ -53,6 +53,11 @@ export interface ModalState {
     isOpen: boolean;
     msg?: string;
   };
+  // 表示形式选择弹窗
+  positionModal: {
+    isOpen: boolean;
+    positions: ygopro.CardPosition[];
+  };
 }
 
 // 更新卡牌弹窗打开状态
@@ -267,6 +272,25 @@ export const YesNoModalCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchYesNoMeta.fulfilled, (state, action) => {
     state.modalState.yesNoModal.msg = action.payload;
   });
+};
+
+export const setPositionModalIsOpenImpl: CaseReducer<
+  DuelState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.modalState.positionModal.isOpen = action.payload;
+};
+
+export const addPositionModalPositionImpl: CaseReducer<
+  DuelState,
+  PayloadAction<ygopro.CardPosition>
+> = (state, action) => {
+  state.modalState.positionModal.positions.push(action.payload);
+};
+
+export const resetPositionModalImpl: CaseReducer<DuelState> = (state) => {
+  state.modalState.positionModal.isOpen = false;
+  state.modalState.positionModal.positions = [];
 };
 
 export const selectCardModalIsOpen = (state: RootState) =>
