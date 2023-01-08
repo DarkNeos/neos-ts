@@ -16,6 +16,7 @@ import CardListModal from "./cardListModal";
 import CheckCardModal from "./checkCardModal";
 import YesNoModal from "./yesNoModal";
 import PositionModal from "./positionModal";
+import OptionModal from "./optionModal";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -46,6 +47,7 @@ const NeosDuel = () => (
     <CheckCardModal />
     <YesNoModal />
     <PositionModal />
+    <OptionModal />
   </>
 );
 

@@ -202,3 +202,16 @@ export function sendSelectPositionResponse(value: ygopro.CardPosition) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectOptionResponse(value: number) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_option: new ygopro.CtosGameMsgResponse.SelectOptionResponse({
+        code: value,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

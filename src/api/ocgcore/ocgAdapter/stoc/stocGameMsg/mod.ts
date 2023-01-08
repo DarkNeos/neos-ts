@@ -18,6 +18,7 @@ import MsgSelectCardAdapter from "./selectCard";
 import MsgSelectChainAdapter from "./selectChain";
 import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
+import MsgSelectOptionAdapter from "./selectOption";
 
 /*
  * STOC GameMsg
@@ -100,6 +101,11 @@ export default class GameMsgAdapter implements StocAdapter {
       }
       case GAME_MSG.MSG_SELECT_POSITION: {
         gameMsg.select_position = MsgSelectPositionAdapter(gameData);
+
+        break;
+      }
+      case GAME_MSG.MSG_SELECT_OPTION: {
+        gameMsg.select_option = MsgSelectOptionAdapter(gameData);
 
         break;
       }

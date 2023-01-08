@@ -7,6 +7,7 @@ import adaptSelectCardResponse from "./selectCard";
 import adaptSelectChainResponse from "./selectChain";
 import adaptSelectEffectYnResponse from "./selectEffectYn";
 import adaptSelectPositionResponse from "./selectPosition";
+import adaptSelectOptionResponse from "./selectOption";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -49,6 +50,11 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_position": {
         extraData = adaptSelectPositionResponse(response.select_position);
+
+        break;
+      }
+      case "select_option": {
+        extraData = adaptSelectOptionResponse(response.select_option);
 
         break;
       }
