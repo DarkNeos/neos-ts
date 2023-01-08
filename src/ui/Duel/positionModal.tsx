@@ -31,7 +31,7 @@ const PositionModal = () => {
         <Button
           disabled={selected === undefined}
           onClick={() => {
-            if (selected) {
+            if (selected !== undefined) {
               sendSelectPositionResponse(selected);
               dispatch(setPositionModalIsOpen(false));
               dispatch(resetPositionModal);
