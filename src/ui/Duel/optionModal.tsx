@@ -21,7 +21,7 @@ const OptionModal = () => {
 
   return (
     <Modal
-      title="请选择表示形式"
+      title="请选择需要发动的效果"
       open={isOpen}
       closable={false}
       footer={
