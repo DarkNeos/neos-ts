@@ -1,4 +1,4 @@
-import { judgeSelf, Monster, InteractType } from "./util";
+import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
@@ -9,9 +9,10 @@ import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import { fetchCard } from "../../api/cards";
+import { CardState, InteractType } from "./generic";
 
 export interface MonsterState {
-  monsters: Monster[];
+  monsters: CardState[];
 }
 
 // 初始化怪兽区状态
@@ -23,19 +24,44 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   const monsters = {
     monsters: [
       {
-        sequence: 0,
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 0,
+        },
+        idleInteractivities: [],
       },
       {
-        sequence: 1,
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 1,
+        },
+        idleInteractivities: [],
       },
       {
-        sequence: 2,
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 2,
+        },
+        idleInteractivities: [],
       },
       {
-        sequence: 3,
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 3,
+        },
+        idleInteractivities: [],
       },
       {
-        sequence: 4,
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 4,
+        },
+        idleInteractivities: [],
       },
     ],
   };
@@ -47,7 +73,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   }
 };
 
-export const addMonsterPlaceSelectAbleImpl: CaseReducer<
+export const addMonsterPlaceInteractivitiesImpl: CaseReducer<
   DuelState,
   PayloadAction<[number, number]>
 > = (state, action) => {
@@ -59,8 +85,8 @@ export const addMonsterPlaceSelectAbleImpl: CaseReducer<
     : state.opMonsters;
   if (monsters) {
     for (const monster of monsters.monsters) {
-      if (monster.sequence == sequence) {
-        monster.selectInfo = {
+      if (monster.location.sequence == sequence) {
+        monster.placeInteractivities = {
           interactType: InteractType.PLACE_SELECTABLE,
           response: {
             controler,
@@ -73,7 +99,7 @@ export const addMonsterPlaceSelectAbleImpl: CaseReducer<
   }
 };
 
-export const clearMonsterSelectInfoImpl: CaseReducer<
+export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
   DuelState,
   PayloadAction<number>
 > = (state, action) => {
@@ -85,7 +111,7 @@ export const clearMonsterSelectInfoImpl: CaseReducer<
 
   if (monsters) {
     for (const monster of monsters.monsters) {
-      monster.selectInfo = undefined;
+      monster.placeInteractivities = undefined;
     }
   }
 };
@@ -124,18 +150,18 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (judgeSelf(controler, state)) {
       if (state.meMonsters) {
         for (const monster of state.meMonsters.monsters) {
-          if (monster.sequence == sequence) {
+          if (monster.location.sequence == sequence) {
             monster.occupant = meta;
-            monster.position = position;
+            monster.location.position = position;
           }
         }
       }
     } else {
       if (state.opMonsters) {
         for (const monster of state.opMonsters.monsters) {
-          if (monster.sequence == sequence) {
+          if (monster.location.sequence == sequence) {
             monster.occupant = meta;
-            monster.position = position;
+            monster.location.position = position;
           }
         }
       }
@@ -149,7 +175,7 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (judgeSelf(controler, state)) {
       if (state.meMonsters) {
         for (const monster of state.meMonsters.monsters) {
-          if (monster.sequence == sequence) {
+          if (monster.location.sequence == sequence) {
             monster.occupant = meta;
           }
         }
@@ -157,7 +183,7 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     } else {
       if (state.opMonsters) {
         for (const monster of state.opMonsters.monsters) {
-          if (monster.sequence == sequence) {
+          if (monster.location.sequence == sequence) {
             monster.occupant = meta;
           }
         }

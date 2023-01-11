@@ -5,7 +5,7 @@ import {
   setCheckCardModalMinMax,
   setCheckCardModalOnSubmit,
 } from "../../reducers/duel/mod";
-import { fetchCheckCardMeta } from "../../reducers/duel/modalSlice";
+import { fetchCheckCardMeta } from "../../reducers/duel/modal/mod";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 import { CardZoneToChinese } from "./util";
 

@@ -7,10 +7,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl } from "./initInfoSlice";
 import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
 import {
-  Hands,
+  HandState,
   handsCase,
-  clearHandsInteractivityImpl,
-  addHandsInteractivityImpl,
+  clearHandsIdleInteractivityImpl,
+  addHandsIdleInteractivityImpl,
   removeHandImpl,
 } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
@@ -40,19 +40,19 @@ import {
   setOptionModalIsOpenImpl,
   resetOptionModalImpl,
   optionModalCase,
-} from "./modalSlice";
+} from "./modal/mod";
 import {
   MonsterState,
   initMonstersImpl,
-  addMonsterPlaceSelectAbleImpl,
-  clearMonsterSelectInfoImpl,
+  addMonsterPlaceInteractivitiesImpl,
+  clearMonsterPlaceInteractivitiesImpl,
   monsterCase,
 } from "./monstersSlice";
 import {
   MagicState,
   initMagicsImpl,
-  addMagicPlaceSelectAbleImpl,
-  clearMagicSelectInfoImpl,
+  addMagicPlaceInteractivitiesImpl,
+  clearMagicPlaceInteractivitiesImpl,
   magicCase,
 } from "./magicSlice";
 import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
@@ -62,8 +62,8 @@ export interface DuelState {
   meInitInfo?: InitInfo; // 自己的初始状态
   opInitInfo?: InitInfo; // 对手的初始状态
 
-  meHands?: Hands; // 自己的手牌
-  opHands?: Hands; // 对手的手牌
+  meHands?: HandState; // 自己的手牌
+  opHands?: HandState; // 对手的手牌
 
   meMonsters?: MonsterState; // 自己的怪兽区状态
   opMonsters?: MonsterState; // 对手的怪兽区状态
@@ -111,19 +111,19 @@ const duelSlice = createSlice({
     updateTimeLimit: updateTimeLimitImpl,
 
     // 手牌相关`Reducer`
-    clearHandsInteractivity: clearHandsInteractivityImpl,
-    addHandsInteractivity: addHandsInteractivityImpl,
+    clearHandsIdleInteractivity: clearHandsIdleInteractivityImpl,
+    addHandsIdleInteractivity: addHandsIdleInteractivityImpl,
     removeHand: removeHandImpl,
 
     // 怪兽区相关`Reducer`
     initMonsters: initMonstersImpl,
-    addMonsterPlaceSelectAble: addMonsterPlaceSelectAbleImpl,
-    clearMonsterSelectInfo: clearMonsterSelectInfoImpl,
+    addMonsterPlaceInteractivities: addMonsterPlaceInteractivitiesImpl,
+    clearMonsterPlaceInteractivities: clearMonsterPlaceInteractivitiesImpl,
 
     // 魔法陷阱区相关`Reducer`
     initMagics: initMagicsImpl,
-    addMagicPlaceSelectAble: addMagicPlaceSelectAbleImpl,
-    clearMagicSelectInfo: clearMagicSelectInfoImpl,
+    addMagicPlaceInteractivities: addMagicPlaceInteractivitiesImpl,
+    clearMagicPlaceInteractivities: clearMagicPlaceInteractivitiesImpl,
 
     // 墓地相关`Reducer`
     initCemetery: initCemeteryImpl,
@@ -165,19 +165,19 @@ export const {
   infoInit,
   updateTurn,
   updatePhase,
-  clearHandsInteractivity,
-  addHandsInteractivity,
+  clearHandsIdleInteractivity,
+  addHandsIdleInteractivity,
   updateTimeLimit,
   setCardModalIsOpen,
   setCardModalText,
   setCardModalImgUrl,
   setCardModalInteractivies,
   initMonsters,
-  addMonsterPlaceSelectAble,
-  clearMonsterSelectInfo,
+  addMonsterPlaceInteractivities,
+  clearMonsterPlaceInteractivities,
   initMagics,
-  addMagicPlaceSelectAble,
-  clearMagicSelectInfo,
+  addMagicPlaceInteractivities,
+  clearMagicPlaceInteractivities,
   removeHand,
   initCemetery,
   setCardListModalIsOpen,

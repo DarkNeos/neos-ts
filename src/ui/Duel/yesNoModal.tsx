@@ -6,7 +6,7 @@ import { sendSelectEffectYnResponse } from "../../api/ocgcore/ocgHelper";
 import {
   selectYesNoModalIsOpen,
   selectYesNOModalMsg,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import { setYesNoModalIsOpen } from "../../reducers/duel/mod";
 
 const YesNoModal = () => {

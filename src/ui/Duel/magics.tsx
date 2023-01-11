@@ -2,13 +2,13 @@ import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { selectMeMagics, selectOpMagics } from "../../reducers/duel/magicSlice";
 import { useClick } from "./hook";
-import { Magic } from "../../reducers/duel/util";
+import { CardState } from "../../reducers/duel/generic";
 import { store } from "../../store";
 import { useAppSelector } from "../../hook";
 import { useRef } from "react";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import {
-  clearMagicSelectInfo,
+  clearMagicPlaceInteractivities,
   setCardModalImgUrl,
   setCardModalIsOpen,
   setCardModalText,
@@ -33,7 +33,7 @@ const Magics = () => {
         return (
           <CMagic
             state={magic}
-            key={magic.sequence}
+            key={magic.location.sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(false)}
           />
@@ -43,7 +43,7 @@ const Magics = () => {
         return (
           <CMagic
             state={magic}
-            key={magic.sequence}
+            key={magic.location.sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(true)}
           />
@@ -54,26 +54,26 @@ const Magics = () => {
 };
 
 const CMagic = (props: {
-  state: Magic;
+  state: CardState;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
 }) => {
   const state = props.state;
   const planeRef = useRef(null);
   const faceDown =
-    state.position === ygopro.CardPosition.FACEDOWN ||
-    state.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
-    state.position === ygopro.CardPosition.FACEDOWN_DEFENSE;
+    state.location.position === ygopro.CardPosition.FACEDOWN ||
+    state.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
   const dispatch = store.dispatch;
 
   useClick(
     (_event) => {
-      if (state.selectInfo) {
-        sendSelectPlaceResponse(state.selectInfo.response);
-        dispatch(clearMagicSelectInfo(0));
-        dispatch(clearMagicSelectInfo(1));
+      if (state.placeInteractivities) {
+        sendSelectPlaceResponse(state.placeInteractivities.response);
+        dispatch(clearMagicPlaceInteractivities(0));
+        dispatch(clearMagicPlaceInteractivities(1));
       } else if (state.occupant) {
         dispatch(
           setCardModalText([state.occupant.text.name, state.occupant.text.desc])
@@ -92,18 +92,22 @@ const CMagic = (props: {
 
   return (
     <plane
-      name={`magic-${state.sequence}`}
+      name={`magic-${state.location.sequence}`}
       ref={planeRef}
       width={shape.width}
       height={shape.height}
       position={props.position}
       rotation={props.rotation}
       enableEdgesRendering
-      edgesWidth={state.selectInfo ? edgesWidth : 0}
+      edgesWidth={
+        state.placeInteractivities || state.idleInteractivities.length > 0
+          ? edgesWidth
+          : 0
+      }
       edgesColor={edgesColor}
     >
       <standardMaterial
-        name={`magic-mat-${props.state.sequence}`}
+        name={`magic-mat-${props.state.location.sequence}`}
         diffuseTexture={
           state.occupant
             ? faceDown
@@ -121,13 +125,15 @@ const CMagic = (props: {
   );
 };
 
-const magicPositions = (player: number, magics: Magic[]) => {
+const magicPositions = (player: number, magics: CardState[]) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = shape.depth / 2 + CONFIG.Floating;
   const z = player == 0 ? -2.6 : 2.6;
 
-  return magics.map((magic) => new BABYLON.Vector3(x(magic.sequence), y, z));
+  return magics.map(
+    (magic) => new BABYLON.Vector3(x(magic.location.sequence), y, z)
+  );
 };
 
 export default Magics;

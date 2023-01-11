@@ -1,4 +1,4 @@
-import { judgeSelf, Cemetery } from "./util";
+import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
@@ -8,9 +8,11 @@ import {
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard } from "../../api/cards";
+import { CardState } from "./generic";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface CemeteryState {
-  cemetery: Cemetery[];
+  cemetery: CardState[];
 }
 
 // 初始化墓地状态
@@ -50,18 +52,26 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const sequence = action.meta.arg.sequence;
     const code = action.meta.arg.code;
 
-    const meta = { id: code, data: {}, text: {} };
+    const newCemetery = {
+      occupant: { id: code, data: {}, text: {} },
+      location: {
+        controler,
+        location: ygopro.CardZone.GRAVE,
+        sequence,
+      },
+      idleInteractivities: [],
+    };
     if (judgeSelf(controler, state)) {
       if (state.meCemetery) {
-        state.meCemetery.cemetery.push({ sequence, meta });
+        state.meCemetery.cemetery.push(newCemetery);
       } else {
-        state.meCemetery = { cemetery: [{ sequence, meta }] };
+        state.meCemetery = { cemetery: [newCemetery] };
       }
     } else {
       if (state.opCemetery) {
-        state.opCemetery.cemetery.push({ sequence, meta });
+        state.opCemetery.cemetery.push(newCemetery);
       } else {
-        state.opCemetery = { cemetery: [{ sequence, meta }] };
+        state.opCemetery = { cemetery: [newCemetery] };
       }
     }
   });
@@ -73,16 +83,16 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (judgeSelf(controler, state)) {
       if (state.meCemetery) {
         for (const cemetery of state.meCemetery.cemetery) {
-          if (cemetery.sequence == sequence) {
-            cemetery.meta = meta;
+          if (cemetery.location.sequence == sequence) {
+            cemetery.occupant = meta;
           }
         }
       }
     } else {
       if (state.opCemetery) {
         for (const cemetery of state.opCemetery.cemetery) {
-          if (cemetery.sequence == sequence) {
-            cemetery.meta = meta;
+          if (cemetery.location.sequence == sequence) {
+            cemetery.occupant = meta;
           }
         }
       }

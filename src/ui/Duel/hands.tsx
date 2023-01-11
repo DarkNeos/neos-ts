@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "../../hook";
 import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
 import * as CONFIG from "../../config/ui";
-import { Hand } from "../../reducers/duel/util";
+import { CardState } from "../../reducers/duel/generic";
 import {
   setCardModalImgUrl,
   setCardModalIsOpen,
@@ -22,9 +22,9 @@ const handShape = CONFIG.HandShape();
 const handRotation = CONFIG.HandRotation();
 
 const Hands = () => {
-  const meHands = useAppSelector(selectMeHands).cards;
+  const meHands = useAppSelector(selectMeHands).hands;
   const meHandPositions = handPositons(0, meHands);
-  const opHands = useAppSelector(selectOpHands).cards;
+  const opHands = useAppSelector(selectOpHands).hands;
   const opHandPositions = handPositons(1, opHands);
 
   return (
@@ -60,7 +60,7 @@ const Hands = () => {
 };
 
 const CHand = (props: {
-  state: Hand;
+  state: CardState;
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
@@ -108,15 +108,17 @@ const CHand = (props: {
 
   useClick(
     () => {
-      dispatch(setCardModalText([state.meta.text.name, state.meta.text.desc]));
+      dispatch(
+        setCardModalText([state.occupant?.text.name, state.occupant?.text.desc])
+      );
       dispatch(
         setCardModalImgUrl(
-          `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.meta.id}.jpg`
+          `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.occupant?.id}.jpg`
         )
       );
       dispatch(
         setCardModalInteractivies(
-          state.interactivities.map((interactive) => {
+          state.idleInteractivities.map((interactive) => {
             return {
               desc: interactTypeToString(interactive.interactType),
               response: interactive.response,
@@ -141,19 +143,25 @@ const CHand = (props: {
         position={spring.position}
         rotation={props.rotation}
         enableEdgesRendering
-        edgesWidth={state.interactivities.length == 0 ? 0 : edgesWidth}
+        edgesWidth={
+          state.idleInteractivities.length > 0 || state.placeInteractivities
+            ? edgesWidth
+            : 0
+        }
         edgesColor={edgesColor}
       >
         <animated.standardMaterial
           name={`hand-mat-${props.sequence}`}
-          diffuseTexture={new BABYLON.Texture(props.cover(state.meta.id))}
+          diffuseTexture={
+            new BABYLON.Texture(props.cover(state.occupant?.id || 0))
+          }
         />
       </animated.plane>
     </animated.transformNode>
   );
 };
 
-const handPositons = (player: number, hands: Hand[]) => {
+const handPositons = (player: number, hands: CardState[]) => {
   const gap = groundShape.width / (hands.length - 1);
   const x = (idx: number) =>
     player == 0 ? left + gap * idx : -left - gap * idx;

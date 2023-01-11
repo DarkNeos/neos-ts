@@ -6,7 +6,7 @@ import { sendSelectPositionResponse } from "../../api/ocgcore/ocgHelper";
 import {
   selectPositionModalIsOpen,
   selectPositionModalPositions,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
   resetPositionModal,

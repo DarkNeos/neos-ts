@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
-import { Cemetery } from "../../reducers/duel/util";
+import { CardState } from "../../reducers/duel/generic";
 import {
   selectMeCemetery,
   selectOpCemetery,
@@ -38,7 +38,7 @@ const Cemeteries = () => {
 };
 
 const CCemetery = (props: {
-  state: Cemetery[];
+  state: CardState[];
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
 }) => {
@@ -52,9 +52,9 @@ const CCemetery = (props: {
           setCardListModalInfo(
             props.state.map((cemetery) => {
               return {
-                name: cemetery.meta.text.name,
-                desc: cemetery.meta.text.desc,
-                imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${cemetery.meta.id}.jpg`,
+                name: cemetery.occupant?.text.name,
+                desc: cemetery.occupant?.text.desc,
+                imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${cemetery.occupant?.id}.jpg`,
               };
             })
           )
