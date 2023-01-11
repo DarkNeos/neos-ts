@@ -24,43 +24,43 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   const monsters = {
     monsters: [
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
           sequence: 0,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
           sequence: 1,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
           sequence: 2,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
           sequence: 3,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
           sequence: 4,
-        }),
+        },
         idleInteractivities: [],
       },
     ],

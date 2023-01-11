@@ -24,43 +24,43 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   const magics = {
     magics: [
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
           sequence: 0,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
           sequence: 1,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
           sequence: 2,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
           sequence: 3,
-        }),
+        },
         idleInteractivities: [],
       },
       {
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
           sequence: 4,
-        }),
+        },
         idleInteractivities: [],
       },
     ],

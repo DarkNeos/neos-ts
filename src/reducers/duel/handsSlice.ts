@@ -47,11 +47,11 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const cards = ids.map((id, idx) => {
       return {
         occupant: { id, data: {}, text: {} },
-        location: new ygopro.CardLocation({
+        location: {
           controler: player,
           location: ygopro.CardZone.HAND,
           sequence: idx,
-        }),
+        },
         idleInteractivities: [],
       };
     });

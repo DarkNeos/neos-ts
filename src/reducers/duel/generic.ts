@@ -3,7 +3,13 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
-  location: ygopro.CardLocation; // 位置信息
+  location: {
+    controler: number;
+    location?: number;
+    sequence: number;
+    position?: ygopro.CardPosition;
+    overlay_sequence?: number;
+  }; // 位置信息
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivities?: Interactivity<{
     controler: number;

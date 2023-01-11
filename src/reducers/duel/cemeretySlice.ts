@@ -54,11 +54,11 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
     const newCemetery = {
       occupant: { id: code, data: {}, text: {} },
-      location: new ygopro.CardLocation({
+      location: {
         controler,
         location: ygopro.CardZone.GRAVE,
         sequence,
-      }),
+      },
       idleInteractivities: [],
     };
     if (judgeSelf(controler, state)) {
