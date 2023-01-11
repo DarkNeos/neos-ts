@@ -1,9 +1,9 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
-import { InteractType } from "../../reducers/duel/util";
+import { InteractType } from "../../reducers/duel/generic";
 import {
-  clearHandsInteractivity,
-  addHandsInteractivity,
+  clearHandsIdleInteractivity,
+  addHandsIdleInteractivity,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 
@@ -12,7 +12,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的手牌互动性
-  dispatch(clearHandsInteractivity(player));
+  dispatch(clearHandsIdleInteractivity(player));
 
   for (let cmd of cmds) {
     let interactType;
@@ -50,9 +50,9 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         if (interactType === InteractType.ACTIVATE) {
           // 发动效果会多一个字段
           dispatch(
-            addHandsInteractivity({
+            addHandsIdleInteractivity({
               player,
-              index: card_info.sequence,
+              sequence: card_info.sequence,
               interactivity: {
                 interactType,
                 activateIndex: data.effect_description,
@@ -62,9 +62,9 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
           );
         } else if (interactType) {
           dispatch(
-            addHandsInteractivity({
+            addHandsIdleInteractivity({
               player,
-              index: card_info.sequence,
+              sequence: card_info.sequence,
               interactivity: { interactType, response: data.response },
             })
           );

@@ -2,12 +2,12 @@ import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { useClick } from "./hook";
 import { store } from "../../store";
-import { Monster } from "../../reducers/duel/util";
+import { CardState } from "../../reducers/duel/generic";
 import "react-babylonjs";
 import { useRef } from "react";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import {
-  clearMonsterSelectInfo,
+  clearMonsterPlaceInteractivities,
   setCardModalImgUrl,
   setCardModalInteractivies,
   setCardModalIsOpen,
@@ -62,7 +62,7 @@ const Monsters = () => {
 };
 
 const CommonMonster = (props: {
-  state: Monster;
+  state: CardState;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation: BABYLON.Vector3;
@@ -70,9 +70,9 @@ const CommonMonster = (props: {
   const planeRef = useRef(null);
 
   const rotation =
-    props.state.position === ygopro.CardPosition.DEFENSE ||
-    props.state.position === ygopro.CardPosition.FACEUP_DEFENSE ||
-    props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE
+    props.state.location.position === ygopro.CardPosition.DEFENSE ||
+    props.state.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
+    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
       ? props.deffenseRotation
       : props.rotation;
   const edgesWidth = 2.0;
@@ -80,16 +80,16 @@ const CommonMonster = (props: {
   const dispatch = store.dispatch;
 
   const faceDown =
-    props.state.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
-    props.state.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
-    props.state.position === ygopro.CardPosition.FACEDOWN;
+    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
+    props.state.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    props.state.location.position === ygopro.CardPosition.FACEDOWN;
 
   useClick(
     (_event) => {
-      if (props.state.selectInfo) {
-        sendSelectPlaceResponse(props.state.selectInfo.response);
-        dispatch(clearMonsterSelectInfo(0));
-        dispatch(clearMonsterSelectInfo(1));
+      if (props.state.placeInteractivities) {
+        sendSelectPlaceResponse(props.state.placeInteractivities.response);
+        dispatch(clearMonsterPlaceInteractivities(0));
+        dispatch(clearMonsterPlaceInteractivities(1));
       } else if (props.state.occupant) {
         dispatch(
           setCardModalText([
@@ -112,18 +112,23 @@ const CommonMonster = (props: {
 
   return (
     <plane
-      name={`monster-${props.state.selectInfo}`}
+      name={`monster-${props.state.location.sequence}`}
       ref={planeRef}
       width={shape.width}
       height={shape.height}
       position={props.position}
       rotation={rotation}
       enableEdgesRendering
-      edgesWidth={props.state.selectInfo ? edgesWidth : 0}
+      edgesWidth={
+        props.state.placeInteractivities ||
+        props.state.idleInteractivities.length > 0
+          ? edgesWidth
+          : 0
+      }
       edgesColor={edgesColor}
     >
       <standardMaterial
-        name={`monster-mat-${props.state.sequence}`}
+        name={`monster-mat-${props.state.location.sequence}`}
         diffuseTexture={
           props.state.occupant
             ? faceDown
@@ -171,14 +176,14 @@ const ExtraMonsters = () => {
   );
 };
 
-const monsterPositions = (player: number, monsters: Monster[]) => {
+const monsterPositions = (player: number, monsters: CardState[]) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = shape.depth / 2 + CONFIG.Floating;
   const z = player == 0 ? -1.35 : 1.35;
 
   return monsters.map(
-    (monster) => new BABYLON.Vector3(x(monster.sequence), y, z)
+    (monster) => new BABYLON.Vector3(x(monster.location.sequence), y, z)
   );
 };
 

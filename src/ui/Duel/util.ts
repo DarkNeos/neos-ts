@@ -1,4 +1,4 @@
-import { InteractType } from "../../reducers/duel/util";
+import { InteractType } from "../../reducers/duel/generic";
 
 export function zip<S1, S2>(
   firstCollection: Array<S1>,

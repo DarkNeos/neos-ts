@@ -1,4 +1,4 @@
-import { judgeSelf, Magic, InteractType } from "./util";
+import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
@@ -9,9 +9,10 @@ import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import { fetchCard } from "../../api/cards";
+import { CardState, InteractType } from "./generic";
 
 export interface MagicState {
-  magics: Magic[];
+  magics: CardState[];
 }
 
 // 初始化自己的魔法陷阱区状态
@@ -23,19 +24,44 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   const magics = {
     magics: [
       {
-        sequence: 0,
+        location: new ygopro.CardLocation({
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 0,
+        }),
+        idleInteractivities: [],
       },
       {
-        sequence: 1,
+        location: new ygopro.CardLocation({
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 1,
+        }),
+        idleInteractivities: [],
       },
       {
-        sequence: 2,
+        location: new ygopro.CardLocation({
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 2,
+        }),
+        idleInteractivities: [],
       },
       {
-        sequence: 3,
+        location: new ygopro.CardLocation({
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 3,
+        }),
+        idleInteractivities: [],
       },
       {
-        sequence: 4,
+        location: new ygopro.CardLocation({
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 4,
+        }),
+        idleInteractivities: [],
       },
     ],
   };
@@ -47,7 +73,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   }
 };
 
-export const addMagicPlaceSelectAbleImpl: CaseReducer<
+export const addMagicPlaceInteractivitiesImpl: CaseReducer<
   DuelState,
   PayloadAction<[number, number]>
 > = (state, action) => {
@@ -57,8 +83,8 @@ export const addMagicPlaceSelectAbleImpl: CaseReducer<
   const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
   if (magics) {
     for (const magic of magics.magics) {
-      if (magic.sequence == sequence) {
-        magic.selectInfo = {
+      if (magic.location.sequence == sequence) {
+        magic.placeInteractivities = {
           interactType: InteractType.PLACE_SELECTABLE,
           response: {
             controler,
@@ -71,7 +97,7 @@ export const addMagicPlaceSelectAbleImpl: CaseReducer<
   }
 };
 
-export const clearMagicSelectInfoImpl: CaseReducer<
+export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
   DuelState,
   PayloadAction<number>
 > = (state, action) => {
@@ -81,7 +107,7 @@ export const clearMagicSelectInfoImpl: CaseReducer<
 
   if (magics) {
     for (const magic of magics.magics) {
-      magic.selectInfo = undefined;
+      magic.placeInteractivities = undefined;
     }
   }
 };
@@ -120,18 +146,18 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (judgeSelf(controler, state)) {
       if (state.meMagics) {
         for (const magic of state.meMagics.magics) {
-          if (magic.sequence == sequence) {
+          if (magic.location.sequence == sequence) {
             magic.occupant = meta;
-            magic.position = position;
+            magic.location.position = position;
           }
         }
       }
     } else {
       if (state.opMagics) {
         for (const magic of state.opMagics.magics) {
-          if (magic.sequence == sequence) {
+          if (magic.location.sequence == sequence) {
             magic.occupant = meta;
-            magic.position = position;
+            magic.location.position = position;
           }
         }
       }
@@ -145,7 +171,7 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (judgeSelf(controler, state)) {
       if (state.meMagics) {
         for (const magic of state.meMagics.magics) {
-          if (magic.sequence == sequence) {
+          if (magic.location.sequence == sequence) {
             magic.occupant = meta;
           }
         }
@@ -153,7 +179,7 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     } else {
       if (state.opMagics) {
         for (const magic of state.opMagics.magics) {
-          if (magic.sequence == sequence) {
+          if (magic.location.sequence == sequence) {
             magic.occupant = meta;
           }
         }
