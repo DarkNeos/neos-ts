@@ -6,7 +6,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import {
   selectOptionModalIsOpen,
   selectOptionModalOptions,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import { sendSelectOptionResponse } from "../../api/ocgcore/ocgHelper";
 import {
   resetOptionModal,

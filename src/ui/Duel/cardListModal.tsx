@@ -4,7 +4,7 @@ import { store } from "../../store";
 import {
   selectCardListModalIsOpen,
   selectCardListModalInfo,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import { setCardListModalIsOpen } from "../../reducers/duel/mod";
 import { Modal, List, Popover, Card } from "antd";
 

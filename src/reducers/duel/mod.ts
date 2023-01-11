@@ -40,7 +40,7 @@ import {
   setOptionModalIsOpenImpl,
   resetOptionModalImpl,
   optionModalCase,
-} from "./modalSlice";
+} from "./modal/mod";
 import {
   MonsterState,
   initMonstersImpl,

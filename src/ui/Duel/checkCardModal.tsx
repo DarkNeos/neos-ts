@@ -8,7 +8,7 @@ import {
   selectCheckCardModalMinMax,
   selectCheckCardModalOnSubmit,
   selectCheckCardModalTags,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import {
   resetCheckCardModal,
   setCheckCardModalIsOpen,

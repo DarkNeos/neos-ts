@@ -7,7 +7,7 @@ import {
   selectCardModalDesc,
   selectCardModalImgUrl,
   selectCardModalInteractivies,
-} from "../../reducers/duel/modalSlice";
+} from "../../reducers/duel/modal/mod";
 import {
   setCardModalIsOpen,
   clearHandsIdleInteractivity,
