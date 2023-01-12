@@ -17,6 +17,7 @@ export const DeckSlotShape = () => {
 export const ExtraDeckSlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };
+export const SingleSlotShape = { width: 0.8, height: 1, depth: 0.2 };
 export const CemeterySlotShape = () => {
   return { width: 0.8, height: 1, depth: 0.2 };
 };

@@ -69,5 +69,7 @@ export const exclusionCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
 };
 
-export const selectMeExclusion = (state: RootState) => state.duel.meExclusion;
-export const selectopExclusion = (state: RootState) => state.duel.opExclusion;
+export const selectMeExclusion = (state: RootState) =>
+  state.duel.meExclusion || { inner: [] };
+export const selectopExclusion = (state: RootState) =>
+  state.duel.opExclusion || { inner: [] };
