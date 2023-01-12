@@ -9,7 +9,7 @@ import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import { fetchCard } from "../../api/cards";
-import { CardState, InteractType } from "./generic";
+import { CardState, InteractType, createAsyncMetaThunk } from "./generic";
 
 export interface MagicState {
   magics: CardState[];
@@ -113,25 +113,8 @@ export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
 };
 
 // 增加魔法陷阱
-export const fetchMagicMeta = createAsyncThunk(
+export const fetchMagicMeta = createAsyncMetaThunk(
   "duel/fetchMagicMeta",
-  async (param: {
-    controler: number;
-    sequence: number;
-    position: ygopro.CardPosition;
-    code: number;
-  }) => {
-    const code = param.code;
-
-    const meta = await fetchCard(code);
-    const response = {
-      controler: param.controler,
-      sequence: param.sequence,
-      meta,
-    };
-
-    return response;
-  }
 );
 
 export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {

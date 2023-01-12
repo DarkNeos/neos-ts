@@ -2,14 +2,12 @@ import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
-  createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
-import { fetchCard } from "../../api/cards";
-import { CardState, InteractType } from "./generic";
+import { CardState, InteractType, createAsyncMetaThunk } from "./generic";
 
 export interface MonsterState {
   monsters: CardState[];
@@ -117,26 +115,7 @@ export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
 };
 
 // 增加怪兽
-export const fetchMonsterMeta = createAsyncThunk(
-  "duel/fetchMonsterMeta",
-  async (param: {
-    controler: number;
-    sequence: number;
-    position: ygopro.CardPosition;
-    code: number;
-  }) => {
-    const code = param.code;
-
-    const meta = await fetchCard(code);
-    const response = {
-      controler: param.controler,
-      sequence: param.sequence,
-      meta,
-    };
-
-    return response;
-  }
-);
+export const fetchMonsterMeta = createAsyncMetaThunk("duel/fetchMonsterMeta");
 
 export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchMonsterMeta.pending, (state, action) => {

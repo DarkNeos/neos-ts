@@ -2,14 +2,13 @@ import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
-  createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { fetchCard } from "../../api/cards";
 import { CardState } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { createAsyncMetaThunk } from "./generic";
 
 export interface CemeteryState {
   cemetery: CardState[];
@@ -29,21 +28,7 @@ export const initCemeteryImpl: CaseReducer<DuelState, PayloadAction<number>> = (
 };
 
 // 增加墓地
-export const fetchCemeteryMeta = createAsyncThunk(
-  "duel/fetchCemeteryMeta",
-  async (param: { controler: number; sequence: number; code: number }) => {
-    const code = param.code;
-
-    const meta = await fetchCard(code);
-    const response = {
-      controler: param.controler,
-      sequence: param.sequence,
-      meta,
-    };
-
-    return response;
-  }
-);
+export const fetchCemeteryMeta = createAsyncMetaThunk("duel/fetchCemeteryMeta");
 
 export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchCemeteryMeta.pending, (state, action) => {
