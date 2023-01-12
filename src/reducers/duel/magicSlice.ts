@@ -8,10 +8,11 @@ import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import {
-  InteractType,
   createAsyncMetaThunk,
   DuelFieldState,
   extendOccupant,
+  extendPlaceInteractivity,
+  clearPlaceInteractivities,
 } from "./generic";
 
 export interface MagicState extends DuelFieldState {}
@@ -82,20 +83,7 @@ export const addMagicPlaceInteractivitiesImpl: CaseReducer<
   const sequence = action.payload[1];
 
   const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
-  if (magics) {
-    for (const magic of magics.inner) {
-      if (magic.location.sequence == sequence) {
-        magic.placeInteractivities = {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controler,
-            zone: ygopro.CardZone.SZONE,
-            sequence,
-          },
-        };
-      }
-    }
-  }
+  extendPlaceInteractivity(magics, controler, sequence, ygopro.CardZone.SZONE);
 };
 
 export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
@@ -105,12 +93,7 @@ export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
   const player = action.payload;
 
   const magics = judgeSelf(player, state) ? state.meMagics : state.opMagics;
-
-  if (magics) {
-    for (const magic of magics.inner) {
-      magic.placeInteractivities = undefined;
-    }
-  }
+  clearPlaceInteractivities(magics);
 };
 
 // 增加魔法陷阱

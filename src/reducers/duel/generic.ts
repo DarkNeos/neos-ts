@@ -2,7 +2,6 @@ import { AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
 import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
-import { DuelState } from "./mod";
 
 export interface DuelFieldState {
   inner: CardState[];
@@ -119,6 +118,38 @@ export function extendMeta<T extends DuelFieldState>(
       if (item.location.sequence == sequence) {
         item.occupant = newMeta;
       }
+    }
+  }
+}
+
+export function extendPlaceInteractivity<T extends DuelFieldState>(
+  state: T | undefined,
+  controler: number,
+  sequence: number,
+  zone: ygopro.CardZone
+) {
+  if (state) {
+    for (let item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.placeInteractivities = {
+          interactType: InteractType.PLACE_SELECTABLE,
+          response: {
+            controler,
+            zone,
+            sequence,
+          },
+        };
+      }
+    }
+  }
+}
+
+export function clearPlaceInteractivities<T extends DuelFieldState>(
+  state: T | undefined
+) {
+  if (state) {
+    for (let item of state.inner) {
+      item.placeInteractivities = undefined;
     }
   }
 }

@@ -9,9 +9,10 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import {
   DuelFieldState,
-  InteractType,
   createAsyncMetaThunk,
   extendOccupant,
+  extendPlaceInteractivity,
+  clearPlaceInteractivities,
 } from "./generic";
 
 export interface MonsterState extends DuelFieldState {}
@@ -84,20 +85,12 @@ export const addMonsterPlaceInteractivitiesImpl: CaseReducer<
   const monsters = judgeSelf(controler, state)
     ? state.meMonsters
     : state.opMonsters;
-  if (monsters) {
-    for (const monster of monsters.inner) {
-      if (monster.location.sequence == sequence) {
-        monster.placeInteractivities = {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controler,
-            zone: ygopro.CardZone.MZONE,
-            sequence,
-          },
-        };
-      }
-    }
-  }
+  extendPlaceInteractivity(
+    monsters,
+    controler,
+    sequence,
+    ygopro.CardZone.MZONE
+  );
 };
 
 export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
@@ -110,11 +103,7 @@ export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
     ? state.meMonsters
     : state.opMonsters;
 
-  if (monsters) {
-    for (const monster of monsters.inner) {
-      monster.placeInteractivities = undefined;
-    }
-  }
+  clearPlaceInteractivities(monsters);
 };
 
 // 增加怪兽
