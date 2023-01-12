@@ -1,26 +1,40 @@
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
+import { useAppSelector } from "../../hook";
+import {
+  selectMeExclusion,
+  selectopExclusion,
+} from "../../reducers/duel/exclusionSlice";
+import SingleSlot from "./singleSlot";
+
+const depth = 0.02;
 
 const Exclusion = () => {
-  const shape = CONFIG.ExclusionSlotShape();
-  const position = new BABYLON.Vector3(3.2, CONFIG.Floating, -0.7);
-  const rotation = CONFIG.ExclusionSlotRotation();
+  const meExclusion = useAppSelector(selectMeExclusion).inner;
+  const opExclusion = useAppSelector(selectopExclusion).inner;
 
   return (
-    <box
-      name="exclusion"
-      width={shape.width}
-      height={shape.height}
-      depth={shape.depth}
-      position={position}
-      rotation={rotation}
-    >
-      <standardMaterial
-        name="exclusion-mat"
-        diffuseColor={CONFIG.ExclusionColor()}
-      ></standardMaterial>
-    </box>
+    <>
+      <SingleSlot
+        state={meExclusion}
+        position={exclusionPosition(0, meExclusion.length)}
+        rotation={CONFIG.CardSlotRotation(false)}
+      />
+      <SingleSlot
+        state={opExclusion}
+        position={exclusionPosition(1, opExclusion.length)}
+        rotation={CONFIG.CardSlotRotation(true)}
+      />
+    </>
   );
+};
+
+const exclusionPosition = (player: number, exclusionLength: number) => {
+  const x = player == 0 ? 3.2 : -3.2;
+  const y = (depth * exclusionLength) / 2 + CONFIG.Floating;
+  const z = player == 0 ? -0.7 : 0.7;
+
+  return new BABYLON.Vector3(x, y, z);
 };
 
 export default Exclusion;

@@ -22,9 +22,9 @@ const handShape = CONFIG.HandShape();
 const handRotation = CONFIG.HandRotation();
 
 const Hands = () => {
-  const meHands = useAppSelector(selectMeHands).hands;
+  const meHands = useAppSelector(selectMeHands).inner;
   const meHandPositions = handPositons(0, meHands);
-  const opHands = useAppSelector(selectOpHands).hands;
+  const opHands = useAppSelector(selectOpHands).inner;
   const opHandPositions = handPositons(1, opHands);
 
   return (

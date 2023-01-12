@@ -2,18 +2,20 @@ import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
-  createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
-import { fetchCard } from "../../api/cards";
-import { CardState, InteractType } from "./generic";
+import {
+  DuelFieldState,
+  createAsyncMetaThunk,
+  extendOccupant,
+  extendPlaceInteractivity,
+  clearPlaceInteractivities,
+} from "./generic";
 
-export interface MonsterState {
-  monsters: CardState[];
-}
+export interface MonsterState extends DuelFieldState {}
 
 // 初始化怪兽区状态
 export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
@@ -22,7 +24,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
 ) => {
   const player = action.payload;
   const monsters = {
-    monsters: [
+    inner: [
       {
         location: {
           controler: player,
@@ -83,20 +85,12 @@ export const addMonsterPlaceInteractivitiesImpl: CaseReducer<
   const monsters = judgeSelf(controler, state)
     ? state.meMonsters
     : state.opMonsters;
-  if (monsters) {
-    for (const monster of monsters.monsters) {
-      if (monster.location.sequence == sequence) {
-        monster.placeInteractivities = {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controler,
-            zone: ygopro.CardZone.MZONE,
-            sequence,
-          },
-        };
-      }
-    }
-  }
+  extendPlaceInteractivity(
+    monsters,
+    controler,
+    sequence,
+    ygopro.CardZone.MZONE
+  );
 };
 
 export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
@@ -109,34 +103,11 @@ export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
     ? state.meMonsters
     : state.opMonsters;
 
-  if (monsters) {
-    for (const monster of monsters.monsters) {
-      monster.placeInteractivities = undefined;
-    }
-  }
+  clearPlaceInteractivities(monsters);
 };
 
 // 增加怪兽
-export const fetchMonsterMeta = createAsyncThunk(
-  "duel/fetchMonsterMeta",
-  async (param: {
-    controler: number;
-    sequence: number;
-    position: ygopro.CardPosition;
-    code: number;
-  }) => {
-    const code = param.code;
-
-    const meta = await fetchCard(code);
-    const response = {
-      controler: param.controler,
-      sequence: param.sequence,
-      meta,
-    };
-
-    return response;
-  }
-);
+export const fetchMonsterMeta = createAsyncMetaThunk("duel/fetchMonsterMeta");
 
 export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchMonsterMeta.pending, (state, action) => {
@@ -148,23 +119,9 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
     const meta = { id: code, data: {}, text: {} };
     if (judgeSelf(controler, state)) {
-      if (state.meMonsters) {
-        for (const monster of state.meMonsters.monsters) {
-          if (monster.location.sequence == sequence) {
-            monster.occupant = meta;
-            monster.location.position = position;
-          }
-        }
-      }
+      extendOccupant(state.meMonsters, meta, sequence, position);
     } else {
-      if (state.opMonsters) {
-        for (const monster of state.opMonsters.monsters) {
-          if (monster.location.sequence == sequence) {
-            monster.occupant = meta;
-            monster.location.position = position;
-          }
-        }
-      }
+      extendOccupant(state.opMonsters, meta, sequence, position);
     }
   });
   builder.addCase(fetchMonsterMeta.fulfilled, (state, action) => {
@@ -173,26 +130,14 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
-      if (state.meMonsters) {
-        for (const monster of state.meMonsters.monsters) {
-          if (monster.location.sequence == sequence) {
-            monster.occupant = meta;
-          }
-        }
-      }
+      extendOccupant(state.meMonsters, meta, sequence);
     } else {
-      if (state.opMonsters) {
-        for (const monster of state.opMonsters.monsters) {
-          if (monster.location.sequence == sequence) {
-            monster.occupant = meta;
-          }
-        }
-      }
+      extendOccupant(state.opMonsters, meta, sequence);
     }
   });
 };
 
 export const selectMeMonsters = (state: RootState) =>
-  state.duel.meMonsters || { monsters: [] };
+  state.duel.meMonsters || { inner: [] };
 export const selectOpMonsters = (state: RootState) =>
-  state.duel.opMonsters || { monsters: [] };
+  state.duel.opMonsters || { inner: [] };

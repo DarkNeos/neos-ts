@@ -22,9 +22,9 @@ const gap = 1.05;
 const shape = CONFIG.CardSlotShape();
 
 const Magics = () => {
-  const meMagics = useAppSelector(selectMeMagics).magics;
+  const meMagics = useAppSelector(selectMeMagics).inner;
   const meMagicPositions = magicPositions(0, meMagics);
-  const opMagics = useAppSelector(selectOpMagics).magics;
+  const opMagics = useAppSelector(selectOpMagics).inner;
   const opMagicPositions = magicPositions(1, opMagics);
 
   return (

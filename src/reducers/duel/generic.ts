@@ -1,5 +1,11 @@
+import { AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
 import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { fetchCard } from "../../api/cards";
+
+export interface DuelFieldState {
+  inner: CardState[];
+}
 
 export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
@@ -41,4 +47,109 @@ export interface Interactivity<T> {
   activateIndex?: number;
   // 用户点击后，需要回传给服务端的`response`
   response: T;
+}
+
+export function createAsyncMetaThunk(name: string): AsyncThunk<
+  { controler: number; sequence: number; meta: CardMeta },
+  {
+    controler: number;
+    sequence: number;
+    position?: ygopro.CardPosition;
+    code: number;
+  },
+  {}
+> {
+  return createAsyncThunk(
+    name,
+    async (param: {
+      controler: number;
+      sequence: number;
+      position?: ygopro.CardPosition;
+      code: number;
+    }) => {
+      const code = param.code;
+
+      const meta = await fetchCard(code);
+      const response = {
+        controler: param.controler,
+        sequence: param.sequence,
+        meta,
+      };
+
+      return response;
+    }
+  );
+}
+
+export function extendState<T extends DuelFieldState>(
+  state: T | undefined,
+  newState: CardState
+) {
+  if (state) {
+    state.inner.push(newState);
+  }
+}
+
+export function extendOccupant<T extends DuelFieldState>(
+  state: T | undefined,
+  newMeta: CardMeta,
+  sequence: number,
+  position?: ygopro.CardPosition
+) {
+  if (state) {
+    for (const item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.occupant = newMeta;
+        if (position) {
+          item.location.position = position;
+        }
+      }
+    }
+  }
+}
+
+export function extendMeta<T extends DuelFieldState>(
+  state: T | undefined,
+  newMeta: CardMeta,
+  sequence: number
+) {
+  if (state) {
+    for (const item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.occupant = newMeta;
+      }
+    }
+  }
+}
+
+export function extendPlaceInteractivity<T extends DuelFieldState>(
+  state: T | undefined,
+  controler: number,
+  sequence: number,
+  zone: ygopro.CardZone
+) {
+  if (state) {
+    for (let item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.placeInteractivities = {
+          interactType: InteractType.PLACE_SELECTABLE,
+          response: {
+            controler,
+            zone,
+            sequence,
+          },
+        };
+      }
+    }
+  }
+}
+
+export function clearPlaceInteractivities<T extends DuelFieldState>(
+  state: T | undefined
+) {
+  if (state) {
+    for (let item of state.inner) {
+      item.placeInteractivities = undefined;
+    }
+  }
 }

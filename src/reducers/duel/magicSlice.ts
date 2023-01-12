@@ -2,18 +2,20 @@ import { judgeSelf } from "./util";
 import {
   PayloadAction,
   CaseReducer,
-  createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
-import { fetchCard } from "../../api/cards";
-import { CardState, InteractType } from "./generic";
+import {
+  createAsyncMetaThunk,
+  DuelFieldState,
+  extendOccupant,
+  extendPlaceInteractivity,
+  clearPlaceInteractivities,
+} from "./generic";
 
-export interface MagicState {
-  magics: CardState[];
-}
+export interface MagicState extends DuelFieldState {}
 
 // 初始化自己的魔法陷阱区状态
 export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
@@ -22,7 +24,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
 ) => {
   const player = action.payload;
   const magics = {
-    magics: [
+    inner: [
       {
         location: {
           controler: player,
@@ -81,20 +83,7 @@ export const addMagicPlaceInteractivitiesImpl: CaseReducer<
   const sequence = action.payload[1];
 
   const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
-  if (magics) {
-    for (const magic of magics.magics) {
-      if (magic.location.sequence == sequence) {
-        magic.placeInteractivities = {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controler,
-            zone: ygopro.CardZone.SZONE,
-            sequence,
-          },
-        };
-      }
-    }
-  }
+  extendPlaceInteractivity(magics, controler, sequence, ygopro.CardZone.SZONE);
 };
 
 export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
@@ -104,35 +93,11 @@ export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
   const player = action.payload;
 
   const magics = judgeSelf(player, state) ? state.meMagics : state.opMagics;
-
-  if (magics) {
-    for (const magic of magics.magics) {
-      magic.placeInteractivities = undefined;
-    }
-  }
+  clearPlaceInteractivities(magics);
 };
 
 // 增加魔法陷阱
-export const fetchMagicMeta = createAsyncThunk(
-  "duel/fetchMagicMeta",
-  async (param: {
-    controler: number;
-    sequence: number;
-    position: ygopro.CardPosition;
-    code: number;
-  }) => {
-    const code = param.code;
-
-    const meta = await fetchCard(code);
-    const response = {
-      controler: param.controler,
-      sequence: param.sequence,
-      meta,
-    };
-
-    return response;
-  }
-);
+export const fetchMagicMeta = createAsyncMetaThunk("duel/fetchMagicMeta");
 
 export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchMagicMeta.pending, (state, action) => {
@@ -144,23 +109,9 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
     const meta = { id: code, data: {}, text: {} };
     if (judgeSelf(controler, state)) {
-      if (state.meMagics) {
-        for (const magic of state.meMagics.magics) {
-          if (magic.location.sequence == sequence) {
-            magic.occupant = meta;
-            magic.location.position = position;
-          }
-        }
-      }
+      extendOccupant(state.meMagics, meta, sequence, position);
     } else {
-      if (state.opMagics) {
-        for (const magic of state.opMagics.magics) {
-          if (magic.location.sequence == sequence) {
-            magic.occupant = meta;
-            magic.location.position = position;
-          }
-        }
-      }
+      extendOccupant(state.opMagics, meta, sequence, position);
     }
   });
   builder.addCase(fetchMagicMeta.fulfilled, (state, action) => {
@@ -169,26 +120,14 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
-      if (state.meMagics) {
-        for (const magic of state.meMagics.magics) {
-          if (magic.location.sequence == sequence) {
-            magic.occupant = meta;
-          }
-        }
-      }
+      extendOccupant(state.meMagics, meta, sequence);
     } else {
-      if (state.opMagics) {
-        for (const magic of state.opMagics.magics) {
-          if (magic.location.sequence == sequence) {
-            magic.occupant = meta;
-          }
-        }
-      }
+      extendOccupant(state.opMagics, meta, sequence);
     }
   });
 };
 
 export const selectMeMagics = (state: RootState) =>
-  state.duel.meMagics || { magics: [] };
+  state.duel.meMagics || { inner: [] };
 export const selectOpMagics = (state: RootState) =>
-  state.duel.opMagics || { magics: [] };
+  state.duel.opMagics || { inner: [] };

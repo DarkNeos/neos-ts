@@ -56,6 +56,11 @@ import {
   magicCase,
 } from "./magicSlice";
 import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
+import {
+  ExclusionState,
+  initExclusionImpl,
+  exclusionCase,
+} from "./exclusionSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -73,6 +78,9 @@ export interface DuelState {
 
   meCemetery?: CemeteryState; // 自己的墓地状态
   opCemetery?: CemeteryState; // 对手的墓地状态
+
+  meExclusion?: ExclusionState; // 自己的除外区状态
+  opExclusion?: ExclusionState; // 对手的除外区状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -128,6 +136,9 @@ const duelSlice = createSlice({
     // 墓地相关`Reducer`
     initCemetery: initCemeteryImpl,
 
+    // 除外区相关`Reducer`
+    initExclusion: initExclusionImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
@@ -154,6 +165,7 @@ const duelSlice = createSlice({
     monsterCase(builder);
     magicCase(builder);
     cemeteryCase(builder);
+    exclusionCase(builder);
     checkCardModalCase(builder);
     YesNoModalCase(builder);
     optionModalCase(builder);
