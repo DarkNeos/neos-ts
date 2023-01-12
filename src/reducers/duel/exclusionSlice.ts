@@ -6,13 +6,15 @@ import {
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { CardState } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { createAsyncMetaThunk } from "./generic";
+import {
+  createAsyncMetaThunk,
+  DuelFieldState,
+  extendState,
+  extendMeta,
+} from "./generic";
 
-export interface ExclusionState {
-  exclusion: CardState[];
-}
+export interface ExclusionState extends DuelFieldState {}
 
 // 初始化除外区状态
 export const initExclusionImpl: CaseReducer<
@@ -21,9 +23,9 @@ export const initExclusionImpl: CaseReducer<
 > = (state, action) => {
   const player = action.payload;
   if (judgeSelf(player, state)) {
-    state.meExclusion = { exclusion: [] };
+    state.meExclusion = { inner: [] };
   } else {
-    state.opExclusion = { exclusion: [] };
+    state.opExclusion = { inner: [] };
   }
 };
 
@@ -49,17 +51,9 @@ export const exclusionCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       idleInteractivities: [],
     };
     if (judgeSelf(controler, state)) {
-      if (state.meExclusion) {
-        state.meExclusion.exclusion.push(newExclusion);
-      } else {
-        state.meExclusion = { exclusion: [newExclusion] };
-      }
+      extendState(state.meExclusion, newExclusion);
     } else {
-      if (state.opExclusion) {
-        state.opExclusion.exclusion.push(newExclusion);
-      } else {
-        state.opExclusion = { exclusion: [newExclusion] };
-      }
+      extendState(state.opExclusion, newExclusion);
     }
   });
   builder.addCase(fetchExclusionMeta.fulfilled, (state, action) => {
@@ -68,26 +62,12 @@ export const exclusionCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
-      if (state.meExclusion) {
-        for (const exclusion of state.meExclusion.exclusion) {
-          if (exclusion.location.sequence == sequence) {
-            exclusion.occupant = meta;
-          }
-        }
-      }
+      extendMeta(state.meExclusion, meta, sequence);
     } else {
-      if (state.opExclusion) {
-        for (const exclusion of state.opExclusion.exclusion) {
-          if (exclusion.location.sequence == sequence) {
-            exclusion.occupant = meta;
-          }
-        }
-      }
+      extendMeta(state.opExclusion, meta, sequence);
     }
   });
 };
 
-export const selectMeExclusion = (state: RootState) =>
-  state.duel.meExclusion || { exclusion: [] };
-export const selectopExclusion = (state: RootState) =>
-  state.duel.opExclusion || { exclusion: [] };
+export const selectMeExclusion = (state: RootState) => state.duel.meExclusion;
+export const selectopExclusion = (state: RootState) => state.duel.opExclusion;

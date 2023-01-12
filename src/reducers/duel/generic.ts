@@ -2,6 +2,11 @@ import { AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
 import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
+import { DuelState } from "./mod";
+
+export interface DuelFieldState {
+  inner: CardState[];
+}
 
 export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
@@ -75,4 +80,45 @@ export function createAsyncMetaThunk(name: string): AsyncThunk<
       return response;
     }
   );
+}
+
+export function extendState<T extends DuelFieldState>(
+  state: T | undefined,
+  newState: CardState
+) {
+  if (state) {
+    state.inner.push(newState);
+  }
+}
+
+export function extendOccupant<T extends DuelFieldState>(
+  state: T | undefined,
+  newMeta: CardMeta,
+  sequence: number,
+  position?: ygopro.CardPosition
+) {
+  if (state) {
+    for (const item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.occupant = newMeta;
+        if (position) {
+          item.location.position = position;
+        }
+      }
+    }
+  }
+}
+
+export function extendMeta<T extends DuelFieldState>(
+  state: T | undefined,
+  newMeta: CardMeta,
+  sequence: number
+) {
+  if (state) {
+    for (const item of state.inner) {
+      if (item.location.sequence == sequence) {
+        item.occupant = newMeta;
+      }
+    }
+  }
 }

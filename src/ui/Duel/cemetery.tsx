@@ -18,8 +18,8 @@ const shape = CONFIG.CemeterySlotShape();
 const depth = 0.02;
 
 const Cemeteries = () => {
-  const meCemetery = useAppSelector(selectMeCemetery).cemetery;
-  const opCemetery = useAppSelector(selectOpCemetery).cemetery;
+  const meCemetery = useAppSelector(selectMeCemetery).inner;
+  const opCemetery = useAppSelector(selectOpCemetery).inner;
 
   return (
     <>

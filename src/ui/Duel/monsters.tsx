@@ -26,9 +26,9 @@ const left = -2.15; // TODO: config
 const gap = 1.05;
 
 const Monsters = () => {
-  const meMonsters = useAppSelector(selectMeMonsters).monsters;
+  const meMonsters = useAppSelector(selectMeMonsters).inner;
   const meMonsterPositions = monsterPositions(0, meMonsters);
-  const opMonsters = useAppSelector(selectOpMonsters).monsters;
+  const opMonsters = useAppSelector(selectOpMonsters).inner;
   const opMonsterPositions = monsterPositions(1, opMonsters);
 
   return (

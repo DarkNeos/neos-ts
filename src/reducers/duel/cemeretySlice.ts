@@ -6,13 +6,15 @@ import {
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { CardState } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { createAsyncMetaThunk } from "./generic";
+import {
+  createAsyncMetaThunk,
+  DuelFieldState,
+  extendState,
+  extendMeta,
+} from "./generic";
 
-export interface CemeteryState {
-  cemetery: CardState[];
-}
+export interface CemeteryState extends DuelFieldState {}
 
 // 初始化墓地状态
 export const initCemeteryImpl: CaseReducer<DuelState, PayloadAction<number>> = (
@@ -21,9 +23,9 @@ export const initCemeteryImpl: CaseReducer<DuelState, PayloadAction<number>> = (
 ) => {
   const player = action.payload;
   if (judgeSelf(player, state)) {
-    state.meCemetery = { cemetery: [] };
+    state.meCemetery = { inner: [] };
   } else {
-    state.opCemetery = { cemetery: [] };
+    state.opCemetery = { inner: [] };
   }
 };
 
@@ -47,17 +49,9 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       idleInteractivities: [],
     };
     if (judgeSelf(controler, state)) {
-      if (state.meCemetery) {
-        state.meCemetery.cemetery.push(newCemetery);
-      } else {
-        state.meCemetery = { cemetery: [newCemetery] };
-      }
+      extendState(state.meCemetery, newCemetery);
     } else {
-      if (state.opCemetery) {
-        state.opCemetery.cemetery.push(newCemetery);
-      } else {
-        state.opCemetery = { cemetery: [newCemetery] };
-      }
+      extendState(state.opCemetery, newCemetery);
     }
   });
   builder.addCase(fetchCemeteryMeta.fulfilled, (state, action) => {
@@ -66,26 +60,14 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
-      if (state.meCemetery) {
-        for (const cemetery of state.meCemetery.cemetery) {
-          if (cemetery.location.sequence == sequence) {
-            cemetery.occupant = meta;
-          }
-        }
-      }
+      extendMeta(state.meCemetery, meta, sequence);
     } else {
-      if (state.opCemetery) {
-        for (const cemetery of state.opCemetery.cemetery) {
-          if (cemetery.location.sequence == sequence) {
-            cemetery.occupant = meta;
-          }
-        }
-      }
+      extendMeta(state.opCemetery, meta, sequence);
     }
   });
 };
 
 export const selectMeCemetery = (state: RootState) =>
-  state.duel.meCemetery || { cemetery: [] };
+  state.duel.meCemetery || { inner: [] };
 export const selectOpCemetery = (state: RootState) =>
-  state.duel.opCemetery || { cemetery: [] };
+  state.duel.opCemetery || { inner: [] };
