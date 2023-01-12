@@ -8,13 +8,10 @@ import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf } from "./util";
-import { CardState, Interactivity } from "./generic";
+import { Interactivity, DuelFieldState } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
-export interface HandState {
-  // 注意：手牌的位置顺序是有约束的
-  hands: CardState[];
-}
+export interface HandState extends DuelFieldState {}
 
 // 增加手牌
 export const fetchHandsMeta = createAsyncThunk(
@@ -57,15 +54,15 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     });
     if (judgeSelf(player, state)) {
       if (state.meHands) {
-        state.meHands.hands = state.meHands.hands.concat(cards);
+        state.meHands.inner = state.meHands.inner.concat(cards);
       } else {
-        state.meHands = { hands: cards };
+        state.meHands = { inner: cards };
       }
     } else {
       if (state.opHands) {
-        state.opHands.hands = state.opHands.hands.concat(cards);
+        state.opHands.inner = state.opHands.inner.concat(cards);
       } else {
-        state.opHands = { hands: cards };
+        state.opHands = { inner: cards };
       }
     }
   });
@@ -76,7 +73,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
 
     const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
     if (hands) {
-      for (let hand of hands.hands) {
+      for (let hand of hands.inner) {
         for (let meta of metas) {
           if (hand.occupant?.id === meta.id) {
             hand.occupant = meta;
@@ -97,7 +94,7 @@ export const clearHandsIdleInteractivityImpl: CaseReducer<
   const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
 
   if (hands) {
-    for (let hand of hands.hands) {
+    for (let hand of hands.inner) {
       hand.idleInteractivities = [];
     }
   }
@@ -119,7 +116,7 @@ export const addHandsIdleInteractivityImpl: CaseReducer<
     const sequence = action.payload.sequence;
     const interactivity = action.payload.interactivity;
 
-    hands.hands[sequence].idleInteractivities.push(interactivity);
+    hands.inner[sequence].idleInteractivities.push(interactivity);
   }
 };
 
@@ -133,13 +130,13 @@ export const removeHandImpl: CaseReducer<
 
   const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
   if (hands) {
-    hands.hands = hands.hands.filter(
+    hands.inner = hands.inner.filter(
       (card) => card.location.sequence != sequence
     );
   }
 };
 
 export const selectMeHands = (state: RootState) =>
-  state.duel.meHands || { hands: [] };
+  state.duel.meHands || { inner: [] };
 export const selectOpHands = (state: RootState) =>
-  state.duel.opHands || { hands: [] };
+  state.duel.opHands || { inner: [] };
