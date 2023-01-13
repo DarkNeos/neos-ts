@@ -1,27 +1,35 @@
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
+import { useAppSelector } from "../../hook";
+import { selectMeField, selectOpField } from "../../reducers/duel/fieldSlice";
+import SingleSlot, { Depth } from "./singleSlot";
 
 const Field = () => {
-  const shape = CONFIG.FieldSlotShape();
-  const position = new BABYLON.Vector3(
-    -3.3,
-    shape.depth / 2 + CONFIG.Floating,
-    -2.0
-  );
-  const rotation = CONFIG.FieldSlotRotation();
+  const meField = useAppSelector(selectMeField)?.inner;
+  const opField = useAppSelector(selectOpField)?.inner;
 
   return (
-    <box
-      name="field"
-      width={shape.width}
-      height={shape.height}
-      depth={shape.depth}
-      position={position}
-      rotation={rotation}
-    >
-      <standardMaterial name="field-mat" diffuseColor={CONFIG.FieldColor()} />
-    </box>
+    <>
+      <SingleSlot
+        state={meField ? [meField] : []}
+        position={fieldPosition(0)}
+        rotation={CONFIG.CardSlotRotation(false)}
+      />
+      <SingleSlot
+        state={opField ? [opField] : []}
+        position={fieldPosition(1)}
+        rotation={CONFIG.CardSlotRotation(true)}
+      />
+    </>
   );
+};
+
+const fieldPosition = (player: number) => {
+  const x = player == 0 ? -3.3 : 3.3;
+  const y = Depth / 2 + CONFIG.Floating;
+  const z = player == 0 ? -2.0 : 2.0;
+
+  return new BABYLON.Vector3(x, y, z);
 };
 
 export default Field;

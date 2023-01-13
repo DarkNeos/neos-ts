@@ -7,6 +7,8 @@ import {
   initMagics,
   initCemetery,
   initDeck,
+  initExclusion,
+  initField,
 } from "../../reducers/duel/mod";
 
 export default (
@@ -42,4 +44,8 @@ export default (
   dispatch(initCemetery(1));
   dispatch(initDeck({ player: 0, deskSize: start.deckSize1 }));
   dispatch(initDeck({ player: 1, deskSize: start.deckSize2 }));
+  dispatch(initExclusion(0));
+  dispatch(initExclusion(1));
+  dispatch(initField(0));
+  dispatch(initField(1));
 };
