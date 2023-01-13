@@ -10,7 +10,7 @@ import {
 } from "../../reducers/duel/mod";
 
 const shape = CONFIG.SingleSlotShape;
-const depth = 0.005;
+export const Depth = 0.005;
 
 const SingleSlot = (props: {
   state: CardState[];
@@ -53,7 +53,7 @@ const SingleSlot = (props: {
         new BABYLON.Vector3(
           shape.width,
           shape.height,
-          depth * props.state.length
+          Depth * props.state.length
         )
       }
       position={props.position}

@@ -2,9 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { useAppSelector } from "../../hook";
 import { selectMeDeck, selectOpDeck } from "../../reducers/duel/deckSlice";
-import SingleSlot from "./singleSlot";
-
-const depth = 0.005;
+import SingleSlot, { Depth } from "./singleSlot";
 
 const Deck = () => (
   <>
@@ -61,7 +59,7 @@ const ExtraDeck = () => {
 
 const deckPosition = (player: number, deckLength: number) => {
   const x = player == 0 ? 3.2 : -3.2;
-  const y = (depth * deckLength) / 2 + CONFIG.Floating;
+  const y = (Depth * deckLength) / 2 + CONFIG.Floating;
   const z = player == 0 ? -3.3 : 3.3;
 
   return new BABYLON.Vector3(x, y, z);
