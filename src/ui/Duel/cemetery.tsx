@@ -7,7 +7,7 @@ import {
 import { useAppSelector } from "../../hook";
 import SingleSlot from "./singleSlot";
 
-const depth = 0.02;
+const depth = 0.005;
 
 const Cemeteries = () => {
   const meCemetery = useAppSelector(selectMeCemetery).inner;

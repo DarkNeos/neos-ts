@@ -4,7 +4,7 @@ import { useAppSelector } from "../../hook";
 import { selectMeDeck, selectOpDeck } from "../../reducers/duel/deckSlice";
 import SingleSlot from "./singleSlot";
 
-const depth = 0.02;
+const depth = 0.005;
 
 const Deck = () => (
   <>
