@@ -35,6 +35,7 @@ const NeosDuel = () => (
               <Deck />
               <Cemeteries />
               <Exclusion />
+              <Field />
               <Ground />
             </Provider>
           </Scene>
