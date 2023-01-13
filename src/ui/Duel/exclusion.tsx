@@ -5,9 +5,7 @@ import {
   selectMeExclusion,
   selectopExclusion,
 } from "../../reducers/duel/exclusionSlice";
-import SingleSlot from "./singleSlot";
-
-const depth = 0.02;
+import SingleSlot, { Depth } from "./singleSlot";
 
 const Exclusion = () => {
   const meExclusion = useAppSelector(selectMeExclusion).inner;
@@ -31,7 +29,7 @@ const Exclusion = () => {
 
 const exclusionPosition = (player: number, exclusionLength: number) => {
   const x = player == 0 ? 3.2 : -3.2;
-  const y = (depth * exclusionLength) / 2 + CONFIG.Floating;
+  const y = (Depth * exclusionLength) / 2 + CONFIG.Floating;
   const z = player == 0 ? -0.7 : 0.7;
 
   return new BABYLON.Vector3(x, y, z);

@@ -61,6 +61,7 @@ import {
   initExclusionImpl,
   exclusionCase,
 } from "./exclusionSlice";
+import { DeckState, initDeckImpl } from "./deckSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -81,6 +82,9 @@ export interface DuelState {
 
   meExclusion?: ExclusionState; // 自己的除外区状态
   opExclusion?: ExclusionState; // 对手的除外区状态
+
+  meDeck?: DeckState; // 自己的卡组状态
+  opDeck?: DeckState; // 对手的卡组状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -138,6 +142,9 @@ const duelSlice = createSlice({
 
     // 除外区相关`Reducer`
     initExclusion: initExclusionImpl,
+
+    // 卡组相关`Reducer`
+    initDeck: initDeckImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -206,6 +213,7 @@ export const {
   resetPositionModal,
   setOptionModalIsOpen,
   resetOptionModal,
+  initDeck,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

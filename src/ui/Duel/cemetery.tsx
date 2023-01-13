@@ -5,9 +5,7 @@ import {
   selectOpCemetery,
 } from "../../reducers/duel/cemeretySlice";
 import { useAppSelector } from "../../hook";
-import SingleSlot from "./singleSlot";
-
-const depth = 0.02;
+import SingleSlot, { Depth } from "./singleSlot";
 
 const Cemeteries = () => {
   const meCemetery = useAppSelector(selectMeCemetery).inner;
@@ -31,7 +29,7 @@ const Cemeteries = () => {
 
 const cemeteryPosition = (player: number, cemeteryLength: number) => {
   const x = player == 0 ? 3.2 : -3.2;
-  const y = (depth * cemeteryLength) / 2 + CONFIG.Floating;
+  const y = (Depth * cemeteryLength) / 2 + CONFIG.Floating;
   const z = player == 0 ? -2.0 : 2.0;
 
   return new BABYLON.Vector3(x, y, z);

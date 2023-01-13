@@ -10,7 +10,7 @@ import {
 } from "../../reducers/duel/mod";
 
 const shape = CONFIG.SingleSlotShape;
-const depth = 0.02;
+export const Depth = 0.005;
 
 const SingleSlot = (props: {
   state: CardState[];
@@ -25,13 +25,17 @@ const SingleSlot = (props: {
       if (props.state.length != 0) {
         dispatch(
           setCardListModalInfo(
-            props.state.map((item) => {
-              return {
-                name: item.occupant?.text.name,
-                desc: item.occupant?.text.desc,
-                imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.occupant?.id}.jpg`,
-              };
-            })
+            props.state
+              .filter(
+                (item) => item.occupant !== undefined && item.occupant.id !== 0
+              )
+              .map((item) => {
+                return {
+                  name: item.occupant?.text.name,
+                  desc: item.occupant?.text.desc,
+                  imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.occupant?.id}.jpg`,
+                };
+              })
           )
         );
         dispatch(setCardListModalIsOpen(true));
@@ -49,7 +53,7 @@ const SingleSlot = (props: {
         new BABYLON.Vector3(
           shape.width,
           shape.height,
-          depth * props.state.length
+          Depth * props.state.length
         )
       }
       position={props.position}
