@@ -2,7 +2,8 @@ import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { useAppSelector } from "../../hook";
 import { selectMeField, selectOpField } from "../../reducers/duel/fieldSlice";
-import SingleSlot, { Depth } from "./singleSlot";
+import FixedSlot from "./fixedSlot";
+import { Depth } from "./singleSlot";
 
 const Field = () => {
   const meField = useAppSelector(selectMeField)?.inner;
@@ -10,16 +11,24 @@ const Field = () => {
 
   return (
     <>
-      <SingleSlot
-        state={meField ? [meField] : []}
-        position={fieldPosition(0)}
-        rotation={CONFIG.CardSlotRotation(false)}
-      />
-      <SingleSlot
-        state={opField ? [opField] : []}
-        position={fieldPosition(1)}
-        rotation={CONFIG.CardSlotRotation(true)}
-      />
+      {meField ? (
+        <FixedSlot
+          state={meField}
+          position={fieldPosition(0)}
+          rotation={CONFIG.CardSlotRotation(false)}
+        />
+      ) : (
+        <></>
+      )}
+      {opField ? (
+        <FixedSlot
+          state={opField}
+          position={fieldPosition(1)}
+          rotation={CONFIG.CardSlotRotation(true)}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
