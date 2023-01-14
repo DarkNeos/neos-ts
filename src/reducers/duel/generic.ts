@@ -149,3 +149,24 @@ export function clearPlaceInteractivities<T extends DuelFieldState>(
     }
   }
 }
+
+export function removeCard<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number
+) {
+  if (state) {
+    state.inner = state.inner.filter((_, idx) => idx != sequence);
+  }
+}
+
+export function removeOccupant<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number
+) {
+  if (state) {
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.occupant = undefined;
+    }
+  }
+}
