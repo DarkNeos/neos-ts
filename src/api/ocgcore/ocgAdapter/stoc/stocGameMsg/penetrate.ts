@@ -6,7 +6,6 @@ import { ygopro } from "../../../idl/ocgcore";
 
 type Constructor<T = any> = new (...args: any[]) => T;
 
-const PenetrateConfig = _objToMap(PenetrateData);
 const ReadFieldHandlerMap: Map<string, readFieldHandler> = new Map([
   ["uint8", ((reader) => reader.readUint8()) as readFieldHandler],
   ["uint16", (reader) => reader.readUint16()],
@@ -86,4 +85,5 @@ function _objToMap(obj: any): Map<string, penetrateType> {
   return map;
 }
 
-export default new PenetrateManager(PenetrateConfig);
+const PENETRATE = new PenetrateManager(PenetrateData);
+export default PENETRATE;
