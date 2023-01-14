@@ -1,0 +1,23 @@
+{
+  "50": {
+    "protoType": "move",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "from",
+        "fieldType": "CardLocation"
+      },
+      {
+        "fieldName": "to",
+        "fieldType": "CardLocation"
+      },
+      {
+        "fieldName": "reason",
+        "fieldType": "uint8"
+      }
+    ]
+  }
+}
