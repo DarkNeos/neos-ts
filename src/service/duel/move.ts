@@ -9,6 +9,7 @@ import {
 } from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
+import { insertHandMeta } from "../../reducers/duel/handsSlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -74,6 +75,13 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: to.sequence,
           code,
         })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.HAND: {
+      dispatch(
+        insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
       );
 
       break;

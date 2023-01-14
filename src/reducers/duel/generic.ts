@@ -170,3 +170,13 @@ export function removeOccupant<T extends DuelFieldState>(
     }
   }
 }
+
+export function insertCard<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number,
+  card: CardState
+) {
+  if (state) {
+    state.inner.splice(sequence, 0, card);
+  }
+}
