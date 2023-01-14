@@ -19,6 +19,7 @@ import MsgSelectChainAdapter from "./selectChain";
 import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
+import { penetrate } from "./penetrate";
 
 /*
  * STOC GameMsg
@@ -41,83 +42,86 @@ export default class GameMsgAdapter implements StocAdapter {
 
     const func = dataView.getUint8(0);
     const gameData = exData.slice(1);
-    const gameMsg = new ygopro.StocGameMessage({});
+    let gameMsg: any = new ygopro.StocGameMessage({}).toObject();
 
-    switch (func) {
-      case GAME_MSG.MSG_START: {
-        gameMsg.start = MsgStartAdapter(gameData);
+    if (!penetrate(func, gameMsg, gameData)) {
+      switch (func) {
+        case GAME_MSG.MSG_START: {
+          gameMsg.start = MsgStartAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_DRAW: {
-        gameMsg.draw = MsgDrawAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_DRAW: {
+          gameMsg.draw = MsgDrawAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_NEW_TURN: {
-        gameMsg.new_turn = MsgNewTurnAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_NEW_TURN: {
+          gameMsg.new_turn = MsgNewTurnAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_NEW_PHASE: {
-        gameMsg.new_phase = MsgNewPhaseAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_NEW_PHASE: {
+          gameMsg.new_phase = MsgNewPhaseAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_HINT: {
-        gameMsg.hint = MsgHintAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_HINT: {
+          gameMsg.hint = MsgHintAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_IDLE_CMD: {
-        gameMsg.select_idle_cmd = MsgSelectIdleCmdAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_IDLE_CMD: {
+          gameMsg.select_idle_cmd = MsgSelectIdleCmdAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_PLACE: {
-        gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_PLACE: {
+          gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_MOVE: {
-        gameMsg.move = MsgMoveAdapter(gameData);
+          break;
+        }
+        // case GAME_MSG.MSG_MOVE: {
+        //   // gameMsg.move = MsgMoveAdapter(gameData);
+        //   gameMsg["move"] = MsgMoveAdapter(gameData);
+        //
+        //   break;
+        // }
+        case GAME_MSG.MSG_SELECT_CARD: {
+          gameMsg.select_card = MsgSelectCardAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_CARD: {
-        gameMsg.select_card = MsgSelectCardAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_CHAIN: {
+          gameMsg.select_chain = MsgSelectChainAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_CHAIN: {
-        gameMsg.select_chain = MsgSelectChainAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_EFFECTYN: {
+          gameMsg.select_effect_yn = MsgSelectEffectYnAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_EFFECTYN: {
-        gameMsg.select_effect_yn = MsgSelectEffectYnAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_POSITION: {
+          gameMsg.select_position = MsgSelectPositionAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_POSITION: {
-        gameMsg.select_position = MsgSelectPositionAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_OPTION: {
+          gameMsg.select_option = MsgSelectOptionAdapter(gameData);
 
-        break;
-      }
-      case GAME_MSG.MSG_SELECT_OPTION: {
-        gameMsg.select_option = MsgSelectOptionAdapter(gameData);
+          break;
+        }
+        default: {
+          console.log("Unhandled GameMessage function=", func);
 
-        break;
-      }
-      default: {
-        console.log("Unhandled GameMessage function=", func);
-
-        break;
+          break;
+        }
       }
     }
 
     return new ygopro.YgoStocMsg({
-      stoc_game_msg: gameMsg,
+      stoc_game_msg: new ygopro.StocGameMessage(gameMsg),
     });
   }
 }
