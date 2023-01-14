@@ -13,6 +13,7 @@ import {
   extendOccupant,
   extendPlaceInteractivity,
   clearPlaceInteractivities,
+  removeOccupant,
 } from "./generic";
 
 export interface MonsterState extends DuelFieldState {}
@@ -135,6 +136,20 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       extendOccupant(state.opMonsters, meta, sequence);
     }
   });
+};
+
+// 删除怪兽
+export const removeMonsterImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ controler: number; sequence: number }>
+> = (state, action) => {
+  const controler = action.payload.controler;
+
+  const monsters = judgeSelf(controler, state)
+    ? state.meMonsters
+    : state.opMonsters;
+
+  removeOccupant(monsters, action.payload.sequence);
 };
 
 export const selectMeMonsters = (state: RootState) =>

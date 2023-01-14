@@ -20,7 +20,6 @@ export const initFieldImpl: CaseReducer<DuelState, PayloadAction<number>> = (
       inner: {
         location: {
           controler: player,
-          sequence: 0,
           location: ygopro.CardZone.ONFIELD,
         },
         idleInteractivities: [],
@@ -31,7 +30,6 @@ export const initFieldImpl: CaseReducer<DuelState, PayloadAction<number>> = (
       inner: {
         location: {
           controler: player,
-          sequence: 0,
           location: ygopro.CardZone.ONFIELD,
         },
         idleInteractivities: [],

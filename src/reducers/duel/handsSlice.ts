@@ -8,7 +8,14 @@ import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf } from "./util";
-import { Interactivity, DuelFieldState } from "./generic";
+import {
+  Interactivity,
+  DuelFieldState,
+  removeCard,
+  createAsyncMetaThunk,
+  insertCard,
+  extendMeta,
+} from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface HandState extends DuelFieldState {}
@@ -34,6 +41,56 @@ export const fetchHandsMeta = createAsyncThunk(
     return response;
   }
 );
+
+// 清空手牌互动性
+export const clearHandsIdleInteractivityImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const player = action.payload;
+
+  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+
+  if (hands) {
+    for (let hand of hands.inner) {
+      hand.idleInteractivities = [];
+    }
+  }
+};
+
+// 添加手牌互动性
+export const addHandsIdleInteractivityImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    player: number;
+    sequence: number;
+    interactivity: Interactivity<number>;
+  }>
+> = (state, action) => {
+  const player = action.payload.player;
+
+  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+  if (hands) {
+    const sequence = action.payload.sequence;
+    const interactivity = action.payload.interactivity;
+
+    hands.inner[sequence].idleInteractivities.push(interactivity);
+  }
+};
+
+// 删除手牌
+export const removeHandImpl: CaseReducer<
+  DuelState,
+  PayloadAction<[number, number]>
+> = (state, action) => {
+  const controler = action.payload[0];
+  const sequence = action.payload[1];
+
+  const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+  removeCard(hands, sequence);
+};
+
+export const insertHandMeta = createAsyncMetaThunk("duel/insertHandMeta");
 
 export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchHandsMeta.pending, (state, action) => {
@@ -82,59 +139,32 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       }
     }
   });
-};
 
-// 清空手牌互动性
-export const clearHandsIdleInteractivityImpl: CaseReducer<
-  DuelState,
-  PayloadAction<number>
-> = (state, action) => {
-  const player = action.payload;
+  builder.addCase(insertHandMeta.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
+    const sequence = action.meta.arg.sequence;
+    const code = action.meta.arg.code;
 
-  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
 
-  if (hands) {
-    for (let hand of hands.inner) {
-      hand.idleInteractivities = [];
-    }
-  }
-};
-
-// 添加手牌互动性
-export const addHandsIdleInteractivityImpl: CaseReducer<
-  DuelState,
-  PayloadAction<{
-    player: number;
-    sequence: number;
-    interactivity: Interactivity<number>;
-  }>
-> = (state, action) => {
-  const player = action.payload.player;
-
-  const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
-  if (hands) {
+    insertCard(hands, sequence, {
+      occupant: { id: code, data: {}, text: {} },
+      location: { controler },
+      idleInteractivities: [],
+    });
+  });
+  builder.addCase(insertHandMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
     const sequence = action.payload.sequence;
-    const interactivity = action.payload.interactivity;
+    const meta = action.payload.meta;
 
-    hands.inner[sequence].idleInteractivities.push(interactivity);
-  }
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+
+    extendMeta(hands, meta, sequence);
+  });
 };
 
-// 删除手牌
-export const removeHandImpl: CaseReducer<
-  DuelState,
-  PayloadAction<[number, number]>
-> = (state, action) => {
-  const controler = action.payload[0];
-  const sequence = action.payload[1];
-
-  const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
-  if (hands) {
-    hands.inner = hands.inner.filter(
-      (card) => card.location.sequence != sequence
-    );
-  }
-};
+// 在特定位置增加手牌
 
 export const selectMeHands = (state: RootState) =>
   state.duel.meHands || { inner: [] };

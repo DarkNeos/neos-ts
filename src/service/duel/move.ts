@@ -2,9 +2,14 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { AppDispatch } from "../../store";
 import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
-import { removeHand } from "../../reducers/duel/mod";
+import {
+  removeHand,
+  removeMagic,
+  removeMonster,
+} from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
+import { insertHandMeta } from "../../reducers/duel/handsSlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -15,6 +20,20 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   switch (from.location) {
     case ygopro.CardZone.HAND: {
       dispatch(removeHand([from.controler, from.sequence]));
+
+      break;
+    }
+    case ygopro.CardZone.MZONE: {
+      dispatch(
+        removeMonster({ controler: from.controler, sequence: from.sequence })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.SZONE: {
+      dispatch(
+        removeMagic({ controler: from.controler, sequence: from.sequence })
+      );
 
       break;
     }
@@ -56,6 +75,13 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: to.sequence,
           code,
         })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.HAND: {
+      dispatch(
+        insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
       );
 
       break;

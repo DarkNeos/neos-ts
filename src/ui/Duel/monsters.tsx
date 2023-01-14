@@ -22,28 +22,34 @@ const Monsters = () => {
 
   return (
     <>
-      {zip(meMonsters, meMonsterPositions).map(([monster, position], idx) => {
-        return (
-          <FixedSlot
-            state={monster}
-            key={idx}
-            position={position}
-            rotation={CONFIG.CardSlotRotation(false)}
-            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
-          />
-        );
-      })}
-      {zip(opMonsters, opMonsterPositions).map(([monster, position], idx) => {
-        return (
-          <FixedSlot
-            state={monster}
-            key={idx}
-            position={position}
-            rotation={CONFIG.CardSlotRotation(true)}
-            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
-          />
-        );
-      })}
+      {zip(meMonsters, meMonsterPositions).map(
+        ([monster, position], sequence) => {
+          return (
+            <FixedSlot
+              state={monster}
+              key={sequence}
+              sequence={sequence}
+              position={position}
+              rotation={CONFIG.CardSlotRotation(false)}
+              deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            />
+          );
+        }
+      )}
+      {zip(opMonsters, opMonsterPositions).map(
+        ([monster, position], sequence) => {
+          return (
+            <FixedSlot
+              state={monster}
+              key={sequence}
+              sequence={sequence}
+              position={position}
+              rotation={CONFIG.CardSlotRotation(true)}
+              deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            />
+          );
+        }
+      )}
       <ExtraMonsters />
       <ExtraMonsters />
     </>
@@ -86,9 +92,7 @@ const monsterPositions = (player: number, monsters: CardState[]) => {
   const y = shape.depth / 2 + CONFIG.Floating;
   const z = player == 0 ? -1.35 : 1.35;
 
-  return monsters.map(
-    (monster) => new BABYLON.Vector3(x(monster.location.sequence), y, z)
-  );
+  return monsters.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
 };
 
 export default Monsters;

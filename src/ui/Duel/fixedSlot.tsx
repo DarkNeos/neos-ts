@@ -18,6 +18,7 @@ const shape = CONFIG.CardSlotShape();
 
 const FixedSlot = (props: {
   state: CardState;
+  sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation?: BABYLON.Vector3;
@@ -67,7 +68,7 @@ const FixedSlot = (props: {
 
   return (
     <plane
-      name={`fixedslot-${props.state.location.sequence}`}
+      name={`fixedslot-${props.sequence}`}
       ref={planeRef}
       width={shape.width}
       height={shape.height}
@@ -83,7 +84,7 @@ const FixedSlot = (props: {
       edgesColor={edgesColor}
     >
       <standardMaterial
-        name={`fixedslot-mat-${props.state.location.sequence}`}
+        name={`fixedslot-mat-${props.sequence}`}
         diffuseTexture={
           props.state.occupant
             ? faceDown
