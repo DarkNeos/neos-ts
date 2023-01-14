@@ -7,13 +7,13 @@ import { ygopro } from "../../../idl/ocgcore";
 type Constructor<T = any> = new (...args: any[]) => T;
 
 const PenetrateConfig = _objToMap(PenetrateData);
-const readFieldHandlerMap: Map<string, readFieldHandler> = new Map([
+const ReadFieldHandlerMap: Map<string, readFieldHandler> = new Map([
   ["uint8", ((reader) => reader.readUint8()) as readFieldHandler],
   ["uint16", (reader) => reader.readUint16()],
   ["uint32", (reader) => reader.readUint32()],
   ["CardLocation", (reader) => reader.readCardLocation()],
 ]);
-const msgConstructorMap: Map<string, Constructor> = new Map([
+const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["move", ygopro.StocGameMessage.MsgMove],
 ]);
 
@@ -29,27 +29,51 @@ interface readFieldHandler {
   (reader: BufferReader): any;
 }
 
-export function penetrate(
-  msgKey: number,
-  gameMsg: any,
-  gameData: Uint8Array
-): boolean {
-  const config = PenetrateConfig.get(msgKey.toString());
-  const reader = new BufferReader(gameData, true);
+class PenetrateManager {
+  config: Map<string, penetrateType>;
+  readFieldHandlerMap: Map<string, readFieldHandler> = ReadFieldHandlerMap;
+  msgConstructorMap: Map<string, Constructor> = MsgConstructorMap;
 
-  if (config) {
-    const protoType = config.protoType;
-    const fields = config.fields;
-
-    let object: any = {};
-    for (let field of fields) {
-      object[field.fieldName] = readField(reader, field.fieldType);
-    }
-
-    gameMsg[protoType] = constructMsg(protoType, object);
+  constructor(config: any) {
+    this.config = _objToMap(config);
   }
 
-  return config ? true : false;
+  private readField(reader: BufferReader, fieldType: string): any {
+    const handler = this.readFieldHandlerMap.get(fieldType);
+
+    if (handler) {
+      return handler(reader);
+    }
+    return undefined;
+  }
+
+  private constructMsg(protoType: string, object: any): any {
+    const constructor = this.msgConstructorMap.get(protoType);
+
+    if (constructor) {
+      return new constructor(object);
+    }
+    return undefined;
+  }
+
+  penetrate(msgKey: number, gameMsg: any, gameData: Uint8Array): boolean {
+    const config = this.config.get(msgKey.toString());
+    const reader = new BufferReader(gameData, true);
+
+    if (config) {
+      const protoType = config.protoType;
+      const fields = config.fields;
+
+      let object: any = {};
+      for (let field of fields) {
+        object[field.fieldName] = this.readField(reader, field.fieldType);
+      }
+
+      gameMsg[protoType] = this.constructMsg(protoType, object);
+    }
+
+    return config ? true : false;
+  }
 }
 
 function _objToMap(obj: any): Map<string, penetrateType> {
@@ -62,20 +86,4 @@ function _objToMap(obj: any): Map<string, penetrateType> {
   return map;
 }
 
-function readField(reader: BufferReader, fieldType: string): any {
-  const handler = readFieldHandlerMap.get(fieldType);
-
-  if (handler) {
-    return handler(reader);
-  }
-  return undefined;
-}
-
-function constructMsg(protoType: string, object: any): any | undefined {
-  const constructor = msgConstructorMap.get(protoType);
-
-  if (constructor) {
-    return new constructor(object);
-  }
-  return undefined;
-}
+export default new PenetrateManager(PenetrateConfig);

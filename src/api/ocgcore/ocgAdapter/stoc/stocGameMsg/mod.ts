@@ -13,13 +13,12 @@ import MsgNewPhaseAdapter from "./newPhase";
 import MsgHintAdapter from "./hint";
 import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
 import MsgSelectPlaceAdapter from "./selectPlace";
-import MsgMoveAdapter from "./move";
 import MsgSelectCardAdapter from "./selectCard";
 import MsgSelectChainAdapter from "./selectChain";
 import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
-import { penetrate } from "./penetrate";
+import PENETRATE from "./penetrate";
 
 /*
  * STOC GameMsg
@@ -44,7 +43,7 @@ export default class GameMsgAdapter implements StocAdapter {
     const gameData = exData.slice(1);
     let gameMsg: any = new ygopro.StocGameMessage({}).toObject();
 
-    if (!penetrate(func, gameMsg, gameData)) {
+    if (!PENETRATE.penetrate(func, gameMsg, gameData)) {
       switch (func) {
         case GAME_MSG.MSG_START: {
           gameMsg.start = MsgStartAdapter(gameData);
@@ -81,12 +80,6 @@ export default class GameMsgAdapter implements StocAdapter {
 
           break;
         }
-        // case GAME_MSG.MSG_MOVE: {
-        //   // gameMsg.move = MsgMoveAdapter(gameData);
-        //   gameMsg["move"] = MsgMoveAdapter(gameData);
-        //
-        //   break;
-        // }
         case GAME_MSG.MSG_SELECT_CARD: {
           gameMsg.select_card = MsgSelectCardAdapter(gameData);
 
