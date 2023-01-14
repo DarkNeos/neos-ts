@@ -2,6 +2,20 @@
 
 import PenetrateData from "./penetrate.json";
 import { BufferReader } from "../../bufferIO";
+import { ygopro } from "../../../idl/ocgcore";
+
+type Constructor<T = any> = new (...args: any[]) => T;
+
+const PenetrateConfig = _objToMap(PenetrateData);
+const readFieldHandlerMap: Map<string, readFieldHandler> = new Map([
+  ["uint8", ((reader) => reader.readUint8()) as readFieldHandler],
+  ["uint16", (reader) => reader.readUint16()],
+  ["uint32", (reader) => reader.readUint32()],
+  ["CardLocation", (reader) => reader.readCardLocation()],
+]);
+const msgConstructorMap: Map<string, Constructor> = new Map([
+  ["move", ygopro.StocGameMessage.MsgMove],
+]);
 
 export interface penetrateType {
   protoType: string;
@@ -11,7 +25,9 @@ export interface penetrateType {
   }[];
 }
 
-const PenetrateConfig = _objToMap(PenetrateData);
+interface readFieldHandler {
+  (reader: BufferReader): any;
+}
 
 export function penetrate(
   msgKey: number,
@@ -25,12 +41,12 @@ export function penetrate(
     const protoType = config.protoType;
     const fields = config.fields;
 
-    let obj: any = {};
+    let object: any = {};
     for (let field of fields) {
-      obj[field.fieldName] = readField(reader, field.fieldType);
+      object[field.fieldName] = readField(reader, field.fieldType);
     }
 
-    gameMsg[protoType] = obj;
+    gameMsg[protoType] = constructMsg(protoType, object);
   }
 
   return config ? true : false;
@@ -47,18 +63,19 @@ function _objToMap(obj: any): Map<string, penetrateType> {
 }
 
 function readField(reader: BufferReader, fieldType: string): any {
-  switch (fieldType) {
-    case "uint8": {
-      return reader.readUint8();
-    }
-    case "uint32": {
-      return reader.readUint32();
-    }
-    case "CardLocation": {
-      return reader.readCardLocation();
-    }
-    default: {
-      return undefined;
-    }
+  const handler = readFieldHandlerMap.get(fieldType);
+
+  if (handler) {
+    return handler(reader);
   }
+  return undefined;
+}
+
+function constructMsg(protoType: string, object: any): any | undefined {
+  const constructor = msgConstructorMap.get(protoType);
+
+  if (constructor) {
+    return new constructor(object);
+  }
+  return undefined;
 }
