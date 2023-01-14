@@ -130,9 +130,7 @@ export const removeHandImpl: CaseReducer<
 
   const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
   if (hands) {
-    hands.inner = hands.inner.filter(
-      (card) => card.location.sequence != sequence
-    );
+    hands.inner = hands.inner.filter((_, idx) => idx != sequence);
   }
 };
 

@@ -22,7 +22,6 @@ export const initDeckImpl: CaseReducer<
       location: {
         controler: player,
         location: ygopro.CardZone.DECK,
-        sequence: i,
       },
       idleInteractivities: [],
     });

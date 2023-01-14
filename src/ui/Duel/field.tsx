@@ -14,6 +14,7 @@ const Field = () => {
       {meField ? (
         <FixedSlot
           state={meField}
+          sequence={0}
           position={fieldPosition(0)}
           rotation={CONFIG.CardSlotRotation(false)}
         />
@@ -23,6 +24,7 @@ const Field = () => {
       {opField ? (
         <FixedSlot
           state={opField}
+          sequence={0}
           position={fieldPosition(1)}
           rotation={CONFIG.CardSlotRotation(true)}
         />

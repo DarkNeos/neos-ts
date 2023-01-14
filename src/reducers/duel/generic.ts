@@ -12,7 +12,6 @@ export interface CardState {
   location: {
     controler: number;
     location?: number;
-    sequence: number;
     position?: ygopro.CardPosition;
     overlay_sequence?: number;
   }; // 位置信息
@@ -97,12 +96,11 @@ export function extendOccupant<T extends DuelFieldState>(
   position?: ygopro.CardPosition
 ) {
   if (state) {
-    for (const item of state.inner) {
-      if (item.location.sequence == sequence) {
-        item.occupant = newMeta;
-        if (position) {
-          item.location.position = position;
-        }
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.occupant = newMeta;
+      if (position) {
+        target.location.position = position;
       }
     }
   }
@@ -114,10 +112,9 @@ export function extendMeta<T extends DuelFieldState>(
   sequence: number
 ) {
   if (state) {
-    for (const item of state.inner) {
-      if (item.location.sequence == sequence) {
-        item.occupant = newMeta;
-      }
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.occupant = newMeta;
     }
   }
 }
@@ -129,17 +126,16 @@ export function extendPlaceInteractivity<T extends DuelFieldState>(
   zone: ygopro.CardZone
 ) {
   if (state) {
-    for (let item of state.inner) {
-      if (item.location.sequence == sequence) {
-        item.placeInteractivities = {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controler,
-            zone,
-            sequence,
-          },
-        };
-      }
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.placeInteractivities = {
+        interactType: InteractType.PLACE_SELECTABLE,
+        response: {
+          controler,
+          zone,
+          sequence,
+        },
+      };
     }
   }
 }

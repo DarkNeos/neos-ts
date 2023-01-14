@@ -19,21 +19,23 @@ const Magics = () => {
 
   return (
     <>
-      {zip(meMagics, meMagicPositions).map(([magic, position]) => {
+      {zip(meMagics, meMagicPositions).map(([magic, position], sequence) => {
         return (
           <FixedSlot
             state={magic}
-            key={magic.location.sequence}
+            key={sequence}
+            sequence={sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(false)}
           />
         );
       })}
-      {zip(opMagics, opMagicPositions).map(([magic, position]) => {
+      {zip(opMagics, opMagicPositions).map(([magic, position], sequence) => {
         return (
           <FixedSlot
             state={magic}
-            key={magic.location.sequence}
+            key={sequence}
+            sequence={sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(true)}
           />
@@ -49,9 +51,7 @@ const magicPositions = (player: number, magics: CardState[]) => {
   const y = shape.depth / 2 + CONFIG.Floating;
   const z = player == 0 ? -2.6 : 2.6;
 
-  return magics.map(
-    (magic) => new BABYLON.Vector3(x(magic.location.sequence), y, z)
-  );
+  return magics.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
 };
 
 export default Magics;
