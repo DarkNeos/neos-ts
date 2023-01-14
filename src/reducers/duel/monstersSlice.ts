@@ -138,6 +138,7 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
 };
 
+// 删除怪兽
 export const removeMonsterImpl: CaseReducer<
   DuelState,
   PayloadAction<{ controler: number; sequence: number }>

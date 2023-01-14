@@ -2,7 +2,11 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { AppDispatch } from "../../store";
 import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
-import { removeHand, removeMonster } from "../../reducers/duel/mod";
+import {
+  removeHand,
+  removeMagic,
+  removeMonster,
+} from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 
@@ -21,6 +25,13 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.MZONE: {
       dispatch(
         removeMonster({ controler: from.controler, sequence: from.sequence })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.SZONE: {
+      dispatch(
+        removeMagic({ controler: from.controler, sequence: from.sequence })
       );
 
       break;

@@ -13,6 +13,7 @@ import {
   extendOccupant,
   extendPlaceInteractivity,
   clearPlaceInteractivities,
+  removeOccupant,
 } from "./generic";
 
 export interface MagicState extends DuelFieldState {}
@@ -125,6 +126,18 @@ export const magicCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       extendOccupant(state.opMagics, meta, sequence);
     }
   });
+};
+
+// 删除魔法陷阱
+export const removeMagicImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ controler: number; sequence: number }>
+> = (state, action) => {
+  const controler = action.payload.controler;
+
+  const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
+
+  removeOccupant(magics, action.payload.sequence);
 };
 
 export const selectMeMagics = (state: RootState) =>
