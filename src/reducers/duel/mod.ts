@@ -46,6 +46,8 @@ import {
   initMonstersImpl,
   addMonsterPlaceInteractivitiesImpl,
   clearMonsterPlaceInteractivitiesImpl,
+  addMonsterIdleInteractivitiesImpl,
+  clearMonsterIdleInteractivitiesImpl,
   removeMonsterImpl,
   monsterCase,
 } from "./monstersSlice";
@@ -54,6 +56,8 @@ import {
   initMagicsImpl,
   addMagicPlaceInteractivitiesImpl,
   clearMagicPlaceInteractivitiesImpl,
+  addMagicIdleInteractivitiesImpl,
+  clearMagicIdleInteractivitiesImpl,
   removeMagicImpl,
   magicCase,
 } from "./magicSlice";
@@ -69,6 +73,8 @@ import {
   initFieldImpl,
   clearFieldPlaceInteractivitiesImpl,
   addFieldPlaceInteractivitiesImpl,
+  addFieldIdleInteractivitiesImpl,
+  clearFieldIdleInteractivitiesImpl,
 } from "./fieldSlice";
 
 export interface DuelState {
@@ -142,12 +148,16 @@ const duelSlice = createSlice({
     initMonsters: initMonstersImpl,
     addMonsterPlaceInteractivities: addMonsterPlaceInteractivitiesImpl,
     clearMonsterPlaceInteractivities: clearMonsterPlaceInteractivitiesImpl,
+    addMonsterIdleInteractivities: addMonsterIdleInteractivitiesImpl,
+    clearMonsterIdleInteractivities: clearMonsterIdleInteractivitiesImpl,
     removeMonster: removeMonsterImpl,
 
     // 魔法陷阱区相关`Reducer`
     initMagics: initMagicsImpl,
     addMagicPlaceInteractivities: addMagicPlaceInteractivitiesImpl,
     clearMagicPlaceInteractivities: clearMagicPlaceInteractivitiesImpl,
+    addMagicIdleInteractivities: addMagicIdleInteractivitiesImpl,
+    clearMagicIdleInteractivities: clearMagicIdleInteractivitiesImpl,
     removeMagic: removeMagicImpl,
 
     // 墓地相关`Reducer`
@@ -163,6 +173,8 @@ const duelSlice = createSlice({
     initField: initFieldImpl,
     clearFieldPlaceInteractivities: clearFieldPlaceInteractivitiesImpl,
     addFieldPlaceInteractivities: addFieldPlaceInteractivitiesImpl,
+    addFieldIdleInteractivities: addFieldIdleInteractivitiesImpl,
+    clearFieldIdleInteractivities: clearFieldIdleInteractivitiesImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -212,10 +224,14 @@ export const {
   initMonsters,
   addMonsterPlaceInteractivities,
   clearMonsterPlaceInteractivities,
+  addMonsterIdleInteractivities,
+  clearMonsterIdleInteractivities,
   removeMonster,
   initMagics,
   addMagicPlaceInteractivities,
   clearMagicPlaceInteractivities,
+  addMagicIdleInteractivities,
+  clearMagicIdleInteractivities,
   removeMagic,
   removeHand,
   initCemetery,
@@ -238,6 +254,8 @@ export const {
   initField,
   clearFieldPlaceInteractivities,
   addFieldPlaceInteractivities,
+  addFieldIdleInteractivities,
+  clearFieldIdleInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

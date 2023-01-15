@@ -13,6 +13,7 @@ import {
   setCardModalText,
 } from "../../reducers/duel/mod";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { interactTypeToString } from "./util";
 
 const shape = CONFIG.CardSlotShape();
 
@@ -59,7 +60,16 @@ const FixedSlot = (props: {
             `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
           )
         );
-        dispatch(setCardModalInteractivies([])); // TODO
+        dispatch(
+          setCardModalInteractivies(
+            props.state.idleInteractivities.map((interactivity) => {
+              return {
+                desc: interactTypeToString(interactivity.interactType),
+                response: interactivity.response,
+              };
+            })
+          )
+        );
         dispatch(setCardModalIsOpen(true));
       }
     },

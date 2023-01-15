@@ -224,3 +224,26 @@ export function updateCardMeta<T extends DuelFieldState>(
     });
   }
 }
+
+export function extendIdleInteractivities<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number,
+  interactivity: Interactivity<number>
+) {
+  if (state) {
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.idleInteractivities.push(interactivity);
+    }
+  }
+}
+
+export function clearIdleInteractivities<T extends DuelFieldState>(
+  state: T | undefined
+) {
+  if (state) {
+    state.inner.forEach((item) => {
+      item.idleInteractivities = [];
+    });
+  }
+}

@@ -54,14 +54,17 @@ export class BufferReader {
   }
 
   readCardInfo(): ygopro.CardInfo {
-    const cardInfo = new ygopro.CardInfo({});
+    const code = this.readUint32();
+    const controler = this.readUint8();
+    const location = numberToCardZone(this.readUint8());
+    const sequence = this.readUint8();
 
-    cardInfo.code = this.readUint32();
-    cardInfo.controler = this.readUint8();
-    cardInfo.location = this.readUint8();
-    cardInfo.sequence = this.readUint8();
-
-    return cardInfo;
+    return new ygopro.CardInfo({
+      code,
+      controler,
+      location,
+      sequence,
+    });
   }
 
   readCardLocation(overlay?: boolean): ygopro.CardLocation {

@@ -14,6 +14,9 @@ import {
   extendPlaceInteractivity,
   clearPlaceInteractivities,
   removeOccupant,
+  Interactivity,
+  extendIdleInteractivities,
+  clearIdleInteractivities,
 } from "./generic";
 
 export interface MagicState extends DuelFieldState {}
@@ -95,6 +98,35 @@ export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
 
   const magics = judgeSelf(player, state) ? state.meMagics : state.opMagics;
   clearPlaceInteractivities(magics);
+};
+
+export const addMagicIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    player: number;
+    sequence: number;
+    interactivity: Interactivity<number>;
+  }>
+> = (state, action) => {
+  const magics = judgeSelf(action.payload.player, state)
+    ? state.meMagics
+    : state.opMagics;
+  extendIdleInteractivities(
+    magics,
+    action.payload.sequence,
+    action.payload.interactivity
+  );
+};
+
+export const clearMagicIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const magics = judgeSelf(action.payload, state)
+    ? state.meMagics
+    : state.opMagics;
+
+  clearIdleInteractivities(magics);
 };
 
 // 增加魔法陷阱

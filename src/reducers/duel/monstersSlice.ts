@@ -9,11 +9,14 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import {
   DuelFieldState,
+  Interactivity,
   createAsyncMetaThunk,
   extendOccupant,
   extendPlaceInteractivity,
   clearPlaceInteractivities,
   removeOccupant,
+  extendIdleInteractivities,
+  clearIdleInteractivities,
 } from "./generic";
 
 export interface MonsterState extends DuelFieldState {}
@@ -105,6 +108,35 @@ export const clearMonsterPlaceInteractivitiesImpl: CaseReducer<
     : state.opMonsters;
 
   clearPlaceInteractivities(monsters);
+};
+
+export const addMonsterIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    player: number;
+    sequence: number;
+    interactivity: Interactivity<number>;
+  }>
+> = (state, action) => {
+  const monsters = judgeSelf(action.payload.player, state)
+    ? state.meMonsters
+    : state.opMonsters;
+  extendIdleInteractivities(
+    monsters,
+    action.payload.sequence,
+    action.payload.interactivity
+  );
+};
+
+export const clearMonsterIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const monsters = judgeSelf(action.payload, state)
+    ? state.meMonsters
+    : state.opMonsters;
+
+  clearIdleInteractivities(monsters);
 };
 
 // 增加怪兽
