@@ -4,6 +4,10 @@ import { Interactivity, InteractType } from "../../reducers/duel/generic";
 import {
   clearHandsIdleInteractivity,
   addHandsIdleInteractivity,
+  addMonsterIdleInteractivities,
+  addMagicIdleInteractivities,
+  clearMonsterIdleInteractivities,
+  clearMagicIdleInteractivities,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -12,8 +16,10 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   const player = selectIdleCmd.player;
   const cmds = selectIdleCmd.idle_cmds;
 
-  // 先清掉之前的手牌互动性
+  // 先清掉之前的互动性
   dispatch(clearHandsIdleInteractivity(player));
+  dispatch(clearMonsterIdleInteractivities(player));
+  dispatch(clearMagicIdleInteractivities(player));
 
   const dispatcher = (
     idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
@@ -66,6 +72,13 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
           break;
         }
         case ygopro.CardZone.MZONE: {
+          dispatcher(data, interactType, addMonsterIdleInteractivities);
+
+          break;
+        }
+        case ygopro.CardZone.SZONE: {
+          dispatcher(data, interactType, addMagicIdleInteractivities);
+
           break;
         }
         default: {

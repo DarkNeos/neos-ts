@@ -226,6 +226,8 @@ export const {
   initMagics,
   addMagicPlaceInteractivities,
   clearMagicPlaceInteractivities,
+  addMagicIdleInteractivities,
+  clearMagicIdleInteractivities,
   removeMagic,
   removeHand,
   initCemetery,

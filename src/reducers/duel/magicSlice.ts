@@ -103,12 +103,12 @@ export const clearMagicPlaceInteractivitiesImpl: CaseReducer<
 export const addMagicIdleInteractivitiesImpl: CaseReducer<
   DuelState,
   PayloadAction<{
-    controler: number;
+    player: number;
     sequence: number;
     interactivity: Interactivity<number>;
   }>
 > = (state, action) => {
-  const magics = judgeSelf(action.payload.controler, state)
+  const magics = judgeSelf(action.payload.player, state)
     ? state.meMagics
     : state.opMagics;
   extendIdleInteractivities(
