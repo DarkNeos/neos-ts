@@ -1,12 +1,10 @@
 import {
-  createAsyncThunk,
   ActionReducerMapBuilder,
   CaseReducer,
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { fetchCard, CardMeta } from "../../api/cards";
 import { judgeSelf } from "./util";
 import {
   Interactivity,
@@ -15,31 +13,16 @@ import {
   createAsyncMetaThunk,
   insertCard,
   extendMeta,
+  createAsyncRepeatedMetaThunk,
+  updateCardMeta,
 } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface HandState extends DuelFieldState {}
 
 // 增加手牌
-export const fetchHandsMeta = createAsyncThunk(
-  "duel/fetchHandsMeta",
-  async (param: [number, number[]]) => {
-    const player = param[0];
-    const Ids = param[1];
-
-    const metas = await Promise.all(
-      Ids.map(async (id) => {
-        if (id === 0) {
-          return { id, data: {}, text: {} };
-        } else {
-          return await fetchCard(id);
-        }
-      })
-    );
-    const response: [number, CardMeta[]] = [player, metas];
-
-    return response;
-  }
+export const fetchHandsMeta = createAsyncRepeatedMetaThunk(
+  "duel/fetchHandsMeta"
 );
 
 // 清空手牌互动性
@@ -92,19 +75,22 @@ export const removeHandImpl: CaseReducer<
 
 export const insertHandMeta = createAsyncMetaThunk("duel/insertHandMeta");
 
+export const updateHandsMeta = createAsyncRepeatedMetaThunk(
+  "duel/updateHandsMeta"
+);
+
 export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchHandsMeta.pending, (state, action) => {
     // Meta结果没返回之前先更新手牌`ID`
-    const player = action.meta.arg[0];
-    const ids = action.meta.arg[1];
+    const player = action.meta.arg.controler;
+    const ids = action.meta.arg.codes;
 
-    const cards = ids.map((id, idx) => {
+    const cards = ids.map((id) => {
       return {
         occupant: { id, data: {}, text: {} },
         location: {
           controler: player,
           location: ygopro.CardZone.HAND,
-          sequence: idx,
         },
         idleInteractivities: [],
       };
@@ -125,19 +111,11 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
   builder.addCase(fetchHandsMeta.fulfilled, (state, action) => {
     // `Meta`结果回来后更新手牌的`Meta`结果
-    const player = action.payload[0];
-    const metas = action.payload[1];
+    const player = action.payload.controler;
+    const metas = action.payload.metas;
 
     const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
-    if (hands) {
-      for (let hand of hands.inner) {
-        for (let meta of metas) {
-          if (hand.occupant?.id === meta.id) {
-            hand.occupant = meta;
-          }
-        }
-      }
-    }
+    updateCardMeta(hands, metas);
   });
 
   builder.addCase(insertHandMeta.pending, (state, action) => {
@@ -161,6 +139,35 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
 
     extendMeta(hands, meta, sequence);
+  });
+
+  builder.addCase(updateHandsMeta.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
+    const codes = action.meta.arg.codes;
+
+    const metas = codes.map((code) => {
+      return {
+        occupant: { id: code, data: {}, text: {} },
+        location: {
+          controler,
+          location: ygopro.CardZone.HAND,
+        },
+        idleInteractivities: [],
+      };
+    });
+
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+
+    if (hands) {
+      hands.inner = metas;
+    }
+  });
+  builder.addCase(updateHandsMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
+    const metas = action.payload.metas;
+
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+    updateCardMeta(hands, metas);
   });
 };
 

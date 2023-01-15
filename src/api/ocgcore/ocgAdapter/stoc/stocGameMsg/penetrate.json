@@ -19,5 +19,19 @@
         "fieldType": "uint8"
       }
     ]
+  },
+  "33": {
+    "protoType": "shuffle_hand",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "hands",
+        "fieldType": "repeated",
+        "repeatedType": "uint32"
+      }
+    ]
   }
 }

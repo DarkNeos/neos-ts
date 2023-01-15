@@ -80,6 +80,35 @@ export function createAsyncMetaThunk(name: string): AsyncThunk<
   );
 }
 
+export function createAsyncRepeatedMetaThunk(
+  name: string
+): AsyncThunk<
+  { controler: number; metas: CardMeta[] },
+  { controler: number; codes: number[] },
+  {}
+> {
+  return createAsyncThunk(
+    name,
+    async (param: { controler: number; codes: number[] }) => {
+      const controler = param.controler;
+      const Ids = param.codes;
+
+      const metas = await Promise.all(
+        Ids.map(async (id) => {
+          if (id == 0) {
+            return { id, data: {}, text: {} };
+          } else {
+            return await fetchCard(id);
+          }
+        })
+      );
+      const response = { controler, metas };
+
+      return response;
+    }
+  );
+}
+
 export function extendState<T extends DuelFieldState>(
   state: T | undefined,
   newState: CardState
@@ -178,5 +207,20 @@ export function insertCard<T extends DuelFieldState>(
 ) {
   if (state) {
     state.inner.splice(sequence, 0, card);
+  }
+}
+
+export function updateCardMeta<T extends DuelFieldState>(
+  state: T | undefined,
+  metas: CardMeta[]
+) {
+  if (state) {
+    state.inner.forEach((item) => {
+      metas.forEach((meta) => {
+        if (item.occupant?.id === meta.id) {
+          item.occupant = meta;
+        }
+      });
+    });
   }
 }

@@ -4857,7 +4857,9 @@ export namespace ygopro {
     }
   }
   export class StocGameMessage extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
+    #one_of_decls: number[][] = [
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    ];
     constructor(
       data?:
         | any[]
@@ -4876,6 +4878,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4891,6 +4894,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4906,6 +4910,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4921,6 +4926,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4936,6 +4942,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4951,6 +4958,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4966,6 +4974,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4981,6 +4990,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -4996,6 +5006,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -5011,6 +5022,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -5026,6 +5038,7 @@ export namespace ygopro {
                 select_effect_yn?: StocGameMessage.MsgSelectEffectYn;
                 select_position?: never;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -5041,6 +5054,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: StocGameMessage.MsgSelectPosition;
                 select_option?: never;
+                shuffle_hand?: never;
               }
             | {
                 start?: never;
@@ -5056,6 +5070,23 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: StocGameMessage.MsgSelectOption;
+                shuffle_hand?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: StocGameMessage.MsgShuffleHand;
               }
           ))
     ) {
@@ -5107,6 +5138,9 @@ export namespace ygopro {
         }
         if ("select_option" in data && data.select_option != undefined) {
           this.select_option = data.select_option;
+        }
+        if ("shuffle_hand" in data && data.shuffle_hand != undefined) {
+          this.shuffle_hand = data.shuffle_hand;
         }
       }
     }
@@ -5279,6 +5313,19 @@ export namespace ygopro {
     get has_select_option() {
       return pb_1.Message.getField(this, 13) != null;
     }
+    get shuffle_hand() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgShuffleHand,
+        14
+      ) as StocGameMessage.MsgShuffleHand;
+    }
+    set shuffle_hand(value: StocGameMessage.MsgShuffleHand) {
+      pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
+    }
+    get has_shuffle_hand() {
+      return pb_1.Message.getField(this, 14) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -5295,7 +5342,8 @@ export namespace ygopro {
           | "select_chain"
           | "select_effect_yn"
           | "select_position"
-          | "select_option";
+          | "select_option"
+          | "shuffle_hand";
       } = {
         0: "none",
         1: "start",
@@ -5311,11 +5359,12 @@ export namespace ygopro {
         11: "select_effect_yn",
         12: "select_position",
         13: "select_option",
+        14: "shuffle_hand",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
         )
       ];
     }
@@ -5350,6 +5399,9 @@ export namespace ygopro {
       >;
       select_option?: ReturnType<
         typeof StocGameMessage.MsgSelectOption.prototype.toObject
+      >;
+      shuffle_hand?: ReturnType<
+        typeof StocGameMessage.MsgShuffleHand.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -5408,6 +5460,11 @@ export namespace ygopro {
           data.select_option
         );
       }
+      if (data.shuffle_hand != null) {
+        message.shuffle_hand = StocGameMessage.MsgShuffleHand.fromObject(
+          data.shuffle_hand
+        );
+      }
       return message;
     }
     toObject() {
@@ -5442,6 +5499,9 @@ export namespace ygopro {
         >;
         select_option?: ReturnType<
           typeof StocGameMessage.MsgSelectOption.prototype.toObject
+        >;
+        shuffle_hand?: ReturnType<
+          typeof StocGameMessage.MsgShuffleHand.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -5482,6 +5542,9 @@ export namespace ygopro {
       }
       if (this.select_option != null) {
         data.select_option = this.select_option.toObject();
+      }
+      if (this.shuffle_hand != null) {
+        data.shuffle_hand = this.shuffle_hand.toObject();
       }
       return data;
     }
@@ -5532,6 +5595,10 @@ export namespace ygopro {
       if (this.has_select_option)
         writer.writeMessage(13, this.select_option, () =>
           this.select_option.serialize(writer)
+        );
+      if (this.has_shuffle_hand)
+        writer.writeMessage(14, this.shuffle_hand, () =>
+          this.shuffle_hand.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -5639,6 +5706,14 @@ export namespace ygopro {
               () =>
                 (message.select_option =
                   StocGameMessage.MsgSelectOption.deserialize(reader))
+            );
+            break;
+          case 14:
+            reader.readMessage(
+              message.shuffle_hand,
+              () =>
+                (message.shuffle_hand =
+                  StocGameMessage.MsgShuffleHand.deserialize(reader))
             );
             break;
           default:
@@ -8663,6 +8738,110 @@ export namespace ygopro {
         static deserializeBinary(bytes: Uint8Array): Option {
           return Option.deserialize(bytes);
         }
+      }
+    }
+    export class MsgShuffleHand extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              hands?: number[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [2],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("hands" in data && data.hands != undefined) {
+            this.hands = data.hands;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get hands() {
+        return pb_1.Message.getFieldWithDefault(this, 2, []) as number[];
+      }
+      set hands(value: number[]) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        hands?: number[];
+      }): MsgShuffleHand {
+        const message = new MsgShuffleHand({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.hands != null) {
+          message.hands = data.hands;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          hands?: number[];
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.hands != null) {
+          data.hands = this.hands;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.hands.length) writer.writePackedInt32(2, this.hands);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgShuffleHand {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgShuffleHand();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.hands = reader.readPackedInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgShuffleHand {
+        return MsgShuffleHand.deserialize(bytes);
       }
     }
   }
