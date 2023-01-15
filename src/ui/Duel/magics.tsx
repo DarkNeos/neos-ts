@@ -5,6 +5,7 @@ import { CardState } from "../../reducers/duel/generic";
 import { useAppSelector } from "../../hook";
 import { zip } from "./util";
 import FixedSlot from "./fixedSlot";
+import { clearMagicPlaceInteractivities } from "../../reducers/duel/mod";
 
 // TODO: use config
 const left = -2.15;
@@ -27,6 +28,7 @@ const Magics = () => {
             sequence={sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(false)}
+            clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
           />
         );
       })}
@@ -38,6 +40,7 @@ const Magics = () => {
             sequence={sequence}
             position={position}
             rotation={CONFIG.CardSlotRotation(true)}
+            clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
           />
         );
       })}

@@ -9,6 +9,7 @@ import {
 } from "../../reducers/duel/monstersSlice";
 import { zip } from "./util";
 import FixedSlot from "./fixedSlot";
+import { clearMonsterPlaceInteractivities } from "../../reducers/duel/mod";
 
 const shape = CONFIG.CardSlotShape();
 const left = -2.15; // TODO: config
@@ -32,6 +33,7 @@ const Monsters = () => {
               position={position}
               rotation={CONFIG.CardSlotRotation(false)}
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+              clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
           );
         }
@@ -46,6 +48,7 @@ const Monsters = () => {
               position={position}
               rotation={CONFIG.CardSlotRotation(true)}
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+              clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
           );
         }

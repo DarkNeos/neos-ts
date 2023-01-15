@@ -7,12 +7,12 @@ import { useClick } from "./hook";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
-  clearMonsterPlaceInteractivities,
   setCardModalImgUrl,
   setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalText,
 } from "../../reducers/duel/mod";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const shape = CONFIG.CardSlotShape();
 
@@ -22,6 +22,7 @@ const FixedSlot = (props: {
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation?: BABYLON.Vector3;
+  clearPlaceInteractivitiesAction: ActionCreatorWithPayload<number, string>;
 }) => {
   const planeRef = useRef(null);
 
@@ -44,8 +45,8 @@ const FixedSlot = (props: {
     (_event) => {
       if (props.state.placeInteractivities) {
         sendSelectPlaceResponse(props.state.placeInteractivities.response);
-        dispatch(clearMonsterPlaceInteractivities(0));
-        dispatch(clearMonsterPlaceInteractivities(1));
+        dispatch(props.clearPlaceInteractivitiesAction(0));
+        dispatch(props.clearPlaceInteractivitiesAction(1));
       } else if (props.state.occupant) {
         dispatch(
           setCardModalText([
