@@ -19,7 +19,7 @@
         "fieldType": "uint8"
       }
     ]
-  }
+  },
   "33": {
     "protoType": "shuffle_hand",
     "fields": [
