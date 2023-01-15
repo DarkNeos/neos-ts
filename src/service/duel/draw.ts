@@ -6,5 +6,5 @@ export default (
   draw: ygopro.StocGameMessage.MsgDraw,
   dispatch: AppDispatch
 ) => {
-  dispatch(fetchHandsMeta([draw.player, draw.cards]));
+  dispatch(fetchHandsMeta({ controler: draw.player, codes: draw.cards }));
 };
