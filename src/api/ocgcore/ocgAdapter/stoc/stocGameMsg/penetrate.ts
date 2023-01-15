@@ -13,7 +13,8 @@ const ReadFieldHandlerMap: Map<string, readFieldHandler> = new Map([
   ["CardLocation", (reader) => reader.readCardLocation()],
 ]);
 const MsgConstructorMap: Map<string, Constructor> = new Map([
-  ["move", ygopro.StocGameMessage.MsgMove],
+  ["move", ygopro.StocGameMessage.MsgMove as Constructor],
+  ["shuffle_hand", ygopro.StocGameMessage.MsgShuffleHand],
 ]);
 
 export interface penetrateType {
@@ -21,6 +22,7 @@ export interface penetrateType {
   fields: {
     fieldName: string;
     fieldType: string;
+    repeatedType?: string;
   }[];
 }
 
@@ -46,6 +48,22 @@ class PenetrateManager {
     return undefined;
   }
 
+  private readRepeatedField(reader: BufferReader, repeatedType: string): any {
+    const handler = this.readFieldHandlerMap.get(repeatedType);
+
+    if (handler) {
+      const count = reader.readUint8();
+      let repeated = [];
+
+      for (let i = 0; i < count; i++) {
+        repeated.push(handler(reader));
+      }
+
+      return repeated;
+    }
+    return undefined;
+  }
+
   private constructMsg(protoType: string, object: any): any {
     const constructor = this.msgConstructorMap.get(protoType);
 
@@ -65,7 +83,10 @@ class PenetrateManager {
 
       let object: any = {};
       for (let field of fields) {
-        object[field.fieldName] = this.readField(reader, field.fieldType);
+        object[field.fieldName] =
+          field.fieldType === "repeated" && field.repeatedType
+            ? this.readRepeatedField(reader, field.repeatedType)
+            : this.readField(reader, field.fieldType);
       }
 
       gameMsg[protoType] = this.constructMsg(protoType, object);
