@@ -8,6 +8,8 @@ import {
   addMagicIdleInteractivities,
   clearMonsterIdleInteractivities,
   clearMagicIdleInteractivities,
+  clearFieldIdleInteractivities,
+  addFieldIdleInteractivities,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -20,6 +22,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   dispatch(clearHandsIdleInteractivity(player));
   dispatch(clearMonsterIdleInteractivities(player));
   dispatch(clearMagicIdleInteractivities(player));
+  dispatch(clearFieldIdleInteractivities(player));
 
   const dispatcher = (
     idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
@@ -78,6 +81,11 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         }
         case ygopro.CardZone.SZONE: {
           dispatcher(data, interactType, addMagicIdleInteractivities);
+
+          break;
+        }
+        case ygopro.CardZone.ONFIELD: {
+          dispatcher(data, interactType, addFieldIdleInteractivities);
 
           break;
         }

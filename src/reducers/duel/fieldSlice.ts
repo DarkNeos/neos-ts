@@ -3,7 +3,7 @@ import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
-import { CardState, InteractType } from "./generic";
+import { CardState, Interactivity, InteractType } from "./generic";
 
 export interface FieldState {
   inner?: CardState;
@@ -66,6 +66,36 @@ export const clearFieldPlaceInteractivitiesImpl: CaseReducer<
   const field = judgeSelf(player, state) ? state.meField : state.opField;
   if (field && field.inner) {
     field.inner.placeInteractivities = undefined;
+  }
+};
+
+export const addFieldIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    player: number;
+    sequence: number;
+    interactivity: Interactivity<number>;
+  }>
+> = (state, action) => {
+  const field = judgeSelf(action.payload.player, state)
+    ? state.meField
+    : state.opField;
+
+  if (field && field.inner) {
+    field.inner.idleInteractivities.push(action.payload.interactivity);
+  }
+};
+
+export const clearFieldIdleInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const field = judgeSelf(action.payload, state)
+    ? state.meField
+    : state.opField;
+
+  if (field && field.inner) {
+    field.inner.idleInteractivities = [];
   }
 };
 
