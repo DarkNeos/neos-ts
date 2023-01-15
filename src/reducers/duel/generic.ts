@@ -209,3 +209,18 @@ export function insertCard<T extends DuelFieldState>(
     state.inner.splice(sequence, 0, card);
   }
 }
+
+export function updateCardMeta<T extends DuelFieldState>(
+  state: T | undefined,
+  metas: CardMeta[]
+) {
+  if (state) {
+    state.inner.forEach((item) => {
+      metas.forEach((meta) => {
+        if (item.occupant?.id === meta.id) {
+          item.occupant = meta;
+        }
+      });
+    });
+  }
+}

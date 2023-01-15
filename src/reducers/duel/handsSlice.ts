@@ -14,6 +14,7 @@ import {
   insertCard,
   extendMeta,
   createAsyncRepeatedMetaThunk,
+  updateCardMeta,
 } from "./generic";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
@@ -74,19 +75,22 @@ export const removeHandImpl: CaseReducer<
 
 export const insertHandMeta = createAsyncMetaThunk("duel/insertHandMeta");
 
+export const updateHandsMeta = createAsyncRepeatedMetaThunk(
+  "duel/updateHandsMeta"
+);
+
 export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchHandsMeta.pending, (state, action) => {
     // Meta结果没返回之前先更新手牌`ID`
     const player = action.meta.arg.controler;
     const ids = action.meta.arg.codes;
 
-    const cards = ids.map((id, idx) => {
+    const cards = ids.map((id) => {
       return {
         occupant: { id, data: {}, text: {} },
         location: {
           controler: player,
           location: ygopro.CardZone.HAND,
-          sequence: idx,
         },
         idleInteractivities: [],
       };
@@ -111,15 +115,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const metas = action.payload.metas;
 
     const hands = judgeSelf(player, state) ? state.meHands : state.opHands;
-    if (hands) {
-      for (let hand of hands.inner) {
-        for (let meta of metas) {
-          if (hand.occupant?.id === meta.id) {
-            hand.occupant = meta;
-          }
-        }
-      }
-    }
+    updateCardMeta(hands, metas);
   });
 
   builder.addCase(insertHandMeta.pending, (state, action) => {
@@ -143,6 +139,35 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
 
     extendMeta(hands, meta, sequence);
+  });
+
+  builder.addCase(updateHandsMeta.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
+    const codes = action.meta.arg.codes;
+
+    const metas = codes.map((code) => {
+      return {
+        occupant: { id: code, data: {}, text: {} },
+        location: {
+          controler,
+          location: ygopro.CardZone.HAND,
+        },
+        idleInteractivities: [],
+      };
+    });
+
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+
+    if (hands) {
+      hands.inner = metas;
+    }
+  });
+  builder.addCase(updateHandsMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
+    const metas = action.payload.metas;
+
+    const hands = judgeSelf(controler, state) ? state.meHands : state.opHands;
+    updateCardMeta(hands, metas);
   });
 };
 
