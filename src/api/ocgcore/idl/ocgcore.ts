@@ -42,7 +42,7 @@ export namespace ygopro {
         | {
             code?: number;
             controler?: number;
-            location?: number;
+            location?: CardZone;
             sequence?: number;
           }
     ) {
@@ -83,9 +83,13 @@ export namespace ygopro {
       pb_1.Message.setField(this, 2, value);
     }
     get location() {
-      return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        3,
+        CardZone.DECK
+      ) as CardZone;
     }
-    set location(value: number) {
+    set location(value: CardZone) {
       pb_1.Message.setField(this, 3, value);
     }
     get sequence() {
@@ -97,7 +101,7 @@ export namespace ygopro {
     static fromObject(data: {
       code?: number;
       controler?: number;
-      location?: number;
+      location?: CardZone;
       sequence?: number;
     }): CardInfo {
       const message = new CardInfo({});
@@ -119,7 +123,7 @@ export namespace ygopro {
       const data: {
         code?: number;
         controler?: number;
-        location?: number;
+        location?: CardZone;
         sequence?: number;
       } = {};
       if (this.code != null) {
@@ -142,7 +146,7 @@ export namespace ygopro {
       const writer = w || new pb_1.BinaryWriter();
       if (this.code != 0) writer.writeInt32(1, this.code);
       if (this.controler != 0) writer.writeInt32(2, this.controler);
-      if (this.location != 0) writer.writeInt32(3, this.location);
+      if (this.location != CardZone.DECK) writer.writeEnum(3, this.location);
       if (this.sequence != 0) writer.writeInt32(4, this.sequence);
       if (!w) return writer.getResultBuffer();
     }
@@ -162,7 +166,7 @@ export namespace ygopro {
             message.controler = reader.readInt32();
             break;
           case 3:
-            message.location = reader.readInt32();
+            message.location = reader.readEnum();
             break;
           case 4:
             message.sequence = reader.readInt32();
@@ -187,7 +191,7 @@ export namespace ygopro {
         | any[]
         | {
             controler?: number;
-            location?: number;
+            location?: CardZone;
             sequence?: number;
             position?: CardPosition;
             overlay_sequence?: number;
@@ -227,9 +231,13 @@ export namespace ygopro {
       pb_1.Message.setField(this, 1, value);
     }
     get location() {
-      return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      return pb_1.Message.getFieldWithDefault(
+        this,
+        2,
+        CardZone.DECK
+      ) as CardZone;
     }
-    set location(value: number) {
+    set location(value: CardZone) {
       pb_1.Message.setField(this, 2, value);
     }
     get sequence() {
@@ -256,7 +264,7 @@ export namespace ygopro {
     }
     static fromObject(data: {
       controler?: number;
-      location?: number;
+      location?: CardZone;
       sequence?: number;
       position?: CardPosition;
       overlay_sequence?: number;
@@ -282,7 +290,7 @@ export namespace ygopro {
     toObject() {
       const data: {
         controler?: number;
-        location?: number;
+        location?: CardZone;
         sequence?: number;
         position?: CardPosition;
         overlay_sequence?: number;
@@ -309,7 +317,7 @@ export namespace ygopro {
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
       const writer = w || new pb_1.BinaryWriter();
       if (this.controler != 0) writer.writeInt32(1, this.controler);
-      if (this.location != 0) writer.writeInt32(2, this.location);
+      if (this.location != CardZone.DECK) writer.writeEnum(2, this.location);
       if (this.sequence != 0) writer.writeInt32(3, this.sequence);
       if (this.position != CardPosition.FACEUP_ATTACK)
         writer.writeEnum(4, this.position);
@@ -330,7 +338,7 @@ export namespace ygopro {
             message.controler = reader.readInt32();
             break;
           case 2:
-            message.location = reader.readInt32();
+            message.location = reader.readEnum();
             break;
           case 3:
             message.sequence = reader.readInt32();
