@@ -65,7 +65,9 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
           break;
         }
-
+        case ygopro.CardZone.MZONE: {
+          break;
+        }
         default: {
         }
       }
