@@ -38,5 +38,17 @@ export const initFieldImpl: CaseReducer<DuelState, PayloadAction<number>> = (
   }
 };
 
+export const clearFieldPlaceInteractivitiesImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
+  const player = action.payload;
+
+  const field = judgeSelf(player, state) ? state.meField : state.opField;
+  if (field && field.inner) {
+    field.inner.placeInteractivities = undefined;
+  }
+};
+
 export const selectMeField = (state: RootState) => state.duel.meField;
 export const selectOpField = (state: RootState) => state.duel.opField;
