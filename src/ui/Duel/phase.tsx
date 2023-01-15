@@ -25,7 +25,7 @@ const Ep = () => {
     dispatch(setEnableEp(false));
   };
 
-  return <Button2D text="ep" left={140} enable={enable} onClick={onClick} />;
+  return <Button2D text="ep" left={200} enable={enable} onClick={onClick} />;
 };
 
 const Phase = () => (
