@@ -68,6 +68,7 @@ import {
   FieldState,
   initFieldImpl,
   clearFieldPlaceInteractivitiesImpl,
+  addFieldPlaceInteractivitiesImpl,
 } from "./fieldSlice";
 
 export interface DuelState {
@@ -161,6 +162,7 @@ const duelSlice = createSlice({
     // 场地区相关`Reducer`
     initField: initFieldImpl,
     clearFieldPlaceInteractivities: clearFieldPlaceInteractivitiesImpl,
+    addFieldPlaceInteractivities: addFieldPlaceInteractivitiesImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -235,6 +237,7 @@ export const {
   initExclusion,
   initField,
   clearFieldPlaceInteractivities,
+  addFieldPlaceInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
