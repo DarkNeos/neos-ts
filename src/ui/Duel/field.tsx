@@ -2,6 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { useAppSelector } from "../../hook";
 import { selectMeField, selectOpField } from "../../reducers/duel/fieldSlice";
+import { clearFieldPlaceInteractivities } from "../../reducers/duel/mod";
 import FixedSlot from "./fixedSlot";
 import { Depth } from "./singleSlot";
 
@@ -17,6 +18,7 @@ const Field = () => {
           sequence={0}
           position={fieldPosition(0)}
           rotation={CONFIG.CardSlotRotation(false)}
+          clearPlaceInteractivitiesAction={clearFieldPlaceInteractivities}
         />
       ) : (
         <></>
@@ -27,6 +29,7 @@ const Field = () => {
           sequence={0}
           position={fieldPosition(1)}
           rotation={CONFIG.CardSlotRotation(true)}
+          clearPlaceInteractivitiesAction={clearFieldPlaceInteractivities}
         />
       ) : (
         <></>

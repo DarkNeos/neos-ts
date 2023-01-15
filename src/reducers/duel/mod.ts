@@ -64,7 +64,11 @@ import {
   exclusionCase,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
-import { FieldState, initFieldImpl } from "./fieldSlice";
+import {
+  FieldState,
+  initFieldImpl,
+  clearFieldPlaceInteractivitiesImpl,
+} from "./fieldSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -156,6 +160,7 @@ const duelSlice = createSlice({
 
     // 场地区相关`Reducer`
     initField: initFieldImpl,
+    clearFieldPlaceInteractivities: clearFieldPlaceInteractivitiesImpl,
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
@@ -229,6 +234,7 @@ export const {
   initDeck,
   initExclusion,
   initField,
+  clearFieldPlaceInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
