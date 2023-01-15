@@ -17,6 +17,7 @@ import CheckCardModal from "./checkCardModal";
 import YesNoModal from "./yesNoModal";
 import PositionModal from "./positionModal";
 import OptionModal from "./optionModal";
+import Phase from "./phase";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -36,6 +37,7 @@ const NeosDuel = () => (
               <Cemeteries />
               <Exclusion />
               <Field />
+              <Phase />
               <Ground />
             </Provider>
           </Scene>

@@ -14,7 +14,12 @@ import {
   removeHandImpl,
 } from "./handsSlice";
 import { newTurnImpl } from "./turnSlice";
-import { newPhaseImpl } from "./phaseSlice";
+import {
+  newPhaseImpl,
+  PhaseState,
+  setEnableBpImpl,
+  setEnableEpImpl,
+} from "./phaseSlice";
 import { RootState } from "../../store";
 import { HintState, hintCase } from "./hintSlice";
 import {
@@ -110,7 +115,8 @@ export interface DuelState {
   opHint?: HintState; // 对手的提示
 
   currentPlayer?: number; // 当前的操作方
-  currentPhase?: string; // 当前的阶段
+
+  phase?: PhaseState;
 
   // UI相关
   modalState: ModalState;
@@ -136,7 +142,6 @@ const duelSlice = createSlice({
     },
     infoInit: infoInitImpl,
     updateTurn: newTurnImpl,
-    updatePhase: newPhaseImpl,
     updateTimeLimit: updateTimeLimitImpl,
 
     // 手牌相关`Reducer`
@@ -176,6 +181,11 @@ const duelSlice = createSlice({
     addFieldIdleInteractivities: addFieldIdleInteractivitiesImpl,
     clearFieldIdleInteractivities: clearFieldIdleInteractivitiesImpl,
 
+    // 阶段相关
+    updatePhase: newPhaseImpl,
+    setEnableBp: setEnableBpImpl,
+    setEnableEp: setEnableEpImpl,
+
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
     setCardModalText: setCardModalTextImpl,
@@ -214,6 +224,8 @@ export const {
   infoInit,
   updateTurn,
   updatePhase,
+  setEnableBp,
+  setEnableEp,
   clearHandsIdleInteractivity,
   addHandsIdleInteractivity,
   updateTimeLimit,
