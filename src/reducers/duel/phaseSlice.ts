@@ -2,11 +2,47 @@ import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 
+export interface PhaseState {
+  currentPhase: string; // 当前的阶段
+  enableBp: boolean; // 允许进入战斗阶段
+  enableEp: boolean; // 允许回合结束
+}
 export const newPhaseImpl: CaseReducer<DuelState, PayloadAction<string>> = (
   state,
   action
 ) => {
-  state.currentPhase = action.payload;
+  if (state.phase) {
+    state.phase.currentPhase = action.payload;
+  } else {
+    state.phase = {
+      currentPhase: action.payload,
+      enableBp: false,
+      enableEp: false,
+    };
+  }
 };
 
-export const selectCurrentPhase = (state: RootState) => state.duel.currentPhase;
+export const setEnableBpImpl: CaseReducer<DuelState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
+  if (state.phase) {
+    state.phase.enableBp = action.payload;
+  }
+};
+
+export const setEnableEpImpl: CaseReducer<DuelState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
+  if (state.phase) {
+    state.phase.enableEp = action.payload;
+  }
+};
+
+export const selectCurrentPhase = (state: RootState) =>
+  state.duel.phase?.currentPhase;
+export const selectEnableBp = (state: RootState) =>
+  state.duel.phase?.enableBp || false;
+export const selectEnableEp = (state: RootState) =>
+  state.duel.phase?.enableEp || false;

@@ -10,6 +10,8 @@ import {
   clearMagicIdleInteractivities,
   clearFieldIdleInteractivities,
   addFieldIdleInteractivities,
+  setEnableBp,
+  setEnableEp,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -94,6 +96,9 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
       }
     });
   });
+
+  dispatch(setEnableBp(selectIdleCmd.enable_bp));
+  dispatch(setEnableEp(selectIdleCmd.enable_ep));
 };
 
 function idleTypeToInteractType(
