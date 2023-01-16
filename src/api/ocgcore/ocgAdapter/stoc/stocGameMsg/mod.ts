@@ -18,6 +18,7 @@ import MsgSelectChainAdapter from "./selectChain";
 import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
+import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
 import PENETRATE from "./penetrate";
 
 /*
@@ -102,6 +103,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SELECT_OPTION: {
           gameMsg.select_option = MsgSelectOptionAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_BATTLE_CMD: {
+          gameMsg.select_battle_cmd = MsgSelectBattleCmdAdapter(gameData);
 
           break;
         }

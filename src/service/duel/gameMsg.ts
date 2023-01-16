@@ -14,6 +14,7 @@ import onMsgSelectEffectYn from "./selectEffectYn";
 import onMsgSelectPosition from "./selectPosition";
 import onMsgSelectOption from "./selectOption";
 import onMsgShuffleHand from "./shuffleHand";
+import onMsgSelectBattleCmd from "./selectBattleCmd";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -21,86 +22,77 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
 
   switch (msg.gameMsg) {
     case "start": {
-      const start = msg.start;
-      onMsgStart(start, dispatch);
+      onMsgStart(msg.start, dispatch);
 
       break;
     }
     case "draw": {
-      const draw = msg.draw;
-      onMsgDraw(draw, dispatch);
+      onMsgDraw(msg.draw, dispatch);
 
       break;
     }
     case "new_turn": {
-      const newTurn = msg.new_turn;
-      onMsgNewTurn(newTurn, dispatch);
+      onMsgNewTurn(msg.new_turn, dispatch);
 
       break;
     }
     case "new_phase": {
-      const newPhase = msg.new_phase;
-      onMsgNewPhase(newPhase, dispatch);
+      onMsgNewPhase(msg.new_phase, dispatch);
 
       break;
     }
     case "hint": {
-      const hint = msg.hint;
-      onMsgHint(hint, dispatch);
+      onMsgHint(msg.hint, dispatch);
 
       break;
     }
     case "select_idle_cmd": {
-      const selectIdleCmd = msg.select_idle_cmd;
-      onMsgSelectIdleCmd(selectIdleCmd, dispatch);
+      onMsgSelectIdleCmd(msg.select_idle_cmd, dispatch);
 
       break;
     }
     case "select_place": {
-      const selectPlace = msg.select_place;
-      onMsgSelectPlace(selectPlace, dispatch);
+      onMsgSelectPlace(msg.select_place, dispatch);
 
       break;
     }
     case "move": {
-      const move = msg.move;
-      onMsgMove(move, dispatch);
+      onMsgMove(msg.move, dispatch);
 
       break;
     }
     case "select_card": {
-      const selectCard = msg.select_card;
-      onMsgSelectCard(selectCard, dispatch);
+      onMsgSelectCard(msg.select_card, dispatch);
 
       break;
     }
     case "select_chain": {
-      const selectChain = msg.select_chain;
-      onMsgSelectChain(selectChain, dispatch);
+      onMsgSelectChain(msg.select_chain, dispatch);
 
       break;
     }
     case "select_effect_yn": {
-      const selectEffectYn = msg.select_effect_yn;
-      onMsgSelectEffectYn(selectEffectYn, dispatch);
+      onMsgSelectEffectYn(msg.select_effect_yn, dispatch);
 
       break;
     }
     case "select_position": {
-      const selectPosition = msg.select_position;
-      onMsgSelectPosition(selectPosition, dispatch);
+      onMsgSelectPosition(msg.select_position, dispatch);
 
       break;
     }
     case "select_option": {
-      const selectOption = msg.select_option;
-      onMsgSelectOption(selectOption, dispatch);
+      onMsgSelectOption(msg.select_option, dispatch);
 
       break;
     }
     case "shuffle_hand": {
-      const shuffleHand = msg.shuffle_hand;
-      onMsgShuffleHand(shuffleHand, dispatch);
+      onMsgShuffleHand(msg.shuffle_hand, dispatch);
+
+      break;
+    }
+    case "select_battle_cmd": {
+      onMsgSelectBattleCmd(msg.select_battle_cmd, dispatch);
 
       break;
     }
