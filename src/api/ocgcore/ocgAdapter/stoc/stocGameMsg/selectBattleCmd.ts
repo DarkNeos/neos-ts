@@ -28,7 +28,7 @@ export default (data: Uint8Array) => {
     const activateData = new MsgSelectBattleCmd.BattleCmd.BattleData({
       card_info: cardInfo,
       effect_description: effectDescription,
-      response: i << (16 + 0),
+      response: (i << 16) + 0,
     });
     activateCmd.battle_datas.push(activateData);
   }
@@ -45,7 +45,7 @@ export default (data: Uint8Array) => {
     const attackData = new MsgSelectBattleCmd.BattleCmd.BattleData({
       card_info: cardInfo,
       direct_attackable: directAttackAble == 1,
-      response: i << (16 + 1),
+      response: (i << 16) + 1,
     });
     attackCmd.battle_datas.push(attackData);
   }

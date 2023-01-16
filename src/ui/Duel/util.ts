@@ -34,6 +34,9 @@ export function interactTypeToString(t: InteractType): string {
     case InteractType.ACTIVATE: {
       return "发动效果";
     }
+    case InteractType.ATTACK: {
+      return "攻击";
+    }
     default: {
       return "未知选项";
     }

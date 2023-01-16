@@ -1,8 +1,16 @@
 import React from "react";
 import { store } from "../../store";
 import { useAppSelector } from "../../hook";
-import { selectEnableBp, selectEnableEp } from "../../reducers/duel/phaseSlice";
-import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
+import {
+  selectCurrentPhase,
+  selectEnableBp,
+  selectEnableEp,
+  selectEnableM2,
+} from "../../reducers/duel/phaseSlice";
+import {
+  sendSelectBattleCmdResponse,
+  sendSelectIdleCmdResponse,
+} from "../../api/ocgcore/ocgHelper";
 import {
   clearFieldIdleInteractivities,
   clearHandsIdleInteractivity,
@@ -10,6 +18,7 @@ import {
   clearMonsterIdleInteractivities,
   setEnableBp,
   setEnableEp,
+  setEnableM2,
 } from "../../reducers/duel/mod";
 import { Button2D } from "./2d";
 
@@ -31,12 +40,12 @@ const Bp = () => {
     dispatch(setEnableBp(false));
   };
 
-  return <Button2D text="bp" left={0} enable={enable} onClick={onClick} />;
+  return <Button2D text="bp" left={-200} enable={enable} onClick={onClick} />;
 };
 
-const Ep = () => {
+const M2 = () => {
   const dispatch = store.dispatch;
-  const enable = useAppSelector(selectEnableEp);
+  const enable = useAppSelector(selectEnableM2);
   const onClick = () => {
     // 清除一堆东西的互动性
     dispatch(clearHandsIdleInteractivity(0));
@@ -48,16 +57,56 @@ const Ep = () => {
     dispatch(clearFieldIdleInteractivities(0));
     dispatch(clearFieldIdleInteractivities(1));
 
-    sendSelectIdleCmdResponse(7);
+    sendSelectBattleCmdResponse(2);
+    dispatch(setEnableM2(false));
+  };
+
+  return <Button2D text="m2" left={0} enable={enable} onClick={onClick} />;
+};
+
+const Ep = () => {
+  const dispatch = store.dispatch;
+  const enable = useAppSelector(selectEnableEp);
+  const currentPhase = useAppSelector(selectCurrentPhase);
+
+  const response =
+    currentPhase === "BATTLE_START" ||
+    currentPhase === "BATTLE_STEP" ||
+    currentPhase === "DAMAGE" ||
+    currentPhase === "DAMAGE_GAL" ||
+    currentPhase === "BATTLE"
+      ? 3
+      : 7;
+
+  const onClick = (response: number) => () => {
+    // 清除一堆东西的互动性
+    dispatch(clearHandsIdleInteractivity(0));
+    dispatch(clearHandsIdleInteractivity(1));
+    dispatch(clearMonsterIdleInteractivities(0));
+    dispatch(clearMonsterIdleInteractivities(1));
+    dispatch(clearMagicIdleInteractivities(0));
+    dispatch(clearMagicIdleInteractivities(1));
+    dispatch(clearFieldIdleInteractivities(0));
+    dispatch(clearFieldIdleInteractivities(1));
+
+    sendSelectIdleCmdResponse(response);
     dispatch(setEnableEp(false));
   };
 
-  return <Button2D text="ep" left={200} enable={enable} onClick={onClick} />;
+  return (
+    <Button2D
+      text="ep"
+      left={200}
+      enable={enable}
+      onClick={onClick(response)}
+    />
+  );
 };
 
 const Phase = () => (
   <>
     <Bp />
+    <M2 />
     <Ep />
   </>
 );
