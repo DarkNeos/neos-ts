@@ -8,6 +8,7 @@ import adaptSelectChainResponse from "./selectChain";
 import adaptSelectEffectYnResponse from "./selectEffectYn";
 import adaptSelectPositionResponse from "./selectPosition";
 import adaptSelectOptionResponse from "./selectOption";
+import adaptSelectBattleCmdResponse from "./selectBattleCmd";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -55,6 +56,11 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_option": {
         extraData = adaptSelectOptionResponse(response.select_option);
+
+        break;
+      }
+      case "select_battle_cmd": {
+        extraData = adaptSelectBattleCmdResponse(response.select_battle_cmd);
 
         break;
       }

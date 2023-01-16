@@ -2420,7 +2420,7 @@ export namespace ygopro {
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8]];
     constructor(
       data?:
         | any[]
@@ -2433,6 +2433,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2442,6 +2443,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2451,6 +2453,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2460,6 +2463,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2469,6 +2473,7 @@ export namespace ygopro {
                 select_effect_yn?: CtosGameMsgResponse.SelectEffectYnResponse;
                 select_position?: never;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2478,6 +2483,7 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: CtosGameMsgResponse.SelectPositionResponse;
                 select_option?: never;
+                select_battle_cmd?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2487,6 +2493,17 @@ export namespace ygopro {
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: CtosGameMsgResponse.SelectOptionResponse;
+                select_battle_cmd?: never;
+              }
+            | {
+                select_idle_cmd?: never;
+                select_place?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                select_battle_cmd?: CtosGameMsgResponse.SelectBattleCmdResponse;
               }
           ))
     ) {
@@ -2520,6 +2537,12 @@ export namespace ygopro {
         }
         if ("select_option" in data && data.select_option != undefined) {
           this.select_option = data.select_option;
+        }
+        if (
+          "select_battle_cmd" in data &&
+          data.select_battle_cmd != undefined
+        ) {
+          this.select_battle_cmd = data.select_battle_cmd;
         }
       }
     }
@@ -2614,6 +2637,19 @@ export namespace ygopro {
     get has_select_option() {
       return pb_1.Message.getField(this, 7) != null;
     }
+    get select_battle_cmd() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse.SelectBattleCmdResponse,
+        8
+      ) as CtosGameMsgResponse.SelectBattleCmdResponse;
+    }
+    set select_battle_cmd(value: CtosGameMsgResponse.SelectBattleCmdResponse) {
+      pb_1.Message.setOneofWrapperField(this, 8, this.#one_of_decls[0], value);
+    }
+    get has_select_battle_cmd() {
+      return pb_1.Message.getField(this, 8) != null;
+    }
     get gameMsgResponse() {
       const cases: {
         [index: number]:
@@ -2624,7 +2660,8 @@ export namespace ygopro {
           | "select_chain"
           | "select_effect_yn"
           | "select_position"
-          | "select_option";
+          | "select_option"
+          | "select_battle_cmd";
       } = {
         0: "none",
         1: "select_idle_cmd",
@@ -2634,8 +2671,11 @@ export namespace ygopro {
         5: "select_effect_yn",
         6: "select_position",
         7: "select_option",
+        8: "select_battle_cmd",
       };
-      return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7])];
+      return cases[
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8])
+      ];
     }
     static fromObject(data: {
       select_idle_cmd?: ReturnType<
@@ -2658,6 +2698,9 @@ export namespace ygopro {
       >;
       select_option?: ReturnType<
         typeof CtosGameMsgResponse.SelectOptionResponse.prototype.toObject
+      >;
+      select_battle_cmd?: ReturnType<
+        typeof CtosGameMsgResponse.SelectBattleCmdResponse.prototype.toObject
       >;
     }): CtosGameMsgResponse {
       const message = new CtosGameMsgResponse({});
@@ -2698,6 +2741,12 @@ export namespace ygopro {
             data.select_option
           );
       }
+      if (data.select_battle_cmd != null) {
+        message.select_battle_cmd =
+          CtosGameMsgResponse.SelectBattleCmdResponse.fromObject(
+            data.select_battle_cmd
+          );
+      }
       return message;
     }
     toObject() {
@@ -2723,6 +2772,9 @@ export namespace ygopro {
         select_option?: ReturnType<
           typeof CtosGameMsgResponse.SelectOptionResponse.prototype.toObject
         >;
+        select_battle_cmd?: ReturnType<
+          typeof CtosGameMsgResponse.SelectBattleCmdResponse.prototype.toObject
+        >;
       } = {};
       if (this.select_idle_cmd != null) {
         data.select_idle_cmd = this.select_idle_cmd.toObject();
@@ -2744,6 +2796,9 @@ export namespace ygopro {
       }
       if (this.select_option != null) {
         data.select_option = this.select_option.toObject();
+      }
+      if (this.select_battle_cmd != null) {
+        data.select_battle_cmd = this.select_battle_cmd.toObject();
       }
       return data;
     }
@@ -2778,6 +2833,10 @@ export namespace ygopro {
       if (this.has_select_option)
         writer.writeMessage(7, this.select_option, () =>
           this.select_option.serialize(writer)
+        );
+      if (this.has_select_battle_cmd)
+        writer.writeMessage(8, this.select_battle_cmd, () =>
+          this.select_battle_cmd.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -2850,6 +2909,16 @@ export namespace ygopro {
               () =>
                 (message.select_option =
                   CtosGameMsgResponse.SelectOptionResponse.deserialize(reader))
+            );
+            break;
+          case 8:
+            reader.readMessage(
+              message.select_battle_cmd,
+              () =>
+                (message.select_battle_cmd =
+                  CtosGameMsgResponse.SelectBattleCmdResponse.deserialize(
+                    reader
+                  ))
             );
             break;
           default:
@@ -3484,6 +3553,88 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): SelectOptionResponse {
         return SelectOptionResponse.deserialize(bytes);
+      }
+    }
+    export class SelectBattleCmdResponse extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              selected_cmd?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("selected_cmd" in data && data.selected_cmd != undefined) {
+            this.selected_cmd = data.selected_cmd;
+          }
+        }
+      }
+      get selected_cmd() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set selected_cmd(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: {
+        selected_cmd?: number;
+      }): SelectBattleCmdResponse {
+        const message = new SelectBattleCmdResponse({});
+        if (data.selected_cmd != null) {
+          message.selected_cmd = data.selected_cmd;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          selected_cmd?: number;
+        } = {};
+        if (this.selected_cmd != null) {
+          data.selected_cmd = this.selected_cmd;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.selected_cmd != 0) writer.writeInt32(1, this.selected_cmd);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): SelectBattleCmdResponse {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new SelectBattleCmdResponse();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.selected_cmd = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): SelectBattleCmdResponse {
+        return SelectBattleCmdResponse.deserialize(bytes);
       }
     }
   }
@@ -4866,7 +5017,7 @@ export namespace ygopro {
   }
   export class StocGameMessage extends pb_1.Message {
     #one_of_decls: number[][] = [
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     ];
     constructor(
       data?:
@@ -4887,6 +5038,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4903,6 +5055,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4919,6 +5072,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4935,6 +5089,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4951,6 +5106,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4967,6 +5123,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4983,6 +5140,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -4999,6 +5157,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5015,6 +5174,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5031,6 +5191,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5047,6 +5208,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5063,6 +5225,7 @@ export namespace ygopro {
                 select_position?: StocGameMessage.MsgSelectPosition;
                 select_option?: never;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5079,6 +5242,7 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: StocGameMessage.MsgSelectOption;
                 shuffle_hand?: never;
+                select_battle_cmd?: never;
               }
             | {
                 start?: never;
@@ -5095,6 +5259,24 @@ export namespace ygopro {
                 select_position?: never;
                 select_option?: never;
                 shuffle_hand?: StocGameMessage.MsgShuffleHand;
+                select_battle_cmd?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: StocGameMessage.MsgSelectBattleCmd;
               }
           ))
     ) {
@@ -5149,6 +5331,12 @@ export namespace ygopro {
         }
         if ("shuffle_hand" in data && data.shuffle_hand != undefined) {
           this.shuffle_hand = data.shuffle_hand;
+        }
+        if (
+          "select_battle_cmd" in data &&
+          data.select_battle_cmd != undefined
+        ) {
+          this.select_battle_cmd = data.select_battle_cmd;
         }
       }
     }
@@ -5334,6 +5522,19 @@ export namespace ygopro {
     get has_shuffle_hand() {
       return pb_1.Message.getField(this, 14) != null;
     }
+    get select_battle_cmd() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSelectBattleCmd,
+        15
+      ) as StocGameMessage.MsgSelectBattleCmd;
+    }
+    set select_battle_cmd(value: StocGameMessage.MsgSelectBattleCmd) {
+      pb_1.Message.setOneofWrapperField(this, 15, this.#one_of_decls[0], value);
+    }
+    get has_select_battle_cmd() {
+      return pb_1.Message.getField(this, 15) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -5351,7 +5552,8 @@ export namespace ygopro {
           | "select_effect_yn"
           | "select_position"
           | "select_option"
-          | "shuffle_hand";
+          | "shuffle_hand"
+          | "select_battle_cmd";
       } = {
         0: "none",
         1: "start",
@@ -5368,11 +5570,12 @@ export namespace ygopro {
         12: "select_position",
         13: "select_option",
         14: "shuffle_hand",
+        15: "select_battle_cmd",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         )
       ];
     }
@@ -5410,6 +5613,9 @@ export namespace ygopro {
       >;
       shuffle_hand?: ReturnType<
         typeof StocGameMessage.MsgShuffleHand.prototype.toObject
+      >;
+      select_battle_cmd?: ReturnType<
+        typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -5473,6 +5679,10 @@ export namespace ygopro {
           data.shuffle_hand
         );
       }
+      if (data.select_battle_cmd != null) {
+        message.select_battle_cmd =
+          StocGameMessage.MsgSelectBattleCmd.fromObject(data.select_battle_cmd);
+      }
       return message;
     }
     toObject() {
@@ -5510,6 +5720,9 @@ export namespace ygopro {
         >;
         shuffle_hand?: ReturnType<
           typeof StocGameMessage.MsgShuffleHand.prototype.toObject
+        >;
+        select_battle_cmd?: ReturnType<
+          typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -5553,6 +5766,9 @@ export namespace ygopro {
       }
       if (this.shuffle_hand != null) {
         data.shuffle_hand = this.shuffle_hand.toObject();
+      }
+      if (this.select_battle_cmd != null) {
+        data.select_battle_cmd = this.select_battle_cmd.toObject();
       }
       return data;
     }
@@ -5607,6 +5823,10 @@ export namespace ygopro {
       if (this.has_shuffle_hand)
         writer.writeMessage(14, this.shuffle_hand, () =>
           this.shuffle_hand.serialize(writer)
+        );
+      if (this.has_select_battle_cmd)
+        writer.writeMessage(15, this.select_battle_cmd, () =>
+          this.select_battle_cmd.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -5722,6 +5942,14 @@ export namespace ygopro {
               () =>
                 (message.shuffle_hand =
                   StocGameMessage.MsgShuffleHand.deserialize(reader))
+            );
+            break;
+          case 15:
+            reader.readMessage(
+              message.select_battle_cmd,
+              () =>
+                (message.select_battle_cmd =
+                  StocGameMessage.MsgSelectBattleCmd.deserialize(reader))
             );
             break;
           default:
@@ -8850,6 +9078,500 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgShuffleHand {
         return MsgShuffleHand.deserialize(bytes);
+      }
+    }
+    export class MsgSelectBattleCmd extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              battle_cmds?: StocGameMessage.MsgSelectBattleCmd.BattleCmd[];
+              enable_m2?: boolean;
+              enable_ep?: boolean;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [2],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("battle_cmds" in data && data.battle_cmds != undefined) {
+            this.battle_cmds = data.battle_cmds;
+          }
+          if ("enable_m2" in data && data.enable_m2 != undefined) {
+            this.enable_m2 = data.enable_m2;
+          }
+          if ("enable_ep" in data && data.enable_ep != undefined) {
+            this.enable_ep = data.enable_ep;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get battle_cmds() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectBattleCmd.BattleCmd,
+          2
+        ) as StocGameMessage.MsgSelectBattleCmd.BattleCmd[];
+      }
+      set battle_cmds(value: StocGameMessage.MsgSelectBattleCmd.BattleCmd[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 2, value);
+      }
+      get enable_m2() {
+        return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+      }
+      set enable_m2(value: boolean) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get enable_ep() {
+        return pb_1.Message.getFieldWithDefault(this, 4, false) as boolean;
+      }
+      set enable_ep(value: boolean) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        battle_cmds?: ReturnType<
+          typeof StocGameMessage.MsgSelectBattleCmd.BattleCmd.prototype.toObject
+        >[];
+        enable_m2?: boolean;
+        enable_ep?: boolean;
+      }): MsgSelectBattleCmd {
+        const message = new MsgSelectBattleCmd({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.battle_cmds != null) {
+          message.battle_cmds = data.battle_cmds.map((item) =>
+            StocGameMessage.MsgSelectBattleCmd.BattleCmd.fromObject(item)
+          );
+        }
+        if (data.enable_m2 != null) {
+          message.enable_m2 = data.enable_m2;
+        }
+        if (data.enable_ep != null) {
+          message.enable_ep = data.enable_ep;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          battle_cmds?: ReturnType<
+            typeof StocGameMessage.MsgSelectBattleCmd.BattleCmd.prototype.toObject
+          >[];
+          enable_m2?: boolean;
+          enable_ep?: boolean;
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.battle_cmds != null) {
+          data.battle_cmds = this.battle_cmds.map(
+            (item: StocGameMessage.MsgSelectBattleCmd.BattleCmd) =>
+              item.toObject()
+          );
+        }
+        if (this.enable_m2 != null) {
+          data.enable_m2 = this.enable_m2;
+        }
+        if (this.enable_ep != null) {
+          data.enable_ep = this.enable_ep;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.battle_cmds.length)
+          writer.writeRepeatedMessage(
+            2,
+            this.battle_cmds,
+            (item: StocGameMessage.MsgSelectBattleCmd.BattleCmd) =>
+              item.serialize(writer)
+          );
+        if (this.enable_m2 != false) writer.writeBool(3, this.enable_m2);
+        if (this.enable_ep != false) writer.writeBool(4, this.enable_ep);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgSelectBattleCmd {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSelectBattleCmd();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(message.battle_cmds, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  2,
+                  StocGameMessage.MsgSelectBattleCmd.BattleCmd.deserialize(
+                    reader
+                  ),
+                  StocGameMessage.MsgSelectBattleCmd.BattleCmd
+                )
+              );
+              break;
+            case 3:
+              message.enable_m2 = reader.readBool();
+              break;
+            case 4:
+              message.enable_ep = reader.readBool();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSelectBattleCmd {
+        return MsgSelectBattleCmd.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectBattleCmd {
+      export class BattleCmd extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                battle_type?: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType;
+                battle_datas?: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData[];
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [2],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("battle_type" in data && data.battle_type != undefined) {
+              this.battle_type = data.battle_type;
+            }
+            if ("battle_datas" in data && data.battle_datas != undefined) {
+              this.battle_datas = data.battle_datas;
+            }
+          }
+        }
+        get battle_type() {
+          return pb_1.Message.getFieldWithDefault(
+            this,
+            1,
+            StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType.UNKNOWN
+          ) as StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType;
+        }
+        set battle_type(
+          value: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType
+        ) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get battle_datas() {
+          return pb_1.Message.getRepeatedWrapperField(
+            this,
+            StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData,
+            2
+          ) as StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData[];
+        }
+        set battle_datas(
+          value: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData[]
+        ) {
+          pb_1.Message.setRepeatedWrapperField(this, 2, value);
+        }
+        static fromObject(data: {
+          battle_type?: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType;
+          battle_datas?: ReturnType<
+            typeof StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData.prototype.toObject
+          >[];
+        }): BattleCmd {
+          const message = new BattleCmd({});
+          if (data.battle_type != null) {
+            message.battle_type = data.battle_type;
+          }
+          if (data.battle_datas != null) {
+            message.battle_datas = data.battle_datas.map((item) =>
+              StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData.fromObject(
+                item
+              )
+            );
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            battle_type?: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType;
+            battle_datas?: ReturnType<
+              typeof StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData.prototype.toObject
+            >[];
+          } = {};
+          if (this.battle_type != null) {
+            data.battle_type = this.battle_type;
+          }
+          if (this.battle_datas != null) {
+            data.battle_datas = this.battle_datas.map(
+              (item: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData) =>
+                item.toObject()
+            );
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (
+            this.battle_type !=
+            StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleType.UNKNOWN
+          )
+            writer.writeEnum(1, this.battle_type);
+          if (this.battle_datas.length)
+            writer.writeRepeatedMessage(
+              2,
+              this.battle_datas,
+              (item: StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData) =>
+                item.serialize(writer)
+            );
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): BattleCmd {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new BattleCmd();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.battle_type = reader.readEnum();
+                break;
+              case 2:
+                reader.readMessage(message.battle_datas, () =>
+                  pb_1.Message.addToRepeatedWrapperField(
+                    message,
+                    2,
+                    StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData.deserialize(
+                      reader
+                    ),
+                    StocGameMessage.MsgSelectBattleCmd.BattleCmd.BattleData
+                  )
+                );
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): BattleCmd {
+          return BattleCmd.deserialize(bytes);
+        }
+      }
+      export namespace BattleCmd {
+        export enum BattleType {
+          UNKNOWN = 0,
+          ACTIVATE = 1,
+          ATTACK = 2,
+        }
+        export class BattleData extends pb_1.Message {
+          #one_of_decls: number[][] = [];
+          constructor(
+            data?:
+              | any[]
+              | {
+                  card_info?: CardInfo;
+                  effect_description?: number;
+                  direct_attackable?: boolean;
+                  response?: number;
+                }
+          ) {
+            super();
+            pb_1.Message.initialize(
+              this,
+              Array.isArray(data) ? data : [],
+              0,
+              -1,
+              [],
+              this.#one_of_decls
+            );
+            if (!Array.isArray(data) && typeof data == "object") {
+              if ("card_info" in data && data.card_info != undefined) {
+                this.card_info = data.card_info;
+              }
+              if (
+                "effect_description" in data &&
+                data.effect_description != undefined
+              ) {
+                this.effect_description = data.effect_description;
+              }
+              if (
+                "direct_attackable" in data &&
+                data.direct_attackable != undefined
+              ) {
+                this.direct_attackable = data.direct_attackable;
+              }
+              if ("response" in data && data.response != undefined) {
+                this.response = data.response;
+              }
+            }
+          }
+          get card_info() {
+            return pb_1.Message.getWrapperField(this, CardInfo, 1) as CardInfo;
+          }
+          set card_info(value: CardInfo) {
+            pb_1.Message.setWrapperField(this, 1, value);
+          }
+          get has_card_info() {
+            return pb_1.Message.getField(this, 1) != null;
+          }
+          get effect_description() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+          }
+          set effect_description(value: number) {
+            pb_1.Message.setField(this, 2, value);
+          }
+          get direct_attackable() {
+            return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+          }
+          set direct_attackable(value: boolean) {
+            pb_1.Message.setField(this, 3, value);
+          }
+          get response() {
+            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+          }
+          set response(value: number) {
+            pb_1.Message.setField(this, 4, value);
+          }
+          static fromObject(data: {
+            card_info?: ReturnType<typeof CardInfo.prototype.toObject>;
+            effect_description?: number;
+            direct_attackable?: boolean;
+            response?: number;
+          }): BattleData {
+            const message = new BattleData({});
+            if (data.card_info != null) {
+              message.card_info = CardInfo.fromObject(data.card_info);
+            }
+            if (data.effect_description != null) {
+              message.effect_description = data.effect_description;
+            }
+            if (data.direct_attackable != null) {
+              message.direct_attackable = data.direct_attackable;
+            }
+            if (data.response != null) {
+              message.response = data.response;
+            }
+            return message;
+          }
+          toObject() {
+            const data: {
+              card_info?: ReturnType<typeof CardInfo.prototype.toObject>;
+              effect_description?: number;
+              direct_attackable?: boolean;
+              response?: number;
+            } = {};
+            if (this.card_info != null) {
+              data.card_info = this.card_info.toObject();
+            }
+            if (this.effect_description != null) {
+              data.effect_description = this.effect_description;
+            }
+            if (this.direct_attackable != null) {
+              data.direct_attackable = this.direct_attackable;
+            }
+            if (this.response != null) {
+              data.response = this.response;
+            }
+            return data;
+          }
+          serialize(): Uint8Array;
+          serialize(w: pb_1.BinaryWriter): void;
+          serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_card_info)
+              writer.writeMessage(1, this.card_info, () =>
+                this.card_info.serialize(writer)
+              );
+            if (this.effect_description != 0)
+              writer.writeInt32(2, this.effect_description);
+            if (this.direct_attackable != false)
+              writer.writeBool(3, this.direct_attackable);
+            if (this.response != 0) writer.writeInt32(4, this.response);
+            if (!w) return writer.getResultBuffer();
+          }
+          static deserialize(
+            bytes: Uint8Array | pb_1.BinaryReader
+          ): BattleData {
+            const reader =
+                bytes instanceof pb_1.BinaryReader
+                  ? bytes
+                  : new pb_1.BinaryReader(bytes),
+              message = new BattleData();
+            while (reader.nextField()) {
+              if (reader.isEndGroup()) break;
+              switch (reader.getFieldNumber()) {
+                case 1:
+                  reader.readMessage(
+                    message.card_info,
+                    () => (message.card_info = CardInfo.deserialize(reader))
+                  );
+                  break;
+                case 2:
+                  message.effect_description = reader.readInt32();
+                  break;
+                case 3:
+                  message.direct_attackable = reader.readBool();
+                  break;
+                case 4:
+                  message.response = reader.readInt32();
+                  break;
+                default:
+                  reader.skipField();
+              }
+            }
+            return message;
+          }
+          serializeBinary(): Uint8Array {
+            return this.serialize();
+          }
+          static deserializeBinary(bytes: Uint8Array): BattleData {
+            return BattleData.deserialize(bytes);
+          }
+        }
       }
     }
   }
