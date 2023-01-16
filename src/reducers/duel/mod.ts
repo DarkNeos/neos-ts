@@ -18,6 +18,7 @@ import {
   newPhaseImpl,
   PhaseState,
   setEnableBpImpl,
+  setEnableM2Impl,
   setEnableEpImpl,
 } from "./phaseSlice";
 import { RootState } from "../../store";
@@ -184,6 +185,7 @@ const duelSlice = createSlice({
     // 阶段相关
     updatePhase: newPhaseImpl,
     setEnableBp: setEnableBpImpl,
+    setEnableM2: setEnableM2Impl,
     setEnableEp: setEnableEpImpl,
 
     // UI相关`Reducer`
@@ -225,6 +227,7 @@ export const {
   updateTurn,
   updatePhase,
   setEnableBp,
+  setEnableM2,
   setEnableEp,
   clearHandsIdleInteractivity,
   addHandsIdleInteractivity,

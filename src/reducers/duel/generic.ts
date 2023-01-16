@@ -38,12 +38,16 @@ export enum InteractType {
   ACTIVATE = 6,
   // 可作为位置选择
   PLACE_SELECTABLE = 7,
+  // 可攻击
+  ATTACK = 8,
 }
 
 export interface Interactivity<T> {
   interactType: InteractType;
   // 如果`interactType`是`ACTIVATE`，这个字段是对应的效果编号
   activateIndex?: number;
+  // 如果`interactType`是`ATTACK`，这个字段表示是否可以直接攻击
+  directAttackAble?: boolean;
   // 用户点击后，需要回传给服务端的`response`
   response: T;
 }
