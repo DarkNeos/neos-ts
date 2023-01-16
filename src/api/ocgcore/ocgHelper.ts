@@ -215,3 +215,18 @@ export function sendSelectOptionResponse(value: number) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectBattleCmdResponse(value: number) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_battle_cmd: new ygopro.CtosGameMsgResponse.SelectBattleCmdResponse(
+        {
+          selected_cmd: value,
+        }
+      ),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
