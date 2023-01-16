@@ -54,19 +54,6 @@ const Monsters = () => {
         }
       )}
       <ExtraMonsters />
-      <adtFullscreenUi name="ui">
-        <rectangle name="rect" height="20px" width="60px">
-          <babylon-button name="close-icon">
-            <textBlock
-              text="bp"
-              fontFamily="FontAwesome"
-              fontStyle="bold"
-              fontSize={15}
-              color="white"
-            />
-          </babylon-button>
-        </rectangle>
-      </adtFullscreenUi>
       <ExtraMonsters />
     </>
   );

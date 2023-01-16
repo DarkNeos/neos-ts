@@ -55,5 +55,7 @@ export const selectCurrentPhase = (state: RootState) =>
   state.duel.phase?.currentPhase;
 export const selectEnableBp = (state: RootState) =>
   state.duel.phase?.enableBp || false;
+export const selectEnableM2 = (state: RootState) =>
+  state.duel.phase?.enableBp || false;
 export const selectEnableEp = (state: RootState) =>
   state.duel.phase?.enableEp || false;
