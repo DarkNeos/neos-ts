@@ -184,6 +184,29 @@ export const removeMonsterImpl: CaseReducer<
   removeOccupant(monsters, action.payload.sequence);
 };
 
+// 改变怪兽表示形式
+export const setMonsterPositionImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    controler: number;
+    sequence: number;
+    currentPosition: ygopro.CardPosition;
+  }>
+> = (state, action) => {
+  const controler = action.payload.controler;
+  const sequence = action.payload.sequence;
+  const currentPosition = action.payload.currentPosition;
+
+  const monsters = judgeSelf(controler, state)
+    ? state.meMonsters
+    : state.opMonsters;
+  const monster = monsters?.inner.find((_, idx) => idx == sequence);
+
+  if (monster && monster.occupant) {
+    monster.location.position = currentPosition;
+  }
+};
+
 export const selectMeMonsters = (state: RootState) =>
   state.duel.meMonsters || { inner: [] };
 export const selectOpMonsters = (state: RootState) =>
