@@ -69,10 +69,16 @@ import {
   setMagicPositionImpl,
   magicCase,
 } from "./magicSlice";
-import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
+import {
+  CemeteryState,
+  initCemeteryImpl,
+  removeCemeteryImpl,
+  cemeteryCase,
+} from "./cemeretySlice";
 import {
   ExclusionState,
   initExclusionImpl,
+  removeExclusionImpl,
   exclusionCase,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
@@ -172,9 +178,11 @@ const duelSlice = createSlice({
 
     // 墓地相关`Reducer`
     initCemetery: initCemeteryImpl,
+    removeCemetery: removeCemeteryImpl,
 
     // 除外区相关`Reducer`
     initExclusion: initExclusionImpl,
+    removeExclusion: removeExclusionImpl,
 
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
@@ -256,6 +264,7 @@ export const {
   removeMagic,
   removeHand,
   initCemetery,
+  removeCemetery,
   setCardListModalIsOpen,
   setCardListModalInfo,
   setCheckCardModalIsOpen,
@@ -272,6 +281,7 @@ export const {
   resetOptionModal,
   initDeck,
   initExclusion,
+  removeExclusion,
   initField,
   clearFieldPlaceInteractivities,
   addFieldPlaceInteractivities,

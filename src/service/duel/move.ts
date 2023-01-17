@@ -3,6 +3,8 @@ import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { AppDispatch } from "../../store";
 import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
 import {
+  removeCemetery,
+  removeExclusion,
   removeHand,
   removeMagic,
   removeMonster,
@@ -34,6 +36,20 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.SZONE: {
       dispatch(
         removeMagic({ controler: from.controler, sequence: from.sequence })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.GRAVE: {
+      dispatch(
+        removeCemetery({ controler: from.controler, sequence: from.sequence })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.REMOVED: {
+      dispatch(
+        removeExclusion({ controler: from.controler, sequence: from.sequence })
       );
 
       break;
