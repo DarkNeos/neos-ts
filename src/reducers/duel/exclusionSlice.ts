@@ -12,6 +12,7 @@ import {
   DuelFieldState,
   extendState,
   extendMeta,
+  removeCard,
 } from "./generic";
 
 export interface ExclusionState extends DuelFieldState {}
@@ -67,6 +68,17 @@ export const exclusionCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       extendMeta(state.opExclusion, meta, sequence);
     }
   });
+};
+
+// 删除除外区
+export const removeExclusionImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ controler: number; sequence: number }>
+> = (state, action) => {
+  const exclusion = judgeSelf(action.payload.controler, state)
+    ? state.meExclusion
+    : state.opExclusion;
+  removeCard(exclusion, action.payload.sequence);
 };
 
 export const selectMeExclusion = (state: RootState) =>
