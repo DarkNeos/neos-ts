@@ -10,6 +10,7 @@ import {
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 import { insertHandMeta } from "../../reducers/duel/handsSlice";
+import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -82,6 +83,17 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.HAND: {
       dispatch(
         insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.REMOVED: {
+      dispatch(
+        fetchExclusionMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          code,
+        })
       );
 
       break;
