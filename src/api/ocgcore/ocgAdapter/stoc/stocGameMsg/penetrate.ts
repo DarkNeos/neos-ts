@@ -3,6 +3,7 @@
 import PenetrateData from "./penetrate.json";
 import { BufferReader } from "../../bufferIO";
 import { ygopro } from "../../../idl/ocgcore";
+import { numberToCardPosition } from "../../util";
 
 type Constructor<T = any> = new (...args: any[]) => T;
 
@@ -11,10 +12,13 @@ const ReadFieldHandlerMap: Map<string, readFieldHandler> = new Map([
   ["uint16", (reader) => reader.readUint16()],
   ["uint32", (reader) => reader.readUint32()],
   ["CardLocation", (reader) => reader.readCardLocation()],
+  ["CardInfo", (reader) => reader.readCardInfo()],
+  ["CardPosition", (reader) => numberToCardPosition(reader.readUint8())],
 ]);
 const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["move", ygopro.StocGameMessage.MsgMove as Constructor],
   ["shuffle_hand", ygopro.StocGameMessage.MsgShuffleHand],
+  ["pos_change", ygopro.StocGameMessage.MsgPosChange],
 ]);
 
 export interface penetrateType {

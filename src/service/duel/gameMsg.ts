@@ -15,6 +15,7 @@ import onMsgSelectPosition from "./selectPosition";
 import onMsgSelectOption from "./selectOption";
 import onMsgShuffleHand from "./shuffleHand";
 import onMsgSelectBattleCmd from "./selectBattleCmd";
+import onMsgPosChange from "./posChange";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -93,6 +94,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "select_battle_cmd": {
       onMsgSelectBattleCmd(msg.select_battle_cmd, dispatch);
+
+      break;
+    }
+    case "pos_change": {
+      onMsgPosChange(msg.pos_change, dispatch);
 
       break;
     }

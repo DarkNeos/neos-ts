@@ -5017,7 +5017,7 @@ export namespace ygopro {
   }
   export class StocGameMessage extends pb_1.Message {
     #one_of_decls: number[][] = [
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     ];
     constructor(
       data?:
@@ -5039,6 +5039,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5056,6 +5057,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5073,6 +5075,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5090,6 +5093,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5107,6 +5111,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5124,6 +5129,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5141,6 +5147,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5158,6 +5165,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5175,6 +5183,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5192,6 +5201,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5209,6 +5219,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5226,6 +5237,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5243,6 +5255,7 @@ export namespace ygopro {
                 select_option?: StocGameMessage.MsgSelectOption;
                 shuffle_hand?: never;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5260,6 +5273,7 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: StocGameMessage.MsgShuffleHand;
                 select_battle_cmd?: never;
+                pos_change?: never;
               }
             | {
                 start?: never;
@@ -5277,6 +5291,25 @@ export namespace ygopro {
                 select_option?: never;
                 shuffle_hand?: never;
                 select_battle_cmd?: StocGameMessage.MsgSelectBattleCmd;
+                pos_change?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: StocGameMessage.MsgPosChange;
               }
           ))
     ) {
@@ -5337,6 +5370,9 @@ export namespace ygopro {
           data.select_battle_cmd != undefined
         ) {
           this.select_battle_cmd = data.select_battle_cmd;
+        }
+        if ("pos_change" in data && data.pos_change != undefined) {
+          this.pos_change = data.pos_change;
         }
       }
     }
@@ -5535,6 +5571,19 @@ export namespace ygopro {
     get has_select_battle_cmd() {
       return pb_1.Message.getField(this, 15) != null;
     }
+    get pos_change() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgPosChange,
+        16
+      ) as StocGameMessage.MsgPosChange;
+    }
+    set pos_change(value: StocGameMessage.MsgPosChange) {
+      pb_1.Message.setOneofWrapperField(this, 16, this.#one_of_decls[0], value);
+    }
+    get has_pos_change() {
+      return pb_1.Message.getField(this, 16) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -5553,7 +5602,8 @@ export namespace ygopro {
           | "select_position"
           | "select_option"
           | "shuffle_hand"
-          | "select_battle_cmd";
+          | "select_battle_cmd"
+          | "pos_change";
       } = {
         0: "none",
         1: "start",
@@ -5571,11 +5621,12 @@ export namespace ygopro {
         13: "select_option",
         14: "shuffle_hand",
         15: "select_battle_cmd",
+        16: "pos_change",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
         )
       ];
     }
@@ -5616,6 +5667,9 @@ export namespace ygopro {
       >;
       select_battle_cmd?: ReturnType<
         typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject
+      >;
+      pos_change?: ReturnType<
+        typeof StocGameMessage.MsgPosChange.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -5683,6 +5737,11 @@ export namespace ygopro {
         message.select_battle_cmd =
           StocGameMessage.MsgSelectBattleCmd.fromObject(data.select_battle_cmd);
       }
+      if (data.pos_change != null) {
+        message.pos_change = StocGameMessage.MsgPosChange.fromObject(
+          data.pos_change
+        );
+      }
       return message;
     }
     toObject() {
@@ -5723,6 +5782,9 @@ export namespace ygopro {
         >;
         select_battle_cmd?: ReturnType<
           typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject
+        >;
+        pos_change?: ReturnType<
+          typeof StocGameMessage.MsgPosChange.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -5769,6 +5831,9 @@ export namespace ygopro {
       }
       if (this.select_battle_cmd != null) {
         data.select_battle_cmd = this.select_battle_cmd.toObject();
+      }
+      if (this.pos_change != null) {
+        data.pos_change = this.pos_change.toObject();
       }
       return data;
     }
@@ -5827,6 +5892,10 @@ export namespace ygopro {
       if (this.has_select_battle_cmd)
         writer.writeMessage(15, this.select_battle_cmd, () =>
           this.select_battle_cmd.serialize(writer)
+        );
+      if (this.has_pos_change)
+        writer.writeMessage(16, this.pos_change, () =>
+          this.pos_change.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -5950,6 +6019,14 @@ export namespace ygopro {
               () =>
                 (message.select_battle_cmd =
                   StocGameMessage.MsgSelectBattleCmd.deserialize(reader))
+            );
+            break;
+          case 16:
+            reader.readMessage(
+              message.pos_change,
+              () =>
+                (message.pos_change =
+                  StocGameMessage.MsgPosChange.deserialize(reader))
             );
             break;
           default:
@@ -9572,6 +9649,149 @@ export namespace ygopro {
             return BattleData.deserialize(bytes);
           }
         }
+      }
+    }
+    export class MsgPosChange extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              card_info?: CardInfo;
+              pre_position?: CardPosition;
+              cur_position?: CardPosition;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("card_info" in data && data.card_info != undefined) {
+            this.card_info = data.card_info;
+          }
+          if ("pre_position" in data && data.pre_position != undefined) {
+            this.pre_position = data.pre_position;
+          }
+          if ("cur_position" in data && data.cur_position != undefined) {
+            this.cur_position = data.cur_position;
+          }
+        }
+      }
+      get card_info() {
+        return pb_1.Message.getWrapperField(this, CardInfo, 1) as CardInfo;
+      }
+      set card_info(value: CardInfo) {
+        pb_1.Message.setWrapperField(this, 1, value);
+      }
+      get has_card_info() {
+        return pb_1.Message.getField(this, 1) != null;
+      }
+      get pre_position() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          2,
+          CardPosition.FACEUP_ATTACK
+        ) as CardPosition;
+      }
+      set pre_position(value: CardPosition) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get cur_position() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          3,
+          CardPosition.FACEUP_ATTACK
+        ) as CardPosition;
+      }
+      set cur_position(value: CardPosition) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      static fromObject(data: {
+        card_info?: ReturnType<typeof CardInfo.prototype.toObject>;
+        pre_position?: CardPosition;
+        cur_position?: CardPosition;
+      }): MsgPosChange {
+        const message = new MsgPosChange({});
+        if (data.card_info != null) {
+          message.card_info = CardInfo.fromObject(data.card_info);
+        }
+        if (data.pre_position != null) {
+          message.pre_position = data.pre_position;
+        }
+        if (data.cur_position != null) {
+          message.cur_position = data.cur_position;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          card_info?: ReturnType<typeof CardInfo.prototype.toObject>;
+          pre_position?: CardPosition;
+          cur_position?: CardPosition;
+        } = {};
+        if (this.card_info != null) {
+          data.card_info = this.card_info.toObject();
+        }
+        if (this.pre_position != null) {
+          data.pre_position = this.pre_position;
+        }
+        if (this.cur_position != null) {
+          data.cur_position = this.cur_position;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.has_card_info)
+          writer.writeMessage(1, this.card_info, () =>
+            this.card_info.serialize(writer)
+          );
+        if (this.pre_position != CardPosition.FACEUP_ATTACK)
+          writer.writeEnum(2, this.pre_position);
+        if (this.cur_position != CardPosition.FACEUP_ATTACK)
+          writer.writeEnum(3, this.cur_position);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgPosChange {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgPosChange();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              reader.readMessage(
+                message.card_info,
+                () => (message.card_info = CardInfo.deserialize(reader))
+              );
+              break;
+            case 2:
+              message.pre_position = reader.readEnum();
+              break;
+            case 3:
+              message.cur_position = reader.readEnum();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgPosChange {
+        return MsgPosChange.deserialize(bytes);
       }
     }
   }

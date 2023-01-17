@@ -55,6 +55,7 @@ import {
   addMonsterIdleInteractivitiesImpl,
   clearMonsterIdleInteractivitiesImpl,
   removeMonsterImpl,
+  setMonsterPositionImpl,
   monsterCase,
 } from "./monstersSlice";
 import {
@@ -65,6 +66,7 @@ import {
   addMagicIdleInteractivitiesImpl,
   clearMagicIdleInteractivitiesImpl,
   removeMagicImpl,
+  setMagicPositionImpl,
   magicCase,
 } from "./magicSlice";
 import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
@@ -156,6 +158,7 @@ const duelSlice = createSlice({
     clearMonsterPlaceInteractivities: clearMonsterPlaceInteractivitiesImpl,
     addMonsterIdleInteractivities: addMonsterIdleInteractivitiesImpl,
     clearMonsterIdleInteractivities: clearMonsterIdleInteractivitiesImpl,
+    setMonsterPosition: setMonsterPositionImpl,
     removeMonster: removeMonsterImpl,
 
     // 魔法陷阱区相关`Reducer`
@@ -164,6 +167,7 @@ const duelSlice = createSlice({
     clearMagicPlaceInteractivities: clearMagicPlaceInteractivitiesImpl,
     addMagicIdleInteractivities: addMagicIdleInteractivitiesImpl,
     clearMagicIdleInteractivities: clearMagicIdleInteractivitiesImpl,
+    setMagicPosition: setMagicPositionImpl,
     removeMagic: removeMagicImpl,
 
     // 墓地相关`Reducer`
@@ -241,12 +245,14 @@ export const {
   clearMonsterPlaceInteractivities,
   addMonsterIdleInteractivities,
   clearMonsterIdleInteractivities,
+  setMonsterPosition,
   removeMonster,
   initMagics,
   addMagicPlaceInteractivities,
   clearMagicPlaceInteractivities,
   addMagicIdleInteractivities,
   clearMagicIdleInteractivities,
+  setMagicPosition,
   removeMagic,
   removeHand,
   initCemetery,
