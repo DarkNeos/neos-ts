@@ -17,6 +17,7 @@ import {
   removeOccupant,
   extendIdleInteractivities,
   clearIdleInteractivities,
+  setPosition,
 } from "./generic";
 
 export interface MonsterState extends DuelFieldState {}
@@ -190,21 +191,17 @@ export const setMonsterPositionImpl: CaseReducer<
   PayloadAction<{
     controler: number;
     sequence: number;
-    currentPosition: ygopro.CardPosition;
+    position: ygopro.CardPosition;
   }>
 > = (state, action) => {
   const controler = action.payload.controler;
   const sequence = action.payload.sequence;
-  const currentPosition = action.payload.currentPosition;
+  const position = action.payload.position;
 
   const monsters = judgeSelf(controler, state)
     ? state.meMonsters
     : state.opMonsters;
-  const monster = monsters?.inner.find((_, idx) => idx == sequence);
-
-  if (monster && monster.occupant) {
-    monster.location.position = currentPosition;
-  }
+  setPosition(monsters, sequence, position);
 };
 
 export const selectMeMonsters = (state: RootState) =>

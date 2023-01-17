@@ -251,3 +251,14 @@ export function clearIdleInteractivities<T extends DuelFieldState>(
     });
   }
 }
+
+export function setPosition<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number,
+  position: ygopro.CardPosition
+) {
+  const target = state?.inner.find((_, idx) => idx == sequence);
+  if (target && target.occupant) {
+    target.location.position = position;
+  }
+}

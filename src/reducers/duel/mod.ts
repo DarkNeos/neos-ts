@@ -66,6 +66,7 @@ import {
   addMagicIdleInteractivitiesImpl,
   clearMagicIdleInteractivitiesImpl,
   removeMagicImpl,
+  setMagicPositionImpl,
   magicCase,
 } from "./magicSlice";
 import { CemeteryState, initCemeteryImpl, cemeteryCase } from "./cemeretySlice";
@@ -166,6 +167,7 @@ const duelSlice = createSlice({
     clearMagicPlaceInteractivities: clearMagicPlaceInteractivitiesImpl,
     addMagicIdleInteractivities: addMagicIdleInteractivitiesImpl,
     clearMagicIdleInteractivities: clearMagicIdleInteractivitiesImpl,
+    setMagicPosition: setMagicPositionImpl,
     removeMagic: removeMagicImpl,
 
     // 墓地相关`Reducer`
@@ -250,6 +252,7 @@ export const {
   clearMagicPlaceInteractivities,
   addMagicIdleInteractivities,
   clearMagicIdleInteractivities,
+  setMagicPosition,
   removeMagic,
   removeHand,
   initCemetery,

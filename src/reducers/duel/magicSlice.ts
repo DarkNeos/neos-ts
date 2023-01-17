@@ -17,6 +17,7 @@ import {
   Interactivity,
   extendIdleInteractivities,
   clearIdleInteractivities,
+  setPosition,
 } from "./generic";
 
 export interface MagicState extends DuelFieldState {}
@@ -170,6 +171,23 @@ export const removeMagicImpl: CaseReducer<
   const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
 
   removeOccupant(magics, action.payload.sequence);
+};
+
+// 改变魔法表示形式
+export const setMagicPositionImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    controler: number;
+    sequence: number;
+    position: ygopro.CardPosition;
+  }>
+> = (state, action) => {
+  const controler = action.payload.controler;
+  const sequence = action.payload.sequence;
+  const position = action.payload.position;
+
+  const magics = judgeSelf(controler, state) ? state.meMagics : state.opMagics;
+  setPosition(magics, sequence, position);
 };
 
 export const selectMeMagics = (state: RootState) =>

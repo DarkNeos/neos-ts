@@ -1,5 +1,5 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { setMonsterPosition } from "../../reducers/duel/mod";
+import { setMagicPosition, setMonsterPosition } from "../../reducers/duel/mod";
 import { AppDispatch } from "../../store";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
 
@@ -12,7 +12,18 @@ export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
         setMonsterPosition({
           controler: cardInfo.controler,
           sequence: cardInfo.sequence,
-          currentPosition: posChange.cur_position,
+          position: posChange.cur_position,
+        })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.SZONE: {
+      dispatch(
+        setMagicPosition({
+          controler: cardInfo.controler,
+          sequence: cardInfo.sequence,
+          position: posChange.cur_position,
         })
       );
 
