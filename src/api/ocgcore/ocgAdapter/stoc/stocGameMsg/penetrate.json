@@ -33,5 +33,22 @@
         "repeatedType": "uint32"
       }
     ]
+  },
+  "53": {
+    "protoType": "pos_change",
+    "fields": [
+      {
+        "fieldName": "card_info",
+        "fieldType": "CardInfo"
+      },
+      {
+        "fieldName": "pre_position",
+        "fieldType": "CardPosition"
+      },
+      {
+        "fieldName": "cur_position",
+        "fieldType": "CardPosition"
+      }
+    ]
   }
 }
