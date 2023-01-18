@@ -5,7 +5,7 @@ export default (response: ygopro.CtosGameMsgResponse.SelectChainResponse) => {
   const array = new Uint8Array(4);
   const writer = new BufferWriter(array, true);
 
-  writer.writeUint32(response.selected_ptr);
+  writer.writeInt32(response.selected_ptr);
 
   return array;
 };

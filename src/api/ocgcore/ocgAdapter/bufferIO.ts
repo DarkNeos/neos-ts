@@ -117,4 +117,9 @@ export class BufferWriter {
     this.dataView.setUint32(this.offset, value, this.littleEndian);
     this.offset += OFFSET_UINT32;
   }
+
+  writeInt32(value: number) {
+    this.dataView.setInt32(this.offset, value, this.littleEndian);
+    this.offset += OFFSET_INT32;
+  }
 }

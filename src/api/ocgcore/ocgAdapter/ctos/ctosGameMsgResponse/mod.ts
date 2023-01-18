@@ -9,6 +9,7 @@ import adaptSelectEffectYnResponse from "./selectEffectYn";
 import adaptSelectPositionResponse from "./selectPosition";
 import adaptSelectOptionResponse from "./selectOption";
 import adaptSelectBattleCmdResponse from "./selectBattleCmd";
+import adaptSelectUnselectCardResponse from "./selectUnselectCard";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -61,6 +62,13 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_battle_cmd": {
         extraData = adaptSelectBattleCmdResponse(response.select_battle_cmd);
+
+        break;
+      }
+      case "select_unselect_card": {
+        extraData = adaptSelectUnselectCardResponse(
+          response.select_unselect_card
+        );
 
         break;
       }
