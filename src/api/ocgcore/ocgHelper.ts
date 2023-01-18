@@ -230,3 +230,21 @@ export function sendSelectBattleCmdResponse(value: number) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectUnselectCardResponse(value: {
+  cancel_or_finish?: boolean;
+  selected_ptr?: number;
+}) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_unselect_card:
+        new ygopro.CtosGameMsgResponse.SelectUnselectCardResponse({
+          selected_ptr: value.selected_ptr,
+          cancel_or_finish: value.cancel_or_finish,
+        }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

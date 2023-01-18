@@ -19,6 +19,7 @@ import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
 import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
+import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
 import PENETRATE from "./penetrate";
 
 /*
@@ -108,6 +109,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SELECT_BATTLE_CMD: {
           gameMsg.select_battle_cmd = MsgSelectBattleCmdAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_UNSELECT_CARD: {
+          gameMsg.select_unselect_card = MsgSelectUnselectCardAdapter(gameData);
 
           break;
         }
