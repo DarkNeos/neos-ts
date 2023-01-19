@@ -46,6 +46,13 @@ import {
   setOptionModalIsOpenImpl,
   resetOptionModalImpl,
   optionModalCase,
+  setCheckCardModalV2IsOpenImpl,
+  setCheckCardModalV2CancelAbleImpl,
+  setCheckCardModalV2MinMaxImpl,
+  setCheckCardModalV2FinishAbleImpl,
+  resetCheckCardModalV2Impl,
+  setCheckCardModalV2ResponseAbleImpl,
+  checkCardModalV2Case,
 } from "./modal/mod";
 import {
   MonsterState,
@@ -139,6 +146,14 @@ const initialState: DuelState = {
     yesNoModal: { isOpen: false },
     positionModal: { isOpen: false, positions: [] },
     optionModal: { isOpen: false, options: [] },
+    checkCardModalV2: {
+      isOpen: false,
+      cancelAble: false,
+      finishAble: false,
+      responseable: false,
+      selectableOptions: [],
+      selectedOptions: [],
+    },
   },
 };
 
@@ -219,6 +234,12 @@ const duelSlice = createSlice({
     resetPositionModal: resetPositionModalImpl,
     setOptionModalIsOpen: setOptionModalIsOpenImpl,
     resetOptionModal: resetOptionModalImpl,
+    setCheckCardModalV2FinishAble: setCheckCardModalV2FinishAbleImpl,
+    setCheckCardModalV2MinMax: setCheckCardModalV2MinMaxImpl,
+    setCheckCardModalV2CancelAble: setCheckCardModalV2CancelAbleImpl,
+    setCheckCardModalV2IsOpen: setCheckCardModalV2IsOpenImpl,
+    resetCheckCardModalV2: resetCheckCardModalV2Impl,
+    setCheckCardModalV2ResponseAble: setCheckCardModalV2ResponseAbleImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -230,6 +251,7 @@ const duelSlice = createSlice({
     checkCardModalCase(builder);
     YesNoModalCase(builder);
     optionModalCase(builder);
+    checkCardModalV2Case(builder);
   },
 });
 
@@ -287,6 +309,12 @@ export const {
   addFieldPlaceInteractivities,
   addFieldIdleInteractivities,
   clearFieldIdleInteractivities,
+  setCheckCardModalV2IsOpen,
+  setCheckCardModalV2MinMax,
+  setCheckCardModalV2CancelAble,
+  setCheckCardModalV2FinishAble,
+  resetCheckCardModalV2,
+  setCheckCardModalV2ResponseAble,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

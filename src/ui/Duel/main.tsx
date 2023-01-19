@@ -18,6 +18,7 @@ import YesNoModal from "./yesNoModal";
 import PositionModal from "./positionModal";
 import OptionModal from "./optionModal";
 import Phase from "./phase";
+import CheckCardModalV2 from "./checkCardModalV2";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -51,6 +52,7 @@ const NeosDuel = () => (
     <YesNoModal />
     <PositionModal />
     <OptionModal />
+    <CheckCardModalV2 />
   </>
 );
 
