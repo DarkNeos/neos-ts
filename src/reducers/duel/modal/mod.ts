@@ -69,6 +69,7 @@ export interface ModalState {
       code: number;
       name?: string;
       desc?: string;
+      response?: number;
     }[];
   };
 }
@@ -79,3 +80,4 @@ export * from "./checkCardModalSlice";
 export * from "./yesNoModalSlice";
 export * from "./positionModalSlice";
 export * from "./optionModalSlice";
+export * from "./checkCardModalV2Slice";

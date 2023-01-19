@@ -1,7 +1,15 @@
-import { AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  AsyncThunk,
+  CaseReducer,
+  createAsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
+import { DuelState } from "./mod";
+
+export type DuelReducer<T> = CaseReducer<DuelState, PayloadAction<T>>;
 
 export interface DuelFieldState {
   inner: CardState[];
