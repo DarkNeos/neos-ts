@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
-import { Modal, Button, Card, Col } from "antd";
+import { Modal, Button, Card, Row, Col } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import {
   selectCheckCardModalV2CancelAble,
@@ -65,49 +65,54 @@ const CheckCardModalV2 = () => {
         size="small"
         onChange={(value) => {
           if (responseable) {
+            dispatch(setCheckCardModalV2IsOpen(false));
             // @ts-ignore
             sendSelectUnselectCardResponse({ selected_ptr: value });
             dispatch(setCheckCardModalV2ResponseAble(false));
           }
         }}
       >
-        {selectableOptions.map((option, idx) => {
+        <Row>
+          {selectableOptions.map((option, idx) => {
+            return (
+              <Col span={4} key={idx}>
+                <CheckCard
+                  title={option.name}
+                  description={option.desc}
+                  style={{ width: 120 }}
+                  cover={
+                    <img
+                      alt={option.code.toString()}
+                      src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                      style={{ width: 100 }}
+                    />
+                  }
+                  value={option.response}
+                />
+              </Col>
+            );
+          })}
+        </Row>
+      </CheckCard.Group>
+      <p>已经选择的卡片</p>
+      <Row>
+        {selectedOptions.map((option, idx) => {
           return (
             <Col span={4} key={idx}>
-              <CheckCard
-                title={option.name}
-                description={option.desc}
+              <Card
+                hoverable
                 style={{ width: 120 }}
                 cover={
                   <img
                     alt={option.code.toString()}
                     src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
-                    style={{ width: 100 }}
                   />
                 }
-                value={option.response}
               />
             </Col>
           );
         })}
-      </CheckCard.Group>
-      <p>已经选择的卡片</p>
-      {selectedOptions.map((option, idx) => {
-        return (
-          <Col span={4} key={idx}>
-            <Card
-              hoverable
-              style={{ width: 120 }}
-              cover={
-                <img
-                  alt={option.code.toString()}
-                  src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
-                />
-              }
-            />
-          </Col>
-        );
-      })}
+      </Row>
     </Modal>
   );
 };
