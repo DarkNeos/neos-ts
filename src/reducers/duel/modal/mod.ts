@@ -69,7 +69,7 @@ export interface ModalState {
       code: number;
       name?: string;
       desc?: string;
-      response?: number;
+      response: number;
     }[];
   };
 }

@@ -5,7 +5,7 @@ import {
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
 } from "../../reducers/duel/mod";
-import { fetchCheckCardMetaV2 } from "../../reducers/duel/modal/checkCardModalV2Slice";
+import { fetchCheckCardMetasV2 } from "../../reducers/duel/modal/checkCardModalV2Slice";
 import { AppDispatch } from "../../store";
 import MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
@@ -26,23 +26,23 @@ export default (
   dispatch(setCheckCardModalV2CancelAble(cancelable));
   dispatch(setCheckCardModalV2MinMax({ min, max }));
 
-  selectableCards.forEach((card) => {
-    dispatch(
-      fetchCheckCardMetaV2({
-        controler,
-        selected: false,
-        option: { code: card.code, response: card.response },
-      })
-    );
-  });
+  dispatch(
+    fetchCheckCardMetasV2({
+      controler,
+      selected: false,
+      options: selectableCards.map((card) => {
+        return { code: card.code, response: card.response };
+      }),
+    })
+  );
 
-  selectedCards.forEach((card) => {
-    dispatch(
-      fetchCheckCardMetaV2({
-        controler,
-        selected: true,
-        option: { code: card.code },
-      })
-    );
-  });
+  dispatch(
+    fetchCheckCardMetasV2({
+      controler,
+      selected: true,
+      options: selectedCards.map((card) => {
+        return { code: card.code, response: card.response };
+      }),
+    })
+  );
 };

@@ -42,22 +42,22 @@ export const setCheckCardModalV2FinishAbleImpl: DuelReducer<boolean> = (
 };
 
 // 增加卡牌选项
-export const fetchCheckCardMetaV2 = createAsyncThunk(
+export const fetchCheckCardMetasV2 = createAsyncThunk(
   "duel/fetchCheckCardMetaV2",
   async (param: {
     controler: number;
     selected: boolean;
-    option: { code: number; response?: number };
+    options: { code: number; response: number }[];
   }) => {
-    const meta = await fetchCard(param.option.code);
+    const metas = await Promise.all(
+      param.options.map(async (option) => {
+        return await fetchCard(option.code);
+      })
+    );
     const response = {
       controler: param.controler,
       selected: param.selected,
-      meta: {
-        code: meta.id,
-        name: meta.text.name,
-        desc: meta.text.desc,
-      },
+      metas,
     };
 
     return response;
@@ -67,28 +67,30 @@ export const fetchCheckCardMetaV2 = createAsyncThunk(
 export const checkCardModalV2Case = (
   builder: ActionReducerMapBuilder<DuelState>
 ) => {
-  builder.addCase(fetchCheckCardMetaV2.pending, (state, action) => {
+  builder.addCase(fetchCheckCardMetasV2.pending, (state, action) => {
     const selected = action.meta.arg.selected;
-    const code = action.meta.arg.option.code;
-    const response = action.meta.arg.option.response;
+    const options = action.meta.arg.options;
 
-    const options = selected
-      ? state.modalState.checkCardModalV2.selectedOptions
-      : state.modalState.checkCardModalV2.selectableOptions;
-    options.push({ code, response });
+    if (selected) {
+      state.modalState.checkCardModalV2.selectedOptions = options;
+    } else {
+      state.modalState.checkCardModalV2.selectableOptions = options;
+    }
   });
-  builder.addCase(fetchCheckCardMetaV2.fulfilled, (state, action) => {
+  builder.addCase(fetchCheckCardMetasV2.fulfilled, (state, action) => {
     const selected = action.payload.selected;
-    const meta = action.payload.meta;
+    const metas = action.payload.metas;
 
     const options = selected
       ? state.modalState.checkCardModalV2.selectedOptions
       : state.modalState.checkCardModalV2.selectableOptions;
     options.forEach((option) => {
-      if (option.code == meta.code) {
-        option.name = meta.name;
-        option.desc = meta.desc;
-      }
+      metas.forEach((meta) => {
+        if (option.code == meta.id) {
+          option.name = meta.text.name;
+          option.desc = meta.text.desc;
+        }
+      });
     });
   });
 };
