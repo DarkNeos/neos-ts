@@ -41,6 +41,14 @@ export const setCheckCardModalV2FinishAbleImpl: DuelReducer<boolean> = (
   state.modalState.checkCardModalV2.finishAble = action.payload;
 };
 
+// 更新是否可以回应
+export const setCheckCardModalV2ResponseAbleImpl: DuelReducer<boolean> = (
+  state,
+  action
+) => {
+  state.modalState.checkCardModalV2.responseable = action.payload;
+};
+
 // 增加卡牌选项
 export const fetchCheckCardMetasV2 = createAsyncThunk(
   "duel/fetchCheckCardMetaV2",
@@ -100,6 +108,7 @@ export const resetCheckCardModalV2Impl: CaseReducer<DuelState> = (state) => {
   modalState.isOpen = false;
   modalState.finishAble = false;
   modalState.cancelAble = false;
+  modalState.responseable = false;
   modalState.selectableOptions = [];
   modalState.selectedOptions = [];
 };
@@ -116,6 +125,8 @@ export const selectCheckCardModalV2CancelAble = (state: RootState) =>
   state.duel.modalState.checkCardModalV2.cancelAble;
 export const selectCheckCardModalV2FinishAble = (state: RootState) =>
   state.duel.modalState.checkCardModalV2.finishAble;
+export const selectCheckCardModalV2ResponseAble = (state: RootState) =>
+  state.duel.modalState.checkCardModalV2.responseable;
 export const selectCheckCardModalV2SelectAbleOptions = (state: RootState) =>
   state.duel.modalState.checkCardModalV2.selectableOptions;
 export const selectCheckCardModalV2SelectedOptions = (state: RootState) =>

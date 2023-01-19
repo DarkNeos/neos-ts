@@ -8,6 +8,7 @@ import {
   selectCheckCardModalV2FinishAble,
   selectCheckCardModalV2IsOpen,
   selectCheckCardModalV2MinMax,
+  selectCheckCardModalV2ResponseAble,
   selectCheckCardModalV2SelectAbleOptions,
   selectCheckCardModalV2SelectedOptions,
 } from "../../reducers/duel/modal/checkCardModalV2Slice";
@@ -15,6 +16,7 @@ import { sendSelectUnselectCardResponse } from "../../api/ocgcore/ocgHelper";
 import {
   resetCheckCardModalV2,
   setCheckCardModalV2IsOpen,
+  setCheckCardModalV2ResponseAble,
 } from "../../reducers/duel/mod";
 
 const CheckCardModalV2 = () => {
@@ -27,16 +29,24 @@ const CheckCardModalV2 = () => {
     selectCheckCardModalV2SelectAbleOptions
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
+  const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
 
   const onFinish = () => {
-    sendSelectUnselectCardResponse({ cancel_or_finish: true });
-    dispatch(setCheckCardModalV2IsOpen(false));
-    dispatch(resetCheckCardModalV2());
+    if (responseable) {
+      sendSelectUnselectCardResponse({ cancel_or_finish: true });
+      dispatch(setCheckCardModalV2IsOpen(false));
+      dispatch(resetCheckCardModalV2());
+      dispatch(setCheckCardModalV2ResponseAble(false));
+    }
   };
 
   const onCancel = () => {
-    sendSelectUnselectCardResponse({ cancel_or_finish: true });
+    if (responseable) {
+      sendSelectUnselectCardResponse({ cancel_or_finish: true });
+      dispatch(setCheckCardModalV2ResponseAble(false));
+    }
   };
+
   return (
     <Modal
       title={`请选择未选择的卡片，最少${min}张，最多${max}张`}
@@ -58,8 +68,11 @@ const CheckCardModalV2 = () => {
         bordered
         size="small"
         onChange={(value) => {
-          // @ts-ignore
-          sendSelectUnselectCardResponse({ selected_ptr: value });
+          if (responseable) {
+            // @ts-ignore
+            sendSelectUnselectCardResponse({ selected_ptr: value });
+            dispatch(setCheckCardModalV2ResponseAble(false));
+          }
         }}
       >
         {selectableOptions.map((option, idx) => {

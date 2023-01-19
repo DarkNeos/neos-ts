@@ -59,6 +59,7 @@ export interface ModalState {
     finishAble: boolean;
     selectMin?: number;
     selectMax?: number;
+    responseable: boolean;
     selectableOptions: {
       code: number;
       name?: string;

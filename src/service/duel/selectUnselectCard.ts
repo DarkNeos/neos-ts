@@ -4,6 +4,7 @@ import {
   setCheckCardModalV2FinishAble,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
+  setCheckCardModalV2ResponseAble,
 } from "../../reducers/duel/mod";
 import { fetchCheckCardMetasV2 } from "../../reducers/duel/modal/checkCardModalV2Slice";
 import { AppDispatch } from "../../store";
@@ -45,4 +46,6 @@ export default (
       }),
     })
   );
+
+  dispatch(setCheckCardModalV2ResponseAble(true));
 };
