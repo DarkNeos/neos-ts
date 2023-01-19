@@ -32,19 +32,15 @@ const CheckCardModalV2 = () => {
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
 
   const onFinish = () => {
-    if (responseable) {
-      sendSelectUnselectCardResponse({ cancel_or_finish: true });
-      dispatch(setCheckCardModalV2IsOpen(false));
-      dispatch(resetCheckCardModalV2());
-      dispatch(setCheckCardModalV2ResponseAble(false));
-    }
+    sendSelectUnselectCardResponse({ cancel_or_finish: true });
+    dispatch(setCheckCardModalV2IsOpen(false));
+    dispatch(resetCheckCardModalV2());
+    dispatch(setCheckCardModalV2ResponseAble(false));
   };
 
   const onCancel = () => {
-    if (responseable) {
-      sendSelectUnselectCardResponse({ cancel_or_finish: true });
-      dispatch(setCheckCardModalV2ResponseAble(false));
-    }
+    sendSelectUnselectCardResponse({ cancel_or_finish: true });
+    dispatch(setCheckCardModalV2ResponseAble(false));
   };
 
   return (
@@ -54,10 +50,10 @@ const CheckCardModalV2 = () => {
       closable={false}
       footer={
         <>
-          <Button disabled={!finishable} onClick={onFinish}>
+          <Button disabled={!finishable || !responseable} onClick={onFinish}>
             finish
           </Button>
-          <Button disabled={!cancelable} onClick={onCancel}>
+          <Button disabled={!cancelable || !responseable} onClick={onCancel}>
             cancel
           </Button>
         </>
