@@ -139,6 +139,13 @@ const initialState: DuelState = {
     yesNoModal: { isOpen: false },
     positionModal: { isOpen: false, positions: [] },
     optionModal: { isOpen: false, options: [] },
+    checkCardModalV2: {
+      isOpen: false,
+      cancelAble: false,
+      finishAble: false,
+      selectableOptions: [],
+      selectedOptions: [],
+    },
   },
 };
 

@@ -52,6 +52,25 @@ export interface ModalState {
     isOpen: boolean;
     options: { msg: string; response: number }[];
   };
+  // 卡牌选择弹窗V2
+  checkCardModalV2: {
+    isOpen: boolean;
+    cancelAble: boolean;
+    finishAble: boolean;
+    selectMin?: number;
+    selectMax?: number;
+    selectableOptions: {
+      code: number;
+      name?: string;
+      desc?: string;
+      response: number;
+    }[];
+    selectedOptions: {
+      code: number;
+      name?: string;
+      desc?: string;
+    }[];
+  };
 }
 
 export * from "./cardModalSlice";
