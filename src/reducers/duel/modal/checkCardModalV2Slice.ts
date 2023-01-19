@@ -112,6 +112,8 @@ export const selectCheckCardModalV2MinMax = (state: RootState) => {
 };
 export const selectCheckCardModalV2CancelAble = (state: RootState) =>
   state.duel.modalState.checkCardModalV2.cancelAble;
+export const selectCheckCardModalV2FinishAble = (state: RootState) =>
+  state.duel.modalState.checkCardModalV2.finishAble;
 export const selectCheckCardModalV2SelectAbleOptions = (state: RootState) =>
   state.duel.modalState.checkCardModalV2.selectableOptions;
 export const selectCheckCardModalV2SelectedOptions = (state: RootState) =>
