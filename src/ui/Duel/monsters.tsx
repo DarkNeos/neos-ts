@@ -25,7 +25,7 @@ const Monsters = () => {
     <>
       {zip(meMonsters, meMonsterPositions).map(
         ([monster, position], sequence) => {
-          return (
+          return sequence < 5 ? (
             <FixedSlot
               state={monster}
               key={sequence}
@@ -35,12 +35,14 @@ const Monsters = () => {
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
               clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
+          ) : (
+            <></>
           );
         }
       )}
       {zip(opMonsters, opMonsterPositions).map(
         ([monster, position], sequence) => {
-          return (
+          return sequence < 5 ? (
             <FixedSlot
               state={monster}
               key={sequence}
@@ -50,41 +52,92 @@ const Monsters = () => {
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
               clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
+          ) : (
+            <></>
           );
         }
       )}
-      <ExtraMonsters />
-      <ExtraMonsters />
+      <ExtraMonsters meMonsters={meMonsters} opMonsters={opMonsters} />
     </>
   );
 };
 
 // TODO: use props and redux
-const ExtraMonsters = () => {
-  const xs = [-1.1, 1];
+const ExtraMonsters = (props: {
+  meMonsters: CardState[];
+  opMonsters: CardState[];
+}) => {
   const shape = CONFIG.CardSlotShape();
-  const position = (x: number) =>
-    new BABYLON.Vector3(x, shape.depth / 2 + CONFIG.Floating, 0);
-  const rotation = CONFIG.CardSlotRotation(false);
+
+  const meLeft = props.meMonsters.find((_, sequence) => sequence == 5);
+  const meRight = props.meMonsters.find((_, sequence) => sequence == 6);
+  const opLeft = props.opMonsters.find((_, sequence) => sequence == 5);
+  const opRight = props.opMonsters.find((_, sequence) => sequence == 6);
+
+  const leftPosition = new BABYLON.Vector3(
+    -1.1,
+    shape.depth / 2 + CONFIG.Floating,
+    0
+  );
+  const rightPosition = new BABYLON.Vector3(
+    1.1,
+    shape.depth / 2 + CONFIG.Floating,
+    0
+  );
+
+  const meRotation = CONFIG.CardSlotRotation(false);
+  const opRotation = CONFIG.CardSlotRotation(true);
 
   return (
     <>
-      {xs.map((x, idx) => (
-        <plane
-          name={`extra-monster-${idx}`}
-          key={idx}
-          position={position(x)}
-          rotation={rotation}
-        >
-          <standardMaterial
-            name={`extra-monster-mat-${idx}`}
-            diffuseTexture={
-              new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
-            }
-            alpha={0.2}
-          ></standardMaterial>
-        </plane>
-      ))}
+      {meLeft ? (
+        <FixedSlot
+          state={meLeft}
+          sequence={5}
+          position={leftPosition}
+          rotation={meRotation}
+          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        />
+      ) : (
+        <></>
+      )}
+      {meRight ? (
+        <FixedSlot
+          state={meRight}
+          sequence={6}
+          position={rightPosition}
+          rotation={meRotation}
+          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        />
+      ) : (
+        <></>
+      )}
+      {opLeft ? (
+        <FixedSlot
+          state={opLeft}
+          sequence={5}
+          position={rightPosition}
+          rotation={opRotation}
+          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        />
+      ) : (
+        <></>
+      )}
+      {opRight ? (
+        <FixedSlot
+          state={opRight}
+          sequence={6}
+          position={leftPosition}
+          rotation={opRotation}
+          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

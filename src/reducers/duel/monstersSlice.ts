@@ -70,6 +70,22 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         },
         idleInteractivities: [],
       },
+      {
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 5,
+        },
+        idleInteractivities: [],
+      },
+      {
+        location: {
+          controler: player,
+          location: ygopro.CardZone.MZONE,
+          sequence: 6,
+        },
+        idleInteractivities: [],
+      },
     ],
   };
 
