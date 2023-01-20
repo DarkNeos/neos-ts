@@ -25,7 +25,7 @@ const Monsters = () => {
     <>
       {zip(meMonsters, meMonsterPositions).map(
         ([monster, position], sequence) => {
-          return (
+          return sequence < 5 ? (
             <FixedSlot
               state={monster}
               key={sequence}
@@ -35,12 +35,14 @@ const Monsters = () => {
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
               clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
+          ) : (
+            <></>
           );
         }
       )}
       {zip(opMonsters, opMonsterPositions).map(
         ([monster, position], sequence) => {
-          return (
+          return sequence < 5 ? (
             <FixedSlot
               state={monster}
               key={sequence}
@@ -50,6 +52,8 @@ const Monsters = () => {
               deffenseRotation={CONFIG.CardSlotDefenceRotation()}
               clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             />
+          ) : (
+            <></>
           );
         }
       )}
