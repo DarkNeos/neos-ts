@@ -2,14 +2,13 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
 import { Interactivity, InteractType } from "../../reducers/duel/generic";
 import {
-  clearHandsIdleInteractivity,
   addHandsIdleInteractivity,
   addMonsterIdleInteractivities,
   addMagicIdleInteractivities,
-  clearMonsterIdleInteractivities,
-  clearMagicIdleInteractivities,
   setEnableBp,
   setEnableEp,
+  addCemeteryIdleInteractivities,
+  clearAllIdleInteractivities,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -19,9 +18,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的互动性
-  dispatch(clearHandsIdleInteractivity(player));
-  dispatch(clearMonsterIdleInteractivities(player));
-  dispatch(clearMagicIdleInteractivities(player));
+  dispatch(clearAllIdleInteractivities(player));
 
   const dispatcher = (
     idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
@@ -83,7 +80,13 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
           break;
         }
+        case ygopro.CardZone.GRAVE: {
+          dispatcher(data, interactType, addCemeteryIdleInteractivities);
+
+          break;
+        }
         default: {
+          console.log(`Unhandled zone type: ${cardInfo.location}`);
         }
       }
     });
