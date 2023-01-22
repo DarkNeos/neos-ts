@@ -90,6 +90,7 @@ import {
   exclusionCase,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
+import { clearAllIdleInteractivitiesImpl } from "./commonSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -224,6 +225,9 @@ const duelSlice = createSlice({
     setCheckCardModalV2IsOpen: setCheckCardModalV2IsOpenImpl,
     resetCheckCardModalV2: resetCheckCardModalV2Impl,
     setCheckCardModalV2ResponseAble: setCheckCardModalV2ResponseAbleImpl,
+
+    // 通用的`Reducer`
+    clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -295,6 +299,7 @@ export const {
   setCheckCardModalV2FinishAble,
   resetCheckCardModalV2,
   setCheckCardModalV2ResponseAble,
+  clearAllIdleInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
