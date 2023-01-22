@@ -5,6 +5,7 @@ import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
 import {
   removeCemetery,
   removeExclusion,
+  removeField,
   removeHand,
   removeMagic,
   removeMonster,
@@ -13,6 +14,7 @@ import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 import { insertHandMeta } from "../../reducers/duel/handsSlice";
 import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
+import { fetchFieldMeta } from "../../reducers/duel/fieldSlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -51,6 +53,11 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         removeExclusion({ controler: from.controler, sequence: from.sequence })
       );
+
+      break;
+    }
+    case ygopro.CardZone.ONFIELD: {
+      dispatch(removeField({ controler: from.controler }));
 
       break;
     }
@@ -110,6 +117,13 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: to.sequence,
           code,
         })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.ONFIELD: {
+      dispatch(
+        fetchFieldMeta({ controler: to.controler, sequence: to.sequence, code })
       );
 
       break;
