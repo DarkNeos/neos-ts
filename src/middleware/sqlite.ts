@@ -40,6 +40,10 @@ export default async function (action: sqliteAction) {
 
         const [SQL, buffer] = await Promise.all([sqlPromise, dataPromise]);
         YGODB = new SQL.Database(new Uint8Array(buffer));
+
+        console.info("YGODB inited!");
+      } else {
+        console.warn("init YGODB action without initInfo");
       }
 
       break;

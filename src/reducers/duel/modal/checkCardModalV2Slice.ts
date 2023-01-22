@@ -59,7 +59,7 @@ export const fetchCheckCardMetasV2 = createAsyncThunk(
   }) => {
     const metas = await Promise.all(
       param.options.map(async (option) => {
-        return await fetchCard(option.code);
+        return await fetchCard(option.code, true);
       })
     );
     const response = {

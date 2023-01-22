@@ -50,7 +50,10 @@ export default function WaitRoom() {
     }
 
     // 初始化sqlite
-    sqliteMiddleWare({ cmd: sqliteCmd.INIT });
+    sqliteMiddleWare({
+      cmd: sqliteCmd.INIT,
+      initInfo: { dbUrl: "/ygopro-database/locales/zh-CN/cards.cdb" },
+    });
   }, []);
 
   const joined = useAppSelector(selectJoined);

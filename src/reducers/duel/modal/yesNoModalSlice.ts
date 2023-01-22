@@ -32,7 +32,7 @@ export const fetchYesNoMeta = createAsyncThunk(
     ) => string;
   }) => {
     const desc = await fetchStrings("!system", param.descCode);
-    const meta = await fetchCard(param.code);
+    const meta = await fetchCard(param.code, true);
 
     // TODO: 国际化文案
     return param.textGenerator(desc, meta, param.location);

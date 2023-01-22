@@ -23,7 +23,7 @@ export const resetOptionModalImpl: CaseReducer<DuelState> = (state) => {
 export const fetchOptionMeta = createAsyncThunk(
   "duel/fetchOptionMeta",
   async (param: { code: number; response: number }) => {
-    const meta = await fetchCard(param.code >> 4);
+    const meta = await fetchCard(param.code >> 4, true);
     const msg = getCardStr(meta, param.code & 0xf) || "[?]";
 
     const response = { msg, response: param.response };
