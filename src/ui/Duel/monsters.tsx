@@ -23,40 +23,32 @@ const Monsters = () => {
 
   return (
     <>
-      {zip(meMonsters, meMonsterPositions).map(
-        ([monster, position], sequence) => {
-          return sequence < 5 ? (
-            <FixedSlot
-              state={monster}
-              key={sequence}
-              sequence={sequence}
-              position={position}
-              rotation={CONFIG.CardSlotRotation(false)}
-              deffenseRotation={CONFIG.CardSlotDefenceRotation()}
-              clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-            />
-          ) : (
-            <></>
-          );
-        }
-      )}
-      {zip(opMonsters, opMonsterPositions).map(
-        ([monster, position], sequence) => {
-          return sequence < 5 ? (
-            <FixedSlot
-              state={monster}
-              key={sequence}
-              sequence={sequence}
-              position={position}
-              rotation={CONFIG.CardSlotRotation(true)}
-              deffenseRotation={CONFIG.CardSlotDefenceRotation()}
-              clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-            />
-          ) : (
-            <></>
-          );
-        }
-      )}
+      {zip(meMonsters, meMonsterPositions)
+        .slice(0, 5)
+        .map(([monster, position], sequence) => (
+          <FixedSlot
+            state={monster}
+            key={sequence}
+            sequence={sequence}
+            position={position}
+            rotation={CONFIG.CardSlotRotation(false)}
+            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          />
+        ))}
+      {zip(opMonsters, opMonsterPositions)
+        .slice(0, 5)
+        .map(([monster, position], sequence) => (
+          <FixedSlot
+            state={monster}
+            key={sequence}
+            sequence={sequence}
+            position={position}
+            rotation={CONFIG.CardSlotRotation(true)}
+            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          />
+        ))}
       <ExtraMonsters meMonsters={meMonsters} opMonsters={opMonsters} />
     </>
   );

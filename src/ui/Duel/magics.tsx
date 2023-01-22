@@ -20,30 +20,34 @@ const Magics = () => {
 
   return (
     <>
-      {zip(meMagics, meMagicPositions).map(([magic, position], sequence) => {
-        return (
-          <FixedSlot
-            state={magic}
-            key={sequence}
-            sequence={sequence}
-            position={position}
-            rotation={CONFIG.CardSlotRotation(false)}
-            clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
-          />
-        );
-      })}
-      {zip(opMagics, opMagicPositions).map(([magic, position], sequence) => {
-        return (
-          <FixedSlot
-            state={magic}
-            key={sequence}
-            sequence={sequence}
-            position={position}
-            rotation={CONFIG.CardSlotRotation(true)}
-            clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
-          />
-        );
-      })}
+      {zip(meMagics, meMagicPositions)
+        .slice(0, 5)
+        .map(([magic, position], sequence) => {
+          return (
+            <FixedSlot
+              state={magic}
+              key={sequence}
+              sequence={sequence}
+              position={position}
+              rotation={CONFIG.CardSlotRotation(false)}
+              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+            />
+          );
+        })}
+      {zip(opMagics, opMagicPositions)
+        .slice(0, 5)
+        .map(([magic, position], sequence) => {
+          return (
+            <FixedSlot
+              state={magic}
+              key={sequence}
+              sequence={sequence}
+              position={position}
+              rotation={CONFIG.CardSlotRotation(true)}
+              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+            />
+          );
+        })}
     </>
   );
 };

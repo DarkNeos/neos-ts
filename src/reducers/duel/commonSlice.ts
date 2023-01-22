@@ -1,4 +1,8 @@
-import { clearIdleInteractivities, clearPlaceInteractivities, DuelReducer } from "./generic";
+import {
+  clearIdleInteractivities,
+  clearPlaceInteractivities,
+  DuelReducer,
+} from "./generic";
 import { judgeSelf } from "./util";
 
 export const clearAllIdleInteractivitiesImpl: DuelReducer<number> = (

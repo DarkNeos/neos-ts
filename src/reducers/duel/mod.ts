@@ -90,7 +90,10 @@ import {
   exclusionCase,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
-import { clearAllIdleInteractivitiesImpl, clearAllPlaceInteractivitiesImpl } from "./commonSlice";
+import {
+  clearAllIdleInteractivitiesImpl,
+  clearAllPlaceInteractivitiesImpl,
+} from "./commonSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -301,7 +304,7 @@ export const {
   resetCheckCardModalV2,
   setCheckCardModalV2ResponseAble,
   clearAllIdleInteractivities,
-  clearAllPlaceInteractivities
+  clearAllPlaceInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
