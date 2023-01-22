@@ -36,9 +36,13 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        removeMagic({ controler: from.controler, sequence: from.sequence })
-      );
+      if (from.sequence < 5) {
+        dispatch(
+          removeMagic({ controler: from.controler, sequence: from.sequence })
+        );
+      } else {
+        dispatch(removeField({ controler: from.controler }));
+      }
 
       break;
     }
@@ -53,11 +57,6 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         removeExclusion({ controler: from.controler, sequence: from.sequence })
       );
-
-      break;
-    }
-    case ygopro.CardZone.ONFIELD: {
-      dispatch(removeField({ controler: from.controler }));
 
       break;
     }
@@ -81,14 +80,24 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        fetchMagicMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          position: to.position,
-          code,
-        })
-      );
+      if (to.sequence < 5) {
+        dispatch(
+          fetchMagicMeta({
+            controler: to.controler,
+            sequence: to.sequence,
+            position: to.position,
+            code,
+          })
+        );
+      } else {
+        dispatch(
+          fetchFieldMeta({
+            controler: to.controler,
+            sequence: to.sequence,
+            code,
+          })
+        );
+      }
 
       break;
     }
@@ -117,13 +126,6 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: to.sequence,
           code,
         })
-      );
-
-      break;
-    }
-    case ygopro.CardZone.ONFIELD: {
-      dispatch(
-        fetchFieldMeta({ controler: to.controler, sequence: to.sequence, code })
       );
 
       break;
