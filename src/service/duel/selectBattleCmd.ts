@@ -2,11 +2,9 @@ import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { Interactivity, InteractType } from "../../reducers/duel/generic";
 import {
-  addFieldIdleInteractivities,
   addHandsIdleInteractivity,
   addMagicIdleInteractivities,
   addMonsterIdleInteractivities,
-  clearFieldIdleInteractivities,
   clearHandsIdleInteractivity,
   clearMagicIdleInteractivities,
   clearMonsterIdleInteractivities,
@@ -24,7 +22,6 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
   dispatch(clearHandsIdleInteractivity(player));
   dispatch(clearMonsterIdleInteractivities(player));
   dispatch(clearMagicIdleInteractivities(player));
-  dispatch(clearFieldIdleInteractivities(player));
 
   const dispatcher = (
     battleData: MsgSelectBattleCmd.BattleCmd.BattleData,
@@ -86,11 +83,6 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
         }
         case ygopro.CardZone.SZONE: {
           dispatcher(data, interactType, addMagicIdleInteractivities);
-
-          break;
-        }
-        case ygopro.CardZone.ONFIELD: {
-          dispatcher(data, interactType, addFieldIdleInteractivities);
 
           break;
         }

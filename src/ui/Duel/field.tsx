@@ -1,14 +1,18 @@
 import * as BABYLON from "@babylonjs/core";
 import * as CONFIG from "../../config/ui";
 import { useAppSelector } from "../../hook";
-import { selectMeField, selectOpField } from "../../reducers/duel/fieldSlice";
-import { clearFieldPlaceInteractivities } from "../../reducers/duel/mod";
+import { selectMeMagics, selectOpMagics } from "../../reducers/duel/magicSlice";
+import { clearMagicPlaceInteractivities } from "../../reducers/duel/mod";
 import FixedSlot from "./fixedSlot";
 import { Depth } from "./singleSlot";
 
 const Field = () => {
-  const meField = useAppSelector(selectMeField)?.inner;
-  const opField = useAppSelector(selectOpField)?.inner;
+  const meField = useAppSelector(selectMeMagics).inner.find(
+    (_, sequence) => sequence == 5
+  );
+  const opField = useAppSelector(selectOpMagics).inner.find(
+    (_, sequence) => sequence == 5
+  );
 
   return (
     <>
@@ -18,7 +22,7 @@ const Field = () => {
           sequence={0}
           position={fieldPosition(0)}
           rotation={CONFIG.CardSlotRotation(false)}
-          clearPlaceInteractivitiesAction={clearFieldPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
         />
       ) : (
         <></>
@@ -29,7 +33,7 @@ const Field = () => {
           sequence={0}
           position={fieldPosition(1)}
           rotation={CONFIG.CardSlotRotation(true)}
-          clearPlaceInteractivitiesAction={clearFieldPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
         />
       ) : (
         <></>
