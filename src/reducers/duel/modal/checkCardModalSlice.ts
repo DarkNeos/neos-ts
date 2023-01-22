@@ -6,8 +6,9 @@ import {
 } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
 import { DuelState } from "../mod";
-import { judgeSelf } from "../util";
+import { findCardByLocation, judgeSelf } from "../util";
 import { fetchCard, getCardStr } from "../../../api/cards";
+import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
 
 // 更新卡牌选择弹窗打开状态
 export const setCheckCardModalIsOpenImpl: CaseReducer<
@@ -56,7 +57,13 @@ export const fetchCheckCardMeta = createAsyncThunk(
   async (param: {
     controler: number;
     tagName: string;
-    option: { code: number; response: number; effectDescCode?: number };
+    option: {
+      code: number;
+      zone?: ygopro.CardZone;
+      sequence?: number;
+      response: number;
+      effectDescCode?: number;
+    };
   }) => {
     const meta = await fetchCard(param.option.code, true);
     const effectDesc = param.option.effectDescCode
@@ -84,23 +91,34 @@ export const checkCardModalCase = (
     const controler = action.meta.arg.controler;
     const tagName = action.meta.arg.tagName;
     const code = action.meta.arg.option.code;
+    const zone = action.meta.arg.option.zone;
+    const sequence = action.meta.arg.option.sequence;
     const response = action.meta.arg.option.response;
 
     const combinedTagName = judgeSelf(controler, state)
       ? `我方的${tagName}`
       : `对方的${tagName}`;
 
-    for (const tag of state.modalState.checkCardModal.tags) {
-      if (tag.tagName === combinedTagName) {
-        tag.options.push({ code, response });
-        return;
-      }
-    }
+    const newID =
+      code != 0
+        ? code
+        : zone && sequence
+        ? findCardByLocation(state, controler, zone, sequence)?.occupant?.id
+        : undefined;
 
-    state.modalState.checkCardModal.tags.push({
-      tagName: combinedTagName,
-      options: [{ code, response }],
-    });
+    if (newID) {
+      for (const tag of state.modalState.checkCardModal.tags) {
+        if (tag.tagName === combinedTagName) {
+          tag.options.push({ code: newID, response });
+          return;
+        }
+      }
+
+      state.modalState.checkCardModal.tags.push({
+        tagName: combinedTagName,
+        options: [{ code: newID, response }],
+      });
+    }
   });
   builder.addCase(fetchCheckCardMeta.fulfilled, (state, action) => {
     const controler = action.payload.controler;
