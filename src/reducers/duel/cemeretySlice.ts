@@ -13,6 +13,9 @@ import {
   extendState,
   extendMeta,
   removeCard,
+  DuelReducer,
+  Interactivity,
+  extendIdleInteractivities,
 } from "./generic";
 
 export interface CemeteryState extends DuelFieldState {}
@@ -77,6 +80,21 @@ export const removeCemeteryImpl: CaseReducer<
     ? state.meCemetery
     : state.opCemetery;
   removeCard(cemetery, action.payload.sequence);
+};
+
+export const addCemeteryIdleInteractivitiesImpl: DuelReducer<{
+  player: number;
+  sequence: number;
+  interactivity: Interactivity<number>;
+}> = (state, action) => {
+  const cemetery = judgeSelf(action.payload.player, state)
+    ? state.meCemetery
+    : state.opCemetery;
+  extendIdleInteractivities(
+    cemetery,
+    action.payload.sequence,
+    action.payload.interactivity
+  );
 };
 
 export const selectMeCemetery = (state: RootState) =>

@@ -16,6 +16,7 @@ export interface ModalState {
       name?: string;
       desc?: string;
       imgUrl?: string;
+      interactivies: { desc: string; response: number }[];
     }[];
   };
   // 卡牌选择弹窗

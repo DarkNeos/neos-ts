@@ -10,7 +10,7 @@ import {
 } from "../../reducers/duel/modal/mod";
 import {
   setCardModalIsOpen,
-  clearHandsIdleInteractivity,
+  clearAllIdleInteractivities,
 } from "../../reducers/duel/mod";
 import { Modal, Card, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
@@ -47,7 +47,8 @@ const CardModal = () => {
             onClick={() => {
               sendSelectIdleCmdResponse(interactive.response);
               dispatch(setCardModalIsOpen(false));
-              dispatch(clearHandsIdleInteractivity(0));
+              dispatch(clearAllIdleInteractivities(0));
+              dispatch(clearAllIdleInteractivities(1));
             }}
           >
             {interactive.desc}

@@ -8,6 +8,7 @@ import {
   setCardListModalInfo,
   setCardListModalIsOpen,
 } from "../../reducers/duel/mod";
+import { interactTypeToString } from "./util";
 
 const shape = CONFIG.SingleSlotShape;
 export const Depth = 0.005;
@@ -19,6 +20,12 @@ const SingleSlot = (props: {
 }) => {
   const boxRef = useRef(null);
   const dispatch = store.dispatch;
+  const edgeRender =
+    props.state.find((item) =>
+      item === undefined ? false : item.idleInteractivities.length > 0
+    ) !== undefined;
+  const edgesWidth = 2.0;
+  const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
 
   useClick(
     (_event) => {
@@ -34,6 +41,12 @@ const SingleSlot = (props: {
                   name: item.occupant?.text.name,
                   desc: item.occupant?.text.desc,
                   imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.occupant?.id}.jpg`,
+                  interactivies: item.idleInteractivities.map((interactivy) => {
+                    return {
+                      desc: interactTypeToString(interactivy.interactType),
+                      response: interactivy.response,
+                    };
+                  }),
                 };
               })
           )
@@ -58,6 +71,9 @@ const SingleSlot = (props: {
       }
       position={props.position}
       rotation={props.rotation}
+      enableEdgesRendering
+      edgesWidth={edgeRender ? edgesWidth : 0}
+      edgesColor={edgesColor}
     >
       <standardMaterial
         name="single-slot-mat"

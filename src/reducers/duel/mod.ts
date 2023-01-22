@@ -81,14 +81,20 @@ import {
   initCemeteryImpl,
   removeCemeteryImpl,
   cemeteryCase,
+  addCemeteryIdleInteractivitiesImpl,
 } from "./cemeretySlice";
 import {
   ExclusionState,
   initExclusionImpl,
   removeExclusionImpl,
   exclusionCase,
+  addExclusionIdleInteractivitiesImpl,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
+import {
+  clearAllIdleInteractivitiesImpl,
+  clearAllPlaceInteractivitiesImpl,
+} from "./commonSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -183,10 +189,12 @@ const duelSlice = createSlice({
     // 墓地相关`Reducer`
     initCemetery: initCemeteryImpl,
     removeCemetery: removeCemeteryImpl,
+    addCemeteryIdleInteractivities: addCemeteryIdleInteractivitiesImpl,
 
     // 除外区相关`Reducer`
     initExclusion: initExclusionImpl,
     removeExclusion: removeExclusionImpl,
+    addExclusionIdleInteractivities: addExclusionIdleInteractivitiesImpl,
 
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
@@ -222,6 +230,10 @@ const duelSlice = createSlice({
     setCheckCardModalV2IsOpen: setCheckCardModalV2IsOpenImpl,
     resetCheckCardModalV2: resetCheckCardModalV2Impl,
     setCheckCardModalV2ResponseAble: setCheckCardModalV2ResponseAbleImpl,
+
+    // 通用的`Reducer`
+    clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
+    clearAllPlaceInteractivities: clearAllPlaceInteractivitiesImpl,
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -269,6 +281,7 @@ export const {
   removeHand,
   initCemetery,
   removeCemetery,
+  addCemeteryIdleInteractivities,
   setCardListModalIsOpen,
   setCardListModalInfo,
   setCheckCardModalIsOpen,
@@ -286,12 +299,15 @@ export const {
   initDeck,
   initExclusion,
   removeExclusion,
+  addExclusionIdleInteractivities,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2CancelAble,
   setCheckCardModalV2FinishAble,
   resetCheckCardModalV2,
   setCheckCardModalV2ResponseAble,
+  clearAllIdleInteractivities,
+  clearAllPlaceInteractivities,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

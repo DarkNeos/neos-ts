@@ -13,7 +13,14 @@ export const setCardListModalIsOpenImpl: CaseReducer<
 // 更新卡牌列表数据
 export const setCardListModalInfoImpl: CaseReducer<
   DuelState,
-  PayloadAction<{ name?: string; desc?: string; imgUrl?: string }[]>
+  PayloadAction<
+    {
+      name?: string;
+      desc?: string;
+      imgUrl?: string;
+      interactivies: { desc: string; response: number }[];
+    }[]
+  >
 > = (state, action) => {
   const list = action.payload;
 
