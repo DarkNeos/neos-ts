@@ -58,7 +58,7 @@ export const fetchCheckCardMeta = createAsyncThunk(
     tagName: string;
     option: { code: number; response: number; effectDescCode?: number };
   }) => {
-    const meta = await fetchCard(param.option.code);
+    const meta = await fetchCard(param.option.code, true);
     const effectDesc = param.option.effectDescCode
       ? getCardStr(meta, param.option.effectDescCode & 0xf)
       : undefined;

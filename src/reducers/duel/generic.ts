@@ -80,7 +80,7 @@ export function createAsyncMetaThunk(name: string): AsyncThunk<
     }) => {
       const code = param.code;
 
-      const meta = await fetchCard(code);
+      const meta = await fetchCard(code, true);
       const response = {
         controler: param.controler,
         sequence: param.sequence,
@@ -110,7 +110,7 @@ export function createAsyncRepeatedMetaThunk(
           if (id == 0) {
             return { id, data: {}, text: {} };
           } else {
-            return await fetchCard(id);
+            return await fetchCard(id, true);
           }
         })
       );

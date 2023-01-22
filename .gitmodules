@@ -1,3 +1,6 @@
 [submodule "neos-protobuf"]
 	path = neos-protobuf
   url = git@git.mycard.moe:mycard/neos-protobuf.git
+[submodule "ygopro-database"]
+	path = ygopro-database
+	url = git@git.mycard.moe:mycard/ygopro-database.git
