@@ -5,7 +5,7 @@ export interface CardMeta {
   data: {
     ot?: number;
     setcode?: number;
-    type_?: number;
+    type?: number;
     atk?: number;
     def?: number;
     level?: number;

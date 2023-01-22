@@ -6,6 +6,7 @@
  * */
 
 import initSqlJs, { Database } from "sql.js";
+import { CardMeta } from "../api/cards";
 
 export enum sqliteCmd {
   // 初始化
@@ -44,8 +45,14 @@ export default async function (action: sqliteAction) {
       break;
     }
     case sqliteCmd.SELECT: {
-      if (YGODB) {
-        // TDOO
+      if (YGODB && action.payload) {
+        const code = action.payload;
+        const dataStmt = YGODB.prepare("SELECT * from datas WHERE ID = $id");
+        const dataResult = dataStmt.getAsObject({ $id: code });
+        const textStmt = YGODB.prepare("SELECT * from texts WHERE ID = $id");
+        const textResult = textStmt.getAsObject({ $id: code });
+
+        return constructCardMeta(code, dataResult, textResult);
       } else {
         console.warn("ygo db not init!");
       }
@@ -58,4 +65,16 @@ export default async function (action: sqliteAction) {
       break;
     }
   }
+}
+
+function constructCardMeta(
+  id: number,
+  data: initSqlJs.ParamsObject,
+  text: initSqlJs.ParamsObject
+): CardMeta {
+  return {
+    id,
+    data,
+    text,
+  };
 }
