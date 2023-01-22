@@ -9,6 +9,7 @@ import {
   setEnableEp,
   addCemeteryIdleInteractivities,
   clearAllIdleInteractivities,
+  addExclusionIdleInteractivities,
 } from "../../reducers/duel/mod";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -82,6 +83,11 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         }
         case ygopro.CardZone.GRAVE: {
           dispatcher(data, interactType, addCemeteryIdleInteractivities);
+
+          break;
+        }
+        case ygopro.CardZone.REMOVED: {
+          dispatcher(data, interactType, addExclusionIdleInteractivities);
 
           break;
         }

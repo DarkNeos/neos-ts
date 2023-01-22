@@ -25,6 +25,7 @@ const SingleSlot = (props: {
       item === undefined ? false : item.idleInteractivities.length > 0
     ) !== undefined;
   const edgesWidth = 2.0;
+  const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
 
   useClick(
     (_event) => {
@@ -72,6 +73,7 @@ const SingleSlot = (props: {
       rotation={props.rotation}
       enableEdgesRendering
       edgesWidth={edgeRender ? edgesWidth : 0}
+      edgesColor={edgesColor}
     >
       <standardMaterial
         name="single-slot-mat"

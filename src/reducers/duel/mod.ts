@@ -88,6 +88,7 @@ import {
   initExclusionImpl,
   removeExclusionImpl,
   exclusionCase,
+  addExclusionIdleInteractivitiesImpl,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
 import {
@@ -193,6 +194,7 @@ const duelSlice = createSlice({
     // 除外区相关`Reducer`
     initExclusion: initExclusionImpl,
     removeExclusion: removeExclusionImpl,
+    addExclusionIdleInteractivities: addExclusionIdleInteractivitiesImpl,
 
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
@@ -297,6 +299,7 @@ export const {
   initDeck,
   initExclusion,
   removeExclusion,
+  addExclusionIdleInteractivities,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2CancelAble,
