@@ -21,6 +21,7 @@ import {
   sendHsStart,
 } from "../api/ocgcore/ocgHelper";
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
+import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
 import { Button } from "antd";
 
 const READY_STATE = "ready";
@@ -47,6 +48,9 @@ export default function WaitRoom() {
         },
       });
     }
+
+    // 初始化sqlite
+    sqliteMiddleWare({ cmd: sqliteCmd.INIT });
   }, []);
 
   const joined = useAppSelector(selectJoined);

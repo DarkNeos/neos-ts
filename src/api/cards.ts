@@ -1,4 +1,5 @@
 import axios from "axios";
+import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
 
 export interface CardMeta {
   id: number;
@@ -42,7 +43,15 @@ export interface CardMeta {
  * @returns 卡片数据
  *
  * */
-export async function fetchCard(id: number): Promise<CardMeta> {
+export async function fetchCard(
+  id: number,
+  local?: boolean
+): Promise<CardMeta> {
+  if (local) {
+    return await sqliteMiddleWare({ cmd: sqliteCmd.SELECT, payload: id }).then(
+      (res) => (res ? res : { id, data: {}, text: {} })
+    );
+  }
   const res = await axios.get<CardMeta>("http://localhost:3030/cards/" + id);
 
   return res.data;
