@@ -19,6 +19,11 @@ const SingleSlot = (props: {
 }) => {
   const boxRef = useRef(null);
   const dispatch = store.dispatch;
+  const edgeRender =
+    props.state.find(
+      (item) => item.placeInteractivities || item.idleInteractivities.length > 0
+    ) !== undefined;
+  const edgesWidth = 2.0;
 
   useClick(
     (_event) => {
@@ -58,6 +63,8 @@ const SingleSlot = (props: {
       }
       position={props.position}
       rotation={props.rotation}
+      enableEdgesRendering
+      edgesWidth={edgeRender ? edgesWidth : 0}
     >
       <standardMaterial
         name="single-slot-mat"
