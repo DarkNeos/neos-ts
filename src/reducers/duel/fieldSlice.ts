@@ -2,8 +2,18 @@ import { judgeSelf } from "./util";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
-import { CardState, Interactivity, InteractType } from "./generic";
+import {
+  PayloadAction,
+  CaseReducer,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
+import {
+  CardState,
+  createAsyncMetaThunk,
+  DuelReducer,
+  Interactivity,
+  InteractType,
+} from "./generic";
 
 export interface FieldState {
   inner?: CardState;
@@ -96,6 +106,48 @@ export const clearFieldIdleInteractivitiesImpl: CaseReducer<
 
   if (field && field.inner) {
     field.inner.idleInteractivities = [];
+  }
+};
+
+// 增加场地区
+export const fetchFieldMeta = createAsyncMetaThunk("duel/fetchFieldMeta");
+
+export const fieldCase = (builder: ActionReducerMapBuilder<DuelState>) => {
+  builder.addCase(fetchFieldMeta.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
+    const sequence = action.meta.arg.sequence;
+    const code = action.meta.arg.code;
+
+    if (sequence == 0) {
+      const meta = { id: code, data: {}, text: {} };
+      const field = judgeSelf(controler, state) ? state.meField : state.opField;
+      if (field && field.inner) {
+        field.inner.occupant = meta;
+      }
+    }
+  });
+
+  builder.addCase(fetchFieldMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
+    const meta = action.payload.meta;
+
+    const field = judgeSelf(controler, state) ? state.meField : state.opField;
+    if (field && field.inner) {
+      field.inner.occupant = meta;
+    }
+  });
+};
+
+// 删除场地区
+export const removeFieldImpl: DuelReducer<{ controler: number }> = (
+  state,
+  action
+) => {
+  const controler = action.payload.controler;
+
+  const field = judgeSelf(controler, state) ? state.meField : state.opField;
+  if (field && field.inner) {
+    field.inner.occupant = undefined;
   }
 };
 

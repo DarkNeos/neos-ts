@@ -96,6 +96,8 @@ import {
   addFieldPlaceInteractivitiesImpl,
   addFieldIdleInteractivitiesImpl,
   clearFieldIdleInteractivitiesImpl,
+  removeFieldImpl,
+  fieldCase,
 } from "./fieldSlice";
 
 export interface DuelState {
@@ -208,6 +210,7 @@ const duelSlice = createSlice({
     addFieldPlaceInteractivities: addFieldPlaceInteractivitiesImpl,
     addFieldIdleInteractivities: addFieldIdleInteractivitiesImpl,
     clearFieldIdleInteractivities: clearFieldIdleInteractivitiesImpl,
+    removeField: removeFieldImpl,
 
     // 阶段相关
     updatePhase: newPhaseImpl,
@@ -252,6 +255,7 @@ const duelSlice = createSlice({
     YesNoModalCase(builder);
     optionModalCase(builder);
     checkCardModalV2Case(builder);
+    fieldCase(builder);
   },
 });
 
@@ -305,6 +309,7 @@ export const {
   initExclusion,
   removeExclusion,
   initField,
+  removeField,
   clearFieldPlaceInteractivities,
   addFieldPlaceInteractivities,
   addFieldIdleInteractivities,
