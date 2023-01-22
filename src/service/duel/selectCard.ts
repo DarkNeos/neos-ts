@@ -25,7 +25,12 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
       fetchCheckCardMeta({
         controler: card.location.controler,
         tagName,
-        option: { code: card.code, response: card.response },
+        option: {
+          code: card.code,
+          zone: card.location.location,
+          sequence: card.location.sequence,
+          response: card.response,
+        },
       })
     );
   }
