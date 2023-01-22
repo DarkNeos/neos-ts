@@ -5,7 +5,6 @@ import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
 import {
   removeCemetery,
   removeExclusion,
-  removeField,
   removeHand,
   removeMagic,
   removeMonster,
@@ -14,7 +13,6 @@ import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 import { insertHandMeta } from "../../reducers/duel/handsSlice";
 import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
-import { fetchFieldMeta } from "../../reducers/duel/fieldSlice";
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -36,13 +34,9 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.SZONE: {
-      if (from.sequence < 5) {
-        dispatch(
-          removeMagic({ controler: from.controler, sequence: from.sequence })
-        );
-      } else {
-        dispatch(removeField({ controler: from.controler }));
-      }
+      dispatch(
+        removeMagic({ controler: from.controler, sequence: from.sequence })
+      );
 
       break;
     }
@@ -80,24 +74,14 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.SZONE: {
-      if (to.sequence < 5) {
-        dispatch(
-          fetchMagicMeta({
-            controler: to.controler,
-            sequence: to.sequence,
-            position: to.position,
-            code,
-          })
-        );
-      } else {
-        dispatch(
-          fetchFieldMeta({
-            controler: to.controler,
-            sequence: to.sequence,
-            code,
-          })
-        );
-      }
+      dispatch(
+        fetchMagicMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          position: to.position,
+          code,
+        })
+      );
 
       break;
     }

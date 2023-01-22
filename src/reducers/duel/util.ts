@@ -64,14 +64,6 @@ export function findCardByLocation(
         : state.opCemetery;
       return cemerety?.inner.find(finder);
     }
-    case ygopro.CardZone.ONFIELD: {
-      const field = judgeSelf(controler, state) ? state.meField : state.opField;
-      if (sequence == 0) {
-        return field?.inner;
-      } else {
-        return undefined;
-      }
-    }
     default: {
       return undefined;
     }

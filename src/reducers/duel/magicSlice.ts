@@ -70,6 +70,15 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         },
         idleInteractivities: [],
       },
+      {
+        // 场地区
+        location: {
+          controler: player,
+          location: ygopro.CardZone.SZONE,
+          sequence: 5,
+        },
+        idleInteractivities: [],
+      },
     ],
   };
 

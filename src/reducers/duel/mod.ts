@@ -89,16 +89,6 @@ import {
   exclusionCase,
 } from "./exclusionSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
-import {
-  FieldState,
-  initFieldImpl,
-  clearFieldPlaceInteractivitiesImpl,
-  addFieldPlaceInteractivitiesImpl,
-  addFieldIdleInteractivitiesImpl,
-  clearFieldIdleInteractivitiesImpl,
-  removeFieldImpl,
-  fieldCase,
-} from "./fieldSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -122,9 +112,6 @@ export interface DuelState {
 
   meDeck?: DeckState; // 自己的卡组状态
   opDeck?: DeckState; // 对手的卡组状态
-
-  meField?: FieldState; // 自己的场地区状态
-  opField?: FieldState; // 对手的场地区状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -204,14 +191,6 @@ const duelSlice = createSlice({
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
 
-    // 场地区相关`Reducer`
-    initField: initFieldImpl,
-    clearFieldPlaceInteractivities: clearFieldPlaceInteractivitiesImpl,
-    addFieldPlaceInteractivities: addFieldPlaceInteractivitiesImpl,
-    addFieldIdleInteractivities: addFieldIdleInteractivitiesImpl,
-    clearFieldIdleInteractivities: clearFieldIdleInteractivitiesImpl,
-    removeField: removeFieldImpl,
-
     // 阶段相关
     updatePhase: newPhaseImpl,
     setEnableBp: setEnableBpImpl,
@@ -255,7 +234,6 @@ const duelSlice = createSlice({
     YesNoModalCase(builder);
     optionModalCase(builder);
     checkCardModalV2Case(builder);
-    fieldCase(builder);
   },
 });
 
@@ -308,12 +286,6 @@ export const {
   initDeck,
   initExclusion,
   removeExclusion,
-  initField,
-  removeField,
-  clearFieldPlaceInteractivities,
-  addFieldPlaceInteractivities,
-  addFieldIdleInteractivities,
-  clearFieldIdleInteractivities,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2CancelAble,

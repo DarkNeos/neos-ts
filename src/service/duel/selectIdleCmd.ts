@@ -8,8 +8,6 @@ import {
   addMagicIdleInteractivities,
   clearMonsterIdleInteractivities,
   clearMagicIdleInteractivities,
-  clearFieldIdleInteractivities,
-  addFieldIdleInteractivities,
   setEnableBp,
   setEnableEp,
 } from "../../reducers/duel/mod";
@@ -24,7 +22,6 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   dispatch(clearHandsIdleInteractivity(player));
   dispatch(clearMonsterIdleInteractivities(player));
   dispatch(clearMagicIdleInteractivities(player));
-  dispatch(clearFieldIdleInteractivities(player));
 
   const dispatcher = (
     idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
@@ -83,11 +80,6 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         }
         case ygopro.CardZone.SZONE: {
           dispatcher(data, interactType, addMagicIdleInteractivities);
-
-          break;
-        }
-        case ygopro.CardZone.ONFIELD: {
-          dispatcher(data, interactType, addFieldIdleInteractivities);
 
           break;
         }

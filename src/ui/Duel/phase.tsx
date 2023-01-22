@@ -12,7 +12,6 @@ import {
   sendSelectIdleCmdResponse,
 } from "../../api/ocgcore/ocgHelper";
 import {
-  clearFieldIdleInteractivities,
   clearHandsIdleInteractivity,
   clearMagicIdleInteractivities,
   clearMonsterIdleInteractivities,
@@ -33,8 +32,6 @@ const Bp = () => {
     dispatch(clearMonsterIdleInteractivities(1));
     dispatch(clearMagicIdleInteractivities(0));
     dispatch(clearMagicIdleInteractivities(1));
-    dispatch(clearFieldIdleInteractivities(0));
-    dispatch(clearFieldIdleInteractivities(1));
 
     sendSelectIdleCmdResponse(6);
     dispatch(setEnableBp(false));
@@ -54,8 +51,6 @@ const M2 = () => {
     dispatch(clearMonsterIdleInteractivities(1));
     dispatch(clearMagicIdleInteractivities(0));
     dispatch(clearMagicIdleInteractivities(1));
-    dispatch(clearFieldIdleInteractivities(0));
-    dispatch(clearFieldIdleInteractivities(1));
 
     sendSelectBattleCmdResponse(2);
     dispatch(setEnableM2(false));
@@ -86,8 +81,6 @@ const Ep = () => {
     dispatch(clearMonsterIdleInteractivities(1));
     dispatch(clearMagicIdleInteractivities(0));
     dispatch(clearMagicIdleInteractivities(1));
-    dispatch(clearFieldIdleInteractivities(0));
-    dispatch(clearFieldIdleInteractivities(1));
 
     sendSelectIdleCmdResponse(response);
     dispatch(setEnableEp(false));

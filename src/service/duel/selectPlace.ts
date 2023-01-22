@@ -4,7 +4,6 @@ import MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 import {
   addMonsterPlaceInteractivities,
   addMagicPlaceInteractivities,
-  addFieldPlaceInteractivities,
 } from "../../reducers/duel/mod";
 
 export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
@@ -27,11 +26,6 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
         dispatch(
           addMagicPlaceInteractivities([place.controler, place.sequence])
         );
-
-        break;
-      }
-      case ygopro.CardZone.ONFIELD: {
-        dispatch(addFieldPlaceInteractivities(place.controler));
 
         break;
       }
