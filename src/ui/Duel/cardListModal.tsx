@@ -5,10 +5,13 @@ import {
   selectCardListModalIsOpen,
   selectCardListModalInfo,
 } from "../../reducers/duel/modal/mod";
-import { setCardListModalIsOpen } from "../../reducers/duel/mod";
-import { Modal, List, Popover, Card } from "antd";
+import {
+  clearAllIdleInteractivities,
+  setCardListModalIsOpen,
+} from "../../reducers/duel/mod";
+import { Modal, List, Button } from "antd";
+import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
 
-const { Meta } = Card;
 const CARD_WIDTH = 100;
 
 const CardListModal = () => {
@@ -26,21 +29,30 @@ const CardListModal = () => {
         itemLayout="horizontal"
         dataSource={list}
         renderItem={(item) => (
-          <Popover
-            content={
-              <Card
-                hoverable
-                style={{ width: CARD_WIDTH }}
-                cover={<img alt={item.name} src={item.imgUrl} />}
+          <List.Item
+            actions={item.interactivies.map((interactivy, idx) => (
+              <Button
+                key={idx}
+                onClick={() => {
+                  sendSelectIdleCmdResponse(interactivy.response);
+                  dispatch(setCardListModalIsOpen(false));
+                  dispatch(clearAllIdleInteractivities(0));
+                  dispatch(clearAllIdleInteractivities(1));
+                }}
               >
-                <Meta title={item.name} />
-              </Card>
+                {interactivy.desc}
+              </Button>
+            ))}
+            extra={
+              <img
+                alt={item.name}
+                src={item.imgUrl}
+                style={{ width: CARD_WIDTH }}
+              />
             }
           >
-            <List.Item>
-              <List.Item.Meta title={item.name} description={item.desc} />
-            </List.Item>
-          </Popover>
+            <List.Item.Meta title={item.name} description={item.desc} />
+          </List.Item>
         )}
       ></List>
     </Modal>
