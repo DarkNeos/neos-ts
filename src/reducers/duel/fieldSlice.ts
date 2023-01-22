@@ -16,7 +16,7 @@ import {
 } from "./generic";
 
 export interface FieldState {
-  inner?: CardState;
+  inner: CardState;
 }
 
 // 初始化场地区状态
@@ -74,7 +74,7 @@ export const clearFieldPlaceInteractivitiesImpl: CaseReducer<
   const player = action.payload;
 
   const field = judgeSelf(player, state) ? state.meField : state.opField;
-  if (field && field.inner) {
+  if (field) {
     field.inner.placeInteractivities = undefined;
   }
 };
@@ -91,7 +91,7 @@ export const addFieldIdleInteractivitiesImpl: CaseReducer<
     ? state.meField
     : state.opField;
 
-  if (field && field.inner) {
+  if (field) {
     field.inner.idleInteractivities.push(action.payload.interactivity);
   }
 };
@@ -104,7 +104,7 @@ export const clearFieldIdleInteractivitiesImpl: CaseReducer<
     ? state.meField
     : state.opField;
 
-  if (field && field.inner) {
+  if (field) {
     field.inner.idleInteractivities = [];
   }
 };
@@ -121,7 +121,7 @@ export const fieldCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (sequence == 0) {
       const meta = { id: code, data: {}, text: {} };
       const field = judgeSelf(controler, state) ? state.meField : state.opField;
-      if (field && field.inner) {
+      if (field) {
         field.inner.occupant = meta;
       }
     }
@@ -132,7 +132,7 @@ export const fieldCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const meta = action.payload.meta;
 
     const field = judgeSelf(controler, state) ? state.meField : state.opField;
-    if (field && field.inner) {
+    if (field) {
       field.inner.occupant = meta;
     }
   });
@@ -146,7 +146,7 @@ export const removeFieldImpl: DuelReducer<{ controler: number }> = (
   const controler = action.payload.controler;
 
   const field = judgeSelf(controler, state) ? state.meField : state.opField;
-  if (field && field.inner) {
+  if (field) {
     field.inner.occupant = undefined;
   }
 };
