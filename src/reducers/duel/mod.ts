@@ -81,6 +81,7 @@ import {
   initCemeteryImpl,
   removeCemeteryImpl,
   cemeteryCase,
+  addCemeteryIdleInteractivitiesImpl,
 } from "./cemeretySlice";
 import {
   ExclusionState,
@@ -183,6 +184,7 @@ const duelSlice = createSlice({
     // 墓地相关`Reducer`
     initCemetery: initCemeteryImpl,
     removeCemetery: removeCemeteryImpl,
+    addCemeteryIdleInteractivities: addCemeteryIdleInteractivitiesImpl,
 
     // 除外区相关`Reducer`
     initExclusion: initExclusionImpl,
@@ -269,6 +271,7 @@ export const {
   removeHand,
   initCemetery,
   removeCemetery,
+  addCemeteryIdleInteractivities,
   setCardListModalIsOpen,
   setCardListModalInfo,
   setCheckCardModalIsOpen,
