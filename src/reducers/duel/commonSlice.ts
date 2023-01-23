@@ -18,6 +18,7 @@ export const clearAllIdleInteractivitiesImpl: DuelReducer<number> = (
         state.meMagics,
         state.meCemetery,
         state.meExclusion,
+        state.meExtraDeck,
       ]
     : [
         state.opHands,
@@ -25,6 +26,7 @@ export const clearAllIdleInteractivitiesImpl: DuelReducer<number> = (
         state.opMagics,
         state.opCemetery,
         state.opExclusion,
+        state.opExtraDeck,
       ];
 
   states.forEach((item) => clearIdleInteractivities(item));

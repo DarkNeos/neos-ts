@@ -95,7 +95,12 @@ import {
   clearAllIdleInteractivitiesImpl,
   clearAllPlaceInteractivitiesImpl,
 } from "./commonSlice";
-import { ExtraDeckState, extraDeckCase } from "./extraDeckSlice";
+import {
+  ExtraDeckState,
+  extraDeckCase,
+  removeExtraDeckImpl,
+  addExtraDeckIdleInteractivitiesImpl,
+} from "./extraDeckSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -203,6 +208,10 @@ const duelSlice = createSlice({
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
 
+    // 额外卡组相关`Reducer`
+    removeExtraDeck: removeExtraDeckImpl,
+    addExtraDeckIdleInteractivities: addExtraDeckIdleInteractivitiesImpl,
+
     // 阶段相关
     updatePhase: newPhaseImpl,
     setEnableBp: setEnableBpImpl,
@@ -302,6 +311,8 @@ export const {
   setOptionModalIsOpen,
   resetOptionModal,
   initDeck,
+  removeExtraDeck,
+  addExtraDeckIdleInteractivities,
   initExclusion,
   removeExclusion,
   addExclusionIdleInteractivities,
