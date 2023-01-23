@@ -73,6 +73,7 @@ export const removeHandImpl: CaseReducer<
   removeCard(hands, sequence);
 };
 
+// 在特定位置增加手牌
 export const insertHandMeta = createAsyncMetaThunk("duel/insertHandMeta");
 
 export const updateHandsMeta = createAsyncRepeatedMetaThunk(
@@ -170,8 +171,6 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     updateCardMeta(hands, metas);
   });
 };
-
-// 在特定位置增加手牌
 
 export const selectMeHands = (state: RootState) =>
   state.duel.meHands || { inner: [] };

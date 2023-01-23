@@ -95,6 +95,12 @@ import {
   clearAllIdleInteractivitiesImpl,
   clearAllPlaceInteractivitiesImpl,
 } from "./commonSlice";
+import {
+  ExtraDeckState,
+  extraDeckCase,
+  removeExtraDeckImpl,
+  addExtraDeckIdleInteractivitiesImpl,
+} from "./extraDeckSlice";
 
 export interface DuelState {
   selfType?: number;
@@ -118,6 +124,9 @@ export interface DuelState {
 
   meDeck?: DeckState; // 自己的卡组状态
   opDeck?: DeckState; // 对手的卡组状态
+
+  meExtraDeck?: ExtraDeckState; // 自己的额外卡组状态
+  opExtraDeck?: ExtraDeckState; // 对手的额外卡组状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -199,6 +208,10 @@ const duelSlice = createSlice({
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
 
+    // 额外卡组相关`Reducer`
+    removeExtraDeck: removeExtraDeckImpl,
+    addExtraDeckIdleInteractivities: addExtraDeckIdleInteractivitiesImpl,
+
     // 阶段相关
     updatePhase: newPhaseImpl,
     setEnableBp: setEnableBpImpl,
@@ -242,6 +255,7 @@ const duelSlice = createSlice({
     magicCase(builder);
     cemeteryCase(builder);
     exclusionCase(builder);
+    extraDeckCase(builder);
     checkCardModalCase(builder);
     YesNoModalCase(builder);
     optionModalCase(builder);
@@ -297,6 +311,8 @@ export const {
   setOptionModalIsOpen,
   resetOptionModal,
   initDeck,
+  removeExtraDeck,
+  addExtraDeckIdleInteractivities,
   initExclusion,
   removeExclusion,
   addExclusionIdleInteractivities,
