@@ -23,6 +23,8 @@ import {
 import socketMiddleWare, { socketCmd } from "../middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
 import { Button } from "antd";
+import { store } from "../store";
+import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
 
 const READY_STATE = "ready";
 
@@ -56,6 +58,7 @@ export default function WaitRoom() {
     });
   }, []);
 
+  const dispatch = store.dispatch;
   const joined = useAppSelector(selectJoined);
   const chat = useAppSelector(selectChat);
   const isHost = useAppSelector(selectIsHost);
@@ -67,6 +70,7 @@ export default function WaitRoom() {
     const deck = await fetchDeck("hero.ydk");
 
     sendUpdateDeck(deck);
+    dispatch(initMeExtraDeckMeta({ controler: 0, codes: deck.extra || [] }));
 
     setChoseDeck(true);
   };

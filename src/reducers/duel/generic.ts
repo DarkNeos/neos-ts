@@ -18,7 +18,7 @@ export interface DuelFieldState {
 export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
   location: {
-    controler: number;
+    controler?: number;
     location?: number;
     position?: ygopro.CardPosition;
     overlay_sequence?: number;

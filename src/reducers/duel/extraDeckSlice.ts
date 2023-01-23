@@ -19,7 +19,7 @@ import { judgeSelf } from "./util";
 export interface ExtraDeckState extends DuelFieldState {}
 
 // 初始化额外卡组
-export const initExtraDeckMeta = createAsyncRepeatedMetaThunk(
+export const initMeExtraDeckMeta = createAsyncRepeatedMetaThunk(
   "duel/initExtraDeckMeta"
 );
 
@@ -29,34 +29,26 @@ export const fetchExtraDeckMeta = createAsyncMetaThunk(
 );
 
 export const extraDeckCase = (builder: ActionReducerMapBuilder<DuelState>) => {
-  builder.addCase(initExtraDeckMeta.pending, (state, action) => {
-    const player = action.meta.arg.controler;
+  builder.addCase(initMeExtraDeckMeta.pending, (state, action) => {
+    const _ = action.meta.arg.controler;
     const ids = action.meta.arg.codes;
 
     const cards = ids.map((id) => {
       return {
         occupant: { id, data: {}, text: {} },
         location: {
-          controler: player,
           location: ygopro.CardZone.EXTRA,
         },
         idleInteractivities: [],
       };
     });
-    if (judgeSelf(player, state)) {
-      state.meExtraDeck = { inner: cards };
-    } else {
-      state.opExtraDeck = { inner: cards };
-    }
+    state.meExtraDeck = { inner: cards };
   });
-  builder.addCase(initExtraDeckMeta.fulfilled, (state, action) => {
-    const player = action.payload.controler;
+  builder.addCase(initMeExtraDeckMeta.fulfilled, (state, action) => {
+    const _ = action.payload.controler;
     const metas = action.payload.metas;
 
-    const extraDeck = judgeSelf(player, state)
-      ? state.meExtraDeck
-      : state.opExtraDeck;
-    updateCardMeta(extraDeck, metas);
+    updateCardMeta(state.meExtraDeck, metas);
   });
 
   builder.addCase(fetchExtraDeckMeta.pending, (state, action) => {
