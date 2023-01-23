@@ -20,6 +20,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
+  console.log(to);
   // TODO: reason
 
   switch (from.location) {
