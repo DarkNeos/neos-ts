@@ -9,7 +9,7 @@ import CardModal from "./cardModal";
 import HintNotification from "./hintNotification";
 import Magics from "./magics";
 import Field from "./field";
-import Deck from "./deck";
+import CommonDeck from "./deck";
 import Exclusion from "./exclusion";
 import Cemeteries from "./cemetery";
 import CardListModal from "./cardListModal";
@@ -19,6 +19,7 @@ import PositionModal from "./positionModal";
 import OptionModal from "./optionModal";
 import Phase from "./phase";
 import CheckCardModalV2 from "./checkCardModalV2";
+import ExtraDeck from "./extraDeck";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => (
@@ -34,7 +35,8 @@ const NeosDuel = () => (
               <Monsters />
               <Magics />
               <Field />
-              <Deck />
+              <CommonDeck />
+              <ExtraDeck />
               <Cemeteries />
               <Exclusion />
               <Field />
