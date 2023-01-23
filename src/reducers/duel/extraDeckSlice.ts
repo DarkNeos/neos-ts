@@ -96,7 +96,7 @@ export const removeExtraDeckImpl: DuelReducer<{
 export const addExtraDeckIdleInteractivitiesImpl: DuelReducer<{
   player: number;
   sequence: number;
-  interactivy: Interactivity<number>;
+  interactivity: Interactivity<number>;
 }> = (state, action) => {
   const extraDeck = judgeSelf(action.payload.player, state)
     ? state.meExtraDeck
@@ -104,7 +104,7 @@ export const addExtraDeckIdleInteractivitiesImpl: DuelReducer<{
   extendIdleInteractivities(
     extraDeck,
     action.payload.sequence,
-    action.payload.interactivy
+    action.payload.interactivity
   );
 };
 
