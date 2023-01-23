@@ -19,6 +19,7 @@ const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["move", ygopro.StocGameMessage.MsgMove as Constructor],
   ["shuffle_hand", ygopro.StocGameMessage.MsgShuffleHand],
   ["pos_change", ygopro.StocGameMessage.MsgPosChange],
+  ["select_yes_no", ygopro.StocGameMessage.MsgSelectYesNo],
 ]);
 
 export interface penetrateType {

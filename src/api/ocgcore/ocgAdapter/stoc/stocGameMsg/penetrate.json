@@ -50,5 +50,12 @@
         "fieldType": "CardPosition"
       }
     ]
+  },
+  "13": {
+    "protoType": "select_yes_no",
+    "fields": [
+      { "fieldName": "player","fieldType": "uint8" },
+      { "fieldName": "effect_description", "fieldType": "uint32" }
+    ]
   }
 }
