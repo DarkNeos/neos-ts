@@ -17,6 +17,7 @@ import onMsgShuffleHand from "./shuffleHand";
 import onMsgSelectBattleCmd from "./selectBattleCmd";
 import onMsgPosChange from "./posChange";
 import onMsgSelectUnselectCard from "./selectUnselectCard";
+import onMsgSelectYesNo from "./selectYesNo";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -105,6 +106,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "select_unselect_card": {
       onMsgSelectUnselectCard(msg.select_unselect_card, dispatch);
+
+      break;
+    }
+    case "select_yes_no": {
+      onMsgSelectYesNo(msg.select_yes_no, dispatch);
 
       break;
     }
