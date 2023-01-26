@@ -51,7 +51,7 @@ const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(_) => `http://localhost:3030/images/card_back.jpg`}
+            cover={(_) => `assets/card_back.jpg`}
           />
         );
       })}
