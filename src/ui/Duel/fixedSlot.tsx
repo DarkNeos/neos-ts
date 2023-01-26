@@ -99,9 +99,7 @@ const FixedSlot = (props: {
         diffuseTexture={
           props.state.occupant
             ? faceDown
-              ? new BABYLON.Texture(
-                  `http://localhost:3030/images/card_back.jpg`
-                )
+              ? new BABYLON.Texture(`assets/card_back.jpg`)
               : new BABYLON.Texture(
                   `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
                 )
