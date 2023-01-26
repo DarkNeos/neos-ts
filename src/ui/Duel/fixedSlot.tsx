@@ -103,7 +103,7 @@ const FixedSlot = (props: {
               : new BABYLON.Texture(
                   `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
                 )
-            : new BABYLON.Texture(`http://localhost:3030/images/card_slot.png`)
+            : new BABYLON.Texture(`assets/card_slot.png`)
         }
         alpha={props.state.occupant ? 1 : 0}
       ></standardMaterial>
