@@ -77,7 +77,7 @@ const Light = () => (
 const Ground = () => {
   const shape = CONFIG.GroundShape();
   const texture = new BABYLON.Texture(
-    `http://localhost:3030/images/newfield.png`
+    `assets/newfield.png`
   );
   texture.hasAlpha = true;
 
