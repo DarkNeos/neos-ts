@@ -1,4 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
+import DECKS from "./deck.json";
+
+const DeckManager = _objToMap(DECKS);
 
 export interface IDeck {
   main?: number[];
@@ -12,9 +15,18 @@ export interface IDeck {
  * @param deck- 卡组名称
  * @returns 卡组数据
  *
+ * @todo - 这里应该为萌卡实现卡组存储
  * */
 export async function fetchDeck(deck: string): Promise<IDeck> {
-  const res = await axios.get<IDeck>("http://localhost:3030/deck/" + deck);
+  const res = DeckManager.get(deck);
 
-  return res.data;
+  return res || { main: [], extra: [], side: [] };
+}
+
+function _objToMap(object: any): Map<string, IDeck> {
+  let map = new Map();
+
+  Object.keys(object).forEach((key) => map.set(key, object[key]));
+
+  return map;
 }
