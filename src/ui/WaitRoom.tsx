@@ -67,7 +67,7 @@ export default function WaitRoom() {
   const observerCount = useAppSelector(selectObserverCount);
 
   const handleChoseDeck = async () => {
-    const deck = await fetchDeck("hero.ydk");
+    const deck = await fetchDeck("hero");
 
     sendUpdateDeck(deck);
     dispatch(initMeExtraDeckMeta({ controler: 0, codes: deck.extra || [] }));
