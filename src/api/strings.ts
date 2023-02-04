@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export async function initStrings() {
+  const strings = (
+    await axios.get<string>(`ygopro-database/locales/zh-CN/strings.conf`)
+  ).data;
+  localStorage.setItem("ygo-strings", strings);
+}
+
 export async function fetchStrings(
   region: string,
   id: number
