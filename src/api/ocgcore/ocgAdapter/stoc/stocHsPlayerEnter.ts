@@ -1,6 +1,6 @@
 import { ygopro } from "../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../packet";
-import { UTF16_BUFFER_MAX_LEN } from "../util";
+import { UTF16_BUFFER_MAX_LEN, _cutoff_name } from "../util";
 
 const UINT8_PER_UINT16 = 2;
 
@@ -24,7 +24,7 @@ export default class HsPlayerEnterAdapter implements StocAdapter {
 
     const decoder = new TextDecoder("utf-16");
     const name = decoder.decode(
-      exData.slice(0, UTF16_BUFFER_MAX_LEN * UINT8_PER_UINT16)
+      _cutoff_name(exData.slice(0, UTF16_BUFFER_MAX_LEN * UINT8_PER_UINT16))
     );
 
     const dataView = new DataView(exData.buffer);

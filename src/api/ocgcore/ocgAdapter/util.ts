@@ -210,3 +210,22 @@ export function numberToChainFlag(
     }
   }
 }
+
+const chunkItems = <T>(items: T[]) =>
+  items.reduce((chunks: T[][], item: T, index) => {
+    const chunk = Math.floor(index / 2);
+    chunks[chunk] = ([] as T[]).concat(chunks[chunk] || [], item);
+    return chunks;
+  }, []);
+
+export function _cutoff_name(data: Uint8Array): Uint8Array {
+  let res: number[] = [];
+  for (const char of chunkItems(Array.from(data))) {
+    if (!char.every((item) => item == 0)) {
+      res = res.concat(char);
+    } else {
+      break;
+    }
+  }
+  return Uint8Array.from(res);
+}
