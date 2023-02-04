@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
@@ -20,43 +20,61 @@ import OptionModal from "./optionModal";
 import Phase from "./phase";
 import CheckCardModalV2 from "./checkCardModalV2";
 import ExtraDeck from "./extraDeck";
+import { initStrings } from "../../api/strings";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
-const NeosDuel = () => (
-  <>
-    <ReactReduxContext.Consumer>
-      {({ store }) => (
-        <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
-          <Scene>
-            <Provider store={store}>
-              <Camera />
-              <Light />
-              <Hands />
-              <Monsters />
-              <Magics />
-              <Field />
-              <CommonDeck />
-              <ExtraDeck />
-              <Cemeteries />
-              <Exclusion />
-              <Field />
-              <Phase />
-              <Ground />
-            </Provider>
-          </Scene>
-        </Engine>
-      )}
-    </ReactReduxContext.Consumer>
-    <CardModal />
-    <CardListModal />
-    <HintNotification />
-    <CheckCardModal />
-    <YesNoModal />
-    <PositionModal />
-    <OptionModal />
-    <CheckCardModalV2 />
-  </>
-);
+const NeosDuel = () => {
+  // 应该用更优雅的方式处理`useEffect`执行两次的问题
+  const initialRender = useRef(true);
+  useEffect(() => {
+    const init = async () => {
+      await initStrings();
+    };
+
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
+    init();
+  }, []);
+
+  return (
+    <>
+      <ReactReduxContext.Consumer>
+        {({ store }) => (
+          <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
+            <Scene>
+              <Provider store={store}>
+                <Camera />
+                <Light />
+                <Hands />
+                <Monsters />
+                <Magics />
+                <Field />
+                <CommonDeck />
+                <ExtraDeck />
+                <Cemeteries />
+                <Exclusion />
+                <Field />
+                <Phase />
+                <Ground />
+              </Provider>
+            </Scene>
+          </Engine>
+        )}
+      </ReactReduxContext.Consumer>
+      <CardModal />
+      <CardListModal />
+      <HintNotification />
+      <CheckCardModal />
+      <YesNoModal />
+      <PositionModal />
+      <OptionModal />
+      <CheckCardModalV2 />
+    </>
+  );
+};
 
 const Camera = () => (
   <freeCamera
