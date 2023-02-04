@@ -31,7 +31,7 @@ export const fetchYesNoMeta = createAsyncThunk(
       cardLocation: ygopro.CardLocation
     ) => string;
   }) => {
-    const desc = await fetchStrings("!system", param.descCode);
+    const desc = await fetchStrings("!system", param.descCode, true);
     const meta = await fetchCard(param.code, true);
 
     // TODO: 国际化文案

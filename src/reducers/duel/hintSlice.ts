@@ -16,7 +16,7 @@ export const fetchCommonHintMeta = createAsyncThunk(
     const player = param[0];
     const hintData = param[1];
 
-    const hintMeta = await fetchStrings("!system", hintData);
+    const hintMeta = await fetchStrings("!system", hintData, true);
     const response: [number, string] = [player, hintMeta];
 
     return response;
