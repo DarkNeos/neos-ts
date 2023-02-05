@@ -3,37 +3,42 @@ import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
 
 export interface CardMeta {
   id: number;
-  data: {
-    ot?: number;
-    setcode?: number;
-    type?: number;
-    atk?: number;
-    def?: number;
-    level?: number;
-    race?: number;
-    attribute?: number;
-  };
-  text: {
-    name?: string;
-    types?: string;
-    desc?: string;
-    str1?: string;
-    str2?: string;
-    str3?: string;
-    str4?: string;
-    str5?: string;
-    str6?: string;
-    str7?: string;
-    str8?: string;
-    str9?: string;
-    str10?: string;
-    str11?: string;
-    str12?: string;
-    str13?: string;
-    str14?: string;
-    str15?: string;
-    str16?: string;
-  };
+  data: CardData;
+  text: CardText;
+}
+
+export interface CardData {
+  ot?: number;
+  setcode?: number;
+  type?: number;
+  atk?: number;
+  def?: number;
+  level?: number;
+  race?: number;
+  attribute?: number;
+}
+
+export interface CardText {
+  id?: number;
+  name?: string;
+  types?: string;
+  desc?: string;
+  str1?: string;
+  str2?: string;
+  str3?: string;
+  str4?: string;
+  str5?: string;
+  str6?: string;
+  str7?: string;
+  str8?: string;
+  str9?: string;
+  str10?: string;
+  str11?: string;
+  str12?: string;
+  str13?: string;
+  str14?: string;
+  str15?: string;
+  str16?: string;
 }
 
 /*
@@ -48,8 +53,11 @@ export async function fetchCard(
   local?: boolean
 ): Promise<CardMeta> {
   if (local) {
-    return await sqliteMiddleWare({ cmd: sqliteCmd.SELECT, payload: id }).then(
-      (res) => (res ? res : { id, data: {}, text: {} })
+    return await sqliteMiddleWare({
+      cmd: sqliteCmd.SELECT,
+      payload: { id },
+    }).then((res) =>
+      res.selectResult ? res.selectResult : { id, data: {}, text: {} }
     );
   }
   const res = await axios.get<CardMeta>("http://localhost:3030/cards/" + id);
