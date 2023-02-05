@@ -40,22 +40,26 @@ export default function WaitRoom() {
 
   useEffect(() => {
     if (ip && player && player.length != 0 && passWd && passWd.length != 0) {
-      // 页面第一次渲染时，通过socket中间件向ygopro服务端请求建立长连接
-      socketMiddleWare({
-        cmd: socketCmd.CONNECT,
-        initInfo: {
-          ip,
-          player,
-          passWd,
-        },
-      });
-    }
+      const init = async () => {
+        // 页面第一次渲染时，通过socket中间件向ygopro服务端请求建立长连接
+        socketMiddleWare({
+          cmd: socketCmd.CONNECT,
+          initInfo: {
+            ip,
+            player,
+            passWd,
+          },
+        });
 
-    // 初始化sqlite
-    sqliteMiddleWare({
-      cmd: sqliteCmd.INIT,
-      initInfo: { dbUrl: "/ygopro-database/locales/zh-CN/cards.cdb" },
-    });
+        // 初始化sqlite
+        await sqliteMiddleWare({
+          cmd: sqliteCmd.INIT,
+          initInfo: { dbUrl: "/ygopro-database/locales/zh-CN/cards.cdb" },
+        });
+      };
+
+      init();
+    }
   }, []);
 
   const dispatch = store.dispatch;

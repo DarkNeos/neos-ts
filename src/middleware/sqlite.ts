@@ -83,9 +83,10 @@ export default async function (action: sqliteAction): Promise<sqliteResult> {
         const ftsMetas: CardMeta[] = [];
 
         const textStmt = YGODB.prepare(
-          "SELECT * FROM texts WHERE name LIKE '%$query%'"
+          "SELECT * FROM texts WHERE name LIKE $query"
         );
-        textStmt.bind({ $query: query });
+        textStmt.bind({ $query: `%${query}%` });
+
         while (textStmt.step()) {
           const row = textStmt.getAsObject();
           ftsTexts.push(row);
@@ -93,7 +94,6 @@ export default async function (action: sqliteAction): Promise<sqliteResult> {
 
         for (const text of ftsTexts) {
           const id = text.id;
-
           if (id) {
             const dataStmt = YGODB.prepare(
               "SELECT * FROM datas WHERE ID = $id"
