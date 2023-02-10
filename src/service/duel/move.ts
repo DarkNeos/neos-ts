@@ -165,7 +165,21 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.OVERLAY: {
-      OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
+      if (to.sequence > 6) {
+        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，这时候素材们的sequence会暂时大于6
+        // 这时候将它们放到一个栈中，待超量怪兽的Move消息到来时从栈中获取超量素材补充到状态中
+        OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
+      } else {
+        // 其他情况下，比如“宵星的机神 丁吉尔苏”的“补充超量素材”效果，直接更新状态中
+        dispatch(
+          fetchOverlayMeta({
+            controler: to.controler,
+            sequence: to.sequence,
+            overlayCodes: [code],
+            append: true,
+          })
+        );
+      }
 
       break;
     }

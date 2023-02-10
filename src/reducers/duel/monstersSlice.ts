@@ -169,6 +169,7 @@ export const fetchOverlayMeta = createAsyncThunk(
     controler: number;
     sequence: number;
     overlayCodes: number[];
+    append?: boolean;
   }) => {
     const controler = param.controler;
     const sequence = param.sequence;
@@ -221,6 +222,7 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const controler = action.meta.arg.controler;
     const sequence = action.meta.arg.sequence;
     const overlayCodes = action.meta.arg.overlayCodes;
+    const append = action.meta.arg.append;
 
     const metas = overlayCodes.map((id) => {
       return { id, data: {}, text: {} };
@@ -231,7 +233,13 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     if (monsters) {
       const target = monsters.inner.find((_, idx) => idx == sequence);
       if (target && target.occupant) {
-        target.overlay_materials = metas;
+        if (append) {
+          target.overlay_materials = (target.overlay_materials || []).concat(
+            metas
+          );
+        } else {
+          target.overlay_materials = metas;
+        }
       }
     }
   });
@@ -245,8 +253,13 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       : state.opMonsters;
     if (monsters) {
       const target = monsters.inner.find((_, idx) => idx == sequence);
-      if (target && target.occupant) {
-        target.overlay_materials = overlayMetas;
+      for (const meta of overlayMetas) {
+        for (const overlay of target?.overlay_materials || []) {
+          if (meta.id == overlay.id) {
+            overlay.data = meta.data;
+            overlay.text = meta.text;
+          }
+        }
       }
     }
   });
