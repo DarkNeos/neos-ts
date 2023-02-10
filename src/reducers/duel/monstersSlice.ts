@@ -267,6 +267,32 @@ export const removeMonsterImpl: CaseReducer<
   removeOverlay(monsters, action.payload.sequence);
 };
 
+// 删除超量素材
+export const removeOverlayImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{
+    controler: number;
+    sequence: number;
+    overlaySequence: number;
+  }>
+> = (state, action) => {
+  const controler = action.payload.controler;
+  const sequence = action.payload.sequence;
+  const overlaySequence = action.payload.overlaySequence;
+
+  const monsters = judgeSelf(controler, state)
+    ? state.meMonsters
+    : state.opMonsters;
+  if (monsters) {
+    const target = monsters.inner.find((_, idx) => idx == sequence);
+    if (target && target.overlay_materials) {
+      target.overlay_materials = target.overlay_materials.filter(
+        (_, idx) => idx != overlaySequence
+      );
+    }
+  }
+};
+
 // 改变怪兽表示形式
 export const setMonsterPositionImpl: CaseReducer<
   DuelState,

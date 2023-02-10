@@ -12,6 +12,7 @@ import {
   removeHand,
   removeMagic,
   removeMonster,
+  removeOverlay,
 } from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
@@ -64,6 +65,17 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.EXTRA: {
       dispatch(
         removeExtraDeck({ controler: from.controler, sequence: from.sequence })
+      );
+
+      break;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      dispatch(
+        removeOverlay({
+          controler: from.controler,
+          sequence: from.sequence,
+          overlaySequence: from.overlay_sequence,
+        })
       );
 
       break;

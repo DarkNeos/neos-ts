@@ -63,6 +63,7 @@ import {
   clearMonsterIdleInteractivitiesImpl,
   removeMonsterImpl,
   setMonsterPositionImpl,
+  removeOverlayImpl,
   monsterCase,
 } from "./monstersSlice";
 import {
@@ -185,6 +186,7 @@ const duelSlice = createSlice({
     clearMonsterIdleInteractivities: clearMonsterIdleInteractivitiesImpl,
     setMonsterPosition: setMonsterPositionImpl,
     removeMonster: removeMonsterImpl,
+    removeOverlay: removeOverlayImpl,
 
     // 魔法陷阱区相关`Reducer`
     initMagics: initMagicsImpl,
@@ -285,6 +287,7 @@ export const {
   clearMonsterIdleInteractivities,
   setMonsterPosition,
   removeMonster,
+  removeOverlay,
   initMagics,
   addMagicPlaceInteractivities,
   clearMagicPlaceInteractivities,
