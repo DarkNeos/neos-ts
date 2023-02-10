@@ -3,6 +3,7 @@ import {
   PayloadAction,
   CaseReducer,
   ActionReducerMapBuilder,
+  createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
@@ -18,7 +19,9 @@ import {
   extendIdleInteractivities,
   clearIdleInteractivities,
   setPosition,
+  removeOverlay,
 } from "./generic";
+import { fetchCard } from "../../api/cards";
 
 export interface MonsterState extends DuelFieldState {}
 
@@ -159,6 +162,33 @@ export const clearMonsterIdleInteractivitiesImpl: CaseReducer<
 // 增加怪兽
 export const fetchMonsterMeta = createAsyncMetaThunk("duel/fetchMonsterMeta");
 
+// 增加怪兽的超量素材
+export const fetchOverlayMeta = createAsyncThunk(
+  "duel/fetchOverlayMeta",
+  async (param: {
+    controler: number;
+    sequence: number;
+    overlayCodes: number[];
+  }) => {
+    const controler = param.controler;
+    const sequence = param.sequence;
+    const overlayCodes = param.overlayCodes;
+
+    const metas = await Promise.all(
+      overlayCodes.map(async (id) => {
+        if (id == 0) {
+          return { id, data: {}, text: {} };
+        } else {
+          return await fetchCard(id, true);
+        }
+      })
+    );
+    const response = { controler, sequence, metas };
+
+    return response;
+  }
+);
+
 export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchMonsterMeta.pending, (state, action) => {
     // Meta结果没返回之前先更新`ID`
@@ -185,6 +215,41 @@ export const monsterCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       extendOccupant(state.opMonsters, meta, sequence);
     }
   });
+
+  builder.addCase(fetchOverlayMeta.pending, (state, action) => {
+    // Meta结果没返回之前先更新`ID`
+    const controler = action.meta.arg.controler;
+    const sequence = action.meta.arg.sequence;
+    const overlayCodes = action.meta.arg.overlayCodes;
+
+    const metas = overlayCodes.map((id) => {
+      return { id, data: {}, text: {} };
+    });
+    const monsters = judgeSelf(controler, state)
+      ? state.meMonsters
+      : state.opMonsters;
+    if (monsters) {
+      const target = monsters.inner.find((_, idx) => idx == sequence);
+      if (target && target.occupant) {
+        target.overlay_materials = metas;
+      }
+    }
+  });
+  builder.addCase(fetchOverlayMeta.fulfilled, (state, action) => {
+    const controler = action.payload.controler;
+    const sequence = action.payload.sequence;
+    const overlayMetas = action.payload.metas;
+
+    const monsters = judgeSelf(controler, state)
+      ? state.meMonsters
+      : state.opMonsters;
+    if (monsters) {
+      const target = monsters.inner.find((_, idx) => idx == sequence);
+      if (target && target.occupant) {
+        target.overlay_materials = overlayMetas;
+      }
+    }
+  });
 };
 
 // 删除怪兽
@@ -199,6 +264,7 @@ export const removeMonsterImpl: CaseReducer<
     : state.opMonsters;
 
   removeOccupant(monsters, action.payload.sequence);
+  removeOverlay(monsters, action.payload.sequence);
 };
 
 // 改变怪兽表示形式

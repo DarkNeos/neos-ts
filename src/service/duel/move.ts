@@ -1,7 +1,10 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { AppDispatch } from "../../store";
-import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
+import {
+  fetchMonsterMeta,
+  fetchOverlayMeta,
+} from "../../reducers/duel/monstersSlice";
 import {
   removeCemetery,
   removeExclusion,
@@ -16,11 +19,12 @@ import { insertHandMeta } from "../../reducers/duel/handsSlice";
 import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
 import { fetchExtraDeckMeta } from "../../reducers/duel/extraDeckSlice";
 
+const OVERLAY_STACK: { code: number; sequence: number }[] = [];
+
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
-  console.log(to);
   // TODO: reason
 
   switch (from.location) {
@@ -81,6 +85,19 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
         })
       );
 
+      // 处理超量素材
+      const overlayMetarials = OVERLAY_STACK.splice(0, OVERLAY_STACK.length);
+      let sorted = overlayMetarials
+        .sort((a, b) => a.sequence - b.sequence)
+        .map((overlay) => overlay.code);
+      dispatch(
+        fetchOverlayMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          overlayCodes: sorted,
+        })
+      );
+
       break;
     }
     case ygopro.CardZone.SZONE: {
@@ -132,6 +149,11 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           code,
         })
       );
+
+      break;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
 
       break;
     }
