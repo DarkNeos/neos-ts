@@ -1,7 +1,10 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { AppDispatch } from "../../store";
-import { fetchMonsterMeta } from "../../reducers/duel/monstersSlice";
+import {
+  fetchMonsterMeta,
+  fetchOverlayMeta,
+} from "../../reducers/duel/monstersSlice";
 import {
   removeCemetery,
   removeExclusion,
@@ -9,12 +12,15 @@ import {
   removeHand,
   removeMagic,
   removeMonster,
+  removeOverlay,
 } from "../../reducers/duel/mod";
 import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
 import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 import { insertHandMeta } from "../../reducers/duel/handsSlice";
 import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
 import { fetchExtraDeckMeta } from "../../reducers/duel/extraDeckSlice";
+
+const OVERLAY_STACK: { code: number; sequence: number }[] = [];
 
 export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
@@ -63,6 +69,17 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
 
       break;
     }
+    case ygopro.CardZone.OVERLAY: {
+      dispatch(
+        removeOverlay({
+          controler: from.controler,
+          sequence: from.sequence,
+          overlaySequence: from.overlay_sequence,
+        })
+      );
+
+      break;
+    }
     default: {
       console.log(`Unhandled zone type ${from.location}`);
       break;
@@ -77,6 +94,19 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: to.sequence,
           position: to.position,
           code,
+        })
+      );
+
+      // 处理超量素材
+      const overlayMetarials = OVERLAY_STACK.splice(0, OVERLAY_STACK.length);
+      let sorted = overlayMetarials
+        .sort((a, b) => a.sequence - b.sequence)
+        .map((overlay) => overlay.code);
+      dispatch(
+        fetchOverlayMeta({
+          controler: to.controler,
+          sequence: to.sequence,
+          overlayCodes: sorted,
         })
       );
 
@@ -131,6 +161,25 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           code,
         })
       );
+
+      break;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      if (to.sequence > 6) {
+        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，这时候素材们的sequence会暂时大于6
+        // 这时候将它们放到一个栈中，待超量怪兽的Move消息到来时从栈中获取超量素材补充到状态中
+        OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
+      } else {
+        // 其他情况下，比如“宵星的机神 丁吉尔苏”的“补充超量素材”效果，直接更新状态中
+        dispatch(
+          fetchOverlayMeta({
+            controler: to.controler,
+            sequence: to.sequence,
+            overlayCodes: [code],
+            append: true,
+          })
+        );
+      }
 
       break;
     }

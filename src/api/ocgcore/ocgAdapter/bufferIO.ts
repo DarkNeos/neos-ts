@@ -6,6 +6,7 @@ const OFFSET_INT8 = 1;
 const OFFSET_UINT16 = 2;
 const OFFSET_UINT32 = 4;
 const OFFSET_INT32 = 4;
+const LOCATION_OVERLAY = 0x80;
 
 export class BufferReader {
   dataView: DataView;
@@ -67,28 +68,28 @@ export class BufferReader {
     });
   }
 
-  readCardLocation(overlay?: boolean): ygopro.CardLocation {
+  readCardLocation(): ygopro.CardLocation {
     const controler = this.readUint8();
     const location = this.readUint8();
     const sequence = this.readUint8();
     const ss = this.readUint8();
 
-    const cardLocation = new ygopro.CardLocation({
-      controler,
-      location: numberToCardZone(location),
-      sequence,
-    });
-
-    if (overlay && overlay) {
-      cardLocation.overlay_sequence = ss;
+    if (location & LOCATION_OVERLAY) {
+      // 超量素材
+      return new ygopro.CardLocation({
+        controler,
+        location: ygopro.CardZone.OVERLAY,
+        sequence,
+        overlay_sequence: ss,
+      });
     } else {
-      const position = numberToCardPosition(ss);
-      if (position) {
-        cardLocation.position = position;
-      }
+      return new ygopro.CardLocation({
+        controler,
+        location: numberToCardZone(location),
+        sequence,
+        position: numberToCardPosition(ss),
+      });
     }
-
-    return cardLocation;
   }
 }
 

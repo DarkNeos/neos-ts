@@ -29,6 +29,7 @@ export interface CardState {
     zone: ygopro.CardZone;
     sequence: number;
   }>; // 选择位置状态下的互动信息
+  overlay_materials?: CardMeta[]; // 超量素材
 }
 
 export enum InteractType {
@@ -208,6 +209,18 @@ export function removeOccupant<T extends DuelFieldState>(
     const target = state.inner.find((_, idx) => idx == sequence);
     if (target) {
       target.occupant = undefined;
+    }
+  }
+}
+
+export function removeOverlay<T extends DuelFieldState>(
+  state: T | undefined,
+  sequence: number
+) {
+  if (state) {
+    const target = state.inner.find((_, idx) => idx == sequence);
+    if (target) {
+      target.overlay_materials = [];
     }
   }
 }
