@@ -6,15 +6,16 @@
  * passWd: 房间密码。
  *
  * */
+import { Input } from "antd";
 import React, { useState, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
-import "../css/JoinRoom.css";
-import { Input, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import "../styles/core.scss";
 
 export default function JoinRoom() {
   const [player, setPlayer] = useState("");
   const [passWd, setPasswd] = useState("");
   const [ip, setIp] = useState("");
+  const navigate = useNavigate();
 
   let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
@@ -27,39 +28,71 @@ export default function JoinRoom() {
   };
 
   return (
-    <div className="login_div">
-      <p className="login_p">
-        <Input
-          type="text"
-          style={{ width: "20%" }}
-          placeholder="player"
-          value={player}
-          onChange={handlePlayerChange}
-        />
-      </p>
-      <p className="login_p">
-        <Input
-          type="text"
-          style={{ width: "20%" }}
-          placeholder="ip"
-          value={ip}
-          onChange={handleIpChange}
-        />
-      </p>
-      <p className="login_p">
-        <Input
-          type="text"
-          style={{ width: "20%" }}
-          placeholder="passwd"
-          value={passWd}
-          onChange={handlePasswdChange}
-        />
-      </p>
-      <p className="login_p">
-        <Button>
-          <Link to={{ pathname: `/${player}/${passWd}/${ip}` }}>join</Link>
-        </Button>
-      </p>
+    <div className="container">
+      <div id="login">
+        <form
+          className="login-form"
+          onSubmit={() => navigate(`/${player}/${passWd}/${ip}`)}
+        >
+          <span className="fa fa-user"></span>
+          <Input
+            autoFocus
+            type="text"
+            placeholder="Player Name"
+            value={player}
+            onChange={handlePlayerChange}
+            required
+          />
+          <span className="fa-solid fa-server"></span>
+          <Input
+            type="text"
+            placeholder="Server"
+            value={ip}
+            onChange={handleIpChange}
+            required
+          />
+          <span className="fa fa-lock"></span>
+          <Input
+            type="password"
+            autoCorrect="off"
+            placeholder="Room Password"
+            value={passWd}
+            onChange={handlePasswdChange}
+            required
+          />
+          <Input type="submit" value="Enter Room" />
+        </form>
+      </div>
+      <div className="sign-up__actions clearfix">
+        <p>
+          Don't know how to play? <a href="https://neos.doc/">Player Guide</a>
+          <span className="fa fa-arrow-right"></span>
+        </p>
+      </div>
+      <div className="sign-in__actions clearfix">
+        <ul>
+          <li>
+            <a
+              href="https://github.com/DarkNeos/neos-ts"
+              className="link link-github"
+            ></a>
+          </li>
+          <li>
+            <a
+              href="https://code.mycard.moe/mycard/Neos"
+              className="fa-brands fa-gitlab"
+            ></a>
+          </li>
+          <li>
+            <a href="https://mycard.moe/">
+              <img src="/assets/mycard.icon.png" style={{ width: "25%" }} />
+            </a>
+          </li>
+          <li>
+            <a className="fa-brands fa-discord"></a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

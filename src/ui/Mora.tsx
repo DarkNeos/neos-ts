@@ -5,7 +5,6 @@
 
 import React from "react";
 import { sendHandResult, sendTpResult } from "../api/ocgcore/ocgHelper";
-import "../css/Mora.css";
 import { useAppSelector } from "../hook";
 import {
   selectHandSelectAble,
@@ -19,6 +18,7 @@ import { store } from "../store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import "../styles/core.scss";
 
 // TODO: 应该展示聊天信息
 export default function Mora() {
@@ -60,7 +60,7 @@ export default function Mora() {
   };
 
   return (
-    <div className="container">
+    <div className="mora_container">
       <div className="item">
         <Button disabled={!selectHandAble} onClick={handleSelectScissors}>
           scissors

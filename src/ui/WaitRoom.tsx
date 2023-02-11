@@ -5,7 +5,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchDeck } from "../api/deck";
-import "../css/WaitRoom.css";
 import { useAppSelector } from "../hook";
 import { selectJoined } from "../reducers/joinSlice";
 import { selectChat } from "../reducers/chatSlice";
@@ -25,6 +24,7 @@ import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
 import { Button } from "antd";
 import { store } from "../store";
 import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
+import "../styles/core.scss";
 
 const READY_STATE = "ready";
 
@@ -88,7 +88,7 @@ export default function WaitRoom() {
   };
 
   return (
-    <div className="container">
+    <div className="wait_container">
       <div className="playerRegion">
         <h2>{joined ? "Room Joined!" : "Room Not Joined."}</h2>
         <p>
