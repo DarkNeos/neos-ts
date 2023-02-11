@@ -63,16 +63,25 @@ export default function JoinRoom() {
           <Input type="submit" value="Enter Room" />
         </form>
       </div>
+      <div className="sign-up__actions clearfix">
+        <p>
+          Don't know how to play? <a href="/sign-up">Player Guide</a>
+          <span className="fa fa-arrow-right"></span>
+        </p>
+      </div>
       <div className="sign-in__actions clearfix">
         <ul>
           <li>
-            <a onClick={() => {}} className="link link-github"></a>
+            <a
+              href="https://github.com/DarkNeos/neos-ts"
+              className="link link-github"
+            ></a>
           </li>
           <li>
-            <a onClick={() => {}} className="link link-google"></a>
-          </li>
-          <li>
-            <a onClick={() => {}} className="link link-twitter"></a>
+            <a
+              href="https://code.mycard.moe/mycard/Neos"
+              className="fa-brands fa-gitlab"
+            ></a>
           </li>
           <li>
             <a onClick={() => {}} className="link link-facebook"></a>
