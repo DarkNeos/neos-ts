@@ -43,10 +43,10 @@ export default function JoinRoom() {
             onChange={handlePlayerChange}
             required
           />
-          <span className="fa fa-user"></span>
+          <span className="fa-solid fa-server"></span>
           <Input
             type="text"
-            placeholder="Ip And Port"
+            placeholder="Server"
             value={ip}
             onChange={handleIpChange}
             required
@@ -65,7 +65,7 @@ export default function JoinRoom() {
       </div>
       <div className="sign-up__actions clearfix">
         <p>
-          Don't know how to play? <a href="/sign-up">Player Guide</a>
+          Don't know how to play? <a href="https://neos.doc/">Player Guide</a>
           <span className="fa fa-arrow-right"></span>
         </p>
       </div>
@@ -84,7 +84,12 @@ export default function JoinRoom() {
             ></a>
           </li>
           <li>
-            <a onClick={() => {}} className="link link-facebook"></a>
+            <a href="https://mycard.moe/">
+              <img src="./assets/mycard.icon.png" style={{ width: "25%" }} />
+            </a>
+          </li>
+          <li>
+            <a className="fa-brands fa-discord"></a>
           </li>
         </ul>
       </div>
