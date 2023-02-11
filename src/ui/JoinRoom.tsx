@@ -85,7 +85,7 @@ export default function JoinRoom() {
           </li>
           <li>
             <a href="https://mycard.moe/">
-              <img src="./assets/mycard.icon.png" style={{ width: "25%" }} />
+              <img src="/assets/mycard.icon.png" style={{ width: "25%" }} />
             </a>
           </li>
           <li>
