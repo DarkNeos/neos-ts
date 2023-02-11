@@ -25,6 +25,7 @@ import Neos from "./ui/Neos";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { ConfigProvider, theme } from "antd";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -33,7 +34,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <Neos />
+        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+          <Neos />
+        </ConfigProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
