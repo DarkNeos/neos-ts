@@ -5,7 +5,6 @@
 
 import React from "react";
 import { sendHandResult, sendTpResult } from "../api/ocgcore/ocgHelper";
-import "../css/Mora.css";
 import { useAppSelector } from "../hook";
 import {
   selectHandSelectAble,

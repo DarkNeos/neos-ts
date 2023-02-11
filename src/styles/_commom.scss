@@ -1,0 +1,44 @@
+.link {
+    font-size: 24px;
+    font-family: 'FontAwesome';
+    line-height: 24px;
+    
+    &-github:before {
+        content: "\f09b";
+    }
+    &-github:hover {
+        color: #E2EEF9;
+    }
+    &-twitter:before {
+        content: "\f099";
+    }
+    &-twitter:hover {
+        color: #00ACEE;
+    }
+    &-google:before {
+         content: "\f1a0";
+    }
+    &-google:hover {
+        color: #E04006;
+    }
+    &-facebook:before {
+         content: "\f082";
+    }
+    &-facebook:hover {
+        color: #4267B2;
+    }
+}
+
+.btn {
+  outline: none;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  transform: translate(0, 0);
+  background: transparent;
+}
+
+button {
+    overflow: visible;
+    cursor: pointer;
+}
