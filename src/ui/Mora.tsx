@@ -1,8 +1,3 @@
-/*
- * 猜拳页面
- *
- * */
-
 import React from "react";
 import { sendHandResult, sendTpResult } from "../api/ocgcore/ocgHelper";
 import { useAppSelector } from "../hook";
@@ -12,23 +7,17 @@ import {
   selectTpSelectAble,
   unSelectTpAble,
 } from "../reducers/moraSlice";
-import { selectPlayer0, selectPlayer1 } from "../reducers/playerSlice";
 import { selectDuelHsStart } from "../reducers/duel/mod";
 import { store } from "../store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
-import "../styles/core.scss";
+import { Button, Modal } from "antd";
 
-// TODO: 应该展示聊天信息
-export default function Mora() {
+const Mora = () => {
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
   const selectTpAble = useAppSelector(selectTpSelectAble);
-  const player0 = useAppSelector(selectPlayer0);
-  const player1 = useAppSelector(selectPlayer1);
   const duelHsStart = useAppSelector(selectDuelHsStart);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,58 +27,63 @@ export default function Mora() {
     }
   }, [duelHsStart]);
 
-  const handleSelectScissors = () => {
-    sendHandResult("scissors");
+  const handleSelectMora = (selected: string) => {
+    sendHandResult(selected);
     dispatch(unSelectHandAble());
   };
-  const handleSelectRock = () => {
-    sendHandResult("rock");
-    dispatch(unSelectHandAble());
-  };
-  const handleSelectPaper = () => {
-    sendHandResult("paper");
-    dispatch(unSelectHandAble());
-  };
-  const handleSelectFirst = () => {
-    sendTpResult(true);
-    dispatch(unSelectTpAble());
-  };
-  const handleSelectSecond = () => {
-    sendTpResult(false);
+  const handleSelectTp = (isFirst: boolean) => {
+    sendTpResult(isFirst);
     dispatch(unSelectTpAble());
   };
 
   return (
-    <div className="mora_container">
-      <div className="item">
-        <Button disabled={!selectHandAble} onClick={handleSelectScissors}>
-          scissors
+    <>
+      <Modal open={selectHandAble} footer={<></>}>
+        <Button
+          disabled={!selectHandAble}
+          onClick={() => {
+            handleSelectMora("scissors");
+          }}
+        >
+          剪刀
         </Button>
-        <Button disabled={!selectHandAble} onClick={handleSelectRock}>
-          rock
+        <Button
+          disabled={!selectHandAble}
+          onClick={() => {
+            handleSelectMora("rock");
+          }}
+        >
+          石头
         </Button>
-        <Button disabled={!selectHandAble} onClick={handleSelectPaper}>
-          paper
+        <Button
+          disabled={!selectHandAble}
+          onClick={() => {
+            handleSelectMora("paper");
+          }}
+        >
+          布
         </Button>
-      </div>
-      <div className="item">
-        <Button disabled={!selectTpAble} onClick={handleSelectFirst}>
-          first
+      </Modal>
+      <Modal open={!selectHandAble && selectTpAble} footer={<></>}>
+        <Button
+          disabled={!selectTpAble}
+          onClick={() => {
+            handleSelectTp(true);
+          }}
+        >
+          先攻
         </Button>
-        <Button disabled={!selectTpAble} onClick={handleSelectSecond}>
-          second
+        <Button
+          disabled={!selectTpAble}
+          onClick={() => {
+            handleSelectTp(false);
+          }}
+        >
+          后攻
         </Button>
-      </div>
-      <div className="item">
-        <p>
-          Me: main={player0.deckInfo?.mainCnt}, extra=
-          {player0.deckInfo?.extraCnt}, side={player0.deckInfo?.sideCnt}
-        </p>
-        <p>
-          Me: main={player1.deckInfo?.mainCnt}, extra=
-          {player1.deckInfo?.extraCnt}, side={player1.deckInfo?.sideCnt}
-        </p>
-      </div>
-    </div>
+      </Modal>
+    </>
   );
-}
+};
+
+export default Mora;
