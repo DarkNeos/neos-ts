@@ -1,34 +1,47 @@
-/*
- * 等待房间页面
- *
- * */
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { fetchDeck } from "../api/deck";
-import { useAppSelector } from "../hook";
-import { selectJoined } from "../reducers/joinSlice";
-import { selectChat } from "../reducers/chatSlice";
+import {
+  Modal,
+  Checkbox,
+  Avatar,
+  Space,
+  Button,
+  Dropdown,
+  notification,
+} from "antd";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import socketMiddleWare, { socketCmd } from "../middleware/socket";
+import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
+import { store } from "../store";
 import {
   selectIsHost,
   selectPlayer0,
   selectPlayer1,
-  selectObserverCount,
 } from "../reducers/playerSlice";
+import { useAppSelector } from "../hook";
+import { selectJoined } from "../reducers/joinSlice";
+import { selectChat } from "../reducers/chatSlice";
+import { fetchDeck } from "../api/deck";
 import {
   sendUpdateDeck,
   sendHsReady,
   sendHsStart,
 } from "../api/ocgcore/ocgHelper";
-import socketMiddleWare, { socketCmd } from "../middleware/socket";
-import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
-import { Button } from "antd";
-import { store } from "../store";
+import {
+  UserOutlined,
+  CheckCircleFilled,
+  LoginOutlined,
+  LogoutOutlined,
+  SendOutlined,
+  DownOutlined,
+  TagOutlined,
+} from "@ant-design/icons";
 import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
-import "../styles/core.scss";
+import type { MenuProps } from "antd";
+import { Link, useParams } from "react-router-dom";
 
 const READY_STATE = "ready";
 
-export default function WaitRoom() {
+const WaitRoom = () => {
   const params = useParams<{
     player?: string;
     passWd?: string;
@@ -68,8 +81,6 @@ export default function WaitRoom() {
   const isHost = useAppSelector(selectIsHost);
   const player0 = useAppSelector(selectPlayer0);
   const player1 = useAppSelector(selectPlayer1);
-  const observerCount = useAppSelector(selectObserverCount);
-
   const handleChoseDeck = async () => {
     const deck = await fetchDeck("hero");
 
@@ -87,51 +98,132 @@ export default function WaitRoom() {
     sendHsStart();
   };
 
+  const navigate = useNavigate();
+  const items: MenuProps["items"] = [
+    {
+      label: "卡组1",
+      key: "1",
+    },
+    {
+      label: "卡组2",
+      key: "2",
+    },
+    {
+      label: "卡组3",
+      key: "3",
+    },
+  ];
+  const [api, contextHolder] = notification.useNotification();
+
+  useEffect(() => {
+    if (joined) {
+      api.info({ message: "成功加入房间！", placement: "top" });
+    }
+  }, [joined]);
+  useEffect(() => {
+    if (chat != "") {
+      api.info({ message: "Chat", description: chat, placement: "bottom" });
+    }
+  }, [chat]);
+
   return (
-    <div className="wait_container">
-      <div className="playerRegion">
-        <h2>{joined ? "Room Joined!" : "Room Not Joined."}</h2>
-        <p>
-          <Button disabled={!joined} onClick={handleChoseDeck}>
-            choose hero.ydk
-          </Button>
-        </p>
-        <p>
-          <Button disabled={!choseDeck} onClick={handleChoseReady}>
-            ready
-          </Button>
-        </p>
-        <p>
-          <Button onClick={handleChoseStart}>
-            <Link
-              to={
-                // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
-                // 否则停留在当前页面。
-                !isHost ||
-                player0.state !== READY_STATE ||
-                player1.state !== READY_STATE
-                  ? {}
-                  : { pathname: `/mora` }
-              }
+    <>
+      <Modal
+        title="单局房间"
+        open={true}
+        footer={
+          <>
+            <Space direction="vertical" size={10}>
+              <Space wrap size={10}>
+                <Avatar size={25} icon={<CheckCircleFilled />} />
+                <Button
+                  disabled={!(choseDeck && joined)}
+                  onClick={handleChoseReady}
+                >
+                  决斗准备
+                </Button>
+              </Space>
+              <Space wrap size={10}>
+                <Avatar size={25} icon={<LoginOutlined />} />
+                <Button>到决斗者</Button>
+              </Space>
+              <Space wrap size={10}>
+                <Avatar size={25} icon={<LogoutOutlined />} />
+                <Button>到旁观者</Button>
+              </Space>
+              <Space wrap size={10}>
+                <Avatar size={25} icon={<SendOutlined />} />
+                <Button onClick={handleChoseStart}>
+                  <Link
+                    to={
+                      // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
+                      // 否则停留在当前页面。
+                      !isHost ||
+                      !joined ||
+                      player0.state !== READY_STATE ||
+                      player1.state !== READY_STATE
+                        ? {}
+                        : { pathname: `/mora` }
+                    }
+                  >
+                    开始游戏
+                  </Link>
+                </Button>
+              </Space>
+            </Space>
+          </>
+        }
+        onCancel={() => {
+          // 断开websocket🔗，
+          socketMiddleWare({ cmd: socketCmd.DISCONNECT });
+          // 回到初始界面
+          navigate("/");
+        }}
+      >
+        <Space direction="vertical" size={16}>
+          <Space wrap size={16}>
+            <Avatar size={30} icon={<UserOutlined />} />
+            <Checkbox
+              defaultChecked={false}
+              checked={player0.state === READY_STATE}
+              disabled
             >
-              start
-            </Link>
-          </Button>
-        </p>
-      </div>
-      <div className="roomRegion">
-        <h2>Room Passwd: {passWd}</h2>
-        <p>
-          player0: {player0.isHost == true ? "[Host]" : ""} {player0.name}{" "}
-          {player0.state}
-        </p>
-        <p>
-          player1: {player1.isHost == true ? "[Host]" : ""} {player1.name}{" "}
-          {player1.state}
-        </p>
-        <p>observer: {observerCount}</p>
-        <p>chat: {chat}</p>
-      </div>
-    </div>
+              {player0.name}
+            </Checkbox>
+            {player0.isHost === true ? (
+              <Avatar size={30} icon={<TagOutlined />} />
+            ) : (
+              <></>
+            )}
+          </Space>
+          <Space wrap size={16}>
+            <Avatar size={30} icon={<UserOutlined />} />
+            <Checkbox
+              defaultChecked={false}
+              checked={player1.state === READY_STATE}
+              disabled
+            >
+              {player1.name}
+            </Checkbox>
+            {player1.isHost === true ? (
+              <Avatar size={30} icon={<TagOutlined />} />
+            ) : (
+              <></>
+            )}
+          </Space>
+          <Dropdown menu={{ items, onClick: ({ key }) => {} }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                卡组选择
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Space>
+      </Modal>
+      {contextHolder}
+    </>
   );
-}
+};
+
+export default WaitRoom;
