@@ -1,6 +1,6 @@
 import React from "react";
 import JoinRoom from "./JoinRoom";
-import WaitRoomV2 from "./WaitRoomV2";
+import WaitRoomV2 from "./WaitRoom";
 import { Routes, Route } from "react-router-dom";
 import Mora from "./Mora";
 import NeosDuel from "./Duel/main";
