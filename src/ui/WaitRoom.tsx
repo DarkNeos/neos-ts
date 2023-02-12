@@ -191,7 +191,7 @@ const WaitRoom = () => {
                       player0.state !== READY_STATE ||
                       player1.state !== READY_STATE
                         ? {}
-                        : { pathname: `/mora` }
+                        : { pathname: `/mora/${player}/${passWd}/${ip}` }
                     }
                   >
                     开始游戏
