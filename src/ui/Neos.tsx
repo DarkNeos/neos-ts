@@ -1,8 +1,8 @@
 import React from "react";
 import JoinRoom from "./JoinRoom";
 import WaitRoomV2 from "./WaitRoom";
+import MoraV2 from "./Mora";
 import { Routes, Route } from "react-router-dom";
-import Mora from "./Mora";
 import NeosDuel from "./Duel/main";
 
 export default function () {
@@ -11,7 +11,7 @@ export default function () {
     <Routes>
       <Route path="/" element={<JoinRoom />} />
       <Route path="/:player/:passWd/:ip" element={<WaitRoomV2 />} />
-      <Route path="/mora" element={<Mora />} />
+      <Route path="/mora" element={<MoraV2 />} />
       <Route path="/duel" element={<NeosDuel />} />
     </Routes>
   );
