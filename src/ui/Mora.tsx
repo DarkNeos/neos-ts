@@ -12,6 +12,11 @@ import { store } from "../store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "antd";
+import {
+  ScissorOutlined,
+  SketchOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
 
 const Mora = () => {
   const dispatch = store.dispatch;
@@ -38,12 +43,13 @@ const Mora = () => {
 
   return (
     <>
-      <Modal open={selectHandAble} footer={<></>}>
+      <Modal title="请选择猜拳" open={selectHandAble} footer={<></>}>
         <Button
           disabled={!selectHandAble}
           onClick={() => {
             handleSelectMora("scissors");
           }}
+          icon={<ScissorOutlined />}
         >
           剪刀
         </Button>
@@ -52,6 +58,7 @@ const Mora = () => {
           onClick={() => {
             handleSelectMora("rock");
           }}
+          icon={<SketchOutlined />}
         >
           石头
         </Button>
@@ -60,11 +67,16 @@ const Mora = () => {
           onClick={() => {
             handleSelectMora("paper");
           }}
+          icon={<TableOutlined />}
         >
           布
         </Button>
       </Modal>
-      <Modal open={!selectHandAble && selectTpAble} footer={<></>}>
+      <Modal
+        title="请选择先攻/后攻"
+        open={!selectHandAble && selectTpAble}
+        footer={<></>}
+      >
         <Button
           disabled={!selectTpAble}
           onClick={() => {
