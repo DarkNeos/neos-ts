@@ -81,8 +81,18 @@ const WaitRoom = () => {
   const isHost = useAppSelector(selectIsHost);
   const player0 = useAppSelector(selectPlayer0);
   const player1 = useAppSelector(selectPlayer1);
-  const handleChoseDeck = async () => {
-    const deck = await fetchDeck("hero");
+  const [api, contextHolder] = notification.useNotification();
+  const [deckTitle, setDeckTitle] = useState("请选择卡组");
+  // FIXME: 这些数据应该从`store`中获取
+  const decks: MenuProps["items"] = [
+    {
+      label: "hero",
+      key: "hero",
+    },
+  ];
+
+  const handleChoseDeck = async (deckName: string) => {
+    const deck = await fetchDeck(deckName);
 
     sendUpdateDeck(deck);
     dispatch(initMeExtraDeckMeta({ controler: 0, codes: deck.extra || [] }));
@@ -99,21 +109,6 @@ const WaitRoom = () => {
   };
 
   const navigate = useNavigate();
-  const items: MenuProps["items"] = [
-    {
-      label: "卡组1",
-      key: "1",
-    },
-    {
-      label: "卡组2",
-      key: "2",
-    },
-    {
-      label: "卡组3",
-      key: "3",
-    },
-  ];
-  const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
     if (joined) {
@@ -211,10 +206,18 @@ const WaitRoom = () => {
               <></>
             )}
           </Space>
-          <Dropdown menu={{ items, onClick: ({ key }) => {} }}>
+          <Dropdown
+            menu={{
+              items: decks,
+              onClick: async ({ key }) => {
+                await handleChoseDeck(key);
+                setDeckTitle(key);
+              },
+            }}
+          >
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                卡组选择
+                {deckTitle}
                 <DownOutlined />
               </Space>
             </a>
