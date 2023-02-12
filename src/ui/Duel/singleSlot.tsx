@@ -77,7 +77,7 @@ const SingleSlot = (props: {
     >
       <standardMaterial
         name="single-slot-mat"
-        diffuseTexture={new BABYLON.Texture(`assets/card_back.jpg`)}
+        diffuseTexture={new BABYLON.Texture(`/assets/card_back.jpg`)}
         alpha={props.state.length == 0 ? 0 : 1}
       />
     </box>

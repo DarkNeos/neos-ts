@@ -10,9 +10,9 @@ export default function () {
   return (
     <Routes>
       <Route path="/" element={<JoinRoom />} />
-      <Route path="/:player/:passWd/:ip" element={<WaitRoomV2 />} />
-      <Route path="/mora" element={<MoraV2 />} />
-      <Route path="/duel" element={<NeosDuel />} />
+      <Route path="/room/:player/:passWd/:ip" element={<WaitRoomV2 />} />
+      <Route path="/mora/:player/:passWd/:ip" element={<MoraV2 />} />
+      <Route path="/duel/:player/:passWd/:ip" element={<NeosDuel />} />
     </Routes>
   );
 }

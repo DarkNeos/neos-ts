@@ -10,7 +10,7 @@ import {
 import { selectDuelHsStart } from "../reducers/duel/mod";
 import { store } from "../store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Modal } from "antd";
 import {
   ScissorOutlined,
@@ -24,11 +24,16 @@ const Mora = () => {
   const selectTpAble = useAppSelector(selectTpSelectAble);
   const duelHsStart = useAppSelector(selectDuelHsStart);
   const navigate = useNavigate();
+  const { player, passWd, ip } = useParams<{
+    player?: string;
+    passWd?: string;
+    ip?: string;
+  }>();
 
   useEffect(() => {
     // 若对局已经开始，自动跳转
     if (duelHsStart) {
-      navigate("/duel");
+      navigate(`/duel/${player}/${passWd}/${ip}`);
     }
   }, [duelHsStart]);
 

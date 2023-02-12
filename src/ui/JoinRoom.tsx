@@ -32,7 +32,7 @@ export default function JoinRoom() {
       <div id="login">
         <form
           className="login-form"
-          onSubmit={() => navigate(`/${player}/${passWd}/${ip}`)}
+          onSubmit={() => navigate(`/room/${player}/${passWd}/${ip}`)}
         >
           <span className="fa fa-user"></span>
           <Input
