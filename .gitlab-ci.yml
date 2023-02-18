@@ -41,7 +41,7 @@ deploy:
   stage: deploy
   tags:
     - linux
-  extends: npm_build
+  dependencies: npm_build
   script:
     - sudo apt-get install rsync
     - rsync -a --progress --human-readable dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
