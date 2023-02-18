@@ -10,10 +10,10 @@ before_script:
 
   - eval $(ssh-agent -s)
 
-  # - chmod 400 "$NEOS_SSH_PRIVATE_KEY"
   - ssh-add <(echo "$NEOS_SSH_PRIVATE_KEY" | base64 -d)
 
   - mkdir -p ~/.ssh
+  - echo "$NEOS_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
   - chmod 700 ~/.ssh
 
 npm_ci:
@@ -52,6 +52,6 @@ deploy:
   extends: npm_build
   script:
     - sudo apt-get install rsync
-    - rsync -av -e 'ssh -p -i $NEOS_SSH_PRIVATE_KEY' dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
-    - rsync -av -e 'ssh -p -i $NEOS_SSH_PRIVATE_KEY' assets/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}/assets'
+    - rsync -av -e 'ssh -p 22 -i ~/.ssh/id_ed25519' dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
+    - rsync -av -e 'ssh -p 22 -i ~/.ssh/id_ed25519' assets/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}/assets'
 
