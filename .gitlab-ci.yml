@@ -44,8 +44,8 @@ deploy:
   extends: npm_build
   script:
     - sudo apt-get install rsync
-    - rsync -atv --progress --human-readable -e 'ssh -i ~/.ssh/id_ed25519' dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
-    - rsync -atv --progress --human-readable -e 'ssh -i ~/.ssh/id_ed25519' assets/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}/assets'
+    - rsync -a --progress --human-readable dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
+    - rsync -a --progress --human-readable assets/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}/assets'
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
 
@@ -55,6 +55,5 @@ deploy:
 
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - echo '$NEOS_SSH_PRIVATE_KEY' > ~/.ssh/id_ed25519
     - chmod 700 ~/.ssh
 
