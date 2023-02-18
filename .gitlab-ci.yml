@@ -5,6 +5,17 @@ stages:
   - build
   - deploy
 
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  - eval $(ssh-agent -s)
+
+  - chmod 400 "$NEOS_SSH_PRIVATE_KEY"
+  - ssh-add "$NEOS_SSH_PRIVATE_KEY"
+
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
 npm_ci:
   stage: install
   tags:
@@ -33,4 +44,13 @@ npm_build:
   tags:
     - linux
   script: npm run build
+
+deploy:
+  stage: deploy
+  tags:
+    - linux
+  script:
+    - sudo apt-get install rsync
+    - rsync -av -e 'ssh -p 22' dist/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}'
+    - rsync -av -e 'ssh -p 22' assets/ 'kirayamato@8.142.104.5:${NEOS_DEPLOY_PATH}/assets'
 
