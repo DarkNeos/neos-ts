@@ -5,17 +5,6 @@ stages:
   - build
   - deploy
 
-before_script:
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-
-  - eval $(ssh-agent -s)
-
-  - ssh-add <(echo "$NEOS_SSH_PRIVATE_KEY" | base64 -d)
-
-  - mkdir -p ~/.ssh
-  - echo "$NEOS_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-  - chmod 700 ~/.ssh
-
 npm_ci:
   stage: install
   tags:
