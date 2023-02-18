@@ -11,7 +11,7 @@ before_script:
   - eval $(ssh-agent -s)
 
   - chmod 400 "$NEOS_SSH_PRIVATE_KEY"
-  - ssh-add "$NEOS_SSH_PRIVATE_KEY"
+  - ssh-add <(echo "$NEOS_SSH_PRIVATE_KEY" | base64 -d)
 
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
