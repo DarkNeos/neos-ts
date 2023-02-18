@@ -37,7 +37,7 @@ export interface sqliteResult {
 
 let YGODB: Database | null = null;
 const sqlPromise = initSqlJs({
-  locateFile: (file) => `/node_modules/sql.js/dist/${file}`,
+  locateFile: (file) => `/assets/${file}`,
 });
 
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果，比如初始化DB失败
