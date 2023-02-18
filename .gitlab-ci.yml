@@ -41,6 +41,8 @@ deploy:
   stage: deploy
   tags:
     - linux
+  only:
+    - main
   dependencies: 
     - npm_build
   script:
