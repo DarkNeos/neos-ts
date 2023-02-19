@@ -33,6 +33,7 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 <p align="center">
   <img alt="" src="./screenshots/duel.png" width="512">
 </p>
+
 ## Contributing
 Contact linuxgnulover@gmail.com.
 ## Community
