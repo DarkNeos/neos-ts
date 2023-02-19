@@ -47,9 +47,9 @@ deploy:
     - npm_build
   script:
     - sudo apt-get install rsync
-    - 'rsync -atv --progress --human-readable dist/ kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH'
-    - 'rsync -atv --progress --human-readable assets/ kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH/assets'
-    - 'rsync -atv --progress --human-readable ygopro-database kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH/ygopro-database'
+    - 'rsync -atv --progress --human-readable --delete --exclude="neos-assets/" dist/ kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH'
+    - 'rsync -atv --progress --human-readable --delete neos-assets/ kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH/neos-assets'
+    - 'rsync -atv --progress --human-readable --delete ygopro-database kirayamato@8.142.104.5:$NEOS_DEPLOY_PATH/ygopro-database'
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
 

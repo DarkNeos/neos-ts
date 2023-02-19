@@ -7,6 +7,7 @@
 
 import initSqlJs, { Database } from "sql.js";
 import { CardMeta, CardData, CardText } from "../api/cards";
+import NeosConfig from "../../neos.config.json";
 
 export enum sqliteCmd {
   // 初始化
@@ -37,7 +38,7 @@ export interface sqliteResult {
 
 let YGODB: Database | null = null;
 const sqlPromise = initSqlJs({
-  locateFile: (file) => `/assets/${file}`,
+  locateFile: (file) => `${NeosConfig.assetsPath}/${file}`,
 });
 
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果，比如初始化DB失败

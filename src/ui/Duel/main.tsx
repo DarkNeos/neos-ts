@@ -21,6 +21,7 @@ import Phase from "./phase";
 import CheckCardModalV2 from "./checkCardModalV2";
 import ExtraDeck from "./extraDeck";
 import { initStrings } from "../../api/strings";
+import NeosConfig from "../../../neos.config.json";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -94,7 +95,7 @@ const Light = () => (
 
 const Ground = () => {
   const shape = CONFIG.GroundShape();
-  const texture = new BABYLON.Texture(`/assets/newfield.png`);
+  const texture = new BABYLON.Texture(`${NeosConfig.assetsPath}/newfield.png`);
   texture.hasAlpha = true;
 
   return (
