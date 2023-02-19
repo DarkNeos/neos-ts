@@ -15,6 +15,7 @@ import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";
 import { useSpring, animated } from "./spring";
 import { zip, interactTypeToString } from "./util";
+import NeosConfig from "../../../neos.config.json";
 
 const groundShape = CONFIG.GroundShape();
 const left = -(groundShape.width / 2);
@@ -51,7 +52,7 @@ const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(_) => `/assets/card_back.jpg`}
+            cover={(_) => `${NeosConfig.assetsPath}/card_back.jpg`}
           />
         );
       })}

@@ -8,7 +8,6 @@ const Mora = React.lazy(() => import("./Mora"));
 const NeosDuel = React.lazy(() => import("./Duel/main"));
 
 export default function () {
-  // FIXME: 这里Mora/Duel路由应该由每个房间指定一个路径
   return (
     <Routes>
       <Route path="/" element={<LazyLoad lazy={<Login />} />} />

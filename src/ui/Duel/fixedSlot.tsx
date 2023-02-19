@@ -14,6 +14,7 @@ import {
 } from "../../reducers/duel/mod";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { interactTypeToString } from "./util";
+import NeosConfig from "../../../neos.config.json";
 
 const shape = CONFIG.CardSlotShape();
 
@@ -99,11 +100,11 @@ const FixedSlot = (props: {
         diffuseTexture={
           props.state.occupant
             ? faceDown
-              ? new BABYLON.Texture(`/assets/card_back.jpg`)
+              ? new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
               : new BABYLON.Texture(
                   `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
                 )
-            : new BABYLON.Texture(`/assets/card_slot.png`)
+            : new BABYLON.Texture(`${NeosConfig.assetsPath}/card_slot.png`)
         }
         alpha={props.state.occupant ? 1 : 0}
       ></standardMaterial>

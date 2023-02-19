@@ -10,6 +10,7 @@ import { Input } from "antd";
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
+import NeosConfig from "../../neos.config.json";
 
 export default function Login() {
   const [player, setPlayer] = useState("");
@@ -65,7 +66,8 @@ export default function Login() {
       </div>
       <div className="sign-up__actions clearfix">
         <p>
-          Don't know how to play? <a href="https://neos.doc/">Player Guide</a>
+          Don't know how to play?{" "}
+          <a href="https://neos.moe/doc/">Player Guide</a>
           <span className="fa fa-arrow-right"></span>
         </p>
       </div>
@@ -85,7 +87,10 @@ export default function Login() {
           </li>
           <li>
             <a href="https://mycard.moe/">
-              <img src="/assets/mycard.icon.png" style={{ width: "25%" }} />
+              <img
+                src={`${NeosConfig.assetsPath}/mycard.icon.png`}
+                style={{ width: "25%" }}
+              />
             </a>
           </li>
           <li>
