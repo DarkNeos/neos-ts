@@ -1,28 +1,46 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import LazyLoad, { lazyImport } from "./LazyLoad";
 
-const Login = lazyImport("./Login");
-const WaitRoom = lazyImport("./WaitRoom");
-const Mora = lazyImport("./Mora");
-const NeosDuel = lazyImport("./Duel/main");
+const Login = React.lazy(() => import("./Login"));
+const WaitRoom = React.lazy(() => import("./WaitRoom"));
+const Mora = React.lazy(() => import("./Mora"));
+const NeosDuel = React.lazy(() => import("./Duel/main"));
 
 export default function () {
   // FIXME: 这里Mora/Duel路由应该由每个房间指定一个路径
   return (
     <Routes>
-      <Route path="/" element={<LazyLoad lazy={<Login />} />} />
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Login />
+          </Suspense>
+        }
+      />
       <Route
         path="/room/:player/:passWd/:ip"
-        element={<LazyLoad lazy={<WaitRoom />} />}
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <WaitRoom />
+          </Suspense>
+        }
       />
       <Route
-        path="/mora/:player/:passWd/:ip"
-        element={<LazyLoad lazy={<Mora />} />}
+        path="/room/:player/:passWd/:ip"
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Mora />
+          </Suspense>
+        }
       />
       <Route
-        path="/duel/:player/:passWd/:ip"
-        element={<LazyLoad lazy={<NeosDuel />} />}
+        path="/room/:player/:passWd/:ip"
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <NeosDuel />
+          </Suspense>
+        }
       />
     </Routes>
   );
