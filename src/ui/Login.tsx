@@ -11,7 +11,7 @@ import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
 
-export default function JoinRoom() {
+export default function Login() {
   const [player, setPlayer] = useState("");
   const [passWd, setPasswd] = useState("");
   const [ip, setIp] = useState("");
