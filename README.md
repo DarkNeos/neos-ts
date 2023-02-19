@@ -35,7 +35,7 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 </p>
 
 ## Contributing
-Contact linuxgnulover@gmail.com.
+Create merge requests in [gitlab repo](https://code.mycard.moe/mycard/Neos).
 ## Community
 Neos is developed in [mycard](https://mycard.moe/) community, join the [QQ Chat](https://github.com/DarkNeos/ygopro-doc/blob/main/assets/ygo_qq.png), where you can ask questions and make discussions.
 
