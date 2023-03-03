@@ -36,7 +36,7 @@ export default function (action: socketAction) {
     case socketCmd.CONNECT: {
       const info = action.initInfo;
       if (info) {
-        ws = new WebSocket("ws://" + info.ip);
+        ws = new WebSocket("wss://" + info.ip);
 
         ws.onopen = () => {
           handleSocketOpen(ws, info.ip, info.player, info.passWd);
