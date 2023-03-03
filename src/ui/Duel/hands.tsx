@@ -38,9 +38,7 @@ const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(id) =>
-              `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${id}.jpg`
-            }
+            cover={(id) => `${NeosConfig.cardImgUrl}/${id}.jpg`}
           />
         );
       })}
@@ -113,9 +111,7 @@ const CHand = (props: {
         setCardModalText([state.occupant?.text.name, state.occupant?.text.desc])
       );
       dispatch(
-        setCardModalImgUrl(
-          `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${state.occupant?.id}.jpg`
-        )
+        setCardModalImgUrl(`${NeosConfig.cardImgUrl}/${state.occupant?.id}.jpg`)
       );
       dispatch(
         setCardModalInteractivies(

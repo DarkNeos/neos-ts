@@ -19,6 +19,7 @@ import {
   sendSelectCardResponse,
   sendSelectChainResponse,
 } from "../../api/ocgcore/ocgHelper";
+import NeosConfig from "../../../neos.config.json";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;
@@ -117,7 +118,7 @@ const CheckCardModal = () => {
                         cover={
                           <img
                             alt={option.code.toString()}
-                            src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                            src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
                             style={{ width: 100 }}
                           />
                         }

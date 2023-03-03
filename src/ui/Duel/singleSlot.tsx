@@ -41,7 +41,7 @@ const SingleSlot = (props: {
                 return {
                   name: item.occupant?.text.name,
                   desc: item.occupant?.text.desc,
-                  imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.occupant?.id}.jpg`,
+                  imgUrl: `${NeosConfig.cardImgUrl}/${item.occupant?.id}.jpg`,
                   interactivies: item.idleInteractivities.map((interactivy) => {
                     return {
                       desc: interactTypeToString(interactivy.interactType),

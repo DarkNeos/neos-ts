@@ -58,7 +58,7 @@ const FixedSlot = (props: {
         );
         dispatch(
           setCardModalImgUrl(
-            `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+            `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
           )
         );
         dispatch(
@@ -102,7 +102,7 @@ const FixedSlot = (props: {
             ? faceDown
               ? new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
               : new BABYLON.Texture(
-                  `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+                  `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
                 )
             : new BABYLON.Texture(`${NeosConfig.assetsPath}/card_slot.png`)
         }
