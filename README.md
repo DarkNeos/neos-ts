@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://neos.moe">
+  <a href="https://www.neos.moe">
     <picture>
       <img src="https://avatars.githubusercontent.com/u/110732697?s=400&u=d33638f1e89dfb41395a47004fe211fcf219444d&v=4" height="128">
     </picture>
