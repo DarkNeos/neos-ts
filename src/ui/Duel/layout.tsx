@@ -7,10 +7,9 @@ const { Header, Footer, Sider, Content } = Layout;
 
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
+  alignContent: "center",
   color: "#fff",
   height: layoutConfig.header.height,
-  paddingInline: 50,
-  lineHeight: "64px",
 };
 
 const contentStyle: React.CSSProperties = {
@@ -18,6 +17,7 @@ const contentStyle: React.CSSProperties = {
   minHeight: 120,
   height: layoutConfig.content.height,
   lineHeight: "120px",
+  paddingLeft: `${layoutConfig.sider.width}px`,
 };
 
 const siderStyle: React.CSSProperties = {
@@ -42,7 +42,7 @@ const NeosLayout = (props: {
   footer: React.ReactNode;
 }) => {
   return (
-    <Layout>
+    <Layout hasSider>
       <Sider style={siderStyle} width={layoutConfig.sider.width}>
         {props.sider}
       </Sider>
