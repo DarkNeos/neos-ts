@@ -23,6 +23,10 @@ const contentStyle: React.CSSProperties = {
 const siderStyle: React.CSSProperties = {
   textAlign: "center",
   lineHeight: "120px",
+  position: "fixed",
+  overflow: "auto",
+  height: "100vh",
+  padding: "50px 20px",
   color: "#fff",
 };
 

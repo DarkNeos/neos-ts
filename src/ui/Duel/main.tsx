@@ -22,6 +22,7 @@ import ExtraDeck from "./extraDeck";
 import NeosLayout from "./layout";
 import { initStrings } from "../../api/strings";
 import NeosConfig from "../../../neos.config.json";
+import DuelTimeLine from "./timeLine";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -43,7 +44,7 @@ const NeosDuel = () => {
   return (
     <>
       <NeosLayout
-        sider={<div>sider</div>}
+        sider={<DuelTimeLine />}
         header={<div>header</div>}
         content={<NeosCanvas />}
         footer={<div>footer</div>}
