@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, Row } from "antd";
+import { Input, Button, Row, Col } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 
 const SendBox = () => {
@@ -9,7 +9,7 @@ const SendBox = () => {
       <Row>
         <Input.TextArea
           placeholder="Message to sent..."
-          autoSize
+          autoSize={{ minRows: 3, maxRows: 4 }}
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -17,11 +17,13 @@ const SendBox = () => {
         />
       </Row>
       <Row>
-        <Button
-          icon={<SendOutlined />}
-          onClick={() => {}}
-          disabled={!content}
-        />
+        <Col>
+          <Button
+            icon={<SendOutlined />}
+            onClick={() => {}}
+            disabled={!content}
+          />
+        </Col>
       </Row>
     </>
   );

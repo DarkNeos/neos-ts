@@ -68,7 +68,7 @@ const NeosSider = () => (
     <Row>
       <DuelTimeLine />
     </Row>
-    <Row align="bottom">
+    <Row>
       <SendBox />
     </Row>
   </div>
