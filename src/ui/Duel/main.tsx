@@ -23,6 +23,8 @@ import NeosLayout from "./layout";
 import { initStrings } from "../../api/strings";
 import NeosConfig from "../../../neos.config.json";
 import DuelTimeLine from "./timeLine";
+import { Row } from "antd";
+import SendBox from "./sendBox";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -44,7 +46,7 @@ const NeosDuel = () => {
   return (
     <>
       <NeosLayout
-        sider={<DuelTimeLine />}
+        sider={<NeosSider />}
         header={<div>header</div>}
         content={<NeosCanvas />}
         footer={<div>footer</div>}
@@ -60,6 +62,17 @@ const NeosDuel = () => {
     </>
   );
 };
+
+const NeosSider = () => (
+  <div>
+    <Row>
+      <DuelTimeLine />
+    </Row>
+    <Row align="bottom">
+      <SendBox />
+    </Row>
+  </div>
+);
 
 const NeosCanvas = () => (
   <ReactReduxContext.Consumer>
