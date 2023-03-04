@@ -56,7 +56,7 @@ const Magics = () => {
 const magicPositions = (player: number, magics: CardState[]) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
-  const y = transform.x / 2 + NeosConfig.ui.card.floating;
+  const y = transform.z / 2 + NeosConfig.ui.card.floating;
   const z = player == 0 ? -2.6 : 2.6;
 
   return magics.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
