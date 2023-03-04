@@ -25,6 +25,7 @@ import NeosConfig from "../../../neos.config.json";
 import DuelTimeLine from "./timeLine";
 import { Row } from "antd";
 import SendBox from "./sendBox";
+import PlayerStatus from "./status";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -47,9 +48,9 @@ const NeosDuel = () => {
     <>
       <NeosLayout
         sider={<NeosSider />}
-        header={<div>header</div>}
+        header={<PlayerStatus />}
         content={<NeosCanvas />}
-        footer={<div>footer</div>}
+        footer={<PlayerStatus />}
       />
       <CardModal />
       <CardListModal />
