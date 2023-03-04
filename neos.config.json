@@ -1,4 +1,43 @@
 {
   "assetsPath": "/neos-assets",
-  "cardImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-cn"
+  "cardImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-cn",
+  "ui": {
+    "ground": {
+      "width": 9.9,
+      "height": 8
+    },
+    "card": {
+      "transform": {
+        "x": 0.8,
+        "y": 1,
+        "z": 0.05
+      },
+      "rotation": {
+        "x": 1.55,
+        "y": 0,
+        "z": 0
+      },
+      "reverseRotation": {
+        "x": 1.55,
+        "y": 3.1,
+        "z": 0
+      },
+      "defenceRotation": {
+        "x": 1.55,
+        "y": 1.55,
+        "z": 0
+      },
+      "handRotation": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "handHoverScaling": {
+        "x": 1.2,
+        "y": 1.2,
+        "z": 1
+      },
+      "floating": 0.02
+    }
+  }
 }
