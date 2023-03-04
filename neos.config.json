@@ -38,6 +38,20 @@
         "z": 1
       },
       "floating": 0.02
+    },
+    "layout": {
+      "header": {
+        "height": 80
+      },
+      "content": {
+        "height": 800
+      },
+      "sider": {
+        "width": 400
+      },
+      "footer": {
+        "height": 80
+      }
     }
   }
 }
