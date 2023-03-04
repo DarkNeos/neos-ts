@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../config/ui";
 import Hands from "./hands";
 import Monsters from "./monsters";
 import CardModal from "./cardModal";
@@ -94,7 +93,7 @@ const Light = () => (
 );
 
 const Ground = () => {
-  const shape = CONFIG.GroundShape();
+  const shape = NeosConfig.ui.ground;
   const texture = new BABYLON.Texture(`${NeosConfig.assetsPath}/newfield.png`);
   texture.hasAlpha = true;
 

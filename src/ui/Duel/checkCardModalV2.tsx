@@ -18,6 +18,7 @@ import {
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2ResponseAble,
 } from "../../reducers/duel/mod";
+import NeosConfig from "../../../neos.config.json";
 
 const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
@@ -83,7 +84,7 @@ const CheckCardModalV2 = () => {
                   cover={
                     <img
                       alt={option.code.toString()}
-                      src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                      src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
                       style={{ width: 100 }}
                     />
                   }
@@ -105,7 +106,7 @@ const CheckCardModalV2 = () => {
                 cover={
                   <img
                     alt={option.code.toString()}
-                    src={`https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${option.code}.jpg`}
+                    src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
                   />
                 }
               />

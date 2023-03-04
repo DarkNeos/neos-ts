@@ -1,5 +1,4 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../config/ui";
 import { store } from "../../store";
 import { CardState } from "../../reducers/duel/generic";
 import { useRef } from "react";
@@ -16,7 +15,13 @@ import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { interactTypeToString } from "./util";
 import NeosConfig from "../../../neos.config.json";
 
-const shape = CONFIG.CardSlotShape();
+const transform = NeosConfig.ui.card.transform;
+const defenceRotation = NeosConfig.ui.card.defenceRotation;
+const cardDefenceRotation = new BABYLON.Vector3(
+  defenceRotation.x,
+  defenceRotation.y,
+  defenceRotation.z
+);
 
 const FixedSlot = (props: {
   state: CardState;
@@ -32,7 +37,7 @@ const FixedSlot = (props: {
     props.state.location.position === ygopro.CardPosition.DEFENSE ||
     props.state.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
     props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
-      ? props.deffenseRotation || CONFIG.CardSlotDefenceRotation()
+      ? props.deffenseRotation || cardDefenceRotation
       : props.rotation;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
@@ -58,7 +63,7 @@ const FixedSlot = (props: {
         );
         dispatch(
           setCardModalImgUrl(
-            `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+            `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
           )
         );
         dispatch(
@@ -82,8 +87,8 @@ const FixedSlot = (props: {
     <plane
       name={`fixedslot-${props.sequence}`}
       ref={planeRef}
-      width={shape.width}
-      height={shape.height}
+      width={transform.x}
+      height={transform.y}
       position={props.position}
       rotation={rotation}
       enableEdgesRendering
@@ -102,7 +107,7 @@ const FixedSlot = (props: {
             ? faceDown
               ? new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
               : new BABYLON.Texture(
-                  `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${props.state.occupant.id}.jpg`
+                  `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
                 )
             : new BABYLON.Texture(`${NeosConfig.assetsPath}/card_slot.png`)
         }

@@ -1,5 +1,4 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../config/ui";
 import { CardState } from "../../reducers/duel/generic";
 import { store } from "../../store";
 import { useClick } from "./hook";
@@ -11,7 +10,7 @@ import {
 import { interactTypeToString } from "./util";
 import NeosConfig from "../../../neos.config.json";
 
-const shape = CONFIG.SingleSlotShape;
+const transform = NeosConfig.ui.card.transform;
 export const Depth = 0.005;
 
 const SingleSlot = (props: {
@@ -41,7 +40,7 @@ const SingleSlot = (props: {
                 return {
                   name: item.occupant?.text.name,
                   desc: item.occupant?.text.desc,
-                  imgUrl: `https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/${item.occupant?.id}.jpg`,
+                  imgUrl: `${NeosConfig.cardImgUrl}/${item.occupant?.id}.jpg`,
                   interactivies: item.idleInteractivities.map((interactivy) => {
                     return {
                       desc: interactTypeToString(interactivy.interactType),
@@ -65,8 +64,8 @@ const SingleSlot = (props: {
       ref={boxRef}
       scaling={
         new BABYLON.Vector3(
-          shape.width,
-          shape.height,
+          transform.x,
+          transform.y,
           Depth * props.state.length
         )
       }

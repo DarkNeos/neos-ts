@@ -1,5 +1,4 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../config/ui";
 import { CardState } from "../../reducers/duel/generic";
 import "react-babylonjs";
 import { useAppSelector } from "../../hook";
@@ -10,8 +9,11 @@ import {
 import { zip } from "./util";
 import FixedSlot from "./fixedSlot";
 import { clearMonsterPlaceInteractivities } from "../../reducers/duel/mod";
+import NeosConfig from "../../../neos.config.json";
+import { cardSlotRotation, cardSlotDefenceRotation } from "./util";
 
-const shape = CONFIG.CardSlotShape();
+const transform = NeosConfig.ui.card.transform;
+const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
@@ -31,8 +33,8 @@ const Monsters = () => {
             key={sequence}
             sequence={sequence}
             position={position}
-            rotation={CONFIG.CardSlotRotation(false)}
-            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            rotation={cardSlotRotation(false)}
+            deffenseRotation={cardSlotDefenceRotation()}
             clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
           />
         ))}
@@ -44,8 +46,8 @@ const Monsters = () => {
             key={sequence}
             sequence={sequence}
             position={position}
-            rotation={CONFIG.CardSlotRotation(true)}
-            deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+            rotation={cardSlotRotation(true)}
+            deffenseRotation={cardSlotDefenceRotation()}
             clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
           />
         ))}
@@ -59,26 +61,16 @@ const ExtraMonsters = (props: {
   meMonsters: CardState[];
   opMonsters: CardState[];
 }) => {
-  const shape = CONFIG.CardSlotShape();
-
   const meLeft = props.meMonsters.find((_, sequence) => sequence == 5);
   const meRight = props.meMonsters.find((_, sequence) => sequence == 6);
   const opLeft = props.opMonsters.find((_, sequence) => sequence == 5);
   const opRight = props.opMonsters.find((_, sequence) => sequence == 6);
 
-  const leftPosition = new BABYLON.Vector3(
-    -1.1,
-    shape.depth / 2 + CONFIG.Floating,
-    0
-  );
-  const rightPosition = new BABYLON.Vector3(
-    1.1,
-    shape.depth / 2 + CONFIG.Floating,
-    0
-  );
+  const leftPosition = new BABYLON.Vector3(-1.1, transform.z / 2 + floating, 0);
+  const rightPosition = new BABYLON.Vector3(1.1, transform.z / 2 + floating, 0);
 
-  const meRotation = CONFIG.CardSlotRotation(false);
-  const opRotation = CONFIG.CardSlotRotation(true);
+  const meRotation = cardSlotRotation(false);
+  const opRotation = cardSlotRotation(true);
 
   return (
     <>
@@ -88,7 +80,7 @@ const ExtraMonsters = (props: {
           sequence={5}
           position={leftPosition}
           rotation={meRotation}
-          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          deffenseRotation={cardSlotDefenceRotation()}
           clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         />
       ) : (
@@ -100,7 +92,7 @@ const ExtraMonsters = (props: {
           sequence={6}
           position={rightPosition}
           rotation={meRotation}
-          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          deffenseRotation={cardSlotDefenceRotation()}
           clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         />
       ) : (
@@ -112,7 +104,7 @@ const ExtraMonsters = (props: {
           sequence={5}
           position={rightPosition}
           rotation={opRotation}
-          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          deffenseRotation={cardSlotDefenceRotation()}
           clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         />
       ) : (
@@ -124,7 +116,7 @@ const ExtraMonsters = (props: {
           sequence={6}
           position={leftPosition}
           rotation={opRotation}
-          deffenseRotation={CONFIG.CardSlotDefenceRotation()}
+          deffenseRotation={cardSlotDefenceRotation()}
           clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         />
       ) : (
@@ -137,7 +129,7 @@ const ExtraMonsters = (props: {
 const monsterPositions = (player: number, monsters: CardState[]) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
-  const y = shape.depth / 2 + CONFIG.Floating;
+  const y = transform.z / 2 + floating;
   const z = player == 0 ? -1.35 : 1.35;
 
   return monsters.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
