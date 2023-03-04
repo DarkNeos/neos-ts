@@ -17,6 +17,7 @@ const contentStyle: React.CSSProperties = {
   minHeight: 120,
   height: layoutConfig.content.height,
   lineHeight: "120px",
+  paddingLeft: `${layoutConfig.sider.width}px`,
 };
 
 const siderStyle: React.CSSProperties = {
@@ -41,7 +42,7 @@ const NeosLayout = (props: {
   footer: React.ReactNode;
 }) => {
   return (
-    <Layout>
+    <Layout hasSider>
       <Sider style={siderStyle} width={layoutConfig.sider.width}>
         {props.sider}
       </Sider>
