@@ -1,16 +1,17 @@
 import * as BABYLON from "@babylonjs/core";
-import * as CONFIG from "../../config/ui";
 import { selectMeMagics, selectOpMagics } from "../../reducers/duel/magicSlice";
 import { CardState } from "../../reducers/duel/generic";
 import { useAppSelector } from "../../hook";
 import { zip } from "./util";
 import FixedSlot from "./fixedSlot";
 import { clearMagicPlaceInteractivities } from "../../reducers/duel/mod";
+import NeosConfig from "../../../neos.config.json";
+import { cardSlotRotation } from "./util";
 
 // TODO: use config
 const left = -2.15;
 const gap = 1.05;
-const shape = CONFIG.CardSlotShape();
+const transform = NeosConfig.ui.card.transform;
 
 const Magics = () => {
   const meMagics = useAppSelector(selectMeMagics).inner;
@@ -29,7 +30,7 @@ const Magics = () => {
               key={sequence}
               sequence={sequence}
               position={position}
-              rotation={CONFIG.CardSlotRotation(false)}
+              rotation={cardSlotRotation(false)}
               clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
             />
           );
@@ -43,7 +44,7 @@ const Magics = () => {
               key={sequence}
               sequence={sequence}
               position={position}
-              rotation={CONFIG.CardSlotRotation(true)}
+              rotation={cardSlotRotation(true)}
               clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
             />
           );
@@ -55,7 +56,7 @@ const Magics = () => {
 const magicPositions = (player: number, magics: CardState[]) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
-  const y = shape.depth / 2 + CONFIG.Floating;
+  const y = transform.x / 2 + NeosConfig.ui.card.floating;
   const z = player == 0 ? -2.6 : 2.6;
 
   return magics.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));

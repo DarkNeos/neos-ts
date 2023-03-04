@@ -1,7 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "../../hook";
 import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
-import * as CONFIG from "../../config/ui";
 import { CardState } from "../../reducers/duel/generic";
 import {
   setCardModalImgUrl,
@@ -17,10 +16,12 @@ import { useSpring, animated } from "./spring";
 import { zip, interactTypeToString } from "./util";
 import NeosConfig from "../../../neos.config.json";
 
-const groundShape = CONFIG.GroundShape();
+const groundShape = NeosConfig.ui.ground;
 const left = -(groundShape.width / 2);
-const handShape = CONFIG.HandShape();
-const handRotation = CONFIG.HandRotation();
+const handShape = NeosConfig.ui.card.transform;
+const rotation = NeosConfig.ui.card.handRotation;
+const handRotation = new BABYLON.Vector3(rotation.x, rotation.y, rotation.z);
+const hoverScaling = NeosConfig.ui.card.handHoverScaling;
 
 const Hands = () => {
   const meHands = useAppSelector(selectMeHands).inner;
@@ -65,7 +66,11 @@ const CHand = (props: {
   rotation: BABYLON.Vector3;
   cover: (id: number) => string;
 }) => {
-  const hoverScale = CONFIG.HandHoverScaling();
+  const hoverScale = new BABYLON.Vector3(
+    hoverScaling.x,
+    hoverScaling.y,
+    hoverScaling.z
+  );
   const defaultScale = new BABYLON.Vector3(1, 1, 1);
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
@@ -134,8 +139,8 @@ const CHand = (props: {
       <animated.plane
         name={`hand-${props.sequence}`}
         ref={planeRef}
-        width={handShape.width}
-        height={handShape.height}
+        width={handShape.x}
+        height={handShape.y}
         scaling={hovered ? hoverScale : defaultScale}
         position={spring.position}
         rotation={props.rotation}
@@ -162,7 +167,7 @@ const handPositons = (player: number, hands: CardState[]) => {
   const gap = groundShape.width / (hands.length - 1);
   const x = (idx: number) =>
     player == 0 ? left + gap * idx : -left - gap * idx;
-  const y = handShape.height / 2;
+  const y = handShape.y / 2;
   const z =
     player == 0 ? -(groundShape.height / 2) - 1 : groundShape.height / 2 + 1;
 
