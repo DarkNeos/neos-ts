@@ -21,7 +21,6 @@ const contentStyle: React.CSSProperties = {
 };
 
 const siderStyle: React.CSSProperties = {
-  textAlign: "center",
   lineHeight: "120px",
   position: "fixed",
   overflow: "auto",
