@@ -19,6 +19,7 @@ import OptionModal from "./optionModal";
 import Phase from "./phase";
 import CheckCardModalV2 from "./checkCardModalV2";
 import ExtraDeck from "./extraDeck";
+import NeosLayout from "./layout";
 import { initStrings } from "../../api/strings";
 import NeosConfig from "../../../neos.config.json";
 
@@ -41,29 +42,12 @@ const NeosDuel = () => {
 
   return (
     <>
-      <ReactReduxContext.Consumer>
-        {({ store }) => (
-          <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
-            <Scene>
-              <Provider store={store}>
-                <Camera />
-                <Light />
-                <Hands />
-                <Monsters />
-                <Magics />
-                <Field />
-                <CommonDeck />
-                <ExtraDeck />
-                <Cemeteries />
-                <Exclusion />
-                <Field />
-                <Phase />
-                <Ground />
-              </Provider>
-            </Scene>
-          </Engine>
-        )}
-      </ReactReduxContext.Consumer>
+      <NeosLayout
+        sider={<div>sider</div>}
+        header={<div>header</div>}
+        content={<NeosCanvas />}
+        footer={<div>footer</div>}
+      />
       <CardModal />
       <CardListModal />
       <HintNotification />
@@ -75,6 +59,32 @@ const NeosDuel = () => {
     </>
   );
 };
+
+const NeosCanvas = () => (
+  <ReactReduxContext.Consumer>
+    {({ store }) => (
+      <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
+        <Scene>
+          <Provider store={store}>
+            <Camera />
+            <Light />
+            <Hands />
+            <Monsters />
+            <Magics />
+            <Field />
+            <CommonDeck />
+            <ExtraDeck />
+            <Cemeteries />
+            <Exclusion />
+            <Field />
+            <Phase />
+            <Ground />
+          </Provider>
+        </Scene>
+      </Engine>
+    )}
+  </ReactReduxContext.Consumer>
+);
 
 const Camera = () => (
   <freeCamera
