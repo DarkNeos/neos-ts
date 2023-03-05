@@ -12,10 +12,12 @@ import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
 import NeosConfig from "../../neos.config.json";
 
+const serverConfig = NeosConfig.servers;
+
 export default function Login() {
   const [player, setPlayer] = useState("");
   const [passWd, setPasswd] = useState("");
-  const [ip, setIp] = useState("");
+  const [ip, setIp] = useState(`${serverConfig[0].ip}:${serverConfig[0].port}`);
   const navigate = useNavigate();
 
   let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {

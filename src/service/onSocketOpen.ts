@@ -3,6 +3,7 @@
  *
  * */
 import { sendJoinGame, sendPlayerInfo } from "../api/ocgcore/ocgHelper";
+import NeosConfig from "../../neos.config.json";
 
 /*
  * 长连接建立后，需要马上发送PlayerInfo和JoinGame两个数据包，
@@ -11,7 +12,7 @@ import { sendJoinGame, sendPlayerInfo } from "../api/ocgcore/ocgHelper";
  * */
 export default function handleSocketOpen(
   ws: WebSocket | null,
-  ip: string,
+  _ip: string,
   player: string,
   passWd: string
 ) {
@@ -21,6 +22,6 @@ export default function handleSocketOpen(
     ws.binaryType = "arraybuffer";
 
     sendPlayerInfo(ws, player);
-    sendJoinGame(ws, 4947, passWd); // todo: version use config
+    sendJoinGame(ws, NeosConfig.version, passWd); // todo: version use config
   }
 }
