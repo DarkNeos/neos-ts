@@ -1,26 +1,26 @@
-import React from "react";
-import { Timeline } from "antd";
+import React, { useEffect, useState } from "react";
+import { Timeline, TimelineItemProps } from "antd";
 import { UserOutlined, SettingOutlined } from "@ant-design/icons";
+import { useAppSelector } from "../../hook";
+import { selectChat } from "../../reducers/chatSlice";
 
-const DuelTimeLine = () => (
-  <Timeline
-    items={[
-      {
-        dot: <UserOutlined />,
-        children: "对手消息",
-        color: "red",
-      },
-      {
-        dot: <UserOutlined />,
-        children: "自己消息",
-        color: "green",
-      },
-      {
-        dot: <SettingOutlined />,
-        children: "系统消息",
-      },
-    ]}
-  />
-);
+const DuelTimeLine = () => {
+  const [items, setItems] = useState<TimelineItemProps[]>([]);
+  const chat = useAppSelector(selectChat);
+
+  useEffect(() => {
+    setItems((prev) =>
+      prev.concat([
+        {
+          dot: <SettingOutlined />,
+          children: chat,
+          color: "red",
+        },
+      ])
+    );
+  }, [chat]);
+
+  return <Timeline items={items} />;
+};
 
 export default DuelTimeLine;
