@@ -40,7 +40,7 @@ import {
 } from "@ant-design/icons";
 import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
 import type { MenuProps, UploadProps } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { selectDuelStart } from "../reducers/moraSlice";
 
 const READY_STATE = "ready";
@@ -158,12 +158,7 @@ const WaitRoom = () => {
   useEffect(() => {
     // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
     // 否则停留在当前页面。
-    if (
-      isHost &&
-      joined &&
-      player0.state === READY_STATE &&
-      player1.state === READY_STATE
-    ) {
+    if (duelStart) {
       navigate(`/mora/${player}/${passWd}/${ip}`);
     }
   }, [duelStart]);
@@ -195,7 +190,9 @@ const WaitRoom = () => {
               </Space>
               <Space wrap size={10}>
                 <Avatar size={25} icon={<SendOutlined />} />
-                <Button onClick={handleChoseStart}>开始游戏</Button>
+                <Button onClick={handleChoseStart} disabled={!isHost}>
+                  开始游戏
+                </Button>
               </Space>
             </Space>
           </>
