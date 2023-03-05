@@ -40,7 +40,8 @@ import {
 } from "@ant-design/icons";
 import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
 import type { MenuProps, UploadProps } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { selectDuelStart } from "../reducers/moraSlice";
 
 const READY_STATE = "ready";
 
@@ -84,6 +85,7 @@ const WaitRoom = () => {
   const isHost = useAppSelector(selectIsHost);
   const player0 = useAppSelector(selectPlayer0);
   const player1 = useAppSelector(selectPlayer1);
+  const duelStart = useAppSelector(selectDuelStart);
   const [api, contextHolder] = notification.useNotification();
   const [deckTitle, setDeckTitle] = useState("请选择卡组");
   // FIXME: 这些数据应该从`store`中获取
@@ -153,6 +155,13 @@ const WaitRoom = () => {
       api.info({ message: "Chat", description: chat, placement: "bottom" });
     }
   }, [chat]);
+  useEffect(() => {
+    // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
+    // 否则停留在当前页面。
+    if (duelStart) {
+      navigate(`/mora/${player}/${passWd}/${ip}`);
+    }
+  }, [duelStart]);
 
   return (
     <>
@@ -181,21 +190,8 @@ const WaitRoom = () => {
               </Space>
               <Space wrap size={10}>
                 <Avatar size={25} icon={<SendOutlined />} />
-                <Button onClick={handleChoseStart}>
-                  <Link
-                    to={
-                      // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
-                      // 否则停留在当前页面。
-                      !isHost ||
-                      !joined ||
-                      player0.state !== READY_STATE ||
-                      player1.state !== READY_STATE
-                        ? {}
-                        : { pathname: `/mora/${player}/${passWd}/${ip}` }
-                    }
-                  >
-                    开始游戏
-                  </Link>
+                <Button onClick={handleChoseStart} disabled={!isHost}>
+                  开始游戏
                 </Button>
               </Space>
             </Space>

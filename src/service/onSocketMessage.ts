@@ -15,6 +15,7 @@ import handleSelectTp from "./mora/selectTp";
 import handleDeckCount from "./mora/deckCount";
 import handleGameMsg from "./duel/gameMsg";
 import handleTimeLimit from "./duel/timeLimit";
+import handleDuelStart from "./room/duelStart";
 
 /*
  * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，
@@ -78,8 +79,7 @@ export default function handleSocketMessage(e: MessageEvent) {
       break;
     }
     case "stoc_duel_start": {
-      // TODO
-      console.log("TODO: handle STOC DuleStart.");
+      handleDuelStart(pb);
 
       break;
     }

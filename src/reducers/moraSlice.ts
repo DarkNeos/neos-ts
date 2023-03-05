@@ -6,11 +6,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export interface moraState {
+  duelStart: boolean;
   selectHandAble: boolean;
   selectTpAble: boolean;
 }
 
 const initialState: moraState = {
+  duelStart: false,
   selectHandAble: false,
   selectTpAble: false,
 };
@@ -19,6 +21,9 @@ const moraSlice = createSlice({
   name: "mora",
   initialState,
   reducers: {
+    duelStart: (state) => {
+      state.duelStart = true;
+    },
     selectHandAble: (state) => {
       state.selectHandAble = true;
     },
@@ -35,11 +40,13 @@ const moraSlice = createSlice({
 });
 
 export const {
+  duelStart,
   selectHandAble,
   unSelectHandAble,
   selectTpAble,
   unSelectTpAble,
 } = moraSlice.actions;
+export const selectDuelStart = (state: RootState) => state.mora.duelStart;
 export const selectHandSelectAble = (state: RootState) =>
   state.mora.selectHandAble;
 export const selectTpSelectAble = (state: RootState) => state.mora.selectTpAble;

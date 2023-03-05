@@ -26,6 +26,7 @@ import StocSelectTp from "./stoc/stocSelectTp";
 import StocDeckCount from "./stoc/stocDeckCount";
 import StocTimeLimit from "./stoc/stocTimeLimit";
 import StocGameMsg from "./stoc/stocGameMsg/mod";
+import StocDuelStart from "./stoc/stocDuelStart";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
@@ -87,7 +88,7 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
       break;
     }
     case STOC_DUEL_START: {
-      // TODO
+      pb = new StocDuelStart(packet).upcast();
 
       break;
     }
