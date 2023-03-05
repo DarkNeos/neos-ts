@@ -11,8 +11,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -23,7 +23,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -47,7 +47,7 @@ table {
 }
 
 
-@import 
+@import
 url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"),
 "commom",
 "header",
@@ -68,7 +68,11 @@ url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
 body {
   background-image: url(/neos-assets/background.png);
   background-size:cover;
-	color: #606468;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #606468;
   font: 87.5%/1.5em 'Open Sans', sans-serif;
   margin: 0;
 }
