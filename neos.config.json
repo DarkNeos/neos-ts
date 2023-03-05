@@ -1,5 +1,9 @@
 {
   "version": 4948,
+  "servers": [{
+    "ip": "koishi-r.momobako.com",
+    "port": "7211"
+  }],
   "assetsPath": "/neos-assets",
   "cardImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
   "ui": {
