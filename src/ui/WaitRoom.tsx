@@ -42,6 +42,7 @@ import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
 import type { MenuProps, UploadProps } from "antd";
 import { useParams } from "react-router-dom";
 import { selectDuelStart } from "../reducers/moraSlice";
+import NeosConfig from "../../neos.config.json";
 
 const READY_STATE = "ready";
 
@@ -71,7 +72,7 @@ const WaitRoom = () => {
         // 初始化sqlite
         await sqliteMiddleWare({
           cmd: sqliteCmd.INIT,
-          initInfo: { dbUrl: "/ygopro-database/locales/zh-CN/cards.cdb" },
+          initInfo: { dbUrl: NeosConfig.cardsDbUrl },
         });
       };
 
