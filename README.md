@@ -34,6 +34,10 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
   <img alt="" src="./screenshots/duel.png" width="512">
 </p>
 
+## Deployed
+* https://neos.moecube.com by Mycard community
+* https://www.neos.moe by [Cloudflare](https://www.cloudflare.com/)
+
 ## Contributing
 Create merge requests in [gitlab repo](https://code.mycard.moe/mycard/Neos).
 ## Community
