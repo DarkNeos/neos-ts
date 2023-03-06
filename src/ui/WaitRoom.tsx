@@ -22,7 +22,7 @@ import {
 import { useAppSelector } from "../hook";
 import { selectJoined } from "../reducers/joinSlice";
 import { selectChat } from "../reducers/chatSlice";
-import { fetchDeck, IDeck, parseYdk } from "../api/deck";
+import { fetchDeck, IDeck } from "../api/deck";
 import {
   sendUpdateDeck,
   sendHsReady,
@@ -43,6 +43,7 @@ import type { MenuProps, UploadProps } from "antd";
 import { useParams } from "react-router-dom";
 import { selectDuelStart } from "../reducers/moraSlice";
 import NeosConfig from "../../neos.config.json";
+import YGOProDeck from "ygopro-deck-encode";
 
 const READY_STATE = "ready";
 
@@ -109,9 +110,16 @@ const WaitRoom = () => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = (e) => {
-        const text = e.target?.result as string;
-        const deck = parseYdk(text);
-        if (deck) {
+        const ydk = e.target?.result as string;
+        const deck = YGOProDeck.fromYdkString(ydk);
+
+        if (
+          !(
+            deck.main.length == 0 &&
+            deck.extra.length == 0 &&
+            deck.side.length == 0
+          )
+        ) {
           // YDK解析成功
           message.success(`${file.name}解析成功`);
 
