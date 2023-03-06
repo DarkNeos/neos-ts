@@ -33,6 +33,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && cp -r neos-assets dist/",
+    "build:prod": "tsc && vite build --base=https://cdn02.moecube.com:444/neos/",
     "preview": "vite preview",
     "lint": "eslint --ext .ts --ext .tsx src",
     "fmt": "eslint --ext .ts --ext .tsx src --fix",

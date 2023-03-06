@@ -6,7 +6,7 @@
       "port": "7211"
     }
   ],
-  "assetsPath": "/neos-assets",
+  "assetsPath": "https://cdn02.moecube.com:444/neos/neos-assets",
   "cardImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
   "cardsDbUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
   "ui": {
