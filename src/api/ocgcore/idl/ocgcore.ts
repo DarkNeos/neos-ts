@@ -363,7 +363,7 @@ export namespace ygopro {
     }
   }
   export class YgoCtosMsg extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
     constructor(
       data?:
         | any[]
@@ -379,6 +379,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -391,6 +392,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -403,6 +405,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -415,6 +418,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -427,6 +431,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -439,6 +444,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -451,6 +457,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -463,6 +470,7 @@ export namespace ygopro {
                 ctos_tp_result?: CtosTpResult;
                 ctos_time_confirm?: never;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -475,6 +483,7 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: CtosTimeConfirm;
                 ctos_response?: never;
+                ctos_chat?: never;
               }
             | {
                 ctos_player_info?: never;
@@ -487,6 +496,20 @@ export namespace ygopro {
                 ctos_tp_result?: never;
                 ctos_time_confirm?: never;
                 ctos_response?: CtosGameMsgResponse;
+                ctos_chat?: never;
+              }
+            | {
+                ctos_player_info?: never;
+                ctos_join_game?: never;
+                ctos_update_deck?: never;
+                ctos_hs_ready?: never;
+                ctos_hs_start?: never;
+                ctos_hs_not_ready?: never;
+                ctos_hand_result?: never;
+                ctos_tp_result?: never;
+                ctos_time_confirm?: never;
+                ctos_response?: never;
+                ctos_chat?: CtosChat;
               }
           ))
     ) {
@@ -535,6 +558,9 @@ export namespace ygopro {
         }
         if ("ctos_response" in data && data.ctos_response != undefined) {
           this.ctos_response = data.ctos_response;
+        }
+        if ("ctos_chat" in data && data.ctos_chat != undefined) {
+          this.ctos_chat = data.ctos_chat;
         }
       }
     }
@@ -660,6 +686,15 @@ export namespace ygopro {
     get has_ctos_response() {
       return pb_1.Message.getField(this, 10) != null;
     }
+    get ctos_chat() {
+      return pb_1.Message.getWrapperField(this, CtosChat, 11) as CtosChat;
+    }
+    set ctos_chat(value: CtosChat) {
+      pb_1.Message.setOneofWrapperField(this, 11, this.#one_of_decls[0], value);
+    }
+    get has_ctos_chat() {
+      return pb_1.Message.getField(this, 11) != null;
+    }
     get msg() {
       const cases: {
         [index: number]:
@@ -673,7 +708,8 @@ export namespace ygopro {
           | "ctos_hand_result"
           | "ctos_tp_result"
           | "ctos_time_confirm"
-          | "ctos_response";
+          | "ctos_response"
+          | "ctos_chat";
       } = {
         0: "none",
         1: "ctos_player_info",
@@ -686,9 +722,10 @@ export namespace ygopro {
         8: "ctos_tp_result",
         9: "ctos_time_confirm",
         10: "ctos_response",
+        11: "ctos_chat",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
       ];
     }
     static fromObject(data: {
@@ -702,6 +739,7 @@ export namespace ygopro {
       ctos_tp_result?: ReturnType<typeof CtosTpResult.prototype.toObject>;
       ctos_time_confirm?: ReturnType<typeof CtosTimeConfirm.prototype.toObject>;
       ctos_response?: ReturnType<typeof CtosGameMsgResponse.prototype.toObject>;
+      ctos_chat?: ReturnType<typeof CtosChat.prototype.toObject>;
     }): YgoCtosMsg {
       const message = new YgoCtosMsg({});
       if (data.ctos_player_info != null) {
@@ -746,6 +784,9 @@ export namespace ygopro {
           data.ctos_response
         );
       }
+      if (data.ctos_chat != null) {
+        message.ctos_chat = CtosChat.fromObject(data.ctos_chat);
+      }
       return message;
     }
     toObject() {
@@ -766,6 +807,7 @@ export namespace ygopro {
         ctos_response?: ReturnType<
           typeof CtosGameMsgResponse.prototype.toObject
         >;
+        ctos_chat?: ReturnType<typeof CtosChat.prototype.toObject>;
       } = {};
       if (this.ctos_player_info != null) {
         data.ctos_player_info = this.ctos_player_info.toObject();
@@ -796,6 +838,9 @@ export namespace ygopro {
       }
       if (this.ctos_response != null) {
         data.ctos_response = this.ctos_response.toObject();
+      }
+      if (this.ctos_chat != null) {
+        data.ctos_chat = this.ctos_chat.toObject();
       }
       return data;
     }
@@ -842,6 +887,10 @@ export namespace ygopro {
       if (this.has_ctos_response)
         writer.writeMessage(10, this.ctos_response, () =>
           this.ctos_response.serialize(writer)
+        );
+      if (this.has_ctos_chat)
+        writer.writeMessage(11, this.ctos_chat, () =>
+          this.ctos_chat.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -920,6 +969,12 @@ export namespace ygopro {
               () =>
                 (message.ctos_response =
                   CtosGameMsgResponse.deserialize(reader))
+            );
+            break;
+          case 11:
+            reader.readMessage(
+              message.ctos_chat,
+              () => (message.ctos_chat = CtosChat.deserialize(reader))
             );
             break;
           default:
@@ -2417,6 +2472,84 @@ export namespace ygopro {
     }
     static deserializeBinary(bytes: Uint8Array): CtosTimeConfirm {
       return CtosTimeConfirm.deserialize(bytes);
+    }
+  }
+  export class CtosChat extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(
+      data?:
+        | any[]
+        | {
+            message?: string;
+          }
+    ) {
+      super();
+      pb_1.Message.initialize(
+        this,
+        Array.isArray(data) ? data : [],
+        0,
+        -1,
+        [],
+        this.#one_of_decls
+      );
+      if (!Array.isArray(data) && typeof data == "object") {
+        if ("message" in data && data.message != undefined) {
+          this.message = data.message;
+        }
+      }
+    }
+    get message() {
+      return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+    }
+    set message(value: string) {
+      pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: { message?: string }): CtosChat {
+      const message = new CtosChat({});
+      if (data.message != null) {
+        message.message = data.message;
+      }
+      return message;
+    }
+    toObject() {
+      const data: {
+        message?: string;
+      } = {};
+      if (this.message != null) {
+        data.message = this.message;
+      }
+      return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+      const writer = w || new pb_1.BinaryWriter();
+      if (this.message.length) writer.writeString(1, this.message);
+      if (!w) return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosChat {
+      const reader =
+          bytes instanceof pb_1.BinaryReader
+            ? bytes
+            : new pb_1.BinaryReader(bytes),
+        message = new CtosChat();
+      while (reader.nextField()) {
+        if (reader.isEndGroup()) break;
+        switch (reader.getFieldNumber()) {
+          case 1:
+            message.message = reader.readString();
+            break;
+          default:
+            reader.skipField();
+        }
+      }
+      return message;
+    }
+    serializeBinary(): Uint8Array {
+      return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CtosChat {
+      return CtosChat.deserialize(bytes);
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {

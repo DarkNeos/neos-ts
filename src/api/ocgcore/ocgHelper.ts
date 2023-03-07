@@ -14,6 +14,7 @@ import HandResult from "./ocgAdapter/ctos/ctosHandResult";
 import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
 import GameMsgResponse from "./ocgAdapter/ctos/ctosGameMsgResponse/mod";
+import Chat from "./ocgAdapter/ctos/ctosChat";
 
 export function sendUpdateDeck(deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
@@ -115,6 +116,15 @@ export function sendTimeConfirm() {
     ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
   });
   const payload = new TimeConfirm(timeConfirm).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendChat(message: string) {
+  const chat = new ygopro.YgoCtosMsg({
+    ctos_chat: new ygopro.CtosChat({ message }),
+  });
+  const payload = new Chat(chat).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }

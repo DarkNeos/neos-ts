@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Timeline, TimelineItemProps } from "antd";
-import { SettingOutlined } from "@ant-design/icons";
+import { MessageOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hook";
 import { selectChat } from "../../reducers/chatSlice";
 
@@ -12,9 +12,9 @@ const DuelTimeLine = () => {
     setItems((prev) =>
       prev.concat([
         {
-          dot: <SettingOutlined />,
+          dot: <MessageOutlined />,
           children: chat,
-          color: "red",
+          color: "green",
         },
       ])
     );
