@@ -11,6 +11,7 @@ export const CTOS_HAND_RESULT = 3;
 export const CTOS_TP_RESULT = 4;
 export const CTOS_TIME_CONFIRM = 21;
 export const CTOS_RESPONSE = 1;
+export const CTOS_CHAT = 22;
 
 export const STOC_JOIN_GAME = 18;
 export const STOC_CHAT = 25;
