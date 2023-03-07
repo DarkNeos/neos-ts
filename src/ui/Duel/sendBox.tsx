@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Input, Button, Row, Col } from "antd";
 import { SendOutlined } from "@ant-design/icons";
+import { sendChat } from "../../api/ocgcore/ocgHelper";
 
 const SendBox = () => {
   const [content, setContent] = useState("");
@@ -20,7 +21,10 @@ const SendBox = () => {
         <Col>
           <Button
             icon={<SendOutlined />}
-            onClick={() => {}}
+            onClick={() => {
+              sendChat(content);
+              setContent("");
+            }}
             disabled={!content}
           />
         </Col>
