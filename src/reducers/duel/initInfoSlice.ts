@@ -1,4 +1,5 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
 
@@ -23,3 +24,6 @@ export const infoInitImpl: CaseReducer<
     state.opInitInfo = initInfo;
   }
 };
+
+export const selectMeInitInfo = (state: RootState) => state.duel.meInitInfo;
+export const selectOpInitInfo = (state: RootState) => state.duel.opInitInfo;

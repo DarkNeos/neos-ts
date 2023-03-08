@@ -26,6 +26,11 @@ import DuelTimeLine from "./timeLine";
 import { Row } from "antd";
 import SendBox from "./sendBox";
 import PlayerStatus from "./status";
+import { useAppSelector } from "../../hook";
+import {
+  selectMeInitInfo,
+  selectOpInitInfo,
+} from "../../reducers/duel/initInfoSlice";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -44,13 +49,16 @@ const NeosDuel = () => {
     init();
   }, []);
 
+  const meInfo = useAppSelector(selectMeInitInfo);
+  const opInfo = useAppSelector(selectOpInitInfo);
+
   return (
     <>
       <NeosLayout
         sider={<NeosSider />}
-        header={<PlayerStatus />}
+        header={<PlayerStatus userName="UserName" hp={opInfo?.life || 0} />}
         content={<NeosCanvas />}
-        footer={<PlayerStatus />}
+        footer={<PlayerStatus userName="UserName" hp={meInfo?.life || 0} />}
       />
       <CardModal />
       <CardListModal />

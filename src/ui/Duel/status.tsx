@@ -5,16 +5,16 @@ import { Avatar, Space, Statistic } from "antd";
 const spaceSize = 20;
 const avatarSize = 40;
 
-const PlayerStatus = () => (
+const PlayerStatus = (props: { userName: string; hp: number }) => (
   <Space size={spaceSize} direction="horizontal">
     <Space wrap size={spaceSize}>
       <Avatar size={avatarSize} icon={<UserOutlined />} />
     </Space>
     <Space wrap size={spaceSize}>
-      UserName
+      {props.userName}
     </Space>
     <Space wrap size={spaceSize}>
-      <Statistic title="Hp" value={4000} />
+      <Statistic title="Hp" value={props.hp} />
     </Space>
     <Space wrap size={spaceSize}>
       <Avatar
