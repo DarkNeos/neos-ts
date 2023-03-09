@@ -120,12 +120,12 @@ export default class GameMsgAdapter implements StocAdapter {
           break;
         }
         case GAME_MSG.MSG_DAMAGE: {
-          gameMsg.update_up = MsgDamage(gameData);
+          gameMsg.update_hp = MsgDamage(gameData);
 
           break;
         }
         case GAME_MSG.MSG_RECOVER: {
-          gameMsg.update_up = MsgRecover(gameData);
+          gameMsg.update_hp = MsgRecover(gameData);
 
           break;
         }
