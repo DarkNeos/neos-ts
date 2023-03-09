@@ -4,7 +4,7 @@
  * */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitInfo, infoInitImpl } from "./initInfoSlice";
+import { InitInfo, infoInitImpl, updateHpImpl } from "./initInfoSlice";
 import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
 import {
   HandState,
@@ -170,6 +170,7 @@ const duelSlice = createSlice({
       state.selfType = action.payload;
     },
     infoInit: infoInitImpl,
+    updateHp: updateHpImpl,
     updateTurn: newTurnImpl,
     updateTimeLimit: updateTimeLimitImpl,
 
@@ -268,6 +269,7 @@ const duelSlice = createSlice({
 export const {
   setSelfType,
   infoInit,
+  updateHp,
   updateTurn,
   updatePhase,
   setEnableBp,
