@@ -5329,7 +5329,7 @@ export namespace ygopro {
   }
   export class StocGameMessage extends pb_1.Message {
     #one_of_decls: number[][] = [
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
     ];
     constructor(
       data?:
@@ -5354,6 +5354,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5374,6 +5375,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5394,6 +5396,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5414,6 +5417,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5434,6 +5438,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5454,6 +5459,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5474,6 +5480,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5494,6 +5501,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5514,6 +5522,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5534,6 +5543,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5554,6 +5564,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5574,6 +5585,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5594,6 +5606,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5614,6 +5627,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5634,6 +5648,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5654,6 +5669,7 @@ export namespace ygopro {
                 pos_change?: StocGameMessage.MsgPosChange;
                 select_unselect_card?: never;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5674,6 +5690,7 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: StocGameMessage.MsgSelectUnselectCard;
                 select_yes_no?: never;
+                update_hp?: never;
               }
             | {
                 start?: never;
@@ -5694,6 +5711,28 @@ export namespace ygopro {
                 pos_change?: never;
                 select_unselect_card?: never;
                 select_yes_no?: StocGameMessage.MsgSelectYesNo;
+                update_hp?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: StocGameMessage.MsgUpdateHp;
               }
           ))
     ) {
@@ -5766,6 +5805,9 @@ export namespace ygopro {
         }
         if ("select_yes_no" in data && data.select_yes_no != undefined) {
           this.select_yes_no = data.select_yes_no;
+        }
+        if ("update_hp" in data && data.update_hp != undefined) {
+          this.update_hp = data.update_hp;
         }
       }
     }
@@ -6003,6 +6045,19 @@ export namespace ygopro {
     get has_select_yes_no() {
       return pb_1.Message.getField(this, 18) != null;
     }
+    get update_hp() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgUpdateHp,
+        19
+      ) as StocGameMessage.MsgUpdateHp;
+    }
+    set update_hp(value: StocGameMessage.MsgUpdateHp) {
+      pb_1.Message.setOneofWrapperField(this, 19, this.#one_of_decls[0], value);
+    }
+    get has_update_hp() {
+      return pb_1.Message.getField(this, 19) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6024,7 +6079,8 @@ export namespace ygopro {
           | "select_battle_cmd"
           | "pos_change"
           | "select_unselect_card"
-          | "select_yes_no";
+          | "select_yes_no"
+          | "update_hp";
       } = {
         0: "none",
         1: "start",
@@ -6045,11 +6101,12 @@ export namespace ygopro {
         16: "pos_change",
         17: "select_unselect_card",
         18: "select_yes_no",
+        19: "update_hp",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
         )
       ];
     }
@@ -6099,6 +6156,9 @@ export namespace ygopro {
       >;
       select_yes_no?: ReturnType<
         typeof StocGameMessage.MsgSelectYesNo.prototype.toObject
+      >;
+      update_hp?: ReturnType<
+        typeof StocGameMessage.MsgUpdateHp.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -6182,6 +6242,11 @@ export namespace ygopro {
           data.select_yes_no
         );
       }
+      if (data.update_hp != null) {
+        message.update_hp = StocGameMessage.MsgUpdateHp.fromObject(
+          data.update_hp
+        );
+      }
       return message;
     }
     toObject() {
@@ -6231,6 +6296,9 @@ export namespace ygopro {
         >;
         select_yes_no?: ReturnType<
           typeof StocGameMessage.MsgSelectYesNo.prototype.toObject
+        >;
+        update_hp?: ReturnType<
+          typeof StocGameMessage.MsgUpdateHp.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -6286,6 +6354,9 @@ export namespace ygopro {
       }
       if (this.select_yes_no != null) {
         data.select_yes_no = this.select_yes_no.toObject();
+      }
+      if (this.update_hp != null) {
+        data.update_hp = this.update_hp.toObject();
       }
       return data;
     }
@@ -6356,6 +6427,10 @@ export namespace ygopro {
       if (this.has_select_yes_no)
         writer.writeMessage(18, this.select_yes_no, () =>
           this.select_yes_no.serialize(writer)
+        );
+      if (this.has_update_hp)
+        writer.writeMessage(19, this.update_hp, () =>
+          this.update_hp.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -6503,6 +6578,14 @@ export namespace ygopro {
               () =>
                 (message.select_yes_no =
                   StocGameMessage.MsgSelectYesNo.deserialize(reader))
+            );
+            break;
+          case 19:
+            reader.readMessage(
+              message.update_hp,
+              () =>
+                (message.update_hp =
+                  StocGameMessage.MsgUpdateHp.deserialize(reader))
             );
             break;
           default:
@@ -10790,6 +10873,142 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgSelectYesNo {
         return MsgSelectYesNo.deserialize(bytes);
+      }
+    }
+    export class MsgUpdateHp extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              type_?: StocGameMessage.MsgUpdateHp.ActionType;
+              value?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("type_" in data && data.type_ != undefined) {
+            this.type_ = data.type_;
+          }
+          if ("value" in data && data.value != undefined) {
+            this.value = data.value;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get type_() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          2,
+          StocGameMessage.MsgUpdateHp.ActionType.UNKNOWN
+        ) as StocGameMessage.MsgUpdateHp.ActionType;
+      }
+      set type_(value: StocGameMessage.MsgUpdateHp.ActionType) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get value() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set value(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        type_?: StocGameMessage.MsgUpdateHp.ActionType;
+        value?: number;
+      }): MsgUpdateHp {
+        const message = new MsgUpdateHp({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.type_ != null) {
+          message.type_ = data.type_;
+        }
+        if (data.value != null) {
+          message.value = data.value;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          type_?: StocGameMessage.MsgUpdateHp.ActionType;
+          value?: number;
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.type_ != null) {
+          data.type_ = this.type_;
+        }
+        if (this.value != null) {
+          data.value = this.value;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.type_ != StocGameMessage.MsgUpdateHp.ActionType.UNKNOWN)
+          writer.writeEnum(2, this.type_);
+        if (this.value != 0) writer.writeInt32(3, this.value);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgUpdateHp {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgUpdateHp();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.type_ = reader.readEnum();
+              break;
+            case 3:
+              message.value = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgUpdateHp {
+        return MsgUpdateHp.deserialize(bytes);
+      }
+    }
+    export namespace MsgUpdateHp {
+      export enum ActionType {
+        UNKNOWN = 0,
+        DAMAGE = 1,
+        RECOVER = 2,
       }
     }
   }
