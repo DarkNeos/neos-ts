@@ -1,7 +1,9 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { RootState } from "../../store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
+import MsgUpdateHp = ygopro.StocGameMessage.MsgUpdateHp;
 
 export interface InitInfo {
   masterRule?: string;
@@ -22,6 +24,33 @@ export const infoInitImpl: CaseReducer<
     state.meInitInfo = initInfo;
   } else {
     state.opInitInfo = initInfo;
+  }
+};
+
+export const updateHpImpl: CaseReducer<
+  DuelState,
+  PayloadAction<ygopro.StocGameMessage.MsgUpdateHp>
+> = (state, action) => {
+  const player = action.payload.player;
+  const actionType = action.payload.type_;
+  const value = action.payload.value;
+
+  const info = judgeSelf(player, state) ? state.meInitInfo : state.opInitInfo;
+
+  if (info) {
+    switch (actionType) {
+      case MsgUpdateHp.ActionType.DAMAGE: {
+        info.life = info.life - value;
+        break;
+      }
+      case MsgUpdateHp.ActionType.RECOVER: {
+        info.life = info.life + value;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 };
 

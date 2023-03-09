@@ -18,6 +18,7 @@ import onMsgSelectBattleCmd from "./selectBattleCmd";
 import onMsgPosChange from "./posChange";
 import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
+import onMsgUpdateHp from "./updateHp";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -111,6 +112,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "select_yes_no": {
       onMsgSelectYesNo(msg.select_yes_no, dispatch);
+
+      break;
+    }
+    case "update_hp": {
+      onMsgUpdateHp(msg.update_hp, dispatch);
 
       break;
     }
