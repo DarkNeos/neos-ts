@@ -20,6 +20,8 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
 import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgDamage from "./damage";
+import MsgRecover from "./recover";
 import PENETRATE from "./penetrate";
 
 /*
@@ -114,6 +116,16 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SELECT_UNSELECT_CARD: {
           gameMsg.select_unselect_card = MsgSelectUnselectCardAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_DAMAGE: {
+          gameMsg.update_up = MsgDamage(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_RECOVER: {
+          gameMsg.update_up = MsgRecover(gameData);
 
           break;
         }
