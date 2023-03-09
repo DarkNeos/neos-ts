@@ -119,6 +119,7 @@ export default class GameMsgAdapter implements StocAdapter {
 
           break;
         }
+        case GAME_MSG.MSG_PAY_LP_COST:
         case GAME_MSG.MSG_DAMAGE: {
           gameMsg.update_hp = MsgDamage(gameData);
 
