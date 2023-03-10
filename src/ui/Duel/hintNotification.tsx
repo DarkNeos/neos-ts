@@ -3,11 +3,17 @@ import { useAppSelector } from "../../hook";
 import { selectMeHint, selectOpHint } from "../../reducers/duel/hintSlice";
 import { selectCurrentPhase } from "../../reducers/duel/phaseSlice";
 import { notification } from "antd";
+import { selectDuelResult } from "../../reducers/duel/mod";
+import { useNavigate } from "react-router-dom";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import MsgWin = ygopro.StocGameMessage.MsgWin;
 
 const HintNotification = () => {
   const meHint = useAppSelector(selectMeHint);
   const opHint = useAppSelector(selectOpHint);
   const currentPhase = useAppSelector(selectCurrentPhase);
+  const result = useAppSelector(selectDuelResult);
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
   useEffect(() => {
@@ -36,6 +42,24 @@ const HintNotification = () => {
       });
     }
   }, [currentPhase]);
+
+  useEffect(() => {
+    if (result) {
+      const message =
+        result == MsgWin.ActionType.Win
+          ? "胜利"
+          : MsgWin.ActionType.Defeated
+          ? "失败"
+          : "未知结果";
+      api.info({
+        message,
+        placement: "bottom",
+        onClose() {
+          navigate("/");
+        },
+      });
+    }
+  }, [result]);
 
   return <>{contextHolder}</>;
 };
