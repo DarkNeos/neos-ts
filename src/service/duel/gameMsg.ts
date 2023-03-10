@@ -19,6 +19,7 @@ import onMsgPosChange from "./posChange";
 import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
 import onMsgUpdateHp from "./updateHp";
+import onMsgWin from "./win";
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -117,6 +118,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "update_hp": {
       onMsgUpdateHp(msg.update_hp, dispatch);
+
+      break;
+    }
+    case "win": {
+      onMsgWin(msg.win, dispatch);
 
       break;
     }
