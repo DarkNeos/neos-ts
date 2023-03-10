@@ -45,3 +45,4 @@ export const MSG_SELECT_UNSELECT_CARD = 26;
 export const MSG_DAMAGE = 91;
 export const MSG_RECOVER = 92;
 export const MSG_PAY_LP_COST = 100;
+export const MSG_WIN = 5;

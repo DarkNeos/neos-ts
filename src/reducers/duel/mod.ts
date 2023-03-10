@@ -3,6 +3,7 @@
  *
  * */
 
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl, updateHpImpl } from "./initInfoSlice";
 import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
@@ -102,6 +103,7 @@ import {
   removeExtraDeckImpl,
   addExtraDeckIdleInteractivitiesImpl,
 } from "./extraDeckSlice";
+import MsgWin = ygopro.StocGameMessage.MsgWin;
 
 export interface DuelState {
   selfType?: number;
@@ -138,6 +140,8 @@ export interface DuelState {
   currentPlayer?: number; // 当前的操作方
 
   phase?: PhaseState;
+
+  result?: MsgWin.ActionType;
 
   // UI相关
   modalState: ModalState;
@@ -250,6 +254,11 @@ const duelSlice = createSlice({
     // 通用的`Reducer`
     clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
     clearAllPlaceInteractivities: clearAllPlaceInteractivitiesImpl,
+
+    // 对局结果`Reducer`
+    setResult: (state, action: PayloadAction<MsgWin.ActionType>) => {
+      state.result = action.payload;
+    },
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -329,8 +338,12 @@ export const {
   setCheckCardModalV2ResponseAble,
   clearAllIdleInteractivities,
   clearAllPlaceInteractivities,
+  setResult,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
+};
+export const selectDuelResult = (state: RootState) => {
+  return state.duel.result;
 };
 export default duelSlice.reducer;

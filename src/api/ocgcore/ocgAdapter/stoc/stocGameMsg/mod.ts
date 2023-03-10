@@ -22,6 +22,7 @@ import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
 import MsgDamage from "./damage";
 import MsgRecover from "./recover";
+import MsgWin from "./win";
 import PENETRATE from "./penetrate";
 
 /*
@@ -127,6 +128,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_RECOVER: {
           gameMsg.update_hp = MsgRecover(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_WIN: {
+          gameMsg.win = MsgWin(gameData);
 
           break;
         }
