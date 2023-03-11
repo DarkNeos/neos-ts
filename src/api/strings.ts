@@ -1,9 +1,8 @@
 import axios from "axios";
+import NeosConfig from "../../neos.config.json";
 
 export async function initStrings() {
-  const strings = (
-    await axios.get<string>(`ygopro-database/locales/zh-CN/strings.conf`)
-  ).data;
+  const strings = (await axios.get<string>(NeosConfig.stringsUrl)).data;
 
   const lineIter = strings.split("\n");
   for (const line of lineIter) {
