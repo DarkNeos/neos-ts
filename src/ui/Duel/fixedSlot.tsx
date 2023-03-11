@@ -6,10 +6,9 @@ import { useClick } from "./hook";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
-  setCardModalImgUrl,
   setCardModalInteractivies,
   setCardModalIsOpen,
-  setCardModalText,
+  setCardModalMeta,
 } from "../../reducers/duel/mod";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { interactTypeToString } from "./util";
@@ -55,17 +54,7 @@ const FixedSlot = (props: {
         dispatch(props.clearPlaceInteractivitiesAction(0));
         dispatch(props.clearPlaceInteractivitiesAction(1));
       } else if (props.state.occupant) {
-        dispatch(
-          setCardModalText([
-            props.state.occupant.text.name,
-            props.state.occupant.text.desc,
-          ])
-        );
-        dispatch(
-          setCardModalImgUrl(
-            `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
-          )
-        );
+        dispatch(setCardModalMeta(props.state.occupant));
         dispatch(
           setCardModalInteractivies(
             props.state.idleInteractivities.map((interactivity) => {

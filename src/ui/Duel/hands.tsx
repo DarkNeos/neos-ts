@@ -3,9 +3,8 @@ import { useAppSelector } from "../../hook";
 import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
 import { CardState } from "../../reducers/duel/generic";
 import {
-  setCardModalImgUrl,
   setCardModalIsOpen,
-  setCardModalText,
+  setCardModalMeta,
   setCardModalInteractivies,
 } from "../../reducers/duel/mod";
 import { store } from "../../store";
@@ -112,12 +111,9 @@ const CHand = (props: {
 
   useClick(
     () => {
-      dispatch(
-        setCardModalText([state.occupant?.text.name, state.occupant?.text.desc])
-      );
-      dispatch(
-        setCardModalImgUrl(`${NeosConfig.cardImgUrl}/${state.occupant?.id}.jpg`)
-      );
+      if (state.occupant) {
+        dispatch(setCardModalMeta(state.occupant));
+      }
       dispatch(
         setCardModalInteractivies(
           state.idleInteractivities.map((interactive) => {

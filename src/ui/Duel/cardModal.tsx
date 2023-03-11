@@ -3,10 +3,8 @@ import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import {
   selectCardModalIsOpen,
-  selectCardModalName,
-  selectCardModalDesc,
-  selectCardModalImgUrl,
   selectCardModalInteractivies,
+  selectCardModalMeta,
 } from "../../reducers/duel/modal/mod";
 import {
   setCardModalIsOpen,
@@ -14,6 +12,7 @@ import {
 } from "../../reducers/duel/mod";
 import { Modal, Card, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
+import NeosConfig from "../../../neos.config.json";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;
@@ -21,9 +20,12 @@ const CARD_WIDTH = 240;
 const CardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCardModalIsOpen);
-  const name = useAppSelector(selectCardModalName);
-  const desc = useAppSelector(selectCardModalDesc);
-  const imgUrl = useAppSelector(selectCardModalImgUrl);
+  const meta = useAppSelector(selectCardModalMeta);
+  const name = meta?.text.name;
+  const desc = meta?.text.desc;
+  const imgUrl = meta?.id
+    ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
+    : undefined;
   const interactivies = useAppSelector(selectCardModalInteractivies);
 
   const handleOkOrCancel = () => {

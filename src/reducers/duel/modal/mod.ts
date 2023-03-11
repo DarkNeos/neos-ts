@@ -1,12 +1,11 @@
+import { CardMeta } from "../../../api/cards";
 import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
 
 export interface ModalState {
   // 卡牌弹窗
   cardModal: {
     isOpen: boolean;
-    name?: string;
-    desc?: string;
-    imgUrl?: string;
+    meta?: CardMeta;
     interactivies: { desc: string; response: number }[];
   };
   // 卡牌列表弹窗

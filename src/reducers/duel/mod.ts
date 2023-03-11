@@ -27,8 +27,7 @@ import { HintState, hintCase } from "./hintSlice";
 import {
   ModalState,
   setCardModalIsOpenImpl,
-  setCardModalTextImpl,
-  setCardModalImgUrlImpl,
+  setCardModalMetaImpl,
   setCardModalInteractiviesImpl,
   setCardListModalIsOpenImpl,
   setCardListModalInfoImpl,
@@ -227,8 +226,7 @@ const duelSlice = createSlice({
 
     // UI相关`Reducer`
     setCardModalIsOpen: setCardModalIsOpenImpl,
-    setCardModalText: setCardModalTextImpl,
-    setCardModalImgUrl: setCardModalImgUrlImpl,
+    setCardModalMeta: setCardModalMetaImpl,
     setCardModalInteractivies: setCardModalInteractiviesImpl,
     setCardListModalIsOpen: setCardListModalIsOpenImpl,
     setCardListModalInfo: setCardListModalInfoImpl,
@@ -288,8 +286,7 @@ export const {
   addHandsIdleInteractivity,
   updateTimeLimit,
   setCardModalIsOpen,
-  setCardModalText,
-  setCardModalImgUrl,
+  setCardModalMeta,
   setCardModalInteractivies,
   initMonsters,
   addMonsterPlaceInteractivities,
