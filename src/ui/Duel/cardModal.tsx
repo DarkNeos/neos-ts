@@ -26,8 +26,8 @@ const CardModal = () => {
   const meta = useAppSelector(selectCardModalMeta);
   const name = meta?.text.name;
   const desc = meta?.text.desc;
-  const atk = meta?.data.atk || 0;
-  const def = meta?.data.def || 0;
+  const atk = meta?.data.atk;
+  const def = meta?.data.def;
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
@@ -48,17 +48,25 @@ const CardModal = () => {
         <p>{desc}</p>
         <p>
           <Row gutter={8}>
-            <Col>
-              <Icon component={BattleSvg} />
-              <a>{atk}</a>
-            </Col>
+            {atk ? (
+              <Col>
+                <Icon component={BattleSvg} />
+                <a>{atk}</a>
+              </Col>
+            ) : (
+              <></>
+            )}
             <Col>
               <div>/</div>
             </Col>
-            <Col>
-              <Icon component={DefenceSvg} />
-              <a>{def}</a>
-            </Col>
+            {def ? (
+              <Col>
+                <Icon component={DefenceSvg} />
+                <a>{def}</a>
+              </Col>
+            ) : (
+              <></>
+            )}
           </Row>
         </p>
       </Card>
