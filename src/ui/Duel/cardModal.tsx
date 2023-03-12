@@ -96,9 +96,7 @@ const AtkLine = (props: { level?: number; atk?: number; def?: number }) => (
     ) : (
       <></>
     )}
-    <Col>
-      <div>/</div>
-    </Col>
+    <Col>/</Col>
     {props.def ? (
       <Col>
         <Icon component={DefenceSvg} />
@@ -125,9 +123,7 @@ const AttLine = (props: {
     <Row gutter={8}>
       {props.types ? <Col>{`[${props.types}]`}</Col> : <></>}
       {race ? <Col>{race}</Col> : <></>}
-      <Col>
-        <div>/</div>
-      </Col>
+      <Col>/</Col>
       {attribute ? <Col>{attribute}</Col> : <></>}
     </Row>
   );
