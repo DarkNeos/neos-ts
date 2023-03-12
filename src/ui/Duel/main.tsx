@@ -73,14 +73,14 @@ const NeosDuel = () => {
 };
 
 const NeosSider = () => (
-  <div>
+  <>
     <Row>
       <DuelTimeLine />
     </Row>
     <Row>
       <SendBox />
     </Row>
-  </div>
+  </>
 );
 
 const NeosCanvas = () => (
