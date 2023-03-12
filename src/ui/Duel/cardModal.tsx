@@ -16,7 +16,12 @@ import Icon, { StarOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "../../../neos-assets/checked-shield.svg";
-import { extraCardTypes, Meta2StringCodeMap } from "../../common";
+import {
+  extraCardTypes,
+  Type2StringCodeMap,
+  Attribute2StringCodeMap,
+  Race2StringCodeMap,
+} from "../../common";
 import { fetchStrings } from "../../api/strings";
 
 const { Meta } = Card;
@@ -118,13 +123,13 @@ const AttLine = (props: {
   attribute?: number;
 }) => {
   const race = props.race
-    ? fetchStrings("!system", Meta2StringCodeMap.get(props.race) || 0)
+    ? fetchStrings("!system", Race2StringCodeMap.get(props.race) || 0)
     : undefined;
   const attribute = props.attribute
-    ? fetchStrings("!system", Meta2StringCodeMap.get(props.attribute) || 0)
+    ? fetchStrings("!system", Attribute2StringCodeMap.get(props.attribute) || 0)
     : undefined;
   const types = props.types
-    .map((t) => fetchStrings("!system", Meta2StringCodeMap.get(t) || 0))
+    .map((t) => fetchStrings("!system", Type2StringCodeMap.get(t) || 0))
     .join("|");
   return (
     <Row gutter={8}>

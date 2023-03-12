@@ -1,5 +1,6 @@
 //! 一些Neos中基础的数据结构
 
+// 类型
 const TYPE_MONSTER = 0x1; //
 const TYPE_SPELL = 0x2; //
 const TYPE_TRAP = 0x4; //
@@ -26,48 +27,13 @@ const TYPE_PENDULUM = 0x1000000; //
 const TYPE_SPSUMMON = 0x2000000; //
 const TYPE_LINK = 0x4000000; //
 
-// const ATTRIBUTE_ALL = 0x7f; //
-const ATTRIBUTE_EARTH = 0x01; //
-const ATTRIBUTE_WATER = 0x02; //
-const ATTRIBUTE_FIRE = 0x04; //
-const ATTRIBUTE_WIND = 0x08; //
-const ATTRIBUTE_LIGHT = 0x10; //
-const ATTRIBUTE_DARK = 0x20; //
-const ATTRIBUTE_DEVINE = 0x40; //
-
-const RACE_WARRIOR = 0x1; //
-const RACE_SPELLCASTER = 0x2; //
-const RACE_FAIRY = 0x4; //
-const RACE_FIEND = 0x8; //
-const RACE_ZOMBIE = 0x10; //
-const RACE_MACHINE = 0x20; //
-const RACE_AQUA = 0x40; //
-const RACE_PYRO = 0x80; //
-const RACE_ROCK = 0x100; //
-const RACE_WINDBEAST = 0x200; //
-const RACE_PLANT = 0x400; //
-const RACE_INSECT = 0x800; //
-const RACE_THUNDER = 0x1000; //
-const RACE_DRAGON = 0x2000; //
-const RACE_BEAST = 0x4000; //
-const RACE_BEASTWARRIOR = 0x8000; //
-const RACE_DINOSAUR = 0x10000; //
-const RACE_FISH = 0x20000; //
-const RACE_SEASERPENT = 0x40000; //
-const RACE_REPTILE = 0x80000; //
-const RACE_PSYCHO = 0x100000; //
-const RACE_DEVINE = 0x200000; //
-const RACE_CREATORGOD = 0x400000; //
-const RACE_WYRM = 0x800000; //
-const RACE_CYBERSE = 0x1000000; //
-
 /*
  * 在做卡牌信息展示的时候，发现`CardMeta`里面的数据和`strings.conf`配置文件
  * 里面的code是不对应的，这里定义一个哈希表来管理其中的映射关系。
  *
  * metaCode -> stringCode
  * */
-export const Meta2StringCodeMap: Map<number, number> = new Map([
+export const Type2StringCodeMap: Map<number, number> = new Map([
   [TYPE_MONSTER, 1050],
   [TYPE_SPELL, 1051],
   [TYPE_TRAP, 1052],
@@ -93,38 +59,6 @@ export const Meta2StringCodeMap: Map<number, number> = new Map([
   [TYPE_PENDULUM, 1074],
   [TYPE_SPSUMMON, 1075],
   [TYPE_LINK, 1076],
-  [ATTRIBUTE_EARTH, 1010],
-  [ATTRIBUTE_WATER, 1011],
-  [ATTRIBUTE_FIRE, 1012],
-  [ATTRIBUTE_WIND, 1013],
-  [ATTRIBUTE_LIGHT, 1014],
-  [ATTRIBUTE_DARK, 1015],
-  [ATTRIBUTE_DEVINE, 1016],
-  [RACE_WARRIOR, 1020],
-  [RACE_SPELLCASTER, 1021],
-  [RACE_FAIRY, 1022],
-  [RACE_FIEND, 1023],
-  [RACE_ZOMBIE, 1024],
-  [RACE_MACHINE, 1025],
-  [RACE_AQUA, 1026],
-  [RACE_PYRO, 1027],
-  [RACE_ROCK, 1028],
-  [RACE_WINDBEAST, 1029],
-  [RACE_PLANT, 1030],
-  [RACE_INSECT, 1031],
-  [RACE_THUNDER, 1032],
-  [RACE_DRAGON, 1033],
-  [RACE_BEAST, 1034],
-  [RACE_BEASTWARRIOR, 1035],
-  [RACE_DINOSAUR, 1036],
-  [RACE_FISH, 1037],
-  [RACE_SEASERPENT, 1038],
-  [RACE_REPTILE, 1039],
-  [RACE_PSYCHO, 1040],
-  [RACE_DEVINE, 1041],
-  [RACE_CREATORGOD, 1042],
-  [RACE_WYRM, 1043],
-  [RACE_CYBERSE, 1044],
 ]);
 
 /*
@@ -158,3 +92,78 @@ export function extraCardTypes(typeCode: number): number[] {
     TYPE_LINK,
   ].filter((target) => (target & typeCode) > 0);
 }
+
+// 属性
+// const ATTRIBUTE_ALL = 0x7f; //
+const ATTRIBUTE_EARTH = 0x01; //
+const ATTRIBUTE_WATER = 0x02; //
+const ATTRIBUTE_FIRE = 0x04; //
+const ATTRIBUTE_WIND = 0x08; //
+const ATTRIBUTE_LIGHT = 0x10; //
+const ATTRIBUTE_DARK = 0x20; //
+const ATTRIBUTE_DEVINE = 0x40; //
+
+export const Attribute2StringCodeMap: Map<number, number> = new Map([
+  [ATTRIBUTE_EARTH, 1010],
+  [ATTRIBUTE_WATER, 1011],
+  [ATTRIBUTE_FIRE, 1012],
+  [ATTRIBUTE_WIND, 1013],
+  [ATTRIBUTE_LIGHT, 1014],
+  [ATTRIBUTE_DARK, 1015],
+  [ATTRIBUTE_DEVINE, 1016],
+]);
+
+// 种族
+const RACE_WARRIOR = 0x1; //
+const RACE_SPELLCASTER = 0x2; //
+const RACE_FAIRY = 0x4; //
+const RACE_FIEND = 0x8; //
+const RACE_ZOMBIE = 0x10; //
+const RACE_MACHINE = 0x20; //
+const RACE_AQUA = 0x40; //
+const RACE_PYRO = 0x80; //
+const RACE_ROCK = 0x100; //
+const RACE_WINDBEAST = 0x200; //
+const RACE_PLANT = 0x400; //
+const RACE_INSECT = 0x800; //
+const RACE_THUNDER = 0x1000; //
+const RACE_DRAGON = 0x2000; //
+const RACE_BEAST = 0x4000; //
+const RACE_BEASTWARRIOR = 0x8000; //
+const RACE_DINOSAUR = 0x10000; //
+const RACE_FISH = 0x20000; //
+const RACE_SEASERPENT = 0x40000; //
+const RACE_REPTILE = 0x80000; //
+const RACE_PSYCHO = 0x100000; //
+const RACE_DEVINE = 0x200000; //
+const RACE_CREATORGOD = 0x400000; //
+const RACE_WYRM = 0x800000; //
+const RACE_CYBERSE = 0x1000000; //
+
+export const Race2StringCodeMap: Map<number, number> = new Map([
+  [RACE_WARRIOR, 1020],
+  [RACE_SPELLCASTER, 1021],
+  [RACE_FAIRY, 1022],
+  [RACE_FIEND, 1023],
+  [RACE_ZOMBIE, 1024],
+  [RACE_MACHINE, 1025],
+  [RACE_AQUA, 1026],
+  [RACE_PYRO, 1027],
+  [RACE_ROCK, 1028],
+  [RACE_WINDBEAST, 1029],
+  [RACE_PLANT, 1030],
+  [RACE_INSECT, 1031],
+  [RACE_THUNDER, 1032],
+  [RACE_DRAGON, 1033],
+  [RACE_BEAST, 1034],
+  [RACE_BEASTWARRIOR, 1035],
+  [RACE_DINOSAUR, 1036],
+  [RACE_FISH, 1037],
+  [RACE_SEASERPENT, 1038],
+  [RACE_REPTILE, 1039],
+  [RACE_PSYCHO, 1040],
+  [RACE_DEVINE, 1041],
+  [RACE_CREATORGOD, 1042],
+  [RACE_WYRM, 1043],
+  [RACE_CYBERSE, 1044],
+]);
