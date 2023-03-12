@@ -126,3 +126,35 @@ export const Meta2StringCodeMap: Map<number, number> = new Map([
   [RACE_WYRM, 1043],
   [RACE_CYBERSE, 1044],
 ]);
+
+/*
+ * ygopro将卡牌类型按位运算进行了编码，这里将编码信息提出出来*/
+export function extraCardTypes(typeCode: number): number[] {
+  return [
+    TYPE_MONSTER,
+    TYPE_SPELL,
+    TYPE_TRAP,
+    TYPE_NORMAL,
+    TYPE_EFFECT,
+    TYPE_FUSION,
+    TYPE_RITUAL,
+    TYPE_TRAPMONSTER,
+    TYPE_SPIRIT,
+    TYPE_UNION,
+    TYPE_DUAL,
+    TYPE_TUNER,
+    TYPE_SYNCHRO,
+    TYPE_TOKEN,
+    TYPE_QUICKPLAY,
+    TYPE_CONTINUOUS,
+    TYPE_EQUIP,
+    TYPE_FIELD,
+    TYPE_COUNTER,
+    TYPE_FLIP,
+    TYPE_TOON,
+    TYPE_XYZ,
+    TYPE_PENDULUM,
+    TYPE_SPSUMMON,
+    TYPE_LINK,
+  ].filter((target) => (target & typeCode) > 0);
+}

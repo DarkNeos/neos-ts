@@ -16,7 +16,7 @@ import Icon, { StarOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "../../../neos-assets/checked-shield.svg";
-import { Meta2StringCodeMap } from "../../common";
+import { extraCardTypes, Meta2StringCodeMap } from "../../common";
 import { fetchStrings } from "../../api/strings";
 
 const { Meta } = Card;
@@ -27,7 +27,7 @@ const CardModal = () => {
   const isOpen = useAppSelector(selectCardModalIsOpen);
   const meta = useAppSelector(selectCardModalMeta);
   const name = meta?.text.name;
-  const types = meta?.text.types;
+  const types = meta?.data.type;
   const race = meta?.data.race;
   const attribute = meta?.data.attribute;
   const level = meta?.data.level;
@@ -52,7 +52,11 @@ const CardModal = () => {
       >
         <Meta title={name} />
         <p>
-          <AttLine types={types} race={race} attribute={attribute} />
+          <AttLine
+            types={extraCardTypes(types || 0)}
+            race={race}
+            attribute={attribute}
+          />
         </p>
         <p>
           <AtkLine level={level} atk={atk} def={def} />
@@ -109,7 +113,7 @@ const AtkLine = (props: { level?: number; atk?: number; def?: number }) => (
 );
 
 const AttLine = (props: {
-  types?: string;
+  types: number[];
   race?: number;
   attribute?: number;
 }) => {
@@ -119,9 +123,12 @@ const AttLine = (props: {
   const attribute = props.attribute
     ? fetchStrings("!system", Meta2StringCodeMap.get(props.attribute) || 0)
     : undefined;
+  const types = props.types
+    .map((t) => fetchStrings("!system", Meta2StringCodeMap.get(t) || 0))
+    .join("|");
   return (
     <Row gutter={8}>
-      {props.types ? <Col>{`[${props.types}]`}</Col> : <></>}
+      <Col>{`[${types}]`}</Col>
       {race ? <Col>{race}</Col> : <></>}
       <Col>/</Col>
       {attribute ? <Col>{attribute}</Col> : <></>}
