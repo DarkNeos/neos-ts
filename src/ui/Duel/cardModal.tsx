@@ -17,6 +17,7 @@ import NeosConfig from "../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "../../../neos-assets/checked-shield.svg";
 import { Meta2StringCodeMap } from "../../common";
+import { fetchStrings } from "../../api/strings";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;
@@ -51,10 +52,10 @@ const CardModal = () => {
       >
         <Meta title={name} />
         <p>
-          <AtkLine level={level} atk={atk} def={def} />
+          <AttLine types={types} race={race} attribute={attribute} />
         </p>
         <p>
-          <AttLine types={types} race={race} attribute={attribute} />
+          <AtkLine level={level} atk={atk} def={def} />
         </p>
         <p>{desc}</p>
       </Card>
@@ -113,18 +114,23 @@ const AttLine = (props: {
   types?: string;
   race?: number;
   attribute?: number;
-}) => (
-  <Row gutter={8}>
-    {props.types ? <Col>{`[${props.types}]`}</Col> : <></>}
-    {props.race ? <Col>{Meta2StringCodeMap.get(props.race)}</Col> : <></>}
-    <Col>
-      <div>/</div>
-    </Col>
-    {props.attribute ? (
-      <Col>{Meta2StringCodeMap.get(props.attribute)}</Col>
-    ) : (
-      <></>
-    )}
-  </Row>
-);
+}) => {
+  const race = props.race
+    ? fetchStrings("!system", Meta2StringCodeMap.get(props.race) || 0)
+    : undefined;
+  const attribute = props.attribute
+    ? fetchStrings("!system", Meta2StringCodeMap.get(props.attribute) || 0)
+    : undefined;
+  return (
+    <Row gutter={8}>
+      {props.types ? <Col>{`[${props.types}]`}</Col> : <></>}
+      {race ? <Col>{race}</Col> : <></>}
+      <Col>
+        <div>/</div>
+      </Col>
+      {attribute ? <Col>{attribute}</Col> : <></>}
+    </Row>
+  );
+};
+
 export default CardModal;

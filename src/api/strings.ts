@@ -13,9 +13,6 @@ export async function initStrings() {
   }
 }
 
-export async function fetchStrings(
-  region: string,
-  id: number
-): Promise<string> {
+export function fetchStrings(region: string, id: number): string {
   return localStorage.getItem(`${region}_${id}`) || "";
 }
