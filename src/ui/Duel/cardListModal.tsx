@@ -9,7 +9,7 @@ import {
   clearAllIdleInteractivities,
   setCardListModalIsOpen,
 } from "../../reducers/duel/mod";
-import { Modal, List, Button } from "antd";
+import { Drawer, List, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
 
 const CARD_WIDTH = 100;
@@ -24,7 +24,7 @@ const CardListModal = () => {
   };
 
   return (
-    <Modal open={isOpen} onOk={handleOkOrCancel} onCancel={handleOkOrCancel}>
+    <Drawer open={isOpen} onClose={handleOkOrCancel}>
       <List
         itemLayout="horizontal"
         dataSource={list}
@@ -55,7 +55,7 @@ const CardListModal = () => {
           </List.Item>
         )}
       ></List>
-    </Modal>
+    </Drawer>
   );
 };
 
