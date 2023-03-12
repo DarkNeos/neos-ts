@@ -11,6 +11,7 @@ import {
 } from "../../reducers/duel/mod";
 import { Drawer, List, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
+import NeosConfig from "../../../neos.config.json";
 
 const CARD_WIDTH = 100;
 
@@ -45,13 +46,16 @@ const CardListModal = () => {
             ))}
             extra={
               <img
-                alt={item.name}
-                src={item.imgUrl}
+                alt={item.meta?.text.name}
+                src={`${NeosConfig.cardImgUrl}/${item.meta?.id}.jpg`}
                 style={{ width: CARD_WIDTH }}
               />
             }
           >
-            <List.Item.Meta title={item.name} description={item.desc} />
+            <List.Item.Meta
+              title={item.meta?.text.name}
+              description={item.meta?.text.desc}
+            />
           </List.Item>
         )}
       ></List>

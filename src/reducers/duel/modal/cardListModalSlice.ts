@@ -1,6 +1,7 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "../mod";
 import { RootState } from "../../../store";
+import { CardMeta } from "../../../api/cards";
 
 // 更新卡牌列表弹窗打开状态
 export const setCardListModalIsOpenImpl: CaseReducer<
@@ -15,9 +16,7 @@ export const setCardListModalInfoImpl: CaseReducer<
   DuelState,
   PayloadAction<
     {
-      name?: string;
-      desc?: string;
-      imgUrl?: string;
+      meta?: CardMeta;
       interactivies: { desc: string; response: number }[];
     }[]
   >
