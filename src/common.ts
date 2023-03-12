@@ -26,6 +26,15 @@ const TYPE_PENDULUM = 0x1000000; //
 const TYPE_SPSUMMON = 0x2000000; //
 const TYPE_LINK = 0x4000000; //
 
+// const ATTRIBUTE_ALL = 0x7f; //
+const ATTRIBUTE_EARTH = 0x01; //
+const ATTRIBUTE_WATER = 0x02; //
+const ATTRIBUTE_FIRE = 0x04; //
+const ATTRIBUTE_WIND = 0x08; //
+const ATTRIBUTE_LIGHT = 0x10; //
+const ATTRIBUTE_DARK = 0x20; //
+const ATTRIBUTE_DEVINE = 0x40; //
+
 /*
  * 在做卡牌信息展示的时候，发现`CardMeta`里面的数据和`strings.conf`配置文件
  * 里面的code是不对应的，这里定义一个哈希表来管理其中的映射关系。
@@ -58,4 +67,11 @@ export const Meta2StringCodeMap: Map<number, number> = new Map([
   [TYPE_PENDULUM, 1074],
   [TYPE_SPSUMMON, 1075],
   [TYPE_LINK, 1076],
+  [ATTRIBUTE_EARTH, 1010],
+  [ATTRIBUTE_WATER, 1011],
+  [ATTRIBUTE_FIRE, 1012],
+  [ATTRIBUTE_WIND, 1013],
+  [ATTRIBUTE_LIGHT, 1014],
+  [ATTRIBUTE_DARK, 1015],
+  [ATTRIBUTE_DEVINE, 1016],
 ]);
