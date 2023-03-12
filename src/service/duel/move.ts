@@ -19,6 +19,7 @@ import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
 import { insertHandMeta } from "../../reducers/duel/handsSlice";
 import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
 import { fetchExtraDeckMeta } from "../../reducers/duel/extraDeckSlice";
+import { REASON_MATERIAL } from "../../common";
 
 const OVERLAY_STACK: { code: number; sequence: number }[] = [];
 
@@ -26,7 +27,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
-  // TODO: reason
+  const reason = move.reason;
 
   switch (from.location) {
     case ygopro.CardZone.HAND: {
@@ -165,8 +166,8 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       break;
     }
     case ygopro.CardZone.OVERLAY: {
-      if (to.sequence > 6) {
-        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，这时候素材们的sequence会暂时大于6
+      if (reason == REASON_MATERIAL) {
+        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，`reason`字段值是`REASON_MATERIAL`
         // 这时候将它们放到一个栈中，待超量怪兽的Move消息到来时从栈中获取超量素材补充到状态中
         OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
       } else {

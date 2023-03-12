@@ -167,3 +167,32 @@ export const Race2StringCodeMap: Map<number, number> = new Map([
   [RACE_WYRM, 1043],
   [RACE_CYBERSE, 1044],
 ]);
+
+// const REASON_DESTROY = 0x1; //
+// const REASON_RELEASE = 0x2; //
+// const REASON_TEMPORARY = 0x4; //
+export const REASON_MATERIAL = 0x8; //
+// const REASON_SUMMON = 0x10; //
+// const REASON_BATTLE = 0x20; //
+// const REASON_EFFECT = 0x40; //
+// const REASON_COST = 0x80; //
+// const REASON_ADJUST = 0x100; //
+// const REASON_LOST_TARGET = 0x200; //
+// const REASON_RULE = 0x400; //
+// const REASON_SPSUMMON = 0x800; //
+// const REASON_DISSUMMON = 0x1000; //
+// const REASON_FLIP = 0x2000; //
+// const REASON_DISCARD = 0x4000; //
+// const REASON_RDAMAGE = 0x8000; //
+// const REASON_RRECOVER = 0x10000; //
+// const REASON_RETURN = 0x20000; //
+// const REASON_FUSION = 0x40000; //
+// const REASON_SYNCHRO = 0x80000; //
+// const REASON_RITUAL = 0x100000; //
+// const REASON_XYZ = 0x200000; //
+// const REASON_REPLACE = 0x1000000; //
+// const REASON_DRAW = 0x2000000; //
+// const REASON_REDIRECT = 0x4000000; //
+// const REASON_REVEAL = 0x8000000; //
+// const REASON_LINK = 0x10000000; //
+// const REASON_LOST_OVERLAY = 0x20000000; //
