@@ -12,9 +12,7 @@ export interface ModalState {
   cardListModal: {
     isOpen: boolean;
     list: {
-      name?: string;
-      desc?: string;
-      imgUrl?: string;
+      meta?: CardMeta;
       interactivies: { desc: string; response: number }[];
     }[];
   };

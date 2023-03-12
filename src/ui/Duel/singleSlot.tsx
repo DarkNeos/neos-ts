@@ -38,9 +38,7 @@ const SingleSlot = (props: {
               )
               .map((item) => {
                 return {
-                  name: item.occupant?.text.name,
-                  desc: item.occupant?.text.desc,
-                  imgUrl: `${NeosConfig.cardImgUrl}/${item.occupant?.id}.jpg`,
+                  meta: item.occupant,
                   interactivies: item.idleInteractivities.map((interactivy) => {
                     return {
                       desc: interactTypeToString(interactivy.interactType),
