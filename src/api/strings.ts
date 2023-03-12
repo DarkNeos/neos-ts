@@ -13,16 +13,6 @@ export async function initStrings() {
   }
 }
 
-export async function fetchStrings(
-  region: string,
-  id: number,
-  local?: boolean
-): Promise<string> {
-  if (local) {
-    return localStorage.getItem(`${region}_${id}`) || "";
-  }
-
-  return (
-    await axios.get<string>(`http://localhost:3030/strings/${region}_${id}`)
-  ).data;
+export function fetchStrings(region: string, id: number): string {
+  return localStorage.getItem(`${region}_${id}`) || "";
 }
