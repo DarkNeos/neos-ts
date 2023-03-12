@@ -35,6 +35,32 @@ const ATTRIBUTE_LIGHT = 0x10; //
 const ATTRIBUTE_DARK = 0x20; //
 const ATTRIBUTE_DEVINE = 0x40; //
 
+const RACE_WARRIOR = 0x1; //
+const RACE_SPELLCASTER = 0x2; //
+const RACE_FAIRY = 0x4; //
+const RACE_FIEND = 0x8; //
+const RACE_ZOMBIE = 0x10; //
+const RACE_MACHINE = 0x20; //
+const RACE_AQUA = 0x40; //
+const RACE_PYRO = 0x80; //
+const RACE_ROCK = 0x100; //
+const RACE_WINDBEAST = 0x200; //
+const RACE_PLANT = 0x400; //
+const RACE_INSECT = 0x800; //
+const RACE_THUNDER = 0x1000; //
+const RACE_DRAGON = 0x2000; //
+const RACE_BEAST = 0x4000; //
+const RACE_BEASTWARRIOR = 0x8000; //
+const RACE_DINOSAUR = 0x10000; //
+const RACE_FISH = 0x20000; //
+const RACE_SEASERPENT = 0x40000; //
+const RACE_REPTILE = 0x80000; //
+const RACE_PSYCHO = 0x100000; //
+const RACE_DEVINE = 0x200000; //
+const RACE_CREATORGOD = 0x400000; //
+const RACE_WYRM = 0x800000; //
+const RACE_CYBERSE = 0x1000000; //
+
 /*
  * 在做卡牌信息展示的时候，发现`CardMeta`里面的数据和`strings.conf`配置文件
  * 里面的code是不对应的，这里定义一个哈希表来管理其中的映射关系。
@@ -74,4 +100,29 @@ export const Meta2StringCodeMap: Map<number, number> = new Map([
   [ATTRIBUTE_LIGHT, 1014],
   [ATTRIBUTE_DARK, 1015],
   [ATTRIBUTE_DEVINE, 1016],
+  [RACE_WARRIOR, 1020],
+  [RACE_SPELLCASTER, 1021],
+  [RACE_FAIRY, 1022],
+  [RACE_FIEND, 1023],
+  [RACE_ZOMBIE, 1024],
+  [RACE_MACHINE, 1025],
+  [RACE_AQUA, 1026],
+  [RACE_PYRO, 1027],
+  [RACE_ROCK, 1028],
+  [RACE_WINDBEAST, 1029],
+  [RACE_PLANT, 1030],
+  [RACE_INSECT, 1031],
+  [RACE_THUNDER, 1032],
+  [RACE_DRAGON, 1033],
+  [RACE_BEAST, 1034],
+  [RACE_BEASTWARRIOR, 1035],
+  [RACE_DINOSAUR, 1036],
+  [RACE_FISH, 1037],
+  [RACE_SEASERPENT, 1038],
+  [RACE_REPTILE, 1039],
+  [RACE_PSYCHO, 1040],
+  [RACE_DEVINE, 1041],
+  [RACE_CREATORGOD, 1042],
+  [RACE_WYRM, 1043],
+  [RACE_CYBERSE, 1044],
 ]);
