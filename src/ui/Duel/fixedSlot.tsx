@@ -6,6 +6,8 @@ import { useClick } from "./hook";
 import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
+  setCardListModalInfo,
+  setCardListModalIsOpen,
   setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalMeta,
@@ -54,6 +56,7 @@ const FixedSlot = (props: {
         dispatch(props.clearPlaceInteractivitiesAction(0));
         dispatch(props.clearPlaceInteractivitiesAction(1));
       } else if (props.state.occupant) {
+        // 中央弹窗展示选中卡牌信息
         dispatch(setCardModalMeta(props.state.occupant));
         dispatch(
           setCardModalInteractivies(
@@ -66,6 +69,24 @@ const FixedSlot = (props: {
           )
         );
         dispatch(setCardModalIsOpen(true));
+
+        // 侧边栏展示超量素材信息
+        if (
+          props.state.overlay_materials &&
+          props.state.overlay_materials.length > 0
+        ) {
+          dispatch(
+            setCardListModalInfo(
+              props.state.overlay_materials?.map((overlay) => {
+                return {
+                  meta: overlay,
+                  interactivies: [],
+                };
+              }) || []
+            )
+          );
+          dispatch(setCardListModalIsOpen(true));
+        }
       }
     },
     planeRef,
