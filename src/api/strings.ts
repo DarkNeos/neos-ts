@@ -15,14 +15,7 @@ export async function initStrings() {
 
 export async function fetchStrings(
   region: string,
-  id: number,
-  local?: boolean
+  id: number
 ): Promise<string> {
-  if (local) {
-    return localStorage.getItem(`${region}_${id}`) || "";
-  }
-
-  return (
-    await axios.get<string>(`http://localhost:3030/strings/${region}_${id}`)
-  ).data;
+  return localStorage.getItem(`${region}_${id}`) || "";
 }
