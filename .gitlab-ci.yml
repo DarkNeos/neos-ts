@@ -37,14 +37,25 @@ rs_lint:
     - rustup component add clippy
     - cd rust-src && cargo clippy -- -Dwarnings
 
-npm_build:
-  extends: .build_base
+wasm_build:
+  stage: build
   image: rust:latest
+  before_script:
+    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+  script:
+    - cd rust-src && wasm-pack build
+  artifacts:
+    paths:
+      - rust-src/pkg
+  
+
+npm_build:
+  extends:
+    - .build_base
+    - wasm_build
   stage: build
   tags:
     - linux
-  before_script:
-    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
     - mv neos.config.prod.json neos.config.json
     - npm run build:prod
