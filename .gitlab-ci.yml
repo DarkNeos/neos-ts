@@ -39,6 +39,7 @@ rs_lint:
 
 npm_build:
   extends: .build_base
+  image: rust:latest
   stage: build
   tags:
     - linux
