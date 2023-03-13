@@ -30,15 +30,17 @@
     "sql.js": "^1.8.0",
     "vite-plugin-svgr": "^2.4.0",
     "web-vitals": "^2.1.4",
-    "ygopro-deck-encode": "^1.0.3"
+    "ygopro-deck-encode": "^1.0.3",
+    "rust-src": "file:rust-src/pkg"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build && cp -r neos-assets dist/",
-    "build:prod": "tsc && vite build --base=https://cdn02.moecube.com:444/neos/",
+    "wasm": "cd rust-src && wasm-pack build",
+    "dev": "npm run wasm && vite",
+    "build": "npm run wasm && tsc && vite build && cp -r neos-assets dist/",
+    "build:prod": "npm run wasm && tsc && vite build --base=https://cdn02.moecube.com:444/neos/",
     "preview": "vite preview",
     "lint": "eslint --ext .ts --ext .tsx src",
-    "fmt": "eslint --ext .ts --ext .tsx src --fix",
+    "fmt": "eslint --ext .ts --ext .tsx src --fix && cd rust-src && cargo fmt",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

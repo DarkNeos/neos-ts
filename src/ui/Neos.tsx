@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import LazyLoad, { Loading } from "./LazyLoad";
+import { greet } from "rust-src";
 
 const Login = React.lazy(() => import("./Login"));
 const WaitRoom = React.lazy(() => import("./WaitRoom"));
@@ -8,6 +9,8 @@ const Mora = React.lazy(() => import("./Mora"));
 const NeosDuel = React.lazy(() => import("./Duel/main"));
 
 export default function () {
+  greet();
+
   return (
     <Routes>
       <Route path="/" element={<LazyLoad lazy={<Login />} />} />
