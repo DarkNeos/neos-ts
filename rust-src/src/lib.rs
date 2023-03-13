@@ -17,7 +17,15 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 #[wasm_bindgen]
 pub struct MsgUpdateHp {
     pub player: Option<u8>,
+    pub type_: Option<u8>,
     pub value: Option<i32>,
+}
+
+#[repr(u8)]
+enum ActionType {
+    _Unknown = 0,
+    Damage = 1,
+    _Recover = 2,
 }
 
 #[wasm_bindgen]
@@ -29,6 +37,7 @@ pub fn ocgDamageAdapter(data: js_sys::Uint8Array) -> MsgUpdateHp {
 
     MsgUpdateHp {
         player: Some(player),
+        type_: Some(ActionType::Damage as u8),
         value,
     }
 }

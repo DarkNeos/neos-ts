@@ -16,6 +16,12 @@ export const store = configureStore({
     mora: moraReducer,
     duel: duelReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["duel/updateHp"],
+      },
+    }),
 });
 
 // Ref: https://github.com/reduxjs/redux/issues/303
