@@ -2,6 +2,7 @@ stages:
   - install
   - lint
   - test
+  - wasm
   - build
   - deploy
 
@@ -40,7 +41,7 @@ wasm_build:
   tags:
     - linux
   image: rust:latest
-  stage: build
+  stage: wasm
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
