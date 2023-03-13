@@ -45,7 +45,6 @@ wasm_build:
   artifacts:
     paths:
       - rust-src/pkg
-  
 
 npm_build:
   extends:
