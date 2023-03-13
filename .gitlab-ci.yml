@@ -38,6 +38,8 @@ rs_lint:
 
 wasm_build:
   image: rust:latest
+  tags:
+    - linux
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
