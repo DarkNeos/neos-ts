@@ -12,6 +12,7 @@
 /build
 /builds
 /dist
+/rust-src/target
 
 # misc
 .DS_Store
