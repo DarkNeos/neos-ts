@@ -28,7 +28,6 @@ ts_lint:
   script: npm run lint
 
 rs_lint:
-  extends: .build_base
   stage: lint
   image: rust:latest
   tags:
@@ -38,7 +37,6 @@ rs_lint:
     - cd rust-src && cargo clippy -- -Dwarnings
 
 wasm_build:
-  stage: build
   image: rust:latest
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
