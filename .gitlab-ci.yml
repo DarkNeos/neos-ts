@@ -19,6 +19,7 @@ npm_ci:
     - linux
   dependencies:
     - npm_ci
+    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 npm_lint:
   extends: .build_base
