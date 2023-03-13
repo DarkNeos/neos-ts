@@ -2,6 +2,7 @@ stages:
   - install
   - lint
   - test
+  - wasm
   - build
   - deploy
 
@@ -20,16 +21,43 @@ npm_ci:
   dependencies:
     - npm_ci
 
-npm_lint:
+ts_lint:
   extends: .build_base
   stage: lint
   tags:
     - linux
   script: npm run lint
 
+rs_lint:
+  stage: lint
+  image: rust:latest
+  tags:
+    - linux
+  script:
+    - rustup component add clippy
+    - cd rust-src && cargo clippy -- -Dwarnings
+
+wasm_build:
+  tags:
+    - linux
+  image: rust:latest
+  stage: wasm
+  extends:
+    - .build_base
+  before_script:
+    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+  script:
+    - cd rust-src && wasm-pack build
+  artifacts:
+    paths:
+      - rust-src/pkg
+      - node_modules
+
 npm_build:
-  extends: .build_base
+  dependencies:
+    - wasm_build
   stage: build
+  image: git-registry.mycard.moe/mycard/docker-runner-base:master-x86
   tags:
     - linux
   script:
