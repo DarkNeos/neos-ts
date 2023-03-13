@@ -41,7 +41,6 @@ wasm_build:
     - linux
   image: rust:latest
   before_script:
-    - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
     - cd rust-src && wasm-pack build
