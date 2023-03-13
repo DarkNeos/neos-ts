@@ -37,10 +37,10 @@ rs_lint:
     - cd rust-src && cargo clippy -- -Dwarnings
 
 wasm_build:
-  image: rust:latest
   tags:
     - linux
   before_script:
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
     - cd rust-src && wasm-pack build
