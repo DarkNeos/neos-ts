@@ -42,6 +42,8 @@ wasm_build:
     - linux
   image: rust:latest
   stage: wasm
+  extends:
+    - .build_base
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
@@ -49,10 +51,9 @@ wasm_build:
   artifacts:
     paths:
       - rust-src/pkg
+      - node_modules
 
 npm_build:
-  extends:
-    - .build_base
   dependencies:
     - wasm_build
   stage: build
