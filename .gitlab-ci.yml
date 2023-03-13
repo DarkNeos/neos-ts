@@ -40,6 +40,7 @@ wasm_build:
   tags:
     - linux
   image: rust:latest
+  stage: build
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
@@ -51,6 +52,7 @@ wasm_build:
 npm_build:
   extends:
     - .build_base
+  dependencies:
     - wasm_build
   stage: build
   image: git-registry.mycard.moe/mycard/docker-runner-base:master-x86
