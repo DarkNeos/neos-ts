@@ -39,6 +39,7 @@ rs_lint:
 wasm_build:
   tags:
     - linux
+  image: rust:latest
   before_script:
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -53,6 +54,7 @@ npm_build:
     - .build_base
     - wasm_build
   stage: build
+  image: git-registry.mycard.moe/mycard/docker-runner-base:master-x86
   tags:
     - linux
   script:
