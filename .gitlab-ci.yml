@@ -1,5 +1,6 @@
 stages:
   - install
+  - check
   - lint
   - test
   - wasm
@@ -20,6 +21,19 @@ npm_ci:
     - linux
   dependencies:
     - npm_ci
+
+ts_check:
+  extends: .build_base
+  stage: check
+  tags:
+    - linux
+  script: tsc
+
+rs_check:
+  stage: check
+  tags:
+    -linux
+  script: cd rust-src && cargo check
 
 ts_lint:
   extends: .build_base
@@ -65,7 +79,6 @@ npm_build:
     - npm run build:prod
   artifacts:
     paths:
-      - rust-src/pkg
       - dist
 
 deploy:
@@ -78,5 +91,4 @@ deploy:
     - npm_build
   script:
     - mv neos-assets dist/
-    - mv rust-src dist/
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/neos
