@@ -23,7 +23,8 @@ npm_ci:
     - npm_ci
 
 ts_check:
-  extends: .build_base
+  dependencies:
+    - .build_base
   stage: check
   tags:
     - linux
@@ -31,6 +32,7 @@ ts_check:
 
 rs_check:
   stage: check
+  image: rust:latest
   tags:
     - linux
   script: cd rust-src && cargo check
