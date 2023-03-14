@@ -31,6 +31,8 @@ import {
   selectMeInitInfo,
   selectOpInitInfo,
 } from "../../reducers/duel/initInfoSlice";
+//@ts-ignore
+import rustInit from "rust-src";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -39,6 +41,7 @@ const NeosDuel = () => {
   useEffect(() => {
     const init = async () => {
       await initStrings();
+      await rustInit();
     };
 
     if (initialRender.current) {

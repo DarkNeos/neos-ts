@@ -22,17 +22,14 @@ npm_ci:
   dependencies:
     - npm_ci
 
-# ts_check:
-#   dependencies:
-#     - npm_ci
-#   stage: check
-#   tags:
-#     - linux
-#   before_script:
-#     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-#   script:
-#     - wasm-pack build ./rust-src --target web
-#     - npx tsc
+ts_check:
+  dependencies:
+    - npm_ci
+  stage: check
+  tags:
+    - linux
+  script:
+    - npx tsc
 
 rs_check:
   stage: check
@@ -83,7 +80,6 @@ npm_build:
   script:
     - mv neos.config.prod.json neos.config.json
     - npm run build:prod
-    - npx tsc
   artifacts:
     paths:
       - dist
