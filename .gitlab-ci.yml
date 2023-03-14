@@ -82,8 +82,8 @@ npm_build:
     - linux
   script:
     - mv neos.config.prod.json neos.config.json
-    - rm node_modules/rust-src
     - npm run build:prod
+    - npx tsc
   artifacts:
     paths:
       - dist
