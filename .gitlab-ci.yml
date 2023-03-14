@@ -32,7 +32,7 @@ ts_check:
 rs_check:
   stage: check
   tags:
-    -linux
+    - linux
   script: cd rust-src && cargo check
 
 ts_lint:
