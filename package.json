@@ -26,7 +26,6 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.0",
     "react-scripts": "^2.1.3",
-    "rust-src": "file:rust-src/pkg",
     "socket.io-client": "^4.5.1",
     "sql.js": "^1.8.0",
     "vite-plugin-svgr": "^2.4.0",
@@ -34,7 +33,7 @@
     "ygopro-deck-encode": "^1.0.3"
   },
   "scripts": {
-    "wasm": "cd rust-src && wasm-pack build",
+    "wasm": "wasm-pack build ./rust-src --target web",
     "dev": "npm run wasm && vite",
     "build": "tsc && vite build && cp -r neos-assets dist/",
     "build:prod": "tsc && vite build --base=https://cdn02.moecube.com:444/neos/",
