@@ -24,7 +24,7 @@ npm_ci:
 
 ts_check:
   dependencies:
-    - npm ci
+    - npm_ci
   stage: check
   tags:
     - linux
