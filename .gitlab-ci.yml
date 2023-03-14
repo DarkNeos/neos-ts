@@ -28,7 +28,11 @@ ts_check:
   stage: check
   tags:
     - linux
-  script: npx tsc
+  before_script:
+    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+  script:
+    - wasm-pack build ./rust-src --target web
+    - npx tsc
 
 rs_check:
   stage: check
@@ -63,7 +67,7 @@ wasm_build:
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
-    - cd rust-src && wasm-pack build
+    - wasm-pack build ./rust-src --target web
   artifacts:
     paths:
       - rust-src/pkg
