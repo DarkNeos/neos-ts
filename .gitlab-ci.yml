@@ -1,5 +1,6 @@
 stages:
   - install
+  - check
   - lint
   - test
   - wasm
@@ -20,6 +21,25 @@ npm_ci:
     - linux
   dependencies:
     - npm_ci
+
+# ts_check:
+#   dependencies:
+#     - npm_ci
+#   stage: check
+#   tags:
+#     - linux
+#   before_script:
+#     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+#   script:
+#     - wasm-pack build ./rust-src --target web
+#     - npx tsc
+
+rs_check:
+  stage: check
+  image: rust:latest
+  tags:
+    - linux
+  script: cd rust-src && cargo check
 
 ts_lint:
   extends: .build_base
@@ -47,7 +67,7 @@ wasm_build:
   before_script:
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
-    - cd rust-src && wasm-pack build
+    - wasm-pack build ./rust-src --target web
   artifacts:
     paths:
       - rust-src/pkg
@@ -63,9 +83,9 @@ npm_build:
   script:
     - mv neos.config.prod.json neos.config.json
     - npm run build:prod
+    - npx tsc
   artifacts:
     paths:
-      - rust-src/pkg
       - dist
 
 deploy:
@@ -78,5 +98,4 @@ deploy:
     - npm_build
   script:
     - mv neos-assets dist/
-    - mv rust-src dist/
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/neos

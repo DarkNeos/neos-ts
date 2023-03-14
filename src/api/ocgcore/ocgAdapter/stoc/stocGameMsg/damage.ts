@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { ocgDamageAdapter } from "rust-src";
+import init, { ocgDamageAdapter } from "rust-src";
 
 /*
  * Msg Damage
@@ -7,8 +7,8 @@ import { ocgDamageAdapter } from "rust-src";
  * @param player - 玩家编号
  * @param value - 减少的Hp数值
  * */
-export default (data: Uint8Array) => {
-  const damage = ocgDamageAdapter(data);
+export default async (data: Uint8Array) => {
+  const damage = await init().then(() => ocgDamageAdapter(data));
 
   return new ygopro.StocGameMessage.MsgUpdateHp(damage);
 };
