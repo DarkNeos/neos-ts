@@ -41,7 +41,7 @@ const NeosDuel = () => {
   useEffect(() => {
     const init = async () => {
       await initStrings();
-      await rustInit();
+      await rustInit("/assets/rust_src_bg.wasm");
     };
 
     if (initialRender.current) {
