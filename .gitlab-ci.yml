@@ -28,7 +28,7 @@ ts_check:
   stage: check
   tags:
     - linux
-  script: tsc
+  script: npx tsc
 
 rs_check:
   stage: check
