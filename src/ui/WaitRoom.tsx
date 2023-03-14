@@ -44,6 +44,8 @@ import { useParams } from "react-router-dom";
 import { selectDuelStart } from "../reducers/moraSlice";
 import NeosConfig from "../../neos.config.json";
 import YGOProDeck from "ygopro-deck-encode";
+//@ts-ignore
+import rustInit from "rust-src";
 
 const READY_STATE = "ready";
 
@@ -75,6 +77,10 @@ const WaitRoom = () => {
           cmd: sqliteCmd.INIT,
           initInfo: { dbUrl: NeosConfig.cardsDbUrl },
         });
+
+        // 初始化wasm
+        const wasm = await rustInit();
+        console.log(wasm);
       };
 
       init();
