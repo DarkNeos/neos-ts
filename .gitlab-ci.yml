@@ -78,5 +78,5 @@ deploy:
     - npm_build
   script:
     - mv neos-assets dist/
-    - mv rust-src/pkg dist/
+    - mv rust-src dist/
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/neos
