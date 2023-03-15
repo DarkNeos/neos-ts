@@ -1,5 +1,5 @@
-use wasm_bindgen::prelude::wasm_bindgen;
 use std::convert::TryInto;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
 pub struct MsgUpdateHp {

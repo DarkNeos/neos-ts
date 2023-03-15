@@ -1,11 +1,12 @@
 #![allow(non_snake_case)]
 
+mod adapters;
 mod buffer;
 mod utils;
-mod adapters;
 
-pub use utils::set_panic_hook;
 pub use adapters::*;
+pub use buffer::BufferReader;
+pub use utils::set_panic_hook;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
