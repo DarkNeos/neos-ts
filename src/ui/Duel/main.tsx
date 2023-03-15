@@ -20,7 +20,6 @@ import Phase from "./phase";
 import CheckCardModalV2 from "./checkCardModalV2";
 import ExtraDeck from "./extraDeck";
 import NeosLayout from "./layout";
-import { initStrings } from "../../api/strings";
 import NeosConfig from "../../../neos.config.json";
 import DuelTimeLine from "./timeLine";
 import { Row } from "antd";
@@ -34,21 +33,6 @@ import {
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
-  // 应该用更优雅的方式处理`useEffect`执行两次的问题
-  const initialRender = useRef(true);
-  useEffect(() => {
-    const init = async () => {
-      await initStrings();
-    };
-
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
-    }
-
-    init();
-  }, []);
-
   const meInfo = useAppSelector(selectMeInitInfo);
   const opInfo = useAppSelector(selectOpInitInfo);
 

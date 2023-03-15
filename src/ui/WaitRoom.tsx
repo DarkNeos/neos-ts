@@ -46,6 +46,7 @@ import NeosConfig from "../../neos.config.json";
 import YGOProDeck from "ygopro-deck-encode";
 //@ts-ignore
 import rustInit from "rust-src";
+import { initStrings } from "../api/strings";
 
 const READY_STATE = "ready";
 
@@ -78,9 +79,11 @@ const WaitRoom = () => {
           initInfo: { dbUrl: NeosConfig.cardsDbUrl },
         });
 
+        // 初始化文案
+        await initStrings();
+
         // 初始化wasm
-        const wasm = await rustInit();
-        console.log(wasm);
+        await rustInit();
       };
 
       init();
