@@ -1,5 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+// @ts-ignore
+import { BufferReader } from "rust-src";
 import MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
 
 /*
@@ -11,7 +12,7 @@ import MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReader(data);
 
   const player = reader.readUint8();
   const code = reader.readUint32();

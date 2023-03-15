@@ -1,7 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
-
-const LITTLE_ENDIAN = true;
+// @ts-ignore
+import { BufferReader } from "rust-src";
 
 /*
  * MSG Draw
@@ -11,7 +10,7 @@ const LITTLE_ENDIAN = true;
  * @usage - 玩家抽卡内容
  * */
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, LITTLE_ENDIAN);
+  const reader = new BufferReader(data);
 
   const player = reader.readUint8();
   const count = reader.readUint8();
