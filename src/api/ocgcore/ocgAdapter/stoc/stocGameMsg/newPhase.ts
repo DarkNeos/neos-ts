@@ -1,7 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
-
-const LITTLE_ENDIAN = true;
+// @ts-ignore
+import { BufferReader } from "rust-src";
 
 /*
  * Msg New Phase
@@ -12,7 +11,7 @@ const LITTLE_ENDIAN = true;
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, LITTLE_ENDIAN);
+  const reader = new BufferReader(data);
 
   const phase = reader.readUint16();
 

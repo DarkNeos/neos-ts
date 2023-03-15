@@ -1,5 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+// @ts-ignore
+import { BufferReader } from "rust-src";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 
 /*
@@ -9,7 +10,7 @@ import MsgWin = ygopro.StocGameMessage.MsgWin;
  * @param winType - 结果类型
  * */
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReader(data);
 
   const player = reader.readUint8();
   const winType = reader.readUint8();

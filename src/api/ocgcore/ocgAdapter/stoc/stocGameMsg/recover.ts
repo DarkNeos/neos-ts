@@ -1,5 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+// @ts-ignore
+import { BufferReader } from "rust-src";
 
 /*
  * Msg Recover
@@ -8,7 +9,7 @@ import { BufferReader } from "../../bufferIO";
  * @param value - 回复的Hp数值
  * */
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReader(data);
 
   const player = reader.readUint8();
   const value = reader.readInt32();

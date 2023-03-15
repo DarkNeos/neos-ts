@@ -1,6 +1,7 @@
 import { ygopro } from "../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../packet";
-import { BufferReader } from "../bufferIO";
+// @ts-ignore
+import { BufferReader } from "rust-src";
 
 /*
  * STOC TimeLimit
@@ -16,7 +17,7 @@ export default class TimeLimit implements StocAdapter {
   }
 
   upcast(): ygopro.YgoStocMsg {
-    const reader = new BufferReader(this.packet.exData, true);
+    const reader = new BufferReader(this.packet.exData);
 
     const player = reader.readInt8();
     const leftTime = reader.readUint16();
