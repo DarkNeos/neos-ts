@@ -81,6 +81,7 @@ pub struct BufferWriter {
 #[wasm_bindgen]
 impl BufferWriter {
     #[wasm_bindgen(constructor)]
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self { array: Vec::new() }
     }
