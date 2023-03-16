@@ -83,7 +83,7 @@ const WaitRoom = () => {
         await initStrings();
 
         // 初始化wasm
-        const originUrl = `${import.meta.env.BASE_URL}assets`;
+        const originUrl = `${import.meta.env.BASE_URL}assets/`;
         const url = new URL("rust_src_bg.wasm", originUrl);
         console.log(originUrl);
         console.log(url);
