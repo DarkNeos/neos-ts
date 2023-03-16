@@ -141,7 +141,7 @@ export function extendOccupant<T extends DuelFieldState>(
     const target = state.inner.find((_, idx) => idx == sequence);
     if (target) {
       target.occupant = newMeta;
-      if (position) {
+      if (typeof position !== "undefined") {
         target.location.position = position;
       }
     }
