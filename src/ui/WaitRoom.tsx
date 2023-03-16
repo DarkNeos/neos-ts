@@ -83,7 +83,7 @@ const WaitRoom = () => {
         await initStrings();
 
         // 初始化wasm
-        await rustInit(new URL("rust_src_bg.wasm", import.meta.url));
+        await rustInit(new URL("rust_src_bg.wasm", import.meta.env.BASE_URL));
       };
 
       init();
