@@ -72,3 +72,37 @@ impl BufferReader {
         ret
     }
 }
+
+#[wasm_bindgen]
+pub struct BufferWriter {
+    array: Vec<u8>,
+}
+
+#[wasm_bindgen]
+impl BufferWriter {
+    #[wasm_bindgen(constructor)]
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Self { array: Vec::new() }
+    }
+
+    pub fn writeUint8(&mut self, value: u8) {
+        self.array.push(value);
+    }
+
+    pub fn writeInt8(&mut self, value: i8) {
+        self.array.extend(value.to_le_bytes());
+    }
+
+    pub fn writeUint32(&mut self, value: u32) {
+        self.array.extend(value.to_le_bytes());
+    }
+
+    pub fn writeInt32(&mut self, value: i32) {
+        self.array.extend(value.to_le_bytes());
+    }
+
+    pub fn toArray(self) -> Vec<u8> {
+        self.array
+    }
+}

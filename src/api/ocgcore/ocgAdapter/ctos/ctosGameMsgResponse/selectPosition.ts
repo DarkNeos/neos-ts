@@ -1,11 +1,11 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferWriter } from "../../bufferIO";
+// @ts-ignore
+import { BufferWriter } from "rust-src";
 
 export default (
   response: ygopro.CtosGameMsgResponse.SelectPositionResponse
 ) => {
-  const array = new Uint8Array(4);
-  const writer = new BufferWriter(array, true);
+  const writer = new BufferWriter();
 
   switch (response.position) {
     case ygopro.CardPosition.FACEUP_ATTACK: {
@@ -33,5 +33,5 @@ export default (
     }
   }
 
-  return array;
+  return writer.toArray();
 };

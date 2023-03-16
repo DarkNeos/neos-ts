@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 
 /*
@@ -10,18 +10,18 @@ import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReaderExt(data);
 
-  const player = reader.readUint8();
-  const cancelable = reader.readUint8() != 0;
-  const min = reader.readUint8();
-  const max = reader.readUint8();
-  const count = reader.readUint8();
+  const player = reader.inner.readUint8();
+  const cancelable = reader.inner.readUint8() != 0;
+  const min = reader.inner.readUint8();
+  const max = reader.inner.readUint8();
+  const count = reader.inner.readUint8();
 
   const msg = new MsgSelectCard({ player, cancelable, min, max });
 
   for (let i = 0; i < count; i++) {
-    const code = reader.readUint32();
+    const code = reader.inner.readUint32();
     const location = reader.readCardLocation();
 
     msg.cards.push(

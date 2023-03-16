@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 
 /*
@@ -10,9 +10,9 @@ import MsgMove = ygopro.StocGameMessage.MsgMove;
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReaderExt(data);
 
-  const code = reader.readUint32();
+  const code = reader.inner.readUint32();
 
   const fromLocation = reader.readCardLocation();
   const toLocation = reader.readCardLocation();
@@ -21,6 +21,6 @@ export default (data: Uint8Array) => {
     code,
     from: fromLocation,
     to: toLocation,
-    reason: reader.readUint8(),
+    reason: reader.inner.readUint8(),
   });
 };

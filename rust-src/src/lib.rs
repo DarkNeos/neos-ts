@@ -5,7 +5,7 @@ mod buffer;
 mod utils;
 
 pub use adapters::*;
-pub use buffer::BufferReader;
+pub use buffer::{BufferReader, BufferWriter};
 pub use utils::set_panic_hook;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global

@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 import { numberToChainFlag } from "../../util";
 
@@ -12,14 +12,14 @@ import { numberToChainFlag } from "../../util";
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReaderExt(data);
 
-  const player = reader.readUint8();
-  const count = reader.readUint8();
-  const spCount = reader.readUint8();
-  const forced = reader.readUint8() != 0;
-  const hint0 = reader.readUint32();
-  const hint1 = reader.readUint32();
+  const player = reader.inner.readUint8();
+  const count = reader.inner.readUint8();
+  const spCount = reader.inner.readUint8();
+  const forced = reader.inner.readUint8() != 0;
+  const hint0 = reader.inner.readUint32();
+  const hint1 = reader.inner.readUint32();
 
   const msg = new MsgSelectChain({
     player,
@@ -31,10 +31,10 @@ export default (data: Uint8Array) => {
   });
 
   for (let i = 0; i < count; i++) {
-    const flag = reader.readUint8();
-    const code = reader.readUint32();
+    const flag = reader.inner.readUint8();
+    const code = reader.inner.readUint32();
     const location = reader.readCardLocation();
-    const effect_desc = reader.readUint32();
+    const effect_desc = reader.inner.readUint32();
 
     msg.chains.push(
       new MsgSelectChain.Chain({
