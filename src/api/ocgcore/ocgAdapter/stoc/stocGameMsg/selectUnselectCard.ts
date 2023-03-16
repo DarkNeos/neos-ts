@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
 /*
@@ -10,13 +10,13 @@ import MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
  * @usage - 玩家选择未选择的卡牌
  * */
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReaderExt(data);
 
-  const player = reader.readUint8();
-  const finishable = reader.readUint8() != 0;
-  const cancelable = reader.readUint8() != 0;
-  const min = reader.readUint8();
-  const max = reader.readUint8();
+  const player = reader.inner.readUint8();
+  const finishable = reader.inner.readUint8() != 0;
+  const cancelable = reader.inner.readUint8() != 0;
+  const min = reader.inner.readUint8();
+  const max = reader.inner.readUint8();
 
   const msg = new MsgSelectUnselectCard({
     player,
@@ -26,9 +26,9 @@ export default (data: Uint8Array) => {
     max,
   });
 
-  const count1 = reader.readUint8();
+  const count1 = reader.inner.readUint8();
   for (let i = 0; i < count1; i++) {
-    const code = reader.readUint32();
+    const code = reader.inner.readUint32();
     const location = reader.readCardLocation();
 
     msg.selectable_cards.push(
@@ -36,9 +36,9 @@ export default (data: Uint8Array) => {
     );
   }
 
-  const count2 = reader.readUint8();
+  const count2 = reader.inner.readUint8();
   for (let i = count1; i < count1 + count2; i++) {
-    const code = reader.readUint32();
+    const code = reader.inner.readUint32();
     const location = reader.readCardLocation();
 
     msg.selected_cards.push(

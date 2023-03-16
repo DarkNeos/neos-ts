@@ -1,19 +1,19 @@
 //! 透传协议
 
 import PenetrateData from "./penetrate.json";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import { ygopro } from "../../../idl/ocgcore";
 import { numberToCardPosition } from "../../util";
 
 type Constructor<T = any> = new (...args: any[]) => T;
 
 const ReadFieldHandlerMap: Map<string, readFieldHandler> = new Map([
-  ["uint8", ((reader) => reader.readUint8()) as readFieldHandler],
-  ["uint16", (reader) => reader.readUint16()],
-  ["uint32", (reader) => reader.readUint32()],
+  ["uint8", ((reader) => reader.inner.readUint8()) as readFieldHandler],
+  ["uint16", (reader) => reader.inner.readUint16()],
+  ["uint32", (reader) => reader.inner.readUint32()],
   ["CardLocation", (reader) => reader.readCardLocation()],
   ["CardInfo", (reader) => reader.readCardInfo()],
-  ["CardPosition", (reader) => numberToCardPosition(reader.readUint8())],
+  ["CardPosition", (reader) => numberToCardPosition(reader.inner.readUint8())],
 ]);
 const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["move", ygopro.StocGameMessage.MsgMove as Constructor],
@@ -32,7 +32,7 @@ export interface penetrateType {
 }
 
 interface readFieldHandler {
-  (reader: BufferReader): any;
+  (reader: BufferReaderExt): any;
 }
 
 class PenetrateManager {
@@ -44,7 +44,7 @@ class PenetrateManager {
     this.config = _objToMap(config);
   }
 
-  private readField(reader: BufferReader, fieldType: string): any {
+  private readField(reader: BufferReaderExt, fieldType: string): any {
     const handler = this.readFieldHandlerMap.get(fieldType);
 
     if (handler) {
@@ -53,11 +53,14 @@ class PenetrateManager {
     return undefined;
   }
 
-  private readRepeatedField(reader: BufferReader, repeatedType: string): any {
+  private readRepeatedField(
+    reader: BufferReaderExt,
+    repeatedType: string
+  ): any {
     const handler = this.readFieldHandlerMap.get(repeatedType);
 
     if (handler) {
-      const count = reader.readUint8();
+      const count = reader.inner.readUint8();
       let repeated = [];
 
       for (let i = 0; i < count; i++) {
@@ -80,7 +83,7 @@ class PenetrateManager {
 
   penetrate(msgKey: number, gameMsg: any, gameData: Uint8Array): boolean {
     const config = this.config.get(msgKey.toString());
-    const reader = new BufferReader(gameData, true);
+    const reader = new BufferReaderExt(gameData);
 
     if (config) {
       const protoType = config.protoType;

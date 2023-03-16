@@ -1,64 +1,26 @@
 import { ygopro } from "../idl/ocgcore";
 import { numberToCardPosition, numberToCardZone } from "./util";
+// @ts-ignore
+import { BufferReader } from "rust-src";
 
 const OFFSET_UINT8 = 1;
 const OFFSET_INT8 = 1;
-const OFFSET_UINT16 = 2;
 const OFFSET_UINT32 = 4;
 const OFFSET_INT32 = 4;
 const LOCATION_OVERLAY = 0x80;
 
-export class BufferReader {
-  dataView: DataView;
-  littleEndian: boolean;
-  offset: number;
+export class BufferReaderExt {
+  inner: BufferReader;
 
-  constructor(data: Uint8Array, littleEndian: boolean) {
-    this.dataView = new DataView(data.buffer);
-    this.littleEndian = littleEndian;
-    this.offset = 0;
-  }
-
-  readUint8(): number {
-    const ret = this.dataView.getUint8(this.offset);
-    this.offset += OFFSET_UINT8;
-
-    return ret;
-  }
-
-  readInt8(): number {
-    const ret = this.dataView.getInt8(this.offset);
-    this.offset += OFFSET_INT8;
-
-    return ret;
-  }
-
-  readUint16(): number {
-    const ret = this.dataView.getUint16(this.offset, this.littleEndian);
-    this.offset += OFFSET_UINT16;
-
-    return ret;
-  }
-
-  readUint32(): number {
-    const ret = this.dataView.getUint32(this.offset, this.littleEndian);
-    this.offset += OFFSET_UINT32;
-
-    return ret;
-  }
-
-  readInt32(): number {
-    const ret = this.dataView.getInt32(this.offset, this.littleEndian);
-    this.offset += OFFSET_INT32;
-
-    return ret;
+  constructor(data: Uint8Array) {
+    this.inner = new BufferReader(data);
   }
 
   readCardInfo(): ygopro.CardInfo {
-    const code = this.readUint32();
-    const controler = this.readUint8();
-    const location = numberToCardZone(this.readUint8());
-    const sequence = this.readUint8();
+    const code = this.inner.readUint32();
+    const controler = this.inner.readUint8();
+    const location = numberToCardZone(this.inner.readUint8());
+    const sequence = this.inner.readUint8();
 
     return new ygopro.CardInfo({
       code,
@@ -69,10 +31,10 @@ export class BufferReader {
   }
 
   readCardLocation(): ygopro.CardLocation {
-    const controler = this.readUint8();
-    const location = this.readUint8();
-    const sequence = this.readUint8();
-    const ss = this.readUint8();
+    const controler = this.inner.readUint8();
+    const location = this.inner.readUint8();
+    const sequence = this.inner.readUint8();
+    const ss = this.inner.readUint8();
 
     if (location & LOCATION_OVERLAY) {
       // 超量素材

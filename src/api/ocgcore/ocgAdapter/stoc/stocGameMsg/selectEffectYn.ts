@@ -1,5 +1,5 @@
 import { ygopro } from "../../../idl/ocgcore";
-import { BufferReader } from "../../bufferIO";
+import { BufferReaderExt } from "../../bufferIO";
 import MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
 /*
@@ -11,12 +11,12 @@ import MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
  * */
 
 export default (data: Uint8Array) => {
-  const reader = new BufferReader(data, true);
+  const reader = new BufferReaderExt(data);
 
-  const player = reader.readUint8();
-  const code = reader.readUint32();
+  const player = reader.inner.readUint8();
+  const code = reader.inner.readUint32();
   const location = reader.readCardLocation();
-  const effect_description = reader.readUint32();
+  const effect_description = reader.inner.readUint32();
 
   return new MsgSelectEffectYn({
     player,
