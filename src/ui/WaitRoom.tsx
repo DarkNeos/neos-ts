@@ -147,7 +147,9 @@ const WaitRoom = () => {
 
   const onDeckReady = (deck: IDeck) => {
     sendUpdateDeck(deck);
-    dispatch(initMeExtraDeckMeta({ controler: 0, codes: deck.extra || [] }));
+    dispatch(
+      initMeExtraDeckMeta({ controler: 0, codes: deck.extra?.reverse() || [] })
+    );
     setChoseDeck(true);
   };
 
