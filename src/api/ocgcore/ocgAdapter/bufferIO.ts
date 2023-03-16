@@ -3,10 +3,6 @@ import { numberToCardPosition, numberToCardZone } from "./util";
 // @ts-ignore
 import { BufferReader } from "rust-src";
 
-const OFFSET_UINT8 = 1;
-const OFFSET_INT8 = 1;
-const OFFSET_UINT32 = 4;
-const OFFSET_INT32 = 4;
 const LOCATION_OVERLAY = 0x80;
 
 export class BufferReaderExt {
@@ -52,37 +48,5 @@ export class BufferReaderExt {
         position: numberToCardPosition(ss),
       });
     }
-  }
-}
-
-export class BufferWriter {
-  dataView: DataView;
-  littleEndian: boolean;
-  offset: number;
-
-  constructor(data: Uint8Array, littleEndian: boolean) {
-    this.dataView = new DataView(data.buffer);
-    this.littleEndian = littleEndian;
-    this.offset = 0;
-  }
-
-  writeUint8(value: number) {
-    this.dataView.setUint8(this.offset, value);
-    this.offset += OFFSET_UINT8;
-  }
-
-  writeInt8(value: number) {
-    this.dataView.setInt8(this.offset, value);
-    this.offset += OFFSET_INT8;
-  }
-
-  writeUint32(value: number) {
-    this.dataView.setUint32(this.offset, value, this.littleEndian);
-    this.offset += OFFSET_UINT32;
-  }
-
-  writeInt32(value: number) {
-    this.dataView.setInt32(this.offset, value, this.littleEndian);
-    this.offset += OFFSET_INT32;
   }
 }
