@@ -33,6 +33,7 @@ const footerStyle: React.CSSProperties = {
   textAlign: "center",
   height: layoutConfig.footer.height,
   color: "#fff",
+  paddingLeft: `${layoutConfig.sider.width}px`,
 };
 
 const NeosLayout = (props: {

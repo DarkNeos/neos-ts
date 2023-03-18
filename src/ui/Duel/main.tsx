@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
@@ -34,7 +34,7 @@ const NeosDuel = () => {
         sider={<NeosSider />}
         header={<PlayerStatus />}
         content={<NeosCanvas />}
-        footer={<></>}
+        footer={<Phase />}
       />
       <CardModal />
       <CardListModal />
@@ -76,7 +76,6 @@ const NeosCanvas = () => (
             <Cemeteries />
             <Exclusion />
             <Field />
-            <Phase />
             <Ground />
           </Provider>
         </Scene>

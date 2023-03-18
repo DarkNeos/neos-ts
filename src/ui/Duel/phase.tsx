@@ -12,56 +12,44 @@ import {
   sendSelectIdleCmdResponse,
 } from "../../api/ocgcore/ocgHelper";
 import {
-  clearHandsIdleInteractivity,
-  clearMagicIdleInteractivities,
-  clearMonsterIdleInteractivities,
+  clearAllIdleInteractivities,
   setEnableBp,
   setEnableEp,
   setEnableM2,
 } from "../../reducers/duel/mod";
-import { Button2D } from "./2d";
+import { Button, Space } from "antd";
+import Icon from "@ant-design/icons";
+import { ReactComponent as BattleSvg } from "../../../neos-assets/crossed-swords.svg";
+import { ReactComponent as Main2Svg } from "../../../neos-assets/sword-in-stone.svg";
+import { ReactComponent as EpSvg } from "../../../neos-assets/power-button.svg";
+import { ReactComponent as SurrenderSvg } from "../../../neos-assets/truce.svg";
 
-const Bp = () => {
-  const dispatch = store.dispatch;
-  const enable = useAppSelector(selectEnableBp);
-  const onClick = () => {
-    // 清除一堆东西的互动性
-    dispatch(clearHandsIdleInteractivity(0));
-    dispatch(clearHandsIdleInteractivity(1));
-    dispatch(clearMonsterIdleInteractivities(0));
-    dispatch(clearMonsterIdleInteractivities(1));
-    dispatch(clearMagicIdleInteractivities(0));
-    dispatch(clearMagicIdleInteractivities(1));
+const IconSize = "150%";
+const SpaceSize = 16;
 
-    sendSelectIdleCmdResponse(6);
-    dispatch(setEnableBp(false));
-  };
-
-  return <Button2D text="bp" left={-200} enable={enable} onClick={onClick} />;
+const PhaseButton = (props: {
+  text: string;
+  enable: boolean;
+  onClick: () => void;
+  icon?: React.ReactNode;
+}) => {
+  return (
+    <Button
+      icon={props.icon}
+      disabled={!props.enable}
+      onClick={props.onClick}
+      size="large"
+    >
+      {props.text}
+    </Button>
+  );
 };
 
-const M2 = () => {
+const Phase = () => {
   const dispatch = store.dispatch;
-  const enable = useAppSelector(selectEnableM2);
-  const onClick = () => {
-    // 清除一堆东西的互动性
-    dispatch(clearHandsIdleInteractivity(0));
-    dispatch(clearHandsIdleInteractivity(1));
-    dispatch(clearMonsterIdleInteractivities(0));
-    dispatch(clearMonsterIdleInteractivities(1));
-    dispatch(clearMagicIdleInteractivities(0));
-    dispatch(clearMagicIdleInteractivities(1));
-
-    sendSelectBattleCmdResponse(2);
-    dispatch(setEnableM2(false));
-  };
-
-  return <Button2D text="m2" left={0} enable={enable} onClick={onClick} />;
-};
-
-const Ep = () => {
-  const dispatch = store.dispatch;
-  const enable = useAppSelector(selectEnableEp);
+  const enableBp = useAppSelector(selectEnableBp);
+  const enableM2 = useAppSelector(selectEnableM2);
+  const enableEp = useAppSelector(selectEnableEp);
   const currentPhase = useAppSelector(selectCurrentPhase);
 
   const response =
@@ -73,35 +61,57 @@ const Ep = () => {
       ? 3
       : 7;
 
-  const onClick = (response: number) => () => {
-    // 清除一堆东西的互动性
-    dispatch(clearHandsIdleInteractivity(0));
-    dispatch(clearHandsIdleInteractivity(1));
-    dispatch(clearMonsterIdleInteractivities(0));
-    dispatch(clearMonsterIdleInteractivities(1));
-    dispatch(clearMagicIdleInteractivities(0));
-    dispatch(clearMagicIdleInteractivities(1));
+  const onBp = () => {
+    dispatch(clearAllIdleInteractivities(0));
+    dispatch(clearAllIdleInteractivities(0));
+
+    sendSelectIdleCmdResponse(6);
+    dispatch(setEnableBp(false));
+  };
+  const onM2 = () => {
+    dispatch(clearAllIdleInteractivities(0));
+    dispatch(clearAllIdleInteractivities(0));
+
+    sendSelectBattleCmdResponse(2);
+    dispatch(setEnableM2(false));
+  };
+  const onEp = () => {
+    dispatch(clearAllIdleInteractivities(0));
+    dispatch(clearAllIdleInteractivities(0));
 
     sendSelectIdleCmdResponse(response);
     dispatch(setEnableEp(false));
   };
+  const onSurrender = () => {};
 
   return (
-    <Button2D
-      text="ep"
-      left={200}
-      enable={enable}
-      onClick={onClick(response)}
-    />
+    <Space wrap size={SpaceSize}>
+      <PhaseButton
+        icon={<Icon component={BattleSvg} style={{ fontSize: IconSize }} />}
+        enable={enableBp}
+        text="战斗阶段"
+        onClick={onBp}
+      />
+      <PhaseButton
+        icon={<Icon component={Main2Svg} style={{ fontSize: IconSize }} />}
+        enable={enableM2}
+        text="主要阶段2"
+        onClick={onM2}
+      />
+      <PhaseButton
+        icon={<Icon component={EpSvg} style={{ fontSize: IconSize }} />}
+        enable={enableEp}
+        text="结束回合"
+        onClick={onEp}
+      />
+      <PhaseButton
+        icon={<Icon component={SurrenderSvg} style={{ fontSize: IconSize }} />}
+        enable={true}
+        text="投降"
+        onClick={onSurrender}
+      />
+    </Space>
   );
 };
-
-const Phase = () => (
-  <>
-    <Bp />
-    <M2 />
-    <Ep />
-  </>
-);
 
 export default Phase;
