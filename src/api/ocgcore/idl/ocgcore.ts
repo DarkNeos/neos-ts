@@ -8618,6 +8618,7 @@ export namespace ygopro {
                 code?: number;
                 location?: CardLocation;
                 response?: number;
+                release_param?: number;
               }
         ) {
           super();
@@ -8638,6 +8639,9 @@ export namespace ygopro {
             }
             if ("response" in data && data.response != undefined) {
               this.response = data.response;
+            }
+            if ("release_param" in data && data.release_param != undefined) {
+              this.release_param = data.release_param;
             }
           }
         }
@@ -8666,10 +8670,17 @@ export namespace ygopro {
         set response(value: number) {
           pb_1.Message.setField(this, 3, value);
         }
+        get release_param() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set release_param(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
         static fromObject(data: {
           code?: number;
           location?: ReturnType<typeof CardLocation.prototype.toObject>;
           response?: number;
+          release_param?: number;
         }): SelectAbleCard {
           const message = new SelectAbleCard({});
           if (data.code != null) {
@@ -8681,6 +8692,9 @@ export namespace ygopro {
           if (data.response != null) {
             message.response = data.response;
           }
+          if (data.release_param != null) {
+            message.release_param = data.release_param;
+          }
           return message;
         }
         toObject() {
@@ -8688,6 +8702,7 @@ export namespace ygopro {
             code?: number;
             location?: ReturnType<typeof CardLocation.prototype.toObject>;
             response?: number;
+            release_param?: number;
           } = {};
           if (this.code != null) {
             data.code = this.code;
@@ -8697,6 +8712,9 @@ export namespace ygopro {
           }
           if (this.response != null) {
             data.response = this.response;
+          }
+          if (this.release_param != null) {
+            data.release_param = this.release_param;
           }
           return data;
         }
@@ -8710,6 +8728,7 @@ export namespace ygopro {
               this.location.serialize(writer)
             );
           if (this.response != 0) writer.writeInt32(3, this.response);
+          if (this.release_param != 0) writer.writeInt32(4, this.release_param);
           if (!w) return writer.getResultBuffer();
         }
         static deserialize(
@@ -8734,6 +8753,9 @@ export namespace ygopro {
                 break;
               case 3:
                 message.response = reader.readInt32();
+                break;
+              case 4:
+                message.release_param = reader.readInt32();
                 break;
               default:
                 reader.skipField();
