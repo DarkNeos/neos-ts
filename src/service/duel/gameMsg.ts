@@ -20,10 +20,29 @@ import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
 import onMsgUpdateHp from "./updateHp";
 import onMsgWin from "./win";
+import onMsgWait from "./wait";
+import { setWaiting } from "../../reducers/duel/mod";
+
+const ActiveList = [
+  "select_idle_cmd",
+  "select_place",
+  "select_card",
+  "select_chain",
+  "select_effect_yn",
+  "select_position",
+  "select_option",
+  "select_battle_cmd",
+  "select_unselect_card",
+  "select_yes_no",
+];
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
   const msg = pb.stoc_game_msg;
+
+  if (ActiveList.includes(msg.gameMsg)) {
+    dispatch(setWaiting(false));
+  }
 
   switch (msg.gameMsg) {
     case "start": {
@@ -123,6 +142,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "win": {
       onMsgWin(msg.win, dispatch);
+
+      break;
+    }
+    case "wait": {
+      onMsgWait(msg.wait, dispatch);
 
       break;
     }

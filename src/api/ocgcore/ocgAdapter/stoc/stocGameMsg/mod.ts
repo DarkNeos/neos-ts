@@ -21,6 +21,7 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectOptionAdapter from "./selectOption";
 import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgWaitAdapter from "./wait";
 import MsgDamage from "./damage";
 import MsgRecover from "./recover";
 import MsgWin from "./win";
@@ -139,6 +140,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_WIN: {
           gameMsg.win = MsgWin(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_WAITING: {
+          gameMsg.wait = MsgWaitAdapter(gameData);
 
           break;
         }

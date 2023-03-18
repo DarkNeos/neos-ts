@@ -142,6 +142,8 @@ export interface DuelState {
 
   result?: MsgWin.ActionType;
 
+  waiting?: boolean;
+
   // UI相关
   modalState: ModalState;
 }
@@ -257,6 +259,11 @@ const duelSlice = createSlice({
     setResult: (state, action: PayloadAction<MsgWin.ActionType>) => {
       state.result = action.payload;
     },
+
+    // 等待状态`Reducer`
+    setWaiting: (state, action: PayloadAction<boolean>) => {
+      state.waiting = action.payload;
+    },
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -336,11 +343,15 @@ export const {
   clearAllIdleInteractivities,
   clearAllPlaceInteractivities,
   setResult,
+  setWaiting,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
 };
 export const selectDuelResult = (state: RootState) => {
   return state.duel.result;
+};
+export const selectWaiting = (state: RootState) => {
+  return state.duel.waiting;
 };
 export default duelSlice.reducer;

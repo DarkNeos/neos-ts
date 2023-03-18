@@ -9,6 +9,7 @@ import {
   selectOpInitInfo,
 } from "../../reducers/duel/initInfoSlice";
 import { selectCurrentPlayerIsMe } from "../../reducers/duel/turnSlice";
+import { selectWaiting } from "../../reducers/duel/mod";
 
 const Config = NeosConfig.ui.status;
 const avatarSize = 40;
@@ -18,13 +19,13 @@ const OP_VALUE = "opponent";
 const PlayerStatus = () => {
   const meInfo = useAppSelector(selectMeInitInfo);
   const opInfo = useAppSelector(selectOpInitInfo);
-  const myTurn = useAppSelector(selectCurrentPlayerIsMe);
+  const waiting = useAppSelector(selectWaiting) || false;
 
   return (
     <CheckCard.Group
       bordered
       style={{ height: `${NeosConfig.ui.layout.header.height}` }}
-      value={myTurn ? ME_VALUE : OP_VALUE}
+      value={waiting ? OP_VALUE : ME_VALUE}
     >
       <CheckCard
         avatar={
