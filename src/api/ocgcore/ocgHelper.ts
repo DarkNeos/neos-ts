@@ -13,6 +13,7 @@ import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
 import HandResult from "./ocgAdapter/ctos/ctosHandResult";
 import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
+import Surrender from "./ocgAdapter/ctos/ctosSurrender";
 import GameMsgResponse from "./ocgAdapter/ctos/ctosGameMsgResponse/mod";
 import Chat from "./ocgAdapter/ctos/ctosChat";
 
@@ -116,6 +117,15 @@ export function sendTimeConfirm() {
     ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
   });
   const payload = new TimeConfirm(timeConfirm).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendSurrender() {
+  const surrender = new ygopro.YgoCtosMsg({
+    ctos_surrender: new ygopro.CtosSurrender({}),
+  });
+  const payload = new Surrender(surrender).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }

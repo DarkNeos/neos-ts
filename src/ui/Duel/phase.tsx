@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { store } from "../../store";
 import { useAppSelector } from "../../hook";
 import {
@@ -10,6 +10,7 @@ import {
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
+  sendSurrender,
 } from "../../api/ocgcore/ocgHelper";
 import {
   clearAllIdleInteractivities,
@@ -17,7 +18,7 @@ import {
   setEnableEp,
   setEnableM2,
 } from "../../reducers/duel/mod";
-import { Button, Space } from "antd";
+import { Button, Modal, Space } from "antd";
 import Icon from "@ant-design/icons";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/crossed-swords.svg";
 import { ReactComponent as Main2Svg } from "../../../neos-assets/sword-in-stone.svg";
@@ -51,6 +52,7 @@ const Phase = () => {
   const enableM2 = useAppSelector(selectEnableM2);
   const enableEp = useAppSelector(selectEnableEp);
   const currentPhase = useAppSelector(selectCurrentPhase);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const response =
     currentPhase === "BATTLE_START" ||
@@ -82,7 +84,9 @@ const Phase = () => {
     sendSelectIdleCmdResponse(response);
     dispatch(setEnableEp(false));
   };
-  const onSurrender = () => {};
+  const onSurrender = () => {
+    setModalOpen(true);
+  };
 
   return (
     <Space wrap size={SpaceSize}>
@@ -109,6 +113,30 @@ const Phase = () => {
         enable={true}
         text="投降"
         onClick={onSurrender}
+      />
+      <Modal
+        title="是否确认要投降？"
+        open={modalOpen}
+        closable={false}
+        footer={
+          <>
+            <Button
+              onClick={() => {
+                sendSurrender();
+                setModalOpen(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              onClick={() => {
+                setModalOpen(false);
+              }}
+            >
+              No
+            </Button>
+          </>
+        }
       />
     </Space>
   );
