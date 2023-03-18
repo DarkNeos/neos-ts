@@ -5,9 +5,7 @@ import {
   addHandsIdleInteractivity,
   addMagicIdleInteractivities,
   addMonsterIdleInteractivities,
-  clearHandsIdleInteractivity,
-  clearMagicIdleInteractivities,
-  clearMonsterIdleInteractivities,
+  clearAllIdleInteractivities,
   setEnableEp,
   setEnableM2,
 } from "../../reducers/duel/mod";
@@ -19,9 +17,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
-  dispatch(clearHandsIdleInteractivity(player));
-  dispatch(clearMonsterIdleInteractivities(player));
-  dispatch(clearMagicIdleInteractivities(player));
+  dispatch(clearAllIdleInteractivities(player));
 
   const dispatcher = (
     battleData: MsgSelectBattleCmd.BattleCmd.BattleData,
