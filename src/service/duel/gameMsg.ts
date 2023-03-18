@@ -24,8 +24,6 @@ import onMsgWait from "./wait";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
-  "draw",
-  "new_turn",
   "select_idle_cmd",
   "select_place",
   "select_card",

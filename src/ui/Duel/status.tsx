@@ -26,7 +26,7 @@ const PlayerStatus = () => {
     <CheckCard.Group
       bordered
       style={{ height: `${NeosConfig.ui.layout.header.height}` }}
-      value={myTurn && !waiting ? ME_VALUE : OP_VALUE}
+      value={myTurn || !waiting ? ME_VALUE : OP_VALUE}
     >
       <CheckCard
         avatar={
