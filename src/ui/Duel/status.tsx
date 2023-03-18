@@ -19,14 +19,13 @@ const OP_VALUE = "opponent";
 const PlayerStatus = () => {
   const meInfo = useAppSelector(selectMeInitInfo);
   const opInfo = useAppSelector(selectOpInitInfo);
-  const myTurn = useAppSelector(selectCurrentPlayerIsMe);
   const waiting = useAppSelector(selectWaiting) || false;
 
   return (
     <CheckCard.Group
       bordered
       style={{ height: `${NeosConfig.ui.layout.header.height}` }}
-      value={myTurn || !waiting ? ME_VALUE : OP_VALUE}
+      value={waiting ? OP_VALUE : ME_VALUE}
     >
       <CheckCard
         avatar={
