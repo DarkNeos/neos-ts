@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { ReactReduxContext, Provider } from "react-redux";
 import * as BABYLON from "@babylonjs/core";
@@ -25,24 +25,16 @@ import DuelTimeLine from "./timeLine";
 import { Row } from "antd";
 import SendBox from "./sendBox";
 import PlayerStatus from "./status";
-import { useAppSelector } from "../../hook";
-import {
-  selectMeInitInfo,
-  selectOpInitInfo,
-} from "../../reducers/duel/initInfoSlice";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
-  const meInfo = useAppSelector(selectMeInitInfo);
-  const opInfo = useAppSelector(selectOpInitInfo);
-
   return (
     <>
       <NeosLayout
         sider={<NeosSider />}
-        header={<PlayerStatus userName="UserName" hp={opInfo?.life || 0} />}
+        header={<PlayerStatus />}
         content={<NeosCanvas />}
-        footer={<PlayerStatus userName="UserName" hp={meInfo?.life || 0} />}
+        footer={<Phase />}
       />
       <CardModal />
       <CardListModal />
@@ -84,7 +76,6 @@ const NeosCanvas = () => (
             <Cemeteries />
             <Exclusion />
             <Field />
-            <Phase />
             <Ground />
           </Provider>
         </Scene>
