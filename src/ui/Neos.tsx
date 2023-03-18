@@ -35,6 +35,14 @@ export default function () {
           </Suspense>
         }
       />
+      <Route
+        path="/test"
+        element={
+          <Suspense fallback={<Loading />}>
+            <NeosDuel />
+          </Suspense>
+        }
+      />
     </Routes>
   );
 }

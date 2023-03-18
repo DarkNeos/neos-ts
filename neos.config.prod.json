@@ -61,6 +61,11 @@
       "footer": {
         "height": 80
       }
+    },
+    "status": {
+      "avatarSize": 40,
+      "meAvatarColor": "#0e63e1",
+      "opAvatarColor": "#e10e68"
     }
   }
 }

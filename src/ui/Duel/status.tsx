@@ -1,29 +1,60 @@
 import React from "react";
-import { UserOutlined, BackwardOutlined } from "@ant-design/icons";
-import { Avatar, Space, Statistic } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
+import { CheckCard } from "@ant-design/pro-components";
+import NeosConfig from "../../../neos.config.json";
+import { useAppSelector } from "../../hook";
+import {
+  selectMeInitInfo,
+  selectOpInitInfo,
+} from "../../reducers/duel/initInfoSlice";
 
-const spaceSize = 20;
+const Config = NeosConfig.ui.status;
 const avatarSize = 40;
 
-const PlayerStatus = (props: { userName: string; hp: number }) => (
-  <Space size={spaceSize} direction="horizontal">
-    <Space wrap size={spaceSize}>
-      <Avatar size={avatarSize} icon={<UserOutlined />} />
-    </Space>
-    <Space wrap size={spaceSize}>
-      {props.userName}
-    </Space>
-    <Space wrap size={spaceSize}>
-      <Statistic title="Hp" value={props.hp} />
-    </Space>
-    <Space wrap size={spaceSize}>
-      <Avatar
-        size={avatarSize}
-        style={{ color: "red" }}
-        icon={<BackwardOutlined />}
+const PlayerStatus = () => {
+  const meInfo = useAppSelector(selectMeInitInfo);
+  const opInfo = useAppSelector(selectOpInitInfo);
+
+  return (
+    <CheckCard.Group
+      bordered
+      style={{ height: `${NeosConfig.ui.layout.header.height}` }}
+    >
+      <CheckCard
+        avatar={
+          <Avatar
+            size={avatarSize}
+            style={{ backgroundColor: Config.opAvatarColor }}
+            icon={<UserOutlined />}
+          />
+        }
+        title={`opponent`}
+        description={`Hp: ${opInfo?.life || 0}`}
+        value="opponent"
+        style={{
+          position: "absolute",
+          left: `${NeosConfig.ui.layout.sider.width}px`,
+        }}
       />
-    </Space>
-  </Space>
-);
+      <CheckCard
+        avatar={
+          <Avatar
+            size={avatarSize}
+            style={{ backgroundColor: Config.meAvatarColor }}
+            icon={<UserOutlined />}
+          />
+        }
+        title={`myself`}
+        description={`Hp: ${meInfo?.life || 0}`}
+        value="myself"
+        style={{
+          position: "absolute",
+          right: "0px",
+        }}
+      />
+    </CheckCard.Group>
+  );
+};
 
 export default PlayerStatus;
