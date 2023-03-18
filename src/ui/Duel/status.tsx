@@ -8,18 +8,23 @@ import {
   selectMeInitInfo,
   selectOpInitInfo,
 } from "../../reducers/duel/initInfoSlice";
+import { selectCurrentPlayerIsMe } from "../../reducers/duel/turnSlice";
 
 const Config = NeosConfig.ui.status;
 const avatarSize = 40;
+const ME_VALUE = "myself";
+const OP_VALUE = "opponent";
 
 const PlayerStatus = () => {
   const meInfo = useAppSelector(selectMeInitInfo);
   const opInfo = useAppSelector(selectOpInitInfo);
+  const myTurn = useAppSelector(selectCurrentPlayerIsMe);
 
   return (
     <CheckCard.Group
       bordered
       style={{ height: `${NeosConfig.ui.layout.header.height}` }}
+      value={myTurn ? ME_VALUE : OP_VALUE}
     >
       <CheckCard
         avatar={
@@ -29,9 +34,9 @@ const PlayerStatus = () => {
             icon={<UserOutlined />}
           />
         }
-        title={`opponent`}
-        description={`Hp: ${opInfo?.life || 0}`}
-        value="opponent"
+        title={OP_VALUE}
+        description={`Lp: ${opInfo?.life || 0}`}
+        value={OP_VALUE}
         style={{
           position: "absolute",
           left: `${NeosConfig.ui.layout.sider.width}px`,
@@ -45,9 +50,9 @@ const PlayerStatus = () => {
             icon={<UserOutlined />}
           />
         }
-        title={`myself`}
-        description={`Hp: ${meInfo?.life || 0}`}
-        value="myself"
+        title={ME_VALUE}
+        description={`Lp: ${meInfo?.life || 0}`}
+        value={ME_VALUE}
         style={{
           position: "absolute",
           right: "0px",
