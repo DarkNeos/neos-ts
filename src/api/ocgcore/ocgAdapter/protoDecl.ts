@@ -37,6 +37,7 @@ export const MSG_SELECT_IDLE_CMD = 11;
 export const MSG_SELECT_PLACE = 18;
 export const MSG_MOVE = 50;
 export const MSG_SELECT_CARD = 15;
+export const MSG_SELECT_TRIBUTE = 20;
 export const MSG_SELECT_CHAIN = 16;
 export const MSG_SELECT_EFFECTYN = 12;
 export const MSG_SELECT_POSITION = 19;

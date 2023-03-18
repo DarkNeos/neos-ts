@@ -16,6 +16,8 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
   const max = selectCard.max;
   const cards = selectCard.cards;
 
+  // TODO: handle release_param
+
   dispatch(setCheckCardModalMinMax({ min, max }));
   dispatch(setCheckCardModalOnSubmit("sendSelectCardResponse"));
 

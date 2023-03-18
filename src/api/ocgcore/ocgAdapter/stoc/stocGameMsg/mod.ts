@@ -14,6 +14,7 @@ import MsgHintAdapter from "./hint";
 import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
 import MsgSelectPlaceAdapter from "./selectPlace";
 import MsgSelectCardAdapter from "./selectCard";
+import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectChainAdapter from "./selectChain";
 import MsgSelectEffectYnAdapter from "./selectEffectYn";
 import MsgSelectPositionAdapter from "./selectPosition";
@@ -87,6 +88,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SELECT_CARD: {
           gameMsg.select_card = MsgSelectCardAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_TRIBUTE: {
+          gameMsg.select_card = MsgSelectTributeAdapter(gameData);
 
           break;
         }
