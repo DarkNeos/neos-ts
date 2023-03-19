@@ -116,7 +116,7 @@ export default (data: Uint8Array) => {
       );
     }
 
-    // const _extra_p_size = reader.inner.readUint8();
+    const _extra_p_size = reader.inner.readUint8();
 
     // const chain_size = reader.inner.readUint8();
     // const chain_actions = [];

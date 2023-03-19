@@ -296,7 +296,6 @@ export function updateCardData<T extends DuelFieldState>(
   for (const payload of actions) {
     const sequence = payload.location?.sequence;
     if (typeof sequence !== "undefined") {
-      console.log(payload.type_);
       const target = state?.inner.find((_, idx) => idx == sequence);
       if (target && (target.occupant || target.reload)) {
         if (target.occupant === undefined) {
