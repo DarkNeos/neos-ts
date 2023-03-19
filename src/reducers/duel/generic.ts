@@ -8,6 +8,7 @@ import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
 import { DuelState } from "./mod";
+import UpdateDataAction = ygopro.StocGameMessage.MsgUpdateData.Action;
 
 export type DuelReducer<T> = CaseReducer<DuelState, PayloadAction<T>>;
 
@@ -281,5 +282,47 @@ export function setPosition<T extends DuelFieldState>(
   const target = state?.inner.find((_, idx) => idx == sequence);
   if (target && target.occupant) {
     target.location.position = position;
+  }
+}
+
+export function updateCardData<T extends DuelFieldState>(
+  state: T | undefined,
+  actions: UpdateDataAction[]
+) {
+  for (const action of actions) {
+    const payload = action.toObject();
+    const sequence = payload.location?.sequence;
+    if (typeof sequence !== "undefined") {
+      const target = state?.inner.find((_, idx) => idx == sequence);
+      if (target && target.occupant) {
+        const occupant = target.occupant;
+        // 目前只更新以下字段
+        if (payload.code !== undefined) {
+          occupant.id = payload.code;
+          occupant.text.id = payload.code;
+        }
+        if (payload.location !== undefined) {
+          target.location.position = payload.location.position;
+        }
+        if (payload.type_ !== undefined) {
+          occupant.data.type = payload.type_;
+        }
+        if (payload.level !== undefined) {
+          occupant.data.level = payload.level;
+        }
+        if (payload.attribute !== undefined) {
+          occupant.data.attribute = payload.attribute;
+        }
+        if (payload.race !== undefined) {
+          occupant.data.race = payload.race;
+        }
+        if (payload.attack !== undefined) {
+          occupant.data.atk = payload.attack;
+        }
+        if (payload.defense !== undefined) {
+          occupant.data.def = payload.defense;
+        }
+      }
+    }
   }
 }
