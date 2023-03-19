@@ -22,6 +22,7 @@ import onMsgUpdateHp from "./updateHp";
 import onMsgWin from "./win";
 import onMsgWait from "./wait";
 import onUnimplemented from "./unimplemented";
+import onMsgUpdateData from "./updateData";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
@@ -148,6 +149,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "wait": {
       onMsgWait(msg.wait, dispatch);
+
+      break;
+    }
+    case "update_data": {
+      onMsgUpdateData(msg.update_data, dispatch);
 
       break;
     }
