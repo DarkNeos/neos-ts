@@ -4,5 +4,5 @@ import { AppDispatch } from "../../store";
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 
 export default (updateData: MsgUpdateData, dispatch: AppDispatch) => {
-  dispatch(updateFieldData(updateData));
+  dispatch(updateFieldData(updateData.toObject()));
 };
