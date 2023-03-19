@@ -61,6 +61,8 @@ export default (data: Uint8Array) => {
   } catch (e) {
     // console.log(e)
   }
+
+  return msg;
 };
 
 function _readUpdateAction(
