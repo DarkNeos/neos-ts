@@ -1,74 +1,128 @@
 {
-  "version": 4948,
-  "servers": [
-    {
-      "ip": "koishi-r.momobako.com",
-      "port": "7211"
-    }
-  ],
-  "assetsPath": "/neos-assets",
-  "cardImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
-  "cardsDbUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
-  "stringsUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
-  "ui": {
-    "ground": {
-      "width": 9.9,
-      "height": 8
-    },
-    "card": {
-      "transform": {
-        "x": 0.8,
-        "y": 1,
-        "z": 0.05
-      },
-      "rotation": {
-        "x": 1.55,
-        "y": 0,
-        "z": 0
-      },
-      "reverseRotation": {
-        "x": 1.55,
-        "y": 3.1,
-        "z": 0
-      },
-      "defenceRotation": {
-        "x": 1.55,
-        "y": 1.55,
-        "z": 0
-      },
-      "handRotation": {
-        "x": 1,
-        "y": 0,
-        "z": 0
-      },
-      "handHoverScaling": {
-        "x": 1.2,
-        "y": 1.2,
-        "z": 1
-      },
-      "floating": 0.02
-    },
-    "layout": {
-      "header": {
-        "height": 80
-      },
-      "content": {
-        "height": 800
-      },
-      "sider": {
-        "width": 300
-      },
-      "footer": {
-        "height": 80
+   "version":4948,
+   "servers":[
+      {
+         "ip":"koishi-r.momobako.com",
+         "port":"7211"
       }
-    },
-    "status": {
-      "avatarSize": 40,
-      "meAvatarColor": "#0e63e1",
-      "opAvatarColor": "#e10e68"
-    },
-    "hint": {
-      "waitingDuration": 1.5
-    }
-  }
+   ],
+   "assetsPath":"/neos-assets",
+   "cardImgUrl":"https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
+   "cardsDbUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
+   "stringsUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
+   "ui":{
+      "ground":{
+         "width":9.9,
+         "height":8
+      },
+      "card":{
+         "transform":{
+            "x":0.8,
+            "y":1,
+            "z":0.05
+         },
+         "rotation":{
+            "x":1.55,
+            "y":0,
+            "z":0
+         },
+         "reverseRotation":{
+            "x":1.55,
+            "y":3.1,
+            "z":0
+         },
+         "defenceRotation":{
+            "x":1.55,
+            "y":1.55,
+            "z":0
+         },
+         "handRotation":{
+            "x":1,
+            "y":0,
+            "z":0
+         },
+         "handHoverScaling":{
+            "x":1.2,
+            "y":1.2,
+            "z":1
+         },
+         "floating":0.02
+      },
+      "layout":{
+         "header":{
+            "height":80
+         },
+         "content":{
+            "height":800
+         },
+         "sider":{
+            "width":300
+         },
+         "footer":{
+            "height":80
+         }
+      },
+      "status":{
+         "avatarSize":40,
+         "meAvatarColor":"#0e63e1",
+         "opAvatarColor":"#e10e68"
+      },
+      "hint":{
+         "waitingDuration":1.5
+      }
+   },
+   "unimplementedWhiteList":[
+      1,
+      6,
+      7,
+      30,
+      31,
+      32,
+      34,
+      54,
+      55,
+      56,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      80,
+      81,
+      83,
+      93,
+      95,
+      96,
+      97,
+      101,
+      102,
+      110,
+      111,
+      112,
+      113,
+      114,
+      120,
+      121,
+      122,
+      123,
+      130,
+      131,
+      132,
+      133,
+      160,
+      161,
+      163,
+      164,
+      165,
+      170,
+      180
+   ]
 }

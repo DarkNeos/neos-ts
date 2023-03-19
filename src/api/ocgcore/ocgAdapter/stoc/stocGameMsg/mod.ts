@@ -149,7 +149,9 @@ export default class GameMsgAdapter implements StocAdapter {
           break;
         }
         default: {
-          console.log("Unhandled GameMessage function=", func);
+          gameMsg.unimplemented = new ygopro.StocGameMessage.MsgUnimplemented({
+            command: func,
+          });
 
           break;
         }

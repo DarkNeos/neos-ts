@@ -144,6 +144,8 @@ export interface DuelState {
 
   waiting?: boolean;
 
+  unimplemented?: number; // 未处理的`Message`
+
   // UI相关
   modalState: ModalState;
 }
@@ -264,6 +266,11 @@ const duelSlice = createSlice({
     setWaiting: (state, action: PayloadAction<boolean>) => {
       state.waiting = action.payload;
     },
+
+    // 未处理状态`Reducer`
+    setUnimplemented: (state, action: PayloadAction<number>) => {
+      state.unimplemented = action.payload;
+    },
   },
   extraReducers(builder) {
     handsCase(builder);
@@ -344,6 +351,7 @@ export const {
   clearAllPlaceInteractivities,
   setResult,
   setWaiting,
+  setUnimplemented,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
@@ -353,5 +361,8 @@ export const selectDuelResult = (state: RootState) => {
 };
 export const selectWaiting = (state: RootState) => {
   return state.duel.waiting;
+};
+export const selectUnimplemented = (state: RootState) => {
+  return state.duel.unimplemented;
 };
 export default duelSlice.reducer;
