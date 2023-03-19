@@ -5446,7 +5446,7 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23,
+        21, 22, 23, 24,
       ],
     ];
     constructor(
@@ -5477,6 +5477,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5502,6 +5503,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5527,6 +5529,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5552,6 +5555,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5577,6 +5581,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5602,6 +5607,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5627,6 +5633,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5652,6 +5659,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5677,6 +5685,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5702,6 +5711,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5727,6 +5737,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5752,6 +5763,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5777,6 +5789,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5802,6 +5815,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5827,6 +5841,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5852,6 +5867,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5877,6 +5893,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5902,6 +5919,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5927,6 +5945,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5952,6 +5971,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -5977,6 +5997,7 @@ export namespace ygopro {
                 wait?: StocGameMessage.MsgWait;
                 unimplemented?: never;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -6002,6 +6023,7 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: StocGameMessage.MsgUnimplemented;
                 update_data?: never;
+                reload_field?: never;
               }
             | {
                 start?: never;
@@ -6027,6 +6049,33 @@ export namespace ygopro {
                 wait?: never;
                 unimplemented?: never;
                 update_data?: StocGameMessage.MsgUpdateData;
+                reload_field?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: StocGameMessage.MsgReloadField;
               }
           ))
     ) {
@@ -6114,6 +6163,9 @@ export namespace ygopro {
         }
         if ("update_data" in data && data.update_data != undefined) {
           this.update_data = data.update_data;
+        }
+        if ("reload_field" in data && data.reload_field != undefined) {
+          this.reload_field = data.reload_field;
         }
       }
     }
@@ -6416,6 +6468,19 @@ export namespace ygopro {
     get has_update_data() {
       return pb_1.Message.getField(this, 23) != null;
     }
+    get reload_field() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgReloadField,
+        24
+      ) as StocGameMessage.MsgReloadField;
+    }
+    set reload_field(value: StocGameMessage.MsgReloadField) {
+      pb_1.Message.setOneofWrapperField(this, 24, this.#one_of_decls[0], value);
+    }
+    get has_reload_field() {
+      return pb_1.Message.getField(this, 24) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6442,7 +6507,8 @@ export namespace ygopro {
           | "win"
           | "wait"
           | "unimplemented"
-          | "update_data";
+          | "update_data"
+          | "reload_field";
       } = {
         0: "none",
         1: "start",
@@ -6468,13 +6534,14 @@ export namespace ygopro {
         21: "wait",
         22: "unimplemented",
         23: "update_data",
+        24: "reload_field",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23,
+            20, 21, 22, 23, 24,
           ]
         )
       ];
@@ -6536,6 +6603,9 @@ export namespace ygopro {
       >;
       update_data?: ReturnType<
         typeof StocGameMessage.MsgUpdateData.prototype.toObject
+      >;
+      reload_field?: ReturnType<
+        typeof StocGameMessage.MsgReloadField.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -6640,6 +6710,11 @@ export namespace ygopro {
           data.update_data
         );
       }
+      if (data.reload_field != null) {
+        message.reload_field = StocGameMessage.MsgReloadField.fromObject(
+          data.reload_field
+        );
+      }
       return message;
     }
     toObject() {
@@ -6700,6 +6775,9 @@ export namespace ygopro {
         >;
         update_data?: ReturnType<
           typeof StocGameMessage.MsgUpdateData.prototype.toObject
+        >;
+        reload_field?: ReturnType<
+          typeof StocGameMessage.MsgReloadField.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -6770,6 +6848,9 @@ export namespace ygopro {
       }
       if (this.update_data != null) {
         data.update_data = this.update_data.toObject();
+      }
+      if (this.reload_field != null) {
+        data.reload_field = this.reload_field.toObject();
       }
       return data;
     }
@@ -6856,6 +6937,10 @@ export namespace ygopro {
       if (this.has_update_data)
         writer.writeMessage(23, this.update_data, () =>
           this.update_data.serialize(writer)
+        );
+      if (this.has_reload_field)
+        writer.writeMessage(24, this.reload_field, () =>
+          this.reload_field.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -7039,6 +7124,14 @@ export namespace ygopro {
               () =>
                 (message.update_data =
                   StocGameMessage.MsgUpdateData.deserialize(reader))
+            );
+            break;
+          case 24:
+            reader.readMessage(
+              message.reload_field,
+              () =>
+                (message.reload_field =
+                  StocGameMessage.MsgReloadField.deserialize(reader))
             );
             break;
           default:
@@ -12504,6 +12597,862 @@ export namespace ygopro {
                 break;
               case 23:
                 message.link = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Action {
+          return Action.deserialize(bytes);
+        }
+      }
+    }
+    export class MsgReloadField extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              duel_rule?: number;
+              actions?: StocGameMessage.MsgReloadField.Action[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [2],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("duel_rule" in data && data.duel_rule != undefined) {
+            this.duel_rule = data.duel_rule;
+          }
+          if ("actions" in data && data.actions != undefined) {
+            this.actions = data.actions;
+          }
+        }
+      }
+      get duel_rule() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set duel_rule(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get actions() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgReloadField.Action,
+          2
+        ) as StocGameMessage.MsgReloadField.Action[];
+      }
+      set actions(value: StocGameMessage.MsgReloadField.Action[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 2, value);
+      }
+      static fromObject(data: {
+        duel_rule?: number;
+        actions?: ReturnType<
+          typeof StocGameMessage.MsgReloadField.Action.prototype.toObject
+        >[];
+      }): MsgReloadField {
+        const message = new MsgReloadField({});
+        if (data.duel_rule != null) {
+          message.duel_rule = data.duel_rule;
+        }
+        if (data.actions != null) {
+          message.actions = data.actions.map((item) =>
+            StocGameMessage.MsgReloadField.Action.fromObject(item)
+          );
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          duel_rule?: number;
+          actions?: ReturnType<
+            typeof StocGameMessage.MsgReloadField.Action.prototype.toObject
+          >[];
+        } = {};
+        if (this.duel_rule != null) {
+          data.duel_rule = this.duel_rule;
+        }
+        if (this.actions != null) {
+          data.actions = this.actions.map(
+            (item: StocGameMessage.MsgReloadField.Action) => item.toObject()
+          );
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.duel_rule != 0) writer.writeInt32(1, this.duel_rule);
+        if (this.actions.length)
+          writer.writeRepeatedMessage(
+            2,
+            this.actions,
+            (item: StocGameMessage.MsgReloadField.Action) =>
+              item.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgReloadField {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgReloadField();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.duel_rule = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(message.actions, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  2,
+                  StocGameMessage.MsgReloadField.Action.deserialize(reader),
+                  StocGameMessage.MsgReloadField.Action
+                )
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgReloadField {
+        return MsgReloadField.deserialize(bytes);
+      }
+    }
+    export namespace MsgReloadField {
+      export class ZoneAction extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                zone?: CardZone;
+                sequence?: number;
+                position?: number;
+                overlay_count?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("zone" in data && data.zone != undefined) {
+              this.zone = data.zone;
+            }
+            if ("sequence" in data && data.sequence != undefined) {
+              this.sequence = data.sequence;
+            }
+            if ("position" in data && data.position != undefined) {
+              this.position = data.position;
+            }
+            if ("overlay_count" in data && data.overlay_count != undefined) {
+              this.overlay_count = data.overlay_count;
+            }
+          }
+        }
+        get zone() {
+          return pb_1.Message.getFieldWithDefault(
+            this,
+            1,
+            CardZone.DECK
+          ) as CardZone;
+        }
+        set zone(value: CardZone) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get sequence() {
+          return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set sequence(value: number) {
+          pb_1.Message.setField(this, 2, value);
+        }
+        get position() {
+          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set position(value: number) {
+          pb_1.Message.setField(this, 3, value);
+        }
+        get overlay_count() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set overlay_count(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
+        static fromObject(data: {
+          zone?: CardZone;
+          sequence?: number;
+          position?: number;
+          overlay_count?: number;
+        }): ZoneAction {
+          const message = new ZoneAction({});
+          if (data.zone != null) {
+            message.zone = data.zone;
+          }
+          if (data.sequence != null) {
+            message.sequence = data.sequence;
+          }
+          if (data.position != null) {
+            message.position = data.position;
+          }
+          if (data.overlay_count != null) {
+            message.overlay_count = data.overlay_count;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            zone?: CardZone;
+            sequence?: number;
+            position?: number;
+            overlay_count?: number;
+          } = {};
+          if (this.zone != null) {
+            data.zone = this.zone;
+          }
+          if (this.sequence != null) {
+            data.sequence = this.sequence;
+          }
+          if (this.position != null) {
+            data.position = this.position;
+          }
+          if (this.overlay_count != null) {
+            data.overlay_count = this.overlay_count;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.zone != CardZone.DECK) writer.writeEnum(1, this.zone);
+          if (this.sequence != 0) writer.writeInt32(2, this.sequence);
+          if (this.position != 0) writer.writeInt32(3, this.position);
+          if (this.overlay_count != 0) writer.writeInt32(4, this.overlay_count);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ZoneAction {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new ZoneAction();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.zone = reader.readEnum();
+                break;
+              case 2:
+                message.sequence = reader.readInt32();
+                break;
+              case 3:
+                message.position = reader.readInt32();
+                break;
+              case 4:
+                message.overlay_count = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): ZoneAction {
+          return ZoneAction.deserialize(bytes);
+        }
+      }
+      export class ChainAction extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                chain_code?: number;
+                location?: CardLocation;
+                triggering_controller?: number;
+                triggering_location?: number;
+                triggering_sequence?: number;
+                effect_description?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("chain_code" in data && data.chain_code != undefined) {
+              this.chain_code = data.chain_code;
+            }
+            if ("location" in data && data.location != undefined) {
+              this.location = data.location;
+            }
+            if (
+              "triggering_controller" in data &&
+              data.triggering_controller != undefined
+            ) {
+              this.triggering_controller = data.triggering_controller;
+            }
+            if (
+              "triggering_location" in data &&
+              data.triggering_location != undefined
+            ) {
+              this.triggering_location = data.triggering_location;
+            }
+            if (
+              "triggering_sequence" in data &&
+              data.triggering_sequence != undefined
+            ) {
+              this.triggering_sequence = data.triggering_sequence;
+            }
+            if (
+              "effect_description" in data &&
+              data.effect_description != undefined
+            ) {
+              this.effect_description = data.effect_description;
+            }
+          }
+        }
+        get chain_code() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set chain_code(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get location() {
+          return pb_1.Message.getWrapperField(
+            this,
+            CardLocation,
+            2
+          ) as CardLocation;
+        }
+        set location(value: CardLocation) {
+          pb_1.Message.setWrapperField(this, 2, value);
+        }
+        get has_location() {
+          return pb_1.Message.getField(this, 2) != null;
+        }
+        get triggering_controller() {
+          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set triggering_controller(value: number) {
+          pb_1.Message.setField(this, 3, value);
+        }
+        get triggering_location() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set triggering_location(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
+        get triggering_sequence() {
+          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set triggering_sequence(value: number) {
+          pb_1.Message.setField(this, 5, value);
+        }
+        get effect_description() {
+          return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+        }
+        set effect_description(value: number) {
+          pb_1.Message.setField(this, 6, value);
+        }
+        static fromObject(data: {
+          chain_code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          triggering_controller?: number;
+          triggering_location?: number;
+          triggering_sequence?: number;
+          effect_description?: number;
+        }): ChainAction {
+          const message = new ChainAction({});
+          if (data.chain_code != null) {
+            message.chain_code = data.chain_code;
+          }
+          if (data.location != null) {
+            message.location = CardLocation.fromObject(data.location);
+          }
+          if (data.triggering_controller != null) {
+            message.triggering_controller = data.triggering_controller;
+          }
+          if (data.triggering_location != null) {
+            message.triggering_location = data.triggering_location;
+          }
+          if (data.triggering_sequence != null) {
+            message.triggering_sequence = data.triggering_sequence;
+          }
+          if (data.effect_description != null) {
+            message.effect_description = data.effect_description;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            chain_code?: number;
+            location?: ReturnType<typeof CardLocation.prototype.toObject>;
+            triggering_controller?: number;
+            triggering_location?: number;
+            triggering_sequence?: number;
+            effect_description?: number;
+          } = {};
+          if (this.chain_code != null) {
+            data.chain_code = this.chain_code;
+          }
+          if (this.location != null) {
+            data.location = this.location.toObject();
+          }
+          if (this.triggering_controller != null) {
+            data.triggering_controller = this.triggering_controller;
+          }
+          if (this.triggering_location != null) {
+            data.triggering_location = this.triggering_location;
+          }
+          if (this.triggering_sequence != null) {
+            data.triggering_sequence = this.triggering_sequence;
+          }
+          if (this.effect_description != null) {
+            data.effect_description = this.effect_description;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.chain_code != 0) writer.writeInt32(1, this.chain_code);
+          if (this.has_location)
+            writer.writeMessage(2, this.location, () =>
+              this.location.serialize(writer)
+            );
+          if (this.triggering_controller != 0)
+            writer.writeInt32(3, this.triggering_controller);
+          if (this.triggering_location != 0)
+            writer.writeInt32(4, this.triggering_location);
+          if (this.triggering_sequence != 0)
+            writer.writeInt32(5, this.triggering_sequence);
+          if (this.effect_description != 0)
+            writer.writeInt32(6, this.effect_description);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ChainAction {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new ChainAction();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.chain_code = reader.readInt32();
+                break;
+              case 2:
+                reader.readMessage(
+                  message.location,
+                  () => (message.location = CardLocation.deserialize(reader))
+                );
+                break;
+              case 3:
+                message.triggering_controller = reader.readInt32();
+                break;
+              case 4:
+                message.triggering_location = reader.readInt32();
+                break;
+              case 5:
+                message.triggering_sequence = reader.readInt32();
+                break;
+              case 6:
+                message.effect_description = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): ChainAction {
+          return ChainAction.deserialize(bytes);
+        }
+      }
+      export class Action extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                player?: number;
+                lp?: number;
+                zone_actions?: StocGameMessage.MsgReloadField.ZoneAction[];
+                main_size?: number;
+                hand_size?: number;
+                grace_size?: number;
+                removed_size?: number;
+                extra_size?: number;
+                extra_p_size?: number;
+                chain_size?: number;
+                chain_actions?: StocGameMessage.MsgReloadField.ChainAction[];
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [3, 11],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("player" in data && data.player != undefined) {
+              this.player = data.player;
+            }
+            if ("lp" in data && data.lp != undefined) {
+              this.lp = data.lp;
+            }
+            if ("zone_actions" in data && data.zone_actions != undefined) {
+              this.zone_actions = data.zone_actions;
+            }
+            if ("main_size" in data && data.main_size != undefined) {
+              this.main_size = data.main_size;
+            }
+            if ("hand_size" in data && data.hand_size != undefined) {
+              this.hand_size = data.hand_size;
+            }
+            if ("grace_size" in data && data.grace_size != undefined) {
+              this.grace_size = data.grace_size;
+            }
+            if ("removed_size" in data && data.removed_size != undefined) {
+              this.removed_size = data.removed_size;
+            }
+            if ("extra_size" in data && data.extra_size != undefined) {
+              this.extra_size = data.extra_size;
+            }
+            if ("extra_p_size" in data && data.extra_p_size != undefined) {
+              this.extra_p_size = data.extra_p_size;
+            }
+            if ("chain_size" in data && data.chain_size != undefined) {
+              this.chain_size = data.chain_size;
+            }
+            if ("chain_actions" in data && data.chain_actions != undefined) {
+              this.chain_actions = data.chain_actions;
+            }
+          }
+        }
+        get player() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set player(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get lp() {
+          return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set lp(value: number) {
+          pb_1.Message.setField(this, 2, value);
+        }
+        get zone_actions() {
+          return pb_1.Message.getRepeatedWrapperField(
+            this,
+            StocGameMessage.MsgReloadField.ZoneAction,
+            3
+          ) as StocGameMessage.MsgReloadField.ZoneAction[];
+        }
+        set zone_actions(value: StocGameMessage.MsgReloadField.ZoneAction[]) {
+          pb_1.Message.setRepeatedWrapperField(this, 3, value);
+        }
+        get main_size() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set main_size(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
+        get hand_size() {
+          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set hand_size(value: number) {
+          pb_1.Message.setField(this, 5, value);
+        }
+        get grace_size() {
+          return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+        }
+        set grace_size(value: number) {
+          pb_1.Message.setField(this, 6, value);
+        }
+        get removed_size() {
+          return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set removed_size(value: number) {
+          pb_1.Message.setField(this, 7, value);
+        }
+        get extra_size() {
+          return pb_1.Message.getFieldWithDefault(this, 8, 0) as number;
+        }
+        set extra_size(value: number) {
+          pb_1.Message.setField(this, 8, value);
+        }
+        get extra_p_size() {
+          return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
+        }
+        set extra_p_size(value: number) {
+          pb_1.Message.setField(this, 9, value);
+        }
+        get chain_size() {
+          return pb_1.Message.getFieldWithDefault(this, 10, 0) as number;
+        }
+        set chain_size(value: number) {
+          pb_1.Message.setField(this, 10, value);
+        }
+        get chain_actions() {
+          return pb_1.Message.getRepeatedWrapperField(
+            this,
+            StocGameMessage.MsgReloadField.ChainAction,
+            11
+          ) as StocGameMessage.MsgReloadField.ChainAction[];
+        }
+        set chain_actions(value: StocGameMessage.MsgReloadField.ChainAction[]) {
+          pb_1.Message.setRepeatedWrapperField(this, 11, value);
+        }
+        static fromObject(data: {
+          player?: number;
+          lp?: number;
+          zone_actions?: ReturnType<
+            typeof StocGameMessage.MsgReloadField.ZoneAction.prototype.toObject
+          >[];
+          main_size?: number;
+          hand_size?: number;
+          grace_size?: number;
+          removed_size?: number;
+          extra_size?: number;
+          extra_p_size?: number;
+          chain_size?: number;
+          chain_actions?: ReturnType<
+            typeof StocGameMessage.MsgReloadField.ChainAction.prototype.toObject
+          >[];
+        }): Action {
+          const message = new Action({});
+          if (data.player != null) {
+            message.player = data.player;
+          }
+          if (data.lp != null) {
+            message.lp = data.lp;
+          }
+          if (data.zone_actions != null) {
+            message.zone_actions = data.zone_actions.map((item) =>
+              StocGameMessage.MsgReloadField.ZoneAction.fromObject(item)
+            );
+          }
+          if (data.main_size != null) {
+            message.main_size = data.main_size;
+          }
+          if (data.hand_size != null) {
+            message.hand_size = data.hand_size;
+          }
+          if (data.grace_size != null) {
+            message.grace_size = data.grace_size;
+          }
+          if (data.removed_size != null) {
+            message.removed_size = data.removed_size;
+          }
+          if (data.extra_size != null) {
+            message.extra_size = data.extra_size;
+          }
+          if (data.extra_p_size != null) {
+            message.extra_p_size = data.extra_p_size;
+          }
+          if (data.chain_size != null) {
+            message.chain_size = data.chain_size;
+          }
+          if (data.chain_actions != null) {
+            message.chain_actions = data.chain_actions.map((item) =>
+              StocGameMessage.MsgReloadField.ChainAction.fromObject(item)
+            );
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            player?: number;
+            lp?: number;
+            zone_actions?: ReturnType<
+              typeof StocGameMessage.MsgReloadField.ZoneAction.prototype.toObject
+            >[];
+            main_size?: number;
+            hand_size?: number;
+            grace_size?: number;
+            removed_size?: number;
+            extra_size?: number;
+            extra_p_size?: number;
+            chain_size?: number;
+            chain_actions?: ReturnType<
+              typeof StocGameMessage.MsgReloadField.ChainAction.prototype.toObject
+            >[];
+          } = {};
+          if (this.player != null) {
+            data.player = this.player;
+          }
+          if (this.lp != null) {
+            data.lp = this.lp;
+          }
+          if (this.zone_actions != null) {
+            data.zone_actions = this.zone_actions.map(
+              (item: StocGameMessage.MsgReloadField.ZoneAction) =>
+                item.toObject()
+            );
+          }
+          if (this.main_size != null) {
+            data.main_size = this.main_size;
+          }
+          if (this.hand_size != null) {
+            data.hand_size = this.hand_size;
+          }
+          if (this.grace_size != null) {
+            data.grace_size = this.grace_size;
+          }
+          if (this.removed_size != null) {
+            data.removed_size = this.removed_size;
+          }
+          if (this.extra_size != null) {
+            data.extra_size = this.extra_size;
+          }
+          if (this.extra_p_size != null) {
+            data.extra_p_size = this.extra_p_size;
+          }
+          if (this.chain_size != null) {
+            data.chain_size = this.chain_size;
+          }
+          if (this.chain_actions != null) {
+            data.chain_actions = this.chain_actions.map(
+              (item: StocGameMessage.MsgReloadField.ChainAction) =>
+                item.toObject()
+            );
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.player != 0) writer.writeInt32(1, this.player);
+          if (this.lp != 0) writer.writeInt32(2, this.lp);
+          if (this.zone_actions.length)
+            writer.writeRepeatedMessage(
+              3,
+              this.zone_actions,
+              (item: StocGameMessage.MsgReloadField.ZoneAction) =>
+                item.serialize(writer)
+            );
+          if (this.main_size != 0) writer.writeInt32(4, this.main_size);
+          if (this.hand_size != 0) writer.writeInt32(5, this.hand_size);
+          if (this.grace_size != 0) writer.writeInt32(6, this.grace_size);
+          if (this.removed_size != 0) writer.writeInt32(7, this.removed_size);
+          if (this.extra_size != 0) writer.writeInt32(8, this.extra_size);
+          if (this.extra_p_size != 0) writer.writeInt32(9, this.extra_p_size);
+          if (this.chain_size != 0) writer.writeInt32(10, this.chain_size);
+          if (this.chain_actions.length)
+            writer.writeRepeatedMessage(
+              11,
+              this.chain_actions,
+              (item: StocGameMessage.MsgReloadField.ChainAction) =>
+                item.serialize(writer)
+            );
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Action {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new Action();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.player = reader.readInt32();
+                break;
+              case 2:
+                message.lp = reader.readInt32();
+                break;
+              case 3:
+                reader.readMessage(message.zone_actions, () =>
+                  pb_1.Message.addToRepeatedWrapperField(
+                    message,
+                    3,
+                    StocGameMessage.MsgReloadField.ZoneAction.deserialize(
+                      reader
+                    ),
+                    StocGameMessage.MsgReloadField.ZoneAction
+                  )
+                );
+                break;
+              case 4:
+                message.main_size = reader.readInt32();
+                break;
+              case 5:
+                message.hand_size = reader.readInt32();
+                break;
+              case 6:
+                message.grace_size = reader.readInt32();
+                break;
+              case 7:
+                message.removed_size = reader.readInt32();
+                break;
+              case 8:
+                message.extra_size = reader.readInt32();
+                break;
+              case 9:
+                message.extra_p_size = reader.readInt32();
+                break;
+              case 10:
+                message.chain_size = reader.readInt32();
+                break;
+              case 11:
+                reader.readMessage(message.chain_actions, () =>
+                  pb_1.Message.addToRepeatedWrapperField(
+                    message,
+                    11,
+                    StocGameMessage.MsgReloadField.ChainAction.deserialize(
+                      reader
+                    ),
+                    StocGameMessage.MsgReloadField.ChainAction
+                  )
+                );
                 break;
               default:
                 reader.skipField();
