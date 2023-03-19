@@ -8,7 +8,9 @@ import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
 import { DuelState } from "./mod";
-import UpdateDataAction = ygopro.StocGameMessage.MsgUpdateData.Action;
+type UpdateDataAction = ReturnType<
+  typeof ygopro.StocGameMessage.MsgUpdateData.Action.prototype.toObject
+>;
 
 export type DuelReducer<T> = CaseReducer<DuelState, PayloadAction<T>>;
 
@@ -289,8 +291,7 @@ export function updateCardData<T extends DuelFieldState>(
   state: T | undefined,
   actions: UpdateDataAction[]
 ) {
-  for (const action of actions) {
-    const payload = action.toObject();
+  for (const payload of actions) {
     const sequence = payload.location?.sequence;
     if (typeof sequence !== "undefined") {
       const target = state?.inner.find((_, idx) => idx == sequence);
