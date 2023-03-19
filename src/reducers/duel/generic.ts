@@ -8,6 +8,7 @@ import { CardMeta } from "../../api/cards";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { fetchCard } from "../../api/cards";
 import { DuelState } from "./mod";
+import ReloadFieldAction = ygopro.StocGameMessage.MsgReloadField.ZoneAction;
 type UpdateDataAction = ReturnType<
   typeof ygopro.StocGameMessage.MsgUpdateData.Action.prototype.toObject
 >;
@@ -33,6 +34,7 @@ export interface CardState {
     sequence: number;
   }>; // 选择位置状态下的互动信息
   overlay_materials?: CardMeta[]; // 超量素材
+  reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
 }
 
 export enum InteractType {
@@ -294,9 +296,11 @@ export function updateCardData<T extends DuelFieldState>(
   for (const payload of actions) {
     const sequence = payload.location?.sequence;
     if (typeof sequence !== "undefined") {
-      console.log(payload.type_);
       const target = state?.inner.find((_, idx) => idx == sequence);
-      if (target && target.occupant) {
+      if (target && (target.occupant || target.reload)) {
+        if (target.occupant === undefined) {
+          target.occupant = { id: payload.code!, data: {}, text: {} };
+        }
         const occupant = target.occupant;
         // 目前只更新以下字段
         if (payload.code !== undefined && payload.code >= 0) {
@@ -325,6 +329,31 @@ export function updateCardData<T extends DuelFieldState>(
           occupant.data.def = payload.defense;
         }
       }
+      if (target?.reload) {
+        target.reload = false;
+      }
     }
   }
+}
+
+export function reloadFieldMeta<T extends DuelFieldState>(
+  state: T,
+  actions: ReloadFieldAction[],
+  controler: number
+) {
+  actions.sort((a, b) => a.sequence - b.sequence);
+  const cards = actions.map((action) => {
+    // FIXME: OVERLAY
+    return {
+      location: {
+        controler,
+        location: action.zone,
+        position: action.position,
+      },
+      idleInteractivities: [],
+      reload: true,
+    };
+  });
+
+  state.inner = cards;
 }

@@ -26,6 +26,7 @@ import MsgDamage from "./damage";
 import MsgRecover from "./recover";
 import MsgWin from "./win";
 import MsgUpdateDataAdapter from "./updateData";
+import MsgReloadFieldAdapter from "./reloadField";
 import PENETRATE from "./penetrate";
 
 /*
@@ -151,6 +152,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_UPDATE_DATA: {
           gameMsg.update_data = MsgUpdateDataAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_RELOAD_FIELD: {
+          gameMsg.reload_field = MsgReloadFieldAdapter(gameData);
 
           break;
         }

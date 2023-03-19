@@ -19,7 +19,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["duel/updateHp"],
+        ignoredActions: ["duel/updateHp", "duel/reloadField"],
       },
     }),
 });
