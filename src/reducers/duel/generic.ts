@@ -298,7 +298,10 @@ export function updateCardData<T extends DuelFieldState>(
     if (typeof sequence !== "undefined") {
       console.log(payload.type_);
       const target = state?.inner.find((_, idx) => idx == sequence);
-      if (target && target.occupant) {
+      if (target && (target.occupant || target.reload)) {
+        if (target.occupant === undefined) {
+          target.occupant = { id: payload.code!, data: {}, text: {} };
+        }
         const occupant = target.occupant;
         // 目前只更新以下字段
         if (payload.code !== undefined && payload.code >= 0) {
@@ -327,6 +330,9 @@ export function updateCardData<T extends DuelFieldState>(
           occupant.data.def = payload.defense;
         }
       }
+      if (target?.reload) {
+        target.reload = false;
+      }
     }
   }
 }
@@ -336,6 +342,7 @@ export function reloadFieldMeta<T extends DuelFieldState>(
   actions: ReloadFieldAction[],
   controler: number
 ) {
+  actions.sort((a, b) => a.sequence - b.sequence);
   const cards = actions.map((action) => {
     // FIXME: OVERLAY
     return {
