@@ -10,12 +10,12 @@ export default (data: Uint8Array) => {
   const duel_rule = reader.inner.readUint8();
   const actions = [];
 
-  for (let player = 0; player < 2; player += 1) {
+  for (let player = 0; player < 2; player++) {
     const lp = reader.inner.readUint32();
 
     const zone_actions = [];
     // MZONE
-    for (let sequence = 0; sequence < 7; sequence += 1) {
+    for (let sequence = 0; sequence < 7; sequence++) {
       const flag = reader.inner.readUint8();
       if (flag) {
         const position = reader.inner.readUint8();
@@ -33,7 +33,7 @@ export default (data: Uint8Array) => {
     }
 
     // SZONE
-    for (let sequence = 0; sequence < 6; sequence += 1) {
+    for (let sequence = 0; sequence < 8; sequence++) {
       const flag = reader.inner.readUint8();
       if (flag) {
         const position = reader.inner.readUint8();
@@ -54,28 +54,28 @@ export default (data: Uint8Array) => {
     const removed_size = reader.inner.readUint8();
     const extra_size = reader.inner.readUint8();
     const extra_p_size = reader.inner.readUint8();
-    const chain_size = reader.inner.readUint8();
+    // const chain_size = reader.inner.readUint8();
 
-    const chain_actions = [];
-    for (let i = 0; i < chain_size; i += 1) {
-      const chain_code = reader.inner.readUint32();
-      const location = reader.readCardLocation();
-      const triggering_controller = reader.inner.readUint8();
-      const triggering_location = reader.inner.readUint8();
-      const triggering_sequence = reader.inner.readUint8();
-      const effect_description = reader.inner.readUint32();
-
-      chain_actions.push(
-        new MsgReloadField.ChainAction({
-          chain_code,
-          location,
-          triggering_controller,
-          triggering_location,
-          triggering_sequence,
-          effect_description,
-        })
-      );
-    }
+    // const chain_actions = [];
+    // for (let i = 0; i < chain_size; i += 1) {
+    //   const chain_code = reader.inner.readUint32();
+    //   const location = reader.readCardLocation();
+    //   const triggering_controller = reader.inner.readUint8();
+    //   const triggering_location = reader.inner.readUint8();
+    //   const triggering_sequence = reader.inner.readUint8();
+    //   const effect_description = reader.inner.readUint32();
+    //
+    //   chain_actions.push(
+    //     new MsgReloadField.ChainAction({
+    //       chain_code,
+    //       location,
+    //       triggering_controller,
+    //       triggering_location,
+    //       triggering_sequence,
+    //       effect_description,
+    //     })
+    //   );
+    // }
 
     actions.push(
       new MsgReloadField.Action({
@@ -88,8 +88,8 @@ export default (data: Uint8Array) => {
         removed_size,
         extra_size,
         extra_p_size,
-        chain_size,
-        chain_actions,
+        // chain_size,
+        // chain_actions,
       })
     );
   }
