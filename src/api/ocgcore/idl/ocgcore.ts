@@ -5446,7 +5446,7 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22,
+        21, 22, 23,
       ],
     ];
     constructor(
@@ -5476,6 +5476,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5500,6 +5501,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5524,6 +5526,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5548,6 +5551,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5572,6 +5576,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5596,6 +5601,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5620,6 +5626,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5644,6 +5651,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5668,6 +5676,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5692,6 +5701,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5716,6 +5726,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5740,6 +5751,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5764,6 +5776,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5788,6 +5801,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5812,6 +5826,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5836,6 +5851,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5860,6 +5876,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5884,6 +5901,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5908,6 +5926,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5932,6 +5951,7 @@ export namespace ygopro {
                 win?: StocGameMessage.MsgWin;
                 wait?: never;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5956,6 +5976,7 @@ export namespace ygopro {
                 win?: never;
                 wait?: StocGameMessage.MsgWait;
                 unimplemented?: never;
+                update_data?: never;
               }
             | {
                 start?: never;
@@ -5980,6 +6001,32 @@ export namespace ygopro {
                 win?: never;
                 wait?: never;
                 unimplemented?: StocGameMessage.MsgUnimplemented;
+                update_data?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: StocGameMessage.MsgUpdateData;
               }
           ))
     ) {
@@ -6064,6 +6111,9 @@ export namespace ygopro {
         }
         if ("unimplemented" in data && data.unimplemented != undefined) {
           this.unimplemented = data.unimplemented;
+        }
+        if ("update_data" in data && data.update_data != undefined) {
+          this.update_data = data.update_data;
         }
       }
     }
@@ -6353,6 +6403,19 @@ export namespace ygopro {
     get has_unimplemented() {
       return pb_1.Message.getField(this, 22) != null;
     }
+    get update_data() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgUpdateData,
+        23
+      ) as StocGameMessage.MsgUpdateData;
+    }
+    set update_data(value: StocGameMessage.MsgUpdateData) {
+      pb_1.Message.setOneofWrapperField(this, 23, this.#one_of_decls[0], value);
+    }
+    get has_update_data() {
+      return pb_1.Message.getField(this, 23) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6378,7 +6441,8 @@ export namespace ygopro {
           | "update_hp"
           | "win"
           | "wait"
-          | "unimplemented";
+          | "unimplemented"
+          | "update_data";
       } = {
         0: "none",
         1: "start",
@@ -6403,13 +6467,14 @@ export namespace ygopro {
         20: "win",
         21: "wait",
         22: "unimplemented",
+        23: "update_data",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22,
+            20, 21, 22, 23,
           ]
         )
       ];
@@ -6468,6 +6533,9 @@ export namespace ygopro {
       wait?: ReturnType<typeof StocGameMessage.MsgWait.prototype.toObject>;
       unimplemented?: ReturnType<
         typeof StocGameMessage.MsgUnimplemented.prototype.toObject
+      >;
+      update_data?: ReturnType<
+        typeof StocGameMessage.MsgUpdateData.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -6567,6 +6635,11 @@ export namespace ygopro {
           data.unimplemented
         );
       }
+      if (data.update_data != null) {
+        message.update_data = StocGameMessage.MsgUpdateData.fromObject(
+          data.update_data
+        );
+      }
       return message;
     }
     toObject() {
@@ -6624,6 +6697,9 @@ export namespace ygopro {
         wait?: ReturnType<typeof StocGameMessage.MsgWait.prototype.toObject>;
         unimplemented?: ReturnType<
           typeof StocGameMessage.MsgUnimplemented.prototype.toObject
+        >;
+        update_data?: ReturnType<
+          typeof StocGameMessage.MsgUpdateData.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -6691,6 +6767,9 @@ export namespace ygopro {
       }
       if (this.unimplemented != null) {
         data.unimplemented = this.unimplemented.toObject();
+      }
+      if (this.update_data != null) {
+        data.update_data = this.update_data.toObject();
       }
       return data;
     }
@@ -6773,6 +6852,10 @@ export namespace ygopro {
       if (this.has_unimplemented)
         writer.writeMessage(22, this.unimplemented, () =>
           this.unimplemented.serialize(writer)
+        );
+      if (this.has_update_data)
+        writer.writeMessage(23, this.update_data, () =>
+          this.update_data.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -6948,6 +7031,14 @@ export namespace ygopro {
               () =>
                 (message.unimplemented =
                   StocGameMessage.MsgUnimplemented.deserialize(reader))
+            );
+            break;
+          case 23:
+            reader.readMessage(
+              message.update_data,
+              () =>
+                (message.update_data =
+                  StocGameMessage.MsgUpdateData.deserialize(reader))
             );
             break;
           default:
@@ -11638,6 +11729,794 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgUnimplemented {
         return MsgUnimplemented.deserialize(bytes);
+      }
+    }
+    export class MsgUpdateData extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              zone?: CardZone;
+              actions?: StocGameMessage.MsgUpdateData.Action[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [3],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("zone" in data && data.zone != undefined) {
+            this.zone = data.zone;
+          }
+          if ("actions" in data && data.actions != undefined) {
+            this.actions = data.actions;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get zone() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          2,
+          CardZone.DECK
+        ) as CardZone;
+      }
+      set zone(value: CardZone) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get actions() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgUpdateData.Action,
+          3
+        ) as StocGameMessage.MsgUpdateData.Action[];
+      }
+      set actions(value: StocGameMessage.MsgUpdateData.Action[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 3, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        zone?: CardZone;
+        actions?: ReturnType<
+          typeof StocGameMessage.MsgUpdateData.Action.prototype.toObject
+        >[];
+      }): MsgUpdateData {
+        const message = new MsgUpdateData({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.zone != null) {
+          message.zone = data.zone;
+        }
+        if (data.actions != null) {
+          message.actions = data.actions.map((item) =>
+            StocGameMessage.MsgUpdateData.Action.fromObject(item)
+          );
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          zone?: CardZone;
+          actions?: ReturnType<
+            typeof StocGameMessage.MsgUpdateData.Action.prototype.toObject
+          >[];
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.zone != null) {
+          data.zone = this.zone;
+        }
+        if (this.actions != null) {
+          data.actions = this.actions.map(
+            (item: StocGameMessage.MsgUpdateData.Action) => item.toObject()
+          );
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.zone != CardZone.DECK) writer.writeEnum(2, this.zone);
+        if (this.actions.length)
+          writer.writeRepeatedMessage(
+            3,
+            this.actions,
+            (item: StocGameMessage.MsgUpdateData.Action) =>
+              item.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgUpdateData {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgUpdateData();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.zone = reader.readEnum();
+              break;
+            case 3:
+              reader.readMessage(message.actions, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  3,
+                  StocGameMessage.MsgUpdateData.Action.deserialize(reader),
+                  StocGameMessage.MsgUpdateData.Action
+                )
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgUpdateData {
+        return MsgUpdateData.deserialize(bytes);
+      }
+    }
+    export namespace MsgUpdateData {
+      export class Action extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                code?: number;
+                location?: CardLocation;
+                alias?: number;
+                type_?: number;
+                level?: number;
+                rank?: number;
+                attribute?: number;
+                race?: number;
+                attack?: number;
+                defense?: number;
+                base_attack?: number;
+                base_defense?: number;
+                reason?: number;
+                reason_card?: number;
+                equip_card?: CardLocation;
+                target_cards?: CardLocation[];
+                overlay_cards?: number[];
+                counters?: Map<number, number>;
+                owner?: number;
+                status?: number;
+                lscale?: number;
+                rscale?: number;
+                link?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [16, 17],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("code" in data && data.code != undefined) {
+              this.code = data.code;
+            }
+            if ("location" in data && data.location != undefined) {
+              this.location = data.location;
+            }
+            if ("alias" in data && data.alias != undefined) {
+              this.alias = data.alias;
+            }
+            if ("type_" in data && data.type_ != undefined) {
+              this.type_ = data.type_;
+            }
+            if ("level" in data && data.level != undefined) {
+              this.level = data.level;
+            }
+            if ("rank" in data && data.rank != undefined) {
+              this.rank = data.rank;
+            }
+            if ("attribute" in data && data.attribute != undefined) {
+              this.attribute = data.attribute;
+            }
+            if ("race" in data && data.race != undefined) {
+              this.race = data.race;
+            }
+            if ("attack" in data && data.attack != undefined) {
+              this.attack = data.attack;
+            }
+            if ("defense" in data && data.defense != undefined) {
+              this.defense = data.defense;
+            }
+            if ("base_attack" in data && data.base_attack != undefined) {
+              this.base_attack = data.base_attack;
+            }
+            if ("base_defense" in data && data.base_defense != undefined) {
+              this.base_defense = data.base_defense;
+            }
+            if ("reason" in data && data.reason != undefined) {
+              this.reason = data.reason;
+            }
+            if ("reason_card" in data && data.reason_card != undefined) {
+              this.reason_card = data.reason_card;
+            }
+            if ("equip_card" in data && data.equip_card != undefined) {
+              this.equip_card = data.equip_card;
+            }
+            if ("target_cards" in data && data.target_cards != undefined) {
+              this.target_cards = data.target_cards;
+            }
+            if ("overlay_cards" in data && data.overlay_cards != undefined) {
+              this.overlay_cards = data.overlay_cards;
+            }
+            if ("counters" in data && data.counters != undefined) {
+              this.counters = data.counters;
+            }
+            if ("owner" in data && data.owner != undefined) {
+              this.owner = data.owner;
+            }
+            if ("status" in data && data.status != undefined) {
+              this.status = data.status;
+            }
+            if ("lscale" in data && data.lscale != undefined) {
+              this.lscale = data.lscale;
+            }
+            if ("rscale" in data && data.rscale != undefined) {
+              this.rscale = data.rscale;
+            }
+            if ("link" in data && data.link != undefined) {
+              this.link = data.link;
+            }
+          }
+          if (!this.counters) this.counters = new Map();
+        }
+        get code() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set code(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get location() {
+          return pb_1.Message.getWrapperField(
+            this,
+            CardLocation,
+            2
+          ) as CardLocation;
+        }
+        set location(value: CardLocation) {
+          pb_1.Message.setWrapperField(this, 2, value);
+        }
+        get has_location() {
+          return pb_1.Message.getField(this, 2) != null;
+        }
+        get alias() {
+          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set alias(value: number) {
+          pb_1.Message.setField(this, 3, value);
+        }
+        get type_() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set type_(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
+        get level() {
+          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set level(value: number) {
+          pb_1.Message.setField(this, 5, value);
+        }
+        get rank() {
+          return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+        }
+        set rank(value: number) {
+          pb_1.Message.setField(this, 6, value);
+        }
+        get attribute() {
+          return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set attribute(value: number) {
+          pb_1.Message.setField(this, 7, value);
+        }
+        get race() {
+          return pb_1.Message.getFieldWithDefault(this, 8, 0) as number;
+        }
+        set race(value: number) {
+          pb_1.Message.setField(this, 8, value);
+        }
+        get attack() {
+          return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
+        }
+        set attack(value: number) {
+          pb_1.Message.setField(this, 9, value);
+        }
+        get defense() {
+          return pb_1.Message.getFieldWithDefault(this, 10, 0) as number;
+        }
+        set defense(value: number) {
+          pb_1.Message.setField(this, 10, value);
+        }
+        get base_attack() {
+          return pb_1.Message.getFieldWithDefault(this, 11, 0) as number;
+        }
+        set base_attack(value: number) {
+          pb_1.Message.setField(this, 11, value);
+        }
+        get base_defense() {
+          return pb_1.Message.getFieldWithDefault(this, 12, 0) as number;
+        }
+        set base_defense(value: number) {
+          pb_1.Message.setField(this, 12, value);
+        }
+        get reason() {
+          return pb_1.Message.getFieldWithDefault(this, 13, 0) as number;
+        }
+        set reason(value: number) {
+          pb_1.Message.setField(this, 13, value);
+        }
+        get reason_card() {
+          return pb_1.Message.getFieldWithDefault(this, 14, 0) as number;
+        }
+        set reason_card(value: number) {
+          pb_1.Message.setField(this, 14, value);
+        }
+        get equip_card() {
+          return pb_1.Message.getWrapperField(
+            this,
+            CardLocation,
+            15
+          ) as CardLocation;
+        }
+        set equip_card(value: CardLocation) {
+          pb_1.Message.setWrapperField(this, 15, value);
+        }
+        get has_equip_card() {
+          return pb_1.Message.getField(this, 15) != null;
+        }
+        get target_cards() {
+          return pb_1.Message.getRepeatedWrapperField(
+            this,
+            CardLocation,
+            16
+          ) as CardLocation[];
+        }
+        set target_cards(value: CardLocation[]) {
+          pb_1.Message.setRepeatedWrapperField(this, 16, value);
+        }
+        get overlay_cards() {
+          return pb_1.Message.getFieldWithDefault(this, 17, []) as number[];
+        }
+        set overlay_cards(value: number[]) {
+          pb_1.Message.setField(this, 17, value);
+        }
+        get counters() {
+          return pb_1.Message.getField(this, 18) as any as Map<number, number>;
+        }
+        set counters(value: Map<number, number>) {
+          pb_1.Message.setField(this, 18, value as any);
+        }
+        get owner() {
+          return pb_1.Message.getFieldWithDefault(this, 19, 0) as number;
+        }
+        set owner(value: number) {
+          pb_1.Message.setField(this, 19, value);
+        }
+        get status() {
+          return pb_1.Message.getFieldWithDefault(this, 20, 0) as number;
+        }
+        set status(value: number) {
+          pb_1.Message.setField(this, 20, value);
+        }
+        get lscale() {
+          return pb_1.Message.getFieldWithDefault(this, 21, 0) as number;
+        }
+        set lscale(value: number) {
+          pb_1.Message.setField(this, 21, value);
+        }
+        get rscale() {
+          return pb_1.Message.getFieldWithDefault(this, 22, 0) as number;
+        }
+        set rscale(value: number) {
+          pb_1.Message.setField(this, 22, value);
+        }
+        get link() {
+          return pb_1.Message.getFieldWithDefault(this, 23, 0) as number;
+        }
+        set link(value: number) {
+          pb_1.Message.setField(this, 23, value);
+        }
+        static fromObject(data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          alias?: number;
+          type_?: number;
+          level?: number;
+          rank?: number;
+          attribute?: number;
+          race?: number;
+          attack?: number;
+          defense?: number;
+          base_attack?: number;
+          base_defense?: number;
+          reason?: number;
+          reason_card?: number;
+          equip_card?: ReturnType<typeof CardLocation.prototype.toObject>;
+          target_cards?: ReturnType<typeof CardLocation.prototype.toObject>[];
+          overlay_cards?: number[];
+          counters?: {
+            [key: number]: number;
+          };
+          owner?: number;
+          status?: number;
+          lscale?: number;
+          rscale?: number;
+          link?: number;
+        }): Action {
+          const message = new Action({});
+          if (data.code != null) {
+            message.code = data.code;
+          }
+          if (data.location != null) {
+            message.location = CardLocation.fromObject(data.location);
+          }
+          if (data.alias != null) {
+            message.alias = data.alias;
+          }
+          if (data.type_ != null) {
+            message.type_ = data.type_;
+          }
+          if (data.level != null) {
+            message.level = data.level;
+          }
+          if (data.rank != null) {
+            message.rank = data.rank;
+          }
+          if (data.attribute != null) {
+            message.attribute = data.attribute;
+          }
+          if (data.race != null) {
+            message.race = data.race;
+          }
+          if (data.attack != null) {
+            message.attack = data.attack;
+          }
+          if (data.defense != null) {
+            message.defense = data.defense;
+          }
+          if (data.base_attack != null) {
+            message.base_attack = data.base_attack;
+          }
+          if (data.base_defense != null) {
+            message.base_defense = data.base_defense;
+          }
+          if (data.reason != null) {
+            message.reason = data.reason;
+          }
+          if (data.reason_card != null) {
+            message.reason_card = data.reason_card;
+          }
+          if (data.equip_card != null) {
+            message.equip_card = CardLocation.fromObject(data.equip_card);
+          }
+          if (data.target_cards != null) {
+            message.target_cards = data.target_cards.map((item) =>
+              CardLocation.fromObject(item)
+            );
+          }
+          if (data.overlay_cards != null) {
+            message.overlay_cards = data.overlay_cards;
+          }
+          if (typeof data.counters == "object") {
+            message.counters = new Map(
+              Object.entries(data.counters).map(([key, value]) => [
+                Number(key),
+                value,
+              ])
+            );
+          }
+          if (data.owner != null) {
+            message.owner = data.owner;
+          }
+          if (data.status != null) {
+            message.status = data.status;
+          }
+          if (data.lscale != null) {
+            message.lscale = data.lscale;
+          }
+          if (data.rscale != null) {
+            message.rscale = data.rscale;
+          }
+          if (data.link != null) {
+            message.link = data.link;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            code?: number;
+            location?: ReturnType<typeof CardLocation.prototype.toObject>;
+            alias?: number;
+            type_?: number;
+            level?: number;
+            rank?: number;
+            attribute?: number;
+            race?: number;
+            attack?: number;
+            defense?: number;
+            base_attack?: number;
+            base_defense?: number;
+            reason?: number;
+            reason_card?: number;
+            equip_card?: ReturnType<typeof CardLocation.prototype.toObject>;
+            target_cards?: ReturnType<typeof CardLocation.prototype.toObject>[];
+            overlay_cards?: number[];
+            counters?: {
+              [key: number]: number;
+            };
+            owner?: number;
+            status?: number;
+            lscale?: number;
+            rscale?: number;
+            link?: number;
+          } = {};
+          if (this.code != null) {
+            data.code = this.code;
+          }
+          if (this.location != null) {
+            data.location = this.location.toObject();
+          }
+          if (this.alias != null) {
+            data.alias = this.alias;
+          }
+          if (this.type_ != null) {
+            data.type_ = this.type_;
+          }
+          if (this.level != null) {
+            data.level = this.level;
+          }
+          if (this.rank != null) {
+            data.rank = this.rank;
+          }
+          if (this.attribute != null) {
+            data.attribute = this.attribute;
+          }
+          if (this.race != null) {
+            data.race = this.race;
+          }
+          if (this.attack != null) {
+            data.attack = this.attack;
+          }
+          if (this.defense != null) {
+            data.defense = this.defense;
+          }
+          if (this.base_attack != null) {
+            data.base_attack = this.base_attack;
+          }
+          if (this.base_defense != null) {
+            data.base_defense = this.base_defense;
+          }
+          if (this.reason != null) {
+            data.reason = this.reason;
+          }
+          if (this.reason_card != null) {
+            data.reason_card = this.reason_card;
+          }
+          if (this.equip_card != null) {
+            data.equip_card = this.equip_card.toObject();
+          }
+          if (this.target_cards != null) {
+            data.target_cards = this.target_cards.map((item: CardLocation) =>
+              item.toObject()
+            );
+          }
+          if (this.overlay_cards != null) {
+            data.overlay_cards = this.overlay_cards;
+          }
+          if (this.counters.size > 0) {
+            data.counters = Object.fromEntries(this.counters);
+          }
+          if (this.owner != null) {
+            data.owner = this.owner;
+          }
+          if (this.status != null) {
+            data.status = this.status;
+          }
+          if (this.lscale != null) {
+            data.lscale = this.lscale;
+          }
+          if (this.rscale != null) {
+            data.rscale = this.rscale;
+          }
+          if (this.link != null) {
+            data.link = this.link;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.code != 0) writer.writeInt32(1, this.code);
+          if (this.has_location)
+            writer.writeMessage(2, this.location, () =>
+              this.location.serialize(writer)
+            );
+          if (this.alias != 0) writer.writeInt32(3, this.alias);
+          if (this.type_ != 0) writer.writeInt32(4, this.type_);
+          if (this.level != 0) writer.writeInt32(5, this.level);
+          if (this.rank != 0) writer.writeInt32(6, this.rank);
+          if (this.attribute != 0) writer.writeInt32(7, this.attribute);
+          if (this.race != 0) writer.writeInt32(8, this.race);
+          if (this.attack != 0) writer.writeInt32(9, this.attack);
+          if (this.defense != 0) writer.writeInt32(10, this.defense);
+          if (this.base_attack != 0) writer.writeInt32(11, this.base_attack);
+          if (this.base_defense != 0) writer.writeInt32(12, this.base_defense);
+          if (this.reason != 0) writer.writeInt32(13, this.reason);
+          if (this.reason_card != 0) writer.writeInt32(14, this.reason_card);
+          if (this.has_equip_card)
+            writer.writeMessage(15, this.equip_card, () =>
+              this.equip_card.serialize(writer)
+            );
+          if (this.target_cards.length)
+            writer.writeRepeatedMessage(
+              16,
+              this.target_cards,
+              (item: CardLocation) => item.serialize(writer)
+            );
+          if (this.overlay_cards.length)
+            writer.writePackedInt32(17, this.overlay_cards);
+          for (const [key, value] of this.counters) {
+            writer.writeMessage(18, this.counters, () => {
+              writer.writeInt32(1, key);
+              writer.writeInt32(2, value);
+            });
+          }
+          if (this.owner != 0) writer.writeInt32(19, this.owner);
+          if (this.status != 0) writer.writeInt32(20, this.status);
+          if (this.lscale != 0) writer.writeInt32(21, this.lscale);
+          if (this.rscale != 0) writer.writeInt32(22, this.rscale);
+          if (this.link != 0) writer.writeInt32(23, this.link);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Action {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new Action();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.code = reader.readInt32();
+                break;
+              case 2:
+                reader.readMessage(
+                  message.location,
+                  () => (message.location = CardLocation.deserialize(reader))
+                );
+                break;
+              case 3:
+                message.alias = reader.readInt32();
+                break;
+              case 4:
+                message.type_ = reader.readInt32();
+                break;
+              case 5:
+                message.level = reader.readInt32();
+                break;
+              case 6:
+                message.rank = reader.readInt32();
+                break;
+              case 7:
+                message.attribute = reader.readInt32();
+                break;
+              case 8:
+                message.race = reader.readInt32();
+                break;
+              case 9:
+                message.attack = reader.readInt32();
+                break;
+              case 10:
+                message.defense = reader.readInt32();
+                break;
+              case 11:
+                message.base_attack = reader.readInt32();
+                break;
+              case 12:
+                message.base_defense = reader.readInt32();
+                break;
+              case 13:
+                message.reason = reader.readInt32();
+                break;
+              case 14:
+                message.reason_card = reader.readInt32();
+                break;
+              case 15:
+                reader.readMessage(
+                  message.equip_card,
+                  () => (message.equip_card = CardLocation.deserialize(reader))
+                );
+                break;
+              case 16:
+                reader.readMessage(message.target_cards, () =>
+                  pb_1.Message.addToRepeatedWrapperField(
+                    message,
+                    16,
+                    CardLocation.deserialize(reader),
+                    CardLocation
+                  )
+                );
+                break;
+              case 17:
+                message.overlay_cards = reader.readPackedInt32();
+                break;
+              case 18:
+                reader.readMessage(message, () =>
+                  pb_1.Map.deserializeBinary(
+                    message.counters as any,
+                    reader,
+                    reader.readInt32,
+                    reader.readInt32
+                  )
+                );
+                break;
+              case 19:
+                message.owner = reader.readInt32();
+                break;
+              case 20:
+                message.status = reader.readInt32();
+                break;
+              case 21:
+                message.lscale = reader.readInt32();
+                break;
+              case 22:
+                message.rscale = reader.readInt32();
+                break;
+              case 23:
+                message.link = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Action {
+          return Action.deserialize(bytes);
+        }
       }
     }
   }

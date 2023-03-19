@@ -71,6 +71,14 @@ impl BufferReader {
 
         ret
     }
+
+    pub fn offset(&self) -> usize {
+        self.offset
+    }
+
+    pub fn setOffset(&mut self, offset: usize) {
+        self.offset = offset;
+    }
 }
 
 #[wasm_bindgen]
