@@ -54,6 +54,7 @@ export default (data: Uint8Array) => {
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.DECK,
           sequence,
+          position: ygopro.CardPosition.FACEDOWN_ATTACK,
         })
       );
     }
@@ -94,6 +95,7 @@ export default (data: Uint8Array) => {
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.EXTRA,
           sequence,
+          position: ygopro.CardPosition.FACEDOWN_ATTACK,
         })
       );
     }

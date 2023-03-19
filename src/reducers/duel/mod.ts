@@ -96,6 +96,7 @@ import {
   clearAllIdleInteractivitiesImpl,
   clearAllPlaceInteractivitiesImpl,
   updateFieldDataImpl,
+  reloadFieldImpl,
 } from "./commonSlice";
 import {
   ExtraDeckState,
@@ -258,6 +259,7 @@ const duelSlice = createSlice({
     clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
     clearAllPlaceInteractivities: clearAllPlaceInteractivitiesImpl,
     updateFieldData: updateFieldDataImpl,
+    reloadField: reloadFieldImpl,
 
     // 对局结果`Reducer`
     setResult: (state, action: PayloadAction<MsgWin.ActionType>) => {
@@ -355,6 +357,7 @@ export const {
   setWaiting,
   setUnimplemented,
   updateFieldData,
+  reloadField,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
