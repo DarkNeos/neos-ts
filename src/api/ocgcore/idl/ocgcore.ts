@@ -5446,7 +5446,7 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21,
+        21, 22,
       ],
     ];
     constructor(
@@ -5475,6 +5475,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5498,6 +5499,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5521,6 +5523,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5544,6 +5547,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5567,6 +5571,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5590,6 +5595,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5613,6 +5619,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5636,6 +5643,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5659,6 +5667,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5682,6 +5691,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5705,6 +5715,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5728,6 +5739,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5751,6 +5763,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5774,6 +5787,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5797,6 +5811,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5820,6 +5835,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5843,6 +5859,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5866,6 +5883,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5889,6 +5907,7 @@ export namespace ygopro {
                 update_hp?: StocGameMessage.MsgUpdateHp;
                 win?: never;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5912,6 +5931,7 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: StocGameMessage.MsgWin;
                 wait?: never;
+                unimplemented?: never;
               }
             | {
                 start?: never;
@@ -5935,6 +5955,31 @@ export namespace ygopro {
                 update_hp?: never;
                 win?: never;
                 wait?: StocGameMessage.MsgWait;
+                unimplemented?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: StocGameMessage.MsgUnimplemented;
               }
           ))
     ) {
@@ -6016,6 +6061,9 @@ export namespace ygopro {
         }
         if ("wait" in data && data.wait != undefined) {
           this.wait = data.wait;
+        }
+        if ("unimplemented" in data && data.unimplemented != undefined) {
+          this.unimplemented = data.unimplemented;
         }
       }
     }
@@ -6292,6 +6340,19 @@ export namespace ygopro {
     get has_wait() {
       return pb_1.Message.getField(this, 21) != null;
     }
+    get unimplemented() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgUnimplemented,
+        22
+      ) as StocGameMessage.MsgUnimplemented;
+    }
+    set unimplemented(value: StocGameMessage.MsgUnimplemented) {
+      pb_1.Message.setOneofWrapperField(this, 22, this.#one_of_decls[0], value);
+    }
+    get has_unimplemented() {
+      return pb_1.Message.getField(this, 22) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6316,7 +6377,8 @@ export namespace ygopro {
           | "select_yes_no"
           | "update_hp"
           | "win"
-          | "wait";
+          | "wait"
+          | "unimplemented";
       } = {
         0: "none",
         1: "start",
@@ -6340,13 +6402,14 @@ export namespace ygopro {
         19: "update_hp",
         20: "win",
         21: "wait",
+        22: "unimplemented",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21,
+            20, 21, 22,
           ]
         )
       ];
@@ -6403,6 +6466,9 @@ export namespace ygopro {
       >;
       win?: ReturnType<typeof StocGameMessage.MsgWin.prototype.toObject>;
       wait?: ReturnType<typeof StocGameMessage.MsgWait.prototype.toObject>;
+      unimplemented?: ReturnType<
+        typeof StocGameMessage.MsgUnimplemented.prototype.toObject
+      >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
       if (data.start != null) {
@@ -6496,6 +6562,11 @@ export namespace ygopro {
       if (data.wait != null) {
         message.wait = StocGameMessage.MsgWait.fromObject(data.wait);
       }
+      if (data.unimplemented != null) {
+        message.unimplemented = StocGameMessage.MsgUnimplemented.fromObject(
+          data.unimplemented
+        );
+      }
       return message;
     }
     toObject() {
@@ -6551,6 +6622,9 @@ export namespace ygopro {
         >;
         win?: ReturnType<typeof StocGameMessage.MsgWin.prototype.toObject>;
         wait?: ReturnType<typeof StocGameMessage.MsgWait.prototype.toObject>;
+        unimplemented?: ReturnType<
+          typeof StocGameMessage.MsgUnimplemented.prototype.toObject
+        >;
       } = {};
       if (this.start != null) {
         data.start = this.start.toObject();
@@ -6614,6 +6688,9 @@ export namespace ygopro {
       }
       if (this.wait != null) {
         data.wait = this.wait.toObject();
+      }
+      if (this.unimplemented != null) {
+        data.unimplemented = this.unimplemented.toObject();
       }
       return data;
     }
@@ -6693,6 +6770,10 @@ export namespace ygopro {
         writer.writeMessage(20, this.win, () => this.win.serialize(writer));
       if (this.has_wait)
         writer.writeMessage(21, this.wait, () => this.wait.serialize(writer));
+      if (this.has_unimplemented)
+        writer.writeMessage(22, this.unimplemented, () =>
+          this.unimplemented.serialize(writer)
+        );
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocGameMessage {
@@ -6859,6 +6940,14 @@ export namespace ygopro {
             reader.readMessage(
               message.wait,
               () => (message.wait = StocGameMessage.MsgWait.deserialize(reader))
+            );
+            break;
+          case 22:
+            reader.readMessage(
+              message.unimplemented,
+              () =>
+                (message.unimplemented =
+                  StocGameMessage.MsgUnimplemented.deserialize(reader))
             );
             break;
           default:
@@ -11469,6 +11558,86 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgWait {
         return MsgWait.deserialize(bytes);
+      }
+    }
+    export class MsgUnimplemented extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              command?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("command" in data && data.command != undefined) {
+            this.command = data.command;
+          }
+        }
+      }
+      get command() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set command(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: { command?: number }): MsgUnimplemented {
+        const message = new MsgUnimplemented({});
+        if (data.command != null) {
+          message.command = data.command;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          command?: number;
+        } = {};
+        if (this.command != null) {
+          data.command = this.command;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.command != 0) writer.writeInt32(1, this.command);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgUnimplemented {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgUnimplemented();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.command = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgUnimplemented {
+        return MsgUnimplemented.deserialize(bytes);
       }
     }
   }
