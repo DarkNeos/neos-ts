@@ -70,5 +70,6 @@
     "hint": {
       "waitingDuration": 1.5
     }
-  }
+  },
+  "unimplementedWhiteList": [1, 6]
 }
