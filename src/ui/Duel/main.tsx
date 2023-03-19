@@ -25,6 +25,7 @@ import DuelTimeLine from "./timeLine";
 import { Row } from "antd";
 import SendBox from "./sendBox";
 import PlayerStatus from "./status";
+import Alert from "./alert";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -44,6 +45,7 @@ const NeosDuel = () => {
       <PositionModal />
       <OptionModal />
       <CheckCardModalV2 />
+      <Alert />
     </>
   );
 };
