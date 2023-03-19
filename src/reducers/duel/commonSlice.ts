@@ -1,3 +1,4 @@
+import { Reducer } from "react";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
   clearIdleInteractivities,
@@ -6,6 +7,7 @@ import {
   updateCardData,
 } from "./generic";
 import { judgeSelf } from "./util";
+import MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 type MsgUpdateData = ReturnType<
   typeof ygopro.StocGameMessage.MsgUpdateData.prototype.toObject
 >;
@@ -122,5 +124,14 @@ export const updateFieldDataImpl: DuelReducer<MsgUpdateData> = (
         break;
       }
     }
+  }
+};
+
+export const reloadFieldImpl: DuelReducer<MsgReloadField> = (state, action) => {
+  const _duel_rule = action.payload.duel_rule;
+  for (const reload of action.payload.actions) {
+    const player = reload.player;
+
+    // MZONE
   }
 };
