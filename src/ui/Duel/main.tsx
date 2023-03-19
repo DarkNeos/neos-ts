@@ -31,6 +31,7 @@ import Alert from "./alert";
 const NeosDuel = () => {
   return (
     <>
+      <Alert />
       <NeosLayout
         sider={<NeosSider />}
         header={<PlayerStatus />}
@@ -45,7 +46,6 @@ const NeosDuel = () => {
       <PositionModal />
       <OptionModal />
       <CheckCardModalV2 />
-      <Alert />
     </>
   );
 };

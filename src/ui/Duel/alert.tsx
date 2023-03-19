@@ -1,8 +1,9 @@
-import { Alert } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { sendSurrender } from "../../api/ocgcore/ocgHelper";
 import { useAppSelector } from "../../hook";
 import { selectUnimplemented } from "../../reducers/duel/mod";
+import { Alert } from "antd";
 
 const NeosAlert = () => {
   const unimplemented = useAppSelector(selectUnimplemented);
@@ -17,7 +18,10 @@ const NeosAlert = () => {
           showIcon
           type="error"
           closable
+          banner
           afterClose={() => {
+            // 发送投降信号
+            sendSurrender();
             navigate("/");
           }}
         />

@@ -149,10 +149,8 @@ export default class GameMsgAdapter implements StocAdapter {
           break;
         }
         default: {
-          gameMsg.unimplemented = new ygopro.StocGameMessage({
-            unimplemented: new ygopro.StocGameMessage.MsgUnimplemented({
-              command: func,
-            }),
+          gameMsg.unimplemented = new ygopro.StocGameMessage.MsgUnimplemented({
+            command: func,
           });
 
           break;
