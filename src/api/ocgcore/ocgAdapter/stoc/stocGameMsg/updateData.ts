@@ -71,29 +71,30 @@ function _readUpdateAction(
   const flag = reader.inner.readInt32();
   if (flag == 0) return undefined;
 
-  let code;
+  const mask = -1;
+  let code = mask;
   let location;
-  let alias;
-  let type_;
-  let level;
-  let rank;
-  let attribute;
-  let race;
-  let attack;
-  let defense;
-  let base_attack;
-  let base_defense;
-  let reason;
-  let reason_card;
+  let alias = mask;
+  let type_ = mask;
+  let level = mask;
+  let rank = mask;
+  let attribute = mask;
+  let race = mask;
+  let attack = mask;
+  let defense = mask;
+  let base_attack = mask;
+  let base_defense = mask;
+  let reason = mask;
+  let reason_card = mask;
   let equip_card;
   let target_cards = [];
   let overlay_cards = [];
   let counters = new Map<number, number>();
-  let owner;
-  let status;
-  let lscale;
-  let rscale;
-  let link;
+  let owner = mask;
+  let status = mask;
+  let lscale = mask;
+  let rscale = mask;
+  let link = mask;
 
   if (flag & QUERY_CODE) {
     code = reader.inner.readInt32();

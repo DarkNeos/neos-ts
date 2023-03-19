@@ -294,33 +294,34 @@ export function updateCardData<T extends DuelFieldState>(
   for (const payload of actions) {
     const sequence = payload.location?.sequence;
     if (typeof sequence !== "undefined") {
+      console.log(payload.type_);
       const target = state?.inner.find((_, idx) => idx == sequence);
       if (target && target.occupant) {
         const occupant = target.occupant;
         // 目前只更新以下字段
-        if (payload.code !== undefined) {
+        if (payload.code !== undefined && payload.code >= 0) {
           occupant.id = payload.code;
           occupant.text.id = payload.code;
         }
         if (payload.location !== undefined) {
           target.location.position = payload.location.position;
         }
-        if (payload.type_ !== undefined) {
+        if (payload.type_ !== undefined && payload.type_ >= 0) {
           occupant.data.type = payload.type_;
         }
-        if (payload.level !== undefined) {
+        if (payload.level !== undefined && payload.level >= 0) {
           occupant.data.level = payload.level;
         }
-        if (payload.attribute !== undefined) {
+        if (payload.attribute !== undefined && payload.attribute >= 0) {
           occupant.data.attribute = payload.attribute;
         }
-        if (payload.race !== undefined) {
+        if (payload.race !== undefined && payload.race >= 0) {
           occupant.data.race = payload.race;
         }
-        if (payload.attack !== undefined) {
+        if (payload.attack !== undefined && payload.attack >= 0) {
           occupant.data.atk = payload.attack;
         }
-        if (payload.defense !== undefined) {
+        if (payload.defense !== undefined && payload.defense >= 0) {
           occupant.data.def = payload.defense;
         }
       }
