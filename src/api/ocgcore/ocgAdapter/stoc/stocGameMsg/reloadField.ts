@@ -49,13 +49,58 @@ export default (data: Uint8Array) => {
     }
 
     const main_size = reader.inner.readUint8();
-    const hand_size = reader.inner.readUint8();
-    const grace_size = reader.inner.readUint8();
-    const removed_size = reader.inner.readUint8();
-    const extra_size = reader.inner.readUint8();
-    const extra_p_size = reader.inner.readUint8();
-    // const chain_size = reader.inner.readUint8();
+    for (let sequence = 0; sequence < main_size; sequence++) {
+      zone_actions.push(
+        new MsgReloadField.ZoneAction({
+          zone: ygopro.CardZone.DECK,
+          sequence,
+        })
+      );
+    }
 
+    const hand_size = reader.inner.readUint8();
+    for (let sequence = 0; sequence < hand_size; sequence++) {
+      zone_actions.push(
+        new MsgReloadField.ZoneAction({
+          zone: ygopro.CardZone.HAND,
+          sequence,
+        })
+      );
+    }
+
+    const grave_size = reader.inner.readUint8();
+    for (let sequence = 0; sequence < grave_size; sequence++) {
+      zone_actions.push(
+        new MsgReloadField.ZoneAction({
+          zone: ygopro.CardZone.GRAVE,
+          sequence,
+        })
+      );
+    }
+
+    const removed_size = reader.inner.readUint8();
+    for (let sequence = 0; sequence < removed_size; sequence++) {
+      zone_actions.push(
+        new MsgReloadField.ZoneAction({
+          zone: ygopro.CardZone.REMOVED,
+          sequence,
+        })
+      );
+    }
+
+    const extra_size = reader.inner.readUint8();
+    for (let sequence = 0; sequence < extra_size; sequence++) {
+      zone_actions.push(
+        new MsgReloadField.ZoneAction({
+          zone: ygopro.CardZone.EXTRA,
+          sequence,
+        })
+      );
+    }
+
+    // const _extra_p_size = reader.inner.readUint8();
+
+    // const chain_size = reader.inner.readUint8();
     // const chain_actions = [];
     // for (let i = 0; i < chain_size; i += 1) {
     //   const chain_code = reader.inner.readUint32();
@@ -82,13 +127,6 @@ export default (data: Uint8Array) => {
         player,
         lp,
         zone_actions,
-        main_size,
-        hand_size,
-        grace_size,
-        removed_size,
-        extra_size,
-        extra_p_size,
-        // chain_size,
         // chain_actions,
       })
     );

@@ -13120,13 +13120,6 @@ export namespace ygopro {
                 player?: number;
                 lp?: number;
                 zone_actions?: StocGameMessage.MsgReloadField.ZoneAction[];
-                main_size?: number;
-                hand_size?: number;
-                grace_size?: number;
-                removed_size?: number;
-                extra_size?: number;
-                extra_p_size?: number;
-                chain_size?: number;
                 chain_actions?: StocGameMessage.MsgReloadField.ChainAction[];
               }
         ) {
@@ -13136,7 +13129,7 @@ export namespace ygopro {
             Array.isArray(data) ? data : [],
             0,
             -1,
-            [3, 11],
+            [3, 4],
             this.#one_of_decls
           );
           if (!Array.isArray(data) && typeof data == "object") {
@@ -13148,27 +13141,6 @@ export namespace ygopro {
             }
             if ("zone_actions" in data && data.zone_actions != undefined) {
               this.zone_actions = data.zone_actions;
-            }
-            if ("main_size" in data && data.main_size != undefined) {
-              this.main_size = data.main_size;
-            }
-            if ("hand_size" in data && data.hand_size != undefined) {
-              this.hand_size = data.hand_size;
-            }
-            if ("grace_size" in data && data.grace_size != undefined) {
-              this.grace_size = data.grace_size;
-            }
-            if ("removed_size" in data && data.removed_size != undefined) {
-              this.removed_size = data.removed_size;
-            }
-            if ("extra_size" in data && data.extra_size != undefined) {
-              this.extra_size = data.extra_size;
-            }
-            if ("extra_p_size" in data && data.extra_p_size != undefined) {
-              this.extra_p_size = data.extra_p_size;
-            }
-            if ("chain_size" in data && data.chain_size != undefined) {
-              this.chain_size = data.chain_size;
             }
             if ("chain_actions" in data && data.chain_actions != undefined) {
               this.chain_actions = data.chain_actions;
@@ -13197,57 +13169,15 @@ export namespace ygopro {
         set zone_actions(value: StocGameMessage.MsgReloadField.ZoneAction[]) {
           pb_1.Message.setRepeatedWrapperField(this, 3, value);
         }
-        get main_size() {
-          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
-        }
-        set main_size(value: number) {
-          pb_1.Message.setField(this, 4, value);
-        }
-        get hand_size() {
-          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
-        }
-        set hand_size(value: number) {
-          pb_1.Message.setField(this, 5, value);
-        }
-        get grace_size() {
-          return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
-        }
-        set grace_size(value: number) {
-          pb_1.Message.setField(this, 6, value);
-        }
-        get removed_size() {
-          return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
-        }
-        set removed_size(value: number) {
-          pb_1.Message.setField(this, 7, value);
-        }
-        get extra_size() {
-          return pb_1.Message.getFieldWithDefault(this, 8, 0) as number;
-        }
-        set extra_size(value: number) {
-          pb_1.Message.setField(this, 8, value);
-        }
-        get extra_p_size() {
-          return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
-        }
-        set extra_p_size(value: number) {
-          pb_1.Message.setField(this, 9, value);
-        }
-        get chain_size() {
-          return pb_1.Message.getFieldWithDefault(this, 10, 0) as number;
-        }
-        set chain_size(value: number) {
-          pb_1.Message.setField(this, 10, value);
-        }
         get chain_actions() {
           return pb_1.Message.getRepeatedWrapperField(
             this,
             StocGameMessage.MsgReloadField.ChainAction,
-            11
+            4
           ) as StocGameMessage.MsgReloadField.ChainAction[];
         }
         set chain_actions(value: StocGameMessage.MsgReloadField.ChainAction[]) {
-          pb_1.Message.setRepeatedWrapperField(this, 11, value);
+          pb_1.Message.setRepeatedWrapperField(this, 4, value);
         }
         static fromObject(data: {
           player?: number;
@@ -13255,13 +13185,6 @@ export namespace ygopro {
           zone_actions?: ReturnType<
             typeof StocGameMessage.MsgReloadField.ZoneAction.prototype.toObject
           >[];
-          main_size?: number;
-          hand_size?: number;
-          grace_size?: number;
-          removed_size?: number;
-          extra_size?: number;
-          extra_p_size?: number;
-          chain_size?: number;
           chain_actions?: ReturnType<
             typeof StocGameMessage.MsgReloadField.ChainAction.prototype.toObject
           >[];
@@ -13278,27 +13201,6 @@ export namespace ygopro {
               StocGameMessage.MsgReloadField.ZoneAction.fromObject(item)
             );
           }
-          if (data.main_size != null) {
-            message.main_size = data.main_size;
-          }
-          if (data.hand_size != null) {
-            message.hand_size = data.hand_size;
-          }
-          if (data.grace_size != null) {
-            message.grace_size = data.grace_size;
-          }
-          if (data.removed_size != null) {
-            message.removed_size = data.removed_size;
-          }
-          if (data.extra_size != null) {
-            message.extra_size = data.extra_size;
-          }
-          if (data.extra_p_size != null) {
-            message.extra_p_size = data.extra_p_size;
-          }
-          if (data.chain_size != null) {
-            message.chain_size = data.chain_size;
-          }
           if (data.chain_actions != null) {
             message.chain_actions = data.chain_actions.map((item) =>
               StocGameMessage.MsgReloadField.ChainAction.fromObject(item)
@@ -13313,13 +13215,6 @@ export namespace ygopro {
             zone_actions?: ReturnType<
               typeof StocGameMessage.MsgReloadField.ZoneAction.prototype.toObject
             >[];
-            main_size?: number;
-            hand_size?: number;
-            grace_size?: number;
-            removed_size?: number;
-            extra_size?: number;
-            extra_p_size?: number;
-            chain_size?: number;
             chain_actions?: ReturnType<
               typeof StocGameMessage.MsgReloadField.ChainAction.prototype.toObject
             >[];
@@ -13335,27 +13230,6 @@ export namespace ygopro {
               (item: StocGameMessage.MsgReloadField.ZoneAction) =>
                 item.toObject()
             );
-          }
-          if (this.main_size != null) {
-            data.main_size = this.main_size;
-          }
-          if (this.hand_size != null) {
-            data.hand_size = this.hand_size;
-          }
-          if (this.grace_size != null) {
-            data.grace_size = this.grace_size;
-          }
-          if (this.removed_size != null) {
-            data.removed_size = this.removed_size;
-          }
-          if (this.extra_size != null) {
-            data.extra_size = this.extra_size;
-          }
-          if (this.extra_p_size != null) {
-            data.extra_p_size = this.extra_p_size;
-          }
-          if (this.chain_size != null) {
-            data.chain_size = this.chain_size;
           }
           if (this.chain_actions != null) {
             data.chain_actions = this.chain_actions.map(
@@ -13378,16 +13252,9 @@ export namespace ygopro {
               (item: StocGameMessage.MsgReloadField.ZoneAction) =>
                 item.serialize(writer)
             );
-          if (this.main_size != 0) writer.writeInt32(4, this.main_size);
-          if (this.hand_size != 0) writer.writeInt32(5, this.hand_size);
-          if (this.grace_size != 0) writer.writeInt32(6, this.grace_size);
-          if (this.removed_size != 0) writer.writeInt32(7, this.removed_size);
-          if (this.extra_size != 0) writer.writeInt32(8, this.extra_size);
-          if (this.extra_p_size != 0) writer.writeInt32(9, this.extra_p_size);
-          if (this.chain_size != 0) writer.writeInt32(10, this.chain_size);
           if (this.chain_actions.length)
             writer.writeRepeatedMessage(
-              11,
+              4,
               this.chain_actions,
               (item: StocGameMessage.MsgReloadField.ChainAction) =>
                 item.serialize(writer)
@@ -13422,31 +13289,10 @@ export namespace ygopro {
                 );
                 break;
               case 4:
-                message.main_size = reader.readInt32();
-                break;
-              case 5:
-                message.hand_size = reader.readInt32();
-                break;
-              case 6:
-                message.grace_size = reader.readInt32();
-                break;
-              case 7:
-                message.removed_size = reader.readInt32();
-                break;
-              case 8:
-                message.extra_size = reader.readInt32();
-                break;
-              case 9:
-                message.extra_p_size = reader.readInt32();
-                break;
-              case 10:
-                message.chain_size = reader.readInt32();
-                break;
-              case 11:
                 reader.readMessage(message.chain_actions, () =>
                   pb_1.Message.addToRepeatedWrapperField(
                     message,
-                    11,
+                    4,
                     StocGameMessage.MsgReloadField.ChainAction.deserialize(
                       reader
                     ),
