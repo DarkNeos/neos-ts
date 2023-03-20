@@ -72,7 +72,7 @@ export const updateFieldDataImpl: DuelReducer<MsgUpdateData> = (
   const zone = action.payload.zone;
   const actions = action.payload.actions;
 
-  if (player && zone && actions) {
+  if (player !== undefined && zone !== undefined && actions !== undefined) {
     switch (zone) {
       case ygopro.CardZone.HAND: {
         const hand = judgeSelf(player, state) ? state.meHands : state.opHands;
