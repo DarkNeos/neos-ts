@@ -15,10 +15,10 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
   const selfType = state.selfType;
   if (selfType === 1) {
     // 自己是先攻
-    return player === 0;
+    return player == 0;
   } else if (selfType === 2) {
     // 自己是后攻
-    return player === 1;
+    return player == 1;
   } else {
     // currently never reach
     return false;
