@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { CardMeta, fetchCard } from "../../../api/cards";
 import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
-import { fetchStrings } from "../../../api/strings";
+import { fetchStrings, getStrings } from "../../../api/strings";
 import { RootState } from "../../../store";
 import { DuelState } from "../mod";
 
@@ -39,8 +39,18 @@ export const fetchYesNoMeta = createAsyncThunk(
   }
 );
 
+export const fetchYesNoMetaWithEffecDesc = createAsyncThunk(
+  "duel/fetchYesNoMetaWithEffecDesc",
+  async (effectDesc: number) => {
+    return getStrings(effectDesc);
+  }
+);
+
 export const YesNoModalCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   builder.addCase(fetchYesNoMeta.fulfilled, (state, action) => {
+    state.modalState.yesNoModal.msg = action.payload;
+  });
+  builder.addCase(fetchYesNoMetaWithEffecDesc.fulfilled, (state, action) => {
     state.modalState.yesNoModal.msg = action.payload;
   });
 };
