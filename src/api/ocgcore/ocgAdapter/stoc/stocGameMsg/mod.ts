@@ -27,6 +27,7 @@ import MsgRecover from "./recover";
 import MsgWin from "./win";
 import MsgUpdateDataAdapter from "./updateData";
 import MsgReloadFieldAdapter from "./reloadField";
+import MsgSelectSum from "./selectSum";
 import PENETRATE from "./penetrate";
 
 /*
@@ -157,6 +158,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_RELOAD_FIELD: {
           gameMsg.reload_field = MsgReloadFieldAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_SUM: {
+          gameMsg.select_sum = MsgSelectSum(gameData);
 
           break;
         }

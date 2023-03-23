@@ -49,4 +49,16 @@ export class BufferReaderExt {
       });
     }
   }
+
+  readCardShortLocation(): ygopro.CardLocation {
+    const controler = this.inner.readUint8();
+    const location = this.inner.readUint8();
+    const sequence = this.inner.readUint8();
+
+    return new ygopro.CardLocation({
+      controler,
+      location: numberToCardZone(location),
+      sequence,
+    });
+  }
 }

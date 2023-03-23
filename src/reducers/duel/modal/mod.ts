@@ -57,7 +57,7 @@ export interface ModalState {
     finishAble: boolean;
     selectMin?: number;
     selectMax?: number;
-    responseable: boolean;
+    responseable?: boolean;
     selectableOptions: {
       code: number;
       name?: string;
@@ -71,6 +71,34 @@ export interface ModalState {
       response: number;
     }[];
   };
+  // 卡牌选择弹窗V3
+  checkCardModalV3: {
+    isOpen: boolean;
+    overflow: boolean;
+    allLevel: number;
+    selectMin?: number;
+    selectMax?: number;
+    responseable?: boolean;
+    mustSelectList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+    selectAbleList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+    // TODO: remove this prop
+    selectedList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+  };
 }
 
 export * from "./cardModalSlice";
@@ -80,3 +108,4 @@ export * from "./yesNoModalSlice";
 export * from "./positionModalSlice";
 export * from "./optionModalSlice";
 export * from "./checkCardModalV2Slice";
+export * from "./checkCardModalV3Slice";

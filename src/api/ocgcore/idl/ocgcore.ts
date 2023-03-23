@@ -5446,7 +5446,7 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24,
+        21, 22, 23, 24, 25,
       ],
     ];
     constructor(
@@ -5478,6 +5478,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5504,6 +5505,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5530,6 +5532,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5556,6 +5559,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5582,6 +5586,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5608,6 +5613,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5634,6 +5640,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5660,6 +5667,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5686,6 +5694,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5712,6 +5721,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5738,6 +5748,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5764,6 +5775,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5790,6 +5802,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5816,6 +5829,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5842,6 +5856,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5868,6 +5883,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5894,6 +5910,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5920,6 +5937,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5946,6 +5964,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5972,6 +5991,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -5998,6 +6018,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -6024,6 +6045,7 @@ export namespace ygopro {
                 unimplemented?: StocGameMessage.MsgUnimplemented;
                 update_data?: never;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -6050,6 +6072,7 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: StocGameMessage.MsgUpdateData;
                 reload_field?: never;
+                select_sum?: never;
               }
             | {
                 start?: never;
@@ -6076,6 +6099,34 @@ export namespace ygopro {
                 unimplemented?: never;
                 update_data?: never;
                 reload_field?: StocGameMessage.MsgReloadField;
+                select_sum?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: StocGameMessage.MsgSelectSum;
               }
           ))
     ) {
@@ -6166,6 +6217,9 @@ export namespace ygopro {
         }
         if ("reload_field" in data && data.reload_field != undefined) {
           this.reload_field = data.reload_field;
+        }
+        if ("select_sum" in data && data.select_sum != undefined) {
+          this.select_sum = data.select_sum;
         }
       }
     }
@@ -6481,6 +6535,19 @@ export namespace ygopro {
     get has_reload_field() {
       return pb_1.Message.getField(this, 24) != null;
     }
+    get select_sum() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSelectSum,
+        25
+      ) as StocGameMessage.MsgSelectSum;
+    }
+    set select_sum(value: StocGameMessage.MsgSelectSum) {
+      pb_1.Message.setOneofWrapperField(this, 25, this.#one_of_decls[0], value);
+    }
+    get has_select_sum() {
+      return pb_1.Message.getField(this, 25) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6508,7 +6575,8 @@ export namespace ygopro {
           | "wait"
           | "unimplemented"
           | "update_data"
-          | "reload_field";
+          | "reload_field"
+          | "select_sum";
       } = {
         0: "none",
         1: "start",
@@ -6535,13 +6603,14 @@ export namespace ygopro {
         22: "unimplemented",
         23: "update_data",
         24: "reload_field",
+        25: "select_sum",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24,
+            20, 21, 22, 23, 24, 25,
           ]
         )
       ];
@@ -6606,6 +6675,9 @@ export namespace ygopro {
       >;
       reload_field?: ReturnType<
         typeof StocGameMessage.MsgReloadField.prototype.toObject
+      >;
+      select_sum?: ReturnType<
+        typeof StocGameMessage.MsgSelectSum.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -6715,6 +6787,11 @@ export namespace ygopro {
           data.reload_field
         );
       }
+      if (data.select_sum != null) {
+        message.select_sum = StocGameMessage.MsgSelectSum.fromObject(
+          data.select_sum
+        );
+      }
       return message;
     }
     toObject() {
@@ -6778,6 +6855,9 @@ export namespace ygopro {
         >;
         reload_field?: ReturnType<
           typeof StocGameMessage.MsgReloadField.prototype.toObject
+        >;
+        select_sum?: ReturnType<
+          typeof StocGameMessage.MsgSelectSum.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -6851,6 +6931,9 @@ export namespace ygopro {
       }
       if (this.reload_field != null) {
         data.reload_field = this.reload_field.toObject();
+      }
+      if (this.select_sum != null) {
+        data.select_sum = this.select_sum.toObject();
       }
       return data;
     }
@@ -6941,6 +7024,10 @@ export namespace ygopro {
       if (this.has_reload_field)
         writer.writeMessage(24, this.reload_field, () =>
           this.reload_field.serialize(writer)
+        );
+      if (this.has_select_sum)
+        writer.writeMessage(25, this.select_sum, () =>
+          this.select_sum.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -7132,6 +7219,14 @@ export namespace ygopro {
               () =>
                 (message.reload_field =
                   StocGameMessage.MsgReloadField.deserialize(reader))
+            );
+            break;
+          case 25:
+            reader.readMessage(
+              message.select_sum,
+              () =>
+                (message.select_sum =
+                  StocGameMessage.MsgSelectSum.deserialize(reader))
             );
             break;
           default:
@@ -11319,6 +11414,455 @@ export namespace ygopro {
                 );
                 break;
               case 3:
+                message.response = reader.readInt32();
+                break;
+              default:
+                reader.skipField();
+            }
+          }
+          return message;
+        }
+        serializeBinary(): Uint8Array {
+          return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Info {
+          return Info.deserialize(bytes);
+        }
+      }
+    }
+    export class MsgSelectSum extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              overflow?: number;
+              player?: number;
+              level_sum?: number;
+              min?: number;
+              max?: number;
+              must_select_cards?: StocGameMessage.MsgSelectSum.Info[];
+              selectable_cards?: StocGameMessage.MsgSelectSum.Info[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [6, 7],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("overflow" in data && data.overflow != undefined) {
+            this.overflow = data.overflow;
+          }
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("level_sum" in data && data.level_sum != undefined) {
+            this.level_sum = data.level_sum;
+          }
+          if ("min" in data && data.min != undefined) {
+            this.min = data.min;
+          }
+          if ("max" in data && data.max != undefined) {
+            this.max = data.max;
+          }
+          if (
+            "must_select_cards" in data &&
+            data.must_select_cards != undefined
+          ) {
+            this.must_select_cards = data.must_select_cards;
+          }
+          if (
+            "selectable_cards" in data &&
+            data.selectable_cards != undefined
+          ) {
+            this.selectable_cards = data.selectable_cards;
+          }
+        }
+      }
+      get overflow() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set overflow(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      get level_sum() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+      }
+      set level_sum(value: number) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get min() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set min(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      get max() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+      }
+      set max(value: number) {
+        pb_1.Message.setField(this, 5, value);
+      }
+      get must_select_cards() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectSum.Info,
+          6
+        ) as StocGameMessage.MsgSelectSum.Info[];
+      }
+      set must_select_cards(value: StocGameMessage.MsgSelectSum.Info[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 6, value);
+      }
+      get selectable_cards() {
+        return pb_1.Message.getRepeatedWrapperField(
+          this,
+          StocGameMessage.MsgSelectSum.Info,
+          7
+        ) as StocGameMessage.MsgSelectSum.Info[];
+      }
+      set selectable_cards(value: StocGameMessage.MsgSelectSum.Info[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 7, value);
+      }
+      static fromObject(data: {
+        overflow?: number;
+        player?: number;
+        level_sum?: number;
+        min?: number;
+        max?: number;
+        must_select_cards?: ReturnType<
+          typeof StocGameMessage.MsgSelectSum.Info.prototype.toObject
+        >[];
+        selectable_cards?: ReturnType<
+          typeof StocGameMessage.MsgSelectSum.Info.prototype.toObject
+        >[];
+      }): MsgSelectSum {
+        const message = new MsgSelectSum({});
+        if (data.overflow != null) {
+          message.overflow = data.overflow;
+        }
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.level_sum != null) {
+          message.level_sum = data.level_sum;
+        }
+        if (data.min != null) {
+          message.min = data.min;
+        }
+        if (data.max != null) {
+          message.max = data.max;
+        }
+        if (data.must_select_cards != null) {
+          message.must_select_cards = data.must_select_cards.map((item) =>
+            StocGameMessage.MsgSelectSum.Info.fromObject(item)
+          );
+        }
+        if (data.selectable_cards != null) {
+          message.selectable_cards = data.selectable_cards.map((item) =>
+            StocGameMessage.MsgSelectSum.Info.fromObject(item)
+          );
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          overflow?: number;
+          player?: number;
+          level_sum?: number;
+          min?: number;
+          max?: number;
+          must_select_cards?: ReturnType<
+            typeof StocGameMessage.MsgSelectSum.Info.prototype.toObject
+          >[];
+          selectable_cards?: ReturnType<
+            typeof StocGameMessage.MsgSelectSum.Info.prototype.toObject
+          >[];
+        } = {};
+        if (this.overflow != null) {
+          data.overflow = this.overflow;
+        }
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.level_sum != null) {
+          data.level_sum = this.level_sum;
+        }
+        if (this.min != null) {
+          data.min = this.min;
+        }
+        if (this.max != null) {
+          data.max = this.max;
+        }
+        if (this.must_select_cards != null) {
+          data.must_select_cards = this.must_select_cards.map(
+            (item: StocGameMessage.MsgSelectSum.Info) => item.toObject()
+          );
+        }
+        if (this.selectable_cards != null) {
+          data.selectable_cards = this.selectable_cards.map(
+            (item: StocGameMessage.MsgSelectSum.Info) => item.toObject()
+          );
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.overflow != 0) writer.writeInt32(1, this.overflow);
+        if (this.player != 0) writer.writeInt32(2, this.player);
+        if (this.level_sum != 0) writer.writeInt32(3, this.level_sum);
+        if (this.min != 0) writer.writeInt32(4, this.min);
+        if (this.max != 0) writer.writeInt32(5, this.max);
+        if (this.must_select_cards.length)
+          writer.writeRepeatedMessage(
+            6,
+            this.must_select_cards,
+            (item: StocGameMessage.MsgSelectSum.Info) => item.serialize(writer)
+          );
+        if (this.selectable_cards.length)
+          writer.writeRepeatedMessage(
+            7,
+            this.selectable_cards,
+            (item: StocGameMessage.MsgSelectSum.Info) => item.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSelectSum {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSelectSum();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.overflow = reader.readInt32();
+              break;
+            case 2:
+              message.player = reader.readInt32();
+              break;
+            case 3:
+              message.level_sum = reader.readInt32();
+              break;
+            case 4:
+              message.min = reader.readInt32();
+              break;
+            case 5:
+              message.max = reader.readInt32();
+              break;
+            case 6:
+              reader.readMessage(message.must_select_cards, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  6,
+                  StocGameMessage.MsgSelectSum.Info.deserialize(reader),
+                  StocGameMessage.MsgSelectSum.Info
+                )
+              );
+              break;
+            case 7:
+              reader.readMessage(message.selectable_cards, () =>
+                pb_1.Message.addToRepeatedWrapperField(
+                  message,
+                  7,
+                  StocGameMessage.MsgSelectSum.Info.deserialize(reader),
+                  StocGameMessage.MsgSelectSum.Info
+                )
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSelectSum {
+        return MsgSelectSum.deserialize(bytes);
+      }
+    }
+    export namespace MsgSelectSum {
+      export class Info extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(
+          data?:
+            | any[]
+            | {
+                code?: number;
+                location?: CardLocation;
+                level1?: number;
+                level2?: number;
+                response?: number;
+              }
+        ) {
+          super();
+          pb_1.Message.initialize(
+            this,
+            Array.isArray(data) ? data : [],
+            0,
+            -1,
+            [],
+            this.#one_of_decls
+          );
+          if (!Array.isArray(data) && typeof data == "object") {
+            if ("code" in data && data.code != undefined) {
+              this.code = data.code;
+            }
+            if ("location" in data && data.location != undefined) {
+              this.location = data.location;
+            }
+            if ("level1" in data && data.level1 != undefined) {
+              this.level1 = data.level1;
+            }
+            if ("level2" in data && data.level2 != undefined) {
+              this.level2 = data.level2;
+            }
+            if ("response" in data && data.response != undefined) {
+              this.response = data.response;
+            }
+          }
+        }
+        get code() {
+          return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set code(value: number) {
+          pb_1.Message.setField(this, 1, value);
+        }
+        get location() {
+          return pb_1.Message.getWrapperField(
+            this,
+            CardLocation,
+            2
+          ) as CardLocation;
+        }
+        set location(value: CardLocation) {
+          pb_1.Message.setWrapperField(this, 2, value);
+        }
+        get has_location() {
+          return pb_1.Message.getField(this, 2) != null;
+        }
+        get level1() {
+          return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set level1(value: number) {
+          pb_1.Message.setField(this, 3, value);
+        }
+        get level2() {
+          return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set level2(value: number) {
+          pb_1.Message.setField(this, 4, value);
+        }
+        get response() {
+          return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set response(value: number) {
+          pb_1.Message.setField(this, 5, value);
+        }
+        static fromObject(data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          level1?: number;
+          level2?: number;
+          response?: number;
+        }): Info {
+          const message = new Info({});
+          if (data.code != null) {
+            message.code = data.code;
+          }
+          if (data.location != null) {
+            message.location = CardLocation.fromObject(data.location);
+          }
+          if (data.level1 != null) {
+            message.level1 = data.level1;
+          }
+          if (data.level2 != null) {
+            message.level2 = data.level2;
+          }
+          if (data.response != null) {
+            message.response = data.response;
+          }
+          return message;
+        }
+        toObject() {
+          const data: {
+            code?: number;
+            location?: ReturnType<typeof CardLocation.prototype.toObject>;
+            level1?: number;
+            level2?: number;
+            response?: number;
+          } = {};
+          if (this.code != null) {
+            data.code = this.code;
+          }
+          if (this.location != null) {
+            data.location = this.location.toObject();
+          }
+          if (this.level1 != null) {
+            data.level1 = this.level1;
+          }
+          if (this.level2 != null) {
+            data.level2 = this.level2;
+          }
+          if (this.response != null) {
+            data.response = this.response;
+          }
+          return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+          const writer = w || new pb_1.BinaryWriter();
+          if (this.code != 0) writer.writeInt32(1, this.code);
+          if (this.has_location)
+            writer.writeMessage(2, this.location, () =>
+              this.location.serialize(writer)
+            );
+          if (this.level1 != 0) writer.writeInt32(3, this.level1);
+          if (this.level2 != 0) writer.writeInt32(4, this.level2);
+          if (this.response != 0) writer.writeInt32(5, this.response);
+          if (!w) return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Info {
+          const reader =
+              bytes instanceof pb_1.BinaryReader
+                ? bytes
+                : new pb_1.BinaryReader(bytes),
+            message = new Info();
+          while (reader.nextField()) {
+            if (reader.isEndGroup()) break;
+            switch (reader.getFieldNumber()) {
+              case 1:
+                message.code = reader.readInt32();
+                break;
+              case 2:
+                reader.readMessage(
+                  message.location,
+                  () => (message.location = CardLocation.deserialize(reader))
+                );
+                break;
+              case 3:
+                message.level1 = reader.readInt32();
+                break;
+              case 4:
+                message.level2 = reader.readInt32();
+                break;
+              case 5:
                 message.response = reader.readInt32();
                 break;
               default:
