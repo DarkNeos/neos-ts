@@ -168,6 +168,12 @@ const initialState: DuelState = {
       selectableOptions: [],
       selectedOptions: [],
     },
+    checkCardModalV3: {
+      isOpen: false,
+      overflow: false,
+      mustSelectList: [],
+      selectAbleList: [],
+    },
   },
 };
 
