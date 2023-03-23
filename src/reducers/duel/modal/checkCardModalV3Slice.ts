@@ -50,7 +50,6 @@ export const setCheckCardModalV3ResponseAbleImpl: DuelReducer<boolean> = (
 export const fetchCheckCardMetasV3 = createAsyncThunk(
   "duel/fetchCheckCardMetaV3",
   async (param: {
-    controler: number;
     mustSelect: boolean;
     options: {
       code: number;
@@ -65,7 +64,6 @@ export const fetchCheckCardMetasV3 = createAsyncThunk(
       })
     );
     const response = {
-      controler: param.controler,
       mustSelect: param.mustSelect,
       metas,
     };
