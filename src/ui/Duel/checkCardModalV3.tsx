@@ -1,0 +1,119 @@
+import React from "react";
+import { useAppSelector } from "../../hook";
+import { store } from "../../store";
+import { Modal, Button, Card, Row, Col } from "antd";
+import { CheckCard } from "@ant-design/pro-components";
+import { sendSelectCardResponse } from "../../api/ocgcore/ocgHelper";
+import {
+  resetCheckCardModalV3,
+  setCheckCardModalV3IsOpen,
+  setCheckCardModalV3ResponseAble,
+  setCheckCardModalV3Selected,
+} from "../../reducers/duel/mod";
+import NeosConfig from "../../../neos.config.json";
+import { selectCheckCardModalV3 } from "../../reducers/duel/modal/checkCardModalV3Slice";
+
+const CheckCardModalV3 = () => {
+  const dispatch = store.dispatch;
+  const state = useAppSelector(selectCheckCardModalV3);
+  const isOpen = state.isOpen;
+  const min = state.selectMin || 0;
+  const max = state.selectMax || 0;
+  const mustSelectOptions = state.mustSelectList;
+  const selectAbleOptions = state.selectAbleList;
+  const selectedOptions = state.selectedList;
+  const overflow = state.overflow;
+  const LevelSum = state.allLevel;
+  const Level1Sum = mustSelectOptions
+    .concat(selectedOptions)
+    .map((option) => option.level1)
+    .reduce((sum, current) => sum + current, 0);
+  const Level2Sum = mustSelectOptions
+    .concat(selectedOptions)
+    .map((option) => option.level2)
+    .reduce((sum, current) => sum + current, 0);
+
+  const responseable =
+    (overflow
+      ? Level1Sum >= LevelSum || Level2Sum >= LevelSum
+      : Level1Sum == LevelSum || Level2Sum == LevelSum) &&
+    selectedOptions.length <= max &&
+    selectedOptions.length >= min;
+
+  const onFinish = () => {
+    sendSelectCardResponse(
+      mustSelectOptions.concat(selectedOptions).map((option) => option.response)
+    );
+    dispatch(setCheckCardModalV3IsOpen(false));
+    dispatch(resetCheckCardModalV3());
+    dispatch(setCheckCardModalV3ResponseAble(false));
+  };
+
+  return (
+    <Modal
+      title={`请选择卡片，最少${min}张，最多${max}张`}
+      open={isOpen}
+      closable={false}
+      footer={
+        <>
+          <Button disabled={!responseable} onClick={onFinish}>
+            finish
+          </Button>
+        </>
+      }
+      width={800}
+    >
+      <CheckCard.Group
+        bordered
+        size="small"
+        multiple={true}
+        onChange={(values: any) => {
+          setCheckCardModalV3Selected(values);
+        }}
+      >
+        <Row>
+          {selectAbleOptions.map((option, idx) => {
+            return (
+              <Col span={4} key={idx}>
+                <CheckCard
+                  title={option.meta.text.name}
+                  description={option.meta.text.desc}
+                  style={{ width: 120 }}
+                  cover={
+                    <img
+                      alt={option.meta.id.toString()}
+                      src={`${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`}
+                      style={{ width: 100 }}
+                    />
+                  }
+                  value={option}
+                />
+              </Col>
+            );
+          })}
+        </Row>
+      </CheckCard.Group>
+      <p>必须选择的卡片</p>
+      <Row>
+        {selectedOptions.map((option, idx) => {
+          return (
+            <Col span={4} key={idx}>
+              <Card
+                hoverable
+                style={{ width: 120 }}
+                cover={
+                  <img
+                    alt={option.meta.id.toString()}
+                    src={`${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`}
+                  />
+                }
+              />
+            </Col>
+          );
+        })}
+      </Row>
+    </Modal>
+  );
+};
+
+export default CheckCardModalV3;

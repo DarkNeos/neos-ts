@@ -75,7 +75,7 @@ export interface ModalState {
   checkCardModalV3: {
     isOpen: boolean;
     overflow: boolean;
-    allLevel?: number;
+    allLevel: number;
     selectMin?: number;
     selectMax?: number;
     responseable?: boolean;
@@ -86,6 +86,12 @@ export interface ModalState {
       response: number;
     }[];
     selectAbleList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+    selectedList: {
       meta: CardMeta;
       level1: number;
       level2: number;

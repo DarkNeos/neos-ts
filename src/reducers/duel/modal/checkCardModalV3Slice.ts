@@ -5,7 +5,7 @@ import {
   CaseReducer,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { fetchCard } from "../../../api/cards";
+import { CardMeta, fetchCard } from "../../../api/cards";
 import { RootState } from "../../../store";
 
 // 更新打开状态
@@ -44,6 +44,17 @@ export const setCheckCardModalV3ResponseAbleImpl: DuelReducer<boolean> = (
   action
 ) => {
   state.modalState.checkCardModalV3.responseable = action.payload;
+};
+
+export const setCheckCardModalV3SelectedImpl: DuelReducer<
+  {
+    meta: CardMeta;
+    level1: number;
+    level2: number;
+    response: number;
+  }[]
+> = (state, action) => {
+  state.modalState.checkCardModalV3.selectedList = action.payload;
 };
 
 // 增加卡牌选项
@@ -113,10 +124,11 @@ export const resetCheckCardModalV3Impl: CaseReducer<DuelState> = (state) => {
   const modalState = state.modalState.checkCardModalV3;
   modalState.isOpen = false;
   modalState.overflow = false;
-  modalState.allLevel = undefined;
+  modalState.allLevel = 0;
   modalState.responseable = undefined;
   modalState.mustSelectList = [];
   modalState.selectAbleList = [];
+  modalState.selectedList = [];
 };
 
 export const selectCheckCardModalV3 = (state: RootState) =>
