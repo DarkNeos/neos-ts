@@ -78,14 +78,15 @@ export interface ModalState {
     allLevel?: number;
     selectMin?: number;
     selectMax?: number;
+    responseable?: boolean;
     mustSelectList: {
-      meta?: CardMeta;
+      meta: CardMeta;
       level1: number;
       level2: number;
       response: number;
     }[];
     selectAbleList: {
-      meta?: CardMeta;
+      meta: CardMeta;
       level1: number;
       level2: number;
       response: number;
@@ -100,3 +101,4 @@ export * from "./yesNoModalSlice";
 export * from "./positionModalSlice";
 export * from "./optionModalSlice";
 export * from "./checkCardModalV2Slice";
+export * from "./checkCardModalV3Slice";

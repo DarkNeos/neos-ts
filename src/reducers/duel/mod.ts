@@ -53,6 +53,11 @@ import {
   resetCheckCardModalV2Impl,
   setCheckCardModalV2ResponseAbleImpl,
   checkCardModalV2Case,
+  setCheckCardModalV3IsOpenImpl,
+  setCheckCardModalV3MinMaxImpl,
+  setCheckCardModalV3AllLevelImpl,
+  setCheckCardModalV3OverFlowImpl,
+  setCheckCardModalV3ResponseAbleImpl,
 } from "./modal/mod";
 import {
   MonsterState,
@@ -260,6 +265,11 @@ const duelSlice = createSlice({
     setCheckCardModalV2IsOpen: setCheckCardModalV2IsOpenImpl,
     resetCheckCardModalV2: resetCheckCardModalV2Impl,
     setCheckCardModalV2ResponseAble: setCheckCardModalV2ResponseAbleImpl,
+    setCheckCardModalV3IsOpen: setCheckCardModalV3IsOpenImpl,
+    setCheckCardModalV3MinMax: setCheckCardModalV3MinMaxImpl,
+    setCheckCardModalV3AllLevel: setCheckCardModalV3AllLevelImpl,
+    setCheckCardModalV3OverFlow: setCheckCardModalV3OverFlowImpl,
+    setCheckCardModalV3ResponseAble: setCheckCardModalV3ResponseAbleImpl,
 
     // 通用的`Reducer`
     clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
@@ -364,6 +374,11 @@ export const {
   setUnimplemented,
   updateFieldData,
   reloadField,
+  setCheckCardModalV3IsOpen,
+  setCheckCardModalV3MinMax,
+  setCheckCardModalV3AllLevel,
+  setCheckCardModalV3OverFlow,
+  setCheckCardModalV3ResponseAble,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;
