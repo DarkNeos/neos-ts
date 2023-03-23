@@ -10,6 +10,7 @@ import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
  * */
 
 export default (data: Uint8Array) => {
+  // FIXME: handle it correctly
   const reader = new BufferReaderExt(data);
 
   const player = reader.inner.readUint8();

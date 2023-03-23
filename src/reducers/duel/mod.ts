@@ -60,6 +60,7 @@ import {
   setCheckCardModalV3ResponseAbleImpl,
   resetCheckCardModalV3Impl,
   setCheckCardModalV3SelectedImpl,
+  checkCardModalV3Case,
 } from "./modal/mod";
 import {
   MonsterState,
@@ -310,6 +311,7 @@ const duelSlice = createSlice({
     YesNoModalCase(builder);
     optionModalCase(builder);
     checkCardModalV2Case(builder);
+    checkCardModalV3Case(builder);
   },
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import { Modal, Button, Card, Row, Col } from "antd";
@@ -8,7 +8,6 @@ import {
   resetCheckCardModalV3,
   setCheckCardModalV3IsOpen,
   setCheckCardModalV3ResponseAble,
-  setCheckCardModalV3Selected,
 } from "../../reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
 import { selectCheckCardModalV3 } from "../../reducers/duel/modal/checkCardModalV3Slice";
@@ -21,7 +20,7 @@ const CheckCardModalV3 = () => {
   const max = state.selectMax || 0;
   const mustSelectOptions = state.mustSelectList;
   const selectAbleOptions = state.selectAbleList;
-  const selectedOptions = state.selectedList;
+  const [selectedOptions, setSelectedOptions] = useState(state.selectedList);
   const overflow = state.overflow;
   const LevelSum = state.allLevel;
   const Level1Sum = mustSelectOptions
@@ -68,7 +67,8 @@ const CheckCardModalV3 = () => {
         size="small"
         multiple={true}
         onChange={(values: any) => {
-          setCheckCardModalV3Selected(values);
+          console.log(values);
+          setSelectedOptions(values);
         }}
       >
         <Row>
@@ -95,7 +95,7 @@ const CheckCardModalV3 = () => {
       </CheckCard.Group>
       <p>必须选择的卡片</p>
       <Row>
-        {selectedOptions.map((option, idx) => {
+        {mustSelectOptions.map((option, idx) => {
           return (
             <Col span={4} key={idx}>
               <Card

@@ -1,6 +1,7 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
   setCheckCardModalV3AllLevel,
+  setCheckCardModalV3IsOpen,
   setCheckCardModalV3MinMax,
   setCheckCardModalV3OverFlow,
 } from "../../reducers/duel/mod";
@@ -26,4 +27,5 @@ export default (selectSum: MsgSelectSum, dispatch: AppDispatch) => {
       options: selectSum.selectable_cards,
     })
   );
+  dispatch(setCheckCardModalV3IsOpen(true));
 };
