@@ -329,6 +329,7 @@ export function updateCardData<T extends DuelFieldState>(
         if (payload.defense !== undefined && payload.defense >= 0) {
           occupant.data.def = payload.defense;
         }
+        // TODO: counters
       }
       if (target?.reload) {
         target.reload = false;
