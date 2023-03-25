@@ -14,7 +14,7 @@ const NeosAlert = () => {
       {unimplemented ? (
         <Alert
           message={`Unimplemented message with code=${unimplemented}`}
-          description="It seems that there's something unimplemented by Neos. Sincerely apologize for that. Contact use to fix this issue: <linuxgnulover@gmail.com>"
+          description="It seems that there's something unimplemented by Neos. Sincerely apologize for that. Contact use to fix this issue: <ccc@neos.moe>"
           showIcon
           type="error"
           closable
