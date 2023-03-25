@@ -151,7 +151,7 @@ const CounterLine = (props: { counters: { [type: number]: number } }) => {
   for (const counterType in props.counters) {
     const count = props.counters[counterType];
     if (count > 0) {
-      const counterStr = fetchStrings("!counter", Number(counterType));
+      const counterStr = fetchStrings("!counter", `0x${counterType}`);
       counters.push(`${counterStr}: ${count}`);
     }
   }
