@@ -5,6 +5,7 @@ import {
   selectCardModalIsOpen,
   selectCardModalInteractivies,
   selectCardModalMeta,
+  selectCardModalCounters,
 } from "../../reducers/duel/modal/mod";
 import {
   setCardModalIsOpen,
@@ -39,6 +40,7 @@ const CardModal = () => {
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
+  const counters = useAppSelector(selectCardModalCounters);
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
@@ -65,6 +67,9 @@ const CardModal = () => {
         </p>
         <p>
           <AtkLine level={level} atk={atk} def={def} />
+        </p>
+        <p>
+          <CounterLine counters={counters} />
         </p>
         <p>{desc}</p>
       </Card>
@@ -138,6 +143,27 @@ const AttLine = (props: {
       <Col>/</Col>
       {attribute ? <Col>{attribute}</Col> : <></>}
     </Row>
+  );
+};
+
+const CounterLine = (props: { counters: { [type: number]: number } }) => {
+  const counters = [];
+  for (const counterType in props.counters) {
+    const count = props.counters[counterType];
+    if (count > 0) {
+      const counterStr = fetchStrings("!counter", Number(counterType));
+      counters.push(`${counterStr}: ${count}`);
+    }
+  }
+
+  return counters.length > 0 ? (
+    <Row gutter={8}>
+      {counters.map((counter) => (
+        <Col>{counter}</Col>
+      ))}
+    </Row>
+  ) : (
+    <></>
   );
 };
 

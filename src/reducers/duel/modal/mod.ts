@@ -7,6 +7,7 @@ export interface ModalState {
     isOpen: boolean;
     meta?: CardMeta;
     interactivies: { desc: string; response: number }[];
+    counters: { [type: number]: number };
   };
   // 卡牌列表弹窗
   cardListModal: {

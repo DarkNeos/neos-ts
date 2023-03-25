@@ -8,6 +8,7 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import {
   setCardListModalInfo,
   setCardListModalIsOpen,
+  setCardModalCounters,
   setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalMeta,
@@ -68,6 +69,7 @@ const FixedSlot = (props: {
             })
           )
         );
+        dispatch(setCardModalCounters(props.state.counters));
         dispatch(setCardModalIsOpen(true));
 
         // 侧边栏展示超量素材信息
