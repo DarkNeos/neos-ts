@@ -14,7 +14,6 @@ export default (
   selectUnselectCard: MsgSelectUnselectCard,
   dispatch: AppDispatch
 ) => {
-  const controler = selectUnselectCard.player;
   const finishable = selectUnselectCard.finishable;
   const cancelable = selectUnselectCard.cancelable;
   const min = selectUnselectCard.min;
@@ -29,20 +28,26 @@ export default (
 
   dispatch(
     fetchCheckCardMetasV2({
-      controler,
       selected: false,
       options: selectableCards.map((card) => {
-        return { code: card.code, response: card.response };
+        return {
+          code: card.code,
+          location: card.location,
+          response: card.response,
+        };
       }),
     })
   );
 
   dispatch(
     fetchCheckCardMetasV2({
-      controler,
       selected: true,
       options: selectedCards.map((card) => {
-        return { code: card.code, response: card.response };
+        return {
+          code: card.code,
+          location: card.location,
+          response: card.response,
+        };
       }),
     })
   );

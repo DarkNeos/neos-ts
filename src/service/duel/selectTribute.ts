@@ -25,6 +25,7 @@ export default (selectTribute: MsgSelectTribute, dispatch: AppDispatch) => {
       options: selectTribute.selectable_cards.map((card) => {
         return {
           code: card.code,
+          location: card.location,
           level1: card.level,
           level2: card.level,
           response: card.response,
