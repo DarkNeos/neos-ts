@@ -61,6 +61,7 @@ import {
   resetCheckCardModalV3Impl,
   setCheckCardModalV3SelectedImpl,
   checkCardModalV3Case,
+  setCardModalCountersImpl,
 } from "./modal/mod";
 import {
   MonsterState,
@@ -72,6 +73,7 @@ import {
   removeMonsterImpl,
   setMonsterPositionImpl,
   removeOverlayImpl,
+  updateMonsterCountersImpl,
   monsterCase,
 } from "./monstersSlice";
 import {
@@ -162,7 +164,7 @@ export interface DuelState {
 
 const initialState: DuelState = {
   modalState: {
-    cardModal: { isOpen: false, interactivies: [] },
+    cardModal: { isOpen: false, interactivies: [], counters: {} },
     cardListModal: { isOpen: false, list: [] },
     checkCardModal: { isOpen: false, cancelAble: false, tags: [] },
     yesNoModal: { isOpen: false },
@@ -213,6 +215,7 @@ const duelSlice = createSlice({
     setMonsterPosition: setMonsterPositionImpl,
     removeMonster: removeMonsterImpl,
     removeOverlay: removeOverlayImpl,
+    updateMonsterCounters: updateMonsterCountersImpl,
 
     // 魔法陷阱区相关`Reducer`
     initMagics: initMagicsImpl,
@@ -277,6 +280,7 @@ const duelSlice = createSlice({
     setCheckCardModalV3ResponseAble: setCheckCardModalV3ResponseAbleImpl,
     resetCheckCardModalV3: resetCheckCardModalV3Impl,
     setCheckCardModalV3Selected: setCheckCardModalV3SelectedImpl,
+    setCardModalCounters: setCardModalCountersImpl,
 
     // 通用的`Reducer`
     clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
@@ -337,6 +341,7 @@ export const {
   clearMonsterIdleInteractivities,
   setMonsterPosition,
   removeMonster,
+  updateMonsterCounters,
   removeOverlay,
   initMagics,
   addMagicPlaceInteractivities,
@@ -389,6 +394,7 @@ export const {
   setCheckCardModalV3ResponseAble,
   resetCheckCardModalV3,
   setCheckCardModalV3Selected,
+  setCardModalCounters,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

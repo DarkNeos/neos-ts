@@ -16,7 +16,7 @@ export async function initStrings() {
   }
 }
 
-export function fetchStrings(region: string, id: number): string {
+export function fetchStrings(region: string, id: string | number): string {
   return localStorage.getItem(`${region}_${id}`) || "";
 }
 

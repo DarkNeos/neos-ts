@@ -5446,7 +5446,7 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25, 26,
+        21, 22, 23, 24, 25, 26, 27,
       ],
     ];
     constructor(
@@ -5480,6 +5480,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5508,6 +5509,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5536,6 +5538,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5564,6 +5567,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5592,6 +5596,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5620,6 +5625,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5648,6 +5654,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5676,6 +5683,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5704,6 +5712,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5732,6 +5741,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5760,6 +5770,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5788,6 +5799,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5816,6 +5828,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5844,6 +5857,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5872,6 +5886,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5900,6 +5915,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5928,6 +5944,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5956,6 +5973,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -5984,6 +6002,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6012,6 +6031,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6040,6 +6060,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6068,6 +6089,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6096,6 +6118,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6124,6 +6147,7 @@ export namespace ygopro {
                 reload_field?: StocGameMessage.MsgReloadField;
                 select_sum?: never;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6152,6 +6176,7 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: StocGameMessage.MsgSelectSum;
                 select_tribute?: never;
+                update_counter?: never;
               }
             | {
                 start?: never;
@@ -6180,6 +6205,36 @@ export namespace ygopro {
                 reload_field?: never;
                 select_sum?: never;
                 select_tribute?: StocGameMessage.MsgSelectTribute;
+                update_counter?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: StocGameMessage.MsgUpdateCounter;
               }
           ))
     ) {
@@ -6276,6 +6331,9 @@ export namespace ygopro {
         }
         if ("select_tribute" in data && data.select_tribute != undefined) {
           this.select_tribute = data.select_tribute;
+        }
+        if ("update_counter" in data && data.update_counter != undefined) {
+          this.update_counter = data.update_counter;
         }
       }
     }
@@ -6617,6 +6675,19 @@ export namespace ygopro {
     get has_select_tribute() {
       return pb_1.Message.getField(this, 26) != null;
     }
+    get update_counter() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgUpdateCounter,
+        27
+      ) as StocGameMessage.MsgUpdateCounter;
+    }
+    set update_counter(value: StocGameMessage.MsgUpdateCounter) {
+      pb_1.Message.setOneofWrapperField(this, 27, this.#one_of_decls[0], value);
+    }
+    get has_update_counter() {
+      return pb_1.Message.getField(this, 27) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -6646,7 +6717,8 @@ export namespace ygopro {
           | "update_data"
           | "reload_field"
           | "select_sum"
-          | "select_tribute";
+          | "select_tribute"
+          | "update_counter";
       } = {
         0: "none",
         1: "start",
@@ -6675,13 +6747,14 @@ export namespace ygopro {
         24: "reload_field",
         25: "select_sum",
         26: "select_tribute",
+        27: "update_counter",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24, 25, 26,
+            20, 21, 22, 23, 24, 25, 26, 27,
           ]
         )
       ];
@@ -6752,6 +6825,9 @@ export namespace ygopro {
       >;
       select_tribute?: ReturnType<
         typeof StocGameMessage.MsgSelectTribute.prototype.toObject
+      >;
+      update_counter?: ReturnType<
+        typeof StocGameMessage.MsgUpdateCounter.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -6871,6 +6947,11 @@ export namespace ygopro {
           data.select_tribute
         );
       }
+      if (data.update_counter != null) {
+        message.update_counter = StocGameMessage.MsgUpdateCounter.fromObject(
+          data.update_counter
+        );
+      }
       return message;
     }
     toObject() {
@@ -6940,6 +7021,9 @@ export namespace ygopro {
         >;
         select_tribute?: ReturnType<
           typeof StocGameMessage.MsgSelectTribute.prototype.toObject
+        >;
+        update_counter?: ReturnType<
+          typeof StocGameMessage.MsgUpdateCounter.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -7019,6 +7103,9 @@ export namespace ygopro {
       }
       if (this.select_tribute != null) {
         data.select_tribute = this.select_tribute.toObject();
+      }
+      if (this.update_counter != null) {
+        data.update_counter = this.update_counter.toObject();
       }
       return data;
     }
@@ -7117,6 +7204,10 @@ export namespace ygopro {
       if (this.has_select_tribute)
         writer.writeMessage(26, this.select_tribute, () =>
           this.select_tribute.serialize(writer)
+        );
+      if (this.has_update_counter)
+        writer.writeMessage(27, this.update_counter, () =>
+          this.update_counter.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -7324,6 +7415,14 @@ export namespace ygopro {
               () =>
                 (message.select_tribute =
                   StocGameMessage.MsgSelectTribute.deserialize(reader))
+            );
+            break;
+          case 27:
+            reader.readMessage(
+              message.update_counter,
+              () =>
+                (message.update_counter =
+                  StocGameMessage.MsgUpdateCounter.deserialize(reader))
             );
             break;
           default:
@@ -13610,6 +13709,182 @@ export namespace ygopro {
         static deserializeBinary(bytes: Uint8Array): Action {
           return Action.deserialize(bytes);
         }
+      }
+    }
+    export class MsgUpdateCounter extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              counter_type?: number;
+              location?: CardLocation;
+              action_type?: StocGameMessage.MsgUpdateCounter.ActionType;
+              count?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("counter_type" in data && data.counter_type != undefined) {
+            this.counter_type = data.counter_type;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+          if ("action_type" in data && data.action_type != undefined) {
+            this.action_type = data.action_type;
+          }
+          if ("count" in data && data.count != undefined) {
+            this.count = data.count;
+          }
+        }
+      }
+      get counter_type() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set counter_type(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      get action_type() {
+        return pb_1.Message.getFieldWithDefault(
+          this,
+          3,
+          StocGameMessage.MsgUpdateCounter.ActionType.UNKNOWN
+        ) as StocGameMessage.MsgUpdateCounter.ActionType;
+      }
+      set action_type(value: StocGameMessage.MsgUpdateCounter.ActionType) {
+        pb_1.Message.setField(this, 3, value);
+      }
+      get count() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+      }
+      set count(value: number) {
+        pb_1.Message.setField(this, 4, value);
+      }
+      static fromObject(data: {
+        counter_type?: number;
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        action_type?: StocGameMessage.MsgUpdateCounter.ActionType;
+        count?: number;
+      }): MsgUpdateCounter {
+        const message = new MsgUpdateCounter({});
+        if (data.counter_type != null) {
+          message.counter_type = data.counter_type;
+        }
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        if (data.action_type != null) {
+          message.action_type = data.action_type;
+        }
+        if (data.count != null) {
+          message.count = data.count;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          counter_type?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          action_type?: StocGameMessage.MsgUpdateCounter.ActionType;
+          count?: number;
+        } = {};
+        if (this.counter_type != null) {
+          data.counter_type = this.counter_type;
+        }
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        if (this.action_type != null) {
+          data.action_type = this.action_type;
+        }
+        if (this.count != null) {
+          data.count = this.count;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.counter_type != 0) writer.writeInt32(1, this.counter_type);
+        if (this.has_location)
+          writer.writeMessage(2, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (
+          this.action_type !=
+          StocGameMessage.MsgUpdateCounter.ActionType.UNKNOWN
+        )
+          writer.writeEnum(3, this.action_type);
+        if (this.count != 0) writer.writeInt32(4, this.count);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgUpdateCounter {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgUpdateCounter();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.counter_type = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            case 3:
+              message.action_type = reader.readEnum();
+              break;
+            case 4:
+              message.count = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgUpdateCounter {
+        return MsgUpdateCounter.deserialize(bytes);
+      }
+    }
+    export namespace MsgUpdateCounter {
+      export enum ActionType {
+        UNKNOWN = 0,
+        ADD = 1,
+        REMOVE = 2,
       }
     }
     export class MsgReloadField extends pb_1.Message {

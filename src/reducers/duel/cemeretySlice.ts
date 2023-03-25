@@ -51,6 +51,7 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
         sequence,
       },
       idleInteractivities: [],
+      counters: {},
     };
     if (judgeSelf(controler, state)) {
       extendState(state.meCemetery, newCemetery);

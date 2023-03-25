@@ -22,6 +22,9 @@ import {
   removeOverlay,
 } from "./generic";
 import { fetchCard } from "../../api/cards";
+type MsgUpdateCounter = ReturnType<
+  typeof ygopro.StocGameMessage.MsgUpdateCounter.prototype.toObject
+>;
 
 export interface MonsterState extends DuelFieldState {}
 
@@ -40,6 +43,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 0,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -48,6 +52,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 1,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -56,6 +61,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 2,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -64,6 +70,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 3,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -72,6 +79,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 4,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -80,6 +88,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 5,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -88,6 +97,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 6,
         },
         idleInteractivities: [],
+        counters: {},
       },
     ],
   };
@@ -146,6 +156,44 @@ export const addMonsterIdleInteractivitiesImpl: CaseReducer<
     action.payload.sequence,
     action.payload.interactivity
   );
+};
+
+export const updateMonsterCountersImpl: CaseReducer<
+  DuelState,
+  PayloadAction<MsgUpdateCounter>
+> = (state, action) => {
+  const monsters = judgeSelf(action.payload.location?.controler!, state)
+    ? state.meMonsters
+    : state.opMonsters;
+  if (monsters) {
+    const target = monsters.inner.find(
+      (_, idx) => idx == action.payload.location?.sequence!
+    );
+    if (target) {
+      const count = action.payload.count!;
+      const counterType = action.payload.action_type!;
+
+      switch (action.payload.action_type!) {
+        case ygopro.StocGameMessage.MsgUpdateCounter.ActionType.ADD: {
+          if (counterType in target.counters) {
+            target.counters[counterType] += count;
+          } else {
+            target.counters[counterType] = count;
+          }
+          break;
+        }
+        case ygopro.StocGameMessage.MsgUpdateCounter.ActionType.REMOVE: {
+          if (counterType in target.counters) {
+            target.counters[counterType] -= count;
+          }
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+  }
 };
 
 export const clearMonsterIdleInteractivitiesImpl: CaseReducer<

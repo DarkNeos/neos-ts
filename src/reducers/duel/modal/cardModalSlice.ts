@@ -27,9 +27,19 @@ export const setCardModalInteractiviesImpl: CaseReducer<
   state.modalState.cardModal.interactivies = action.payload;
 };
 
+// 更新卡牌弹窗指示器
+export const setCardModalCountersImpl: CaseReducer<
+  DuelState,
+  PayloadAction<{ [type: number]: number }>
+> = (state, action) => {
+  state.modalState.cardModal.counters = action.payload;
+};
+
 export const selectCardModalIsOpen = (state: RootState) =>
   state.duel.modalState.cardModal.isOpen;
 export const selectCardModalMeta = (state: RootState) =>
   state.duel.modalState.cardModal.meta;
 export const selectCardModalInteractivies = (state: RootState) =>
   state.duel.modalState.cardModal.interactivies;
+export const selectCardModalCounters = (state: RootState) =>
+  state.duel.modalState.cardModal.counters;
