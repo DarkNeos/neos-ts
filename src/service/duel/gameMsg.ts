@@ -25,6 +25,7 @@ import onUnimplemented from "./unimplemented";
 import onMsgUpdateData from "./updateData";
 import onMsgReloadField from "./reloadField";
 import onMsgSelectSum from "./selectSum";
+import onMsgSelectTribute from "./selectTribute";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
@@ -166,6 +167,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "select_sum": {
       onMsgSelectSum(msg.select_sum, dispatch);
+
+      break;
+    }
+    case "select_tribute": {
+      onMsgSelectTribute(msg.select_tribute, dispatch);
 
       break;
     }
