@@ -65,6 +65,7 @@ export const fetchCheckCardMeta = createAsyncThunk(
       effectDescCode?: number;
     };
   }) => {
+    // FIXME: 这里如果传的`controler`如果是对手，对应的`code`会为零，这时候就无法更新对应的`Meta`信息了，后续需要修复
     const meta = await fetchCard(param.option.code, true);
     const effectDesc = param.option.effectDescCode
       ? getCardStr(meta, param.option.effectDescCode & 0xf)
@@ -102,7 +103,7 @@ export const checkCardModalCase = (
     const newID =
       code != 0
         ? code
-        : zone && sequence
+        : zone !== undefined && sequence !== undefined
         ? findCardByLocation(state, controler, zone, sequence)?.occupant?.id
         : undefined;
 

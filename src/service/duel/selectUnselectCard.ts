@@ -32,7 +32,12 @@ export default (
       controler,
       selected: false,
       options: selectableCards.map((card) => {
-        return { code: card.code, response: card.response };
+        return {
+          code: card.code,
+          zone: card.location.location,
+          sequence: card.location.sequence,
+          response: card.response,
+        };
       }),
     })
   );
@@ -42,7 +47,12 @@ export default (
       controler,
       selected: true,
       options: selectedCards.map((card) => {
-        return { code: card.code, response: card.response };
+        return {
+          code: card.code,
+          zone: card.location.location,
+          sequence: card.location.sequence,
+          response: card.response,
+        };
       }),
     })
   );

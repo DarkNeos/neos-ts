@@ -7,6 +7,8 @@ import {
 } from "@reduxjs/toolkit";
 import { fetchCard } from "../../../api/cards";
 import { RootState } from "../../../store";
+import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
+import { findCardByLocation } from "../util";
 
 // 更新打开状态
 export const setCheckCardModalV2IsOpenImpl: DuelReducer<boolean> = (
@@ -55,7 +57,12 @@ export const fetchCheckCardMetasV2 = createAsyncThunk(
   async (param: {
     controler: number;
     selected: boolean;
-    options: { code: number; response: number }[];
+    options: {
+      code: number;
+      zone: ygopro.CardZone;
+      sequence: number;
+      response: number;
+    }[];
   }) => {
     const metas = await Promise.all(
       param.options.map(async (option) => {
@@ -76,8 +83,18 @@ export const checkCardModalV2Case = (
   builder: ActionReducerMapBuilder<DuelState>
 ) => {
   builder.addCase(fetchCheckCardMetasV2.pending, (state, action) => {
+    const controler = action.meta.arg.controler;
     const selected = action.meta.arg.selected;
     const options = action.meta.arg.options;
+
+    for (const option of options) {
+      if (option.code == 0) {
+        const newCode =
+          findCardByLocation(state, controler, option.zone, option.sequence)
+            ?.occupant?.id || 0;
+        option.code = newCode;
+      }
+    }
 
     if (selected) {
       state.modalState.checkCardModalV2.selectedOptions = options;
