@@ -55,12 +55,10 @@ export const setCheckCardModalV2ResponseAbleImpl: DuelReducer<boolean> = (
 export const fetchCheckCardMetasV2 = createAsyncThunk(
   "duel/fetchCheckCardMetaV2",
   async (param: {
-    controler: number;
     selected: boolean;
     options: {
       code: number;
-      zone: ygopro.CardZone;
-      sequence: number;
+      location: ygopro.CardLocation;
       response: number;
     }[];
   }) => {
@@ -70,7 +68,6 @@ export const fetchCheckCardMetasV2 = createAsyncThunk(
       })
     );
     const response = {
-      controler: param.controler,
       selected: param.selected,
       metas,
     };
@@ -83,15 +80,13 @@ export const checkCardModalV2Case = (
   builder: ActionReducerMapBuilder<DuelState>
 ) => {
   builder.addCase(fetchCheckCardMetasV2.pending, (state, action) => {
-    const controler = action.meta.arg.controler;
     const selected = action.meta.arg.selected;
     const options = action.meta.arg.options;
 
     for (const option of options) {
       if (option.code == 0) {
         const newCode =
-          findCardByLocation(state, controler, option.zone, option.sequence)
-            ?.occupant?.id || 0;
+          findCardByLocation(state, option.location)?.occupant?.id || 0;
         option.code = newCode;
       }
     }

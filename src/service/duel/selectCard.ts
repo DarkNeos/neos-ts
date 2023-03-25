@@ -25,12 +25,10 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
     const tagName = CardZoneToChinese(card.location.location);
     dispatch(
       fetchCheckCardMeta({
-        controler: card.location.controler,
         tagName,
         option: {
           code: card.code,
-          zone: card.location.location,
-          sequence: card.location.sequence,
+          location: card.location,
           response: card.response,
         },
       })

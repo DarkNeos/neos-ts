@@ -55,23 +55,21 @@ export const setCheckCardModalCancelResponseImpl: CaseReducer<
 export const fetchCheckCardMeta = createAsyncThunk(
   "duel/fetchCheckCardMeta",
   async (param: {
-    controler: number;
     tagName: string;
     option: {
       code: number;
-      zone?: ygopro.CardZone;
-      sequence?: number;
+      location: ygopro.CardLocation;
       response: number;
       effectDescCode?: number;
     };
   }) => {
-    // FIXME: 这里如果传的`controler`如果是对手，对应的`code`会为零，这时候就无法更新对应的`Meta`信息了，后续需要修复
+    // FIXME: 这里如果传的`controler`如果是对手，对应的`code`会为零，这时候就无法更新对应的`Meta`信息了，后续需要修复。`fetchCheckCardMetaV2`和`fetchCheckCardMetaV3`同理
     const meta = await fetchCard(param.option.code, true);
     const effectDesc = param.option.effectDescCode
       ? getCardStr(meta, param.option.effectDescCode & 0xf)
       : undefined;
     const response = {
-      controler: param.controler,
+      controler: param.option.location.controler,
       tagName: param.tagName,
       meta: {
         code: meta.id,
@@ -89,11 +87,10 @@ export const checkCardModalCase = (
   builder: ActionReducerMapBuilder<DuelState>
 ) => {
   builder.addCase(fetchCheckCardMeta.pending, (state, action) => {
-    const controler = action.meta.arg.controler;
     const tagName = action.meta.arg.tagName;
     const code = action.meta.arg.option.code;
-    const zone = action.meta.arg.option.zone;
-    const sequence = action.meta.arg.option.sequence;
+    const location = action.meta.arg.option.location;
+    const controler = location.controler;
     const response = action.meta.arg.option.response;
 
     const combinedTagName = judgeSelf(controler, state)
@@ -101,11 +98,7 @@ export const checkCardModalCase = (
       : `对方的${tagName}`;
 
     const newID =
-      code != 0
-        ? code
-        : zone !== undefined && sequence !== undefined
-        ? findCardByLocation(state, controler, zone, sequence)?.occupant?.id
-        : undefined;
+      code != 0 ? code : findCardByLocation(state, location)?.occupant?.id || 0;
 
     if (newID) {
       for (const tag of state.modalState.checkCardModal.tags) {
