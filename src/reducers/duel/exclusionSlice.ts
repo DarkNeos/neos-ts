@@ -53,6 +53,7 @@ export const exclusionCase = (builder: ActionReducerMapBuilder<DuelState>) => {
         sequence,
       },
       idleInteractivities: [],
+      counters: {},
     };
     if (judgeSelf(controler, state)) {
       extendState(state.meExclusion, newExclusion);

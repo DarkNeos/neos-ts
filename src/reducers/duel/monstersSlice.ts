@@ -40,6 +40,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 0,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -48,6 +49,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 1,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -56,6 +58,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 2,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -64,6 +67,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 3,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -72,6 +76,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 4,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -80,6 +85,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 5,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -88,6 +94,7 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 6,
         },
         idleInteractivities: [],
+        counters: {},
       },
     ],
   };

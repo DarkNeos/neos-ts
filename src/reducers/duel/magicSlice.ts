@@ -37,6 +37,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 0,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -45,6 +46,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 1,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -53,6 +55,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 2,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -61,6 +64,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 3,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         location: {
@@ -69,6 +73,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 4,
         },
         idleInteractivities: [],
+        counters: {},
       },
       {
         // 场地区
@@ -78,6 +83,7 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
           sequence: 5,
         },
         idleInteractivities: [],
+        counters: {},
       },
     ],
   };

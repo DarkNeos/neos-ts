@@ -93,6 +93,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
           controler: player,
           location: ygopro.CardZone.HAND,
         },
+        counters: {},
         idleInteractivities: [],
       };
     });
@@ -130,6 +131,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       occupant: { id: code, data: {}, text: {} },
       location: { controler },
       idleInteractivities: [],
+      counters: {},
     });
   });
   builder.addCase(insertHandMeta.fulfilled, (state, action) => {
@@ -154,6 +156,7 @@ export const handsCase = (builder: ActionReducerMapBuilder<DuelState>) => {
           location: ygopro.CardZone.HAND,
         },
         idleInteractivities: [],
+        counters: {},
       };
     });
 

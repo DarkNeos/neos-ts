@@ -34,6 +34,7 @@ export interface CardState {
     sequence: number;
   }>; // 选择位置状态下的互动信息
   overlay_materials?: CardMeta[]; // 超量素材
+  counters: { [type: number]: number }; // 指示器
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
 }
 
@@ -351,6 +352,7 @@ export function reloadFieldMeta<T extends DuelFieldState>(
         position: action.position,
       },
       idleInteractivities: [],
+      counters: {},
       reload: true,
     };
   });
