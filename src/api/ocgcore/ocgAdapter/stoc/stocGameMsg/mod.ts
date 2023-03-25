@@ -96,7 +96,7 @@ export default class GameMsgAdapter implements StocAdapter {
           break;
         }
         case GAME_MSG.MSG_SELECT_TRIBUTE: {
-          gameMsg.select_card = MsgSelectTributeAdapter(gameData);
+          gameMsg.select_tribute = MsgSelectTributeAdapter(gameData);
 
           break;
         }
