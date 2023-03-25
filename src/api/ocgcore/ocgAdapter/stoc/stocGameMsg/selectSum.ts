@@ -50,13 +50,15 @@ export default (data: Uint8Array) => {
     const code = reader.inner.readInt32();
     const location = reader.readCardShortLocation();
     const para = reader.inner.readInt32();
+    const level1 = para & 0xffff;
+    const level2 = para >> 16 > 0 ? para >> 16 : level1;
 
     msg.selectable_cards.push(
       new MsgSelectSum.Info({
         code,
         location,
-        level1: para & 0xffff,
-        level2: para >> 16,
+        level1,
+        level2,
         response: i,
       })
     );

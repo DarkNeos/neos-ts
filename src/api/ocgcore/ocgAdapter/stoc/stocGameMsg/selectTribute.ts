@@ -1,6 +1,6 @@
 import { ygopro } from "../../../idl/ocgcore";
 import { BufferReaderExt } from "../../bufferIO";
-import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
+import MsgSelectTribute = ygopro.StocGameMessage.MsgSelectTribute;
 
 /*
  * Msg Select Tribute
@@ -10,7 +10,6 @@ import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
  * */
 
 export default (data: Uint8Array) => {
-  // FIXME: handle it correctly
   const reader = new BufferReaderExt(data);
 
   const player = reader.inner.readUint8();
@@ -19,25 +18,25 @@ export default (data: Uint8Array) => {
   const max = reader.inner.readUint8();
   const count = reader.inner.readUint8();
 
-  const msg = new MsgSelectCard({ player, cancelable, min, max });
+  const msg = new MsgSelectTribute({
+    player,
+    cancelable,
+    min,
+    max,
+    selectable_cards: [],
+  });
 
   for (let i = 0; i < count; i++) {
     const code = reader.inner.readUint32();
-    const controler = reader.inner.readUint8();
-    const location = reader.inner.readUint8();
-    const sequence = reader.inner.readUint8();
-    const release_param = reader.inner.readUint8();
+    const location = reader.readCardShortLocation();
+    const level = reader.inner.readUint8();
 
-    msg.cards.push(
-      new MsgSelectCard.SelectAbleCard({
+    msg.selectable_cards.push(
+      new MsgSelectTribute.Info({
         code,
-        location: new ygopro.CardLocation({
-          controler,
-          location,
-          sequence,
-        }),
+        location,
+        level,
         response: i,
-        release_param,
       })
     );
   }
