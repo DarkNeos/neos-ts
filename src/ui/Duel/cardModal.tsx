@@ -58,19 +58,13 @@ const CardModal = () => {
         cover={<img alt={name} src={imgUrl} />}
       >
         <Meta title={name} />
-        <p>
-          <AttLine
-            types={extraCardTypes(types || 0)}
-            race={race}
-            attribute={attribute}
-          />
-        </p>
-        <p>
-          <AtkLine level={level} atk={atk} def={def} />
-        </p>
-        <p>
-          <CounterLine counters={counters} />
-        </p>
+        <AttLine
+          types={extraCardTypes(types || 0)}
+          race={race}
+          attribute={attribute}
+        />
+        <AtkLine level={level} atk={atk} def={def} />
+        <CounterLine counters={counters} />
         <p>{desc}</p>
       </Card>
       {interactivies.map((interactive, idx) => {
