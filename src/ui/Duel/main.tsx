@@ -27,6 +27,7 @@ import SendBox from "./sendBox";
 import PlayerStatus from "./status";
 import Alert from "./alert";
 import CheckCardModalV3 from "./checkCardModalV3";
+import CheckCounterModal from "./checkCounterModal";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -48,6 +49,7 @@ const NeosDuel = () => {
       <OptionModal />
       <CheckCardModalV2 />
       <CheckCardModalV3 />
+      <CheckCounterModal />
     </>
   );
 };

@@ -92,12 +92,15 @@ export interface ModalState {
       level2: number;
       response: number;
     }[];
-    // TODO: remove this prop
-    selectedList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
+  };
+  // 指示器选择弹窗
+  checkCounterModal: {
+    isOpen: boolean;
+    counterType?: number;
+    min?: number;
+    options: {
+      code: number;
+      max: number;
     }[];
   };
 }
@@ -110,3 +113,4 @@ export * from "./positionModalSlice";
 export * from "./optionModalSlice";
 export * from "./checkCardModalV2Slice";
 export * from "./checkCardModalV3Slice";
+export * from "./checkCounterModalSlice";
