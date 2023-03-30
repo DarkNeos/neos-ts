@@ -268,3 +268,17 @@ export function sendSelectUnselectCardResponse(value: {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSelectCounterResponse(counts: number[]) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      select_counter_response:
+        new ygopro.CtosGameMsgResponse.SelectCounterResponse({
+          selected_count: counts,
+        }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

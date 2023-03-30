@@ -102,6 +102,14 @@ impl BufferWriter {
         self.array.extend(value.to_le_bytes());
     }
 
+    pub fn writeUint16(&mut self, value: u16) {
+        self.array.extend(value.to_le_bytes());
+    }
+
+    pub fn writeInt16(&mut self, value: i16) {
+        self.array.extend(value.to_le_bytes());
+    }
+
     pub fn writeUint32(&mut self, value: u32) {
         self.array.extend(value.to_le_bytes());
     }
