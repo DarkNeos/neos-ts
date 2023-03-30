@@ -30,6 +30,7 @@ import MsgReloadFieldAdapter from "./reloadField";
 import MsgSelectSum from "./selectSum";
 import MsgAddCounter from "./addCounter";
 import MsgRemoveCounter from "./removeCounter";
+import MsgSelectCounter from "./selectCounter";
 import PENETRATE from "./penetrate";
 
 /*
@@ -175,6 +176,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_REMOVE_COUNTER: {
           gameMsg.update_counter = MsgRemoveCounter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SELECT_COUNTER: {
+          gameMsg.select_counter = MsgSelectCounter(gameData);
 
           break;
         }

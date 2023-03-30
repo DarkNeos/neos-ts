@@ -27,6 +27,7 @@ import onMsgReloadField from "./reloadField";
 import onMsgSelectSum from "./selectSum";
 import onMsgSelectTribute from "./selectTribute";
 import onMsgUpdateCounter from "./updateCounter";
+import onMsgSelectCounter from "./selectCounter";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
@@ -178,6 +179,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "update_counter": {
       onMsgUpdateCounter(msg.update_counter, dispatch);
+
+      break;
+    }
+    case "select_counter": {
+      onMsgSelectCounter(msg.select_counter, dispatch);
 
       break;
     }
