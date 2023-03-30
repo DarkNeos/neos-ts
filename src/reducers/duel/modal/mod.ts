@@ -92,13 +92,6 @@ export interface ModalState {
       level2: number;
       response: number;
     }[];
-    // TODO: remove this prop
-    selectedList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
-    }[];
   };
 }
 

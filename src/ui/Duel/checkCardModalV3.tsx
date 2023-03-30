@@ -21,7 +21,7 @@ const CheckCardModalV3 = () => {
   const max = state.selectMax || 0;
   const mustSelectOptions = state.mustSelectList;
   const selectAbleOptions = state.selectAbleList;
-  const [selectedOptions, setSelectedOptions] = useState(state.selectedList);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const overflow = state.overflow;
   const LevelSum = state.allLevel;
   const Level1Sum = mustSelectOptions

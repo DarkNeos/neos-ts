@@ -59,7 +59,6 @@ import {
   setCheckCardModalV3OverFlowImpl,
   setCheckCardModalV3ResponseAbleImpl,
   resetCheckCardModalV3Impl,
-  setCheckCardModalV3SelectedImpl,
   checkCardModalV3Case,
   setCardModalCountersImpl,
 } from "./modal/mod";
@@ -184,7 +183,6 @@ const initialState: DuelState = {
       allLevel: 0,
       mustSelectList: [],
       selectAbleList: [],
-      selectedList: [],
     },
   },
 };
@@ -279,7 +277,6 @@ const duelSlice = createSlice({
     setCheckCardModalV3OverFlow: setCheckCardModalV3OverFlowImpl,
     setCheckCardModalV3ResponseAble: setCheckCardModalV3ResponseAbleImpl,
     resetCheckCardModalV3: resetCheckCardModalV3Impl,
-    setCheckCardModalV3Selected: setCheckCardModalV3SelectedImpl,
     setCardModalCounters: setCardModalCountersImpl,
 
     // 通用的`Reducer`
@@ -393,7 +390,6 @@ export const {
   setCheckCardModalV3OverFlow,
   setCheckCardModalV3ResponseAble,
   resetCheckCardModalV3,
-  setCheckCardModalV3Selected,
   setCardModalCounters,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
