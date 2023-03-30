@@ -32,10 +32,10 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-
   // Draggable 相关
   const [draggable, setDraggable] = useState(false);
   const draggleRef = useRef<HTMLDivElement>(null);
+
   const onMouseOver = () => {
     if (draggable) {
       setDraggable(false);
@@ -44,7 +44,6 @@ const CheckCardModal = () => {
   const onMouseOut = () => {
     setDraggable(true);
   };
-
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (
     handlerName: string | undefined,
