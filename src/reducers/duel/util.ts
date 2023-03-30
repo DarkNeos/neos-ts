@@ -29,9 +29,11 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
  * 通过`controler`,`zone`和`sequence`获取卡牌状态*/
 export function findCardByLocation(
   state: Draft<DuelState>,
-  location: ygopro.CardLocation
+  location:
+    | ygopro.CardLocation
+    | ReturnType<typeof ygopro.CardLocation.prototype.toObject>
 ): CardState | undefined {
-  const controler = location.controler;
+  const controler = location.controler!;
   const zone = location.location;
   const sequence = location.sequence;
 
