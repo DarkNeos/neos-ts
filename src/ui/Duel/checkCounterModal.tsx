@@ -16,13 +16,14 @@ const CheckCounterModal = () => {
   const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
   const min = state.min || 0;
   const options = state.options;
-  const [selected, setSelected] = useState(options.map((_) => 0));
-  const finishable = selected.reduce((sum, current) => sum + current, 0) == min;
+  const [selected, setSelected] = useState(new Array(options.length));
+  const sum = selected.reduce((sum, current) => sum + current, 0);
+  const finishable = sum == min;
   const draggleRef = useRef<HTMLDivElement>(null);
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
-    dispatch(clearCheckCounter);
+    dispatch(clearCheckCounter());
   };
 
   return (
@@ -59,10 +60,10 @@ const CheckCounterModal = () => {
                   max={option.max}
                   defaultValue={0}
                   onChange={(value) => {
-                    setSelected((prev) => ({
-                      ...prev,
-                      [idx]: value || 0,
-                    }));
+                    let newSelected = [...selected];
+                    newSelected[idx] = value || 0;
+
+                    setSelected(newSelected);
                   }}
                 />
               </Card>
