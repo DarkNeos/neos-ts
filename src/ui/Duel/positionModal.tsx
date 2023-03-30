@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
-import { Modal, Button } from "antd";
+import { Button } from "antd";
 import { sendSelectPositionResponse } from "../../api/ocgcore/ocgHelper";
 import {
   selectPositionModalIsOpen,
@@ -13,6 +13,7 @@ import {
   setPositionModalIsOpen,
 } from "../../reducers/duel/mod";
 import { CheckCard } from "@ant-design/pro-components";
+import DragModal from "./dragModal";
 
 const PositionModal = () => {
   const dispatch = store.dispatch;
@@ -21,26 +22,31 @@ const PositionModal = () => {
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined
   );
+  const draggleRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Modal
-      title="请选择表示形式"
-      open={isOpen}
-      closable={false}
-      footer={
-        <Button
-          disabled={selected === undefined}
-          onClick={() => {
-            if (selected !== undefined) {
-              sendSelectPositionResponse(selected);
-              dispatch(setPositionModalIsOpen(false));
-              dispatch(resetPositionModal());
-            }
-          }}
-        >
-          submit
-        </Button>
-      }
+    <DragModal
+      modalProps={{
+        title: "请选择表示形式",
+        open: isOpen,
+        closable: false,
+        footer: (
+          <Button
+            disabled={selected === undefined}
+            onClick={() => {
+              if (selected !== undefined) {
+                sendSelectPositionResponse(selected);
+                dispatch(setPositionModalIsOpen(false));
+                dispatch(resetPositionModal());
+              }
+            }}
+          >
+            submit
+          </Button>
+        ),
+      }}
+      dragRef={draggleRef}
+      draggable={true}
     >
       <CheckCard.Group
         bordered
@@ -58,7 +64,7 @@ const PositionModal = () => {
           />
         ))}
       </CheckCard.Group>
-    </Modal>
+    </DragModal>
   );
 };
 

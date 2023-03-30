@@ -13,15 +13,14 @@ import {
   resetCheckCardModal,
   setCheckCardModalIsOpen,
 } from "../../reducers/duel/mod";
-import { Modal, Button, Row, Col, Popover } from "antd";
+import { Button, Row, Col, Popover } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import {
   sendSelectCardResponse,
   sendSelectChainResponse,
 } from "../../api/ocgcore/ocgHelper";
-import type { DraggableData, DraggableEvent } from "react-draggable";
-import Draggable from "react-draggable";
 import NeosConfig from "../../../neos.config.json";
+import DragModal from "./dragModal";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;
@@ -33,30 +32,10 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-
   // Draggable 相关
   const [draggable, setDraggable] = useState(false);
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-  });
   const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
-    const { clientWidth, clientHeight } = window.document.documentElement;
-    const targetRect = draggleRef.current?.getBoundingClientRect();
-    if (!targetRect) {
-      return;
-    }
-    setBounds({
-      left: -targetRect.left + uiData.x,
-      right: clientWidth - (targetRect.right - uiData.x),
-      top: -targetRect.top + uiData.y,
-      bottom: clientHeight - (targetRect.bottom - uiData.y),
-    });
-  };
   const onMouseOver = () => {
     if (draggable) {
       setDraggable(false);
@@ -65,7 +44,6 @@ const CheckCardModal = () => {
   const onMouseOut = () => {
     setDraggable(true);
   };
-
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (
     handlerName: string | undefined,
@@ -86,32 +64,17 @@ const CheckCardModal = () => {
   };
 
   return (
-    <Modal
-      title={`请选择${min}到${max}张卡片`}
-      open={isOpen}
-      closable={false}
-      footer={
-        <>
-          <Button
-            disabled={response.length < min || response.length > max}
-            onClick={() => {
-              sendResponseHandler(onSubmit, response);
-              dispatch(setCheckCardModalIsOpen(false));
-              dispatch(resetCheckCardModal());
-            }}
-            onMouseOver={onMouseOver}
-            onMouseOut={onMouseOut}
-            onFocus={() => {}}
-            onBlur={() => {}}
-          >
-            submit
-          </Button>
-          {cancelAble ? (
+    <DragModal
+      modalProps={{
+        title: `请选择${min}到${max}张卡片`,
+        open: isOpen,
+        closable: false,
+        footer: (
+          <>
             <Button
+              disabled={response.length < min || response.length > max}
               onClick={() => {
-                if (cancelResponse) {
-                  sendResponseHandler(onSubmit, [cancelResponse]);
-                }
+                sendResponseHandler(onSubmit, response);
                 dispatch(setCheckCardModalIsOpen(false));
                 dispatch(resetCheckCardModal());
               }}
@@ -120,19 +83,33 @@ const CheckCardModal = () => {
               onFocus={() => {}}
               onBlur={() => {}}
             >
-              cancel
+              submit
             </Button>
-          ) : (
-            <></>
-          )}
-        </>
-      }
-      modalRender={(modal) => (
-        <Draggable disabled={!draggable} bounds={bounds} onStart={onStart}>
-          <div ref={draggleRef}>{modal}</div>
-        </Draggable>
-      )}
-      width={800}
+            {cancelAble ? (
+              <Button
+                onClick={() => {
+                  if (cancelResponse) {
+                    sendResponseHandler(onSubmit, [cancelResponse]);
+                  }
+                  dispatch(setCheckCardModalIsOpen(false));
+                  dispatch(resetCheckCardModal());
+                }}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+                onFocus={() => {}}
+                onBlur={() => {}}
+              >
+                cancel
+              </Button>
+            ) : (
+              <></>
+            )}
+          </>
+        ),
+        width: 800,
+      }}
+      dragRef={draggleRef}
+      draggable={draggable}
     >
       <CheckCard.Group
         multiple
@@ -181,7 +158,7 @@ const CheckCardModal = () => {
           );
         })}
       </CheckCard.Group>
-    </Modal>
+    </DragModal>
   );
 };
 

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
-import { Modal, Button, Card, Row, Col } from "antd";
+import { Button, Card, Row, Col } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import {
   selectCheckCardModalV2CancelAble,
@@ -19,6 +19,7 @@ import {
   setCheckCardModalV2ResponseAble,
 } from "../../reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
+import DragModal from "./dragModal";
 
 const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
@@ -31,35 +32,59 @@ const CheckCardModalV2 = () => {
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
+  // Draggable 相关
+  const [draggable, setDraggable] = useState(false);
+  const draggleRef = useRef<HTMLDivElement>(null);
 
+  const onMouseOver = () => {
+    if (draggable) {
+      setDraggable(false);
+    }
+  };
+  const onMouseOut = () => {
+    setDraggable(true);
+  };
   const onFinish = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
     dispatch(setCheckCardModalV2IsOpen(false));
     dispatch(resetCheckCardModalV2());
     dispatch(setCheckCardModalV2ResponseAble(false));
   };
-
   const onCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
     dispatch(setCheckCardModalV2ResponseAble(false));
   };
 
   return (
-    <Modal
-      title={`请选择未选择的卡片，最少${min}张，最多${max}张`}
-      open={isOpen}
-      closable={false}
-      footer={
-        <>
-          <Button disabled={!finishable || !responseable} onClick={onFinish}>
-            finish
-          </Button>
-          <Button disabled={!cancelable || !responseable} onClick={onCancel}>
-            cancel
-          </Button>
-        </>
-      }
-      width={800}
+    <DragModal
+      modalProps={{
+        title: `请选择未选择的卡片，最少${min}张，最多${max}张`,
+        open: isOpen,
+        closable: false,
+        footer: (
+          <>
+            <Button
+              disabled={!finishable || !responseable}
+              onClick={onFinish}
+              onMouseOver={onMouseOver}
+              onMouseOut={onMouseOut}
+            >
+              finish
+            </Button>
+            <Button
+              disabled={!cancelable || !responseable}
+              onClick={onCancel}
+              onMouseOver={onMouseOver}
+              onMouseOut={onMouseOut}
+            >
+              cancel
+            </Button>
+          </>
+        ),
+        width: 800,
+      }}
+      dragRef={draggleRef}
+      draggable={draggable}
     >
       <CheckCard.Group
         bordered
@@ -89,6 +114,8 @@ const CheckCardModalV2 = () => {
                     />
                   }
                   value={option.response}
+                  onMouseEnter={onMouseOver}
+                  onMouseLeave={onMouseOut}
                 />
               </Col>
             );
@@ -114,7 +141,7 @@ const CheckCardModalV2 = () => {
           );
         })}
       </Row>
-    </Modal>
+    </DragModal>
   );
 };
 
