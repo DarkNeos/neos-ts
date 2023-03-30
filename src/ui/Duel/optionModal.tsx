@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
-import { Modal, Button } from "antd";
+import { Button } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import {
   selectOptionModalIsOpen,
@@ -12,32 +12,38 @@ import {
   resetOptionModal,
   setOptionModalIsOpen,
 } from "../../reducers/duel/mod";
+import DragModal from "./dragModal";
 
 const OptionModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectOptionModalIsOpen);
   const options = useAppSelector(selectOptionModalOptions);
   const [selected, setSelected] = useState<number | undefined>(undefined);
+  const draggleRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Modal
-      title="请选择需要发动的效果"
-      open={isOpen}
-      closable={false}
-      footer={
-        <Button
-          disabled={selected === undefined}
-          onClick={() => {
-            if (selected !== undefined) {
-              sendSelectOptionResponse(selected);
-              dispatch(setOptionModalIsOpen(false));
-              dispatch(resetOptionModal());
-            }
-          }}
-        >
-          submit
-        </Button>
-      }
+    <DragModal
+      modalProps={{
+        title: "请选择需要发动的效果",
+        open: isOpen,
+        closable: false,
+        footer: (
+          <Button
+            disabled={selected === undefined}
+            onClick={() => {
+              if (selected !== undefined) {
+                sendSelectOptionResponse(selected);
+                dispatch(setOptionModalIsOpen(false));
+                dispatch(resetOptionModal());
+              }
+            }}
+          >
+            submit
+          </Button>
+        ),
+      }}
+      dragRef={draggleRef}
+      draggable={true}
     >
       <CheckCard.Group
         bordered
@@ -51,7 +57,7 @@ const OptionModal = () => {
           <CheckCard key={idx} title={option.msg} value={option.response} />
         ))}
       </CheckCard.Group>
-    </Modal>
+    </DragModal>
   );
 };
 
