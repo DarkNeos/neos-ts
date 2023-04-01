@@ -282,3 +282,16 @@ export function sendSelectCounterResponse(counts: number[]) {
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
+
+export function sendSortCardResponse(sortedIndexes: number[]) {
+  const response = new ygopro.YgoCtosMsg({
+    ctos_response: new ygopro.CtosGameMsgResponse({
+      sort_card: new ygopro.CtosGameMsgResponse.SortCardResponse({
+        sorted_index: sortedIndexes,
+      }),
+    }),
+  });
+  const payload = new GameMsgResponse(response).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}

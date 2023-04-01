@@ -11,6 +11,7 @@ import adaptSelectOptionResponse from "./selectOption";
 import adaptSelectBattleCmdResponse from "./selectBattleCmd";
 import adaptSelectUnselectCardResponse from "./selectUnselectCard";
 import adaptSelectCounterResponse from "./selectCounter";
+import adaptSortCardResponse from "./sortCard";
 
 /*
  * CTOS CTOS_RESPONSE
@@ -77,6 +78,11 @@ export default class CtosResponsePacket extends YgoProPacket {
         extraData = adaptSelectCounterResponse(
           response.select_counter_response
         );
+
+        break;
+      }
+      case "sort_card": {
+        extraData = adaptSortCardResponse(response.sort_card);
 
         break;
       }

@@ -28,6 +28,7 @@ import PlayerStatus from "./status";
 import Alert from "./alert";
 import CheckCardModalV3 from "./checkCardModalV3";
 import CheckCounterModal from "./checkCounterModal";
+import SortCardModal from "./sortCardModal";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
@@ -50,6 +51,7 @@ const NeosDuel = () => {
       <CheckCardModalV2 />
       <CheckCardModalV3 />
       <CheckCounterModal />
+      <SortCardModal />
     </>
   );
 };

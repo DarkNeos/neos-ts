@@ -103,6 +103,14 @@ export interface ModalState {
       max: number;
     }[];
   };
+  // 卡牌排序弹窗
+  sortCardModal: {
+    isOpen: boolean;
+    options: {
+      meta: CardMeta;
+      response: number;
+    }[];
+  };
 }
 
 export * from "./cardModalSlice";
@@ -114,3 +122,4 @@ export * from "./optionModalSlice";
 export * from "./checkCardModalV2Slice";
 export * from "./checkCardModalV3Slice";
 export * from "./checkCounterModalSlice";
+export * from "./sortCardModalSlice";
