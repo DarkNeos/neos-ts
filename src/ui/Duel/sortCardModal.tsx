@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -57,7 +57,10 @@ const SortCardModal = () => {
     }
   };
 
-  console.log(items);
+  useEffect(() => {
+    setItems(options);
+  }, [options]);
+
   return (
     <DragModal
       modalProps={{
