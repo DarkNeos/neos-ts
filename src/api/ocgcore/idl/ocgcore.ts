@@ -2668,7 +2668,7 @@ export namespace ygopro {
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
     constructor(
       data?:
         | any[]
@@ -2684,6 +2684,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2696,6 +2697,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2708,6 +2710,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2720,6 +2723,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2732,6 +2736,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2744,6 +2749,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2756,6 +2762,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2768,6 +2775,7 @@ export namespace ygopro {
                 select_battle_cmd?: CtosGameMsgResponse.SelectBattleCmdResponse;
                 select_unselect_card?: never;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2780,6 +2788,7 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: CtosGameMsgResponse.SelectUnselectCardResponse;
                 select_counter_response?: never;
+                sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
@@ -2792,6 +2801,20 @@ export namespace ygopro {
                 select_battle_cmd?: never;
                 select_unselect_card?: never;
                 select_counter_response?: CtosGameMsgResponse.SelectCounterResponse;
+                sort_card?: never;
+              }
+            | {
+                select_idle_cmd?: never;
+                select_place?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                select_battle_cmd?: never;
+                select_unselect_card?: never;
+                select_counter_response?: never;
+                sort_card?: CtosGameMsgResponse.SortCardResponse;
               }
           ))
     ) {
@@ -2843,6 +2866,9 @@ export namespace ygopro {
           data.select_counter_response != undefined
         ) {
           this.select_counter_response = data.select_counter_response;
+        }
+        if ("sort_card" in data && data.sort_card != undefined) {
+          this.sort_card = data.sort_card;
         }
       }
     }
@@ -2980,6 +3006,19 @@ export namespace ygopro {
     get has_select_counter_response() {
       return pb_1.Message.getField(this, 10) != null;
     }
+    get sort_card() {
+      return pb_1.Message.getWrapperField(
+        this,
+        CtosGameMsgResponse.SortCardResponse,
+        11
+      ) as CtosGameMsgResponse.SortCardResponse;
+    }
+    set sort_card(value: CtosGameMsgResponse.SortCardResponse) {
+      pb_1.Message.setOneofWrapperField(this, 11, this.#one_of_decls[0], value);
+    }
+    get has_sort_card() {
+      return pb_1.Message.getField(this, 11) != null;
+    }
     get gameMsgResponse() {
       const cases: {
         [index: number]:
@@ -2993,7 +3032,8 @@ export namespace ygopro {
           | "select_option"
           | "select_battle_cmd"
           | "select_unselect_card"
-          | "select_counter_response";
+          | "select_counter_response"
+          | "sort_card";
       } = {
         0: "none",
         1: "select_idle_cmd",
@@ -3006,9 +3046,10 @@ export namespace ygopro {
         8: "select_battle_cmd",
         9: "select_unselect_card",
         10: "select_counter_response",
+        11: "sort_card",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
       ];
     }
     static fromObject(data: {
@@ -3041,6 +3082,9 @@ export namespace ygopro {
       >;
       select_counter_response?: ReturnType<
         typeof CtosGameMsgResponse.SelectCounterResponse.prototype.toObject
+      >;
+      sort_card?: ReturnType<
+        typeof CtosGameMsgResponse.SortCardResponse.prototype.toObject
       >;
     }): CtosGameMsgResponse {
       const message = new CtosGameMsgResponse({});
@@ -3099,6 +3143,11 @@ export namespace ygopro {
             data.select_counter_response
           );
       }
+      if (data.sort_card != null) {
+        message.sort_card = CtosGameMsgResponse.SortCardResponse.fromObject(
+          data.sort_card
+        );
+      }
       return message;
     }
     toObject() {
@@ -3133,6 +3182,9 @@ export namespace ygopro {
         select_counter_response?: ReturnType<
           typeof CtosGameMsgResponse.SelectCounterResponse.prototype.toObject
         >;
+        sort_card?: ReturnType<
+          typeof CtosGameMsgResponse.SortCardResponse.prototype.toObject
+        >;
       } = {};
       if (this.select_idle_cmd != null) {
         data.select_idle_cmd = this.select_idle_cmd.toObject();
@@ -3163,6 +3215,9 @@ export namespace ygopro {
       }
       if (this.select_counter_response != null) {
         data.select_counter_response = this.select_counter_response.toObject();
+      }
+      if (this.sort_card != null) {
+        data.sort_card = this.sort_card.toObject();
       }
       return data;
     }
@@ -3209,6 +3264,10 @@ export namespace ygopro {
       if (this.has_select_counter_response)
         writer.writeMessage(10, this.select_counter_response, () =>
           this.select_counter_response.serialize(writer)
+        );
+      if (this.has_sort_card)
+        writer.writeMessage(11, this.sort_card, () =>
+          this.sort_card.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -3309,6 +3368,14 @@ export namespace ygopro {
               () =>
                 (message.select_counter_response =
                   CtosGameMsgResponse.SelectCounterResponse.deserialize(reader))
+            );
+            break;
+          case 11:
+            reader.readMessage(
+              message.sort_card,
+              () =>
+                (message.sort_card =
+                  CtosGameMsgResponse.SortCardResponse.deserialize(reader))
             );
             break;
           default:
@@ -4216,6 +4283,87 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): SelectCounterResponse {
         return SelectCounterResponse.deserialize(bytes);
+      }
+    }
+    export class SortCardResponse extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              sorted_index?: number[];
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [1],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("sorted_index" in data && data.sorted_index != undefined) {
+            this.sorted_index = data.sorted_index;
+          }
+        }
+      }
+      get sorted_index() {
+        return pb_1.Message.getFieldWithDefault(this, 1, []) as number[];
+      }
+      set sorted_index(value: number[]) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      static fromObject(data: { sorted_index?: number[] }): SortCardResponse {
+        const message = new SortCardResponse({});
+        if (data.sorted_index != null) {
+          message.sorted_index = data.sorted_index;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          sorted_index?: number[];
+        } = {};
+        if (this.sorted_index != null) {
+          data.sorted_index = this.sorted_index;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.sorted_index.length)
+          writer.writePackedInt32(1, this.sorted_index);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): SortCardResponse {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new SortCardResponse();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.sorted_index = reader.readPackedInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): SortCardResponse {
+        return SortCardResponse.deserialize(bytes);
       }
     }
   }
