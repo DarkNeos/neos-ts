@@ -18,7 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useAppSelector } from "../../hook";
 import { selectSortCardModal } from "../../reducers/duel/modal/sortCardModalSlice";
-import { sendSelectCardResponse } from "../../api/ocgcore/ocgHelper";
+import { sendSortCardResponse } from "../../api/ocgcore/ocgHelper";
 import { store } from "../../store";
 import { resetSortCardModal } from "../../reducers/duel/mod";
 import DragModal from "./dragModal";
@@ -41,7 +41,7 @@ const SortCardModal = () => {
   const draggleRef = useRef<HTMLDivElement>(null);
 
   const onFinish = () => {
-    sendSelectCardResponse(items.map((item) => item.response));
+    sendSortCardResponse(items.map((item) => item.response));
     dispatch(resetSortCardModal());
   };
   const onDragEnd = (event: DragEndEvent) => {
