@@ -31,6 +31,7 @@ import MsgSelectSum from "./selectSum";
 import MsgAddCounter from "./addCounter";
 import MsgRemoveCounter from "./removeCounter";
 import MsgSelectCounter from "./selectCounter";
+import MsgSortCard from "./sortCard";
 import PENETRATE from "./penetrate";
 
 /*
@@ -181,6 +182,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SELECT_COUNTER: {
           gameMsg.select_counter = MsgSelectCounter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SORT_CARD: {
+          gameMsg.sort_card = MsgSortCard(gameData);
 
           break;
         }
