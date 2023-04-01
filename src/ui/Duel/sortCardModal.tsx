@@ -57,6 +57,7 @@ const SortCardModal = () => {
     }
   };
 
+  console.log(items);
   return (
     <DragModal
       modalProps={{
@@ -66,7 +67,7 @@ const SortCardModal = () => {
         footer: <Button onClick={onFinish}>finish</Button>,
       }}
       dragRef={draggleRef}
-      draggable={true}
+      draggable={false}
     >
       <DndContext
         sensors={sensors}
