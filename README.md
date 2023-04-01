@@ -25,7 +25,7 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 
 - [Play online](https://neos.moecube.com) with the [ygopro](https://ygopro.org/) client or Neos itself
 - Play with LAN connection
-- [WIP] Duel with AI
+- Duel with AI
 
 ## Screenshot
 <p align="center">
