@@ -14,11 +14,12 @@ import {
   setCheckCardModalIsOpen,
 } from "../../reducers/duel/mod";
 import { Button, Row, Col, Popover } from "antd";
-import { CheckCard } from "@ant-design/pro-components";
+import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import {
   sendSelectCardResponse,
   sendSelectChainResponse,
 } from "../../api/ocgcore/ocgHelper";
+import { ThunderboltOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
 
@@ -108,28 +109,20 @@ const CheckCardModal = () => {
               {tab.options.map((option, idx) => {
                 return (
                   <Col span={4} key={idx}>
-                    <Popover
-                      content={
-                        <div>
-                          <p>{option.name}</p>
-                          <p>{option.effectDesc}</p>
-                        </div>
+                    <HoverCheckCard
+                      hoverContent={option.effectDesc}
+                      title={option.name}
+                      description={option.desc}
+                      style={{ width: 120 }}
+                      cover={
+                        <img
+                          alt={option.code.toString()}
+                          src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
+                          style={{ width: 100 }}
+                        />
                       }
-                    >
-                      <CheckCard
-                        title={option.name}
-                        description={option.desc}
-                        style={{ width: 120 }}
-                        cover={
-                          <img
-                            alt={option.code.toString()}
-                            src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
-                            style={{ width: 100 }}
-                          />
-                        }
-                        value={option.response}
-                      />
-                    </Popover>
+                      value={option.response}
+                    />
                   </Col>
                 );
               })}
@@ -138,6 +131,30 @@ const CheckCardModal = () => {
         })}
       </CheckCard.Group>
     </DragModal>
+  );
+};
+
+const HoverCheckCard = (props: CheckCardProps & { hoverContent?: string }) => {
+  const [hover, setHover] = useState(false);
+
+  const onMouseEnter = () => setHover(true);
+  const onMouseLeave = () => setHover(false);
+
+  return (
+    <>
+      <CheckCard {...props} />
+      {props.hoverContent ? (
+        <Popover content={<p>{props.hoverContent}</p>} open={hover}>
+          <Button
+            icon={<ThunderboltOutlined />}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          ></Button>
+        </Popover>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
