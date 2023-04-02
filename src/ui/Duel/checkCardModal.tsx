@@ -111,13 +111,13 @@ const CheckCardModal = () => {
                   <Col span={4} key={idx}>
                     <HoverCheckCard
                       hoverContent={option.effectDesc}
-                      title={option.name}
-                      description={option.desc}
+                      title={option.meta.text.name}
+                      description={option.meta.text.desc}
                       style={{ width: 120 }}
                       cover={
                         <img
-                          alt={option.code.toString()}
-                          src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
+                          alt={option.meta.id.toString()}
+                          src={`${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`}
                           style={{ width: 100 }}
                         />
                       }

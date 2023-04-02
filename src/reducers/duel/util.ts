@@ -8,6 +8,10 @@ import { Draft } from "@reduxjs/toolkit";
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { CardState } from "./generic";
 
+type Location =
+  | ygopro.CardLocation
+  | ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
+
 /*
  * 通过`player`和`selfType`判断是应该处理自己还是对手
  * */
@@ -29,9 +33,7 @@ export function judgeSelf(player: number, state: Draft<DuelState>): boolean {
  * 通过`controler`,`zone`和`sequence`获取卡牌状态*/
 export function findCardByLocation(
   state: Draft<DuelState>,
-  location:
-    | ygopro.CardLocation
-    | ReturnType<typeof ygopro.CardLocation.prototype.toObject>
+  location: Location
 ): CardState | undefined {
   const controler = location.controler!;
   const zone = location.location;
@@ -71,5 +73,21 @@ export function findCardByLocation(
     default: {
       return undefined;
     }
+  }
+}
+
+export function cmpCardLocation(
+  left: Location,
+  right?: Location,
+  strict?: boolean
+): boolean {
+  if (strict) {
+    return JSON.stringify(left) === JSON.stringify(right);
+  } else {
+    return (
+      left.controler === right?.controler &&
+      left.location === right?.location &&
+      left.sequence === right?.sequence
+    );
   }
 }
