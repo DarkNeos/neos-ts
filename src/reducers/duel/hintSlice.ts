@@ -1,8 +1,9 @@
 import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
-import { fetchStrings, getStrings } from "../../api/strings";
+import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "../../api/strings";
 import { judgeSelf } from "./util";
+import { fetchCard } from "../../api/cards";
 
 export interface HintState {
   code: number;
@@ -24,14 +25,24 @@ export const fetchCommonHintMeta = createAsyncThunk(
 );
 
 export const fetchSelectHintMeta = createAsyncThunk(
-  "duel/fetchSelectPlaceHintMeta",
+  "duel/fetchSelectHintMeta",
   async (param: [number, number]) => {
     const player = param[0];
     const hintData = param[1];
 
-    const hintMeta = await getStrings(hintData);
-    const response: [number, string] = [player, hintMeta];
+    let hintMeta = "";
+    if (hintData > DESCRIPTION_LIMIT) {
+      // 针对`MSG_SELECT_PLACE`的特化逻辑
+      const cardMeta = await fetchCard(hintData, true);
+      hintMeta = fetchStrings("!system", 569).replace(
+        "[%ls]",
+        cardMeta.text.name || "[?]"
+      );
+    } else {
+      hintMeta = await getStrings(hintData);
+    }
 
+    const response: [number, string] = [player, hintMeta];
     return response;
   }
 );
@@ -69,11 +80,16 @@ export const hintCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
   builder.addCase(fetchSelectHintMeta.fulfilled, (state, action) => {
     const player = action.payload[0];
-    const hintMsg = action.payload[1];
+    let hintMsg = action.payload[1];
 
     const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
     if (hint) {
-      hint.esSelectHint = hintMsg;
+      if (hint.code > DESCRIPTION_LIMIT) {
+        // 针对`MSG_SELECT_PLACE`的特化逻辑
+        hint.msg = hintMsg;
+      } else {
+        hint.esSelectHint = hintMsg;
+      }
     }
   });
 };
