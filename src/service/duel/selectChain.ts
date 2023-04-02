@@ -1,5 +1,6 @@
 import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { sendSelectChainResponse } from "../../api/ocgcore/ocgHelper";
+import { fetchSelectHintMeta } from "../../reducers/duel/hintSlice";
 import {
   setCheckCardMOdalCancelAble,
   setCheckCardModalCancelResponse,
@@ -83,6 +84,7 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
           })
         );
       }
+      dispatch(fetchSelectHintMeta([player, 203]));
 
       dispatch(setCheckCardModalIsOpen(true));
 

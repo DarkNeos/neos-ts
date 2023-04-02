@@ -2,7 +2,7 @@ import axios from "axios";
 import NeosConfig from "../../neos.config.json";
 import { getCardStr, fetchCard } from "./cards";
 
-const DESCRIPTION_LIMIT = 10000;
+export const DESCRIPTION_LIMIT = 10000;
 
 export async function initStrings() {
   const strings = (await axios.get<string>(NeosConfig.stringsUrl)).data;

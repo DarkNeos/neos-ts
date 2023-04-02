@@ -2,7 +2,7 @@ import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 import { AppDispatch } from "../../store";
 import {
   fetchCommonHintMeta,
-  fetchSelectPlaceHintMeta,
+  fetchSelectHintMeta,
 } from "../../reducers/duel/hintSlice";
 import MsgHint = ygopro.StocGameMessage.MsgHint;
 
@@ -15,7 +15,7 @@ export default (hint: MsgHint, dispatch: AppDispatch) => {
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      dispatch(fetchSelectPlaceHintMeta([player, hint.hint_data]));
+      dispatch(fetchSelectHintMeta([player, hint.hint_data]));
       break;
     }
     default: {

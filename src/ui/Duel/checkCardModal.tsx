@@ -22,6 +22,7 @@ import {
 import { ThunderboltOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
+import { selectMeHint } from "../../reducers/duel/hintSlice";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;
@@ -33,6 +34,7 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
+  const selectHint = useAppSelector(selectMeHint)?.esSelectHint || "请选择卡片";
 
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (
@@ -55,7 +57,7 @@ const CheckCardModal = () => {
 
   return (
     <DragModal
-      title={`请选择${min}到${max}张卡片`}
+      title={`${selectHint} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={
