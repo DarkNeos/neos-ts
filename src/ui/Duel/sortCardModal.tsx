@@ -21,8 +21,7 @@ import { selectSortCardModal } from "../../reducers/duel/modal/sortCardModalSlic
 import { sendSortCardResponse } from "../../api/ocgcore/ocgHelper";
 import { store } from "../../store";
 import { resetSortCardModal } from "../../reducers/duel/mod";
-import DragModal from "./dragModal";
-import { Button, Card } from "antd";
+import { Modal, Button, Card } from "antd";
 import { CardMeta } from "../../api/cards";
 import NeosConfig from "../../../neos.config.json";
 
@@ -61,7 +60,7 @@ const SortCardModal = () => {
   }, [options]);
 
   return (
-    <DragModal
+    <Modal
       title="请为下列卡牌排序"
       open={isOpen}
       closable={false}
@@ -85,7 +84,7 @@ const SortCardModal = () => {
           ))}
         </SortableContext>
       </DndContext>
-    </DragModal>
+    </Modal>
   );
 };
 
