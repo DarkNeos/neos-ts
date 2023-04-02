@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -38,7 +38,6 @@ const SortCardModal = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const draggleRef = useRef<HTMLDivElement>(null);
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
@@ -63,14 +62,10 @@ const SortCardModal = () => {
 
   return (
     <DragModal
-      modalProps={{
-        title: "请为下列卡牌排序",
-        open: isOpen,
-        closable: false,
-        footer: <Button onClick={onFinish}>finish</Button>,
-      }}
-      dragRef={draggleRef}
-      draggable={false}
+      title="请为下列卡牌排序"
+      open={isOpen}
+      closable={false}
+      footer={<Button onClick={onFinish}>finish</Button>}
     >
       <DndContext
         sensors={sensors}

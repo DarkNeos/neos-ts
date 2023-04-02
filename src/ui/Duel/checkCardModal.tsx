@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import {
@@ -32,18 +32,7 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-  // Draggable 相关
-  const [draggable, setDraggable] = useState(false);
-  const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onMouseOver = () => {
-    if (draggable) {
-      setDraggable(false);
-    }
-  };
-  const onMouseOut = () => {
-    setDraggable(true);
-  };
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (
     handlerName: string | undefined,
@@ -65,51 +54,43 @@ const CheckCardModal = () => {
 
   return (
     <DragModal
-      modalProps={{
-        title: `请选择${min}到${max}张卡片`,
-        open: isOpen,
-        closable: false,
-        footer: (
-          <>
+      title={`请选择${min}到${max}张卡片`}
+      open={isOpen}
+      closable={false}
+      footer={
+        <>
+          <Button
+            disabled={response.length < min || response.length > max}
+            onClick={() => {
+              sendResponseHandler(onSubmit, response);
+              dispatch(setCheckCardModalIsOpen(false));
+              dispatch(resetCheckCardModal());
+            }}
+            onFocus={() => {}}
+            onBlur={() => {}}
+          >
+            submit
+          </Button>
+          {cancelAble ? (
             <Button
-              disabled={response.length < min || response.length > max}
               onClick={() => {
-                sendResponseHandler(onSubmit, response);
+                if (cancelResponse) {
+                  sendResponseHandler(onSubmit, [cancelResponse]);
+                }
                 dispatch(setCheckCardModalIsOpen(false));
                 dispatch(resetCheckCardModal());
               }}
-              onMouseOver={onMouseOver}
-              onMouseOut={onMouseOut}
               onFocus={() => {}}
               onBlur={() => {}}
             >
-              submit
+              cancel
             </Button>
-            {cancelAble ? (
-              <Button
-                onClick={() => {
-                  if (cancelResponse) {
-                    sendResponseHandler(onSubmit, [cancelResponse]);
-                  }
-                  dispatch(setCheckCardModalIsOpen(false));
-                  dispatch(resetCheckCardModal());
-                }}
-                onMouseOver={onMouseOver}
-                onMouseOut={onMouseOut}
-                onFocus={() => {}}
-                onBlur={() => {}}
-              >
-                cancel
-              </Button>
-            ) : (
-              <></>
-            )}
-          </>
-        ),
-        width: 800,
-      }}
-      dragRef={draggleRef}
-      draggable={draggable}
+          ) : (
+            <></>
+          )}
+        </>
+      }
+      width={800}
     >
       <CheckCard.Group
         multiple
@@ -146,8 +127,6 @@ const CheckCardModal = () => {
                             style={{ width: 100 }}
                           />
                         }
-                        onMouseEnter={onMouseOver}
-                        onMouseLeave={onMouseOut}
                         value={option.response}
                       />
                     </Popover>
