@@ -117,7 +117,11 @@ const CheckCardModal = () => {
                       cover={
                         <img
                           alt={option.meta.id.toString()}
-                          src={`${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`}
+                          src={
+                            option.meta.id
+                              ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
+                              : `${NeosConfig.assetsPath}/card_back.jpg`
+                          }
                           style={{ width: 100 }}
                         />
                       }

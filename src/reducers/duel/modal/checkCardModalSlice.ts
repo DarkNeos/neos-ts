@@ -95,25 +95,23 @@ export const checkCardModalCase = (
     const newID =
       code != 0 ? code : findCardByLocation(state, location)?.occupant?.id || 0;
 
-    if (newID) {
-      const newOption = {
-        meta: { id: code, data: {}, text: {} },
-        location: location.toObject(),
-        effectDescCode,
-        response,
-      };
-      for (const tag of state.modalState.checkCardModal.tags) {
-        if (tag.tagName === combinedTagName) {
-          tag.options.push(newOption);
-          return;
-        }
+    const newOption = {
+      meta: { id: newID, data: {}, text: {} },
+      location: location.toObject(),
+      effectDescCode,
+      response,
+    };
+    for (const tag of state.modalState.checkCardModal.tags) {
+      if (tag.tagName === combinedTagName) {
+        tag.options.push(newOption);
+        return;
       }
-
-      state.modalState.checkCardModal.tags.push({
-        tagName: combinedTagName,
-        options: [newOption],
-      });
     }
+
+    state.modalState.checkCardModal.tags.push({
+      tagName: combinedTagName,
+      options: [newOption],
+    });
   });
   builder.addCase(fetchCheckCardMeta.fulfilled, (state, action) => {
     const tagName = action.payload.tagName;
@@ -131,7 +129,9 @@ export const checkCardModalCase = (
             option.meta.id == old.meta.id &&
             cmpCardLocation(option.location, old.location)
           ) {
+            const cardID = old.meta.id;
             old.meta = option.meta;
+            old.meta.id = cardID;
 
             const effectDescCode = old.effectDescCode;
             const effectDesc = effectDescCode
