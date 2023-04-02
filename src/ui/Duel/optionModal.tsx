@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import { Button } from "antd";
@@ -19,31 +19,26 @@ const OptionModal = () => {
   const isOpen = useAppSelector(selectOptionModalIsOpen);
   const options = useAppSelector(selectOptionModalOptions);
   const [selected, setSelected] = useState<number | undefined>(undefined);
-  const draggleRef = useRef<HTMLDivElement>(null);
 
   return (
     <DragModal
-      modalProps={{
-        title: "请选择需要发动的效果",
-        open: isOpen,
-        closable: false,
-        footer: (
-          <Button
-            disabled={selected === undefined}
-            onClick={() => {
-              if (selected !== undefined) {
-                sendSelectOptionResponse(selected);
-                dispatch(setOptionModalIsOpen(false));
-                dispatch(resetOptionModal());
-              }
-            }}
-          >
-            submit
-          </Button>
-        ),
-      }}
-      dragRef={draggleRef}
-      draggable={true}
+      title="请选择需要发动的效果"
+      open={isOpen}
+      closable={false}
+      footer={
+        <Button
+          disabled={selected === undefined}
+          onClick={() => {
+            if (selected !== undefined) {
+              sendSelectOptionResponse(selected);
+              dispatch(setOptionModalIsOpen(false));
+              dispatch(resetOptionModal());
+            }
+          }}
+        >
+          submit
+        </Button>
+      }
     >
       <CheckCard.Group
         bordered

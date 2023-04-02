@@ -1,5 +1,5 @@
 import { Button, Row, Col, Card, InputNumber } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { sendSelectCounterResponse } from "../../api/ocgcore/ocgHelper";
 import { fetchStrings } from "../../api/strings";
 import { useAppSelector } from "../../hook";
@@ -19,7 +19,6 @@ const CheckCounterModal = () => {
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);
   const finishable = sum == min;
-  const draggleRef = useRef<HTMLDivElement>(null);
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
@@ -28,18 +27,14 @@ const CheckCounterModal = () => {
 
   return (
     <DragModal
-      modalProps={{
-        title: `请移除${min}个${counterName}`,
-        open: isOpen,
-        closable: false,
-        footer: (
-          <Button disabled={!finishable} onClick={onFinish}>
-            finish
-          </Button>
-        ),
-      }}
-      dragRef={draggleRef}
-      draggable={true}
+      title={`请移除${min}个${counterName}`}
+      open={isOpen}
+      closable={false}
+      footer={
+        <Button disabled={!finishable} onClick={onFinish}>
+          finish
+        </Button>
+      }
     >
       <Row>
         {options.map((option, idx) => {

@@ -1,5 +1,6 @@
 import { CardMeta } from "../../../api/cards";
 import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
+type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
 
 export interface ModalState {
   // 卡牌弹窗
@@ -28,9 +29,9 @@ export interface ModalState {
     tags: {
       tagName: string;
       options: {
-        code: number;
-        name?: string;
-        desc?: string;
+        meta: CardMeta;
+        location?: CardLocation;
+        effectDescCode?: number;
         effectDesc?: string;
         response: number;
       }[];

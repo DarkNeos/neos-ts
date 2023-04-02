@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import { Button } from "antd";
@@ -22,31 +22,26 @@ const PositionModal = () => {
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined
   );
-  const draggleRef = useRef<HTMLDivElement>(null);
 
   return (
     <DragModal
-      modalProps={{
-        title: "请选择表示形式",
-        open: isOpen,
-        closable: false,
-        footer: (
-          <Button
-            disabled={selected === undefined}
-            onClick={() => {
-              if (selected !== undefined) {
-                sendSelectPositionResponse(selected);
-                dispatch(setPositionModalIsOpen(false));
-                dispatch(resetPositionModal());
-              }
-            }}
-          >
-            submit
-          </Button>
-        ),
-      }}
-      dragRef={draggleRef}
-      draggable={true}
+      title="请选择表示形式"
+      open={isOpen}
+      closable={false}
+      footer={
+        <Button
+          disabled={selected === undefined}
+          onClick={() => {
+            if (selected !== undefined) {
+              sendSelectPositionResponse(selected);
+              dispatch(setPositionModalIsOpen(false));
+              dispatch(resetPositionModal());
+            }
+          }}
+        >
+          submit
+        </Button>
+      }
     >
       <CheckCard.Group
         bordered

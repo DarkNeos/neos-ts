@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
 import { DuelState } from "../mod";
-import { findCardByLocation, judgeSelf } from "../util";
+import { cmpCardLocation, findCardByLocation, judgeSelf } from "../util";
 import { fetchCard, getCardStr } from "../../../api/cards";
 import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
 
@@ -65,17 +65,11 @@ export const fetchCheckCardMeta = createAsyncThunk(
   }) => {
     // FIXME: 这里如果传的`controler`如果是对手，对应的`code`会为零，这时候就无法更新对应的`Meta`信息了，后续需要修复。`fetchCheckCardMetaV2`和`fetchCheckCardMetaV3`同理
     const meta = await fetchCard(param.option.code, true);
-    const effectDesc = param.option.effectDescCode
-      ? getCardStr(meta, param.option.effectDescCode & 0xf)
-      : undefined;
     const response = {
-      controler: param.option.location.controler,
       tagName: param.tagName,
-      meta: {
-        code: meta.id,
-        name: meta.text.name,
-        desc: meta.text.desc,
-        effectDesc,
+      option: {
+        meta,
+        location: param.option.location.toObject(),
       },
     };
 
@@ -91,6 +85,7 @@ export const checkCardModalCase = (
     const code = action.meta.arg.option.code;
     const location = action.meta.arg.option.location;
     const controler = location.controler;
+    const effectDescCode = action.meta.arg.option.effectDescCode;
     const response = action.meta.arg.option.response;
 
     const combinedTagName = judgeSelf(controler, state)
@@ -100,24 +95,28 @@ export const checkCardModalCase = (
     const newID =
       code != 0 ? code : findCardByLocation(state, location)?.occupant?.id || 0;
 
-    if (newID) {
-      for (const tag of state.modalState.checkCardModal.tags) {
-        if (tag.tagName === combinedTagName) {
-          tag.options.push({ code: newID, response });
-          return;
-        }
+    const newOption = {
+      meta: { id: newID, data: {}, text: {} },
+      location: location.toObject(),
+      effectDescCode,
+      response,
+    };
+    for (const tag of state.modalState.checkCardModal.tags) {
+      if (tag.tagName === combinedTagName) {
+        tag.options.push(newOption);
+        return;
       }
-
-      state.modalState.checkCardModal.tags.push({
-        tagName: combinedTagName,
-        options: [{ code: newID, response }],
-      });
     }
+
+    state.modalState.checkCardModal.tags.push({
+      tagName: combinedTagName,
+      options: [newOption],
+    });
   });
   builder.addCase(fetchCheckCardMeta.fulfilled, (state, action) => {
-    const controler = action.payload.controler;
     const tagName = action.payload.tagName;
-    const meta = action.payload.meta;
+    const option = action.payload.option;
+    const controler = option.location.controler!;
 
     const combinedTagName = judgeSelf(controler, state)
       ? `我方的${tagName}`
@@ -125,11 +124,20 @@ export const checkCardModalCase = (
 
     for (const tag of state.modalState.checkCardModal.tags) {
       if (tag.tagName === combinedTagName) {
-        for (const option of tag.options) {
-          if (option.code == meta.code) {
-            option.name = meta.name;
-            option.desc = meta.desc;
-            option.effectDesc = meta.effectDesc;
+        for (const old of tag.options) {
+          if (
+            option.meta.id == old.meta.id &&
+            cmpCardLocation(option.location, old.location)
+          ) {
+            const cardID = old.meta.id;
+            old.meta = option.meta;
+            old.meta.id = cardID;
+
+            const effectDescCode = old.effectDescCode;
+            const effectDesc = effectDescCode
+              ? getCardStr(old.meta, effectDescCode & 0xf)
+              : undefined;
+            old.effectDesc = effectDesc;
           }
         }
       }

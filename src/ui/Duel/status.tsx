@@ -8,7 +8,6 @@ import {
   selectMeInitInfo,
   selectOpInitInfo,
 } from "../../reducers/duel/initInfoSlice";
-import { selectCurrentPlayerIsMe } from "../../reducers/duel/turnSlice";
 import { selectWaiting } from "../../reducers/duel/mod";
 
 const Config = NeosConfig.ui.status;

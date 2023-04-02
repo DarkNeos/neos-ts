@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../hook";
 import { store } from "../../store";
 import { Button, Card, Row, Col } from "antd";
@@ -32,18 +32,7 @@ const CheckCardModalV3 = () => {
     .concat(selectedOptions)
     .map((option) => option.level2)
     .reduce((sum, current) => sum + current, 0);
-  // Draggable 相关
-  const [draggable, setDraggable] = useState(false);
-  const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onMouseOver = () => {
-    if (draggable) {
-      setDraggable(false);
-    }
-  };
-  const onMouseOut = () => {
-    setDraggable(true);
-  };
   const responseable =
     (overflow
       ? Level1Sum >= LevelSum || Level2Sum >= LevelSum
@@ -61,26 +50,17 @@ const CheckCardModalV3 = () => {
 
   return (
     <DragModal
-      modalProps={{
-        title: `请选择卡片，最少${min}张，最多${max}张`,
-        open: isOpen,
-        closable: false,
-        footer: (
-          <>
-            <Button
-              disabled={!responseable}
-              onClick={onFinish}
-              onMouseOver={onMouseOver}
-              onMouseOut={onMouseOut}
-            >
-              finish
-            </Button>
-          </>
-        ),
-        width: 800,
-      }}
-      dragRef={draggleRef}
-      draggable={draggable}
+      title={`请选择卡片，最少${min}张，最多${max}张`}
+      open={isOpen}
+      closable={false}
+      footer={
+        <>
+          <Button disabled={!responseable} onClick={onFinish}>
+            finish
+          </Button>
+        </>
+      }
+      width={800}
     >
       <CheckCard.Group
         bordered
@@ -107,8 +87,6 @@ const CheckCardModalV3 = () => {
                     />
                   }
                   value={option}
-                  onMouseEnter={onMouseOver}
-                  onMouseLeave={onMouseOut}
                 />
               </Col>
             );

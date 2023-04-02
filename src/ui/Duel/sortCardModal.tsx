@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -21,8 +21,7 @@ import { selectSortCardModal } from "../../reducers/duel/modal/sortCardModalSlic
 import { sendSortCardResponse } from "../../api/ocgcore/ocgHelper";
 import { store } from "../../store";
 import { resetSortCardModal } from "../../reducers/duel/mod";
-import DragModal from "./dragModal";
-import { Button, Card } from "antd";
+import { Modal, Button, Card } from "antd";
 import { CardMeta } from "../../api/cards";
 import NeosConfig from "../../../neos.config.json";
 
@@ -38,7 +37,6 @@ const SortCardModal = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const draggleRef = useRef<HTMLDivElement>(null);
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
@@ -62,15 +60,11 @@ const SortCardModal = () => {
   }, [options]);
 
   return (
-    <DragModal
-      modalProps={{
-        title: "请为下列卡牌排序",
-        open: isOpen,
-        closable: false,
-        footer: <Button onClick={onFinish}>finish</Button>,
-      }}
-      dragRef={draggleRef}
-      draggable={false}
+    <Modal
+      title="请为下列卡牌排序"
+      open={isOpen}
+      closable={false}
+      footer={<Button onClick={onFinish}>finish</Button>}
     >
       <DndContext
         sensors={sensors}
@@ -90,7 +84,7 @@ const SortCardModal = () => {
           ))}
         </SortableContext>
       </DndContext>
-    </DragModal>
+    </Modal>
   );
 };
 
