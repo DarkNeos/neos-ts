@@ -35,14 +35,10 @@ const CheckCardModalV2 = () => {
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
   const selectHint = useAppSelector(selectMeHint)?.esSelectHint || "请选择卡片";
 
-  const onFinish = () => {
+  const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
     dispatch(setCheckCardModalV2IsOpen(false));
     dispatch(resetCheckCardModalV2());
-    dispatch(setCheckCardModalV2ResponseAble(false));
-  };
-  const onCancel = () => {
-    sendSelectUnselectCardResponse({ cancel_or_finish: true });
     dispatch(setCheckCardModalV2ResponseAble(false));
   };
 
@@ -53,10 +49,16 @@ const CheckCardModalV2 = () => {
       closable={false}
       footer={
         <>
-          <Button disabled={!finishable || !responseable} onClick={onFinish}>
+          <Button
+            disabled={!finishable || !responseable}
+            onClick={onFinishOrCancel}
+          >
             finish
           </Button>
-          <Button disabled={!cancelable || !responseable} onClick={onCancel}>
+          <Button
+            disabled={!cancelable || !responseable}
+            onClick={onFinishOrCancel}
+          >
             cancel
           </Button>
         </>

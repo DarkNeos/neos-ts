@@ -17,7 +17,9 @@ const HintNotification = () => {
   const result = useAppSelector(selectDuelResult);
   const navigate = useNavigate();
 
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = notification.useNotification({
+    maxCount: NeosConfig.ui.hint.maxCount,
+  });
   useEffect(() => {
     if (meHint && meHint.msg) {
       api.info({
@@ -25,7 +27,7 @@ const HintNotification = () => {
         placement: "bottom",
       });
     }
-  }, [meHint]);
+  }, [meHint?.msg]);
 
   useEffect(() => {
     if (opHint && opHint.msg) {
@@ -34,7 +36,7 @@ const HintNotification = () => {
         placement: "top",
       });
     }
-  }, [opHint]);
+  }, [opHint?.msg]);
 
   useEffect(() => {
     if (currentPhase) {

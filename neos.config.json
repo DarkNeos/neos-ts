@@ -68,7 +68,8 @@
          "opAvatarColor":"#e10e68"
       },
       "hint":{
-         "waitingDuration":1.5
+         "waitingDuration":1.5,
+         "maxCount": 3
       }
    },
    "unimplementedWhiteList":[
