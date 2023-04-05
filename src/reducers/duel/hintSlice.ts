@@ -64,7 +64,7 @@ export const fetchEsHintMeta = createAsyncThunk(
     const location = param.location;
 
     if (param.cardID) {
-      const cardMeta = await fetchCard(param.cardID);
+      const cardMeta = await fetchCard(param.cardID, true);
 
       return { originMsg, cardMeta, location };
     } else {

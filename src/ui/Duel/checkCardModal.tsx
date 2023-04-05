@@ -34,8 +34,9 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-  const selectHintMsg =
-    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const hint = useAppSelector(selectHint);
+  const preHintMsg = hint?.esHint || "";
+  const selectHintMsg = hint?.esSelectHint || "请选择卡片";
 
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (
@@ -58,7 +59,7 @@ const CheckCardModal = () => {
 
   return (
     <DragModal
-      title={`${selectHintMsg} ${min}-${max}`}
+      title={`${preHintMsg} ${selectHintMsg} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={

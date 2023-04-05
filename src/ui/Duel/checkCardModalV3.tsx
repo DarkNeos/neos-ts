@@ -33,8 +33,9 @@ const CheckCardModalV3 = () => {
     .concat(selectedOptions)
     .map((option) => option.level2)
     .reduce((sum, current) => sum + current, 0);
-  const selectHintMsg =
-    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const hint = useAppSelector(selectHint);
+  const preHintMsg = hint?.esHint || "";
+  const selectHintMsg = hint?.esSelectHint || "请选择卡片";
 
   const responseable =
     (overflow
@@ -53,7 +54,7 @@ const CheckCardModalV3 = () => {
 
   return (
     <DragModal
-      title={`${selectHintMsg} ${min}-${max}`}
+      title={`${preHintMsg} ${selectHintMsg} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={

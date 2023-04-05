@@ -18,7 +18,7 @@ export default (hint: MsgHint, dispatch: AppDispatch) => {
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      dispatch(fetchSelectHintMeta({ selectHintData: hint.hint_data }));
+      dispatch(fetchSelectHintMeta({ selectHintData: hint.hint_data, esHint: "" }));
       break;
     }
     default: {

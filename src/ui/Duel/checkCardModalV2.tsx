@@ -33,8 +33,9 @@ const CheckCardModalV2 = () => {
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
-  const selectHintMsg =
-    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const hint = useAppSelector(selectHint);
+  const preHintMsg = hint?.esHint || "";
+  const selectHintMsg = hint?.esSelectHint || "请选择卡片";
 
   const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
@@ -45,7 +46,7 @@ const CheckCardModalV2 = () => {
 
   return (
     <DragModal
-      title={`${selectHintMsg} ${min}-${max}`}
+      title={`${preHintMsg} ${selectHintMsg} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={
