@@ -68,7 +68,10 @@
   },
   "60": {
     "protoType": "summoning",
-    "fields": []
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
   },
   "61": {
     "protoType": "summoned",
@@ -76,7 +79,10 @@
   },
   "62": {
     "protoType": "sp_summoning",
-    "fields": []
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
   },
   "63": {
     "protoType": "sp_summoned",
@@ -84,7 +90,10 @@
   },
   "64": {
     "protoType": "flip_summoning",
-    "fields": []
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
   },
   "65": {
     "protoType": "flip_summoned",
@@ -92,11 +101,16 @@
   },
   "70": {
     "protoType": "chaining",
-    "fields": []
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
   },
   "110": {
     "protoType": "attack",
-    "fields": []
+    "fields": [
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
   },
   "112": {
     "protoType": "attack_disable",
