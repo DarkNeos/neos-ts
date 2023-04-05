@@ -29,6 +29,7 @@ import onMsgSelectTribute from "./selectTribute";
 import onMsgUpdateCounter from "./updateCounter";
 import onMsgSelectCounter from "./selectCounter";
 import onMsgSortCard from "./sortCard";
+import onMsgSet from "./set";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
@@ -190,6 +191,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "sort_card": {
       onMsgSortCard(msg.sort_card, dispatch);
+
+      break;
+    }
+    case "set": {
+      onMsgSet(msg.set, dispatch);
 
       break;
     }

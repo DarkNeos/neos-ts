@@ -20,6 +20,17 @@ const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["shuffle_hand", ygopro.StocGameMessage.MsgShuffleHand],
   ["pos_change", ygopro.StocGameMessage.MsgPosChange],
   ["select_yes_no", ygopro.StocGameMessage.MsgSelectYesNo],
+  ["set", ygopro.StocGameMessage.MsgSet],
+  ["swap", ygopro.StocGameMessage.MsgSwap],
+  ["summoning", ygopro.StocGameMessage.MsgSummoning],
+  ["summoned", ygopro.StocGameMessage.MsgSummoned],
+  ["flip_summoning", ygopro.StocGameMessage.MsgFlipSummoning],
+  ["flip_summoned", ygopro.StocGameMessage.MsgFlipSummoned],
+  ["sp_summoning", ygopro.StocGameMessage.MsgSpSummoning],
+  ["sp_summoned", ygopro.StocGameMessage.MsgSpSummoned],
+  ["chaining", ygopro.StocGameMessage.MsgChaining],
+  ["attack", ygopro.StocGameMessage.MsgAttack],
+  ["attack_disable", ygopro.StocGameMessage.MsgAttackDisabled],
 ]);
 
 export interface penetrateType {

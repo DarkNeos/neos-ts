@@ -57,5 +57,9 @@
       { "fieldName": "player","fieldType": "uint8" },
       { "fieldName": "effect_description", "fieldType": "uint32" }
     ]
+  },
+  "54": {
+    "protoType": "set",
+    "fields": []
   }
 }
