@@ -57,5 +57,63 @@
       { "fieldName": "player","fieldType": "uint8" },
       { "fieldName": "effect_description", "fieldType": "uint32" }
     ]
+  },
+  "54": {
+    "protoType": "set",
+    "fields": []
+  },
+  "55": {
+    "protoType": "swap",
+    "fields": []
+  },
+  "60": {
+    "protoType": "summoning",
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
+  },
+  "61": {
+    "protoType": "summoned",
+    "fields": []
+  },
+  "62": {
+    "protoType": "sp_summoning",
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
+  },
+  "63": {
+    "protoType": "sp_summoned",
+    "fields": []
+  },
+  "64": {
+    "protoType": "flip_summoning",
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
+  },
+  "65": {
+    "protoType": "flip_summoned",
+    "fields": []
+  },
+  "70": {
+    "protoType": "chaining",
+    "fields": [
+      { "fieldName": "code", "fieldType": "uint32" },
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
+  },
+  "110": {
+    "protoType": "attack",
+    "fields": [
+      { "fieldName": "location", "fieldType": "CardLocation" }
+    ]
+  },
+  "112": {
+    "protoType": "attack_disable",
+    "fields": []
   }
 }

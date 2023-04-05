@@ -9,15 +9,18 @@ import {
 } from "../../reducers/duel/modal/mod";
 import { setYesNoModalIsOpen } from "../../reducers/duel/mod";
 import DragModal from "./dragModal";
+import { selectHint } from "../../reducers/duel/hintSlice";
 
 const YesNoModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectYesNoModalIsOpen);
   const msg = useAppSelector(selectYesNOModalMsg);
+  const hint = useAppSelector(selectHint);
+  const preHintMsg = hint?.esHint || "";
 
   return (
     <DragModal
-      title={msg}
+      title={`${preHintMsg} ${msg}`}
       open={isOpen}
       closable={false}
       footer={

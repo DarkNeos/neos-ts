@@ -20,7 +20,7 @@ import {
 } from "../../reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
-import { selectMeHint } from "../../reducers/duel/hintSlice";
+import { selectHint } from "../../reducers/duel/hintSlice";
 
 const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
@@ -33,30 +33,34 @@ const CheckCardModalV2 = () => {
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
-  const selectHint = useAppSelector(selectMeHint)?.esSelectHint || "请选择卡片";
+  const hint = useAppSelector(selectHint);
+  const preHintMsg = hint?.esHint || "";
+  const selectHintMsg = hint?.esSelectHint || "请选择卡片";
 
-  const onFinish = () => {
+  const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
     dispatch(setCheckCardModalV2IsOpen(false));
     dispatch(resetCheckCardModalV2());
     dispatch(setCheckCardModalV2ResponseAble(false));
   };
-  const onCancel = () => {
-    sendSelectUnselectCardResponse({ cancel_or_finish: true });
-    dispatch(setCheckCardModalV2ResponseAble(false));
-  };
 
   return (
     <DragModal
-      title={`${selectHint} ${min}-${max}`}
+      title={`${preHintMsg} ${selectHintMsg} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={
         <>
-          <Button disabled={!finishable || !responseable} onClick={onFinish}>
+          <Button
+            disabled={!finishable || !responseable}
+            onClick={onFinishOrCancel}
+          >
             finish
           </Button>
-          <Button disabled={!cancelable || !responseable} onClick={onCancel}>
+          <Button
+            disabled={!cancelable || !responseable}
+            onClick={onFinishOrCancel}
+          >
             cancel
           </Button>
         </>

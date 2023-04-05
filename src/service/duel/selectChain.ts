@@ -84,7 +84,11 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
           })
         );
       }
-      dispatch(fetchSelectHintMeta([player, 203]));
+      dispatch(
+        fetchSelectHintMeta({
+          selectHintData: 203,
+        })
+      );
 
       dispatch(setCheckCardModalIsOpen(true));
 
