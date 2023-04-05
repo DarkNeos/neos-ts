@@ -58,7 +58,7 @@ Neos是一个基于[TypeScript](https://www.typescriptlang.org/)，[React.js](ht
 ## 🔗Community
 Neos目前在[萌卡社区](https://mycard.moe/)部署， 欢迎加入[QQ群](https://github.com/DarkNeos/ygopro-doc/blob/main/assets/ygo_qq.png)和我们一起交流。
 
-## 为什么我要开发Neos？
+## 为什么要开发Neos？
 - [作者写的一篇文档](https://github.com/DarkNeos/ygopro-doc/blob/main/doc/progress/2022-07-01_2022-10-07.md)
 - 在[ygobbs论坛](https://ygobbs.com/)发布的[帖子](https://ygobbs.com/t/ygopro%E7%BD%91%E9%A1%B5%E7%89%88%E5%BC%80%E5%8F%91%E8%BF%9B%E5%B1%95/403397)
 
