@@ -20,7 +20,7 @@ import {
 } from "../../reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
-import { selectMeHint } from "../../reducers/duel/hintSlice";
+import { selectHint } from "../../reducers/duel/hintSlice";
 
 const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
@@ -33,7 +33,7 @@ const CheckCardModalV2 = () => {
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
-  const selectHint = useAppSelector(selectMeHint)?.esSelectHint || "请选择卡片";
+  const selectHintMsg = useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
 
   const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
@@ -44,7 +44,7 @@ const CheckCardModalV2 = () => {
 
   return (
     <DragModal
-      title={`${selectHint} ${min}-${max}`}
+      title={`${selectHintMsg} ${min}-${max}`}
       open={isOpen}
       closable={false}
       footer={

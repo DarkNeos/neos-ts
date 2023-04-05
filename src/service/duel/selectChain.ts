@@ -86,7 +86,6 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
       }
       dispatch(
         fetchSelectHintMeta({
-          player,
           selectHintData: 203,
         })
       );

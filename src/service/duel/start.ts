@@ -46,6 +46,5 @@ export default (
   dispatch(initDeck({ player: 1, deskSize: start.deckSize2 }));
   dispatch(initExclusion(0));
   dispatch(initExclusion(1));
-  dispatch(initHint(0));
-  dispatch(initHint(1));
+  dispatch(initHint());
 };

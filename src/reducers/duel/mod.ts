@@ -149,8 +149,7 @@ export interface DuelState {
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
 
-  meHint?: HintState; // 自己的提示
-  opHint?: HintState; // 对手的提示
+  hint?: HintState;
 
   currentPlayer?: number; // 当前的操作方
 
