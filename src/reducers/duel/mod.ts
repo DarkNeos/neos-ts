@@ -23,7 +23,7 @@ import {
   setEnableEpImpl,
 } from "./phaseSlice";
 import { RootState } from "../../store";
-import { HintState, hintCase } from "./hintSlice";
+import { HintState, hintCase, initHintImpl, setEsHintImpl } from "./hintSlice";
 import {
   ModalState,
   setCardModalIsOpenImpl,
@@ -296,6 +296,10 @@ const duelSlice = createSlice({
     setSortCardModalIsOpen: setSortCardModalIsOpenImpl,
     resetSortCardModal: resetSortCardModalImpl,
 
+    // 提示相关`Reducer`
+    initHint: initHintImpl,
+    setEsHint: setEsHintImpl,
+
     // 通用的`Reducer`
     clearAllIdleInteractivities: clearAllIdleInteractivitiesImpl,
     clearAllPlaceInteractivities: clearAllPlaceInteractivitiesImpl,
@@ -413,6 +417,8 @@ export const {
   clearCheckCounter,
   setSortCardModalIsOpen,
   resetSortCardModal,
+  initHint,
+  setEsHint,
 } = duelSlice.actions;
 export const selectDuelHsStart = (state: RootState) => {
   return state.duel.meInitInfo != null;

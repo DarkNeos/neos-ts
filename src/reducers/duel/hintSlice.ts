@@ -4,12 +4,37 @@ import { RootState } from "../../store";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "../../api/strings";
 import { judgeSelf } from "./util";
 import { fetchCard } from "../../api/cards";
+import { DuelReducer } from "./generic";
 
 export interface HintState {
   code: number;
   msg?: string;
+  esHint?: string;
   esSelectHint?: string;
 }
+
+export const initHintImpl: DuelReducer<number> = (state, action) => {
+  const player = action.payload;
+
+  if (judgeSelf(player, state)) {
+    state.meHint = { code: 0 };
+  } else {
+    state.opHint = { code: 0 };
+  }
+};
+
+export const setEsHintImpl: DuelReducer<{ player: number; esHint: string }> = (
+  state,
+  action
+) => {
+  const player = action.payload.player;
+  const esHint = action.payload.esHint;
+
+  const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
+  if (hint) {
+    hint.esHint = esHint;
+  }
+};
 
 export const fetchCommonHintMeta = createAsyncThunk(
   "duel/fetchCommonHintMeta",
@@ -26,24 +51,31 @@ export const fetchCommonHintMeta = createAsyncThunk(
 
 export const fetchSelectHintMeta = createAsyncThunk(
   "duel/fetchSelectHintMeta",
-  async (param: [number, number]) => {
-    const player = param[0];
-    const hintData = param[1];
+  async (param: {
+    player: number;
+    selectHintData: number;
+    esHint?: string;
+  }) => {
+    const player = param.player;
+    const selectHintData = param.selectHintData;
 
-    let hintMeta = "";
-    if (hintData > DESCRIPTION_LIMIT) {
+    let selectHintMeta = "";
+    if (selectHintData > DESCRIPTION_LIMIT) {
       // 针对`MSG_SELECT_PLACE`的特化逻辑
-      const cardMeta = await fetchCard(hintData, true);
-      hintMeta = fetchStrings("!system", 569).replace(
+      const cardMeta = await fetchCard(selectHintData, true);
+      selectHintMeta = fetchStrings("!system", 569).replace(
         "[%ls]",
         cardMeta.text.name || "[?]"
       );
     } else {
-      hintMeta = await getStrings(hintData);
+      selectHintMeta = await getStrings(selectHintData);
     }
 
-    const response: [number, string] = [player, hintMeta];
-    return response;
+    return {
+      player,
+      selectHintMeta,
+      esHint: param.esHint,
+    };
   }
 );
 
@@ -69,26 +101,27 @@ export const hintCase = (builder: ActionReducerMapBuilder<DuelState>) => {
   });
 
   builder.addCase(fetchSelectHintMeta.pending, (state, action) => {
-    const player = action.meta.arg[0];
-    const code = action.meta.arg[1];
+    const player = action.meta.arg.player;
+    const code = action.meta.arg.selectHintData;
 
-    if (judgeSelf(player, state)) {
-      state.meHint = { code };
-    } else {
-      state.opHint = { code };
+    const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
+    if (hint) {
+      hint.code = code;
     }
   });
   builder.addCase(fetchSelectHintMeta.fulfilled, (state, action) => {
-    const player = action.payload[0];
-    let hintMsg = action.payload[1];
+    const player = action.payload.player;
+    const selectHintMsg = action.payload.selectHintMeta;
+    const esHint = action.payload.esHint;
 
     const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
     if (hint) {
       if (hint.code > DESCRIPTION_LIMIT) {
         // 针对`MSG_SELECT_PLACE`的特化逻辑
-        hint.msg = hintMsg;
+        hint.msg = selectHintMsg;
       } else {
-        hint.esSelectHint = hintMsg;
+        hint.esSelectHint = selectHintMsg;
+        if (esHint) hint.esHint = esHint;
       }
     }
   });

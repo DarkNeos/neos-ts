@@ -15,7 +15,7 @@ export default (hint: MsgHint, dispatch: AppDispatch) => {
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      dispatch(fetchSelectHintMeta([player, hint.hint_data]));
+      dispatch(fetchSelectHintMeta({ player, selectHintData: hint.hint_data }));
       break;
     }
     default: {
