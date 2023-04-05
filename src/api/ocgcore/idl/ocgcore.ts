@@ -5748,7 +5748,8 @@ export namespace ygopro {
     #one_of_decls: number[][] = [
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25, 26, 27, 28, 29,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+        39, 40,
       ],
     ];
     constructor(
@@ -5785,6 +5786,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5816,6 +5828,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5847,6 +5870,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5878,6 +5912,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5909,6 +5954,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5940,6 +5996,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -5971,6 +6038,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6002,6 +6080,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6033,6 +6122,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6064,6 +6164,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6095,6 +6206,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6126,6 +6248,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6157,6 +6290,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6188,6 +6332,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6219,6 +6374,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6250,6 +6416,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6281,6 +6458,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6312,6 +6500,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6343,6 +6542,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6374,6 +6584,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6405,6 +6626,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6436,6 +6668,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6467,6 +6710,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6498,6 +6752,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6529,6 +6794,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6560,6 +6836,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6591,6 +6878,17 @@ export namespace ygopro {
                 update_counter?: StocGameMessage.MsgUpdateCounter;
                 select_counter?: never;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6622,6 +6920,17 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: StocGameMessage.MsgSelectCounter;
                 sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
               }
             | {
                 start?: never;
@@ -6653,6 +6962,479 @@ export namespace ygopro {
                 update_counter?: never;
                 select_counter?: never;
                 sort_card?: StocGameMessage.MsgSortCard;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: StocGameMessage.MsgSet;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: StocGameMessage.MsgSwap;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: StocGameMessage.MsgSummoning;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: StocGameMessage.MsgSummoned;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: StocGameMessage.MsgFlipSummoning;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: StocGameMessage.MsgFlipSummoned;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: StocGameMessage.MsgSpSummoning;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: StocGameMessage.MsgSpSummoned;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: StocGameMessage.MsgChaining;
+                attack?: never;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: StocGameMessage.MsgAttack;
+                attack_disable?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: StocGameMessage.MsgAttackDisabled;
               }
           ))
     ) {
@@ -6758,6 +7540,39 @@ export namespace ygopro {
         }
         if ("sort_card" in data && data.sort_card != undefined) {
           this.sort_card = data.sort_card;
+        }
+        if ("set" in data && data.set != undefined) {
+          this.set = data.set;
+        }
+        if ("swap" in data && data.swap != undefined) {
+          this.swap = data.swap;
+        }
+        if ("summoning" in data && data.summoning != undefined) {
+          this.summoning = data.summoning;
+        }
+        if ("summoned" in data && data.summoned != undefined) {
+          this.summoned = data.summoned;
+        }
+        if ("flip_summoning" in data && data.flip_summoning != undefined) {
+          this.flip_summoning = data.flip_summoning;
+        }
+        if ("flip_summoned" in data && data.flip_summoned != undefined) {
+          this.flip_summoned = data.flip_summoned;
+        }
+        if ("sp_summoning" in data && data.sp_summoning != undefined) {
+          this.sp_summoning = data.sp_summoning;
+        }
+        if ("sp_summoned" in data && data.sp_summoned != undefined) {
+          this.sp_summoned = data.sp_summoned;
+        }
+        if ("chaining" in data && data.chaining != undefined) {
+          this.chaining = data.chaining;
+        }
+        if ("attack" in data && data.attack != undefined) {
+          this.attack = data.attack;
+        }
+        if ("attack_disable" in data && data.attack_disable != undefined) {
+          this.attack_disable = data.attack_disable;
         }
       }
     }
@@ -7138,6 +7953,149 @@ export namespace ygopro {
     get has_sort_card() {
       return pb_1.Message.getField(this, 29) != null;
     }
+    get set() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSet,
+        30
+      ) as StocGameMessage.MsgSet;
+    }
+    set set(value: StocGameMessage.MsgSet) {
+      pb_1.Message.setOneofWrapperField(this, 30, this.#one_of_decls[0], value);
+    }
+    get has_set() {
+      return pb_1.Message.getField(this, 30) != null;
+    }
+    get swap() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSwap,
+        31
+      ) as StocGameMessage.MsgSwap;
+    }
+    set swap(value: StocGameMessage.MsgSwap) {
+      pb_1.Message.setOneofWrapperField(this, 31, this.#one_of_decls[0], value);
+    }
+    get has_swap() {
+      return pb_1.Message.getField(this, 31) != null;
+    }
+    get summoning() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSummoning,
+        32
+      ) as StocGameMessage.MsgSummoning;
+    }
+    set summoning(value: StocGameMessage.MsgSummoning) {
+      pb_1.Message.setOneofWrapperField(this, 32, this.#one_of_decls[0], value);
+    }
+    get has_summoning() {
+      return pb_1.Message.getField(this, 32) != null;
+    }
+    get summoned() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSummoned,
+        33
+      ) as StocGameMessage.MsgSummoned;
+    }
+    set summoned(value: StocGameMessage.MsgSummoned) {
+      pb_1.Message.setOneofWrapperField(this, 33, this.#one_of_decls[0], value);
+    }
+    get has_summoned() {
+      return pb_1.Message.getField(this, 33) != null;
+    }
+    get flip_summoning() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgFlipSummoning,
+        34
+      ) as StocGameMessage.MsgFlipSummoning;
+    }
+    set flip_summoning(value: StocGameMessage.MsgFlipSummoning) {
+      pb_1.Message.setOneofWrapperField(this, 34, this.#one_of_decls[0], value);
+    }
+    get has_flip_summoning() {
+      return pb_1.Message.getField(this, 34) != null;
+    }
+    get flip_summoned() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgFlipSummoned,
+        35
+      ) as StocGameMessage.MsgFlipSummoned;
+    }
+    set flip_summoned(value: StocGameMessage.MsgFlipSummoned) {
+      pb_1.Message.setOneofWrapperField(this, 35, this.#one_of_decls[0], value);
+    }
+    get has_flip_summoned() {
+      return pb_1.Message.getField(this, 35) != null;
+    }
+    get sp_summoning() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSpSummoning,
+        36
+      ) as StocGameMessage.MsgSpSummoning;
+    }
+    set sp_summoning(value: StocGameMessage.MsgSpSummoning) {
+      pb_1.Message.setOneofWrapperField(this, 36, this.#one_of_decls[0], value);
+    }
+    get has_sp_summoning() {
+      return pb_1.Message.getField(this, 36) != null;
+    }
+    get sp_summoned() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgSpSummoned,
+        37
+      ) as StocGameMessage.MsgSpSummoned;
+    }
+    set sp_summoned(value: StocGameMessage.MsgSpSummoned) {
+      pb_1.Message.setOneofWrapperField(this, 37, this.#one_of_decls[0], value);
+    }
+    get has_sp_summoned() {
+      return pb_1.Message.getField(this, 37) != null;
+    }
+    get chaining() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgChaining,
+        38
+      ) as StocGameMessage.MsgChaining;
+    }
+    set chaining(value: StocGameMessage.MsgChaining) {
+      pb_1.Message.setOneofWrapperField(this, 38, this.#one_of_decls[0], value);
+    }
+    get has_chaining() {
+      return pb_1.Message.getField(this, 38) != null;
+    }
+    get attack() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgAttack,
+        39
+      ) as StocGameMessage.MsgAttack;
+    }
+    set attack(value: StocGameMessage.MsgAttack) {
+      pb_1.Message.setOneofWrapperField(this, 39, this.#one_of_decls[0], value);
+    }
+    get has_attack() {
+      return pb_1.Message.getField(this, 39) != null;
+    }
+    get attack_disable() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgAttackDisabled,
+        40
+      ) as StocGameMessage.MsgAttackDisabled;
+    }
+    set attack_disable(value: StocGameMessage.MsgAttackDisabled) {
+      pb_1.Message.setOneofWrapperField(this, 40, this.#one_of_decls[0], value);
+    }
+    get has_attack_disable() {
+      return pb_1.Message.getField(this, 40) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -7170,7 +8128,18 @@ export namespace ygopro {
           | "select_tribute"
           | "update_counter"
           | "select_counter"
-          | "sort_card";
+          | "sort_card"
+          | "set"
+          | "swap"
+          | "summoning"
+          | "summoned"
+          | "flip_summoning"
+          | "flip_summoned"
+          | "sp_summoning"
+          | "sp_summoned"
+          | "chaining"
+          | "attack"
+          | "attack_disable";
       } = {
         0: "none",
         1: "start",
@@ -7202,13 +8171,25 @@ export namespace ygopro {
         27: "update_counter",
         28: "select_counter",
         29: "sort_card",
+        30: "set",
+        31: "swap",
+        32: "summoning",
+        33: "summoned",
+        34: "flip_summoning",
+        35: "flip_summoned",
+        36: "sp_summoning",
+        37: "sp_summoned",
+        38: "chaining",
+        39: "attack",
+        40: "attack_disable",
       };
       return cases[
         pb_1.Message.computeOneofCase(
           this,
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+            20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+            37, 38, 39, 40,
           ]
         )
       ];
@@ -7288,6 +8269,33 @@ export namespace ygopro {
       >;
       sort_card?: ReturnType<
         typeof StocGameMessage.MsgSortCard.prototype.toObject
+      >;
+      set?: ReturnType<typeof StocGameMessage.MsgSet.prototype.toObject>;
+      swap?: ReturnType<typeof StocGameMessage.MsgSwap.prototype.toObject>;
+      summoning?: ReturnType<
+        typeof StocGameMessage.MsgSummoning.prototype.toObject
+      >;
+      summoned?: ReturnType<
+        typeof StocGameMessage.MsgSummoned.prototype.toObject
+      >;
+      flip_summoning?: ReturnType<
+        typeof StocGameMessage.MsgFlipSummoning.prototype.toObject
+      >;
+      flip_summoned?: ReturnType<
+        typeof StocGameMessage.MsgFlipSummoned.prototype.toObject
+      >;
+      sp_summoning?: ReturnType<
+        typeof StocGameMessage.MsgSpSummoning.prototype.toObject
+      >;
+      sp_summoned?: ReturnType<
+        typeof StocGameMessage.MsgSpSummoned.prototype.toObject
+      >;
+      chaining?: ReturnType<
+        typeof StocGameMessage.MsgChaining.prototype.toObject
+      >;
+      attack?: ReturnType<typeof StocGameMessage.MsgAttack.prototype.toObject>;
+      attack_disable?: ReturnType<
+        typeof StocGameMessage.MsgAttackDisabled.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -7422,6 +8430,55 @@ export namespace ygopro {
           data.sort_card
         );
       }
+      if (data.set != null) {
+        message.set = StocGameMessage.MsgSet.fromObject(data.set);
+      }
+      if (data.swap != null) {
+        message.swap = StocGameMessage.MsgSwap.fromObject(data.swap);
+      }
+      if (data.summoning != null) {
+        message.summoning = StocGameMessage.MsgSummoning.fromObject(
+          data.summoning
+        );
+      }
+      if (data.summoned != null) {
+        message.summoned = StocGameMessage.MsgSummoned.fromObject(
+          data.summoned
+        );
+      }
+      if (data.flip_summoning != null) {
+        message.flip_summoning = StocGameMessage.MsgFlipSummoning.fromObject(
+          data.flip_summoning
+        );
+      }
+      if (data.flip_summoned != null) {
+        message.flip_summoned = StocGameMessage.MsgFlipSummoned.fromObject(
+          data.flip_summoned
+        );
+      }
+      if (data.sp_summoning != null) {
+        message.sp_summoning = StocGameMessage.MsgSpSummoning.fromObject(
+          data.sp_summoning
+        );
+      }
+      if (data.sp_summoned != null) {
+        message.sp_summoned = StocGameMessage.MsgSpSummoned.fromObject(
+          data.sp_summoned
+        );
+      }
+      if (data.chaining != null) {
+        message.chaining = StocGameMessage.MsgChaining.fromObject(
+          data.chaining
+        );
+      }
+      if (data.attack != null) {
+        message.attack = StocGameMessage.MsgAttack.fromObject(data.attack);
+      }
+      if (data.attack_disable != null) {
+        message.attack_disable = StocGameMessage.MsgAttackDisabled.fromObject(
+          data.attack_disable
+        );
+      }
       return message;
     }
     toObject() {
@@ -7500,6 +8557,35 @@ export namespace ygopro {
         >;
         sort_card?: ReturnType<
           typeof StocGameMessage.MsgSortCard.prototype.toObject
+        >;
+        set?: ReturnType<typeof StocGameMessage.MsgSet.prototype.toObject>;
+        swap?: ReturnType<typeof StocGameMessage.MsgSwap.prototype.toObject>;
+        summoning?: ReturnType<
+          typeof StocGameMessage.MsgSummoning.prototype.toObject
+        >;
+        summoned?: ReturnType<
+          typeof StocGameMessage.MsgSummoned.prototype.toObject
+        >;
+        flip_summoning?: ReturnType<
+          typeof StocGameMessage.MsgFlipSummoning.prototype.toObject
+        >;
+        flip_summoned?: ReturnType<
+          typeof StocGameMessage.MsgFlipSummoned.prototype.toObject
+        >;
+        sp_summoning?: ReturnType<
+          typeof StocGameMessage.MsgSpSummoning.prototype.toObject
+        >;
+        sp_summoned?: ReturnType<
+          typeof StocGameMessage.MsgSpSummoned.prototype.toObject
+        >;
+        chaining?: ReturnType<
+          typeof StocGameMessage.MsgChaining.prototype.toObject
+        >;
+        attack?: ReturnType<
+          typeof StocGameMessage.MsgAttack.prototype.toObject
+        >;
+        attack_disable?: ReturnType<
+          typeof StocGameMessage.MsgAttackDisabled.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -7588,6 +8674,39 @@ export namespace ygopro {
       }
       if (this.sort_card != null) {
         data.sort_card = this.sort_card.toObject();
+      }
+      if (this.set != null) {
+        data.set = this.set.toObject();
+      }
+      if (this.swap != null) {
+        data.swap = this.swap.toObject();
+      }
+      if (this.summoning != null) {
+        data.summoning = this.summoning.toObject();
+      }
+      if (this.summoned != null) {
+        data.summoned = this.summoned.toObject();
+      }
+      if (this.flip_summoning != null) {
+        data.flip_summoning = this.flip_summoning.toObject();
+      }
+      if (this.flip_summoned != null) {
+        data.flip_summoned = this.flip_summoned.toObject();
+      }
+      if (this.sp_summoning != null) {
+        data.sp_summoning = this.sp_summoning.toObject();
+      }
+      if (this.sp_summoned != null) {
+        data.sp_summoned = this.sp_summoned.toObject();
+      }
+      if (this.chaining != null) {
+        data.chaining = this.chaining.toObject();
+      }
+      if (this.attack != null) {
+        data.attack = this.attack.toObject();
+      }
+      if (this.attack_disable != null) {
+        data.attack_disable = this.attack_disable.toObject();
       }
       return data;
     }
@@ -7698,6 +8817,46 @@ export namespace ygopro {
       if (this.has_sort_card)
         writer.writeMessage(29, this.sort_card, () =>
           this.sort_card.serialize(writer)
+        );
+      if (this.has_set)
+        writer.writeMessage(30, this.set, () => this.set.serialize(writer));
+      if (this.has_swap)
+        writer.writeMessage(31, this.swap, () => this.swap.serialize(writer));
+      if (this.has_summoning)
+        writer.writeMessage(32, this.summoning, () =>
+          this.summoning.serialize(writer)
+        );
+      if (this.has_summoned)
+        writer.writeMessage(33, this.summoned, () =>
+          this.summoned.serialize(writer)
+        );
+      if (this.has_flip_summoning)
+        writer.writeMessage(34, this.flip_summoning, () =>
+          this.flip_summoning.serialize(writer)
+        );
+      if (this.has_flip_summoned)
+        writer.writeMessage(35, this.flip_summoned, () =>
+          this.flip_summoned.serialize(writer)
+        );
+      if (this.has_sp_summoning)
+        writer.writeMessage(36, this.sp_summoning, () =>
+          this.sp_summoning.serialize(writer)
+        );
+      if (this.has_sp_summoned)
+        writer.writeMessage(37, this.sp_summoned, () =>
+          this.sp_summoned.serialize(writer)
+        );
+      if (this.has_chaining)
+        writer.writeMessage(38, this.chaining, () =>
+          this.chaining.serialize(writer)
+        );
+      if (this.has_attack)
+        writer.writeMessage(39, this.attack, () =>
+          this.attack.serialize(writer)
+        );
+      if (this.has_attack_disable)
+        writer.writeMessage(40, this.attack_disable, () =>
+          this.attack_disable.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -7929,6 +9088,89 @@ export namespace ygopro {
               () =>
                 (message.sort_card =
                   StocGameMessage.MsgSortCard.deserialize(reader))
+            );
+            break;
+          case 30:
+            reader.readMessage(
+              message.set,
+              () => (message.set = StocGameMessage.MsgSet.deserialize(reader))
+            );
+            break;
+          case 31:
+            reader.readMessage(
+              message.swap,
+              () => (message.swap = StocGameMessage.MsgSwap.deserialize(reader))
+            );
+            break;
+          case 32:
+            reader.readMessage(
+              message.summoning,
+              () =>
+                (message.summoning =
+                  StocGameMessage.MsgSummoning.deserialize(reader))
+            );
+            break;
+          case 33:
+            reader.readMessage(
+              message.summoned,
+              () =>
+                (message.summoned =
+                  StocGameMessage.MsgSummoned.deserialize(reader))
+            );
+            break;
+          case 34:
+            reader.readMessage(
+              message.flip_summoning,
+              () =>
+                (message.flip_summoning =
+                  StocGameMessage.MsgFlipSummoning.deserialize(reader))
+            );
+            break;
+          case 35:
+            reader.readMessage(
+              message.flip_summoned,
+              () =>
+                (message.flip_summoned =
+                  StocGameMessage.MsgFlipSummoned.deserialize(reader))
+            );
+            break;
+          case 36:
+            reader.readMessage(
+              message.sp_summoning,
+              () =>
+                (message.sp_summoning =
+                  StocGameMessage.MsgSpSummoning.deserialize(reader))
+            );
+            break;
+          case 37:
+            reader.readMessage(
+              message.sp_summoned,
+              () =>
+                (message.sp_summoned =
+                  StocGameMessage.MsgSpSummoned.deserialize(reader))
+            );
+            break;
+          case 38:
+            reader.readMessage(
+              message.chaining,
+              () =>
+                (message.chaining =
+                  StocGameMessage.MsgChaining.deserialize(reader))
+            );
+            break;
+          case 39:
+            reader.readMessage(
+              message.attack,
+              () =>
+                (message.attack = StocGameMessage.MsgAttack.deserialize(reader))
+            );
+            break;
+          case 40:
+            reader.readMessage(
+              message.attack_disable,
+              () =>
+                (message.attack_disable =
+                  StocGameMessage.MsgAttackDisabled.deserialize(reader))
             );
             break;
           default:
@@ -14968,6 +16210,873 @@ export namespace ygopro {
         static deserializeBinary(bytes: Uint8Array): Info {
           return Info.deserialize(bytes);
         }
+      }
+    }
+    export class MsgSet extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgSet {
+        const message = new MsgSet({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSet {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSet();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSet {
+        return MsgSet.deserialize(bytes);
+      }
+    }
+    export class MsgSwap extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgSwap {
+        const message = new MsgSwap({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSwap {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSwap();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSwap {
+        return MsgSwap.deserialize(bytes);
+      }
+    }
+    export class MsgSummoning extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              location?: CardLocation;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      static fromObject(data: {
+        code?: number;
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+      }): MsgSummoning {
+        const message = new MsgSummoning({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.has_location)
+          writer.writeMessage(2, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSummoning {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSummoning();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSummoning {
+        return MsgSummoning.deserialize(bytes);
+      }
+    }
+    export class MsgSummoned extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgSummoned {
+        const message = new MsgSummoned({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSummoned {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSummoned();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSummoned {
+        return MsgSummoned.deserialize(bytes);
+      }
+    }
+    export class MsgFlipSummoning extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              location?: CardLocation;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      static fromObject(data: {
+        code?: number;
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+      }): MsgFlipSummoning {
+        const message = new MsgFlipSummoning({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.has_location)
+          writer.writeMessage(2, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgFlipSummoning {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgFlipSummoning();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgFlipSummoning {
+        return MsgFlipSummoning.deserialize(bytes);
+      }
+    }
+    export class MsgFlipSummoned extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgFlipSummoned {
+        const message = new MsgFlipSummoned({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgFlipSummoned {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgFlipSummoned();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgFlipSummoned {
+        return MsgFlipSummoned.deserialize(bytes);
+      }
+    }
+    export class MsgSpSummoning extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              location?: CardLocation;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      static fromObject(data: {
+        code?: number;
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+      }): MsgSpSummoning {
+        const message = new MsgSpSummoning({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.has_location)
+          writer.writeMessage(2, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgSpSummoning {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSpSummoning();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSpSummoning {
+        return MsgSpSummoning.deserialize(bytes);
+      }
+    }
+    export class MsgSpSummoned extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgSpSummoned {
+        const message = new MsgSpSummoned({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgSpSummoned {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgSpSummoned();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgSpSummoned {
+        return MsgSpSummoned.deserialize(bytes);
+      }
+    }
+    export class MsgChaining extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              code?: number;
+              location?: CardLocation;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("code" in data && data.code != undefined) {
+            this.code = data.code;
+          }
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+        }
+      }
+      get code() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set code(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          2
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      static fromObject(data: {
+        code?: number;
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+      }): MsgChaining {
+        const message = new MsgChaining({});
+        if (data.code != null) {
+          message.code = data.code;
+        }
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          code?: number;
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        } = {};
+        if (this.code != null) {
+          data.code = this.code;
+        }
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.code != 0) writer.writeInt32(1, this.code);
+        if (this.has_location)
+          writer.writeMessage(2, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgChaining {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgChaining();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.code = reader.readInt32();
+              break;
+            case 2:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgChaining {
+        return MsgChaining.deserialize(bytes);
+      }
+    }
+    export class MsgAttack extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              location?: CardLocation;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("location" in data && data.location != undefined) {
+            this.location = data.location;
+          }
+        }
+      }
+      get location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          1
+        ) as CardLocation;
+      }
+      set location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 1, value);
+      }
+      get has_location() {
+        return pb_1.Message.getField(this, 1) != null;
+      }
+      static fromObject(data: {
+        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+      }): MsgAttack {
+        const message = new MsgAttack({});
+        if (data.location != null) {
+          message.location = CardLocation.fromObject(data.location);
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        } = {};
+        if (this.location != null) {
+          data.location = this.location.toObject();
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.has_location)
+          writer.writeMessage(1, this.location, () =>
+            this.location.serialize(writer)
+          );
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgAttack {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgAttack();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              reader.readMessage(
+                message.location,
+                () => (message.location = CardLocation.deserialize(reader))
+              );
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgAttack {
+        return MsgAttack.deserialize(bytes);
+      }
+    }
+    export class MsgAttackDisabled extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgAttackDisabled {
+        const message = new MsgAttackDisabled({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(
+        bytes: Uint8Array | pb_1.BinaryReader
+      ): MsgAttackDisabled {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgAttackDisabled();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgAttackDisabled {
+        return MsgAttackDisabled.deserialize(bytes);
       }
     }
     export class MsgReloadField extends pb_1.Message {
