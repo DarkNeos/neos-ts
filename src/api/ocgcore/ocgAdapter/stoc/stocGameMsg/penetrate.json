@@ -61,5 +61,45 @@
   "54": {
     "protoType": "set",
     "fields": []
+  },
+  "55": {
+    "protoType": "swap",
+    "fields": []
+  },
+  "60": {
+    "protoType": "summoning",
+    "fields": []
+  },
+  "61": {
+    "protoType": "summoned",
+    "fields": []
+  },
+  "62": {
+    "protoType": "sp_summoning",
+    "fields": []
+  },
+  "63": {
+    "protoType": "sp_summoned",
+    "fields": []
+  },
+  "64": {
+    "protoType": "flip_summoning",
+    "fields": []
+  },
+  "65": {
+    "protoType": "flip_summoned",
+    "fields": []
+  },
+  "70": {
+    "protoType": "chaining",
+    "fields": []
+  },
+  "110": {
+    "protoType": "attack",
+    "fields": []
+  },
+  "112": {
+    "protoType": "attack_disable",
+    "fields": []
   }
 }
