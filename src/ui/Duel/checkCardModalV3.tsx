@@ -33,7 +33,8 @@ const CheckCardModalV3 = () => {
     .concat(selectedOptions)
     .map((option) => option.level2)
     .reduce((sum, current) => sum + current, 0);
-  const selectHintMsg = useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const selectHintMsg =
+    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
 
   const responseable =
     (overflow

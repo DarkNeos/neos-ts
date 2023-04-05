@@ -34,7 +34,8 @@ const CheckCardModal = () => {
   const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-  const selectHintMsg = useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const selectHintMsg =
+    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
 
   // TODO: 这里可以考虑更好地封装
   const sendResponseHandler = (

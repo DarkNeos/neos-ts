@@ -23,7 +23,7 @@ const HintNotification = () => {
     if (hint && hint.msg) {
       api.info({
         message: `${hint.msg}`,
-        placement: "top",
+        placement: "bottom",
       });
     }
   }, [hint?.msg]);

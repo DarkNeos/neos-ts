@@ -30,6 +30,16 @@ import onMsgUpdateCounter from "./updateCounter";
 import onMsgSelectCounter from "./selectCounter";
 import onMsgSortCard from "./sortCard";
 import onMsgSet from "./set";
+import onMsgSwap from "./swap";
+import onMsgAttack from "./attack";
+import onMsgAttackDisable from "./attackDisable";
+import onMsgChaining from "./chaining";
+import onMsgFlipSummoning from "./flipSummoning";
+import onMsgFilpSummoned from "./flipSummoned";
+import onMsgSpSummoning from "./spSummoning";
+import onMsgSpSummoned from "./spSummoned";
+import onMsgSummoning from "./summoning";
+import onMsgSummoned from "./summoned";
 import { setWaiting } from "../../reducers/duel/mod";
 
 const ActiveList = [
@@ -196,6 +206,56 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "set": {
       onMsgSet(msg.set, dispatch);
+
+      break;
+    }
+    case "swap": {
+      onMsgSwap(msg.swap, dispatch);
+
+      break;
+    }
+    case "attack": {
+      onMsgAttack(msg.attack, dispatch);
+
+      break;
+    }
+    case "attack_disable": {
+      onMsgAttackDisable(msg.attack_disable, dispatch);
+
+      break;
+    }
+    case "chaining": {
+      onMsgChaining(msg.chaining, dispatch);
+
+      break;
+    }
+    case "summoning": {
+      onMsgSummoning(msg.summoning, dispatch);
+
+      break;
+    }
+    case "summoned": {
+      onMsgSummoned(msg.summoned, dispatch);
+
+      break;
+    }
+    case "flip_summoning": {
+      onMsgFlipSummoning(msg.flip_summoning, dispatch);
+
+      break;
+    }
+    case "flip_summoned": {
+      onMsgFilpSummoned(msg.flip_summoned, dispatch);
+
+      break;
+    }
+    case "sp_summoning": {
+      onMsgSpSummoning(msg.sp_summoning, dispatch);
+
+      break;
+    }
+    case "sp_summoned": {
+      onMsgSpSummoned(msg.sp_summoned, dispatch);
 
       break;
     }

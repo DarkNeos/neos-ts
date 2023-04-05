@@ -33,7 +33,8 @@ const CheckCardModalV2 = () => {
   );
   const selectedOptions = useAppSelector(selectCheckCardModalV2SelectedOptions);
   const responseable = useAppSelector(selectCheckCardModalV2ResponseAble);
-  const selectHintMsg = useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
+  const selectHintMsg =
+    useAppSelector(selectHint)?.esSelectHint || "请选择卡片";
 
   const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
