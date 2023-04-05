@@ -21,11 +21,27 @@
   </a>
 </p>
 
-Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [Babylon.js](https://www.babylonjs.com/). It supports the following features:
+English | [简体中文](./README-zh_CN.md)
 
-- [Play online](https://neos.moecube.com) with the [ygopro](https://ygopro.org/) client or Neos itself
-- Play with LAN connection
-- Duel with AI
+Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [Babylon.js](https://www.babylonjs.com/).
+
+## ✨ Features
+
+- 🎮 [Play online](https://neos.moecube.com) with the [ygopro](https://ygopro.org/) client or neos itself
+- 🌍Play with LAN connection
+- 🤖️Duel with AI
+
+## 📦Quick Start
+1. Open the [neos page](https://neos.moecube.com) and input the player name(e.g., "ccc") and password(use "AI" if you want to duel with computer), then click `ENTER ROOM` button
+2. After entering in the waiting room, there're two ways to choose your deck:
+  - Using the recommended deck by clicking the drop-down menu
+  - Uploading your favorite deck with `YDK` file
+3. With the deck being chosen, click the `Ready` and `Start` button and enjoy the duel!
+
+<center class="half">
+  <img alt="" src="./screenshots/quick_start-login.jpeg" width="300" />
+  <img alt="" src="./screenshots/quick_start-room.jpeg" width="400" />
+</center>
 
 ## Screenshot
 <p align="center">
@@ -36,9 +52,10 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 * https://neos.moecube.com by Mycard community
 * https://www.neos.moe by [Cloudflare](https://www.cloudflare.com/)
 
-## Contributing
+## 🤝Contributing
 Create merge requests in [gitlab repo](https://code.mycard.moe/mycard/Neos).
-## Community
+
+## 🔗Community
 Neos is developed in [mycard](https://mycard.moe/) community, join the [QQ Chat](https://github.com/DarkNeos/ygopro-doc/blob/main/assets/ygo_qq.png), where you can ask questions and make discussions.
 
 ## Why we develop Neos?
