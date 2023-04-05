@@ -2,9 +2,10 @@ import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
 import { RootState } from "../../store";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "../../api/strings";
-import { judgeSelf } from "./util";
+import { findCardByLocation, judgeSelf } from "./util";
 import { fetchCard } from "../../api/cards";
 import { DuelReducer } from "./generic";
+import { ygopro } from "../../api/ocgcore/idl/ocgcore";
 
 export interface HintState {
   code: number;
@@ -20,19 +21,6 @@ export const initHintImpl: DuelReducer<number> = (state, action) => {
     state.meHint = { code: 0 };
   } else {
     state.opHint = { code: 0 };
-  }
-};
-
-export const setEsHintImpl: DuelReducer<{ player: number; esHint: string }> = (
-  state,
-  action
-) => {
-  const player = action.payload.player;
-  const esHint = action.payload.esHint;
-
-  const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
-  if (hint) {
-    hint.esHint = esHint;
   }
 };
 
@@ -76,6 +64,32 @@ export const fetchSelectHintMeta = createAsyncThunk(
       selectHintMeta,
       esHint: param.esHint,
     };
+  }
+);
+
+export const fetchEsHintMeta = createAsyncThunk(
+  "duel/fetchEsHintMeta",
+  async (param: {
+    player: number;
+    originMsg: string | number;
+    location?: ygopro.CardLocation;
+    cardID?: number;
+  }) => {
+    const player = param.player;
+    const originMsg =
+      typeof param.originMsg === "string"
+        ? param.originMsg
+        : fetchStrings("!system", param.originMsg);
+
+    const location = param.location;
+
+    if (param.cardID) {
+      const cardMeta = await fetchCard(param.cardID);
+
+      return { player, originMsg, cardMeta, location };
+    } else {
+      return { player, originMsg, location };
+    }
   }
 );
 
@@ -123,6 +137,30 @@ export const hintCase = (builder: ActionReducerMapBuilder<DuelState>) => {
         hint.esSelectHint = selectHintMsg;
         if (esHint) hint.esHint = esHint;
       }
+    }
+  });
+  builder.addCase(fetchEsHintMeta.fulfilled, (state, action) => {
+    const player = action.payload.player;
+    const originMsg = action.payload.originMsg;
+    const cardMeta = action.payload.cardMeta;
+    const location = action.payload.location;
+
+    const hint = judgeSelf(player, state) ? state.meHint : state.opHint;
+    if (hint) {
+      let esHint = originMsg;
+
+      if (cardMeta?.text.name) {
+        esHint = originMsg.replace("[?]", cardMeta.text.name);
+      }
+
+      if (location) {
+        const fieldMeta = findCardByLocation(state, location);
+        if (fieldMeta?.occupant?.text.name) {
+          esHint = originMsg.replace("[?]", fieldMeta.occupant.text.name);
+        }
+      }
+
+      hint.esHint = esHint;
     }
   });
 };
