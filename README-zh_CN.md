@@ -39,8 +39,8 @@ Neos是一个基于[TypeScript](https://www.typescriptlang.org/)，[React.js](ht
 3. 卡组选择完成后，点击`决斗准备`和`开始游戏`按钮来进行一场愉快的决斗吧！
 
 <center class="half">
-  <img alt="" src="./screenshots/quick_start-login.jpeg" width="300" />
-  <img alt="" src="./screenshots/quick_start-room.jpeg" width="400" />
+  <img alt="" src="./screenshots/quick_start-login.jpeg" width="250" />
+  <img alt="" src="./screenshots/quick_start-room.jpeg" width="350" />
 </center>
 
 ## 截图
