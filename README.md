@@ -35,7 +35,7 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 3. With the deck being chosen, click the `Ready` and `Start` button and enjoy the duel!
 
 <center class="half">
-  <img alt="" src="./screenshots/quick_start-login.jpeg" width="400" />
+  <img alt="" src="./screenshots/quick_start-login.jpeg" width="300" />
   <img alt="" src="./screenshots/quick_start-room.jpeg" width="400" />
 </center>
 
