@@ -7,16 +7,21 @@
  *
  * */
 import { Input } from "antd";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
 import NeosConfig from "../../neos.config.json";
+import { useConfig } from "../config";
 
 const serverConfig = NeosConfig.servers;
+const {
+  defaults: { defaultPlayer, defaultPassword },
+  automation: { isAiMode },
+} = useConfig();
 
 export default function Login() {
-  const [player, setPlayer] = useState("");
-  const [passWd, setPasswd] = useState("");
+  const [player, setPlayer] = useState(defaultPlayer);
+  const [passWd, setPasswd] = useState(defaultPassword);
   const [ip, setIp] = useState(`${serverConfig[0].ip}:${serverConfig[0].port}`);
   const navigate = useNavigate();
 
@@ -30,13 +35,19 @@ export default function Login() {
     setIp(event.target.value);
   };
 
+  const handleSubmit = () => navigate(`/room/${player}/${passWd}/${ip}`);
+
+  useEffect(() => {
+    // 如果开启了AI模式，直接进入房间
+    if (isAiMode) {
+      handleSubmit();
+    }
+  }, []);
+
   return (
     <div className="container">
       <div id="login">
-        <form
-          className="login-form"
-          onSubmit={() => navigate(`/room/${player}/${passWd}/${ip}`)}
-        >
+        <form className="login-form" onSubmit={handleSubmit}>
           <span className="fa fa-user"></span>
           <Input
             autoFocus

@@ -1,12 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr'
-import wasmPack from 'vite-plugin-wasm-pack';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
+import wasmPack from "vite-plugin-wasm-pack";
+import ydkLoader from "vite-ydk-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    minify: false
+    minify: false,
   },
-  plugins: [react(), svgr(), wasmPack('./rust-src')]
-})
+  plugins: [react(), svgr(), wasmPack("./rust-src"), ydkLoader()],
+  resolve: {
+    extensions: [".js", ".json", ".ydk"],
+  },
+});

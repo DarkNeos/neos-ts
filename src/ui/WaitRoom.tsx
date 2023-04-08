@@ -4,10 +4,10 @@ import {
   Avatar,
   Space,
   Button,
-  Dropdown,
   notification,
   Upload,
   message,
+  Select,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -20,9 +20,10 @@ import {
   selectPlayer1,
 } from "../reducers/playerSlice";
 import { useAppSelector } from "../hook";
+import { useConfig } from "../config";
 import { selectJoined } from "../reducers/joinSlice";
 import { selectChat } from "../reducers/chatSlice";
-import { fetchDeck, IDeck } from "../api/deck";
+import { fetchDeck, type IDeck, DeckManager } from "../api/deck";
 import {
   sendUpdateDeck,
   sendHsReady,
@@ -34,21 +35,25 @@ import {
   LoginOutlined,
   LogoutOutlined,
   SendOutlined,
-  DownOutlined,
   TagOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
 import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
-import type { MenuProps, UploadProps } from "antd";
+import type { UploadProps } from "antd";
 import { useParams } from "react-router-dom";
 import { selectDuelStart } from "../reducers/moraSlice";
 import NeosConfig from "../../neos.config.json";
 import YGOProDeck from "ygopro-deck-encode";
-//@ts-ignore
+// @ts-ignore
 import rustInit from "rust-src";
 import { initStrings } from "../api/strings";
 
 const READY_STATE = "ready";
+
+const {
+  defaults: { defaultDeck },
+  automation: { isAiMode },
+} = useConfig();
 
 const WaitRoom = () => {
   const params = useParams<{
@@ -102,15 +107,13 @@ const WaitRoom = () => {
   const player1 = useAppSelector(selectPlayer1);
   const duelStart = useAppSelector(selectDuelStart);
   const [api, contextHolder] = notification.useNotification();
-  const [deckTitle, setDeckTitle] = useState("请选择卡组");
+
   // FIXME: 这些数据应该从`store`中获取
   // TODO: 云卡组
-  const decks: MenuProps["items"] = [
-    {
-      label: "hero",
-      key: "hero",
-    },
-  ];
+  const decks = [...DeckManager.keys()].map((deckName) => ({
+    value: deckName,
+    label: deckName,
+  }));
   const [uploadState, setUploadState] = useState("");
   const uploadProps: UploadProps = {
     name: "file",
@@ -135,8 +138,7 @@ const WaitRoom = () => {
         ) {
           // YDK解析成功
           message.success(`${file.name}解析成功`);
-
-          onDeckReady(deck);
+          onDeckReady({ deckName: file.name, ...deck });
         } else {
           message.error(`${file.name}解析失败`);
           setUploadState("ERROR");
@@ -145,9 +147,9 @@ const WaitRoom = () => {
     },
   };
 
-  const onDeckReady = (deck: IDeck) => {
+  const onDeckReady = async (deck: IDeck) => {
     sendUpdateDeck(deck);
-    dispatch(
+    await dispatch(
       initMeExtraDeckMeta({ controler: 0, codes: deck.extra?.reverse() || [] })
     );
     setChoseDeck(true);
@@ -155,8 +157,7 @@ const WaitRoom = () => {
 
   const handleChoseDeck = async (deckName: string) => {
     const deck = await fetchDeck(deckName);
-
-    onDeckReady(deck);
+    await onDeckReady(deck);
   };
 
   const handleChoseReady = () => {
@@ -172,6 +173,18 @@ const WaitRoom = () => {
   useEffect(() => {
     if (joined) {
       api.info({ message: "成功加入房间！", placement: "top" });
+      /** 如果是开发者模式下的人机对战，应该自动选择卡组，并自动准备和开始 */
+      const runAiMode = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        await handleChoseDeck(defaultDeck!);
+        handleChoseReady();
+        handleChoseStart();
+      };
+      (async () => {
+        if (isAiMode) {
+          await runAiMode();
+        }
+      })();
     }
   }, [joined]);
   useEffect(() => {
@@ -260,22 +273,11 @@ const WaitRoom = () => {
             )}
           </Space>
           <Space wrap size={16}>
-            <Dropdown
-              menu={{
-                items: decks,
-                onClick: async ({ key }) => {
-                  await handleChoseDeck(key);
-                  setDeckTitle(key);
-                },
-              }}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  {deckTitle}
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
+            <Select
+              defaultValue={defaultDeck}
+              onChange={handleChoseDeck}
+              options={decks}
+            />
           </Space>
           <Space>
             <Upload {...uploadProps}>
