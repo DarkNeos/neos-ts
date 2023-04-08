@@ -1,6 +1,7 @@
 import React from "react";
 import { sendHandResult, sendTpResult } from "../api/ocgcore/ocgHelper";
 import { useAppSelector } from "../hook";
+import { useConfig } from "../config";
 import {
   selectHandSelectAble,
   unSelectHandAble,
@@ -18,6 +19,11 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 
+const {
+  automation: { isAiMode, isAiFirst },
+  defaults: { defaultMora },
+} = useConfig();
+
 const Mora = () => {
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
@@ -30,13 +36,6 @@ const Mora = () => {
     ip?: string;
   }>();
 
-  useEffect(() => {
-    // 若对局已经开始，自动跳转
-    if (duelHsStart) {
-      navigate(`/duel/${player}/${passWd}/${ip}`);
-    }
-  }, [duelHsStart]);
-
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
     dispatch(unSelectHandAble());
@@ -45,6 +44,25 @@ const Mora = () => {
     sendTpResult(isFirst);
     dispatch(unSelectTpAble());
   };
+
+  useEffect(() => {
+    // 若对局已经开始，自动跳转
+    if (duelHsStart) {
+      navigate(`/duel/${player}/${passWd}/${ip}`);
+    }
+  }, [duelHsStart]);
+
+  useEffect(() => {
+    if (isAiMode) {
+      handleSelectMora(defaultMora);
+    }
+  }, [selectHandAble]);
+
+  useEffect(() => {
+    if (isAiMode && !selectHandAble && selectTpAble) {
+      handleSelectTp(!isAiFirst);
+    }
+  }, [selectHandAble, selectTpAble]);
 
   return (
     <>
