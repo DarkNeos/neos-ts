@@ -78,7 +78,7 @@ npm_build:
   tags:
     - linux
   script:
-    - mv neos.config.prod.json neos.config.json
+    - cp neos.config.prod.json neos.config.json
     - npm run build:prod
   artifacts:
     paths:
