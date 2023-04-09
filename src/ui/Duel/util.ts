@@ -1,4 +1,4 @@
-import { InteractType } from "../../reducers/duel/generic";
+import { InteractType } from "@/reducers/duel/generic";
 import NeosConfig from "../../../neos.config.json";
 import { Vector3 } from "@babylonjs/core";
 

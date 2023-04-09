@@ -1,11 +1,11 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
   player0Update,
   player1Update,
   hostChange,
   updateIsHost,
-} from "../../reducers/playerSlice";
-import { store } from "../../store";
+} from "@/reducers/playerSlice";
+import { store } from "@/store";
 
 const NO_READY_STATE = "not ready";
 

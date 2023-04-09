@@ -1,11 +1,11 @@
 import { createAsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
-import { RootState } from "../../store";
-import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "../../api/strings";
+import { RootState } from "@/store";
+import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 import { findCardByLocation } from "./util";
-import { fetchCard } from "../../api/cards";
+import { fetchCard } from "@/api/cards";
 import { DuelReducer } from "./generic";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 export interface HintState {
   code: number;

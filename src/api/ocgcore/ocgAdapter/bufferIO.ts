@@ -1,6 +1,5 @@
 import { ygopro } from "../idl/ocgcore";
 import { numberToCardPosition, numberToCardZone } from "./util";
-// @ts-ignore
 import { BufferReader } from "rust-src";
 
 const LOCATION_OVERLAY = 0x80;

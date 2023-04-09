@@ -1,12 +1,12 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
   setCheckCardModalV3AllLevel,
   setCheckCardModalV3IsOpen,
   setCheckCardModalV3MinMax,
   setCheckCardModalV3OverFlow,
-} from "../../reducers/duel/mod";
-import { fetchCheckCardMetasV3 } from "../../reducers/duel/modal/checkCardModalV3Slice";
-import { AppDispatch } from "../../store";
+} from "@/reducers/duel/mod";
+import { fetchCheckCardMetasV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
+import { AppDispatch } from "@/store";
 import MsgSelectSum = ygopro.StocGameMessage.MsgSelectSum;
 
 export default (selectSum: MsgSelectSum, dispatch: AppDispatch) => {

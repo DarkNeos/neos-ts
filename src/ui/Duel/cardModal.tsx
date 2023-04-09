@@ -1,18 +1,18 @@
 import React from "react";
-import { useAppSelector } from "../../hook";
-import { store } from "../../store";
+import { useAppSelector } from "@/hook";
+import { store } from "@/store";
 import {
   selectCardModalIsOpen,
   selectCardModalInteractivies,
   selectCardModalMeta,
   selectCardModalCounters,
-} from "../../reducers/duel/modal/mod";
+} from "@/reducers/duel/modal/mod";
 import {
   setCardModalIsOpen,
   clearAllIdleInteractivities,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import { Modal, Card, Button, Row, Col } from "antd";
-import { sendSelectIdleCmdResponse } from "../../api/ocgcore/ocgHelper";
+import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
 import Icon, { StarOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/battle-axe.svg";
@@ -23,7 +23,7 @@ import {
   Attribute2StringCodeMap,
   Race2StringCodeMap,
 } from "../../common";
-import { fetchStrings } from "../../api/strings";
+import { fetchStrings } from "@/api/strings";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;

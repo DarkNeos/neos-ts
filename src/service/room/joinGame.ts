@@ -1,6 +1,6 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { store } from "../../store";
-import { setJoined } from "../../reducers/joinSlice";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { store } from "@/store";
+import { setJoined } from "@/reducers/joinSlice";
 
 export default function handleJoinGame(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;

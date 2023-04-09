@@ -4,11 +4,11 @@ import {
   createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { RootState } from "../../../store";
+import { RootState } from "@/store";
 import { DuelState } from "../mod";
 import { cmpCardLocation, findCardByLocation, judgeSelf } from "../util";
-import { fetchCard, getCardStr } from "../../../api/cards";
-import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
+import { fetchCard, getCardStr } from "@/api/cards";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 // 更新卡牌选择弹窗打开状态
 export const setCheckCardModalIsOpenImpl: CaseReducer<

@@ -1,6 +1,6 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { store } from "../../store";
-import { player0Enter, player1Enter } from "../../reducers/playerSlice";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { store } from "@/store";
+import { player0Enter, player1Enter } from "@/reducers/playerSlice";
 
 export default function handleHsPlayerEnter(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;

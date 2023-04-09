@@ -16,13 +16,13 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useAppSelector } from "../../hook";
-import { selectSortCardModal } from "../../reducers/duel/modal/sortCardModalSlice";
-import { sendSortCardResponse } from "../../api/ocgcore/ocgHelper";
-import { store } from "../../store";
-import { resetSortCardModal } from "../../reducers/duel/mod";
+import { useAppSelector } from "@/hook";
+import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
+import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
+import { store } from "@/store";
+import { resetSortCardModal } from "@/reducers/duel/mod";
 import { Modal, Button, Card } from "antd";
-import { CardMeta } from "../../api/cards";
+import { CardMeta } from "@/api/cards";
 import NeosConfig from "../../../neos.config.json";
 
 const SortCardModal = () => {

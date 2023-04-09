@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Timeline, TimelineItemProps } from "antd";
 import { MessageOutlined } from "@ant-design/icons";
-import { useAppSelector } from "../../hook";
-import { selectChat } from "../../reducers/chatSlice";
+import { useAppSelector } from "@/hook";
+import { selectChat } from "@/reducers/chatSlice";
 
 const DuelTimeLine = () => {
   const [items, setItems] = useState<TimelineItemProps[]>([]);

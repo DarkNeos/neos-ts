@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import { store } from "../../store";
-import { useAppSelector } from "../../hook";
+import { store } from "@/store";
+import { useAppSelector } from "@/hook";
 import {
   selectCurrentPhase,
   selectEnableBp,
   selectEnableEp,
   selectEnableM2,
-} from "../../reducers/duel/phaseSlice";
+} from "@/reducers/duel/phaseSlice";
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
-} from "../../api/ocgcore/ocgHelper";
+} from "@/api/ocgcore/ocgHelper";
 import {
   clearAllIdleInteractivities,
   setEnableBp,
   setEnableEp,
   setEnableM2,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import { Button, Modal, Space } from "antd";
 import Icon from "@ant-design/icons";
 import { ReactComponent as BattleSvg } from "../../../neos-assets/crossed-swords.svg";

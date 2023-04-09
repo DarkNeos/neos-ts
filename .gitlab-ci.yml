@@ -1,9 +1,9 @@
 stages:
   - install
-  - check
-  - lint
-  - test
+  - rs_check_lint
   - wasm
+  - ts_check_lint
+  - test
   - build
   - deploy
 
@@ -22,37 +22,16 @@ npm_ci:
   dependencies:
     - npm_ci
 
-ts_check:
-  dependencies:
-    - npm_ci
-  stage: check
-  tags:
-    - linux
-  script:
-    - npx tsc
-
-rs_check:
-  stage: check
-  image: rust:latest
-  tags:
-    - linux
-  script: cd rust-src && cargo check
-
-ts_lint:
-  extends: .build_base
-  stage: lint
-  tags:
-    - linux
-  script: npm run lint
-
-rs_lint:
-  stage: lint
+rs_check_lint:
+  stage: rs_check_lint
   image: rust:latest
   tags:
     - linux
   script:
+    - cd rust-src
+    - cargo check
     - rustup component add clippy
-    - cd rust-src && cargo clippy -- -Dwarnings
+    - cargo clippy -- -Dwarnings
 
 wasm_build:
   tags:
@@ -69,6 +48,17 @@ wasm_build:
     paths:
       - rust-src/pkg
       - node_modules
+
+ts_check_lint:
+  dependencies:
+    - npm_ci
+    - wasm_build
+  stage: ts_check_lint
+  tags:
+    - linux
+  script:
+    - npx tsc
+    - npm run lint
 
 npm_build:
   dependencies:
@@ -90,7 +80,7 @@ deploy:
     - linux
   only:
     - main
-  dependencies: 
+  dependencies:
     - npm_build
   script:
     - mv neos-assets dist/

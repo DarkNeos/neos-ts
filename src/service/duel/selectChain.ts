@@ -1,15 +1,15 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { sendSelectChainResponse } from "../../api/ocgcore/ocgHelper";
-import { fetchSelectHintMeta } from "../../reducers/duel/hintSlice";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { sendSelectChainResponse } from "@/api/ocgcore/ocgHelper";
+import { fetchSelectHintMeta } from "@/reducers/duel/hintSlice";
 import {
   setCheckCardMOdalCancelAble,
   setCheckCardModalCancelResponse,
   setCheckCardModalIsOpen,
   setCheckCardModalMinMax,
   setCheckCardModalOnSubmit,
-} from "../../reducers/duel/mod";
-import { fetchCheckCardMeta } from "../../reducers/duel/modal/mod";
-import { AppDispatch } from "../../store";
+} from "@/reducers/duel/mod";
+import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
+import { AppDispatch } from "@/store";
 import { CardZoneToChinese } from "./util";
 import MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 

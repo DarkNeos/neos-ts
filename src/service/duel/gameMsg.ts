@@ -1,5 +1,5 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { store } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { store } from "@/store";
 import onMsgStart from "./start";
 import onMsgDraw from "./draw";
 import onMsgNewTurn from "./newTurn";
@@ -40,7 +40,7 @@ import onMsgSpSummoning from "./spSummoning";
 import onMsgSpSummoned from "./spSummoned";
 import onMsgSummoning from "./summoning";
 import onMsgSummoned from "./summoned";
-import { setWaiting } from "../../reducers/duel/mod";
+import { setWaiting } from "@/reducers/duel/mod";
 
 const ActiveList = [
   "select_idle_cmd",

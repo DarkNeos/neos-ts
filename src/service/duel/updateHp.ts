@@ -1,7 +1,7 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "../../reducers/duel/hintSlice";
-import { updateHp } from "../../reducers/duel/mod";
-import { AppDispatch } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
+import { updateHp } from "@/reducers/duel/mod";
+import { AppDispatch } from "@/store";
 import MsgUpdateHp = ygopro.StocGameMessage.MsgUpdateHp;
 
 export default (msgUpdateHp: MsgUpdateHp, dispatch: AppDispatch) => {

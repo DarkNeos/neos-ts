@@ -1,10 +1,10 @@
 import * as BABYLON from "@babylonjs/core";
-import { store } from "../../store";
-import { CardState } from "../../reducers/duel/generic";
+import { store } from "@/store";
+import { CardState } from "@/reducers/duel/generic";
 import { useRef } from "react";
 import { useClick } from "./hook";
-import { sendSelectPlaceResponse } from "../../api/ocgcore/ocgHelper";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
   setCardListModalInfo,
   setCardListModalIsOpen,
@@ -12,7 +12,7 @@ import {
   setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalMeta,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { interactTypeToString } from "./util";
 import NeosConfig from "../../../neos.config.json";

@@ -2,8 +2,8 @@ import * as BABYLON from "@babylonjs/core";
 import {
   selectMeCemetery,
   selectOpCemetery,
-} from "../../reducers/duel/cemeretySlice";
-import { useAppSelector } from "../../hook";
+} from "@/reducers/duel/cemeretySlice";
+import { useAppSelector } from "@/hook";
 import SingleSlot, { Depth } from "./singleSlot";
 import { cardSlotRotation } from "./util";
 import NeosConfig from "../../../neos.config.json";

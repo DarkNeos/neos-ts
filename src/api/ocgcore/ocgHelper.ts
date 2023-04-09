@@ -3,7 +3,7 @@
  *
  * */
 import { ygopro } from "./idl/ocgcore";
-import socketMiddleWare, { socketCmd } from "../../middleware/socket";
+import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import { IDeck } from "../deck";
 import PlayerInfoAdapter from "./ocgAdapter/ctos/ctosPlayerInfo";
 import JoinGameAdapter from "./ocgAdapter/ctos/ctosJoinGame";

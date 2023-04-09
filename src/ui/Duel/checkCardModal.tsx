@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAppSelector } from "../../hook";
-import { store } from "../../store";
+import { useAppSelector } from "@/hook";
+import { store } from "@/store";
 import {
   selectCheckCardModalCacnelResponse,
   selectCheckCardModalCancelAble,
@@ -8,21 +8,21 @@ import {
   selectCheckCardModalMinMax,
   selectCheckCardModalOnSubmit,
   selectCheckCardModalTags,
-} from "../../reducers/duel/modal/mod";
+} from "@/reducers/duel/modal/mod";
 import {
   resetCheckCardModal,
   setCheckCardModalIsOpen,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import { Button, Row, Col, Popover } from "antd";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import {
   sendSelectCardResponse,
   sendSelectChainResponse,
-} from "../../api/ocgcore/ocgHelper";
+} from "@/api/ocgcore/ocgHelper";
 import { ThunderboltOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
-import { selectHint } from "../../reducers/duel/hintSlice";
+import { selectHint } from "@/reducers/duel/hintSlice";
 
 const CheckCardModal = () => {
   const dispatch = store.dispatch;

@@ -9,26 +9,26 @@ import {
   message,
   Select,
 } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import socketMiddleWare, { socketCmd } from "../middleware/socket";
-import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
-import { store } from "../store";
+import socketMiddleWare, { socketCmd } from "@/middleware/socket";
+import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
+import { store } from "@/store";
 import {
   selectIsHost,
   selectPlayer0,
   selectPlayer1,
-} from "../reducers/playerSlice";
-import { useAppSelector } from "../hook";
-import { useConfig } from "../config";
-import { selectJoined } from "../reducers/joinSlice";
-import { selectChat } from "../reducers/chatSlice";
-import { fetchDeck, type IDeck, DeckManager } from "../api/deck";
+} from "@/reducers/playerSlice";
+import { useAppSelector } from "@/hook";
+import { useConfig } from "@/config";
+import { selectJoined } from "@/reducers/joinSlice";
+import { selectChat } from "@/reducers/chatSlice";
+import { fetchDeck, type IDeck, DeckManager } from "@/api/deck";
 import {
   sendUpdateDeck,
   sendHsReady,
   sendHsStart,
-} from "../api/ocgcore/ocgHelper";
+} from "@/api/ocgcore/ocgHelper";
 import {
   UserOutlined,
   CheckCircleFilled,
@@ -38,15 +38,13 @@ import {
   TagOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { initMeExtraDeckMeta } from "../reducers/duel/extraDeckSlice";
+import { initMeExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
 import type { UploadProps } from "antd";
-import { useParams } from "react-router-dom";
-import { selectDuelStart } from "../reducers/moraSlice";
+import { selectDuelStart } from "@/reducers/moraSlice";
 import NeosConfig from "../../neos.config.json";
 import YGOProDeck from "ygopro-deck-encode";
-// @ts-ignore
 import rustInit from "rust-src";
-import { initStrings } from "../api/strings";
+import { initStrings } from "@/api/strings";
 
 const READY_STATE = "ready";
 

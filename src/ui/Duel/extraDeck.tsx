@@ -1,10 +1,10 @@
 import SingleSlot, { Depth } from "./singleSlot";
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
+import { useAppSelector } from "@/hook";
 import {
   selectMeExtraDeck,
   selectOpExtraDeck,
-} from "../../reducers/duel/extraDeckSlice";
+} from "@/reducers/duel/extraDeckSlice";
 import NeosConfig from "../../../neos.config.json";
 import { cardSlotRotation } from "./util";
 

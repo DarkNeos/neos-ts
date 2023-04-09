@@ -1,5 +1,5 @@
 import axios from "axios";
-import sqliteMiddleWare, { sqliteCmd } from "../middleware/sqlite";
+import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 
 export interface CardMeta {
   id: number;

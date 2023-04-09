@@ -1,4 +1,4 @@
-import { useEnv } from "../hook";
+import { useEnv } from "@/hook";
 
 const { DEV, VITE_IS_AI_MODE, VITE_IS_AI_FIRST } = useEnv();
 

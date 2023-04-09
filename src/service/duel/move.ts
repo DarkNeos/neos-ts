@@ -1,10 +1,10 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
-import { AppDispatch } from "../../store";
+import { AppDispatch } from "@/store";
 import {
   fetchMonsterMeta,
   fetchOverlayMeta,
-} from "../../reducers/duel/monstersSlice";
+} from "@/reducers/duel/monstersSlice";
 import {
   removeCemetery,
   removeExclusion,
@@ -13,12 +13,12 @@ import {
   removeMagic,
   removeMonster,
   removeOverlay,
-} from "../../reducers/duel/mod";
-import { fetchMagicMeta } from "../../reducers/duel/magicSlice";
-import { fetchCemeteryMeta } from "../../reducers/duel/cemeretySlice";
-import { insertHandMeta } from "../../reducers/duel/handsSlice";
-import { fetchExclusionMeta } from "../../reducers/duel/exclusionSlice";
-import { fetchExtraDeckMeta } from "../../reducers/duel/extraDeckSlice";
+} from "@/reducers/duel/mod";
+import { fetchMagicMeta } from "@/reducers/duel/magicSlice";
+import { fetchCemeteryMeta } from "@/reducers/duel/cemeretySlice";
+import { insertHandMeta } from "@/reducers/duel/handsSlice";
+import { fetchExclusionMeta } from "@/reducers/duel/exclusionSlice";
+import { fetchExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
 import { REASON_MATERIAL } from "../../common";
 
 const OVERLAY_STACK: { code: number; sequence: number }[] = [];

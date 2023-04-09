@@ -1,13 +1,13 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
   setCheckCardModalV2CancelAble,
   setCheckCardModalV2FinishAble,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2ResponseAble,
-} from "../../reducers/duel/mod";
-import { fetchCheckCardMetasV2 } from "../../reducers/duel/modal/checkCardModalV2Slice";
-import { AppDispatch } from "../../store";
+} from "@/reducers/duel/mod";
+import { fetchCheckCardMetasV2 } from "@/reducers/duel/modal/checkCardModalV2Slice";
+import { AppDispatch } from "@/store";
 import MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
 export default (

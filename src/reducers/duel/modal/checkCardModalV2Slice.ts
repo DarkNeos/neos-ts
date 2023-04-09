@@ -5,9 +5,9 @@ import {
   CaseReducer,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { fetchCard } from "../../../api/cards";
-import { RootState } from "../../../store";
-import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
+import { fetchCard } from "@/api/cards";
+import { RootState } from "@/store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { findCardByLocation } from "../util";
 
 // 更新打开状态

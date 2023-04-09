@@ -1,5 +1,4 @@
 import { ygopro } from "../../../idl/ocgcore";
-//@ts-ignore
 import { ocgDamageAdapter } from "rust-src";
 
 /*
