@@ -8,7 +8,8 @@ const DECKS: Record<string, { default: IDeck }> = import.meta.glob(
 export const DeckManager = _objToMap(
   Object.keys(DECKS).map((key) => ({
     ...DECKS[key].default,
-    deckName: key.split("/").pop()?.split(".")[0] ?? "undefined",
+    deckName:
+      key.split("/").pop()?.split(".").slice(0, -1).join(".") ?? "undefined",
   }))
 );
 

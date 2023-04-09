@@ -275,7 +275,6 @@ const WaitRoom = () => {
           <Space wrap size={16}>
             <Select
               placeholder="请选择卡组"
-              defaultValue={defaultDeck}
               onChange={handleChoseDeck}
               options={decks}
               style={{ width: 160 }}

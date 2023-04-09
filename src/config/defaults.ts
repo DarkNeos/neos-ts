@@ -11,14 +11,14 @@ interface DefaultsConfig {
 
 const defaultConfig: DefaultsConfig = {
   defaultPlayer: "",
-  // 无需考虑undefined的情况，如果为undefined，界面上会显示【请选择】
-  defaultDeck: VITE_AI_MODE_DEFAULT_DECK,
+  defaultDeck: "",
   defaultPassword: "",
   defaultMora: "scissors",
 };
 
 const aiModeConfig: DefaultsConfig = {
   ...defaultConfig,
+  defaultDeck: VITE_AI_MODE_DEFAULT_DECK || "Hero",
   defaultPlayer: `AiKiller${Math.random().toString(36).slice(2)}}`,
   defaultPassword: "AI",
 };
