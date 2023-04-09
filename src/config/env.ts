@@ -1,4 +1,4 @@
-import { useEnv } from "../hook";
+import { useEnv } from "@/hook";
 import NeosDevConfig from "../../neos.config.json";
 import NeosProdConfig from "../../neos.config.prod.json";
 

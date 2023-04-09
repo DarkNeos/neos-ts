@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { Interactivity, InteractType } from "../../reducers/duel/generic";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
   addHandsIdleInteractivity,
   addMagicIdleInteractivities,
@@ -8,8 +8,8 @@ import {
   clearAllIdleInteractivities,
   setEnableEp,
   setEnableM2,
-} from "../../reducers/duel/mod";
-import { AppDispatch } from "../../store";
+} from "@/reducers/duel/mod";
+import { AppDispatch } from "@/store";
 import MsgSelectBattleCmd = ygopro.StocGameMessage.MsgSelectBattleCmd;
 
 export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {

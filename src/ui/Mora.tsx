@@ -1,16 +1,15 @@
-import React from "react";
-import { sendHandResult, sendTpResult } from "../api/ocgcore/ocgHelper";
-import { useAppSelector } from "../hook";
-import { useConfig } from "../config";
+import React, { useEffect } from "react";
+import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
+import { useConfig } from "@/config";
 import {
   selectHandSelectAble,
   unSelectHandAble,
   selectTpSelectAble,
   unSelectTpAble,
-} from "../reducers/moraSlice";
-import { selectDuelHsStart } from "../reducers/duel/mod";
-import { store } from "../store";
-import { useEffect } from "react";
+} from "@/reducers/moraSlice";
+import { selectDuelHsStart } from "@/reducers/duel/mod";
+import { store } from "@/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Modal } from "antd";
 import {

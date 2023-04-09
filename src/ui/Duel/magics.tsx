@@ -1,12 +1,11 @@
 import * as BABYLON from "@babylonjs/core";
-import { selectMeMagics, selectOpMagics } from "../../reducers/duel/magicSlice";
-import { CardState } from "../../reducers/duel/generic";
-import { useAppSelector } from "../../hook";
-import { zip } from "./util";
+import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
+import { CardState } from "@/reducers/duel/generic";
+import { useAppSelector } from "@/hook";
+import { zip, cardSlotRotation } from "./util";
 import FixedSlot from "./fixedSlot";
-import { clearMagicPlaceInteractivities } from "../../reducers/duel/mod";
+import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
-import { cardSlotRotation } from "./util";
 
 // TODO: use config
 const left = -2.15;

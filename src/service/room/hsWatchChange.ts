@@ -1,6 +1,6 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { observerChange } from "../../reducers/playerSlice";
-import { store } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { observerChange } from "@/reducers/playerSlice";
+import { store } from "@/store";
 
 export default function handleHsWatchChange(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;

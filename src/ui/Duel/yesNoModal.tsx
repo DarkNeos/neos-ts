@@ -1,15 +1,15 @@
 import React from "react";
-import { useAppSelector } from "../../hook";
-import { store } from "../../store";
+import { useAppSelector } from "@/hook";
+import { store } from "@/store";
 import { Button } from "antd";
-import { sendSelectEffectYnResponse } from "../../api/ocgcore/ocgHelper";
+import { sendSelectEffectYnResponse } from "@/api/ocgcore/ocgHelper";
 import {
   selectYesNoModalIsOpen,
   selectYesNOModalMsg,
-} from "../../reducers/duel/modal/mod";
-import { setYesNoModalIsOpen } from "../../reducers/duel/mod";
+} from "@/reducers/duel/modal/mod";
+import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
 import DragModal from "./dragModal";
-import { selectHint } from "../../reducers/duel/hintSlice";
+import { selectHint } from "@/reducers/duel/hintSlice";
 
 const YesNoModal = () => {
   const dispatch = store.dispatch;

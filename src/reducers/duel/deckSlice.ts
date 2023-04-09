@@ -1,8 +1,8 @@
 import { judgeSelf } from "./util";
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
-import { RootState } from "../../store";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { DuelFieldState, CardState } from "./generic";
 
 export interface DeckState extends DuelFieldState {}

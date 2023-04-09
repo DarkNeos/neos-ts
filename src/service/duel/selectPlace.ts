@@ -1,10 +1,10 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { AppDispatch } from "@/store";
 import MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 import {
   addMonsterPlaceInteractivities,
   addMagicPlaceInteractivities,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 
 export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
   if (selectPlace.count != 1) {

@@ -1,6 +1,6 @@
 import React from "react";
-import { useAppSelector } from "../../hook";
-import { store } from "../../store";
+import { useAppSelector } from "@/hook";
+import { store } from "@/store";
 import { Button, Card, Row, Col } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import {
@@ -11,16 +11,16 @@ import {
   selectCheckCardModalV2ResponseAble,
   selectCheckCardModalV2SelectAbleOptions,
   selectCheckCardModalV2SelectedOptions,
-} from "../../reducers/duel/modal/checkCardModalV2Slice";
-import { sendSelectUnselectCardResponse } from "../../api/ocgcore/ocgHelper";
+} from "@/reducers/duel/modal/checkCardModalV2Slice";
+import { sendSelectUnselectCardResponse } from "@/api/ocgcore/ocgHelper";
 import {
   resetCheckCardModalV2,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2ResponseAble,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import NeosConfig from "../../../neos.config.json";
 import DragModal from "./dragModal";
-import { selectHint } from "../../reducers/duel/hintSlice";
+import { selectHint } from "@/reducers/duel/hintSlice";
 
 const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;

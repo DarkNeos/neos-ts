@@ -19,10 +19,20 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["vite/client"]
+    "types": [
+      "vite/client"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "rust-src": [
+        "./rust-src/pkg"
+      ]
+    }
   },
   "include": [
     "src",
-    "src/api"
+    "rust-src/pkg"
   ]
 }

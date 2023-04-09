@@ -4,7 +4,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
-import { RootState } from "../../store";
+import { RootState } from "@/store";
 import { judgeSelf } from "./util";
 import {
   Interactivity,
@@ -16,7 +16,7 @@ import {
   createAsyncRepeatedMetaThunk,
   updateCardMeta,
 } from "./generic";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 export interface HandState extends DuelFieldState {}
 

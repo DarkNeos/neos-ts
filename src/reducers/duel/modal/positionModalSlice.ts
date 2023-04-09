@@ -1,7 +1,7 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
-import { RootState } from "../../../store";
+import { RootState } from "@/store";
 import { DuelState } from "../mod";
-import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 export const setPositionModalIsOpenImpl: CaseReducer<
   DuelState,

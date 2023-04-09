@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
-import { selectMeMagics, selectOpMagics } from "../../reducers/duel/magicSlice";
-import { clearMagicPlaceInteractivities } from "../../reducers/duel/mod";
+import { useAppSelector } from "@/hook";
+import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
+import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import FixedSlot from "./fixedSlot";
 import { Depth } from "./singleSlot";
 import NeosConfig from "../../../neos.config.json";

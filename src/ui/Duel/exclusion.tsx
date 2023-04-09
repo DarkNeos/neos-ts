@@ -1,9 +1,9 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
+import { useAppSelector } from "@/hook";
 import {
   selectMeExclusion,
   selectopExclusion,
-} from "../../reducers/duel/exclusionSlice";
+} from "@/reducers/duel/exclusionSlice";
 import SingleSlot, { Depth } from "./singleSlot";
 import NeosConfig from "../../../neos.config.json";
 import { cardSlotRotation } from "./util";

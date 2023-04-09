@@ -4,10 +4,10 @@ import {
   createAsyncThunk,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { CardMeta, fetchCard } from "../../../api/cards";
-import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
-import { fetchStrings, getStrings } from "../../../api/strings";
-import { RootState } from "../../../store";
+import { CardMeta, fetchCard } from "@/api/cards";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { fetchStrings, getStrings } from "@/api/strings";
+import { RootState } from "@/store";
 import { DuelState } from "../mod";
 
 // 更新YesNo弹窗是否打开状态

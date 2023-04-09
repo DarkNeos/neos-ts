@@ -3,7 +3,7 @@
  *
  * */
 
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitInfo, infoInitImpl, updateHpImpl } from "./initInfoSlice";
 import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
@@ -22,7 +22,7 @@ import {
   setEnableM2Impl,
   setEnableEpImpl,
 } from "./phaseSlice";
-import { RootState } from "../../store";
+import { RootState } from "@/store";
 import { HintState, hintCase, initHintImpl } from "./hintSlice";
 import {
   ModalState,

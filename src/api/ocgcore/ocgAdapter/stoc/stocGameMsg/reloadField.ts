@@ -1,5 +1,4 @@
 import { ygopro } from "../../../idl/ocgcore";
-// @ts-ignore
 import { BufferReaderExt } from "../../bufferIO";
 import MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 import { numberToCardPosition } from "../../util";

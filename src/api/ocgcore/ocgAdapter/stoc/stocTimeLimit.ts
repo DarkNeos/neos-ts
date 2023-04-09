@@ -1,6 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
 import { YgoProPacket, StocAdapter } from "../packet";
-// @ts-ignore
 import { BufferReader } from "rust-src";
 
 /*

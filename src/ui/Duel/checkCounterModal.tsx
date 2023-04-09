@@ -1,11 +1,11 @@
 import { Button, Row, Col, Card, InputNumber } from "antd";
 import React, { useState } from "react";
-import { sendSelectCounterResponse } from "../../api/ocgcore/ocgHelper";
-import { fetchStrings } from "../../api/strings";
-import { useAppSelector } from "../../hook";
-import { clearCheckCounter } from "../../reducers/duel/mod";
-import { selectCheckCounterModal } from "../../reducers/duel/modal/checkCounterModalSlice";
-import { store } from "../../store";
+import { sendSelectCounterResponse } from "@/api/ocgcore/ocgHelper";
+import { fetchStrings } from "@/api/strings";
+import { useAppSelector } from "@/hook";
+import { clearCheckCounter } from "@/reducers/duel/mod";
+import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
+import { store } from "@/store";
 import DragModal from "./dragModal";
 import NeosConfig from "../../../neos.config.json";
 

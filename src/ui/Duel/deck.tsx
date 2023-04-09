@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
-import { selectMeDeck, selectOpDeck } from "../../reducers/duel/deckSlice";
+import { useAppSelector } from "@/hook";
+import { selectMeDeck, selectOpDeck } from "@/reducers/duel/deckSlice";
 import SingleSlot, { Depth } from "./singleSlot";
 import { cardSlotRotation } from "./util";
 import NeosConfig from "../../../neos.config.json";

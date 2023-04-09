@@ -11,7 +11,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
 import NeosConfig from "../../neos.config.json";
-import { useConfig } from "../config";
+import { useConfig } from "@/config";
 
 const serverConfig = NeosConfig.servers;
 const {

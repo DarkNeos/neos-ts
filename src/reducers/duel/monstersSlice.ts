@@ -6,8 +6,8 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { RootState } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
 import {
   DuelFieldState,
   Interactivity,
@@ -21,7 +21,7 @@ import {
   setPosition,
   removeOverlay,
 } from "./generic";
-import { fetchCard } from "../../api/cards";
+import { fetchCard } from "@/api/cards";
 type MsgUpdateCounter = ReturnType<
   typeof ygopro.StocGameMessage.MsgUpdateCounter.prototype.toObject
 >;

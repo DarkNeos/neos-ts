@@ -1,11 +1,11 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { AppDispatch } from "@/store";
 import {
   setCheckCardModalIsOpen,
   setCheckCardModalMinMax,
   setCheckCardModalOnSubmit,
-} from "../../reducers/duel/mod";
-import { fetchCheckCardMeta } from "../../reducers/duel/modal/mod";
+} from "@/reducers/duel/mod";
+import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 import { CardZoneToChinese } from "./util";
 

@@ -1,5 +1,4 @@
 import { ygopro } from "../../../idl/ocgcore";
-// @ts-ignore
 import { BufferWriter } from "rust-src";
 import { cardZoneToNumber } from "../../util";
 

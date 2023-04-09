@@ -1,12 +1,12 @@
 import * as BABYLON from "@babylonjs/core";
-import { CardState } from "../../reducers/duel/generic";
-import { store } from "../../store";
+import { CardState } from "@/reducers/duel/generic";
+import { store } from "@/store";
 import { useClick } from "./hook";
 import { useRef } from "react";
 import {
   setCardListModalInfo,
   setCardListModalIsOpen,
-} from "../../reducers/duel/mod";
+} from "@/reducers/duel/mod";
 import { interactTypeToString } from "./util";
 import NeosConfig from "../../../neos.config.json";
 

@@ -1,5 +1,4 @@
 import { ygopro } from "../../../idl/ocgcore";
-// @ts-ignore
 import { BufferReader } from "rust-src";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 

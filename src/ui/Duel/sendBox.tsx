@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input, Button, Row, Col } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import { sendChat } from "../../api/ocgcore/ocgHelper";
+import { sendChat } from "@/api/ocgcore/ocgHelper";
 
 const SendBox = () => {
   const [content, setContent] = useState("");

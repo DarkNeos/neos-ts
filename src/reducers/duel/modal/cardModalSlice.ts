@@ -1,7 +1,7 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { DuelState } from "../mod";
-import { RootState } from "../../../store";
-import { CardMeta } from "../../../api/cards";
+import { RootState } from "@/store";
+import { CardMeta } from "@/api/cards";
 
 // 更新卡牌弹窗打开状态
 export const setCardModalIsOpenImpl: CaseReducer<

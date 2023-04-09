@@ -3,12 +3,12 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
 import NeosConfig from "../../../neos.config.json";
-import { useAppSelector } from "../../hook";
+import { useAppSelector } from "@/hook";
 import {
   selectMeInitInfo,
   selectOpInitInfo,
-} from "../../reducers/duel/initInfoSlice";
-import { selectWaiting } from "../../reducers/duel/mod";
+} from "@/reducers/duel/initInfoSlice";
+import { selectWaiting } from "@/reducers/duel/mod";
 
 const Config = NeosConfig.ui.status;
 const avatarSize = 40;

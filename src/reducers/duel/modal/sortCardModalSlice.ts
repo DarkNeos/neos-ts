@@ -3,9 +3,9 @@ import {
   CaseReducer,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { fetchCard } from "../../../api/cards";
-import { ygopro } from "../../../api/ocgcore/idl/ocgcore";
-import { RootState } from "../../../store";
+import { fetchCard } from "@/api/cards";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
 import { DuelReducer } from "../generic";
 import { DuelState } from "../mod";
 type SortCard = ReturnType<

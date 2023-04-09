@@ -1,13 +1,13 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "../../hook";
-import { selectMeHands, selectOpHands } from "../../reducers/duel/handsSlice";
-import { CardState } from "../../reducers/duel/generic";
+import { useAppSelector } from "@/hook";
+import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
+import { CardState } from "@/reducers/duel/generic";
 import {
   setCardModalIsOpen,
   setCardModalMeta,
   setCardModalInteractivies,
-} from "../../reducers/duel/mod";
-import { store } from "../../store";
+} from "@/reducers/duel/mod";
+import { store } from "@/store";
 import { useHover } from "react-babylonjs";
 import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";

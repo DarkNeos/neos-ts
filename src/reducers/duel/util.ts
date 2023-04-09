@@ -5,7 +5,7 @@
 
 import { DuelState } from "./mod";
 import { Draft } from "@reduxjs/toolkit";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { CardState } from "./generic";
 
 type Location =

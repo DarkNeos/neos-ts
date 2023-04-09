@@ -1,7 +1,7 @@
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "../../reducers/duel/hintSlice";
-import { setMagicPosition, setMonsterPosition } from "../../reducers/duel/mod";
-import { AppDispatch } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
+import { setMagicPosition, setMonsterPosition } from "@/reducers/duel/mod";
+import { AppDispatch } from "@/store";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
 
 export default (posChange: MsgPosChange, dispatch: AppDispatch) => {

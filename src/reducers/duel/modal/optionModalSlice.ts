@@ -5,8 +5,8 @@ import {
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "../mod";
-import { fetchCard, getCardStr } from "../../../api/cards";
-import { RootState } from "../../../store";
+import { fetchCard, getCardStr } from "@/api/cards";
+import { RootState } from "@/store";
 
 export const setOptionModalIsOpenImpl: CaseReducer<
   DuelState,

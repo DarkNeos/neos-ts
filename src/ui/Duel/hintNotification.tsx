@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useAppSelector } from "../../hook";
-import { selectHint } from "../../reducers/duel/hintSlice";
-import { selectCurrentPhase } from "../../reducers/duel/phaseSlice";
+import { useAppSelector } from "@/hook";
+import { selectHint } from "@/reducers/duel/hintSlice";
+import { selectCurrentPhase } from "@/reducers/duel/phaseSlice";
 import { notification } from "antd";
-import { selectDuelResult, selectWaiting } from "../../reducers/duel/mod";
+import { selectDuelResult, selectWaiting } from "@/reducers/duel/mod";
 import { useNavigate } from "react-router-dom";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 import NeosConfig from "../../../neos.config.json";
 

@@ -1,6 +1,6 @@
 import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { RootState } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
 import MsgUpdateHp = ygopro.StocGameMessage.MsgUpdateHp;

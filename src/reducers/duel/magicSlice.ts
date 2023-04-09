@@ -5,8 +5,8 @@ import {
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { DuelState } from "./mod";
-import { ygopro } from "../../api/ocgcore/idl/ocgcore";
-import { RootState } from "../../store";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
 import {
   createAsyncMetaThunk,
   DuelFieldState,

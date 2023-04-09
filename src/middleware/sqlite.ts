@@ -6,7 +6,7 @@
  * */
 
 import initSqlJs, { Database } from "sql.js";
-import { CardMeta, CardData, CardText } from "../api/cards";
+import { CardMeta, CardData, CardText } from "@/api/cards";
 import NeosConfig from "../../neos.config.json";
 
 export enum sqliteCmd {
