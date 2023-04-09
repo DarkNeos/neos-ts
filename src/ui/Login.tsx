@@ -80,7 +80,7 @@ export default function Login() {
       <div className="sign-up__actions clearfix">
         <p>
           Don't know how to play?{" "}
-          <a href="https://neos.moe/doc/">Player Guide</a>
+          <a href="https://doc.neos.moe">Player Guide</a>
           <span className="fa fa-arrow-right"></span>
         </p>
       </div>

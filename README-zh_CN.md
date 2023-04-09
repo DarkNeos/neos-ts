@@ -48,6 +48,9 @@ Neos是一个基于[TypeScript](https://www.typescriptlang.org/)，[React.js](ht
   <img alt="" src="./screenshots/duel.png" width="512">
 </p>
 
+## 文档
+请移步[Neos文档](https://doc.neos.moe)。
+
 ## 部署站点
 * 在萌卡社区部署的站点：https://neos.moecube.com
 * 在[Cloudflare](https://www.cloudflare.com/)部署的站点：https://www.neos.moe
@@ -67,6 +70,7 @@ Neos项目会在每周末作者有空闲时间的时候更新（作者也是打�
 
 ## 作者列表
 - Chunchi Che ([@SKTT1Ryze](https://github.com/SKTT1Ryze))
+- timelic [@timelic](https://github.com/timelic)
 
 ## 开源许可证
                     GNU GENERAL PUBLIC LICENSE

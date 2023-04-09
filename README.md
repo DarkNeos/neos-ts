@@ -48,6 +48,9 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
   <img alt="" src="./screenshots/duel.png" width="512">
 </p>
 
+## Document
+See the [Document for Neos](https://doc.neos.moe).
+
 ## Deployed
 * https://neos.moecube.com by Mycard community
 * https://www.neos.moe by [Cloudflare](https://www.cloudflare.com/)
@@ -67,6 +70,7 @@ Update every weekend if the author is free.
 
 ## Authors
 - Chunchi Che ([@SKTT1Ryze](https://github.com/SKTT1Ryze))
+- timelic [@timelic](https://github.com/timelic)
 
 ## Lincese
                     GNU GENERAL PUBLIC LICENSE
