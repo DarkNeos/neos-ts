@@ -26,6 +26,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ConfigProvider, theme } from "antd";
+import zhCN from "antd/locale/zh_CN";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -34,7 +35,10 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+        <ConfigProvider
+          theme={{ algorithm: theme.darkAlgorithm }}
+          locale={zhCN}
+        >
           <Neos />
         </ConfigProvider>
       </Provider>
