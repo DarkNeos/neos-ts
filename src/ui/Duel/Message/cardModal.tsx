@@ -14,15 +14,15 @@ import {
 import { Modal, Card, Button, Row, Col } from "antd";
 import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
 import Icon, { StarOutlined } from "@ant-design/icons";
-import NeosConfig from "../../../neos.config.json";
-import { ReactComponent as BattleSvg } from "../../../neos-assets/battle-axe.svg";
-import { ReactComponent as DefenceSvg } from "../../../neos-assets/checked-shield.svg";
+import NeosConfig from "../../../../neos.config.json";
+import { ReactComponent as BattleSvg } from "../../../../neos-assets/battle-axe.svg";
+import { ReactComponent as DefenceSvg } from "../../../../neos-assets/checked-shield.svg";
 import {
   extraCardTypes,
   Type2StringCodeMap,
   Attribute2StringCodeMap,
   Race2StringCodeMap,
-} from "../../common";
+} from "../../../common";
 import { fetchStrings } from "@/api/strings";
 
 const { Meta } = Card;

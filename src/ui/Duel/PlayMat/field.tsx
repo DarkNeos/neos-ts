@@ -4,8 +4,8 @@ import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import FixedSlot from "./fixedSlot";
 import { Depth } from "./singleSlot";
-import NeosConfig from "../../../neos.config.json";
-import { cardSlotRotation } from "./util";
+import NeosConfig from "../../../../neos.config.json";
+import { cardSlotRotation } from "../utils";
 
 const Field = () => {
   const meField = useAppSelector(selectMeMagics).inner.find(

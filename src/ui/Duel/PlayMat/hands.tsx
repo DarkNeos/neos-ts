@@ -1,5 +1,5 @@
 import * as BABYLON from "@babylonjs/core";
-import { useAppSelector } from "@/hook";
+import { useAppSelector, useClick } from "@/hook";
 import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
 import { CardState } from "@/reducers/duel/generic";
 import {
@@ -9,11 +9,10 @@ import {
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
 import { useHover } from "react-babylonjs";
-import { useClick } from "./hook";
 import { useState, useRef, useEffect } from "react";
-import { useSpring, animated } from "./spring";
-import { zip, interactTypeToString } from "./util";
-import NeosConfig from "../../../neos.config.json";
+import { useSpring, animated } from "../spring";
+import { zip, interactTypeToString } from "../utils";
+import NeosConfig from "../../../../neos.config.json";
 
 const groundShape = NeosConfig.ui.ground;
 const left = -(groundShape.width / 2);

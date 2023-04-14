@@ -20,7 +20,7 @@ import {
   sendSelectChainResponse,
 } from "@/api/ocgcore/ocgHelper";
 import { ThunderboltOutlined } from "@ant-design/icons";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 import DragModal from "./dragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 

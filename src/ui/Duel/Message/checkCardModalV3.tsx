@@ -9,7 +9,7 @@ import {
   setCheckCardModalV3IsOpen,
   setCheckCardModalV3ResponseAble,
 } from "@/reducers/duel/mod";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 import { selectCheckCardModalV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
 import DragModal from "./dragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";

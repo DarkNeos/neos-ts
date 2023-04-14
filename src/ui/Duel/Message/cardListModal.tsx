@@ -11,7 +11,7 @@ import {
 } from "@/reducers/duel/mod";
 import { Drawer, List, Button } from "antd";
 import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 
 const CARD_WIDTH = 100;
 

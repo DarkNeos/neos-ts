@@ -18,7 +18,7 @@ import {
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2ResponseAble,
 } from "@/reducers/duel/mod";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 import DragModal from "./dragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 

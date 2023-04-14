@@ -6,10 +6,10 @@ import {
   selectMeMonsters,
   selectOpMonsters,
 } from "@/reducers/duel/monstersSlice";
-import { zip, cardSlotRotation, cardSlotDefenceRotation } from "./util";
+import { zip, cardSlotRotation, cardSlotDefenceRotation } from "../utils";
 import FixedSlot from "./fixedSlot";
 import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 
 const transform = NeosConfig.ui.card.transform;
 const floating = NeosConfig.ui.card.floating;

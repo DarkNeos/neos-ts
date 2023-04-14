@@ -5,8 +5,8 @@ import {
   selectopExclusion,
 } from "@/reducers/duel/exclusionSlice";
 import SingleSlot, { Depth } from "./singleSlot";
-import NeosConfig from "../../../neos.config.json";
-import { cardSlotRotation } from "./util";
+import NeosConfig from "../../../../neos.config.json";
+import { cardSlotRotation } from "../utils";
 
 const Exclusion = () => {
   const meExclusion = useAppSelector(selectMeExclusion).inner;

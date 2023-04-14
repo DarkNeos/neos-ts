@@ -7,7 +7,7 @@ import { selectDuelResult, selectWaiting } from "@/reducers/duel/mod";
 import { useNavigate } from "react-router-dom";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 
 const HintNotification = () => {
   const hint = useAppSelector(selectHint);

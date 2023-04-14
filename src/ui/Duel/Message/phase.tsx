@@ -20,10 +20,10 @@ import {
 } from "@/reducers/duel/mod";
 import { Button, Modal, Space } from "antd";
 import Icon from "@ant-design/icons";
-import { ReactComponent as BattleSvg } from "../../../neos-assets/crossed-swords.svg";
-import { ReactComponent as Main2Svg } from "../../../neos-assets/sword-in-stone.svg";
-import { ReactComponent as EpSvg } from "../../../neos-assets/power-button.svg";
-import { ReactComponent as SurrenderSvg } from "../../../neos-assets/truce.svg";
+import { ReactComponent as BattleSvg } from "../../../../neos-assets/crossed-swords.svg";
+import { ReactComponent as Main2Svg } from "../../../../neos-assets/sword-in-stone.svg";
+import { ReactComponent as EpSvg } from "../../../../neos-assets/power-button.svg";
+import { ReactComponent as SurrenderSvg } from "../../../../neos-assets/truce.svg";
 
 const IconSize = "150%";
 const SpaceSize = 16;

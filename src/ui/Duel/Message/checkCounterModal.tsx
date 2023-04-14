@@ -7,7 +7,7 @@ import { clearCheckCounter } from "@/reducers/duel/mod";
 import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
 import { store } from "@/store";
 import DragModal from "./dragModal";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 
 const CheckCounterModal = () => {
   const dispatch = store.dispatch;

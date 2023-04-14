@@ -5,8 +5,8 @@ import {
   selectMeExtraDeck,
   selectOpExtraDeck,
 } from "@/reducers/duel/extraDeckSlice";
-import NeosConfig from "../../../neos.config.json";
-import { cardSlotRotation } from "./util";
+import NeosConfig from "../../../../neos.config.json";
+import { cardSlotRotation } from "../utils";
 
 const ExtraDeck = () => {
   const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;

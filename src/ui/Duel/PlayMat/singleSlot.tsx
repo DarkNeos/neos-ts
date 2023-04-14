@@ -1,14 +1,14 @@
 import * as BABYLON from "@babylonjs/core";
 import { CardState } from "@/reducers/duel/generic";
 import { store } from "@/store";
-import { useClick } from "./hook";
+import { useClick } from "@/hook";
 import { useRef } from "react";
 import {
   setCardListModalInfo,
   setCardListModalIsOpen,
 } from "@/reducers/duel/mod";
-import { interactTypeToString } from "./util";
-import NeosConfig from "../../../neos.config.json";
+import { interactTypeToString } from "../utils";
+import NeosConfig from "../../../../neos.config.json";
 
 const transform = NeosConfig.ui.card.transform;
 export const Depth = 0.005;

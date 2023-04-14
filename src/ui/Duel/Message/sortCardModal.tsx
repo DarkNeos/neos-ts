@@ -23,7 +23,7 @@ import { store } from "@/store";
 import { resetSortCardModal } from "@/reducers/duel/mod";
 import { Modal, Button, Card } from "antd";
 import { CardMeta } from "@/api/cards";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 
 const SortCardModal = () => {
   const dispatch = store.dispatch;

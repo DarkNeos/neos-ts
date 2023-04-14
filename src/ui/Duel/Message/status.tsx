@@ -2,7 +2,7 @@ import React from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
-import NeosConfig from "../../../neos.config.json";
+import NeosConfig from "../../../../neos.config.json";
 import { useAppSelector } from "@/hook";
 import {
   selectMeInitInfo,

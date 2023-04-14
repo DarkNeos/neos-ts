@@ -5,8 +5,8 @@ import {
 } from "@/reducers/duel/cemeretySlice";
 import { useAppSelector } from "@/hook";
 import SingleSlot, { Depth } from "./singleSlot";
-import { cardSlotRotation } from "./util";
-import NeosConfig from "../../../neos.config.json";
+import { cardSlotRotation } from "../utils";
+import NeosConfig from "../../../../neos.config.json";
 
 const Cemeteries = () => {
   const meCemetery = useAppSelector(selectMeCemetery).inner;
