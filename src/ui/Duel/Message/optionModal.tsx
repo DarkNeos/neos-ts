@@ -9,7 +9,7 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { sendSelectOptionResponse } from "@/api/ocgcore/ocgHelper";
 import { resetOptionModal, setOptionModalIsOpen } from "@/reducers/duel/mod";
-import DragModal from "./dragModal";
+import DragModal from "./DragModal";
 
 const OptionModal = () => {
   const dispatch = store.dispatch;

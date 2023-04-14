@@ -3,7 +3,7 @@ import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { CardState } from "@/reducers/duel/generic";
 import { useAppSelector } from "@/hook";
 import { zip, cardSlotRotation } from "../utils";
-import FixedSlot from "./fixedSlot";
+import FixedSlot from "./FixedSlot";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
 

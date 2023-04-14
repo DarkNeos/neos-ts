@@ -4,7 +4,7 @@ import {
   selectMeExclusion,
   selectopExclusion,
 } from "@/reducers/duel/exclusionSlice";
-import SingleSlot, { Depth } from "./singleSlot";
+import SingleSlot, { Depth } from "./SingleSlot";
 import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 

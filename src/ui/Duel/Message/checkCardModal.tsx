@@ -21,7 +21,7 @@ import {
 } from "@/api/ocgcore/ocgHelper";
 import { ThunderboltOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../../neos.config.json";
-import DragModal from "./dragModal";
+import DragModal from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
 const CheckCardModal = () => {

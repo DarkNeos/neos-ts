@@ -19,7 +19,7 @@ import {
   setCheckCardModalV2ResponseAble,
 } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
-import DragModal from "./dragModal";
+import DragModal from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
 const CheckCardModalV2 = () => {

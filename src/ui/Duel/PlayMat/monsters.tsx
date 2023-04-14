@@ -7,7 +7,7 @@ import {
   selectOpMonsters,
 } from "@/reducers/duel/monstersSlice";
 import { zip, cardSlotRotation, cardSlotDefenceRotation } from "../utils";
-import FixedSlot from "./fixedSlot";
+import FixedSlot from "./FixedSlot";
 import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
 

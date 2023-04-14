@@ -13,7 +13,7 @@ import {
   setPositionModalIsOpen,
 } from "@/reducers/duel/mod";
 import { CheckCard } from "@ant-design/pro-components";
-import DragModal from "./dragModal";
+import DragModal from "./DragModal";
 
 const PositionModal = () => {
   const dispatch = store.dispatch;

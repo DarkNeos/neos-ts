@@ -1,4 +1,4 @@
-import SingleSlot, { Depth } from "./singleSlot";
+import SingleSlot, { Depth } from "./SingleSlot";
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "@/hook";
 import {

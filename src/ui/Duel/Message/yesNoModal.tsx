@@ -8,7 +8,7 @@ import {
   selectYesNOModalMsg,
 } from "@/reducers/duel/modal/mod";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import DragModal from "./dragModal";
+import DragModal from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
 const YesNoModal = () => {
