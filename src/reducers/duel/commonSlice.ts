@@ -1,4 +1,5 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+
 import {
   clearIdleInteractivities,
   clearPlaceInteractivities,

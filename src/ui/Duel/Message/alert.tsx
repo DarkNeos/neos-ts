@@ -1,9 +1,10 @@
+import { Alert as AntdAlert } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import { sendSurrender } from "@/api/ocgcore/ocgHelper";
 import { useAppSelector } from "@/hook";
 import { selectUnimplemented } from "@/reducers/duel/mod";
-import { Alert as AntdAlert } from "antd";
 
 export const Alert = () => {
   const unimplemented = useAppSelector(selectUnimplemented);

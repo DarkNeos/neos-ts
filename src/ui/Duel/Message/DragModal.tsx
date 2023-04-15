@@ -1,8 +1,8 @@
 // 经过封装的可拖拽`Modal`
+import { Modal, ModalProps } from "antd";
 import React, { useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import { Modal, ModalProps } from "antd";
 
 export interface DragModalProps extends ModalProps {}
 

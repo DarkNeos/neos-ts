@@ -1,8 +1,8 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
+  hostChange,
   player0Update,
   player1Update,
-  hostChange,
   updateIsHost,
 } from "@/reducers/playerSlice";
 import { store } from "@/store";

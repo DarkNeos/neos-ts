@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { YgoProPacket, StocAdapter } from "../packet";
+import { StocAdapter, YgoProPacket } from "../packet";
 
 const LITTLE_ENDIAN = true;
 const INT16_BYTE_OFFSET = 2;

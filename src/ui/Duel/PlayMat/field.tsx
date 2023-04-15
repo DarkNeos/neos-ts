@@ -1,11 +1,13 @@
 import * as BABYLON from "@babylonjs/core";
+
 import { useAppSelector } from "@/hook";
 import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
-import { FixedSlot } from "./FixedSlot";
-import { Depth } from "./SingleSlot";
+
 import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
+import { FixedSlot } from "./FixedSlot";
+import { Depth } from "./SingleSlot";
 
 export const Field = () => {
   const meField = useAppSelector(selectMeMagics).inner.find(

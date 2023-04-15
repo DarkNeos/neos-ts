@@ -1,16 +1,18 @@
+import { Button, Drawer, List } from "antd";
 import React from "react";
+
+import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
 import { useAppSelector } from "@/hook";
-import { store } from "@/store";
-import {
-  selectCardListModalIsOpen,
-  selectCardListModalInfo,
-} from "@/reducers/duel/modal/mod";
 import {
   clearAllIdleInteractivities,
   setCardListModalIsOpen,
 } from "@/reducers/duel/mod";
-import { Drawer, List, Button } from "antd";
-import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
+import {
+  selectCardListModalInfo,
+  selectCardListModalIsOpen,
+} from "@/reducers/duel/modal/mod";
+import { store } from "@/store";
+
 import NeosConfig from "../../../../neos.config.json";
 
 const CARD_WIDTH = 100;

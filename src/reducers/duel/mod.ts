@@ -3,121 +3,123 @@
  *
  * */
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitInfo, infoInitImpl, updateHpImpl } from "./initInfoSlice";
-import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
+
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
 import {
-  HandState,
-  handsCase,
-  clearHandsIdleInteractivityImpl,
+  addCemeteryIdleInteractivitiesImpl,
+  cemeteryCase,
+  CemeteryState,
+  initCemeteryImpl,
+  removeCemeteryImpl,
+} from "./cemeretySlice";
+import {
+  clearAllIdleInteractivitiesImpl,
+  clearAllPlaceInteractivitiesImpl,
+  reloadFieldImpl,
+  updateFieldDataImpl,
+} from "./commonSlice";
+import { DeckState, initDeckImpl } from "./deckSlice";
+import {
+  addExclusionIdleInteractivitiesImpl,
+  exclusionCase,
+  ExclusionState,
+  initExclusionImpl,
+  removeExclusionImpl,
+} from "./exclusionSlice";
+import {
+  addExtraDeckIdleInteractivitiesImpl,
+  extraDeckCase,
+  ExtraDeckState,
+  removeExtraDeckImpl,
+} from "./extraDeckSlice";
+import {
   addHandsIdleInteractivityImpl,
+  clearHandsIdleInteractivityImpl,
+  handsCase,
+  HandState,
   removeHandImpl,
 } from "./handsSlice";
-import { newTurnImpl } from "./turnSlice";
+import { hintCase, HintState, initHintImpl } from "./hintSlice";
+import { infoInitImpl, InitInfo, updateHpImpl } from "./initInfoSlice";
+import {
+  addMagicIdleInteractivitiesImpl,
+  addMagicPlaceInteractivitiesImpl,
+  clearMagicIdleInteractivitiesImpl,
+  clearMagicPlaceInteractivitiesImpl,
+  initMagicsImpl,
+  magicCase,
+  MagicState,
+  removeMagicImpl,
+  setMagicPositionImpl,
+} from "./magicSlice";
+import {
+  checkCardModalCase,
+  checkCardModalV2Case,
+  checkCardModalV3Case,
+  clearCheckCounterImpl,
+  ModalState,
+  optionModalCase,
+  resetCheckCardModalImpl,
+  resetCheckCardModalV2Impl,
+  resetCheckCardModalV3Impl,
+  resetOptionModalImpl,
+  resetPositionModalImpl,
+  resetSortCardModalImpl,
+  setCardListModalInfoImpl,
+  setCardListModalIsOpenImpl,
+  setCardModalCountersImpl,
+  setCardModalInteractiviesImpl,
+  setCardModalIsOpenImpl,
+  setCardModalMetaImpl,
+  setCheckCardMOdalCancelAbleImpl,
+  setCheckCardModalCancelResponseImpl,
+  setCheckCardModalIsOpenImpl,
+  setCheckCardModalMinMaxImpl,
+  setCheckCardModalOnSubmitImpl,
+  setCheckCardModalV2CancelAbleImpl,
+  setCheckCardModalV2FinishAbleImpl,
+  setCheckCardModalV2IsOpenImpl,
+  setCheckCardModalV2MinMaxImpl,
+  setCheckCardModalV2ResponseAbleImpl,
+  setCheckCardModalV3AllLevelImpl,
+  setCheckCardModalV3IsOpenImpl,
+  setCheckCardModalV3MinMaxImpl,
+  setCheckCardModalV3OverFlowImpl,
+  setCheckCardModalV3ResponseAbleImpl,
+  setCheckCounterImpl,
+  setOptionModalIsOpenImpl,
+  setPositionModalIsOpenImpl,
+  setPositionModalPositionsImpl,
+  setSortCardModalIsOpenImpl,
+  setYesNoModalIsOpenImpl,
+  sortCardModalCase,
+  YesNoModalCase,
+} from "./modal/mod";
+import {
+  addMonsterIdleInteractivitiesImpl,
+  addMonsterPlaceInteractivitiesImpl,
+  clearMonsterIdleInteractivitiesImpl,
+  clearMonsterPlaceInteractivitiesImpl,
+  initMonstersImpl,
+  monsterCase,
+  MonsterState,
+  removeMonsterImpl,
+  removeOverlayImpl,
+  setMonsterPositionImpl,
+  updateMonsterCountersImpl,
+} from "./monstersSlice";
 import {
   newPhaseImpl,
   PhaseState,
   setEnableBpImpl,
-  setEnableM2Impl,
   setEnableEpImpl,
+  setEnableM2Impl,
 } from "./phaseSlice";
-import { RootState } from "@/store";
-import { HintState, hintCase, initHintImpl } from "./hintSlice";
-import {
-  ModalState,
-  setCardModalIsOpenImpl,
-  setCardModalMetaImpl,
-  setCardModalInteractiviesImpl,
-  setCardListModalIsOpenImpl,
-  setCardListModalInfoImpl,
-  setCheckCardModalIsOpenImpl,
-  setCheckCardModalMinMaxImpl,
-  setCheckCardModalOnSubmitImpl,
-  setCheckCardMOdalCancelAbleImpl,
-  setCheckCardModalCancelResponseImpl,
-  resetCheckCardModalImpl,
-  setYesNoModalIsOpenImpl,
-  checkCardModalCase,
-  YesNoModalCase,
-  setPositionModalIsOpenImpl,
-  setPositionModalPositionsImpl,
-  resetPositionModalImpl,
-  setOptionModalIsOpenImpl,
-  resetOptionModalImpl,
-  optionModalCase,
-  setCheckCardModalV2IsOpenImpl,
-  setCheckCardModalV2CancelAbleImpl,
-  setCheckCardModalV2MinMaxImpl,
-  setCheckCardModalV2FinishAbleImpl,
-  resetCheckCardModalV2Impl,
-  setCheckCardModalV2ResponseAbleImpl,
-  checkCardModalV2Case,
-  setCheckCardModalV3IsOpenImpl,
-  setCheckCardModalV3MinMaxImpl,
-  setCheckCardModalV3AllLevelImpl,
-  setCheckCardModalV3OverFlowImpl,
-  setCheckCardModalV3ResponseAbleImpl,
-  resetCheckCardModalV3Impl,
-  checkCardModalV3Case,
-  setCardModalCountersImpl,
-  setCheckCounterImpl,
-  clearCheckCounterImpl,
-  setSortCardModalIsOpenImpl,
-  resetSortCardModalImpl,
-  sortCardModalCase,
-} from "./modal/mod";
-import {
-  MonsterState,
-  initMonstersImpl,
-  addMonsterPlaceInteractivitiesImpl,
-  clearMonsterPlaceInteractivitiesImpl,
-  addMonsterIdleInteractivitiesImpl,
-  clearMonsterIdleInteractivitiesImpl,
-  removeMonsterImpl,
-  setMonsterPositionImpl,
-  removeOverlayImpl,
-  updateMonsterCountersImpl,
-  monsterCase,
-} from "./monstersSlice";
-import {
-  MagicState,
-  initMagicsImpl,
-  addMagicPlaceInteractivitiesImpl,
-  clearMagicPlaceInteractivitiesImpl,
-  addMagicIdleInteractivitiesImpl,
-  clearMagicIdleInteractivitiesImpl,
-  removeMagicImpl,
-  setMagicPositionImpl,
-  magicCase,
-} from "./magicSlice";
-import {
-  CemeteryState,
-  initCemeteryImpl,
-  removeCemeteryImpl,
-  cemeteryCase,
-  addCemeteryIdleInteractivitiesImpl,
-} from "./cemeretySlice";
-import {
-  ExclusionState,
-  initExclusionImpl,
-  removeExclusionImpl,
-  exclusionCase,
-  addExclusionIdleInteractivitiesImpl,
-} from "./exclusionSlice";
-import { DeckState, initDeckImpl } from "./deckSlice";
-import {
-  clearAllIdleInteractivitiesImpl,
-  clearAllPlaceInteractivitiesImpl,
-  updateFieldDataImpl,
-  reloadFieldImpl,
-} from "./commonSlice";
-import {
-  ExtraDeckState,
-  extraDeckCase,
-  removeExtraDeckImpl,
-  addExtraDeckIdleInteractivitiesImpl,
-} from "./extraDeckSlice";
+import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
+import { newTurnImpl } from "./turnSlice";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 
 export interface DuelState {

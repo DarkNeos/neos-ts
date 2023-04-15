@@ -1,22 +1,23 @@
-import React, { useEffect } from "react";
-import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
-import { useConfig } from "@/config";
-import {
-  selectHandSelectAble,
-  unSelectHandAble,
-  selectTpSelectAble,
-  unSelectTpAble,
-} from "@/reducers/moraSlice";
-import { selectDuelHsStart } from "@/reducers/duel/mod";
-import { store } from "@/store";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button, Modal } from "antd";
 import {
   ScissorOutlined,
   SketchOutlined,
   TableOutlined,
 } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
+import { useAppSelector } from "@/hook";
+import { selectDuelHsStart } from "@/reducers/duel/mod";
+import {
+  selectHandSelectAble,
+  selectTpSelectAble,
+  unSelectHandAble,
+  unSelectTpAble,
+} from "@/reducers/moraSlice";
+import { store } from "@/store";
 
 const {
   automation: { isAiMode, isAiFirst },

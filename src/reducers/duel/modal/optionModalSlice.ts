@@ -1,12 +1,14 @@
 import {
-  PayloadAction,
+  ActionReducerMapBuilder,
   CaseReducer,
   createAsyncThunk,
-  ActionReducerMapBuilder,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { DuelState } from "../mod";
+
 import { fetchCard, getCardStr } from "@/api/cards";
 import { RootState } from "@/store";
+
+import { DuelState } from "../mod";
 
 export const setOptionModalIsOpenImpl: CaseReducer<
   DuelState,

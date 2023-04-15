@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import { useAppSelector } from "@/hook";
-import { store } from "@/store";
-import { Button } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
+import { Button } from "antd";
+import React, { useState } from "react";
+
+import { sendSelectOptionResponse } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
+import { resetOptionModal, setOptionModalIsOpen } from "@/reducers/duel/mod";
 import {
   selectOptionModalIsOpen,
   selectOptionModalOptions,
 } from "@/reducers/duel/modal/mod";
-import { sendSelectOptionResponse } from "@/api/ocgcore/ocgHelper";
-import { resetOptionModal, setOptionModalIsOpen } from "@/reducers/duel/mod";
+import { store } from "@/store";
+
 import { DragModal } from "./DragModal";
 
 export const OptionModal = () => {

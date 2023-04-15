@@ -1,10 +1,10 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "@/store";
 import {
   fetchCommonHintMeta,
   fetchEsHintMeta,
   fetchSelectHintMeta,
 } from "@/reducers/duel/hintSlice";
+import { AppDispatch } from "@/store";
 import MsgHint = ygopro.StocGameMessage.MsgHint;
 
 export default (hint: MsgHint, dispatch: AppDispatch) => {

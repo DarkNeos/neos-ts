@@ -1,12 +1,14 @@
 import * as BABYLON from "@babylonjs/core";
+
 import { useAppSelector } from "@/hook";
 import {
   selectMeExclusion,
   selectopExclusion,
 } from "@/reducers/duel/exclusionSlice";
-import { SingleSlot, Depth } from "./SingleSlot";
+
 import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
+import { Depth, SingleSlot } from "./SingleSlot";
 
 export const BanishedZone = () => {
   const meExclusion = useAppSelector(selectMeExclusion).inner;

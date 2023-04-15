@@ -6,12 +6,15 @@
  * passWd: 房间密码。
  *
  * */
-import { Input } from "antd";
-import React, { useState, ChangeEvent, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/core.scss";
-import NeosConfig from "../../neos.config.json";
+
+import { Input } from "antd";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useConfig } from "@/config";
+
+import NeosConfig from "../../neos.config.json";
 
 const serverConfig = NeosConfig.servers;
 const {

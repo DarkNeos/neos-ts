@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from "react";
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
   useSortable,
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useAppSelector } from "@/hook";
-import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
-import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
-import { store } from "@/store";
-import { resetSortCardModal } from "@/reducers/duel/mod";
-import { Modal, Button, Card } from "antd";
+import { Button, Card, Modal } from "antd";
+import React, { useEffect, useState } from "react";
+
 import { CardMeta } from "@/api/cards";
+import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
+import { resetSortCardModal } from "@/reducers/duel/mod";
+import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
+import { store } from "@/store";
+
 import NeosConfig from "../../../../neos.config.json";
 
 export const SortCardModal = () => {

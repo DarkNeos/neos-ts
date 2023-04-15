@@ -1,29 +1,31 @@
-import React from "react";
-import { useAppSelector } from "@/hook";
-import { store } from "@/store";
-import {
-  selectCardModalIsOpen,
-  selectCardModalInteractivies,
-  selectCardModalMeta,
-  selectCardModalCounters,
-} from "@/reducers/duel/modal/mod";
-import {
-  setCardModalIsOpen,
-  clearAllIdleInteractivities,
-} from "@/reducers/duel/mod";
-import { Modal, Card, Button, Row, Col } from "antd";
-import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
 import Icon, { StarOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Modal, Row } from "antd";
+import React from "react";
+
+import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
+import { fetchStrings } from "@/api/strings";
+import { useAppSelector } from "@/hook";
+import {
+  clearAllIdleInteractivities,
+  setCardModalIsOpen,
+} from "@/reducers/duel/mod";
+import {
+  selectCardModalCounters,
+  selectCardModalInteractivies,
+  selectCardModalIsOpen,
+  selectCardModalMeta,
+} from "@/reducers/duel/modal/mod";
+import { store } from "@/store";
+
 import NeosConfig from "../../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../../neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "../../../../neos-assets/checked-shield.svg";
 import {
-  extraCardTypes,
-  Type2StringCodeMap,
   Attribute2StringCodeMap,
+  extraCardTypes,
   Race2StringCodeMap,
+  Type2StringCodeMap,
 } from "../../../common";
-import { fetchStrings } from "@/api/strings";
 
 const { Meta } = Card;
 const CARD_WIDTH = 240;

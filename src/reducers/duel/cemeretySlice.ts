@@ -1,22 +1,24 @@
-import { judgeSelf } from "./util";
 import {
-  PayloadAction,
-  CaseReducer,
   ActionReducerMapBuilder,
+  CaseReducer,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { DuelState } from "./mod";
-import { RootState } from "@/store";
+
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
 import {
   createAsyncMetaThunk,
   DuelFieldState,
-  extendState,
-  extendMeta,
-  removeCard,
   DuelReducer,
-  Interactivity,
   extendIdleInteractivities,
+  extendMeta,
+  extendState,
+  Interactivity,
+  removeCard,
 } from "./generic";
+import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 
 export interface CemeteryState extends DuelFieldState {}
 

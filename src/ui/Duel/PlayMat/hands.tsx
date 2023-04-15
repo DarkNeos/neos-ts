@@ -1,18 +1,20 @@
 import * as BABYLON from "@babylonjs/core";
+import { useEffect, useRef, useState } from "react";
+import { useHover } from "react-babylonjs";
+
 import { useAppSelector, useClick } from "@/hook";
-import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
 import { CardState } from "@/reducers/duel/generic";
+import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
 import {
+  setCardModalInteractivies,
   setCardModalIsOpen,
   setCardModalMeta,
-  setCardModalInteractivies,
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
-import { useHover } from "react-babylonjs";
-import { useState, useRef, useEffect } from "react";
-import { useSpring, animated } from "../spring";
-import { zip, interactTypeToString } from "../utils";
+
 import NeosConfig from "../../../../neos.config.json";
+import { animated, useSpring } from "../spring";
+import { interactTypeToString, zip } from "../utils";
 
 const groundShape = NeosConfig.ui.ground;
 const left = -(groundShape.width / 2);

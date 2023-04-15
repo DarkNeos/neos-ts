@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import { useAppSelector } from "@/hook";
-import { store } from "@/store";
+import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
-import { sendSelectPositionResponse } from "@/api/ocgcore/ocgHelper";
-import {
-  selectPositionModalIsOpen,
-  selectPositionModalPositions,
-} from "@/reducers/duel/modal/mod";
+import React, { useState } from "react";
+
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { sendSelectPositionResponse } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
 import {
   resetPositionModal,
   setPositionModalIsOpen,
 } from "@/reducers/duel/mod";
-import { CheckCard } from "@ant-design/pro-components";
+import {
+  selectPositionModalIsOpen,
+  selectPositionModalPositions,
+} from "@/reducers/duel/modal/mod";
+import { store } from "@/store";
+
 import { DragModal } from "./DragModal";
 
 export const PositionModal = () => {

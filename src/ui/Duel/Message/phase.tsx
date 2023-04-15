@@ -1,28 +1,30 @@
+import Icon from "@ant-design/icons";
+import { Button, Modal, Space } from "antd";
 import React, { useState } from "react";
-import { store } from "@/store";
-import { useAppSelector } from "@/hook";
-import {
-  selectCurrentPhase,
-  selectEnableBp,
-  selectEnableEp,
-  selectEnableM2,
-} from "@/reducers/duel/phaseSlice";
+
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
 } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
 import {
   clearAllIdleInteractivities,
   setEnableBp,
   setEnableEp,
   setEnableM2,
 } from "@/reducers/duel/mod";
-import { Button, Modal, Space } from "antd";
-import Icon from "@ant-design/icons";
+import {
+  selectCurrentPhase,
+  selectEnableBp,
+  selectEnableEp,
+  selectEnableM2,
+} from "@/reducers/duel/phaseSlice";
+import { store } from "@/store";
+
 import { ReactComponent as BattleSvg } from "../../../../neos-assets/crossed-swords.svg";
-import { ReactComponent as Main2Svg } from "../../../../neos-assets/sword-in-stone.svg";
 import { ReactComponent as EpSvg } from "../../../../neos-assets/power-button.svg";
+import { ReactComponent as Main2Svg } from "../../../../neos-assets/sword-in-stone.svg";
 import { ReactComponent as SurrenderSvg } from "../../../../neos-assets/truce.svg";
 
 const IconSize = "150%";

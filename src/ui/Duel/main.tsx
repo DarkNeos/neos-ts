@@ -1,38 +1,39 @@
+import * as BABYLON from "@babylonjs/core";
+import { Row } from "antd";
 import React from "react";
 import { Engine, Scene } from "react-babylonjs";
-import { ReactReduxContext, Provider } from "react-redux";
-import * as BABYLON from "@babylonjs/core";
+import { Provider, ReactReduxContext } from "react-redux";
+
+import NeosConfig from "../../../neos.config.json";
+import NeosLayout from "./Layout";
 import {
-  Hands,
-  Monsters,
-  Magics,
-  Field,
-  Graveyard,
-  ExtraDeck,
-} from "./PlayMat";
-import {
-  CardModal,
-  HintNotification,
-  CardListModal,
-  CheckCardModal,
-  YesNoModal,
-  PositionModal,
-  OptionModal,
-  Phase,
-  CheckCardModalV2,
-  DuelTimeLine,
-  SendBox,
-  PlayerStatus,
   Alert,
+  CardListModal,
+  CardModal,
+  CheckCardModal,
+  CheckCardModalV2,
   CheckCardModalV3,
   CheckCounterModal,
+  DuelTimeLine,
+  HintNotification,
+  OptionModal,
+  Phase,
+  PlayerStatus,
+  PositionModal,
+  SendBox,
   SortCardModal,
+  YesNoModal,
 } from "./Message";
-import { CommonDeck } from "./PlayMat/Deck";
+import {
+  ExtraDeck,
+  Field,
+  Graveyard,
+  Hands,
+  Magics,
+  Monsters,
+} from "./PlayMat";
 import { BanishedZone } from "./PlayMat/BanishedZone";
-import NeosLayout from "./Layout";
-import NeosConfig from "../../../neos.config.json";
-import { Row } from "antd";
+import { CommonDeck } from "./PlayMat/Deck";
 
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {

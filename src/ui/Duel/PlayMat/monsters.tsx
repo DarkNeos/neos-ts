@@ -1,15 +1,18 @@
-import * as BABYLON from "@babylonjs/core";
-import { CardState } from "@/reducers/duel/generic";
 import "react-babylonjs";
+
+import * as BABYLON from "@babylonjs/core";
+
 import { useAppSelector } from "@/hook";
+import { CardState } from "@/reducers/duel/generic";
+import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
 import {
   selectMeMonsters,
   selectOpMonsters,
 } from "@/reducers/duel/monstersSlice";
-import { zip, cardSlotRotation, cardSlotDefenceRotation } from "../utils";
-import { FixedSlot } from "./FixedSlot";
-import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
+
 import NeosConfig from "../../../../neos.config.json";
+import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
+import { FixedSlot } from "./FixedSlot";
 
 const transform = NeosConfig.ui.card.transform;
 const floating = NeosConfig.ui.card.floating;

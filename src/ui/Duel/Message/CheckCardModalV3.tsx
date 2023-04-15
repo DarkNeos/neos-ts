@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import { useAppSelector } from "@/hook";
-import { store } from "@/store";
-import { Button, Card, Row, Col } from "antd";
 import { CheckCard } from "@ant-design/pro-components";
+import { Button, Card, Col, Row } from "antd";
+import React, { useState } from "react";
+
 import { sendSelectCardResponse } from "@/api/ocgcore/ocgHelper";
+import { useAppSelector } from "@/hook";
+import { selectHint } from "@/reducers/duel/hintSlice";
 import {
   resetCheckCardModalV3,
   setCheckCardModalV3IsOpen,
   setCheckCardModalV3ResponseAble,
 } from "@/reducers/duel/mod";
-import NeosConfig from "../../../../neos.config.json";
 import { selectCheckCardModalV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
+import { store } from "@/store";
+
+import NeosConfig from "../../../../neos.config.json";
 import { DragModal } from "./DragModal";
-import { selectHint } from "@/reducers/duel/hintSlice";
 
 export const CheckCardModalV3 = () => {
   const dispatch = store.dispatch;

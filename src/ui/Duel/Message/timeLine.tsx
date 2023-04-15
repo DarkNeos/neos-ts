@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Timeline, TimelineItemProps } from "antd";
 import { MessageOutlined } from "@ant-design/icons";
+import { Timeline, TimelineItemProps } from "antd";
+import React, { useEffect, useState } from "react";
+
 import { useAppSelector } from "@/hook";
 import { selectChat } from "@/reducers/chatSlice";
 

@@ -1,17 +1,17 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "@/store";
 import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
-  addHandsIdleInteractivity,
-  addMonsterIdleInteractivities,
-  addMagicIdleInteractivities,
-  setEnableBp,
-  setEnableEp,
   addCemeteryIdleInteractivities,
-  clearAllIdleInteractivities,
   addExclusionIdleInteractivities,
   addExtraDeckIdleInteractivities,
+  addHandsIdleInteractivity,
+  addMagicIdleInteractivities,
+  addMonsterIdleInteractivities,
+  clearAllIdleInteractivities,
+  setEnableBp,
+  setEnableEp,
 } from "@/reducers/duel/mod";
+import { AppDispatch } from "@/store";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 

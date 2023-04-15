@@ -1,12 +1,14 @@
 // Copyright (c) 2020 hooke
 
-import { Globals } from "@react-spring/core";
+import "./customProps";
+
 import { createHost } from "@react-spring/animated";
+import { Globals } from "@react-spring/core";
 import { createStringInterpolator } from "@react-spring/shared";
 import { applyInitialPropsToInstance } from "react-babylonjs";
-import { primitives } from "./primitives";
+
 import { WithAnimated } from "./animated";
-import "./customProps";
+import { primitives } from "./primitives";
 
 // todo: frameLoop can use runRenderLoop
 Globals.assign({

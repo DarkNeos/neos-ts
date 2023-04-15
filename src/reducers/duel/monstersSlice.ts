@@ -1,27 +1,29 @@
-import { judgeSelf } from "./util";
 import {
-  PayloadAction,
-  CaseReducer,
   ActionReducerMapBuilder,
+  CaseReducer,
   createAsyncThunk,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { DuelState } from "./mod";
+
+import { fetchCard } from "@/api/cards";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { RootState } from "@/store";
+
 import {
-  DuelFieldState,
-  Interactivity,
+  clearIdleInteractivities,
+  clearPlaceInteractivities,
   createAsyncMetaThunk,
+  DuelFieldState,
+  extendIdleInteractivities,
   extendOccupant,
   extendPlaceInteractivity,
-  clearPlaceInteractivities,
+  Interactivity,
   removeOccupant,
-  extendIdleInteractivities,
-  clearIdleInteractivities,
-  setPosition,
   removeOverlay,
+  setPosition,
 } from "./generic";
-import { fetchCard } from "@/api/cards";
+import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 type MsgUpdateCounter = ReturnType<
   typeof ygopro.StocGameMessage.MsgUpdateCounter.prototype.toObject
 >;

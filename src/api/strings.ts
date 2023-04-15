@@ -1,6 +1,7 @@
 import axios from "axios";
+
 import NeosConfig from "../../neos.config.json";
-import { getCardStr, fetchCard } from "./cards";
+import { fetchCard, getCardStr } from "./cards";
 
 export const DESCRIPTION_LIMIT = 10000;
 

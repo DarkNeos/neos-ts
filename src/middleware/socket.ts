@@ -4,8 +4,8 @@
  * 所有长连接/Websocket相关的逻辑都应该收敛在这里。
  *
  * */
-import handleSocketOpen from "../service/onSocketOpen";
 import handleSocketMessage from "../service/onSocketMessage";
+import handleSocketOpen from "../service/onSocketOpen";
 
 export enum socketCmd {
   // 建立长连接
