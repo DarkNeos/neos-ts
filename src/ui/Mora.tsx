@@ -4,7 +4,7 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
@@ -18,6 +18,7 @@ import {
   unSelectTpAble,
 } from "@/reducers/moraSlice";
 import { store } from "@/store";
+import { ValtioContext } from "@/stores";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -25,6 +26,8 @@ const {
 } = useConfig();
 
 const Mora = () => {
+  const stateMora = useContext(ValtioContext).moraStore;
+
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
   const selectTpAble = useAppSelector(selectTpSelectAble);
@@ -39,10 +42,12 @@ const Mora = () => {
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
     dispatch(unSelectHandAble());
+    stateMora.selectHandAble = false;
   };
   const handleSelectTp = (isFirst: boolean) => {
     sendTpResult(isFirst);
     dispatch(unSelectTpAble());
+    stateMora.selectTpAble = false;
   };
 
   useEffect(() => {

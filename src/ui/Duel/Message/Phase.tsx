@@ -1,5 +1,9 @@
 import Icon from "@ant-design/icons";
 import { Button, Modal, Space } from "antd";
+import { ReactComponent as BattleSvg } from "neos-assets/crossed-swords.svg";
+import { ReactComponent as EpSvg } from "neos-assets/power-button.svg";
+import { ReactComponent as Main2Svg } from "neos-assets/sword-in-stone.svg";
+import { ReactComponent as SurrenderSvg } from "neos-assets/truce.svg";
 import React, { useState } from "react";
 
 import {
@@ -21,11 +25,6 @@ import {
   selectEnableM2,
 } from "@/reducers/duel/phaseSlice";
 import { store } from "@/store";
-
-import { ReactComponent as BattleSvg } from "neos-assets/crossed-swords.svg";
-import { ReactComponent as EpSvg } from "neos-assets/power-button.svg";
-import { ReactComponent as Main2Svg } from "neos-assets/sword-in-stone.svg";
-import { ReactComponent as SurrenderSvg } from "neos-assets/truce.svg";
 
 const IconSize = "150%";
 const SpaceSize = 16;
