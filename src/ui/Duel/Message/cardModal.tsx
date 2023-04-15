@@ -18,8 +18,8 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { store } from "@/store";
 
-import { ReactComponent as BattleSvg } from "../../../../neos-assets/battle-axe.svg";
-import { ReactComponent as DefenceSvg } from "../../../../neos-assets/checked-shield.svg";
+import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
+import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
 import {
   Attribute2StringCodeMap,
   extraCardTypes,
