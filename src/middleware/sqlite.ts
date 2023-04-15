@@ -8,8 +8,9 @@
 import initSqlJs, { Database } from "sql.js";
 
 import { CardData, CardMeta, CardText } from "@/api/cards";
+import { useConfig } from "@/config";
 
-import NeosConfig from "../../neos.config.json";
+const NeosConfig = useConfig();
 
 export enum sqliteCmd {
   // 初始化

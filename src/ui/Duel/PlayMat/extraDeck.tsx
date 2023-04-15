@@ -1,14 +1,16 @@
 import * as BABYLON from "@babylonjs/core";
 
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import {
   selectMeExtraDeck,
   selectOpExtraDeck,
 } from "@/reducers/duel/extraDeckSlice";
 
-import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
+
+const NeosConfig = useConfig();
 
 export const ExtraDeck = () => {
   const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;

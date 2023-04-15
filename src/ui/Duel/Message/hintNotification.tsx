@@ -8,8 +8,9 @@ import { selectHint } from "@/reducers/duel/hintSlice";
 import { selectDuelResult, selectWaiting } from "@/reducers/duel/mod";
 import { selectCurrentPhase } from "@/reducers/duel/phaseSlice";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
-import NeosConfig from "../../../../neos.config.json";
+import { useConfig } from "@/config";
 
+const NeosConfig = useConfig();
 export const HintNotification = () => {
   const hint = useAppSelector(selectHint);
   const currentPhase = useAppSelector(selectCurrentPhase);

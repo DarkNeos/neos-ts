@@ -7,6 +7,7 @@ import {
   sendSelectCardResponse,
   sendSelectChainResponse,
 } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { selectHint } from "@/reducers/duel/hintSlice";
 import {
@@ -23,9 +24,9 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { DragModal } from "./DragModal";
 
+const NeosConfig = useConfig();
 export const CheckCardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalIsOpen);

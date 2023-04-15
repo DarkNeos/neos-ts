@@ -2,6 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import { useEffect, useRef, useState } from "react";
 import { useHover } from "react-babylonjs";
 
+import { useConfig } from "@/config";
 import { useAppSelector, useClick } from "@/hook";
 import { CardState } from "@/reducers/duel/generic";
 import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
@@ -12,9 +13,10 @@ import {
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { animated, useSpring } from "../spring";
 import { interactTypeToString, zip } from "../utils";
+
+const NeosConfig = useConfig();
 
 const groundShape = NeosConfig.ui.ground;
 const left = -(groundShape.width / 2);

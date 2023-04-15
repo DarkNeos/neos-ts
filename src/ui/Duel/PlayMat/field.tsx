@@ -1,14 +1,15 @@
 import * as BABYLON from "@babylonjs/core";
 
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 
-import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 import { Depth } from "./SingleSlot";
 
+const NeosConfig = useConfig();
 export const Field = () => {
   const meField = useAppSelector(selectMeMagics).inner.find(
     (_, sequence) => sequence == 5

@@ -46,7 +46,7 @@ import {
 } from "@/reducers/playerSlice";
 import { store } from "@/store";
 
-import NeosConfig from "../../neos.config.json";
+const NeosConfig = useConfig();
 
 const READY_STATE = "ready";
 

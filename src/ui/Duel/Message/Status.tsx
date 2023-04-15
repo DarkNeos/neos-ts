@@ -3,6 +3,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import { Avatar } from "antd";
 import React from "react";
 
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import {
   selectMeInitInfo,
@@ -10,7 +11,7 @@ import {
 } from "@/reducers/duel/initInfoSlice";
 import { selectWaiting } from "@/reducers/duel/mod";
 
-import NeosConfig from "../../../../neos.config.json";
+const NeosConfig = useConfig();
 
 const Config = NeosConfig.ui.status;
 const avatarSize = 40;

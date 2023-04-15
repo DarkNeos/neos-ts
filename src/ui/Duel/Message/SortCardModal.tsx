@@ -20,12 +20,13 @@ import React, { useEffect, useState } from "react";
 
 import { CardMeta } from "@/api/cards";
 import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { resetSortCardModal } from "@/reducers/duel/mod";
 import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
+const NeosConfig = useConfig();
 
 export const SortCardModal = () => {
   const dispatch = store.dispatch;

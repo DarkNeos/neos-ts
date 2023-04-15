@@ -3,9 +3,9 @@
  *
  * */
 import { sendJoinGame, sendPlayerInfo } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 
-import NeosConfig from "../../neos.config.json";
-
+const NeosConfig = useConfig();
 /*
  * 长连接建立后，需要马上发送PlayerInfo和JoinGame两个数据包，
  * 否则ygopro服务端超过2s后会自动断连。

@@ -1,7 +1,9 @@
 import { Layout } from "antd";
 import React from "react";
 
-import NeosConfig from "../../../neos.config.json";
+import { useConfig } from "@/config";
+
+const NeosConfig = useConfig();
 
 const layoutConfig = NeosConfig.ui.layout;
 const { Header, Footer, Sider, Content } = Layout;

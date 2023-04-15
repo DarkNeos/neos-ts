@@ -2,6 +2,7 @@ import { Button, Drawer, List } from "antd";
 import React from "react";
 
 import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import {
   clearAllIdleInteractivities,
@@ -13,7 +14,7 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
+const NeosConfig = useConfig();
 
 const CARD_WIDTH = 100;
 

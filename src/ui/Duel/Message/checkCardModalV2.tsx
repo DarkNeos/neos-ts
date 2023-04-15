@@ -3,6 +3,7 @@ import { Button, Card, Col, Row } from "antd";
 import React from "react";
 
 import { sendSelectUnselectCardResponse } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { selectHint } from "@/reducers/duel/hintSlice";
 import {
@@ -21,9 +22,9 @@ import {
 } from "@/reducers/duel/modal/checkCardModalV2Slice";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { DragModal } from "./DragModal";
 
+const NeosConfig = useConfig();
 export const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalV2IsOpen);

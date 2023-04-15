@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useConfig } from "@/config";
 
-import NeosConfig from "../../neos.config.json";
+const NeosConfig = useConfig();
 
 const serverConfig = NeosConfig.servers;
 const {

@@ -3,14 +3,15 @@ import React, { useState } from "react";
 
 import { sendSelectCounterResponse } from "@/api/ocgcore/ocgHelper";
 import { fetchStrings } from "@/api/strings";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { clearCheckCounter } from "@/reducers/duel/mod";
 import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { DragModal } from "./DragModal";
 
+const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
   const dispatch = store.dispatch;
   const state = useAppSelector(selectCheckCounterModal);

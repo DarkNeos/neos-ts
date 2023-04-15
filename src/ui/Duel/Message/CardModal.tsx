@@ -4,6 +4,7 @@ import React from "react";
 
 import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
 import { fetchStrings } from "@/api/strings";
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import {
   clearAllIdleInteractivities,
@@ -17,7 +18,6 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { ReactComponent as BattleSvg } from "../../../../neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "../../../../neos-assets/checked-shield.svg";
 import {
@@ -27,6 +27,7 @@ import {
   Type2StringCodeMap,
 } from "../../../common";
 
+const NeosConfig = useConfig();
 const { Meta } = Card;
 const CARD_WIDTH = 240;
 

@@ -4,7 +4,8 @@ import React from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { Provider, ReactReduxContext } from "react-redux";
 
-import NeosConfig from "../../../neos.config.json";
+import { useConfig } from "@/config";
+
 import NeosLayout from "./Layout";
 import {
   Alert,
@@ -35,6 +36,7 @@ import {
 import { BanishedZone } from "./PlayMat/BanishedZone";
 import { CommonDeck } from "./PlayMat/Deck";
 
+const NeosConfig = useConfig();
 // Ref: https://github.com/brianzinn/react-babylonjs/issues/126
 const NeosDuel = () => {
   return (

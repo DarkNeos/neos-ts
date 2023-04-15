@@ -1,15 +1,16 @@
 import * as BABYLON from "@babylonjs/core";
 
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import {
   selectMeCemetery,
   selectOpCemetery,
 } from "@/reducers/duel/cemeretySlice";
 
-import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
+const NeosConfig = useConfig();
 export const Graveyard = () => {
   const meCemetery = useAppSelector(selectMeCemetery).inner;
   const opCemetery = useAppSelector(selectOpCemetery).inner;

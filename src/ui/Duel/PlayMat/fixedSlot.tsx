@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
+import { useConfig } from "@/config";
 import { useClick } from "@/hook";
 import { CardState } from "@/reducers/duel/generic";
 import {
@@ -16,8 +17,9 @@ import {
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
 
-import NeosConfig from "../../../../neos.config.json";
 import { interactTypeToString } from "../utils";
+
+const NeosConfig = useConfig();
 
 const transform = NeosConfig.ui.card.transform;
 const defenceRotation = NeosConfig.ui.card.defenceRotation;

@@ -2,6 +2,7 @@ import "react-babylonjs";
 
 import * as BABYLON from "@babylonjs/core";
 
+import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
 import { CardState } from "@/reducers/duel/generic";
 import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
@@ -10,10 +11,10 @@ import {
   selectOpMonsters,
 } from "@/reducers/duel/monstersSlice";
 
-import NeosConfig from "../../../../neos.config.json";
 import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 
+const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
 const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config

@@ -1,6 +1,8 @@
 import { Vector3 } from "@babylonjs/core";
 
-import NeosConfig from "../../../../neos.config.json";
+import { useConfig } from "@/config";
+
+const NeosConfig = useConfig();
 
 const cardRotation = NeosConfig.ui.card.rotation;
 const cardReverseRotation = NeosConfig.ui.card.reverseRotation;
