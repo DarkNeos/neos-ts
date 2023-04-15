@@ -1,14 +1,14 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
-import { fetchCemeteryMeta } from "@/reducers/duel/cemeretySlice";
-import { fetchExclusionMeta } from "@/reducers/duel/exclusionSlice";
+import { fetchBanishedZoneMeta } from "@/reducers/duel/banishedZoneSlice";
+import { fetchGraveyardMeta } from "@/reducers/duel/cemeretySlice";
 import { fetchExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
 import { insertHandMeta } from "@/reducers/duel/handsSlice";
 import { fetchMagicMeta } from "@/reducers/duel/magicSlice";
 import {
-  removeCemetery,
-  removeExclusion,
+  removeBanishedZone,
   removeExtraDeck,
+  removeGraveyard,
   removeHand,
   removeMagic,
   removeMonster,
@@ -52,14 +52,17 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     }
     case ygopro.CardZone.GRAVE: {
       dispatch(
-        removeCemetery({ controler: from.controler, sequence: from.sequence })
+        removeGraveyard({ controler: from.controler, sequence: from.sequence })
       );
 
       break;
     }
     case ygopro.CardZone.REMOVED: {
       dispatch(
-        removeExclusion({ controler: from.controler, sequence: from.sequence })
+        removeBanishedZone({
+          controler: from.controler,
+          sequence: from.sequence,
+        })
       );
 
       break;
@@ -128,7 +131,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     }
     case ygopro.CardZone.GRAVE: {
       dispatch(
-        fetchCemeteryMeta({
+        fetchGraveyardMeta({
           controler: to.controler,
           sequence: to.sequence,
           code,
@@ -146,7 +149,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     }
     case ygopro.CardZone.REMOVED: {
       dispatch(
-        fetchExclusionMeta({
+        fetchBanishedZoneMeta({
           controler: to.controler,
           sequence: to.sequence,
           code,

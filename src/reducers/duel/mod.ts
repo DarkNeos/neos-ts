@@ -9,11 +9,18 @@ import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { RootState } from "@/store";
 
 import {
-  addCemeteryIdleInteractivitiesImpl,
-  cemeteryCase,
-  CemeteryState,
-  initCemeteryImpl,
-  removeCemeteryImpl,
+  addBanishedZoneIdleInteractivitiesImpl,
+  banishedZoneCase,
+  BanishedZoneState,
+  initBanishedZoneImpl,
+  removeBanishedZoneImpl,
+} from "./banishedZoneSlice";
+import {
+  addGraveyardIdleInteractivitiesImpl,
+  graveyardCase,
+  GraveyardState,
+  initGraveyardImpl,
+  removeGraveyardImpl,
 } from "./cemeretySlice";
 import {
   clearAllIdleInteractivitiesImpl,
@@ -22,13 +29,6 @@ import {
   updateFieldDataImpl,
 } from "./commonSlice";
 import { DeckState, initDeckImpl } from "./deckSlice";
-import {
-  addExclusionIdleInteractivitiesImpl,
-  exclusionCase,
-  ExclusionState,
-  initExclusionImpl,
-  removeExclusionImpl,
-} from "./exclusionSlice";
 import {
   addExtraDeckIdleInteractivitiesImpl,
   extraDeckCase,
@@ -136,11 +136,11 @@ export interface DuelState {
   meMagics?: MagicState; // 自己的魔法陷阱区状态
   opMagics?: MagicState; // 对手的魔法陷阱区状态
 
-  meCemetery?: CemeteryState; // 自己的墓地状态
-  opCemetery?: CemeteryState; // 对手的墓地状态
+  meGraveyard?: GraveyardState; // 自己的墓地状态
+  opGraveyard?: GraveyardState; // 对手的墓地状态
 
-  meExclusion?: ExclusionState; // 自己的除外区状态
-  opExclusion?: ExclusionState; // 对手的除外区状态
+  meBanishedZone?: BanishedZoneState; // 自己的除外区状态
+  opBanishedZone?: BanishedZoneState; // 对手的除外区状态
 
   meDeck?: DeckState; // 自己的卡组状态
   opDeck?: DeckState; // 对手的卡组状态
@@ -239,14 +239,14 @@ const duelSlice = createSlice({
     removeMagic: removeMagicImpl,
 
     // 墓地相关`Reducer`
-    initCemetery: initCemeteryImpl,
-    removeCemetery: removeCemeteryImpl,
-    addCemeteryIdleInteractivities: addCemeteryIdleInteractivitiesImpl,
+    initGraveyard: initGraveyardImpl,
+    removeGraveyard: removeGraveyardImpl,
+    addGraveyardIdleInteractivities: addGraveyardIdleInteractivitiesImpl,
 
     // 除外区相关`Reducer`
-    initExclusion: initExclusionImpl,
-    removeExclusion: removeExclusionImpl,
-    addExclusionIdleInteractivities: addExclusionIdleInteractivitiesImpl,
+    initBanishedZone: initBanishedZoneImpl,
+    removeBanishedZone: removeBanishedZoneImpl,
+    addBanishedZoneIdleInteractivities: addBanishedZoneIdleInteractivitiesImpl,
 
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
@@ -326,8 +326,8 @@ const duelSlice = createSlice({
     hintCase(builder);
     monsterCase(builder);
     magicCase(builder);
-    cemeteryCase(builder);
-    exclusionCase(builder);
+    graveyardCase(builder);
+    banishedZoneCase(builder);
     extraDeckCase(builder);
     checkCardModalCase(builder);
     YesNoModalCase(builder);
@@ -370,9 +370,9 @@ export const {
   setMagicPosition,
   removeMagic,
   removeHand,
-  initCemetery,
-  removeCemetery,
-  addCemeteryIdleInteractivities,
+  initGraveyard,
+  removeGraveyard,
+  addGraveyardIdleInteractivities,
   setCardListModalIsOpen,
   setCardListModalInfo,
   setCheckCardModalIsOpen,
@@ -390,9 +390,9 @@ export const {
   initDeck,
   removeExtraDeck,
   addExtraDeckIdleInteractivities,
-  initExclusion,
-  removeExclusion,
-  addExclusionIdleInteractivities,
+  initBanishedZone,
+  removeBanishedZone,
+  addBanishedZoneIdleInteractivities,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2CancelAble,

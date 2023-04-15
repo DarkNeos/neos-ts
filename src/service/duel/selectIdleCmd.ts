@@ -1,9 +1,9 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
-  addCemeteryIdleInteractivities,
-  addExclusionIdleInteractivities,
+  addBanishedZoneIdleInteractivities,
   addExtraDeckIdleInteractivities,
+  addGraveyardIdleInteractivities,
   addHandsIdleInteractivity,
   addMagicIdleInteractivities,
   addMonsterIdleInteractivities,
@@ -83,12 +83,12 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
           break;
         }
         case ygopro.CardZone.GRAVE: {
-          dispatcher(data, interactType, addCemeteryIdleInteractivities);
+          dispatcher(data, interactType, addGraveyardIdleInteractivities);
 
           break;
         }
         case ygopro.CardZone.REMOVED: {
-          dispatcher(data, interactType, addExclusionIdleInteractivities);
+          dispatcher(data, interactType, addBanishedZoneIdleInteractivities);
 
           break;
         }

@@ -24,16 +24,16 @@ export const clearAllIdleInteractivitiesImpl: DuelReducer<number> = (
         state.meHands,
         state.meMonsters,
         state.meMagics,
-        state.meCemetery,
-        state.meExclusion,
+        state.meGraveyard,
+        state.meBanishedZone,
         state.meExtraDeck,
       ]
     : [
         state.opHands,
         state.opMonsters,
         state.opMagics,
-        state.opCemetery,
-        state.opExclusion,
+        state.opGraveyard,
+        state.opBanishedZone,
         state.opExtraDeck,
       ];
 
@@ -51,15 +51,15 @@ export const clearAllPlaceInteractivitiesImpl: DuelReducer<number> = (
         state.meHands,
         state.meMonsters,
         state.meMagics,
-        state.meCemetery,
-        state.meExclusion,
+        state.meGraveyard,
+        state.meBanishedZone,
       ]
     : [
         state.opHands,
         state.opMonsters,
         state.opMagics,
-        state.opCemetery,
-        state.opExclusion,
+        state.opGraveyard,
+        state.opBanishedZone,
       ];
 
   states.forEach((item) => clearPlaceInteractivities(item));
@@ -106,18 +106,18 @@ export const updateFieldDataImpl: DuelReducer<MsgUpdateData> = (
         break;
       }
       case ygopro.CardZone.GRAVE: {
-        const cemetery = judgeSelf(player, state)
-          ? state.meCemetery
-          : state.opCemetery;
-        updateCardData(cemetery, actions);
+        const graveyard = judgeSelf(player, state)
+          ? state.meGraveyard
+          : state.opGraveyard;
+        updateCardData(graveyard, actions);
 
         break;
       }
       case ygopro.CardZone.REMOVED: {
-        const exclusion = judgeSelf(player, state)
-          ? state.meExclusion
-          : state.opExclusion;
-        updateCardData(exclusion, actions);
+        const BanishedZone = judgeSelf(player, state)
+          ? state.meBanishedZone
+          : state.opBanishedZone;
+        updateCardData(BanishedZone, actions);
 
         break;
       }
@@ -140,10 +140,10 @@ export const reloadFieldImpl: DuelReducer<MsgReloadField> = (state, action) => {
   state.opMonsters = { inner: [] };
   state.meMagics = { inner: [] };
   state.opMagics = { inner: [] };
-  state.meCemetery = { inner: [] };
-  state.opCemetery = { inner: [] };
-  state.meExclusion = { inner: [] };
-  state.opExclusion = { inner: [] };
+  state.meGraveyard = { inner: [] };
+  state.opGraveyard = { inner: [] };
+  state.meBanishedZone = { inner: [] };
+  state.opBanishedZone = { inner: [] };
   state.meHands = { inner: [] };
   state.opHands = { inner: [] };
 
@@ -183,20 +183,20 @@ export const reloadFieldImpl: DuelReducer<MsgReloadField> = (state, action) => {
       player
     );
     // GRAVE
-    const cemetery = judgeSelf(player, state)
-      ? state.meCemetery
-      : state.opCemetery;
+    const graveyard = judgeSelf(player, state)
+      ? state.meGraveyard
+      : state.opGraveyard;
     reloadFieldMeta(
-      cemetery,
+      graveyard,
       reload.zone_actions.filter((item) => item.zone == ygopro.CardZone.GRAVE),
       player
     );
     // REMOVED
-    const exclusion = judgeSelf(player, state)
-      ? state.meExclusion
-      : state.opExclusion;
+    const banishedZone = judgeSelf(player, state)
+      ? state.meBanishedZone
+      : state.opBanishedZone;
     reloadFieldMeta(
-      exclusion,
+      banishedZone,
       reload.zone_actions.filter(
         (item) => item.zone == ygopro.CardZone.REMOVED
       ),

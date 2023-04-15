@@ -1,9 +1,9 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import {
   infoInit,
-  initCemetery,
+  initBanishedZone,
   initDeck,
-  initExclusion,
+  initGraveyard,
   initHint,
   initMagics,
   initMonsters,
@@ -40,11 +40,11 @@ export default (
   dispatch(initMonsters(1));
   dispatch(initMagics(0));
   dispatch(initMagics(1));
-  dispatch(initCemetery(0));
-  dispatch(initCemetery(1));
+  dispatch(initGraveyard(0));
+  dispatch(initGraveyard(1));
   dispatch(initDeck({ player: 0, deskSize: start.deckSize1 }));
   dispatch(initDeck({ player: 1, deskSize: start.deckSize2 }));
-  dispatch(initExclusion(0));
-  dispatch(initExclusion(1));
+  dispatch(initBanishedZone(0));
+  dispatch(initBanishedZone(1));
   dispatch(initHint());
 };
