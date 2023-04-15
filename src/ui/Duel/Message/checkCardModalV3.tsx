@@ -11,10 +11,10 @@ import {
 } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
 import { selectCheckCardModalV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
-const CheckCardModalV3 = () => {
+export const CheckCardModalV3 = () => {
   const dispatch = store.dispatch;
   const state = useAppSelector(selectCheckCardModalV3);
   const isOpen = state.isOpen;
@@ -119,5 +119,3 @@ const CheckCardModalV3 = () => {
     </DragModal>
   );
 };
-
-export default CheckCardModalV3;

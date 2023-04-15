@@ -21,10 +21,10 @@ import {
 } from "@/api/ocgcore/ocgHelper";
 import { ThunderboltOutlined } from "@ant-design/icons";
 import NeosConfig from "../../../../neos.config.json";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
-const CheckCardModal = () => {
+export const CheckCardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalIsOpen);
   const { min, max } = useAppSelector(selectCheckCardModalMinMax);
@@ -165,5 +165,3 @@ const HoverCheckCard = (props: CheckCardProps & { hoverContent?: string }) => {
     </>
   );
 };
-
-export default CheckCardModal;

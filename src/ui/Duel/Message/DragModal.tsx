@@ -6,7 +6,7 @@ import { Modal, ModalProps } from "antd";
 
 export interface DragModalProps extends ModalProps {}
 
-const DragModal = (props: DragModalProps) => {
+export const DragModal = (props: DragModalProps) => {
   const dragRef = useRef<HTMLDivElement>(null);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -41,5 +41,3 @@ const DragModal = (props: DragModalProps) => {
     </Modal>
   );
 };
-
-export default DragModal;

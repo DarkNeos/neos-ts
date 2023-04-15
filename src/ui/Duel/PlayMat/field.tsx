@@ -2,12 +2,12 @@ import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "@/hook";
 import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
-import FixedSlot from "./FixedSlot";
+import { FixedSlot } from "./FixedSlot";
 import { Depth } from "./SingleSlot";
 import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 
-const Field = () => {
+export const Field = () => {
   const meField = useAppSelector(selectMeMagics).inner.find(
     (_, sequence) => sequence == 5
   );
@@ -50,5 +50,3 @@ const fieldPosition = (player: number) => {
 
   return new BABYLON.Vector3(x, y, z);
 };
-
-export default Field;

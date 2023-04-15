@@ -9,7 +9,7 @@ import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 import NeosConfig from "../../../../neos.config.json";
 
-const HintNotification = () => {
+export const HintNotification = () => {
   const hint = useAppSelector(selectHint);
   const currentPhase = useAppSelector(selectCurrentPhase);
   const waiting = useAppSelector(selectWaiting);
@@ -67,5 +67,3 @@ const HintNotification = () => {
 
   return <>{contextHolder}</>;
 };
-
-export default HintNotification;

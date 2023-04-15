@@ -46,7 +46,7 @@ const PhaseButton = (props: {
   );
 };
 
-const Phase = () => {
+export const Phase = () => {
   const dispatch = store.dispatch;
   const enableBp = useAppSelector(selectEnableBp);
   const enableM2 = useAppSelector(selectEnableM2);
@@ -141,5 +141,3 @@ const Phase = () => {
     </Space>
   );
 };
-
-export default Phase;

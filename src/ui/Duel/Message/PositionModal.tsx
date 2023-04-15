@@ -13,9 +13,9 @@ import {
   setPositionModalIsOpen,
 } from "@/reducers/duel/mod";
 import { CheckCard } from "@ant-design/pro-components";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 
-const PositionModal = () => {
+export const PositionModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectPositionModalIsOpen);
   const positions = useAppSelector(selectPositionModalPositions);
@@ -82,5 +82,3 @@ function cardPositionToChinese(position: ygopro.CardPosition): string {
     }
   }
 }
-
-export default PositionModal;

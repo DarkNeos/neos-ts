@@ -9,9 +9,9 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { sendSelectOptionResponse } from "@/api/ocgcore/ocgHelper";
 import { resetOptionModal, setOptionModalIsOpen } from "@/reducers/duel/mod";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 
-const OptionModal = () => {
+export const OptionModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectOptionModalIsOpen);
   const options = useAppSelector(selectOptionModalOptions);
@@ -52,5 +52,3 @@ const OptionModal = () => {
     </DragModal>
   );
 };
-
-export default OptionModal;

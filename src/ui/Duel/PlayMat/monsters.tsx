@@ -7,7 +7,7 @@ import {
   selectOpMonsters,
 } from "@/reducers/duel/monstersSlice";
 import { zip, cardSlotRotation, cardSlotDefenceRotation } from "../utils";
-import FixedSlot from "./FixedSlot";
+import { FixedSlot } from "./FixedSlot";
 import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
 
@@ -16,7 +16,7 @@ const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
-const Monsters = () => {
+export const Monsters = () => {
   const meMonsters = useAppSelector(selectMeMonsters).inner;
   const meMonsterPositions = monsterPositions(0, meMonsters);
   const opMonsters = useAppSelector(selectOpMonsters).inner;
@@ -133,5 +133,3 @@ const monsterPositions = (player: number, monsters: CardState[]) => {
 
   return monsters.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
 };
-
-export default Monsters;

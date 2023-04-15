@@ -19,10 +19,10 @@ import {
   setCheckCardModalV2ResponseAble,
 } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
-const CheckCardModalV2 = () => {
+export const CheckCardModalV2 = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCheckCardModalV2IsOpen);
   const { min, max } = useAppSelector(selectCheckCardModalV2MinMax);
@@ -123,5 +123,3 @@ const CheckCardModalV2 = () => {
     </DragModal>
   );
 };
-
-export default CheckCardModalV2;

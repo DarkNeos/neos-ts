@@ -13,7 +13,7 @@ import NeosConfig from "../../../../neos.config.json";
 const transform = NeosConfig.ui.card.transform;
 export const Depth = 0.005;
 
-const SingleSlot = (props: {
+export const SingleSlot = (props: {
   state: CardState[];
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
@@ -83,5 +83,3 @@ const SingleSlot = (props: {
     </box>
   );
 };
-
-export default SingleSlot;

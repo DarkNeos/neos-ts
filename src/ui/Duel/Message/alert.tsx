@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { sendSurrender } from "@/api/ocgcore/ocgHelper";
 import { useAppSelector } from "@/hook";
 import { selectUnimplemented } from "@/reducers/duel/mod";
-import { Alert } from "antd";
+import { Alert as AntdAlert } from "antd";
 
-const NeosAlert = () => {
+export const Alert = () => {
   const unimplemented = useAppSelector(selectUnimplemented);
   const navigate = useNavigate();
 
   return (
     <>
       {unimplemented ? (
-        <Alert
+        <AntdAlert
           message={`Unimplemented message with code=${unimplemented}`}
           description="It seems that there's something unimplemented by Neos. Sincerely apologize for that. Contact use to fix this issue: <ccc@neos.moe>"
           showIcon
@@ -31,5 +31,3 @@ const NeosAlert = () => {
     </>
   );
 };
-
-export default NeosAlert;

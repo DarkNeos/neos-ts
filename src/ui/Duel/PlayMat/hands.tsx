@@ -21,7 +21,7 @@ const rotation = NeosConfig.ui.card.handRotation;
 const handRotation = new BABYLON.Vector3(rotation.x, rotation.y, rotation.z);
 const hoverScaling = NeosConfig.ui.card.handHoverScaling;
 
-const Hands = () => {
+export const Hands = () => {
   const meHands = useAppSelector(selectMeHands).inner;
   const meHandPositions = handPositons(0, meHands);
   const opHands = useAppSelector(selectOpHands).inner;
@@ -168,5 +168,3 @@ const handPositons = (player: number, hands: CardState[]) => {
 
   return hands.map((_, idx) => new BABYLON.Vector3(x(idx), y, z));
 };
-
-export default Hands;

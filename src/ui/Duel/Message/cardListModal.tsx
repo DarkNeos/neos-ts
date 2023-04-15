@@ -15,7 +15,7 @@ import NeosConfig from "../../../../neos.config.json";
 
 const CARD_WIDTH = 100;
 
-const CardListModal = () => {
+export const CardListModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCardListModalIsOpen);
   const list = useAppSelector(selectCardListModalInfo);
@@ -62,5 +62,3 @@ const CardListModal = () => {
     </Drawer>
   );
 };
-
-export default CardListModal;

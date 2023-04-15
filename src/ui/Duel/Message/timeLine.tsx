@@ -4,7 +4,7 @@ import { MessageOutlined } from "@ant-design/icons";
 import { useAppSelector } from "@/hook";
 import { selectChat } from "@/reducers/chatSlice";
 
-const DuelTimeLine = () => {
+export const DuelTimeLine = () => {
   const [items, setItems] = useState<TimelineItemProps[]>([]);
   const chat = useAppSelector(selectChat);
 
@@ -22,5 +22,3 @@ const DuelTimeLine = () => {
 
   return <Timeline items={items} />;
 };
-
-export default DuelTimeLine;

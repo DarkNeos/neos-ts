@@ -3,7 +3,7 @@ import { Input, Button, Row, Col } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { sendChat } from "@/api/ocgcore/ocgHelper";
 
-const SendBox = () => {
+export const SendBox = () => {
   const [content, setContent] = useState("");
   return (
     <>
@@ -32,5 +32,3 @@ const SendBox = () => {
     </>
   );
 };
-
-export default SendBox;

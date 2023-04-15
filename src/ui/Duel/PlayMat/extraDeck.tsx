@@ -1,4 +1,4 @@
-import SingleSlot, { Depth } from "./SingleSlot";
+import { SingleSlot, Depth } from "./SingleSlot";
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "@/hook";
 import {
@@ -8,7 +8,7 @@ import {
 import NeosConfig from "../../../../neos.config.json";
 import { cardSlotRotation } from "../utils";
 
-const ExtraDeck = () => {
+export const ExtraDeck = () => {
   const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;
   const opExtraDeck = useAppSelector(selectOpExtraDeck).inner;
 
@@ -35,5 +35,3 @@ const extraDeckPosition = (player: number, deckLength: number) => {
 
   return new BABYLON.Vector3(x, y, z);
 };
-
-export default ExtraDeck;

@@ -3,7 +3,7 @@ import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { CardState } from "@/reducers/duel/generic";
 import { useAppSelector } from "@/hook";
 import { zip, cardSlotRotation } from "../utils";
-import FixedSlot from "./FixedSlot";
+import { FixedSlot } from "./FixedSlot";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import NeosConfig from "../../../../neos.config.json";
 
@@ -12,7 +12,7 @@ const left = -2.15;
 const gap = 1.05;
 const transform = NeosConfig.ui.card.transform;
 
-const Magics = () => {
+export const Magics = () => {
   const meMagics = useAppSelector(selectMeMagics).inner;
   const meMagicPositions = magicPositions(0, meMagics);
   const opMagics = useAppSelector(selectOpMagics).inner;
@@ -60,5 +60,3 @@ const magicPositions = (player: number, magics: CardState[]) => {
 
   return magics.map((_, sequence) => new BABYLON.Vector3(x(sequence), y, z));
 };
-
-export default Magics;

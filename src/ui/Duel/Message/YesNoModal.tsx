@@ -8,10 +8,10 @@ import {
   selectYesNOModalMsg,
 } from "@/reducers/duel/modal/mod";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 import { selectHint } from "@/reducers/duel/hintSlice";
 
-const YesNoModal = () => {
+export const YesNoModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectYesNoModalIsOpen);
   const msg = useAppSelector(selectYesNOModalMsg);
@@ -46,5 +46,3 @@ const YesNoModal = () => {
     />
   );
 };
-
-export default YesNoModal;

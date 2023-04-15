@@ -15,7 +15,7 @@ const avatarSize = 40;
 const ME_VALUE = "myself";
 const OP_VALUE = "opponent";
 
-const PlayerStatus = () => {
+export const PlayerStatus = () => {
   const meInfo = useAppSelector(selectMeInitInfo);
   const opInfo = useAppSelector(selectOpInitInfo);
   const waiting = useAppSelector(selectWaiting) || false;
@@ -61,5 +61,3 @@ const PlayerStatus = () => {
     </CheckCard.Group>
   );
 };
-
-export default PlayerStatus;

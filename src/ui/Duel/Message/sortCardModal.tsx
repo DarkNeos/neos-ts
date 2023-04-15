@@ -25,7 +25,7 @@ import { Modal, Button, Card } from "antd";
 import { CardMeta } from "@/api/cards";
 import NeosConfig from "../../../../neos.config.json";
 
-const SortCardModal = () => {
+export const SortCardModal = () => {
   const dispatch = store.dispatch;
   const state = useAppSelector(selectSortCardModal);
   const isOpen = state.isOpen;
@@ -111,5 +111,3 @@ const SortableItem = (props: { id: number; meta: CardMeta }) => {
     </div>
   );
 };
-
-export default SortCardModal;

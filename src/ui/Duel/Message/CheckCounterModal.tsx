@@ -6,10 +6,10 @@ import { useAppSelector } from "@/hook";
 import { clearCheckCounter } from "@/reducers/duel/mod";
 import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
 import { store } from "@/store";
-import DragModal from "./DragModal";
+import { DragModal } from "./DragModal";
 import NeosConfig from "../../../../neos.config.json";
 
-const CheckCounterModal = () => {
+export const CheckCounterModal = () => {
   const dispatch = store.dispatch;
   const state = useAppSelector(selectCheckCounterModal);
   const isOpen = state.isOpen;
@@ -69,5 +69,3 @@ const CheckCounterModal = () => {
     </DragModal>
   );
 };
-
-export default CheckCounterModal;

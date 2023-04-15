@@ -4,11 +4,11 @@ import {
   selectOpCemetery,
 } from "@/reducers/duel/cemeretySlice";
 import { useAppSelector } from "@/hook";
-import SingleSlot, { Depth } from "./SingleSlot";
+import { SingleSlot, Depth } from "./SingleSlot";
 import { cardSlotRotation } from "../utils";
 import NeosConfig from "../../../../neos.config.json";
 
-const Graveyard = () => {
+export const Graveyard = () => {
   const meCemetery = useAppSelector(selectMeCemetery).inner;
   const opCemetery = useAppSelector(selectOpCemetery).inner;
 
@@ -35,5 +35,3 @@ const cemeteryPosition = (player: number, cemeteryLength: number) => {
 
   return new BABYLON.Vector3(x, y, z);
 };
-
-export default Graveyard;

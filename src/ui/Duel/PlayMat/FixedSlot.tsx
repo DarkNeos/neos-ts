@@ -25,7 +25,7 @@ const cardDefenceRotation = new BABYLON.Vector3(
   defenceRotation.z
 );
 
-const FixedSlot = (props: {
+export const FixedSlot = (props: {
   state: CardState;
   sequence: number;
   position: BABYLON.Vector3;
@@ -128,5 +128,3 @@ const FixedSlot = (props: {
     </plane>
   );
 };
-
-export default FixedSlot;

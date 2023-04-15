@@ -1,11 +1,11 @@
 import * as BABYLON from "@babylonjs/core";
 import { useAppSelector } from "@/hook";
 import { selectMeDeck, selectOpDeck } from "@/reducers/duel/deckSlice";
-import SingleSlot, { Depth } from "./SingleSlot";
+import { SingleSlot, Depth } from "./SingleSlot";
 import { cardSlotRotation } from "../utils";
 import NeosConfig from "../../../../neos.config.json";
 
-const CommonDeck = () => {
+export const CommonDeck = () => {
   const meDeck = useAppSelector(selectMeDeck).inner;
   const opDeck = useAppSelector(selectOpDeck).inner;
 
@@ -32,5 +32,3 @@ const deckPosition = (player: number, deckLength: number) => {
 
   return new BABYLON.Vector3(x, y, z);
 };
-
-export default CommonDeck;

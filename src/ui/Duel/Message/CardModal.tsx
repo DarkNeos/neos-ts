@@ -28,7 +28,7 @@ import { fetchStrings } from "@/api/strings";
 const { Meta } = Card;
 const CARD_WIDTH = 240;
 
-const CardModal = () => {
+export const CardModal = () => {
   const dispatch = store.dispatch;
   const isOpen = useAppSelector(selectCardModalIsOpen);
   const meta = useAppSelector(selectCardModalMeta);
@@ -160,5 +160,3 @@ const CounterLine = (props: { counters: { [type: number]: number } }) => {
     <></>
   );
 };
-
-export default CardModal;
