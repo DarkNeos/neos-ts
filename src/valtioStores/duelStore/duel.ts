@@ -1,6 +1,8 @@
 import { proxy } from "valtio";
-import type { DuelState } from "./types";
+
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+
+import type { DuelState } from "./types";
 
 export const playMat = proxy<DuelState>({
   opMagics: {
