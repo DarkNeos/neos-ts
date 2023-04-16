@@ -24,7 +24,7 @@ devtools(valtioStore, { name: "valtio store", enabled: true });
 /**
  * 在组件之中使用valtio store
  */
-export const ValtioContext = createContext<typeof valtioStore>({} as any);
+export const valtioContext = createContext<typeof valtioStore>({} as any);
 
 /**
  * 包裹根节点，使得所有子组件都可以使用valtio store
@@ -34,6 +34,6 @@ export const ValtioProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const state = useRef(valtioStore).current;
   return (
-    <ValtioContext.Provider value={state}>{children}</ValtioContext.Provider>
+    <valtioContext.Provider value={state}>{children}</valtioContext.Provider>
   );
 };

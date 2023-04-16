@@ -1,7 +1,7 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { postChat } from "@/reducers/chatSlice";
 import { store } from "@/store";
-import { chatStore } from "@/stores";
+import { chatStore } from "@/valtioStores";
 
 export default function handleChat(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;

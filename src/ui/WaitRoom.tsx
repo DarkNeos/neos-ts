@@ -19,7 +19,7 @@ import {
   Space,
   Upload,
 } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
 import YGOProDeck from "ygopro-deck-encode";
@@ -45,6 +45,8 @@ import {
   selectPlayer1,
 } from "@/reducers/playerSlice";
 import { store } from "@/store";
+import { valtioContext } from "@/valtioStores";
+import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 
@@ -56,6 +58,8 @@ const {
 } = useConfig();
 
 const WaitRoom = () => {
+  const state = useContext(valtioContext);
+  const snap = useSnapshot(state);
   const params = useParams<{
     player?: string;
     passWd?: string;
@@ -107,6 +111,13 @@ const WaitRoom = () => {
   const player1 = useAppSelector(selectPlayer1);
   const duelStart = useAppSelector(selectDuelStart);
   const [api, contextHolder] = notification.useNotification();
+
+  // const joined = snap.joinStore.value;
+  // const chat = snap.chatStore.message;
+  // const isHost = snap.playerStore.isHost;
+  // const player0 = snap.playerStore.player0;
+  // const player1 = snap.playerStore.player1;
+  // const duelStart = snap.moraStore.duelStart;
 
   // FIXME: 这些数据应该从`store`中获取
   // TODO: 云卡组

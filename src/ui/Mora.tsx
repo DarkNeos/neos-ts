@@ -18,7 +18,8 @@ import {
   unSelectTpAble,
 } from "@/reducers/moraSlice";
 import { store } from "@/store";
-import { ValtioContext } from "@/stores";
+import { valtioContext } from "@/valtioStores";
+import { useSnapshot } from "valtio";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -26,12 +27,18 @@ const {
 } = useConfig();
 
 const Mora = () => {
-  const stateMora = useContext(ValtioContext).moraStore;
+  const stateMora = useContext(valtioContext).moraStore;
+  const snapMora = useSnapshot(stateMora);
 
   const dispatch = store.dispatch;
   const selectHandAble = useAppSelector(selectHandSelectAble);
   const selectTpAble = useAppSelector(selectTpSelectAble);
   const duelHsStart = useAppSelector(selectDuelHsStart);
+
+  // const selectHandAble = snapMora.selectHandAble;
+  // const selectTpAble = snapMora.selectTpAble;
+  // const duelHsStart = snapMora.duelStart;
+
   const navigate = useNavigate();
   const { player, passWd, ip } = useParams<{
     player?: string;

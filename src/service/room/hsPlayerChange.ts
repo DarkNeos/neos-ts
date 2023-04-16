@@ -6,6 +6,7 @@ import {
   player1Leave,
   player1Update,
 } from "@/reducers/playerSlice";
+import { playerStore } from "@/valtioStores";
 import { store } from "@/store";
 
 const READY_STATE = "ready";
@@ -48,25 +49,30 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
         change.pos == 0
           ? dispatch(player0Update(READY_STATE))
           : dispatch(player1Update(READY_STATE));
-
+        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+          READY_STATE;
         break;
       }
       case ygopro.StocHsPlayerChange.State.NO_READY: {
         change.pos == 0
           ? dispatch(player0Update(NO_READY_STATE))
           : dispatch(player1Update(NO_READY_STATE));
+        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+          NO_READY_STATE;
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.LEAVE: {
         change.pos == 0 ? dispatch(player0Leave) : dispatch(player1Leave);
+        playerStore[change.pos == 0 ? "player0" : "player1"] = {};
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
         change.pos == 0 ? dispatch(player0Leave) : dispatch(player1Leave);
         dispatch(observerIncrement());
-
+        playerStore[change.pos == 0 ? "player0" : "player1"] = {}; // todo: 有没有必要？
+        playerStore.observerCount += 1;
         break;
       }
       default: {
