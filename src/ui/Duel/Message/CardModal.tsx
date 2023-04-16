@@ -1,5 +1,7 @@
 import Icon, { StarOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Modal, Row } from "antd";
+import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
+import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
 import React from "react";
 
 import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
@@ -18,8 +20,6 @@ import {
 } from "@/reducers/duel/modal/mod";
 import { store } from "@/store";
 
-import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
-import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
 import {
   Attribute2StringCodeMap,
   extraCardTypes,

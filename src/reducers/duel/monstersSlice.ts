@@ -42,7 +42,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 0,
         },
         idleInteractivities: [],
         counters: {},
@@ -51,7 +50,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 1,
         },
         idleInteractivities: [],
         counters: {},
@@ -60,7 +58,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 2,
         },
         idleInteractivities: [],
         counters: {},
@@ -69,7 +66,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 3,
         },
         idleInteractivities: [],
         counters: {},
@@ -78,7 +74,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 4,
         },
         idleInteractivities: [],
         counters: {},
@@ -87,7 +82,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 5,
         },
         idleInteractivities: [],
         counters: {},
@@ -96,7 +90,6 @@ export const initMonstersImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.MZONE,
-          sequence: 6,
         },
         idleInteractivities: [],
         counters: {},
