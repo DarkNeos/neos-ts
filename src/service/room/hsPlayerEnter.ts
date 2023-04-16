@@ -1,6 +1,7 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { player0Enter, player1Enter } from "@/reducers/playerSlice";
 import { store } from "@/store";
+import { playerStore } from "@/valtioStores";
 
 export default function handleHsPlayerEnter(pb: ygopro.YgoStocMsg) {
   const dispatch = store.dispatch;
@@ -12,5 +13,6 @@ export default function handleHsPlayerEnter(pb: ygopro.YgoStocMsg) {
     console.log("Currently only supported 2v2 mode.");
   } else {
     pos == 0 ? dispatch(player0Enter(name)) : dispatch(player1Enter(name));
+    playerStore[pos == 0 ? "player0" : "player1"].name = name;
   }
 }

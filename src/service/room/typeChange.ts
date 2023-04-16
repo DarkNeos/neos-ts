@@ -6,6 +6,7 @@ import {
   updateIsHost,
 } from "@/reducers/playerSlice";
 import { store } from "@/store";
+import { playerStore } from "@/valtioStores";
 
 const NO_READY_STATE = "not ready";
 
@@ -22,11 +23,19 @@ export default function handleTypeChange(pb: ygopro.YgoStocMsg) {
         dispatch(hostChange(0));
         dispatch(player0Update(NO_READY_STATE));
 
+        playerStore.player0.isHost = true;
+        playerStore.player1.isHost = false;
+        playerStore.player0.state = NO_READY_STATE;
+
         break;
       }
       case ygopro.StocTypeChange.SelfType.PLAYER2: {
         dispatch(hostChange(0));
         dispatch(player1Update(NO_READY_STATE));
+
+        playerStore.player0.isHost = false;
+        playerStore.player1.isHost = true;
+        playerStore.player1.state = NO_READY_STATE;
 
         break;
       }

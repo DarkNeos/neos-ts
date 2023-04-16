@@ -16,13 +16,6 @@ import {
   removeBanishedZoneImpl,
 } from "./banishedZoneSlice";
 import {
-  addGraveyardIdleInteractivitiesImpl,
-  graveyardCase,
-  GraveyardState,
-  initGraveyardImpl,
-  removeGraveyardImpl,
-} from "./cemeretySlice";
-import {
   clearAllIdleInteractivitiesImpl,
   clearAllPlaceInteractivitiesImpl,
   reloadFieldImpl,
@@ -35,6 +28,13 @@ import {
   ExtraDeckState,
   removeExtraDeckImpl,
 } from "./extraDeckSlice";
+import {
+  addGraveyardIdleInteractivitiesImpl,
+  graveyardCase,
+  GraveyardState,
+  initGraveyardImpl,
+  removeGraveyardImpl,
+} from "./graveyardSlice";
 import {
   addHandsIdleInteractivityImpl,
   clearHandsIdleInteractivityImpl,
