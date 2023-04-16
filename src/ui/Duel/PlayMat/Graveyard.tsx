@@ -5,7 +5,7 @@ import { useAppSelector } from "@/hook";
 import {
   selectMeGraveyard,
   selectOpGraveyard,
-} from "@/reducers/duel/cemeretySlice";
+} from "@/reducers/duel/graveyardSlice";
 
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";

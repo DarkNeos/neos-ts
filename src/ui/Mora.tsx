@@ -6,6 +6,7 @@ import {
 import { Button, Modal } from "antd";
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSnapshot } from "valtio";
 
 import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
 import { useConfig } from "@/config";
@@ -19,7 +20,6 @@ import {
 } from "@/reducers/moraSlice";
 import { store } from "@/store";
 import { valtioContext } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const {
   automation: { isAiMode, isAiFirst },

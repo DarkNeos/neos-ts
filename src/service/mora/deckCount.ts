@@ -1,7 +1,6 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { player0DeckInfo, player1DeckInfo } from "@/reducers/playerSlice";
 import { store } from "@/store";
-
 import { playerStore } from "@/valtioStores";
 
 // FIXME: player0 不一定是当前玩家

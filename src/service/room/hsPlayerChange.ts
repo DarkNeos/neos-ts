@@ -6,8 +6,8 @@ import {
   player1Leave,
   player1Update,
 } from "@/reducers/playerSlice";
-import { playerStore } from "@/valtioStores";
 import { store } from "@/store";
+import { playerStore } from "@/valtioStores";
 
 const READY_STATE = "ready";
 const NO_READY_STATE = "not ready";

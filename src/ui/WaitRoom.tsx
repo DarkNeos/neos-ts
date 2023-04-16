@@ -19,9 +19,10 @@ import {
   Space,
   Upload,
 } from "antd";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
+import { useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
 import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
@@ -46,7 +47,6 @@ import {
 } from "@/reducers/playerSlice";
 import { store } from "@/store";
 import { valtioContext } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 

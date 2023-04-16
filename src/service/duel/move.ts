@@ -1,8 +1,8 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { fetchBanishedZoneMeta } from "@/reducers/duel/banishedZoneSlice";
-import { fetchGraveyardMeta } from "@/reducers/duel/cemeretySlice";
 import { fetchExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
+import { fetchGraveyardMeta } from "@/reducers/duel/graveyardSlice";
 import { insertHandMeta } from "@/reducers/duel/handsSlice";
 import { fetchMagicMeta } from "@/reducers/duel/magicSlice";
 import {

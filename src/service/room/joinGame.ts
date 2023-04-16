@@ -1,7 +1,6 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { setJoined } from "@/reducers/joinSlice";
 import { store } from "@/store";
-
 import { joinStore } from "@/valtioStores";
 
 export default function handleJoinGame(pb: ygopro.YgoStocMsg) {
