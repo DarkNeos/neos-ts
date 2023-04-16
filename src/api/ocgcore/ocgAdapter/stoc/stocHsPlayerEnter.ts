@@ -1,6 +1,6 @@
 import { ygopro } from "../../idl/ocgcore";
-import { YgoProPacket, StocAdapter } from "../packet";
-import { UTF16_BUFFER_MAX_LEN, _cutoff_name } from "../util";
+import { StocAdapter, YgoProPacket } from "../packet";
+import { _cutoff_name, UTF16_BUFFER_MAX_LEN } from "../util";
 
 const UINT8_PER_UINT16 = 2;
 

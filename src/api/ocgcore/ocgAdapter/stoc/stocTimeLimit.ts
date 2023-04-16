@@ -1,6 +1,7 @@
-import { ygopro } from "../../idl/ocgcore";
-import { YgoProPacket, StocAdapter } from "../packet";
 import { BufferReader } from "rust-src";
+
+import { ygopro } from "../../idl/ocgcore";
+import { StocAdapter, YgoProPacket } from "../packet";
 
 /*
  * STOC TimeLimit

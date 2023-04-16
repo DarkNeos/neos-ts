@@ -3,121 +3,123 @@
  *
  * */
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitInfo, infoInitImpl, updateHpImpl } from "./initInfoSlice";
-import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
+
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
 import {
-  HandState,
-  handsCase,
-  clearHandsIdleInteractivityImpl,
+  addBanishedZoneIdleInteractivitiesImpl,
+  banishedZoneCase,
+  BanishedZoneState,
+  initBanishedZoneImpl,
+  removeBanishedZoneImpl,
+} from "./banishedZoneSlice";
+import {
+  addGraveyardIdleInteractivitiesImpl,
+  graveyardCase,
+  GraveyardState,
+  initGraveyardImpl,
+  removeGraveyardImpl,
+} from "./cemeretySlice";
+import {
+  clearAllIdleInteractivitiesImpl,
+  clearAllPlaceInteractivitiesImpl,
+  reloadFieldImpl,
+  updateFieldDataImpl,
+} from "./commonSlice";
+import { DeckState, initDeckImpl } from "./deckSlice";
+import {
+  addExtraDeckIdleInteractivitiesImpl,
+  extraDeckCase,
+  ExtraDeckState,
+  removeExtraDeckImpl,
+} from "./extraDeckSlice";
+import {
   addHandsIdleInteractivityImpl,
+  clearHandsIdleInteractivityImpl,
+  handsCase,
+  HandState,
   removeHandImpl,
 } from "./handsSlice";
-import { newTurnImpl } from "./turnSlice";
+import { hintCase, HintState, initHintImpl } from "./hintSlice";
+import { infoInitImpl, InitInfo, updateHpImpl } from "./initInfoSlice";
+import {
+  addMagicIdleInteractivitiesImpl,
+  addMagicPlaceInteractivitiesImpl,
+  clearMagicIdleInteractivitiesImpl,
+  clearMagicPlaceInteractivitiesImpl,
+  initMagicsImpl,
+  magicCase,
+  MagicState,
+  removeMagicImpl,
+  setMagicPositionImpl,
+} from "./magicSlice";
+import {
+  checkCardModalCase,
+  checkCardModalV2Case,
+  checkCardModalV3Case,
+  clearCheckCounterImpl,
+  ModalState,
+  optionModalCase,
+  resetCheckCardModalImpl,
+  resetCheckCardModalV2Impl,
+  resetCheckCardModalV3Impl,
+  resetOptionModalImpl,
+  resetPositionModalImpl,
+  resetSortCardModalImpl,
+  setCardListModalInfoImpl,
+  setCardListModalIsOpenImpl,
+  setCardModalCountersImpl,
+  setCardModalInteractiviesImpl,
+  setCardModalIsOpenImpl,
+  setCardModalMetaImpl,
+  setCheckCardMOdalCancelAbleImpl,
+  setCheckCardModalCancelResponseImpl,
+  setCheckCardModalIsOpenImpl,
+  setCheckCardModalMinMaxImpl,
+  setCheckCardModalOnSubmitImpl,
+  setCheckCardModalV2CancelAbleImpl,
+  setCheckCardModalV2FinishAbleImpl,
+  setCheckCardModalV2IsOpenImpl,
+  setCheckCardModalV2MinMaxImpl,
+  setCheckCardModalV2ResponseAbleImpl,
+  setCheckCardModalV3AllLevelImpl,
+  setCheckCardModalV3IsOpenImpl,
+  setCheckCardModalV3MinMaxImpl,
+  setCheckCardModalV3OverFlowImpl,
+  setCheckCardModalV3ResponseAbleImpl,
+  setCheckCounterImpl,
+  setOptionModalIsOpenImpl,
+  setPositionModalIsOpenImpl,
+  setPositionModalPositionsImpl,
+  setSortCardModalIsOpenImpl,
+  setYesNoModalIsOpenImpl,
+  sortCardModalCase,
+  YesNoModalCase,
+} from "./modal/mod";
+import {
+  addMonsterIdleInteractivitiesImpl,
+  addMonsterPlaceInteractivitiesImpl,
+  clearMonsterIdleInteractivitiesImpl,
+  clearMonsterPlaceInteractivitiesImpl,
+  initMonstersImpl,
+  monsterCase,
+  MonsterState,
+  removeMonsterImpl,
+  removeOverlayImpl,
+  setMonsterPositionImpl,
+  updateMonsterCountersImpl,
+} from "./monstersSlice";
 import {
   newPhaseImpl,
   PhaseState,
   setEnableBpImpl,
-  setEnableM2Impl,
   setEnableEpImpl,
+  setEnableM2Impl,
 } from "./phaseSlice";
-import { RootState } from "@/store";
-import { HintState, hintCase, initHintImpl } from "./hintSlice";
-import {
-  ModalState,
-  setCardModalIsOpenImpl,
-  setCardModalMetaImpl,
-  setCardModalInteractiviesImpl,
-  setCardListModalIsOpenImpl,
-  setCardListModalInfoImpl,
-  setCheckCardModalIsOpenImpl,
-  setCheckCardModalMinMaxImpl,
-  setCheckCardModalOnSubmitImpl,
-  setCheckCardMOdalCancelAbleImpl,
-  setCheckCardModalCancelResponseImpl,
-  resetCheckCardModalImpl,
-  setYesNoModalIsOpenImpl,
-  checkCardModalCase,
-  YesNoModalCase,
-  setPositionModalIsOpenImpl,
-  setPositionModalPositionsImpl,
-  resetPositionModalImpl,
-  setOptionModalIsOpenImpl,
-  resetOptionModalImpl,
-  optionModalCase,
-  setCheckCardModalV2IsOpenImpl,
-  setCheckCardModalV2CancelAbleImpl,
-  setCheckCardModalV2MinMaxImpl,
-  setCheckCardModalV2FinishAbleImpl,
-  resetCheckCardModalV2Impl,
-  setCheckCardModalV2ResponseAbleImpl,
-  checkCardModalV2Case,
-  setCheckCardModalV3IsOpenImpl,
-  setCheckCardModalV3MinMaxImpl,
-  setCheckCardModalV3AllLevelImpl,
-  setCheckCardModalV3OverFlowImpl,
-  setCheckCardModalV3ResponseAbleImpl,
-  resetCheckCardModalV3Impl,
-  checkCardModalV3Case,
-  setCardModalCountersImpl,
-  setCheckCounterImpl,
-  clearCheckCounterImpl,
-  setSortCardModalIsOpenImpl,
-  resetSortCardModalImpl,
-  sortCardModalCase,
-} from "./modal/mod";
-import {
-  MonsterState,
-  initMonstersImpl,
-  addMonsterPlaceInteractivitiesImpl,
-  clearMonsterPlaceInteractivitiesImpl,
-  addMonsterIdleInteractivitiesImpl,
-  clearMonsterIdleInteractivitiesImpl,
-  removeMonsterImpl,
-  setMonsterPositionImpl,
-  removeOverlayImpl,
-  updateMonsterCountersImpl,
-  monsterCase,
-} from "./monstersSlice";
-import {
-  MagicState,
-  initMagicsImpl,
-  addMagicPlaceInteractivitiesImpl,
-  clearMagicPlaceInteractivitiesImpl,
-  addMagicIdleInteractivitiesImpl,
-  clearMagicIdleInteractivitiesImpl,
-  removeMagicImpl,
-  setMagicPositionImpl,
-  magicCase,
-} from "./magicSlice";
-import {
-  CemeteryState,
-  initCemeteryImpl,
-  removeCemeteryImpl,
-  cemeteryCase,
-  addCemeteryIdleInteractivitiesImpl,
-} from "./cemeretySlice";
-import {
-  ExclusionState,
-  initExclusionImpl,
-  removeExclusionImpl,
-  exclusionCase,
-  addExclusionIdleInteractivitiesImpl,
-} from "./exclusionSlice";
-import { DeckState, initDeckImpl } from "./deckSlice";
-import {
-  clearAllIdleInteractivitiesImpl,
-  clearAllPlaceInteractivitiesImpl,
-  updateFieldDataImpl,
-  reloadFieldImpl,
-} from "./commonSlice";
-import {
-  ExtraDeckState,
-  extraDeckCase,
-  removeExtraDeckImpl,
-  addExtraDeckIdleInteractivitiesImpl,
-} from "./extraDeckSlice";
+import { TimeLimit, updateTimeLimitImpl } from "./timeLimit";
+import { newTurnImpl } from "./turnSlice";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 
 export interface DuelState {
@@ -134,11 +136,11 @@ export interface DuelState {
   meMagics?: MagicState; // 自己的魔法陷阱区状态
   opMagics?: MagicState; // 对手的魔法陷阱区状态
 
-  meCemetery?: CemeteryState; // 自己的墓地状态
-  opCemetery?: CemeteryState; // 对手的墓地状态
+  meGraveyard?: GraveyardState; // 自己的墓地状态
+  opGraveyard?: GraveyardState; // 对手的墓地状态
 
-  meExclusion?: ExclusionState; // 自己的除外区状态
-  opExclusion?: ExclusionState; // 对手的除外区状态
+  meBanishedZone?: BanishedZoneState; // 自己的除外区状态
+  opBanishedZone?: BanishedZoneState; // 对手的除外区状态
 
   meDeck?: DeckState; // 自己的卡组状态
   opDeck?: DeckState; // 对手的卡组状态
@@ -237,14 +239,14 @@ const duelSlice = createSlice({
     removeMagic: removeMagicImpl,
 
     // 墓地相关`Reducer`
-    initCemetery: initCemeteryImpl,
-    removeCemetery: removeCemeteryImpl,
-    addCemeteryIdleInteractivities: addCemeteryIdleInteractivitiesImpl,
+    initGraveyard: initGraveyardImpl,
+    removeGraveyard: removeGraveyardImpl,
+    addGraveyardIdleInteractivities: addGraveyardIdleInteractivitiesImpl,
 
     // 除外区相关`Reducer`
-    initExclusion: initExclusionImpl,
-    removeExclusion: removeExclusionImpl,
-    addExclusionIdleInteractivities: addExclusionIdleInteractivitiesImpl,
+    initBanishedZone: initBanishedZoneImpl,
+    removeBanishedZone: removeBanishedZoneImpl,
+    addBanishedZoneIdleInteractivities: addBanishedZoneIdleInteractivitiesImpl,
 
     // 卡组相关`Reducer`
     initDeck: initDeckImpl,
@@ -324,8 +326,8 @@ const duelSlice = createSlice({
     hintCase(builder);
     monsterCase(builder);
     magicCase(builder);
-    cemeteryCase(builder);
-    exclusionCase(builder);
+    graveyardCase(builder);
+    banishedZoneCase(builder);
     extraDeckCase(builder);
     checkCardModalCase(builder);
     YesNoModalCase(builder);
@@ -368,9 +370,9 @@ export const {
   setMagicPosition,
   removeMagic,
   removeHand,
-  initCemetery,
-  removeCemetery,
-  addCemeteryIdleInteractivities,
+  initGraveyard,
+  removeGraveyard,
+  addGraveyardIdleInteractivities,
   setCardListModalIsOpen,
   setCardListModalInfo,
   setCheckCardModalIsOpen,
@@ -388,9 +390,9 @@ export const {
   initDeck,
   removeExtraDeck,
   addExtraDeckIdleInteractivities,
-  initExclusion,
-  removeExclusion,
-  addExclusionIdleInteractivities,
+  initBanishedZone,
+  removeBanishedZone,
+  addBanishedZoneIdleInteractivities,
   setCheckCardModalV2IsOpen,
   setCheckCardModalV2MinMax,
   setCheckCardModalV2CancelAble,

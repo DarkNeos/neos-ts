@@ -1,7 +1,7 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { store } from "@/store";
-import { updateTimeLimit } from "@/reducers/duel/mod";
 import { sendTimeConfirm } from "@/api/ocgcore/ocgHelper";
+import { updateTimeLimit } from "@/reducers/duel/mod";
+import { store } from "@/store";
 
 export default function handleTimeLimit(timeLimit: ygopro.StocTimeLimit) {
   const dispatch = store.dispatch;

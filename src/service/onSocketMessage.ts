@@ -2,20 +2,21 @@
  * 长连接消息事件订阅处理逻辑
  *
  * */
-import handleHsPlayerChange from "./room/hsPlayerChange";
-import handleTypeChange from "./room/typeChange";
-import handleHsPlayerEnter from "./room/hsPlayerEnter";
-import handleJoinGame from "./room/joinGame";
-import handleChat from "./room/chat";
-import handleHsWatchChange from "./room/hsWatchChange";
-import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
-import handleSelectHand from "./mora/selectHand";
-import handleSelectTp from "./mora/selectTp";
-import handleDeckCount from "./mora/deckCount";
+import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
+
 import handleGameMsg from "./duel/gameMsg";
 import handleTimeLimit from "./duel/timeLimit";
+import handleDeckCount from "./mora/deckCount";
+import handleSelectHand from "./mora/selectHand";
+import handleSelectTp from "./mora/selectTp";
+import handleChat from "./room/chat";
 import handleDuelStart from "./room/duelStart";
+import handleHsPlayerChange from "./room/hsPlayerChange";
+import handleHsPlayerEnter from "./room/hsPlayerEnter";
+import handleHsWatchChange from "./room/hsWatchChange";
+import handleJoinGame from "./room/joinGame";
+import handleTypeChange from "./room/typeChange";
 
 /*
  * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，

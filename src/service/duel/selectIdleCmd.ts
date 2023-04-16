@@ -1,17 +1,17 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "@/store";
 import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
+  addBanishedZoneIdleInteractivities,
+  addExtraDeckIdleInteractivities,
+  addGraveyardIdleInteractivities,
   addHandsIdleInteractivity,
-  addMonsterIdleInteractivities,
   addMagicIdleInteractivities,
+  addMonsterIdleInteractivities,
+  clearAllIdleInteractivities,
   setEnableBp,
   setEnableEp,
-  addCemeteryIdleInteractivities,
-  clearAllIdleInteractivities,
-  addExclusionIdleInteractivities,
-  addExtraDeckIdleInteractivities,
 } from "@/reducers/duel/mod";
+import { AppDispatch } from "@/store";
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
@@ -83,12 +83,12 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
           break;
         }
         case ygopro.CardZone.GRAVE: {
-          dispatcher(data, interactType, addCemeteryIdleInteractivities);
+          dispatcher(data, interactType, addGraveyardIdleInteractivities);
 
           break;
         }
         case ygopro.CardZone.REMOVED: {
-          dispatcher(data, interactType, addExclusionIdleInteractivities);
+          dispatcher(data, interactType, addBanishedZoneIdleInteractivities);
 
           break;
         }

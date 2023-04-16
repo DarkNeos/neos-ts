@@ -1,6 +1,6 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { store } from "@/store";
 import { player0DeckInfo, player1DeckInfo } from "@/reducers/playerSlice";
+import { store } from "@/store";
 
 // FIXME: player0 不一定是当前玩家
 export default function handleDeckCount(pb: ygopro.YgoStocMsg) {

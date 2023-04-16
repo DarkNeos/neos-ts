@@ -6,7 +6,8 @@
     "plugin:import/typescript"
   ],
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "simple-import-sort"
   ],
   "rules": {
     "eqeqeq": 0,
@@ -14,7 +15,9 @@
     "@typescript-eslint/consistent-type-definitions": [
       "error",
       "interface"
-    ]
+    ],
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn"
   },
   "settings": {
     "import/resolver": {

@@ -1,11 +1,12 @@
 import React, { Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+
 import LazyLoad, { Loading } from "./LazyLoad";
 
 const Login = React.lazy(() => import("./Login"));
 const WaitRoom = React.lazy(() => import("./WaitRoom"));
 const Mora = React.lazy(() => import("./Mora"));
-const NeosDuel = React.lazy(() => import("./Duel/main"));
+const NeosDuel = React.lazy(() => import("./Duel/Main"));
 
 export default function () {
   return (

@@ -1,49 +1,53 @@
-import { judgeSelf } from "./util";
 import {
-  PayloadAction,
-  CaseReducer,
   ActionReducerMapBuilder,
+  CaseReducer,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { DuelState } from "./mod";
-import { RootState } from "@/store";
+
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
 import {
   createAsyncMetaThunk,
   DuelFieldState,
-  extendState,
-  extendMeta,
-  removeCard,
   DuelReducer,
-  Interactivity,
   extendIdleInteractivities,
+  extendMeta,
+  extendState,
+  Interactivity,
+  removeCard,
 } from "./generic";
+import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 
-export interface CemeteryState extends DuelFieldState {}
+export interface GraveyardState extends DuelFieldState {}
 
 // 初始化墓地状态
-export const initCemeteryImpl: CaseReducer<DuelState, PayloadAction<number>> = (
-  state,
-  action
-) => {
+export const initGraveyardImpl: CaseReducer<
+  DuelState,
+  PayloadAction<number>
+> = (state, action) => {
   const player = action.payload;
   if (judgeSelf(player, state)) {
-    state.meCemetery = { inner: [] };
+    state.meGraveyard = { inner: [] };
   } else {
-    state.opCemetery = { inner: [] };
+    state.opGraveyard = { inner: [] };
   }
 };
 
 // 增加墓地
-export const fetchCemeteryMeta = createAsyncMetaThunk("duel/fetchCemeteryMeta");
+export const fetchGraveyardMeta = createAsyncMetaThunk(
+  "duel/fetchGraveyardMeta"
+);
 
-export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
-  builder.addCase(fetchCemeteryMeta.pending, (state, action) => {
+export const graveyardCase = (builder: ActionReducerMapBuilder<DuelState>) => {
+  builder.addCase(fetchGraveyardMeta.pending, (state, action) => {
     // Meta结果没返回之前先更新`ID`
     const controler = action.meta.arg.controler;
     const sequence = action.meta.arg.sequence;
     const code = action.meta.arg.code;
 
-    const newCemetery = {
+    const newGraveyard = {
       occupant: { id: code, data: {}, text: {} },
       location: {
         controler,
@@ -54,51 +58,51 @@ export const cemeteryCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       counters: {},
     };
     if (judgeSelf(controler, state)) {
-      extendState(state.meCemetery, newCemetery);
+      extendState(state.meGraveyard, newGraveyard);
     } else {
-      extendState(state.opCemetery, newCemetery);
+      extendState(state.opGraveyard, newGraveyard);
     }
   });
-  builder.addCase(fetchCemeteryMeta.fulfilled, (state, action) => {
+  builder.addCase(fetchGraveyardMeta.fulfilled, (state, action) => {
     const controler = action.payload.controler;
     const sequence = action.payload.sequence;
     const meta = action.payload.meta;
 
     if (judgeSelf(controler, state)) {
-      extendMeta(state.meCemetery, meta, sequence);
+      extendMeta(state.meGraveyard, meta, sequence);
     } else {
-      extendMeta(state.opCemetery, meta, sequence);
+      extendMeta(state.opGraveyard, meta, sequence);
     }
   });
 };
 
 // 删除墓地
-export const removeCemeteryImpl: CaseReducer<
+export const removeGraveyardImpl: CaseReducer<
   DuelState,
   PayloadAction<{ controler: number; sequence: number }>
 > = (state, action) => {
-  const cemetery = judgeSelf(action.payload.controler, state)
-    ? state.meCemetery
-    : state.opCemetery;
-  removeCard(cemetery, action.payload.sequence);
+  const graveyard = judgeSelf(action.payload.controler, state)
+    ? state.meGraveyard
+    : state.opGraveyard;
+  removeCard(graveyard, action.payload.sequence);
 };
 
-export const addCemeteryIdleInteractivitiesImpl: DuelReducer<{
+export const addGraveyardIdleInteractivitiesImpl: DuelReducer<{
   player: number;
   sequence: number;
   interactivity: Interactivity<number>;
 }> = (state, action) => {
-  const cemetery = judgeSelf(action.payload.player, state)
-    ? state.meCemetery
-    : state.opCemetery;
+  const graveyard = judgeSelf(action.payload.player, state)
+    ? state.meGraveyard
+    : state.opGraveyard;
   extendIdleInteractivities(
-    cemetery,
+    graveyard,
     action.payload.sequence,
     action.payload.interactivity
   );
 };
 
-export const selectMeCemetery = (state: RootState) =>
-  state.duel.meCemetery || { inner: [] };
-export const selectOpCemetery = (state: RootState) =>
-  state.duel.opCemetery || { inner: [] };
+export const selectMeGraveyard = (state: RootState) =>
+  state.duel.meGraveyard || { inner: [] };
+export const selectOpGraveyard = (state: RootState) =>
+  state.duel.opGraveyard || { inner: [] };

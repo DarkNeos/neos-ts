@@ -1,14 +1,16 @@
 import {
-  PayloadAction,
+  ActionReducerMapBuilder,
   CaseReducer,
   createAsyncThunk,
-  ActionReducerMapBuilder,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { RootState } from "@/store";
-import { DuelState } from "../mod";
-import { cmpCardLocation, findCardByLocation, judgeSelf } from "../util";
+
 import { fetchCard, getCardStr } from "@/api/cards";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
+import { DuelState } from "../mod";
+import { cmpCardLocation, findCardByLocation, judgeSelf } from "../util";
 
 // 更新卡牌选择弹窗打开状态
 export const setCheckCardModalIsOpenImpl: CaseReducer<

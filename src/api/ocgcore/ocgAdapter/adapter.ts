@@ -1,32 +1,32 @@
-import { YgoProPacket } from "./packet";
 import { ygopro } from "../idl/ocgcore";
+import { YgoProPacket } from "./packet";
 import {
   STOC_CHAT,
+  STOC_DECK_COUNT,
+  STOC_DUEL_START,
+  STOC_GAME_MSG,
+  STOC_HAND_RESULT,
   STOC_HS_PLAYER_CHANGE,
   STOC_HS_PLAYER_ENTER,
   STOC_HS_WATCH_CHANGE,
   STOC_JOIN_GAME,
-  STOC_TYPE_CHANGE,
   STOC_SELECT_HAND,
   STOC_SELECT_TP,
-  STOC_HAND_RESULT,
-  STOC_DECK_COUNT,
-  STOC_DUEL_START,
-  STOC_GAME_MSG,
   STOC_TIME_LIMIT,
+  STOC_TYPE_CHANGE,
 } from "./protoDecl";
 import StocChat from "./stoc/stocChat";
-import StocJoinGame from "./stoc/stocJoinGame";
-import StocHsPlayerEnter from "./stoc/stocHsPlayerEnter";
+import StocDeckCount from "./stoc/stocDeckCount";
+import StocDuelStart from "./stoc/stocDuelStart";
+import StocGameMsg from "./stoc/stocGameMsg/mod";
 import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
+import StocHsPlayerEnter from "./stoc/stocHsPlayerEnter";
 import StocHsWatchChange from "./stoc/stocHsWatchChange";
-import StocTypeChange from "./stoc/stocTypeChange";
+import StocJoinGame from "./stoc/stocJoinGame";
 import StocSelectHand from "./stoc/stocSelectHand";
 import StocSelectTp from "./stoc/stocSelectTp";
-import StocDeckCount from "./stoc/stocDeckCount";
 import StocTimeLimit from "./stoc/stocTimeLimit";
-import StocGameMsg from "./stoc/stocGameMsg/mod";
-import StocDuelStart from "./stoc/stocDuelStart";
+import StocTypeChange from "./stoc/stocTypeChange";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象

@@ -1,7 +1,9 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { useConfig } from "@/config";
 import { setUnimplemented } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import NeosConfig from "../../../neos.config.json";
+
+const NeosConfig = useConfig();
 
 export default (
   unimplemented: ygopro.StocGameMessage.MsgUnimplemented,

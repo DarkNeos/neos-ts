@@ -3,10 +3,12 @@
  *
  * */
 
-import { DuelState } from "./mod";
 import { Draft } from "@reduxjs/toolkit";
+
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+
 import { CardState } from "./generic";
+import { DuelState } from "./mod";
 
 type Location =
   | ygopro.CardLocation
@@ -59,15 +61,15 @@ export function findCardByLocation(
       return magics?.inner.find(finder);
     }
     case ygopro.CardZone.REMOVED: {
-      const exclusions = judgeSelf(controler, state)
-        ? state.meExclusion
-        : state.opExclusion;
-      return exclusions?.inner.find(finder);
+      const banishedZones = judgeSelf(controler, state)
+        ? state.meBanishedZone
+        : state.opBanishedZone;
+      return banishedZones?.inner.find(finder);
     }
     case ygopro.CardZone.GRAVE: {
       const cemerety = judgeSelf(controler, state)
-        ? state.meCemetery
-        : state.opCemetery;
+        ? state.meGraveyard
+        : state.opGraveyard;
       return cemerety?.inner.find(finder);
     }
     default: {

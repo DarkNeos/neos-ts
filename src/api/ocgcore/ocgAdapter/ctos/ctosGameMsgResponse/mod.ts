@@ -1,16 +1,16 @@
 import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket } from "../../packet";
 import { CTOS_RESPONSE } from "../../protoDecl";
-import adaptSelectIdleCmdResponse from "./selectIdleCmd";
-import adaptSelectPlaceResponse from "./selectPlace";
+import adaptSelectBattleCmdResponse from "./selectBattleCmd";
 import adaptSelectCardResponse from "./selectCard";
 import adaptSelectChainResponse from "./selectChain";
-import adaptSelectEffectYnResponse from "./selectEffectYn";
-import adaptSelectPositionResponse from "./selectPosition";
-import adaptSelectOptionResponse from "./selectOption";
-import adaptSelectBattleCmdResponse from "./selectBattleCmd";
-import adaptSelectUnselectCardResponse from "./selectUnselectCard";
 import adaptSelectCounterResponse from "./selectCounter";
+import adaptSelectEffectYnResponse from "./selectEffectYn";
+import adaptSelectIdleCmdResponse from "./selectIdleCmd";
+import adaptSelectOptionResponse from "./selectOption";
+import adaptSelectPlaceResponse from "./selectPlace";
+import adaptSelectPositionResponse from "./selectPosition";
+import adaptSelectUnselectCardResponse from "./selectUnselectCard";
 import adaptSortCardResponse from "./sortCard";
 
 /*

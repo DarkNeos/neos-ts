@@ -1,5 +1,6 @@
-import { ygopro } from "../../../idl/ocgcore";
 import { ocgDamageAdapter } from "rust-src";
+
+import { ygopro } from "../../../idl/ocgcore";
 
 /*
  * Msg Damage

@@ -1,5 +1,7 @@
-import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+
 import { RootState } from "@/store";
+
 import { DuelState } from "./mod";
 import { judgeSelf } from "./util";
 

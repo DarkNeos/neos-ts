@@ -1,13 +1,15 @@
-import { DuelState } from "../mod";
-import { DuelReducer } from "../generic";
 import {
   ActionReducerMapBuilder,
   CaseReducer,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
+
 import { fetchCard } from "@/api/cards";
-import { RootState } from "@/store";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { RootState } from "@/store";
+
+import { DuelReducer } from "../generic";
+import { DuelState } from "../mod";
 import { findCardByLocation } from "../util";
 
 // 更新打开状态

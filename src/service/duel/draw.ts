@@ -1,7 +1,7 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { AppDispatch } from "@/store";
 import { fetchHandsMeta } from "@/reducers/duel/handsSlice";
 import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
+import { AppDispatch } from "@/store";
 
 export default (
   draw: ygopro.StocGameMessage.MsgDraw,
