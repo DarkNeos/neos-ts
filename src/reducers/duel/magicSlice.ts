@@ -36,7 +36,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 0,
         },
         idleInteractivities: [],
         counters: {},
@@ -45,7 +44,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 1,
         },
         idleInteractivities: [],
         counters: {},
@@ -54,7 +52,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 2,
         },
         idleInteractivities: [],
         counters: {},
@@ -63,7 +60,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 3,
         },
         idleInteractivities: [],
         counters: {},
@@ -72,7 +68,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 4,
         },
         idleInteractivities: [],
         counters: {},
@@ -82,7 +77,6 @@ export const initMagicsImpl: CaseReducer<DuelState, PayloadAction<number>> = (
         location: {
           controler: player,
           location: ygopro.CardZone.SZONE,
-          sequence: 5,
         },
         idleInteractivities: [],
         counters: {},
