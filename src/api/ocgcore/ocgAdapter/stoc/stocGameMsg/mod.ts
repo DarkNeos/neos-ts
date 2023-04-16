@@ -4,35 +4,35 @@
  * */
 
 import { ygopro } from "../../../idl/ocgcore";
-import { YgoProPacket, StocAdapter } from "../../packet";
+import { StocAdapter, YgoProPacket } from "../../packet";
 import * as GAME_MSG from "../../protoDecl";
-import MsgStartAdapter from "./start";
-import MsgDrawAdapter from "./draw";
-import MsgNewTurnAdapter from "./newTurn";
-import MsgNewPhaseAdapter from "./newPhase";
-import MsgHintAdapter from "./hint";
-import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
-import MsgSelectPlaceAdapter from "./selectPlace";
-import MsgSelectCardAdapter from "./selectCard";
-import MsgSelectTributeAdapter from "./selectTribute";
-import MsgSelectChainAdapter from "./selectChain";
-import MsgSelectEffectYnAdapter from "./selectEffectYn";
-import MsgSelectPositionAdapter from "./selectPosition";
-import MsgSelectOptionAdapter from "./selectOption";
-import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
-import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
-import MsgWaitAdapter from "./wait";
-import MsgDamage from "./damage";
-import MsgRecover from "./recover";
-import MsgWin from "./win";
-import MsgUpdateDataAdapter from "./updateData";
-import MsgReloadFieldAdapter from "./reloadField";
-import MsgSelectSum from "./selectSum";
 import MsgAddCounter from "./addCounter";
-import MsgRemoveCounter from "./removeCounter";
-import MsgSelectCounter from "./selectCounter";
-import MsgSortCard from "./sortCard";
+import MsgDamage from "./damage";
+import MsgDrawAdapter from "./draw";
+import MsgHintAdapter from "./hint";
+import MsgNewPhaseAdapter from "./newPhase";
+import MsgNewTurnAdapter from "./newTurn";
 import PENETRATE from "./penetrate";
+import MsgRecover from "./recover";
+import MsgReloadFieldAdapter from "./reloadField";
+import MsgRemoveCounter from "./removeCounter";
+import MsgSelectBattleCmdAdapter from "./selectBattleCmd";
+import MsgSelectCardAdapter from "./selectCard";
+import MsgSelectChainAdapter from "./selectChain";
+import MsgSelectCounter from "./selectCounter";
+import MsgSelectEffectYnAdapter from "./selectEffectYn";
+import MsgSelectIdleCmdAdapter from "./selectIdleCmd";
+import MsgSelectOptionAdapter from "./selectOption";
+import MsgSelectPlaceAdapter from "./selectPlace";
+import MsgSelectPositionAdapter from "./selectPosition";
+import MsgSelectSum from "./selectSum";
+import MsgSelectTributeAdapter from "./selectTribute";
+import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgSortCard from "./sortCard";
+import MsgStartAdapter from "./start";
+import MsgUpdateDataAdapter from "./updateData";
+import MsgWaitAdapter from "./wait";
+import MsgWin from "./win";
 
 /*
  * STOC GameMsg

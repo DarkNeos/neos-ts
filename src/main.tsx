@@ -19,14 +19,15 @@
  * 在进行代码开发的时候需要注意这点。
  *
  * */
-import React from "react";
-import ReactDOM from "react-dom/client";
-import Neos from "./ui/Neos";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store";
 import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+
+import { store } from "./store";
+import Neos from "./ui/Neos";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

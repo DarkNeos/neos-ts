@@ -1,50 +1,52 @@
 import {
-  Modal,
-  Checkbox,
-  Avatar,
-  Space,
-  Button,
-  notification,
-  Upload,
-  message,
-  Select,
-} from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import socketMiddleWare, { socketCmd } from "@/middleware/socket";
-import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
-import { store } from "@/store";
-import {
-  selectIsHost,
-  selectPlayer0,
-  selectPlayer1,
-} from "@/reducers/playerSlice";
-import { useAppSelector } from "@/hook";
-import { useConfig } from "@/config";
-import { selectJoined } from "@/reducers/joinSlice";
-import { selectChat } from "@/reducers/chatSlice";
-import { fetchDeck, type IDeck, DeckManager } from "@/api/deck";
-import {
-  sendUpdateDeck,
-  sendHsReady,
-  sendHsStart,
-} from "@/api/ocgcore/ocgHelper";
-import {
-  UserOutlined,
   CheckCircleFilled,
   LoginOutlined,
   LogoutOutlined,
   SendOutlined,
   TagOutlined,
   UploadOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { initMeExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
 import type { UploadProps } from "antd";
-import { selectDuelStart } from "@/reducers/moraSlice";
-import NeosConfig from "../../neos.config.json";
-import YGOProDeck from "ygopro-deck-encode";
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  message,
+  Modal,
+  notification,
+  Select,
+  Space,
+  Upload,
+} from "antd";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
+import YGOProDeck from "ygopro-deck-encode";
+
+import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
+import {
+  sendHsReady,
+  sendHsStart,
+  sendUpdateDeck,
+} from "@/api/ocgcore/ocgHelper";
 import { initStrings } from "@/api/strings";
+import { useConfig } from "@/config";
+import { useAppSelector } from "@/hook";
+import socketMiddleWare, { socketCmd } from "@/middleware/socket";
+import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
+import { selectChat } from "@/reducers/chatSlice";
+import { initMeExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
+import { selectJoined } from "@/reducers/joinSlice";
+import { selectDuelStart } from "@/reducers/moraSlice";
+import {
+  selectIsHost,
+  selectPlayer0,
+  selectPlayer1,
+} from "@/reducers/playerSlice";
+import { store } from "@/store";
+
+const NeosConfig = useConfig();
 
 const READY_STATE = "ready";
 

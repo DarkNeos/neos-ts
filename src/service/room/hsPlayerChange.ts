@@ -1,12 +1,12 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { store } from "@/store";
 import {
-  player0Update,
-  player1Update,
-  player0Leave,
-  player1Leave,
   observerIncrement,
+  player0Leave,
+  player0Update,
+  player1Leave,
+  player1Update,
 } from "@/reducers/playerSlice";
+import { store } from "@/store";
 
 const READY_STATE = "ready";
 const NO_READY_STATE = "not ready";

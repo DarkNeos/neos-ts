@@ -3,6 +3,7 @@ import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
 import { fetchYesNoMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
+
 import { CardZoneToChinese } from "./util";
 import MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 

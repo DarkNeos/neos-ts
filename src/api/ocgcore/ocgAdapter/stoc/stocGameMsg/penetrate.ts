@@ -1,9 +1,9 @@
 //! 透传协议
 
-import PenetrateData from "./penetrate.json";
-import { BufferReaderExt } from "../../bufferIO";
 import { ygopro } from "../../../idl/ocgcore";
+import { BufferReaderExt } from "../../bufferIO";
 import { numberToCardPosition } from "../../util";
+import PenetrateData from "./penetrate.json";
 
 type Constructor<T = any> = new (...args: any[]) => T;
 

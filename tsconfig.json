@@ -28,6 +28,9 @@
       ],
       "rust-src": [
         "./rust-src/pkg"
+      ],
+      "neos-assets/*": [
+        "./neos-assets/*"
       ]
     }
   },

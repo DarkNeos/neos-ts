@@ -3,20 +3,22 @@ import {
   CaseReducer,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { DuelState } from "./mod";
+
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { RootState } from "@/store";
-import { judgeSelf } from "./util";
+
 import {
-  Interactivity,
-  DuelFieldState,
-  removeCard,
   createAsyncMetaThunk,
-  insertCard,
-  extendMeta,
   createAsyncRepeatedMetaThunk,
+  DuelFieldState,
+  extendMeta,
+  insertCard,
+  Interactivity,
+  removeCard,
   updateCardMeta,
 } from "./generic";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { DuelState } from "./mod";
+import { judgeSelf } from "./util";
 
 export interface HandState extends DuelFieldState {}
 

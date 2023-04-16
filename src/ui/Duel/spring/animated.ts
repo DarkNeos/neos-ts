@@ -1,12 +1,13 @@
 // Copyright (c) 2020 hooke
 
-import { CSSProperties, ForwardRefExoticComponent, FC } from "react";
 import { FluidValue } from "@react-spring/shared";
 import {
   AssignableKeys,
   ComponentPropsWithRef,
   ElementType,
 } from "@react-spring/types";
+import { CSSProperties, FC, ForwardRefExoticComponent } from "react";
+
 import { Primitives } from "./primitives";
 
 type AnimatedPrimitives = {

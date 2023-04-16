@@ -4,8 +4,10 @@ import {
   createAsyncThunk,
   PayloadAction,
 } from "@reduxjs/toolkit";
+
 import { CardMeta, fetchCard } from "@/api/cards";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+
 import { DuelState } from "./mod";
 import ReloadFieldAction = ygopro.StocGameMessage.MsgReloadField.ZoneAction;
 type UpdateDataAction = ReturnType<

@@ -2,11 +2,12 @@
  * 全局状态存储模块
  * */
 import { configureStore, Unsubscribe } from "@reduxjs/toolkit";
-import joinedReducer from "./reducers/joinSlice";
+
 import chatReducer from "./reducers/chatSlice";
-import playerReducer from "./reducers/playerSlice";
-import moraReducer from "./reducers/moraSlice";
 import duelReducer from "./reducers/duel/mod";
+import joinedReducer from "./reducers/joinSlice";
+import moraReducer from "./reducers/moraSlice";
+import playerReducer from "./reducers/playerSlice";
 
 export const store = configureStore({
   reducer: {

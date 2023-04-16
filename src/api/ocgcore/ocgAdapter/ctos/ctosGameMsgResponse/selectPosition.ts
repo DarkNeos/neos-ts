@@ -1,5 +1,6 @@
-import { ygopro } from "../../../idl/ocgcore";
 import { BufferWriter } from "rust-src";
+
+import { ygopro } from "../../../idl/ocgcore";
 
 export default (
   response: ygopro.CtosGameMsgResponse.SelectPositionResponse

@@ -1,9 +1,11 @@
 // 后续对于`MSG_SELECT_XXX`的处理UI都尽量用`Babylon.js`实现而不会通过`Antd`的`Modal`实现，因此这里不追求工程质量，暂时简单实现下。
-import { PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { RootState } from "@/store";
+
 import { DuelState } from "../mod";
 import { findCardByLocation } from "../util";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 type SelectCounter = ReturnType<
   typeof ygopro.StocGameMessage.MsgSelectCounter.prototype.toObject
 >;

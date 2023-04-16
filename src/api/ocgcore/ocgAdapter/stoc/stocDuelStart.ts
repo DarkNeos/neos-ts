@@ -1,5 +1,5 @@
 import { ygopro } from "../../idl/ocgcore";
-import { YgoProPacket, StocAdapter } from "../packet";
+import { StocAdapter, YgoProPacket } from "../packet";
 
 /*
  * STOC DuelStart
