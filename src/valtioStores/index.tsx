@@ -2,6 +2,7 @@ export * from "./chatStore";
 export * from "./joinStore";
 export * from "./moraStore";
 export * from "./playerStore";
+export * from "./duelStore";
 
 import { createContext, type ReactNode, useRef } from "react";
 import { proxy } from "valtio";
@@ -11,12 +12,14 @@ import { chatStore } from "./chatStore";
 import { joinStore } from "./joinStore";
 import { moraStore } from "./moraStore";
 import { playerStore } from "./playerStore";
+import { duelStore } from "./duelStore";
 
 export const valtioStore = proxy({
   playerStore,
   chatStore,
   joinStore,
   moraStore,
+  duelStore,
 });
 
 devtools(valtioStore, { name: "valtio store", enabled: true });

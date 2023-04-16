@@ -6,26 +6,26 @@ export interface DuelState {
   meInitInfo?: InitInfo; // 自己的初始状态
   opInitInfo?: InitInfo; // 对手的初始状态
 
-  meHands?: HandState; // 自己的手牌
-  opHands?: HandState; // 对手的手牌
+  meHands: HandState; // 自己的手牌
+  opHands: HandState; // 对手的手牌
 
-  meMonsters?: MonsterState; // 自己的怪兽区状态
-  opMonsters?: MonsterState; // 对手的怪兽区状态
+  meMonsters: MonsterState; // 自己的怪兽区状态
+  opMonsters: MonsterState; // 对手的怪兽区状态
 
-  meMagics?: MagicState; // 自己的魔法陷阱区状态
-  opMagics?: MagicState; // 对手的魔法陷阱区状态
+  meMagics: MagicState; // 自己的魔法陷阱区状态
+  opMagics: MagicState; // 对手的魔法陷阱区状态
 
-  meGraveyard?: GraveyardState; // 自己的墓地状态
-  opGraveyard?: GraveyardState; // 对手的墓地状态
+  meGraveyard: GraveyardState; // 自己的墓地状态
+  opGraveyard: GraveyardState; // 对手的墓地状态
 
-  meBanishedZone?: BanishedZoneState; // 自己的除外区状态
-  opBanishedZone?: BanishedZoneState; // 对手的除外区状态
+  meBanishedZone: BanishedZoneState; // 自己的除外区状态
+  opBanishedZone: BanishedZoneState; // 对手的除外区状态
 
-  meDeck?: DeckState; // 自己的卡组状态
-  opDeck?: DeckState; // 对手的卡组状态
+  meDeck: DeckState; // 自己的卡组状态
+  opDeck: DeckState; // 对手的卡组状态
 
-  meExtraDeck?: ExtraDeckState; // 自己的额外卡组状态
-  opExtraDeck?: ExtraDeckState; // 对手的额外卡组状态
+  meExtraDeck: ExtraDeckState; // 自己的额外卡组状态
+  opExtraDeck: ExtraDeckState; // 对手的额外卡组状态
 
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
@@ -54,7 +54,7 @@ export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
   location: {
     controler?: number;
-    location?: number;
+    location: ygopro.CardZone;
     position?: ygopro.CardPosition;
     overlay_sequence?: number;
   }; // 位置信息
