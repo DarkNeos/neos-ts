@@ -97,12 +97,28 @@ const wrap = <T extends DuelFieldState>(
         ...cards
       );
     },
+    setOccupant: async (
+      controller: number,
+      sequence: number,
+      id: number,
+      position?: ygopro.CardPosition
+    ) => {
+      const meta = await fetchCard(id);
+      const target = res[getWhom(controller)][sequence];
+      target.occupant = meta;
+      if (position) {
+        target.location.position = position;
+      }
+    },
+    removeOccupant: (controller: number, sequence: number) => {
+      res[getWhom(controller)][sequence].occupant = undefined;
+    },
   });
   return res;
 };
 
 /**
- * 🔥 决斗盘状态仓库，本文件核心，
+ * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`PlayMatState`去看
  */
 export const playMat = proxy<PlayMatState>({

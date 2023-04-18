@@ -12,6 +12,13 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
   remove: (player: number, sequence: number) => void; // 移除特定位置的卡片
   add: (controller: number, ids: number[]) => void; // 在末尾添加卡片
   insert: (controller: number, sequence: number, id: number) => void; // 在指定位置插入卡片
+  setOccupant: (
+    controller: number,
+    sequence: number,
+    id: number,
+    position?: ygopro.CardPosition
+  ) => void; // 设置卡片的卡片信息
+  removeOccupant: (controller: number, sequence: number) => void; // 移除卡片的卡片信息
 }
 
 export interface PlayMatState {

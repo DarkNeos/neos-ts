@@ -58,6 +58,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         removeGraveyard({ controler: from.controler, sequence: from.sequence })
       );
+      playMatStore.graveyards.remove(from.controler, from.sequence);
 
       break;
     }
@@ -68,6 +69,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: from.sequence,
         })
       );
+      playMatStore.banishedZones.remove(from.controler, from.sequence);
 
       break;
     }
@@ -75,6 +77,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         removeExtraDeck({ controler: from.controler, sequence: from.sequence })
       );
+      playMatStore.extraDecks.remove(from.controler, from.sequence);
 
       break;
     }

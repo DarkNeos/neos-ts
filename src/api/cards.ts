@@ -51,7 +51,7 @@ export interface CardText {
  * */
 export async function fetchCard(
   id: number,
-  local?: boolean
+  local: boolean = true
 ): Promise<CardMeta> {
   if (local) {
     return await sqliteMiddleWare({
