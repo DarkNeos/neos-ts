@@ -58,7 +58,8 @@ const initInfo: PlayMatState["initInfo"] = proxy({
 });
 
 /**
- *  给 `{me: [...], op: [...]}` 这种类型的对象添加一些方法
+ * 在决斗盘仓库之中，
+ * 给 `{me: [...], op: [...]}` 这种类型的对象添加一些方法
  */
 const wrap = <T extends DuelFieldState>(
   entity: BothSide<T>,
@@ -100,20 +101,26 @@ const wrap = <T extends DuelFieldState>(
   return res;
 };
 
+/**
+ * 🔥 决斗盘状态仓库，本文件核心，
+ * 具体介绍可以点进`PlayMatState`去看
+ */
 export const playMat = proxy<PlayMatState>({
   magics: wrap(genBlock(ygopro.CardZone.SZONE), ygopro.CardZone.SZONE),
   monsters: wrap(genBlock(ygopro.CardZone.MZONE), ygopro.CardZone.MZONE),
-  graveyard: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
-  banishedZone: wrap({ me: [], op: [] }, ygopro.CardZone.REMOVED),
+  graveyards: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
+  banishedZones: wrap({ me: [], op: [] }, ygopro.CardZone.REMOVED),
   hands: wrap({ me: [], op: [] }, ygopro.CardZone.HAND),
-  deck: wrap({ me: [], op: [] }, ygopro.CardZone.DECK),
-  extraDeck: wrap({ me: [], op: [] }, ygopro.CardZone.EXTRA),
+  decks: wrap({ me: [], op: [] }, ygopro.CardZone.DECK),
+  extraDecks: wrap({ me: [], op: [] }, ygopro.CardZone.EXTRA),
 
-  initInfo,
-  timeLimit: {
+  timeLimits: {
+    // 时间限制
     me: 0,
     op: 0,
   },
+
+  initInfo,
 
   selfType: ygopro.StocTypeChange.SelfType.UNKNOWN,
   hint: {
@@ -131,6 +138,9 @@ export const playMat = proxy<PlayMatState>({
   unimplemented: 0,
 });
 
+/**
+ * 根据controller判断是自己还是对方
+ */
 const getWhom = (controller: number) =>
   judgeSelf(controller, playMat.selfType) ? "me" : "op";
 

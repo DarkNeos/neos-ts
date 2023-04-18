@@ -27,15 +27,15 @@ export interface PlayMatState {
 
   magics: CardsBothSide<MagicState>; // 双方的魔法区状态
 
-  graveyard: CardsBothSide<GraveyardState>; // 双方的墓地状态
+  graveyards: CardsBothSide<GraveyardState>; // 双方的墓地状态
 
-  banishedZone: CardsBothSide<BanishedZoneState>; // 双方的除外区状态
+  banishedZones: CardsBothSide<BanishedZoneState>; // 双方的除外区状态
 
-  deck: CardsBothSide<DeckState>; // 双方的卡组状态
+  decks: CardsBothSide<DeckState>; // 双方的卡组状态
 
-  extraDeck: CardsBothSide<ExtraDeckState>; // 双方的额外卡组状态
+  extraDecks: CardsBothSide<ExtraDeckState>; // 双方的额外卡组状态
 
-  timeLimit: BothSide<number>; // 双方的时间限制
+  timeLimits: BothSide<number>; // 双方的时间限制
 
   hint: HintState;
 
