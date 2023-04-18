@@ -20,7 +20,11 @@ import {
 } from "@/reducers/duel/monstersSlice";
 import { AppDispatch } from "@/store";
 
+import { valtioStore } from "@/valtioStores";
+
 import { REASON_MATERIAL } from "../../common";
+
+const { playMat: playMatStore } = valtioStore.duelStore;
 
 const OVERLAY_STACK: { code: number; sequence: number }[] = [];
 
@@ -33,7 +37,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   switch (from.location) {
     case ygopro.CardZone.HAND: {
       dispatch(removeHand([from.controler, from.sequence]));
-
+      playMatStore.hands.remove(from.controler, from.sequence);
       break;
     }
     case ygopro.CardZone.MZONE: {
@@ -144,6 +148,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
       );
+      playMatStore.hands.insert(to.controler, to.sequence, code);
 
       break;
     }

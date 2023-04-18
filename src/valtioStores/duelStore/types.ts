@@ -2,34 +2,40 @@ import type { CardMeta } from "@/api/cards";
 import type { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 // >>> play mat state >>>
+
+export type BothSide<T> = {
+  me: T;
+  op: T;
+};
+
+export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
+  remove: (player: number, sequence: number) => void; // 移除特定位置的卡片
+  add: (controller: number, ids: number[]) => void; // 在末尾添加卡片
+  insert: (controller: number, sequence: number, id: number) => void; // 在指定位置插入卡片
+}
+
 export interface PlayMatState {
   selfType: number;
-  meInitInfo: InitInfo; // 自己的初始状态
-  opInitInfo: InitInfo; // 对手的初始状态
 
-  meHands: HandState; // 自己的手牌
-  opHands: HandState; // 对手的手牌
+  initInfo: BothSide<InitInfo> & {
+    set: (controller: number, obj: Partial<InitInfo>) => void;
+  }; // 双方的初始化信息
 
-  meMonsters: MonsterState; // 自己的怪兽区状态
-  opMonsters: MonsterState; // 对手的怪兽区状态
+  hands: CardsBothSide<HandState>; // 双方的手牌
 
-  meMagics: MagicState; // 自己的魔法陷阱区状态
-  opMagics: MagicState; // 对手的魔法陷阱区状态
+  monsters: CardsBothSide<MonsterState>; // 双方的怪兽区状态
 
-  meGraveyard: GraveyardState; // 自己的墓地状态
-  opGraveyard: GraveyardState; // 对手的墓地状态
+  magics: CardsBothSide<MagicState>; // 双方的魔法区状态
 
-  meBanishedZone: BanishedZoneState; // 自己的除外区状态
-  opBanishedZone: BanishedZoneState; // 对手的除外区状态
+  graveyard: CardsBothSide<GraveyardState>; // 双方的墓地状态
 
-  meDeck: DeckState; // 自己的卡组状态
-  opDeck: DeckState; // 对手的卡组状态
+  banishedZone: CardsBothSide<BanishedZoneState>; // 双方的除外区状态
 
-  meExtraDeck: ExtraDeckState; // 自己的额外卡组状态
-  opExtraDeck: ExtraDeckState; // 对手的额外卡组状态
+  deck: CardsBothSide<DeckState>; // 双方的卡组状态
 
-  meTimeLimit?: TimeLimit; // 自己的计时
-  opTimeLimit?: TimeLimit; // 对手的计时
+  extraDeck: CardsBothSide<ExtraDeckState>; // 双方的额外卡组状态
+
+  timeLimit: BothSide<number>; // 双方的时间限制
 
   hint: HintState;
 
@@ -42,6 +48,8 @@ export interface PlayMatState {
   waiting: boolean;
 
   unimplemented: number; // 未处理的`Message`
+
+  // remove: (player: number, sequence: number) => void;
 }
 
 export interface InitInfo {
@@ -51,14 +59,18 @@ export interface InitInfo {
   extraSize: number;
 }
 
+/**
+ * 场上某位置的状态，
+ * 以后会更名为 BlockState
+ */
 export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
   location: {
-    controler?: number;
-    location: ygopro.CardZone;
-    position?: ygopro.CardPosition;
+    controler?: number; // 控制这个位置的玩家，0或1
+    location: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
+    position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
     overlay_sequence?: number;
-  }; // 位置信息
+  }; // 位置信息，叫location的原因是为了和ygo对齐
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivities?: Interactivity<{
     controler: number;
@@ -70,9 +82,10 @@ export interface CardState {
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
 }
 
-export interface DuelFieldState {
-  inner: CardState[];
-}
+/**
+ * CardState的顺序index，被称为sequence
+ */
+export type DuelFieldState = CardState[];
 
 export interface Interactivity<T> {
   interactType: InteractType;

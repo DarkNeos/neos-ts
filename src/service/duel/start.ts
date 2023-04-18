@@ -11,11 +11,28 @@ import {
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 
+import { valtioStore } from "@/valtioStores";
+
+const playMatStore = valtioStore.duelStore.playMat;
+
 export default (
   start: ygopro.StocGameMessage.MsgStart,
   dispatch: AppDispatch
 ) => {
   dispatch(setSelfType(start.playerType));
+
+  playMatStore.selfType = start.playerType;
+  playMatStore.initInfo.set(0, {
+    life: start.life1,
+    deckSize: start.deckSize1,
+    extraSize: start.extraSize1,
+  });
+  playMatStore.initInfo.set(1, {
+    life: start.life2,
+    deckSize: start.deckSize2,
+    extraSize: start.extraSize2,
+  });
+
   dispatch(
     infoInit([
       0,
