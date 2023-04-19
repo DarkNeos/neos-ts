@@ -5,6 +5,7 @@ import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 import type {
   BothSide,
+  CardState,
   CardsBothSide,
   DuelFieldState,
   InitInfo,
@@ -161,6 +162,28 @@ const wrap = <T extends DuelFieldState>(
     removeOccupant: (controller: number, sequence: number) => {
       res[getWhom(controller)][sequence].occupant = undefined;
     },
+    addIdleInteractivity: (
+      controller: number,
+      sequence: number,
+      interactivity: CardState["idleInteractivities"][number]
+    ) => {
+      res[getWhom(controller)][sequence].idleInteractivities.push(
+        interactivity
+      );
+    },
+    clearIdleInteractivities: (controller: number, sequence: number) => {
+      res[getWhom(controller)][sequence].idleInteractivities = [];
+    },
+    setPlaceInteractivity: (
+      controller: number,
+      sequence: number,
+      interactivity: CardState["placeInteractivity"]
+    ) => {
+      res[getWhom(controller)][sequence].placeInteractivity = interactivity;
+    },
+    clearPlaceInteractivity: (controller: number, sequence: number) => {
+      res[getWhom(controller)][sequence].placeInteractivity = undefined;
+    },
   });
   return res;
 };
@@ -170,8 +193,8 @@ const wrap = <T extends DuelFieldState>(
  * 具体介绍可以点进`PlayMatState`去看
  */
 export const matStore = proxy<PlayMatState>({
-  magics: wrap(genBlock(ygopro.CardZone.SZONE), ygopro.CardZone.SZONE),
-  monsters: wrap(genBlock(ygopro.CardZone.MZONE), ygopro.CardZone.MZONE),
+  magics: wrap(genBlock(ygopro.CardZone.SZONE, 6), ygopro.CardZone.SZONE),
+  monsters: wrap(genBlock(ygopro.CardZone.MZONE, 7), ygopro.CardZone.MZONE),
   graveyards: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
   banishedZones: wrap({ me: [], op: [] }, ygopro.CardZone.REMOVED),
   hands: wrap({ me: [], op: [] }, ygopro.CardZone.HAND),

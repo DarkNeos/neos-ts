@@ -78,7 +78,7 @@ export interface CardState {
     position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
   }; // 位置信息，叫location的原因是为了和ygo对齐
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
-  placeInteractivities?: Interactivity<{
+  placeInteractivity?: Interactivity<{
     controler: number;
     zone: ygopro.CardZone;
     sequence: number;
