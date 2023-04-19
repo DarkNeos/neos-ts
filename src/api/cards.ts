@@ -66,9 +66,6 @@ export async function fetchCard(
   return res.data;
 }
 
-// 挂到全局 以便 debug
-window.fetchCard = fetchCard;
-
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   switch (idx) {
     case 0: {

@@ -1,19 +1,23 @@
 import { proxy } from "valtio";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { fetchCard } from "@/api/cards";
+import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+
 import type {
-  PlayMatState,
-  DuelFieldState,
-  CardsBothSide,
   BothSide,
+  CardsBothSide,
+  DuelFieldState,
   InitInfo,
+  PlayMatState,
 } from "./types";
 
 /**
  * 生成一个指定长度的卡片数组
  */
-function genBlock(location: ygopro.CardZone, n: number = 5) {
+const genBlock = (
+  location: ygopro.CardZone,
+  n: number = 5
+): BothSide<DuelFieldState> => {
   return {
     me: Array(n)
       .fill(null)
@@ -34,7 +38,7 @@ function genBlock(location: ygopro.CardZone, n: number = 5) {
         counters: {},
       })),
   };
-}
+};
 
 const initInfo: PlayMatState["initInfo"] = proxy({
   me: {
@@ -59,7 +63,8 @@ const initInfo: PlayMatState["initInfo"] = proxy({
 
 /**
  * 在决斗盘仓库之中，
- * 给 `{me: [...], op: [...]}` 这种类型的对象添加一些方法
+ * 给 `{me: [...], op: [...]}` 这种类型的对象添加一些方法。
+ * 具体的方法可以看`CardsBothSide`的类型定义
  */
 const wrap = <T extends DuelFieldState>(
   entity: BothSide<T>,
@@ -121,7 +126,7 @@ const wrap = <T extends DuelFieldState>(
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`PlayMatState`去看
  */
-export const playMat = proxy<PlayMatState>({
+export const matStore = proxy<PlayMatState>({
   magics: wrap(genBlock(ygopro.CardZone.SZONE), ygopro.CardZone.SZONE),
   monsters: wrap(genBlock(ygopro.CardZone.MZONE), ygopro.CardZone.MZONE),
   graveyards: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
@@ -156,9 +161,10 @@ export const playMat = proxy<PlayMatState>({
 
 /**
  * 根据controller判断是自己还是对方
+ * 不要往外export，尽量逻辑收拢在store内部
  */
 const getWhom = (controller: number) =>
-  judgeSelf(controller, playMat.selfType) ? "me" : "op";
+  judgeSelf(controller, matStore.selfType) ? "me" : "op";
 
 export function judgeSelf(player: number, selfType: number): boolean {
   switch (selfType) {

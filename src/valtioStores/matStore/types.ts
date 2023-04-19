@@ -3,10 +3,10 @@ import type { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 // >>> play mat state >>>
 
-export type BothSide<T> = {
+export interface BothSide<T> {
   me: T;
   op: T;
-};
+}
 
 export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
   remove: (player: number, sequence: number) => void; // 移除特定位置的卡片
@@ -76,7 +76,6 @@ export interface CardState {
     controler?: number; // 控制这个位置的玩家，0或1
     location: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
     position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
-    overlay_sequence?: number;
   }; // 位置信息，叫location的原因是为了和ygo对齐
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivities?: Interactivity<{
@@ -146,119 +145,3 @@ export interface PhaseState {
   enableEp: boolean; // 允许回合结束
 }
 // <<< play mat state <<<
-
-// >>> modal types >>>
-type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
-
-export interface ModalState {
-  // 卡牌弹窗
-  cardModal: {
-    isOpen: boolean;
-    meta?: CardMeta;
-    interactivies: { desc: string; response: number }[];
-    counters: { [type: number]: number };
-  };
-  // 卡牌列表弹窗
-  cardListModal: {
-    isOpen: boolean;
-    list: {
-      meta?: CardMeta;
-      interactivies: { desc: string; response: number }[];
-    }[];
-  };
-  // 卡牌选择弹窗
-  checkCardModal: {
-    isOpen: boolean;
-    onSubmit?: string;
-    selectMin?: number;
-    selectMax?: number;
-    cancelAble: boolean;
-    cancelResponse?: number;
-    tags: {
-      tagName: string;
-      options: {
-        meta: CardMeta;
-        location?: CardLocation;
-        effectDescCode?: number;
-        effectDesc?: string;
-        response: number;
-      }[];
-    }[];
-  };
-  // Yes or No弹窗
-  yesNoModal: {
-    isOpen: boolean;
-    msg?: string;
-  };
-  // 表示形式选择弹窗
-  positionModal: {
-    isOpen: boolean;
-    positions: ygopro.CardPosition[];
-  };
-  // 选项选择弹窗
-  optionModal: {
-    isOpen: boolean;
-    options: { msg: string; response: number }[];
-  };
-  // 卡牌选择弹窗V2
-  checkCardModalV2: {
-    isOpen: boolean;
-    cancelAble: boolean;
-    finishAble: boolean;
-    selectMin?: number;
-    selectMax?: number;
-    responseable?: boolean;
-    selectableOptions: {
-      code: number;
-      name?: string;
-      desc?: string;
-      response: number;
-    }[];
-    selectedOptions: {
-      code: number;
-      name?: string;
-      desc?: string;
-      response: number;
-    }[];
-  };
-  // 卡牌选择弹窗V3
-  checkCardModalV3: {
-    isOpen: boolean;
-    overflow: boolean;
-    allLevel: number;
-    selectMin?: number;
-    selectMax?: number;
-    responseable?: boolean;
-    mustSelectList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
-    }[];
-    selectAbleList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
-    }[];
-  };
-  // 指示器选择弹窗
-  checkCounterModal: {
-    isOpen: boolean;
-    counterType?: number;
-    min?: number;
-    options: {
-      code: number;
-      max: number;
-    }[];
-  };
-  // 卡牌排序弹窗
-  sortCardModal: {
-    isOpen: boolean;
-    options: {
-      meta: CardMeta;
-      response: number;
-    }[];
-  };
-}
-// <<< modal types <<<
