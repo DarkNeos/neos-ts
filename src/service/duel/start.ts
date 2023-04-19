@@ -12,7 +12,7 @@ import {
 import { AppDispatch } from "@/store";
 import { valtioStore } from "@/valtioStores";
 
-const matStore = valtioStore.matStore;
+const { matStore } = valtioStore;
 
 export default (
   start: ygopro.StocGameMessage.MsgStart,

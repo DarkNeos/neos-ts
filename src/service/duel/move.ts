@@ -23,7 +23,7 @@ import { valtioStore } from "@/valtioStores";
 
 import { REASON_MATERIAL } from "../../common";
 
-const matStore = valtioStore.matStore;
+const { matStore } = valtioStore;
 
 const OVERLAY_STACK: { code: number; sequence: number }[] = [];
 

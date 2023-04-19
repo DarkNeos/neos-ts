@@ -44,7 +44,7 @@ export interface PlayMatState {
 
   timeLimits: BothSide<number>; // 双方的时间限制
 
-  hint: HintState;
+  hint: HintState & HintMethods;
 
   currentPlayer: number; // 当前的操作方
 
@@ -132,12 +132,34 @@ export interface ExtraDeckState extends DuelFieldState {}
 export interface TimeLimit {
   leftTime: number;
 }
+
 export interface HintState {
   code: number;
   msg?: string;
   esHint?: string;
   esSelectHint?: string;
 }
+// 和hint相关的方法
+export interface HintMethods {
+  fetchCommonHintMeta: (hintData: number) => string;
+  fetchSelectHintMeta: (
+    selectHintData: number,
+    esHint?: string
+  ) => Promise<{
+    selectHintMeta: string;
+    esHint?: string;
+  }>;
+  fetchEsHintMeta: (
+    originMsg: string | number,
+    location?: ygopro.CardLocation,
+    cardID?: number
+  ) => Promise<{
+    originMsg: string;
+    cardMeta?: CardMeta;
+    location?: ygopro.CardLocation;
+  }>;
+}
+
 export interface PhaseState {
   currentPhase: string; // TODO 当前的阶段 应该改成enum
   enableBp: boolean; // 允许进入战斗阶段

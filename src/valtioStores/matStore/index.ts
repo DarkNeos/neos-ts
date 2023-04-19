@@ -10,6 +10,7 @@ import type {
   InitInfo,
   PlayMatState,
 } from "./types";
+import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 
 /**
  * 生成一个指定长度的卡片数组
@@ -58,6 +59,48 @@ const initInfo: PlayMatState["initInfo"] = proxy({
       ...initInfo[getWhom(controller)],
       ...obj,
     };
+  },
+});
+
+const hint: PlayMatState["hint"] = proxy({
+  code: -1,
+  fetchCommonHintMeta: (hintData: number) => {
+    return fetchStrings("!system", hintData);
+  },
+  fetchSelectHintMeta: async (selectHintData: number, esHint?: string) => {
+    let selectHintMeta = "";
+    if (selectHintData > DESCRIPTION_LIMIT) {
+      // 针对`MSG_SELECT_PLACE`的特化逻辑
+      const cardMeta = await fetchCard(selectHintData, true);
+      selectHintMeta = fetchStrings("!system", 569).replace(
+        "[%ls]",
+        cardMeta.text.name || "[?]"
+      );
+    } else {
+      selectHintMeta = await getStrings(selectHintData);
+    }
+    return {
+      selectHintMeta,
+      esHint,
+    };
+  },
+  fetchEsHintMeta: async (
+    _originMsg: string | number,
+    location?: ygopro.CardLocation,
+    cardID?: number
+  ) => {
+    const originMsg =
+      typeof _originMsg === "string"
+        ? _originMsg
+        : fetchStrings("!system", _originMsg);
+
+    if (cardID) {
+      const cardMeta = await fetchCard(cardID);
+
+      return { originMsg, cardMeta, location };
+    } else {
+      return { originMsg, location };
+    }
   },
 });
 
@@ -144,9 +187,7 @@ export const matStore = proxy<PlayMatState>({
   initInfo,
 
   selfType: ygopro.StocTypeChange.SelfType.UNKNOWN,
-  hint: {
-    code: -1,
-  },
+  hint,
   currentPlayer: -1,
   phase: {
     currentPhase: "UNKNOWN", // TODO 当前的阶段 应该改成enum
@@ -166,7 +207,7 @@ export const matStore = proxy<PlayMatState>({
 const getWhom = (controller: number) =>
   judgeSelf(controller, matStore.selfType) ? "me" : "op";
 
-export function judgeSelf(player: number, selfType: number): boolean {
+function judgeSelf(player: number, selfType: number): boolean {
   switch (selfType) {
     case 1:
       // 自己是先攻
