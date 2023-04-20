@@ -5,7 +5,6 @@ import {
   addMagicPlaceInteractivities,
   addMonsterPlaceInteractivities,
 } from "@/reducers/duel/mod";
-
 import { InteractType, valtioStore } from "@/valtioStores";
 
 const { matStore } = valtioStore;

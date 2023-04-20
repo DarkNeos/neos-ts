@@ -1,6 +1,7 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { setWaiting } from "@/reducers/duel/mod";
 import { store } from "@/store";
+import { matStore } from "@/valtioStores";
 
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
@@ -42,8 +43,6 @@ import onMsgUpdateData from "./updateData";
 import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
-
-import { matStore } from "@/valtioStores";
 
 const ActiveList = [
   "select_idle_cmd",

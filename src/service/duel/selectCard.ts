@@ -7,6 +7,8 @@ import {
 import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
+import { messageStore } from "@/valtioStores";
+
 import { CardZoneToChinese } from "./util";
 
 export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
@@ -20,6 +22,10 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
 
   dispatch(setCheckCardModalMinMax({ min, max }));
   dispatch(setCheckCardModalOnSubmit("sendSelectCardResponse"));
+
+  messageStore.checkCardModal.selectMin = min;
+  messageStore.checkCardModal.selectMax = max;
+  messageStore.checkCardModal.onSubmit = "sendSelectCardResponse";
 
   for (const card of cards) {
     const tagName = CardZoneToChinese(card.location.location);

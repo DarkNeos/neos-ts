@@ -2,19 +2,19 @@ export * from "./types";
 
 import { proxy } from "valtio";
 
-import { fetchCard, type CardMeta } from "@/api/cards";
+import { type CardMeta, fetchCard } from "@/api/cards";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 
 import type {
   BothSide,
-  CardState,
   CardsBothSide,
+  CardState,
   DuelFieldState,
   InitInfo,
   MatState,
 } from "./types";
 import { InteractType } from "./types";
-import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 
 /**
  * 生成一个指定长度的卡片数组

@@ -4,7 +4,6 @@ import {
   setPositionModalPositions,
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-
 import { matStore } from "@/valtioStores";
 
 type MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
