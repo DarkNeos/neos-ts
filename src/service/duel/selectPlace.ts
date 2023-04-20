@@ -6,6 +6,10 @@ import {
   addMonsterPlaceInteractivities,
 } from "@/reducers/duel/mod";
 
+import { InteractType, valtioStore } from "@/valtioStores";
+
+const { matStore } = valtioStore;
+
 export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
   if (selectPlace.count != 1) {
     console.warn(`Unhandled case: ${selectPlace}`);
@@ -19,14 +23,22 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
         dispatch(
           addMonsterPlaceInteractivities([place.controler, place.sequence])
         );
-
+        matStore.monsters.setPlaceInteractivityType(
+          place.controler,
+          place.sequence,
+          InteractType.PLACE_SELECTABLE
+        );
         break;
       }
       case ygopro.CardZone.SZONE: {
         dispatch(
           addMagicPlaceInteractivities([place.controler, place.sequence])
         );
-
+        matStore.magics.setPlaceInteractivityType(
+          place.controler,
+          place.sequence,
+          InteractType.PLACE_SELECTABLE
+        );
         break;
       }
       default: {

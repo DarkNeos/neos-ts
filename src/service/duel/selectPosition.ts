@@ -4,7 +4,10 @@ import {
   setPositionModalPositions,
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
+
+import { matStore } from "@/valtioStores";
+
+type MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
 
 export default (selectPosition: MsgSelectPosition, dispatch: AppDispatch) => {
   const player = selectPosition.player;
@@ -13,5 +16,6 @@ export default (selectPosition: MsgSelectPosition, dispatch: AppDispatch) => {
   dispatch(
     setPositionModalPositions(positions.map((position) => position.position))
   );
+
   dispatch(setPositionModalIsOpen(true));
 };

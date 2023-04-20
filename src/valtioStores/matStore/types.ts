@@ -9,16 +9,39 @@ export interface BothSide<T> {
 }
 
 export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
-  remove: (player: number, sequence: number) => void; // 移除特定位置的卡片
-  add: (controller: number, ids: number[]) => void; // 在末尾添加卡片
-  insert: (controller: number, sequence: number, id: number) => void; // 在指定位置插入卡片
+  /** 根据controller返回对应的数组 */
+  at: (controller: number) => T;
+  /** 移除特定位置的卡片 */
+  remove: (player: number, sequence: number) => void;
+  /** 在末尾添加卡片 */
+  add: (controller: number, ids: number[]) => void;
+  /** 在指定位置插入卡片 */
+  insert: (controller: number, sequence: number, id: number) => void;
+  /** 设置占据这个位置的卡片信息 */
   setOccupant: (
     controller: number,
     sequence: number,
     id: number,
     position?: ygopro.CardPosition
-  ) => void; // 设置卡片的卡片信息
-  removeOccupant: (controller: number, sequence: number) => void; // 移除卡片的卡片信息
+  ) => void;
+  /** 移除卡片的卡片信息 */
+  removeOccupant: (controller: number, sequence: number) => void;
+  /** 添加 idle 的交互性 */
+  addIdleInteractivity: (
+    controller: number,
+    sequence: number,
+    interactivity: CardState["idleInteractivities"][number]
+  ) => void;
+  /** 移除 idle 的交互性 */
+  clearIdleInteractivities: (controller: number, sequence: number) => void;
+  /** 设置 place 的交互种类 */
+  setPlaceInteractivityType: (
+    controller: number,
+    sequence: number,
+    interactType: InteractType
+  ) => void;
+  /** 移除 place 的交互性 */
+  clearPlaceInteractivity: (controller: number, sequence: number) => void;
 }
 
 export interface PlayMatState {

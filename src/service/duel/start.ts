@@ -53,6 +53,8 @@ export default (
       },
     ])
   );
+
+  // >>> 删除 >>>
   dispatch(initMonsters(0));
   dispatch(initMonsters(1));
   dispatch(initMagics(0));
@@ -63,10 +65,18 @@ export default (
   dispatch(initDeck({ player: 0, deskSize: start.deckSize1 }));
   dispatch(initDeck({ player: 1, deskSize: start.deckSize2 }));
 
-  matStore.decks.add(0, Array(start.deckSize1).fill(0));
-  matStore.decks.add(1, Array(start.deckSize2).fill(0));
-
   dispatch(initBanishedZone(0));
   dispatch(initBanishedZone(1));
-  dispatch(initHint());
+
+  // <<< 删除 <<<
+  // 上面的删除就可以了
+
+  matStore.monsters.at(0).forEach((x) => (x.location.controler = 0));
+  matStore.monsters.at(1).forEach((x) => (x.location.controler = 1));
+  matStore.magics.at(0).forEach((x) => (x.location.controler = 0));
+  matStore.magics.at(1).forEach((x) => (x.location.controler = 1));
+
+  matStore.decks.add(0, Array(start.deckSize1).fill(0));
+  matStore.decks.add(1, Array(start.deckSize2).fill(0));
+  dispatch(initHint()); // 直接删除
 };

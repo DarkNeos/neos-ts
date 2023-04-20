@@ -1,3 +1,5 @@
+export * from "./types";
+
 import { proxy } from "valtio";
 
 import { fetchCard } from "@/api/cards";
@@ -11,6 +13,7 @@ import type {
   InitInfo,
   PlayMatState,
 } from "./types";
+import { InteractType } from "./types";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 
 /**
@@ -129,6 +132,9 @@ const wrap = <T extends DuelFieldState>(
 
   const res: CardsBothSide<T> = proxy({
     ...entity,
+    at: (controller: number) => {
+      return res[getWhom(controller)];
+    },
     remove: (controller: number, sequence: number) => {
       res[getWhom(controller)].splice(sequence, 1);
     },
@@ -174,12 +180,19 @@ const wrap = <T extends DuelFieldState>(
     clearIdleInteractivities: (controller: number, sequence: number) => {
       res[getWhom(controller)][sequence].idleInteractivities = [];
     },
-    setPlaceInteractivity: (
+    setPlaceInteractivityType: (
       controller: number,
       sequence: number,
-      interactivity: CardState["placeInteractivity"]
+      interactType: InteractType
     ) => {
-      res[getWhom(controller)][sequence].placeInteractivity = interactivity;
+      res[getWhom(controller)][sequence].placeInteractivity = {
+        interactType: interactType,
+        response: {
+          controler: controller,
+          zone,
+          sequence,
+        },
+      };
     },
     clearPlaceInteractivity: (controller: number, sequence: number) => {
       res[getWhom(controller)][sequence].placeInteractivity = undefined;
@@ -227,10 +240,10 @@ export const matStore = proxy<PlayMatState>({
  * 根据controller判断是自己还是对方
  * 不要往外export，尽量逻辑收拢在store内部
  */
-const getWhom = (controller: number) =>
+const getWhom = (controller: number): "me" | "op" =>
   judgeSelf(controller, matStore.selfType) ? "me" : "op";
 
-function judgeSelf(player: number, selfType: number): boolean {
+const judgeSelf = (player: number, selfType: number): boolean => {
   switch (selfType) {
     case 1:
       // 自己是先攻
@@ -243,4 +256,4 @@ function judgeSelf(player: number, selfType: number): boolean {
       console.error("judgeSelf error", player, selfType);
       return false;
   }
-}
+};
