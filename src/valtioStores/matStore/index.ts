@@ -2,7 +2,7 @@ export * from "./types";
 
 import { proxy } from "valtio";
 
-import { fetchCard } from "@/api/cards";
+import { fetchCard, type CardMeta } from "@/api/cards";
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
 import type {
@@ -11,7 +11,7 @@ import type {
   CardsBothSide,
   DuelFieldState,
   InitInfo,
-  PlayMatState,
+  MatState,
 } from "./types";
 import { InteractType } from "./types";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
@@ -45,7 +45,7 @@ const genBlock = (
   };
 };
 
-const initInfo: PlayMatState["initInfo"] = proxy({
+const initInfo: MatState["initInfo"] = proxy({
   me: {
     masterRule: "UNKNOWN",
     life: -1, // 特地设置一个不可能的值
@@ -66,12 +66,13 @@ const initInfo: PlayMatState["initInfo"] = proxy({
   },
 });
 
-const hint: PlayMatState["hint"] = proxy({
+const hint: MatState["hint"] = proxy({
   code: -1,
-  fetchCommonHintMeta: (hintData: number) => {
-    return fetchStrings("!system", hintData);
+  fetchCommonHintMeta: (code: number) => {
+    hint.code = code;
+    hint.msg = fetchStrings("!system", code);
   },
-  fetchSelectHintMeta: async (selectHintData: number, esHint?: string) => {
+  fetchSelectHintMeta: async ({ selectHintData, esHint }) => {
     let selectHintMeta = "";
     if (selectHintData > DESCRIPTION_LIMIT) {
       // 针对`MSG_SELECT_PLACE`的特化逻辑
@@ -83,28 +84,41 @@ const hint: PlayMatState["hint"] = proxy({
     } else {
       selectHintMeta = await getStrings(selectHintData);
     }
-    return {
-      selectHintMeta,
-      esHint,
-    };
-  },
-  fetchEsHintMeta: async (
-    _originMsg: string | number,
-    location?: ygopro.CardLocation,
-    cardID?: number
-  ) => {
-    const originMsg =
-      typeof _originMsg === "string"
-        ? _originMsg
-        : fetchStrings("!system", _originMsg);
 
-    if (cardID) {
-      const cardMeta = await fetchCard(cardID);
-
-      return { originMsg, cardMeta, location };
+    hint.code = selectHintData;
+    if (hint.code > DESCRIPTION_LIMIT) {
+      // 针对`MSG_SELECT_PLACE`的特化逻辑
+      hint.msg = selectHintMeta;
     } else {
-      return { originMsg, location };
+      hint.esSelectHint = selectHintMeta;
+      hint.esHint = esHint;
     }
+  },
+  fetchEsHintMeta: async ({ originMsg, location, cardID }) => {
+    const newOriginMsg =
+      typeof originMsg === "string"
+        ? originMsg
+        : fetchStrings("!system", originMsg);
+
+    const cardMeta = cardID ? await fetchCard(cardID) : undefined;
+
+    let esHint = newOriginMsg;
+
+    if (cardMeta?.text.name) {
+      esHint = esHint.replace("[?]", cardMeta.text.name);
+    }
+
+    if (location) {
+      const fieldMeta = matStore
+        .getZone(location.location)
+        .at(location.controler)
+        .at(location.sequence);
+      if (fieldMeta?.occupant?.text.name) {
+        esHint = esHint.replace("[?]", fieldMeta.occupant.text.name);
+      }
+    }
+
+    hint.esHint = esHint;
   },
 });
 
@@ -202,10 +216,34 @@ const wrap = <T extends DuelFieldState>(
 };
 
 /**
+ * zone -> matStore
+ */
+const getZone = (zone: ygopro.CardZone) => {
+  switch (zone) {
+    case ygopro.CardZone.MZONE:
+      return matStore.monsters;
+    case ygopro.CardZone.SZONE:
+      return matStore.magics;
+    case ygopro.CardZone.HAND:
+      return matStore.hands;
+    case ygopro.CardZone.DECK:
+      return matStore.decks;
+    case ygopro.CardZone.GRAVE:
+      return matStore.graveyards;
+    case ygopro.CardZone.REMOVED:
+      return matStore.banishedZones;
+    case ygopro.CardZone.EXTRA:
+      return matStore.extraDecks;
+    default:
+      console.error("in error", zone);
+      return matStore.extraDecks;
+  }
+};
+/**
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`PlayMatState`去看
  */
-export const matStore = proxy<PlayMatState>({
+export const matStore: MatState = proxy<MatState>({
   magics: wrap(genBlock(ygopro.CardZone.SZONE, 6), ygopro.CardZone.SZONE),
   monsters: wrap(genBlock(ygopro.CardZone.MZONE, 7), ygopro.CardZone.MZONE),
   graveyards: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
@@ -234,6 +272,8 @@ export const matStore = proxy<PlayMatState>({
   result: ygopro.StocGameMessage.MsgWin.ActionType.UNKNOWN,
   waiting: false,
   unimplemented: 0,
+  // methods
+  getZone,
 });
 
 /**

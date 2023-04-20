@@ -3,7 +3,7 @@ import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
 import { setMagicPosition, setMonsterPosition } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-
+import { matStore } from "@/valtioStores";
 export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
   const cardInfo = posChange.card_info;
 
@@ -16,6 +16,9 @@ export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
           position: posChange.cur_position,
         })
       );
+      matStore.monsters.at(cardInfo.controler)[
+        cardInfo.sequence
+      ].location.position = posChange.cur_position;
 
       break;
     }
@@ -27,6 +30,9 @@ export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
           position: posChange.cur_position,
         })
       );
+      matStore.magics.at(cardInfo.controler)[
+        cardInfo.sequence
+      ].location.position = posChange.cur_position;
 
       break;
     }

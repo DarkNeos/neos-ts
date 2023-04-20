@@ -43,6 +43,8 @@ import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
 
+import { matStore } from "@/valtioStores";
+
 const ActiveList = [
   "select_idle_cmd",
   "select_place",
@@ -62,6 +64,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
 
   if (ActiveList.includes(msg.gameMsg)) {
     dispatch(setWaiting(false));
+    matStore.waiting = false;
   }
 
   switch (msg.gameMsg) {

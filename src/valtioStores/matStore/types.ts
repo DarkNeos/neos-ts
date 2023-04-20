@@ -44,7 +44,7 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
   clearPlaceInteractivity: (controller: number, sequence: number) => void;
 }
 
-export interface PlayMatState {
+export interface MatState {
   selfType: number;
 
   initInfo: BothSide<InitInfo> & {
@@ -79,7 +79,7 @@ export interface PlayMatState {
 
   unimplemented: number; // 未处理的`Message`
 
-  // remove: (player: number, sequence: number) => void;
+  getZone: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>; // 是否在某个区域
 }
 
 export interface InitInfo {
@@ -164,27 +164,23 @@ export interface HintState {
 }
 // 和hint相关的方法
 export interface HintMethods {
-  fetchCommonHintMeta: (hintData: number) => string;
-  fetchSelectHintMeta: (
-    selectHintData: number,
-    esHint?: string
-  ) => Promise<{
-    selectHintMeta: string;
+  fetchCommonHintMeta: (hintData: number) => void;
+  fetchSelectHintMeta: (args: {
+    selectHintData: number;
     esHint?: string;
-  }>;
-  fetchEsHintMeta: (
-    originMsg: string | number,
-    location?: ygopro.CardLocation,
-    cardID?: number
-  ) => Promise<{
-    originMsg: string;
-    cardMeta?: CardMeta;
+  }) => Promise<void>;
+  fetchEsHintMeta: (args: {
+    originMsg: string | number;
     location?: ygopro.CardLocation;
-  }>;
+    cardID?: number;
+  }) => Promise<void>;
 }
 
+export type PhaseName =
+  keyof typeof ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+
 export interface PhaseState {
-  currentPhase: string; // TODO 当前的阶段 应该改成enum
+  currentPhase: PhaseName; // TODO 当前的阶段 应该改成enum
   enableBp: boolean; // 允许进入战斗阶段
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
