@@ -7,7 +7,10 @@ import {
 import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
-import { messageStore } from "@/valtioStores";
+import {
+  messageStore,
+  fetchCheckCardMeta as FIXME_fetchCheckCardMeta,
+} from "@/valtioStores";
 
 import { CardZoneToChinese } from "./util";
 
@@ -39,7 +42,15 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
         },
       })
     );
+    // FIXME: rename
+    FIXME_fetchCheckCardMeta(card.location.location, {
+      code: card.code,
+      location: card.location,
+      response: card.response,
+    });
   }
 
   dispatch(setCheckCardModalIsOpen(true));
+
+  messageStore.checkCardModal.isOpen = true;
 };

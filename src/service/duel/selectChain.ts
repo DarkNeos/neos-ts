@@ -12,8 +12,14 @@ import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
 
 import { CardZoneToChinese } from "./util";
-import MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 
+import {
+  messageStore,
+  fetchCheckCardMeta as FIXME_fetchCheckCardMeta,
+  fetchSelectHintMeta as FIXME_fetchSelectHintMeta,
+} from "@/valtioStores";
+
+type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
   const player = selectChain.player;
   const spCount = selectChain.special_count;
@@ -71,6 +77,12 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
       dispatch(setCheckCardMOdalCancelAble(!forced));
       dispatch(setCheckCardModalCancelResponse(-1));
 
+      messageStore.checkCardModal.selectMin = 1;
+      messageStore.checkCardModal.selectMax = 1;
+      messageStore.checkCardModal.onSubmit = "sendSelectChainResponse";
+      messageStore.checkCardModal.cancelAble = !forced;
+      messageStore.checkCardModal.cancelResponse = -1;
+
       for (const chain of chains) {
         const tagName = CardZoneToChinese(chain.location.location);
         dispatch(
@@ -84,14 +96,24 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
             },
           })
         );
+        FIXME_fetchCheckCardMeta(chain.location.location, {
+          code: chain.code,
+          location: chain.location,
+          response: chain.response,
+          effectDescCode: chain.effect_description,
+        });
       }
       dispatch(
         fetchSelectHintMeta({
           selectHintData: 203,
         })
       );
+      FIXME_fetchSelectHintMeta({
+        selectHintData: 203,
+      });
 
       dispatch(setCheckCardModalIsOpen(true));
+      messageStore.checkCardModal.isOpen = true;
 
       break;
     }

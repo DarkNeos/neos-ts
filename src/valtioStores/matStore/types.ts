@@ -67,7 +67,7 @@ export interface MatState {
 
   timeLimits: BothSide<number>; // 双方的时间限制
 
-  hint: HintState & HintMethods;
+  hint: HintState;
 
   currentPlayer: number; // 当前的操作方
 
@@ -79,7 +79,11 @@ export interface MatState {
 
   unimplemented: number; // 未处理的`Message`
 
-  getZone: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>; // 是否在某个区域
+  // >>> methods >>>
+  /** 根据zone获取hands/masters/gy... */
+  getZone: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>;
+  /**  根据自己的先后手判断是否是自己 */
+  isMe: (player: number) => boolean;
 }
 
 export interface InitInfo {
@@ -161,19 +165,6 @@ export interface HintState {
   msg?: string;
   esHint?: string;
   esSelectHint?: string;
-}
-// 和hint相关的方法
-export interface HintMethods {
-  fetchCommonHintMeta: (hintData: number) => void;
-  fetchSelectHintMeta: (args: {
-    selectHintData: number;
-    esHint?: string;
-  }) => Promise<void>;
-  fetchEsHintMeta: (args: {
-    originMsg: string | number;
-    location?: ygopro.CardLocation;
-    cardID?: number;
-  }) => Promise<void>;
 }
 
 export type PhaseName =
