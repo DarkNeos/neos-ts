@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { updateTurn } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 import { matStore } from "@/valtioStores";

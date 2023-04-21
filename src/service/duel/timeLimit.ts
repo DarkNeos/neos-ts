@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { sendTimeConfirm } from "@/api/ocgcore/ocgHelper";
 import { updateTimeLimit } from "@/reducers/duel/mod";
 import { store } from "@/store";

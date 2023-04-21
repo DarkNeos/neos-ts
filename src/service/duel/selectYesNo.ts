@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
 import { fetchYesNoMetaWithEffecDesc } from "@/reducers/duel/modal/yesNoModalSlice";
 import { AppDispatch } from "@/store";

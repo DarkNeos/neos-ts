@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { updateMonsterCounters } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 import MsgUpdateCounter = ygopro.StocGameMessage.MsgUpdateCounter;

@@ -2,7 +2,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { sendSelectPositionResponse } from "@/api/ocgcore/ocgHelper";
 import { useAppSelector } from "@/hook";
 import {

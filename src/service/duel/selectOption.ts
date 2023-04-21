@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { setOptionModalIsOpen } from "@/reducers/duel/mod";
 import { fetchOptionMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";

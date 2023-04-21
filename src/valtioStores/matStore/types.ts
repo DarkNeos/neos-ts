@@ -1,5 +1,5 @@
 import type { CardMeta } from "@/api/cards";
-import type { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import type { ygopro } from "@/api";
 
 // >>> play mat state >>>
 

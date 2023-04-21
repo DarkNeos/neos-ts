@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { updateFieldData } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;

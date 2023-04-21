@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { setSortCardModalIsOpen } from "@/reducers/duel/mod";
 import { fetchSortCardMeta } from "@/reducers/duel/modal/sortCardModalSlice";
 import { AppDispatch } from "@/store";

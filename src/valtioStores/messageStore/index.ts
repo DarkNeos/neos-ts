@@ -1,7 +1,7 @@
 import { proxy } from "valtio";
 
 import type { CardMeta } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 
 export const messageStore = proxy<ModalState>({
   cardModal: { isOpen: false, interactivies: [], counters: {} },

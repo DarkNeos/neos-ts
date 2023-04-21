@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { useRef } from "react";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
 import { useConfig } from "@/config";
 import { useClick } from "@/hook";

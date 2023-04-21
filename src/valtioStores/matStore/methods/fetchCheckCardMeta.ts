@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { matStore, messageStore } from "@/valtioStores";
 import { fetchCard, getCardStr } from "@/api/cards";
 

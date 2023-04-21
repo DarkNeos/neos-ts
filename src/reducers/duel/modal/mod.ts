@@ -1,5 +1,5 @@
 import { CardMeta } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
 
 export interface ModalState {

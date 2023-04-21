@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { selectHandAble } from "@/reducers/moraSlice";
 import { store } from "@/store";
 import { moraStore } from "@/valtioStores";

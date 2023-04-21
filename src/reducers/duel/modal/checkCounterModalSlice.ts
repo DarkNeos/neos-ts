@@ -1,7 +1,7 @@
 // 后续对于`MSG_SELECT_XXX`的处理UI都尽量用`Babylon.js`实现而不会通过`Antd`的`Modal`实现，因此这里不追求工程质量，暂时简单实现下。
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { RootState } from "@/store";
 
 import { DuelState } from "../mod";

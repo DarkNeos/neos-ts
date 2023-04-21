@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { fetchCard } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 import { RootState } from "@/store";
 

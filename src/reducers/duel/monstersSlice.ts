@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { fetchCard } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { RootState } from "@/store";
 
 import {

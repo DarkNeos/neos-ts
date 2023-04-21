@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { updateHandsMeta } from "@/reducers/duel/handsSlice";
 import { AppDispatch } from "@/store";
 import MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;

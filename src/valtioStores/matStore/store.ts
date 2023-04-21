@@ -1,7 +1,7 @@
 import { proxy } from "valtio";
 
 import { fetchCard } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 
 import type {
   BothSide,

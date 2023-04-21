@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { fetchHandsMeta } from "@/reducers/duel/handsSlice";
 import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
 import { AppDispatch } from "@/store";

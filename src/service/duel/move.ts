@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import MsgMove = ygopro.StocGameMessage.MsgMove;
 import { fetchBanishedZoneMeta } from "@/reducers/duel/banishedZoneSlice";
 import { fetchExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";

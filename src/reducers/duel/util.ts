@@ -5,7 +5,7 @@
 
 import { Draft } from "@reduxjs/toolkit";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 
 import { CardState } from "./generic";
 import { DuelState } from "./mod";

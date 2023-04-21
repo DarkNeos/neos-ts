@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
   addHandsIdleInteractivity,

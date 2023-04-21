@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { postChat } from "@/reducers/chatSlice";
 import { store } from "@/store";
 import { chatStore } from "@/valtioStores";

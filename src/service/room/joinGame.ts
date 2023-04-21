@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { setJoined } from "@/reducers/joinSlice";
 import { store } from "@/store";
 import { joinStore } from "@/valtioStores";

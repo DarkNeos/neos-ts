@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { setWaiting } from "@/reducers/duel/mod";
 import { store } from "@/store";
 import { matStore } from "@/valtioStores";

@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { AppDispatch } from "@/store";
 import MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 import {

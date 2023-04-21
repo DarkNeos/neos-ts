@@ -1,13 +1,21 @@
-import { CardMeta } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { CardMeta, fetchCard } from "@/api/cards";
+import { ygopro } from "@/api";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
 import { fetchYesNoMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
 
 import { CardZoneToChinese } from "./util";
-import MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
-export default (selectEffectYn: MsgSelectEffectYn, dispatch: AppDispatch) => {
+import { messageStore, getCardByLocation } from "@/valtioStores";
+import { fetchStrings } from "@/api/strings";
+
+type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
+
+// 这里改成了 async 不知道有没有影响
+export default async (
+  selectEffectYn: MsgSelectEffectYn,
+  dispatch: AppDispatch
+) => {
   const player = selectEffectYn.player;
   const code = selectEffectYn.code;
   const location = selectEffectYn.location;
@@ -39,5 +47,10 @@ export default (selectEffectYn: MsgSelectEffectYn, dispatch: AppDispatch) => {
       textGenerator,
     })
   );
+  // TODO: 国际化文案
   dispatch(setYesNoModalIsOpen(true));
+
+  const desc = fetchStrings("!system", effect_description);
+  const meta = await fetchCard(code);
+  messageStore.yesNoModal.msg = textGenerator(desc, meta, location);
 };

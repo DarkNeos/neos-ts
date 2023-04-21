@@ -1,7 +1,7 @@
 import { matStore } from "@/valtioStores";
 import { fetchCard } from "@/api/cards";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
-import type { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import type { ygopro } from "@/api";
 
 const { hint } = matStore;
 

@@ -5,7 +5,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { RootState } from "@/store";
 
 import {

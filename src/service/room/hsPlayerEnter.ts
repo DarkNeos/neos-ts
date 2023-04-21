@@ -1,4 +1,4 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { ygopro } from "@/api";
 import { player0Enter, player1Enter } from "@/reducers/playerSlice";
 import { store } from "@/store";
 import { playerStore } from "@/valtioStores";
