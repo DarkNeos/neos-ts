@@ -1,13 +1,12 @@
-import { CardMeta, fetchCard } from "@/api/cards";
 import { ygopro } from "@/api";
+import { CardMeta, fetchCard } from "@/api/cards";
+import { fetchStrings } from "@/api/strings";
 import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
 import { fetchYesNoMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
+import { getCardByLocation, messageStore } from "@/valtioStores";
 
 import { CardZoneToChinese } from "./util";
-
-import { messageStore, getCardByLocation } from "@/valtioStores";
-import { fetchStrings } from "@/api/strings";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 

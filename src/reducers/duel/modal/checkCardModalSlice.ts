@@ -5,8 +5,8 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 
-import { fetchCard, getCardStr } from "@/api/cards";
 import { ygopro } from "@/api";
+import { fetchCard, getCardStr } from "@/api/cards";
 import { RootState } from "@/store";
 
 import { DuelState } from "../mod";

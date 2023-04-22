@@ -8,8 +8,8 @@ import {
 import { fetchCheckCardMetasV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
 import { AppDispatch } from "@/store";
 import {
-  messageStore,
   fetchCheckCardMetasV3 as FIXME_fetchCheckCardMetasV3,
+  messageStore,
 } from "@/valtioStores";
 type MsgSelectSum = ygopro.StocGameMessage.MsgSelectSum;
 

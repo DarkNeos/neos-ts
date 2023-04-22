@@ -4,8 +4,8 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 
-import { fetchCard } from "@/api/cards";
 import { ygopro } from "@/api";
+import { fetchCard } from "@/api/cards";
 import { RootState } from "@/store";
 
 import { DuelReducer } from "../generic";

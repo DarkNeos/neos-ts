@@ -1,7 +1,6 @@
 import { ygopro } from "@/api";
 import { updateMonsterCounters } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-
 import { getCardByLocation } from "@/valtioStores";
 
 type MsgUpdateCounter = ygopro.StocGameMessage.MsgUpdateCounter;

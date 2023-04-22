@@ -1,10 +1,9 @@
 import { ygopro } from "@/api";
 import { clearAllIdleInteractivities, setWaiting } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-
 import {
-  matStore,
   clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
+  matStore,
 } from "@/valtioStores";
 
 export default (

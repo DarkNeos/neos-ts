@@ -1,4 +1,4 @@
-import { ygopro, fetchCard, getCardStr } from "@/api";
+import { fetchCard, getCardStr, ygopro } from "@/api";
 import { setOptionModalIsOpen } from "@/reducers/duel/mod";
 import { fetchOptionMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";

@@ -1,7 +1,8 @@
-import { proxy } from "valtio";
 import { cloneDeep } from "lodash-es";
-import { fetchCard } from "@/api/cards";
+import { proxy } from "valtio";
+
 import { ygopro } from "@/api";
+import { fetchCard } from "@/api/cards";
 
 import type {
   BothSide,
@@ -194,7 +195,7 @@ const getZone = (zone: ygopro.CardZone) => {
 const { SZONE, MZONE, GRAVE, REMOVED, HAND, DECK, EXTRA } = ygopro.CardZone;
 /**
  * 💡 决斗盘状态仓库，本文件核心，
- * 具体介绍可以点进`PlayMatState`去看
+ * 具体介绍可以点进`MatState`去看
  */
 export const matStore: MatState = proxy<MatState>({
   magics: wrap(genDuel(genBlock(SZONE, 6)), SZONE),

@@ -1,8 +1,7 @@
 import { ygopro } from "@/api";
 import { reloadField } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-
-import { matStore, type DuelFieldState } from "@/valtioStores";
+import { type DuelFieldState, matStore } from "@/valtioStores";
 
 type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 

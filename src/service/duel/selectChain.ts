@@ -10,14 +10,13 @@ import {
 } from "@/reducers/duel/mod";
 import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
-
-import { CardZoneToChinese } from "./util";
-
 import {
-  messageStore,
   fetchCheckCardMeta as FIXME_fetchCheckCardMeta,
   fetchSelectHintMeta as FIXME_fetchSelectHintMeta,
+  messageStore,
 } from "@/valtioStores";
+
+import { CardZoneToChinese } from "./util";
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {

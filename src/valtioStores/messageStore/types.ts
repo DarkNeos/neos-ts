@@ -1,5 +1,5 @@
 import type { CardMeta, ygopro } from "@/api";
-type CardLocation = ygopro.CardLocation;
+type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
 
 export interface ModalState {
   // 卡牌弹窗

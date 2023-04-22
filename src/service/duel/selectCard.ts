@@ -8,8 +8,8 @@ import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
 import { AppDispatch } from "@/store";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 import {
-  messageStore,
   fetchCheckCardMeta as FIXME_fetchCheckCardMeta,
+  messageStore,
 } from "@/valtioStores";
 
 import { CardZoneToChinese } from "./util";

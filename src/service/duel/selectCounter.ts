@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { setCheckCounter } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import { messageStore, getCardByLocation } from "@/valtioStores";
+import { getCardByLocation, messageStore } from "@/valtioStores";
 type MsgSelectCounter = ygopro.StocGameMessage.MsgSelectCounter;
 
 export default (selectCounter: MsgSelectCounter, dispatch: AppDispatch) => {

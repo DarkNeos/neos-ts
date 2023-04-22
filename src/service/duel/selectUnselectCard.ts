@@ -8,10 +8,9 @@ import {
 } from "@/reducers/duel/mod";
 import { fetchCheckCardMetasV2 } from "@/reducers/duel/modal/checkCardModalV2Slice";
 import { AppDispatch } from "@/store";
-
 import {
-  messageStore,
   fetchCheckCardMetasV2 as FIXME_fetchCheckCardMetasV2,
+  messageStore,
 } from "@/valtioStores";
 
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;

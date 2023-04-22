@@ -1,4 +1,4 @@
-import { type ygopro, fetchCard } from "@/api";
+import { fetchCard, type ygopro } from "@/api";
 import { getCardByLocation, messageStore } from "@/valtioStores";
 
 export const fetchCheckCardMetasV3 = async ({

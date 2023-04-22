@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
 import { AppDispatch } from "@/store";
-import { matStore } from "@/valtioStores";
+import { fetchEsHintMeta as FIXME_fetchEsHintMeta } from "@/valtioStores";
 
 export default (
   attack: ygopro.StocGameMessage.MsgAttack,
@@ -10,7 +10,7 @@ export default (
   dispatch(
     fetchEsHintMeta({ originMsg: "「[?]」攻击时", location: attack.location })
   );
-  matStore.hint.fetchEsHintMeta({
+  FIXME_fetchEsHintMeta({
     originMsg: "「[?]」攻击时",
     location: attack.location,
   });
