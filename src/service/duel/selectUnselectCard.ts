@@ -8,23 +8,35 @@ import {
 } from "@/reducers/duel/mod";
 import { fetchCheckCardMetasV2 } from "@/reducers/duel/modal/checkCardModalV2Slice";
 import { AppDispatch } from "@/store";
-import MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
+
+import {
+  messageStore,
+  fetchCheckCardMetasV2 as FIXME_fetchCheckCardMetasV2,
+} from "@/valtioStores";
+
+type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
 export default (
-  selectUnselectCard: MsgSelectUnselectCard,
+  {
+    finishable,
+    cancelable,
+    min,
+    max,
+    selectable_cards: selectableCards,
+    selected_cards: selectedCards,
+  }: MsgSelectUnselectCard,
   dispatch: AppDispatch
 ) => {
-  const finishable = selectUnselectCard.finishable;
-  const cancelable = selectUnselectCard.cancelable;
-  const min = selectUnselectCard.min;
-  const max = selectUnselectCard.max;
-  const selectableCards = selectUnselectCard.selectable_cards;
-  const selectedCards = selectUnselectCard.selected_cards;
-
   dispatch(setCheckCardModalV2IsOpen(true));
   dispatch(setCheckCardModalV2FinishAble(finishable));
   dispatch(setCheckCardModalV2CancelAble(cancelable));
   dispatch(setCheckCardModalV2MinMax({ min, max }));
+
+  messageStore.checkCardModalV2.isOpen = true;
+  messageStore.checkCardModalV2.finishAble = finishable;
+  messageStore.checkCardModalV2.cancelAble = cancelable;
+  messageStore.checkCardModalV2.selectMin = min;
+  messageStore.checkCardModalV2.selectMax = max;
 
   dispatch(
     fetchCheckCardMetasV2({
@@ -39,6 +51,17 @@ export default (
     })
   );
 
+  FIXME_fetchCheckCardMetasV2({
+    selected: false,
+    options: selectableCards.map((card) => {
+      return {
+        code: card.code,
+        location: card.location,
+        response: card.response,
+      };
+    }),
+  });
+
   dispatch(
     fetchCheckCardMetasV2({
       selected: true,
@@ -52,5 +75,18 @@ export default (
     })
   );
 
+  FIXME_fetchCheckCardMetasV2({
+    selected: true,
+    options: selectedCards.map((card) => {
+      return {
+        code: card.code,
+        location: card.location,
+        response: card.response,
+      };
+    }),
+  });
+
   dispatch(setCheckCardModalV2ResponseAble(true));
+
+  messageStore.checkCardModalV2.responseable = true;
 };

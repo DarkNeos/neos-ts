@@ -6,6 +6,7 @@ import type { ygopro } from "@/api";
 export interface BothSide<T> {
   me: T;
   op: T;
+  at: (controller: number) => T;
 }
 
 export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
@@ -33,7 +34,7 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
     interactivity: CardState["idleInteractivities"][number]
   ) => void;
   /** 移除 idle 的交互性 */
-  clearIdleInteractivities: (controller: number, sequence: number) => void;
+  clearIdleInteractivities: (controller: number) => void;
   /** 设置 place 的交互种类 */
   setPlaceInteractivityType: (
     controller: number,
@@ -41,7 +42,7 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
     interactType: InteractType
   ) => void;
   /** 移除 place 的交互性 */
-  clearPlaceInteractivity: (controller: number, sequence: number) => void;
+  clearPlaceInteractivity: (controller: number) => void;
 }
 
 export interface MatState {
@@ -65,7 +66,9 @@ export interface MatState {
 
   extraDecks: CardsBothSide<ExtraDeckState>; // 双方的额外卡组状态
 
-  timeLimits: BothSide<number>; // 双方的时间限制
+  timeLimits: BothSide<number> & {
+    set: (controller: number, time: number) => void;
+  }; // 双方的时间限制
 
   hint: HintState;
 

@@ -1,5 +1,5 @@
 import { proxy } from "valtio";
-
+import { cloneDeep } from "lodash-es";
 import { fetchCard } from "@/api/cards";
 import { ygopro } from "@/api";
 
@@ -38,48 +38,36 @@ const isMe = (player: number): boolean => {
   }
 };
 
+const genDuel = <T>(obj: T) => {
+  const res = proxy({
+    me: cloneDeep(obj),
+    op: cloneDeep(obj),
+    at: (controller: number) => res[getWhom(controller)],
+  });
+  return res;
+};
+
 /**
  * 生成一个指定长度的卡片数组
  */
-const genBlock = (
-  location: ygopro.CardZone,
-  n: number
-): BothSide<DuelFieldState> => {
-  return {
-    me: Array(n)
-      .fill(null)
-      .map((_) => ({
-        location: {
-          location,
-        },
-        idleInteractivities: [],
-        counters: {},
-      })),
-    op: Array(n)
-      .fill(null)
-      .map((_) => ({
-        location: {
-          location,
-        },
-        idleInteractivities: [],
-        counters: {},
-      })),
-  };
-};
+const genBlock = (location: ygopro.CardZone, n: number): DuelFieldState =>
+  Array(n)
+    .fill(null)
+    .map((_) => ({
+      location: {
+        location,
+      },
+      idleInteractivities: [],
+      counters: {},
+    }));
 
 const initInfo: MatState["initInfo"] = proxy({
-  me: {
+  ...genDuel({
     masterRule: "UNKNOWN",
     life: -1, // 特地设置一个不可能的值
     deckSize: 0,
     extraSize: 0,
-  },
-  op: {
-    masterRule: "UNKNOWN",
-    life: -1, // 特地设置一个不可能的值
-    deckSize: 0,
-    extraSize: 0,
-  },
+  }),
   set: (controller: number, obj: Partial<InitInfo>) => {
     initInfo[getWhom(controller)] = {
       ...initInfo[getWhom(controller)],
@@ -116,25 +104,18 @@ const wrap = <T extends DuelFieldState>(
 
   const res: CardsBothSide<T> = proxy({
     ...entity,
-    at: (controller: number) => {
-      return res[getWhom(controller)];
-    },
     remove: (controller: number, sequence: number) => {
-      res[getWhom(controller)].splice(sequence, 1);
+      res.at(controller).splice(sequence, 1);
     },
     insert: async (controller: number, sequence: number, id: number) => {
       const card = await genCard(controller, id);
-      res[getWhom(controller)].splice(sequence, 0, card);
+      res.at(controller).splice(sequence, 0, card);
     },
     add: async (controller: number, ids: number[]) => {
       const cards = await Promise.all(
         ids.map(async (id) => genCard(controller, id))
       );
-      res[getWhom(controller)].splice(
-        res[getWhom(controller)].length,
-        0,
-        ...cards
-      );
+      res.at(controller).splice(res.at(controller).length, 0, ...cards);
     },
     setOccupant: async (
       controller: number,
@@ -143,33 +124,31 @@ const wrap = <T extends DuelFieldState>(
       position?: ygopro.CardPosition
     ) => {
       const meta = await fetchCard(id);
-      const target = res[getWhom(controller)][sequence];
+      const target = res.at(controller)[sequence];
       target.occupant = meta;
       if (position) {
         target.location.position = position;
       }
     },
     removeOccupant: (controller: number, sequence: number) => {
-      res[getWhom(controller)][sequence].occupant = undefined;
+      res.at(controller)[sequence].occupant = undefined;
     },
     addIdleInteractivity: (
       controller: number,
       sequence: number,
       interactivity: CardState["idleInteractivities"][number]
     ) => {
-      res[getWhom(controller)][sequence].idleInteractivities.push(
-        interactivity
-      );
+      res.at(controller)[sequence].idleInteractivities.push(interactivity);
     },
-    clearIdleInteractivities: (controller: number, sequence: number) => {
-      res[getWhom(controller)][sequence].idleInteractivities = [];
+    clearIdleInteractivities: (controller: number) => {
+      res.at(controller).forEach((card) => (card.idleInteractivities = []));
     },
     setPlaceInteractivityType: (
       controller: number,
       sequence: number,
       interactType: InteractType
     ) => {
-      res[getWhom(controller)][sequence].placeInteractivity = {
+      res.at(controller)[sequence].placeInteractivity = {
         interactType: interactType,
         response: {
           controler: controller,
@@ -178,8 +157,10 @@ const wrap = <T extends DuelFieldState>(
         },
       };
     },
-    clearPlaceInteractivity: (controller: number, sequence: number) => {
-      res[getWhom(controller)][sequence].placeInteractivity = undefined;
+    clearPlaceInteractivity: (controller: number) => {
+      res
+        .at(controller)
+        .forEach((card) => (card.placeInteractivity = undefined));
     },
   });
   return res;
@@ -209,23 +190,27 @@ const getZone = (zone: ygopro.CardZone) => {
       return matStore.extraDecks;
   }
 };
+
+const { SZONE, MZONE, GRAVE, REMOVED, HAND, DECK, EXTRA } = ygopro.CardZone;
 /**
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`PlayMatState`去看
  */
 export const matStore: MatState = proxy<MatState>({
-  magics: wrap(genBlock(ygopro.CardZone.SZONE, 6), ygopro.CardZone.SZONE),
-  monsters: wrap(genBlock(ygopro.CardZone.MZONE, 7), ygopro.CardZone.MZONE),
-  graveyards: wrap({ me: [], op: [] }, ygopro.CardZone.GRAVE),
-  banishedZones: wrap({ me: [], op: [] }, ygopro.CardZone.REMOVED),
-  hands: wrap({ me: [], op: [] }, ygopro.CardZone.HAND),
-  decks: wrap({ me: [], op: [] }, ygopro.CardZone.DECK),
-  extraDecks: wrap({ me: [], op: [] }, ygopro.CardZone.EXTRA),
+  magics: wrap(genDuel(genBlock(SZONE, 6)), SZONE),
+  monsters: wrap(genDuel(genBlock(MZONE, 7)), MZONE),
+  graveyards: wrap(genDuel([]), GRAVE),
+  banishedZones: wrap(genDuel([]), REMOVED),
+  hands: wrap(genDuel([]), HAND),
+  decks: wrap(genDuel([]), DECK),
+  extraDecks: wrap(genDuel([]), EXTRA),
 
   timeLimits: {
     // 时间限制
-    me: 0,
-    op: 0,
+    ...genDuel(-1),
+    set: (controller: number, time: number) => {
+      matStore.timeLimits[getWhom(controller)] = time;
+    },
   },
 
   initInfo,
