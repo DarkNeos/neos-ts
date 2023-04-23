@@ -12,8 +12,14 @@ import {
   setEnableEp,
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+
+import {
+  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
+  matStore,
+} from "@/valtioStores";
+
+import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 
 export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   const player = selectIdleCmd.player;
@@ -21,6 +27,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
   // 先清掉之前的互动性
   dispatch(clearAllIdleInteractivities(player));
+  FIXME_clearAllIdleInteractivities(player);
 
   const dispatcher = (
     idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
@@ -66,6 +73,28 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
     cmd.idle_datas.forEach((data) => {
       const cardInfo = data.card_info;
+
+      // valtio。代码从 ./selectBattleCmd.ts 复制过来的
+      if (interactType) {
+        const map: Partial<
+          Record<InteractType, undefined | Partial<Interactivity<number>>>
+        > = {
+          [InteractType.ACTIVATE]: { activateIndex: data.effect_description },
+        };
+        const tmp = map[interactType];
+        if (tmp) {
+          matStore
+            .getZone(cardInfo.location)
+            .addIdleInteractivity(player, cardInfo.sequence, {
+              ...tmp,
+              interactType,
+              response: data.response,
+            });
+        } else {
+          console.warn(`Unhandled InteractType:`, interactType);
+        }
+      }
+
       switch (cardInfo.location) {
         case ygopro.CardZone.HAND: {
           dispatcher(data, interactType, addHandsIdleInteractivity);
@@ -106,6 +135,9 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
 
   dispatch(setEnableBp(selectIdleCmd.enable_bp));
   dispatch(setEnableEp(selectIdleCmd.enable_ep));
+
+  matStore.phase.enableBp = selectIdleCmd.enable_bp;
+  matStore.phase.enableEp = selectIdleCmd.enable_ep;
 };
 
 function idleTypeToInteractType(
