@@ -46,7 +46,7 @@ import {
   selectPlayer1,
 } from "@/reducers/playerSlice";
 import { store } from "@/store";
-import { valtioContext } from "@/valtioStores";
+import { valtioStore } from "@/valtioStores";
 
 const NeosConfig = useConfig();
 
@@ -58,7 +58,7 @@ const {
 } = useConfig();
 
 const WaitRoom = () => {
-  const state = useContext(valtioContext);
+  const state = valtioStore;
   const snap = useSnapshot(state);
   const params = useParams<{
     player?: string;

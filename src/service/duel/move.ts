@@ -34,31 +34,60 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   const reason = move.reason;
 
   switch (from.location) {
+    case ygopro.CardZone.MZONE:
+    case ygopro.CardZone.SZONE: {
+      const target = matStore.getZone(from.location).at(from.controler)[
+        from.sequence
+      ];
+      target.occupant = undefined;
+      target.overlay_materials = [];
+      break;
+    }
+    case ygopro.CardZone.HAND:
+    case ygopro.CardZone.REMOVED:
+    case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.HAND:
+    case ygopro.CardZone.EXTRA: {
+      matStore.getZone(from.location).remove(from.controler, from.sequence);
+      break;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      const target = matStore.monsters.at(from.controler)[from.sequence];
+      if (target && target.overlay_materials) {
+        target.overlay_materials.splice(from.overlay_sequence, 1);
+      }
+      break;
+    }
+    default: {
+      console.log(`Unhandled zone type ${from.location}`);
+      break;
+    }
+  }
+
+  switch (to.location) {
+  }
+
+  switch (from.location) {
     case ygopro.CardZone.HAND: {
       dispatch(removeHand([from.controler, from.sequence]));
-      matStore.hands.remove(from.controler, from.sequence);
       break;
     }
     case ygopro.CardZone.MZONE: {
       dispatch(
         removeMonster({ controler: from.controler, sequence: from.sequence })
       );
-
       break;
     }
     case ygopro.CardZone.SZONE: {
       dispatch(
         removeMagic({ controler: from.controler, sequence: from.sequence })
       );
-
       break;
     }
     case ygopro.CardZone.GRAVE: {
       dispatch(
         removeGraveyard({ controler: from.controler, sequence: from.sequence })
       );
-      matStore.graveyards.remove(from.controler, from.sequence);
-
       break;
     }
     case ygopro.CardZone.REMOVED: {
@@ -68,16 +97,12 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
           sequence: from.sequence,
         })
       );
-      matStore.banishedZones.remove(from.controler, from.sequence);
-
       break;
     }
     case ygopro.CardZone.EXTRA: {
       dispatch(
         removeExtraDeck({ controler: from.controler, sequence: from.sequence })
       );
-      matStore.extraDecks.remove(from.controler, from.sequence);
-
       break;
     }
     case ygopro.CardZone.OVERLAY: {

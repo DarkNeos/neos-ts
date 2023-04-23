@@ -5,13 +5,13 @@ import { useSnapshot } from "valtio";
 
 import { useAppSelector } from "@/hook";
 import { selectChat } from "@/reducers/chatSlice";
-import { valtioContext } from "@/valtioStores";
+import { chatStore } from "@/valtioStores";
 
 export const DuelTimeLine = () => {
   const [items, setItems] = useState<TimelineItemProps[]>([]);
   const chat = useAppSelector(selectChat);
 
-  const stateChat = useContext(valtioContext).chatStore;
+  const stateChat = chatStore;
   const snapChat = useSnapshot(stateChat);
 
   // const chat = snapChat.message;

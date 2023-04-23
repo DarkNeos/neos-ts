@@ -26,8 +26,6 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-import { ValtioProvider } from "@/valtioStores";
-
 import { store } from "./store";
 import Neos from "./ui/Neos";
 
@@ -38,14 +36,12 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ValtioProvider>
-          <ConfigProvider
-            theme={{ algorithm: theme.darkAlgorithm }}
-            locale={zhCN}
-          >
-            <Neos />
-          </ConfigProvider>
-        </ValtioProvider>
+        <ConfigProvider
+          theme={{ algorithm: theme.darkAlgorithm }}
+          locale={zhCN}
+        >
+          <Neos />
+        </ConfigProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

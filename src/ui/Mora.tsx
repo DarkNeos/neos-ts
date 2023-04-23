@@ -19,7 +19,7 @@ import {
   unSelectTpAble,
 } from "@/reducers/moraSlice";
 import { store } from "@/store";
-import { valtioContext } from "@/valtioStores";
+import { moraStore } from "@/valtioStores";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -27,7 +27,7 @@ const {
 } = useConfig();
 
 const Mora = () => {
-  const stateMora = useContext(valtioContext).moraStore;
+  const stateMora = moraStore;
   const snapMora = useSnapshot(stateMora);
 
   const dispatch = store.dispatch;

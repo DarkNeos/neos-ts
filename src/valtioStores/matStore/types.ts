@@ -10,7 +10,7 @@ export interface BothSide<T> {
 }
 
 export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
-  /** 根据controller返回对应的数组 */
+  /** 根据controller返回对应的数组，op或者me */
   at: (controller: number) => T;
   /** 移除特定位置的卡片 */
   remove: (player: number, sequence: number) => void;
@@ -25,8 +25,6 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
     id: number,
     position?: ygopro.CardPosition
   ) => void;
-  /** 移除卡片的卡片信息 */
-  removeOccupant: (controller: number, sequence: number) => void;
   /** 添加 idle 的交互性 */
   addIdleInteractivity: (
     controller: number,

@@ -131,9 +131,6 @@ const wrap = <T extends DuelFieldState>(
         target.location.position = position;
       }
     },
-    removeOccupant: (controller: number, sequence: number) => {
-      res.at(controller)[sequence].occupant = undefined;
-    },
     addIdleInteractivity: (
       controller: number,
       sequence: number,
