@@ -104,20 +104,20 @@ const WaitRoom = () => {
   }, []);
 
   const dispatch = store.dispatch;
-  const joined = useAppSelector(selectJoined);
-  const chat = useAppSelector(selectChat);
-  const isHost = useAppSelector(selectIsHost);
-  const player0 = useAppSelector(selectPlayer0);
-  const player1 = useAppSelector(selectPlayer1);
-  const duelStart = useAppSelector(selectDuelStart);
+  // const joined = useAppSelector(selectJoined);
+  // const chat = useAppSelector(selectChat);
+  // const isHost = useAppSelector(selectIsHost);
+  // const player0 = useAppSelector(selectPlayer0);
+  // const player1 = useAppSelector(selectPlayer1);
+  // const duelStart = useAppSelector(selectDuelStart);
   const [api, contextHolder] = notification.useNotification();
 
-  // const joined = snap.joinStore.value;
-  // const chat = snap.chatStore.message;
-  // const isHost = snap.playerStore.isHost;
-  // const player0 = snap.playerStore.player0;
-  // const player1 = snap.playerStore.player1;
-  // const duelStart = snap.moraStore.duelStart;
+  const joined = snap.joinStore.value;
+  const chat = snap.chatStore.message;
+  const isHost = snap.playerStore.isHost;
+  const player0 = snap.playerStore.player0;
+  const player1 = snap.playerStore.player1;
+  const duelStart = snap.moraStore.duelStart;
 
   // FIXME: 这些数据应该从`store`中获取
   // TODO: 云卡组
@@ -163,6 +163,7 @@ const WaitRoom = () => {
     await dispatch(
       initMeExtraDeckMeta({ controler: 0, codes: deck.extra?.reverse() || [] })
     );
+    valtioStore.matStore.extraDecks.of(0).add(deck.extra?.reverse() || []);
     setChoseDeck(true);
   };
 

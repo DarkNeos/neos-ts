@@ -27,17 +27,16 @@ const {
 } = useConfig();
 
 const Mora = () => {
-  const stateMora = moraStore;
-  const snapMora = useSnapshot(stateMora);
+  const snapMora = useSnapshot(moraStore);
 
   const dispatch = store.dispatch;
-  const selectHandAble = useAppSelector(selectHandSelectAble);
-  const selectTpAble = useAppSelector(selectTpSelectAble);
-  const duelHsStart = useAppSelector(selectDuelHsStart);
+  // const selectHandAble = useAppSelector(selectHandSelectAble);
+  // const selectTpAble = useAppSelector(selectTpSelectAble);
+  // const duelHsStart = useAppSelector(selectDuelHsStart);
 
-  // const selectHandAble = snapMora.selectHandAble;
-  // const selectTpAble = snapMora.selectTpAble;
-  // const duelHsStart = snapMora.duelStart;
+  const selectHandAble = snapMora.selectHandAble;
+  const selectTpAble = snapMora.selectTpAble;
+  const duelHsStart = snapMora.duelStart;
 
   const navigate = useNavigate();
   const { player, passWd, ip } = useParams<{
@@ -49,12 +48,12 @@ const Mora = () => {
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
     dispatch(unSelectHandAble());
-    stateMora.selectHandAble = false;
+    moraStore.selectHandAble = false;
   };
   const handleSelectTp = (isFirst: boolean) => {
     sendTpResult(isFirst);
     dispatch(unSelectTpAble());
-    stateMora.selectTpAble = false;
+    moraStore.selectTpAble = false;
   };
 
   useEffect(() => {
