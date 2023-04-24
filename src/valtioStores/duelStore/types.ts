@@ -1,10 +1,11 @@
 import type { CardMeta } from "@/api/cards";
 import type { ygopro } from "@/api/ocgcore/idl/ocgcore";
 
-export interface DuelState {
-  selfType?: number;
-  meInitInfo?: InitInfo; // 自己的初始状态
-  opInitInfo?: InitInfo; // 对手的初始状态
+// >>> play mat state >>>
+export interface PlayMatState {
+  selfType: number;
+  meInitInfo: InitInfo; // 自己的初始状态
+  opInitInfo: InitInfo; // 对手的初始状态
 
   meHands: HandState; // 自己的手牌
   opHands: HandState; // 对手的手牌
@@ -30,17 +31,17 @@ export interface DuelState {
   meTimeLimit?: TimeLimit; // 自己的计时
   opTimeLimit?: TimeLimit; // 对手的计时
 
-  hint?: HintState;
+  hint: HintState;
 
-  currentPlayer?: number; // 当前的操作方
+  currentPlayer: number; // 当前的操作方
 
-  phase?: PhaseState;
+  phase: PhaseState;
 
-  result?: ygopro.StocGameMessage.MsgWin.ActionType;
+  result: ygopro.StocGameMessage.MsgWin.ActionType;
 
-  waiting?: boolean;
+  waiting: boolean;
 
-  unimplemented?: number; // 未处理的`Message`
+  unimplemented: number; // 未处理的`Message`
 }
 
 export interface InitInfo {
@@ -124,3 +125,120 @@ export interface PhaseState {
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
 }
+// <<< play mat state <<<
+
+// >>> modal types >>>
+type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
+
+export interface ModalState {
+  // 卡牌弹窗
+  cardModal: {
+    isOpen: boolean;
+    meta?: CardMeta;
+    interactivies: { desc: string; response: number }[];
+    counters: { [type: number]: number };
+  };
+  // 卡牌列表弹窗
+  cardListModal: {
+    isOpen: boolean;
+    list: {
+      meta?: CardMeta;
+      interactivies: { desc: string; response: number }[];
+    }[];
+  };
+  // 卡牌选择弹窗
+  checkCardModal: {
+    isOpen: boolean;
+    onSubmit?: string;
+    selectMin?: number;
+    selectMax?: number;
+    cancelAble: boolean;
+    cancelResponse?: number;
+    tags: {
+      tagName: string;
+      options: {
+        meta: CardMeta;
+        location?: CardLocation;
+        effectDescCode?: number;
+        effectDesc?: string;
+        response: number;
+      }[];
+    }[];
+  };
+  // Yes or No弹窗
+  yesNoModal: {
+    isOpen: boolean;
+    msg?: string;
+  };
+  // 表示形式选择弹窗
+  positionModal: {
+    isOpen: boolean;
+    positions: ygopro.CardPosition[];
+  };
+  // 选项选择弹窗
+  optionModal: {
+    isOpen: boolean;
+    options: { msg: string; response: number }[];
+  };
+  // 卡牌选择弹窗V2
+  checkCardModalV2: {
+    isOpen: boolean;
+    cancelAble: boolean;
+    finishAble: boolean;
+    selectMin?: number;
+    selectMax?: number;
+    responseable?: boolean;
+    selectableOptions: {
+      code: number;
+      name?: string;
+      desc?: string;
+      response: number;
+    }[];
+    selectedOptions: {
+      code: number;
+      name?: string;
+      desc?: string;
+      response: number;
+    }[];
+  };
+  // 卡牌选择弹窗V3
+  checkCardModalV3: {
+    isOpen: boolean;
+    overflow: boolean;
+    allLevel: number;
+    selectMin?: number;
+    selectMax?: number;
+    responseable?: boolean;
+    mustSelectList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+    selectAbleList: {
+      meta: CardMeta;
+      level1: number;
+      level2: number;
+      response: number;
+    }[];
+  };
+  // 指示器选择弹窗
+  checkCounterModal: {
+    isOpen: boolean;
+    counterType?: number;
+    min?: number;
+    options: {
+      code: number;
+      max: number;
+    }[];
+  };
+  // 卡牌排序弹窗
+  sortCardModal: {
+    isOpen: boolean;
+    options: {
+      meta: CardMeta;
+      response: number;
+    }[];
+  };
+}
+// <<< modal types <<<
