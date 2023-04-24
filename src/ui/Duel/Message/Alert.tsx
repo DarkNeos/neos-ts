@@ -6,8 +6,15 @@ import { sendSurrender } from "@/api/ocgcore/ocgHelper";
 import { useAppSelector } from "@/hook";
 import { selectUnimplemented } from "@/reducers/duel/mod";
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 export const Alert = () => {
-  const unimplemented = useAppSelector(selectUnimplemented);
+  // const unimplemented = useAppSelector(selectUnimplemented);
+
+  const matSnap = useSnapshot(matStore);
+  const unimplemented = matSnap.unimplemented;
+
   const navigate = useNavigate();
 
   return (

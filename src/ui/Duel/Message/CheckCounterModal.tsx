@@ -11,14 +11,31 @@ import { store } from "@/store";
 
 import { DragModal } from "./DragModal";
 
+import { messageStore, matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
+const { checkCounterModal } = messageStore;
+
 const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
+  const snapCheckCounterModal = useSnapshot(checkCounterModal);
+  const snapMat = useSnapshot(matStore);
+
   const dispatch = store.dispatch;
-  const state = useAppSelector(selectCheckCounterModal);
-  const isOpen = state.isOpen;
-  const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
-  const min = state.min || 0;
-  const options = state.options;
+  // const state = useAppSelector(selectCheckCounterModal);
+  // const isOpen = state.isOpen;
+  // const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
+  // const min = state.min || 0;
+  // const options = state.options;
+
+  const isOpen = snapCheckCounterModal.isOpen;
+  const min = snapCheckCounterModal.min || 0;
+  const options = snapCheckCounterModal.options;
+  const counterName = fetchStrings(
+    "!counter",
+    `0x${snapCheckCounterModal.counterType!}`
+  );
+
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);
   const finishable = sum == min;

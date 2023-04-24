@@ -17,10 +17,19 @@ import { store } from "@/store";
 
 import { DragModal } from "./DragModal";
 
+import { messageStore, matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
+const { positionModal } = messageStore;
+
 export const PositionModal = () => {
   const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectPositionModalIsOpen);
-  const positions = useAppSelector(selectPositionModalPositions);
+  const snapPositionModal = useSnapshot(positionModal);
+  // const isOpen = useAppSelector(selectPositionModalIsOpen);
+  // const positions = useAppSelector(selectPositionModalPositions);
+  const isOpen = snapPositionModal.isOpen;
+  const positions = snapPositionModal.positions;
+
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined
   );
@@ -38,6 +47,8 @@ export const PositionModal = () => {
               sendSelectPositionResponse(selected);
               dispatch(setPositionModalIsOpen(false));
               dispatch(resetPositionModal());
+              positionModal.isOpen = false;
+              positionModal.positions = [];
             }
           }}
         >

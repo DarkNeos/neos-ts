@@ -10,9 +10,13 @@ import { selectCurrentPhase } from "@/reducers/duel/phaseSlice";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 import { useConfig } from "@/config";
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const NeosConfig = useConfig();
 export const HintNotification = () => {
-  const hint = useAppSelector(selectHint);
+  // const hint = useAppSelector(selectHint);
+  const hint = useSnapshot(matStore.hint);
   const currentPhase = useAppSelector(selectCurrentPhase);
   const waiting = useAppSelector(selectWaiting);
   const result = useAppSelector(selectDuelResult);

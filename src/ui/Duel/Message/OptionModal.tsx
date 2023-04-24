@@ -12,11 +12,21 @@ import {
 import { store } from "@/store";
 
 import { DragModal } from "./DragModal";
+import { messageStore, matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
+const { optionModal } = messageStore;
 
 export const OptionModal = () => {
   const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectOptionModalIsOpen);
-  const options = useAppSelector(selectOptionModalOptions);
+  // const isOpen = useAppSelector(selectOptionModalIsOpen);
+  // const options = useAppSelector(selectOptionModalOptions);
+
+  const snapOptionModal = useSnapshot(optionModal);
+
+  const isOpen = snapOptionModal.isOpen;
+  const options = snapOptionModal.options;
+
   const [selected, setSelected] = useState<number | undefined>(undefined);
 
   return (
@@ -32,6 +42,8 @@ export const OptionModal = () => {
               sendSelectOptionResponse(selected);
               dispatch(setOptionModalIsOpen(false));
               dispatch(resetOptionModal());
+              optionModal.isOpen = false;
+              optionModal.options = [];
             }
           }}
         >

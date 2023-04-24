@@ -27,14 +27,28 @@ import {
   Type2StringCodeMap,
 } from "../../../common";
 
+import {
+  messageStore,
+  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
+} from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const NeosConfig = useConfig();
 const { Meta } = Card;
 const CARD_WIDTH = 240;
 
+const { cardModal } = messageStore;
+
 export const CardModal = () => {
+  const snapCardModal = useSnapshot(cardModal);
+
   const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectCardModalIsOpen);
-  const meta = useAppSelector(selectCardModalMeta);
+  // const isOpen = useAppSelector(selectCardModalIsOpen);
+  // const meta = useAppSelector(selectCardModalMeta);
+
+  const isOpen = snapCardModal.isOpen;
+  const meta = snapCardModal.meta;
+
   const name = meta?.text.name;
   const types = meta?.data.type;
   const race = meta?.data.race;
@@ -43,14 +57,19 @@ export const CardModal = () => {
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
-  const counters = useAppSelector(selectCardModalCounters);
+
+  // const counters = useAppSelector(selectCardModalCounters);
+  const counters = snapCardModal.counters;
+
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
-  const interactivies = useAppSelector(selectCardModalInteractivies);
+  // const interactivies = useAppSelector(selectCardModalInteractivies);
+  const interactivies = snapCardModal.interactivies;
 
   const handleOkOrCancel = () => {
     dispatch(setCardModalIsOpen(false));
+    cardModal.isOpen = false;
   };
 
   return (
@@ -79,6 +98,9 @@ export const CardModal = () => {
               dispatch(setCardModalIsOpen(false));
               dispatch(clearAllIdleInteractivities(0));
               dispatch(clearAllIdleInteractivities(1));
+              cardModal.isOpen = false;
+              FIXME_clearAllIdleInteractivities(0);
+              FIXME_clearAllIdleInteractivities(1);
             }}
           >
             {interactive.desc}

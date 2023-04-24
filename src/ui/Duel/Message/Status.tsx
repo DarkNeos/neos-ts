@@ -18,10 +18,17 @@ const avatarSize = 40;
 const ME_VALUE = "myself";
 const OP_VALUE = "opponent";
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 export const PlayerStatus = () => {
-  const meInfo = useAppSelector(selectMeInitInfo);
-  const opInfo = useAppSelector(selectOpInitInfo);
-  const waiting = useAppSelector(selectWaiting) || false;
+  // const meInfo = useAppSelector(selectMeInitInfo);
+  // const opInfo = useAppSelector(selectOpInitInfo);
+  // const waiting = useAppSelector(selectWaiting) || false;
+
+  const meInfo = useSnapshot(matStore.initInfo.me);
+  const opInfo = useSnapshot(matStore.initInfo.op);
+  const waiting = useSnapshot(matStore).waiting;
 
   return (
     <CheckCard.Group

@@ -26,6 +26,13 @@ import {
 } from "@/reducers/duel/phaseSlice";
 import { store } from "@/store";
 
+import {
+  messageStore,
+  matStore,
+  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
+} from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const IconSize = "150%";
 const SpaceSize = 16;
 
@@ -47,12 +54,21 @@ const PhaseButton = (props: {
   );
 };
 
+const { phase } = matStore;
+
 export const Phase = () => {
   const dispatch = store.dispatch;
-  const enableBp = useAppSelector(selectEnableBp);
-  const enableM2 = useAppSelector(selectEnableM2);
-  const enableEp = useAppSelector(selectEnableEp);
-  const currentPhase = useAppSelector(selectCurrentPhase);
+  // const enableBp = useAppSelector(selectEnableBp);
+  // const enableM2 = useAppSelector(selectEnableM2);
+  // const enableEp = useAppSelector(selectEnableEp);
+  // const currentPhase = useAppSelector(selectCurrentPhase);
+
+  const snapPhase = useSnapshot(phase);
+  const enableBp = snapPhase.enableBp;
+  const enableM2 = snapPhase.enableM2;
+  const enableEp = snapPhase.enableEp;
+  const currentPhase = snapPhase.currentPhase;
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const response =
@@ -69,7 +85,10 @@ export const Phase = () => {
     dispatch(clearAllIdleInteractivities(0));
 
     sendSelectIdleCmdResponse(6);
-    dispatch(setEnableBp(false));
+    // dispatch(setEnableBp(false));
+    FIXME_clearAllIdleInteractivities(0); // 为什么要clear两次？
+    FIXME_clearAllIdleInteractivities(0);
+    phase.enableBp = false;
   };
   const onM2 = () => {
     dispatch(clearAllIdleInteractivities(0));
@@ -77,6 +96,9 @@ export const Phase = () => {
 
     sendSelectBattleCmdResponse(2);
     dispatch(setEnableM2(false));
+    FIXME_clearAllIdleInteractivities(0);
+    FIXME_clearAllIdleInteractivities(0);
+    phase.enableM2 = false;
   };
   const onEp = () => {
     dispatch(clearAllIdleInteractivities(0));
@@ -84,6 +106,9 @@ export const Phase = () => {
 
     sendSelectIdleCmdResponse(response);
     dispatch(setEnableEp(false));
+    FIXME_clearAllIdleInteractivities(0);
+    FIXME_clearAllIdleInteractivities(0);
+    phase.enableEp = false;
   };
   const onSurrender = () => {
     setModalOpen(true);

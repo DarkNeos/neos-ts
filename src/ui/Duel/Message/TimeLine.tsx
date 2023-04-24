@@ -9,12 +9,12 @@ import { chatStore } from "@/valtioStores";
 
 export const DuelTimeLine = () => {
   const [items, setItems] = useState<TimelineItemProps[]>([]);
-  const chat = useAppSelector(selectChat);
+  // const chat = useAppSelector(selectChat);
 
   const stateChat = chatStore;
   const snapChat = useSnapshot(stateChat);
 
-  // const chat = snapChat.message;
+  const chat = snapChat.message;
 
   useEffect(() => {
     setItems((prev) =>
