@@ -36,29 +36,31 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   const to = move.to;
   const reason = move.reason;
 
+  // TODO: 如果后面做动画的话，要考虑DECK的情况。
+  // 现在不会对DECK做判断
+
   switch (from.location) {
     case ygopro.CardZone.MZONE:
     case ygopro.CardZone.SZONE: {
       // 魔陷和怪兽需要清掉占用、清掉超量素材
-      const target = matStore.getZone(from.location).at(from.controler)[
+      const target = matStore.in(from.location).of(from.controler)[
         from.sequence
       ];
       target.occupant = undefined;
       target.overlay_materials = [];
       break;
     }
-    case ygopro.CardZone.HAND:
     case ygopro.CardZone.REMOVED:
     case ygopro.CardZone.GRAVE:
     case ygopro.CardZone.HAND:
     case ygopro.CardZone.EXTRA: {
       // 其余区域就是在list删掉这张卡
-      matStore.getZone(from.location).remove(from.controler, from.sequence);
+      matStore.in(from.location).remove(from.controler, from.sequence);
       break;
     }
     // 仅仅去除超量素材
     case ygopro.CardZone.OVERLAY: {
-      const target = matStore.monsters.at(from.controler)[from.sequence];
+      const target = matStore.monsters.of(from.controler)[from.sequence];
       if (target && target.overlay_materials) {
         target.overlay_materials.splice(from.overlay_sequence, 1);
       }
@@ -81,23 +83,28 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       FIXME_fetchOverlayMeta(to.controler, to.sequence, sorted);
       // 设置Occupant，和魔陷区/其他区共用一个逻辑，特地不写break
     }
-    case ygopro.CardZone.SZONE:
-    case ygopro.CardZone.DECK:
-    case ygopro.CardZone.REMOVED:
-    case ygopro.CardZone.GRAVE:
-    case ygopro.CardZone.HAND:
-    case ygopro.CardZone.EXTRA: {
+    case ygopro.CardZone.SZONE: {
       matStore
-        .getZone(to.location)
+        .in(to.location)
         .setOccupant(to.controler, to.sequence, code, to.position);
       break;
-      // FIXME 这里逻辑不对...
     }
+    case ygopro.CardZone.REMOVED:
+    case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.EXTRA:
     case ygopro.CardZone.HAND: {
       matStore.hands.insert(to.controler, to.sequence, code);
       break;
     }
     case ygopro.CardZone.OVERLAY: {
+      if (reason == REASON_MATERIAL) {
+        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，`reason`字段值是`REASON_MATERIAL`
+        // 这时候将它们放到一个栈中，待超量怪兽的Move消息到来时从栈中获取超量素材补充到状态中
+        OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
+      } else {
+        // 其他情况下，比如“宵星的机神 丁吉尔苏”的“补充超量素材”效果，直接更新状态中
+        FIXME_fetchOverlayMeta(to.controler, to.sequence, [code], true);
+      }
       break;
     }
     default: {

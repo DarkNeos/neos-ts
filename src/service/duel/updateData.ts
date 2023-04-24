@@ -10,7 +10,7 @@ export default (updateData: MsgUpdateData, dispatch: AppDispatch) => {
 
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
-    const field = matStore.getZone(zone).at(controller);
+    const field = matStore.in(zone).of(controller);
     actions.forEach((action) => {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {

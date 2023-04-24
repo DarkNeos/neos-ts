@@ -39,11 +39,11 @@ const isMe = (player: number): boolean => {
   }
 };
 
-const genDuel = <T>(obj: T) => {
+const genDuel = <T>(obj: T): BothSide<T> => {
   const res = proxy({
     me: cloneDeep(obj),
     op: cloneDeep(obj),
-    at: (controller: number) => res[getWhom(controller)],
+    of: (controller: number) => res[getWhom(controller)],
   });
   return res;
 };
@@ -106,17 +106,17 @@ const wrap = <T extends DuelFieldState>(
   const res: CardsBothSide<T> = proxy({
     ...entity,
     remove: (controller: number, sequence: number) => {
-      res.at(controller).splice(sequence, 1);
+      res.of(controller).splice(sequence, 1);
     },
     insert: async (controller: number, sequence: number, id: number) => {
       const card = await genCard(controller, id);
-      res.at(controller).splice(sequence, 0, card);
+      res.of(controller).splice(sequence, 0, card);
     },
     add: async (controller: number, ids: number[]) => {
       const cards = await Promise.all(
         ids.map(async (id) => genCard(controller, id))
       );
-      res.at(controller).splice(res.at(controller).length, 0, ...cards);
+      res.of(controller).splice(res.of(controller).length, 0, ...cards);
     },
     setOccupant: async (
       controller: number,
@@ -125,7 +125,7 @@ const wrap = <T extends DuelFieldState>(
       position?: ygopro.CardPosition
     ) => {
       const meta = await fetchCard(id);
-      const target = res.at(controller)[sequence];
+      const target = res.of(controller)[sequence];
       target.occupant = meta;
       if (position) {
         target.location.position = position;
@@ -136,17 +136,17 @@ const wrap = <T extends DuelFieldState>(
       sequence: number,
       interactivity: CardState["idleInteractivities"][number]
     ) => {
-      res.at(controller)[sequence].idleInteractivities.push(interactivity);
+      res.of(controller)[sequence].idleInteractivities.push(interactivity);
     },
     clearIdleInteractivities: (controller: number) => {
-      res.at(controller).forEach((card) => (card.idleInteractivities = []));
+      res.of(controller).forEach((card) => (card.idleInteractivities = []));
     },
     setPlaceInteractivityType: (
       controller: number,
       sequence: number,
       interactType: InteractType
     ) => {
-      res.at(controller)[sequence].placeInteractivity = {
+      res.of(controller)[sequence].placeInteractivity = {
         interactType: interactType,
         response: {
           controler: controller,
@@ -157,7 +157,7 @@ const wrap = <T extends DuelFieldState>(
     },
     clearPlaceInteractivity: (controller: number) => {
       res
-        .at(controller)
+        .of(controller)
         .forEach((card) => (card.placeInteractivity = undefined));
     },
   });
@@ -226,6 +226,6 @@ export const matStore: MatState = proxy<MatState>({
   waiting: false,
   unimplemented: 0,
   // methods
-  getZone,
+  in: getZone,
   isMe,
 });

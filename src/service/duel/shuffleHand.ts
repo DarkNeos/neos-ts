@@ -24,6 +24,6 @@ export default (shuffleHand: MsgShuffleHand, dispatch: AppDispatch) => {
     };
   });
 
-  matStore.hands.at(controller).length = 0;
-  matStore.hands.at(controller).push(...metas);
+  matStore.hands.of(controller).length = 0;
+  matStore.hands.of(controller).push(...metas);
 };

@@ -87,7 +87,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
         const tmp = map[interactType];
         if (tmp) {
           matStore
-            .getZone(cardInfo.location)
+            .in(cardInfo.location)
             .addIdleInteractivity(player, cardInfo.sequence, {
               ...tmp,
               interactType,

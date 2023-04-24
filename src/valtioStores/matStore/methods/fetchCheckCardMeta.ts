@@ -102,7 +102,7 @@ export const fetchCheckCardMeta = async (
   const newID =
     code != 0
       ? code
-      : matStore.getZone(location.location).at(controller)[location.sequence]
+      : matStore.in(location.location).of(controller)[location.sequence]
           ?.occupant?.id || 0;
   const newOption = {
     meta: { id: newID, data: {}, text: {} },

@@ -6,12 +6,11 @@ import type { CardMeta } from "@/api/cards";
 export interface BothSide<T> {
   me: T;
   op: T;
-  at: (controller: number) => T;
+  /** 根据controller返回对应的数组，op或者me */
+  of: (controller: number) => T;
 }
 
 export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
-  /** 根据controller返回对应的数组，op或者me */
-  at: (controller: number) => T;
   /** 移除特定位置的卡片 */
   remove: (player: number, sequence: number) => void;
   /** 在末尾添加卡片 */
@@ -81,8 +80,8 @@ export interface MatState {
   unimplemented: number; // 未处理的`Message`
 
   // >>> methods >>>
-  /** 根据zone获取hands/masters/gy... */
-  getZone: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>;
+  /** 根据zone获取hands/masters/magics... */
+  in: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>;
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
 }

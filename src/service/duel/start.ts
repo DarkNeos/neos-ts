@@ -71,10 +71,10 @@ export default (
   // <<< 删除 <<<
   // 上面的删除就可以了
 
-  matStore.monsters.at(0).forEach((x) => (x.location.controler = 0));
-  matStore.monsters.at(1).forEach((x) => (x.location.controler = 1));
-  matStore.magics.at(0).forEach((x) => (x.location.controler = 0));
-  matStore.magics.at(1).forEach((x) => (x.location.controler = 1));
+  matStore.monsters.of(0).forEach((x) => (x.location.controler = 0));
+  matStore.monsters.of(1).forEach((x) => (x.location.controler = 1));
+  matStore.magics.of(0).forEach((x) => (x.location.controler = 0));
+  matStore.magics.of(1).forEach((x) => (x.location.controler = 1));
 
   matStore.decks.add(0, Array(start.deckSize1).fill(0));
   matStore.decks.add(1, Array(start.deckSize2).fill(0));

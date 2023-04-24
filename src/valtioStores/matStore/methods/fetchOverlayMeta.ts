@@ -11,7 +11,7 @@ export const fetchOverlayMeta = async (
     overlayCodes.map(async (id) => await fetchCard(id))
   );
 
-  const target = matStore.monsters.at(controller)[sequence];
+  const target = matStore.monsters.of(controller)[sequence];
   if (target && target.occupant) {
     if (append) {
       target.overlay_materials = (target.overlay_materials || []).concat(metas);

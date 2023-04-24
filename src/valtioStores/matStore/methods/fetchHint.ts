@@ -63,8 +63,8 @@ export const fetchEsHintMeta = async ({
 
   if (location) {
     const fieldMeta = matStore
-      .getZone(location.location)
-      .at(location.controler)
+      .in(location.location)
+      .of(location.controler)
       .at(location.sequence);
     if (fieldMeta?.occupant?.text.name) {
       esHint = esHint.replace("[?]", fieldMeta.occupant.text.name);

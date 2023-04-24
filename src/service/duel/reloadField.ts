@@ -55,9 +55,9 @@ function reloadDuelField(
       reload: true,
     };
   });
-  matStore.getZone(cardZone).at(controller).length = 0;
+  matStore.in(cardZone).of(controller).length = 0;
   matStore
-    .getZone(cardZone)
-    .at(controller)
+    .in(cardZone)
+    .of(controller)
     .push(...cards);
 }
