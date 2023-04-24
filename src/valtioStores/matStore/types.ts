@@ -24,7 +24,7 @@ export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
     sequence: number,
     id: number,
     position?: ygopro.CardPosition
-  ) => void;
+  ) => Promise<void>;
   /** 添加 idle 的交互性 */
   addIdleInteractivity: (
     controller: number,

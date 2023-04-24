@@ -19,7 +19,10 @@ import {
   fetchOverlayMeta,
 } from "@/reducers/duel/monstersSlice";
 import { AppDispatch } from "@/store";
-import { valtioStore } from "@/valtioStores";
+import {
+  valtioStore,
+  fetchOverlayMeta as FIXME_fetchOverlayMeta,
+} from "@/valtioStores";
 
 import { REASON_MATERIAL } from "../../common";
 
@@ -36,6 +39,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   switch (from.location) {
     case ygopro.CardZone.MZONE:
     case ygopro.CardZone.SZONE: {
+      // 魔陷和怪兽需要清掉占用、清掉超量素材
       const target = matStore.getZone(from.location).at(from.controler)[
         from.sequence
       ];
@@ -48,9 +52,11 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.GRAVE:
     case ygopro.CardZone.HAND:
     case ygopro.CardZone.EXTRA: {
+      // 其余区域就是在list删掉这张卡
       matStore.getZone(from.location).remove(from.controler, from.sequence);
       break;
     }
+    // 仅仅去除超量素材
     case ygopro.CardZone.OVERLAY: {
       const target = matStore.monsters.at(from.controler)[from.sequence];
       if (target && target.overlay_materials) {
@@ -65,6 +71,39 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   }
 
   switch (to.location) {
+    // @ts-ignore
+    case ygopro.CardZone.MZONE: {
+      // 设置超量素材
+      const overlayMetarials = OVERLAY_STACK.splice(0, OVERLAY_STACK.length);
+      const sorted = overlayMetarials
+        .sort((a, b) => a.sequence - b.sequence)
+        .map((overlay) => overlay.code);
+      FIXME_fetchOverlayMeta(to.controler, to.sequence, sorted);
+      // 设置Occupant，和魔陷区/其他区共用一个逻辑，特地不写break
+    }
+    case ygopro.CardZone.SZONE:
+    case ygopro.CardZone.DECK:
+    case ygopro.CardZone.REMOVED:
+    case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.HAND:
+    case ygopro.CardZone.EXTRA: {
+      matStore
+        .getZone(to.location)
+        .setOccupant(to.controler, to.sequence, code, to.position);
+      break;
+      // FIXME 这里逻辑不对...
+    }
+    case ygopro.CardZone.HAND: {
+      matStore.hands.insert(to.controler, to.sequence, code);
+      break;
+    }
+    case ygopro.CardZone.OVERLAY: {
+      break;
+    }
+    default: {
+      console.log(`Unhandled zone type ${to.location}`);
+      break;
+    }
   }
 
   switch (from.location) {
@@ -175,7 +214,6 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
       dispatch(
         insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
       );
-      matStore.hands.insert(to.controler, to.sequence, code);
 
       break;
     }
