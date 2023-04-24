@@ -129,12 +129,22 @@ export function createAsyncRepeatedMetaThunk(
   );
 }
 
+/*
+ * 扩充决斗区域卡片内容
+ *
+ * @param state - 需要扩充的区域，比如`MonsterState`
+ * @param newState - 新增加的`CardState`
+ * @sequence - 新增加的卡片的序列号，可选，如果为空则补充到列表末尾
+ *
+ * */
 export function extendState<T extends DuelFieldState>(
   state: T | undefined,
-  newState: CardState
+  newState: CardState,
+  sequence?: number
 ) {
   if (state) {
-    state.inner.push(newState);
+    let index = sequence !== undefined ? sequence : state.inner.length;
+    state.inner.splice(index, 0, newState);
   }
 }
 

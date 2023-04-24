@@ -52,15 +52,14 @@ export const graveyardCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       location: {
         controler,
         location: ygopro.CardZone.GRAVE,
-        sequence,
       },
       idleInteractivities: [],
       counters: {},
     };
     if (judgeSelf(controler, state)) {
-      extendState(state.meGraveyard, newGraveyard);
+      extendState(state.meGraveyard, newGraveyard, sequence);
     } else {
-      extendState(state.opGraveyard, newGraveyard);
+      extendState(state.opGraveyard, newGraveyard, sequence);
     }
   });
   builder.addCase(fetchGraveyardMeta.fulfilled, (state, action) => {
