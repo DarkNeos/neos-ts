@@ -76,7 +76,7 @@ export default (
   matStore.magics.of(0).forEach((x) => (x.location.controler = 0));
   matStore.magics.of(1).forEach((x) => (x.location.controler = 1));
 
-  matStore.decks.add(0, Array(start.deckSize1).fill(0));
-  matStore.decks.add(1, Array(start.deckSize2).fill(0));
+  matStore.decks.of(0).add(Array(start.deckSize1).fill(0));
+  matStore.decks.of(0).add(Array(start.deckSize2).fill(0));
   dispatch(initHint()); // 直接删除
 };

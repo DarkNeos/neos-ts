@@ -20,8 +20,8 @@ import {
 } from "@/reducers/duel/monstersSlice";
 import { AppDispatch } from "@/store";
 import {
-  valtioStore,
   fetchOverlayMeta as FIXME_fetchOverlayMeta,
+  valtioStore,
 } from "@/valtioStores";
 
 import { REASON_MATERIAL } from "../../common";
@@ -55,7 +55,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.HAND:
     case ygopro.CardZone.EXTRA: {
       // 其余区域就是在list删掉这张卡
-      matStore.in(from.location).remove(from.controler, from.sequence);
+      matStore.in(from.location).of(from.controler).remove(from.sequence);
       break;
     }
     // 仅仅去除超量素材
@@ -86,14 +86,15 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.SZONE: {
       matStore
         .in(to.location)
-        .setOccupant(to.controler, to.sequence, code, to.position);
+        .of(to.controler)
+        .setOccupant(to.sequence, code, to.position);
       break;
     }
     case ygopro.CardZone.REMOVED:
     case ygopro.CardZone.GRAVE:
     case ygopro.CardZone.EXTRA:
     case ygopro.CardZone.HAND: {
-      matStore.hands.insert(to.controler, to.sequence, code);
+      matStore.hands.of(to.controler).insert(to.sequence, code);
       break;
     }
     case ygopro.CardZone.OVERLAY: {

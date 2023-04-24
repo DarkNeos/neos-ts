@@ -15,5 +15,5 @@ export default (
   dispatch(fetchHandsMeta({ controler: draw.player, codes: draw.cards }));
 
   FIXME_fetchEsHintMeta({ originMsg: "玩家抽卡时" });
-  matStore.hands.add(draw.player, draw.cards);
+  matStore.hands.of(draw.player).add(draw.cards);
 };

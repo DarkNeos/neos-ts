@@ -22,22 +22,24 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
         dispatch(
           addMonsterPlaceInteractivities([place.controler, place.sequence])
         );
-        matStore.monsters.setPlaceInteractivityType(
-          place.controler,
-          place.sequence,
-          InteractType.PLACE_SELECTABLE
-        );
+        matStore.monsters
+          .of(place.controler)
+          .setPlaceInteractivityType(
+            place.sequence,
+            InteractType.PLACE_SELECTABLE
+          );
         break;
       }
       case ygopro.CardZone.SZONE: {
         dispatch(
           addMagicPlaceInteractivities([place.controler, place.sequence])
         );
-        matStore.magics.setPlaceInteractivityType(
-          place.controler,
-          place.sequence,
-          InteractType.PLACE_SELECTABLE
-        );
+        matStore.magics
+          .of(place.controler)
+          .setPlaceInteractivityType(
+            place.sequence,
+            InteractType.PLACE_SELECTABLE
+          );
         break;
       }
       default: {

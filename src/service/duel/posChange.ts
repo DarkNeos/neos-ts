@@ -4,8 +4,8 @@ import { setMagicPosition, setMonsterPosition } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
 import {
-  matStore,
   fetchEsHintMeta as FIXME_fetchEsHintMeta,
+  matStore,
 } from "@/valtioStores";
 export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
   const { location, controler, sequence } = posChange.card_info;

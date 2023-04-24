@@ -1,3 +1,5 @@
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+
 import { ygopro } from "@/api";
 import { Interactivity, InteractType } from "@/reducers/duel/generic";
 import {
@@ -12,8 +14,6 @@ import {
   setEnableEp,
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-
 import {
   clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
   matStore,
@@ -85,7 +85,8 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         if (tmp) {
           matStore
             .in(cardInfo.location)
-            .addIdleInteractivity(player, cardInfo.sequence, {
+            .of(player)
+            .addIdleInteractivity(cardInfo.sequence, {
               ...tmp,
               interactType,
               response: data.response,

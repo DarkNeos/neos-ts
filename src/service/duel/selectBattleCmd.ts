@@ -11,7 +11,6 @@ import {
   setEnableM2,
 } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-
 import {
   clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
   matStore,
@@ -88,7 +87,8 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
         if (tmp) {
           matStore
             .in(cardInfo.location)
-            .addIdleInteractivity(player, cardInfo.sequence, {
+            .of(player)
+            .addIdleInteractivity(cardInfo.sequence, {
               ...tmp,
               interactType,
               response: data.response,

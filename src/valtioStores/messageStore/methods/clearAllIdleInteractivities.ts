@@ -1,11 +1,11 @@
 import { matStore } from "@/valtioStores";
 
 export const clearAllIdleInteractivities = (controller: number) => {
-  matStore.banishedZones.clearIdleInteractivities(controller);
-  matStore.decks.clearIdleInteractivities(controller);
-  matStore.extraDecks.clearIdleInteractivities(controller);
-  matStore.graveyards.clearIdleInteractivities(controller);
-  matStore.hands.clearIdleInteractivities(controller);
-  matStore.magics.clearIdleInteractivities(controller);
-  matStore.monsters.clearIdleInteractivities(controller);
+  matStore.banishedZones.of(controller).clearIdleInteractivities();
+  matStore.decks.of(controller).clearIdleInteractivities();
+  matStore.extraDecks.of(controller).clearIdleInteractivities();
+  matStore.graveyards.of(controller).clearIdleInteractivities();
+  matStore.hands.of(controller).clearIdleInteractivities();
+  matStore.magics.of(controller).clearIdleInteractivities();
+  matStore.monsters.of(controller).clearIdleInteractivities();
 };

@@ -9,38 +9,38 @@ export interface BothSide<T> {
   /** 根据controller返回对应的数组，op或者me */
   of: (controller: number) => T;
 }
-
-export interface CardsBothSide<T extends DuelFieldState> extends BothSide<T> {
+/**
+ * CardState的顺序index，被称为sequence
+ */
+export type DuelFieldState = CardState[] & {
+  getController: () => number;
   /** 移除特定位置的卡片 */
-  remove: (player: number, sequence: number) => void;
+  remove: (sequence: number) => void;
   /** 在末尾添加卡片 */
-  add: (controller: number, ids: number[]) => void;
+  insert: (sequence: number, id: number) => Promise<void>;
   /** 在指定位置插入卡片 */
-  insert: (controller: number, sequence: number, id: number) => void;
+  add: (ids: number[]) => Promise<void>;
   /** 设置占据这个位置的卡片信息 */
   setOccupant: (
-    controller: number,
     sequence: number,
     id: number,
     position?: ygopro.CardPosition
   ) => Promise<void>;
   /** 添加 idle 的交互性 */
   addIdleInteractivity: (
-    controller: number,
     sequence: number,
     interactivity: CardState["idleInteractivities"][number]
   ) => void;
   /** 移除 idle 的交互性 */
-  clearIdleInteractivities: (controller: number) => void;
+  clearIdleInteractivities: () => void;
   /** 设置 place 的交互种类 */
   setPlaceInteractivityType: (
-    controller: number,
     sequence: number,
     interactType: InteractType
   ) => void;
   /** 移除 place 的交互性 */
-  clearPlaceInteractivity: (controller: number) => void;
-}
+  clearPlaceInteractivity: () => void;
+};
 
 export interface MatState {
   selfType: number;
@@ -49,19 +49,19 @@ export interface MatState {
     set: (controller: number, obj: Partial<InitInfo>) => void;
   }; // 双方的初始化信息
 
-  hands: CardsBothSide<HandState>; // 双方的手牌
+  hands: BothSide<HandState>; // 双方的手牌
 
-  monsters: CardsBothSide<MonsterState>; // 双方的怪兽区状态
+  monsters: BothSide<MonsterState>; // 双方的怪兽区状态
 
-  magics: CardsBothSide<MagicState>; // 双方的魔法区状态
+  magics: BothSide<MagicState>; // 双方的魔法区状态
 
-  graveyards: CardsBothSide<GraveyardState>; // 双方的墓地状态
+  graveyards: BothSide<GraveyardState>; // 双方的墓地状态
 
-  banishedZones: CardsBothSide<BanishedZoneState>; // 双方的除外区状态
+  banishedZones: BothSide<BanishedZoneState>; // 双方的除外区状态
 
-  decks: CardsBothSide<DeckState>; // 双方的卡组状态
+  decks: BothSide<DeckState>; // 双方的卡组状态
 
-  extraDecks: CardsBothSide<ExtraDeckState>; // 双方的额外卡组状态
+  extraDecks: BothSide<ExtraDeckState>; // 双方的额外卡组状态
 
   timeLimits: BothSide<number> & {
     set: (controller: number, time: number) => void;
@@ -81,7 +81,7 @@ export interface MatState {
 
   // >>> methods >>>
   /** 根据zone获取hands/masters/magics... */
-  in: (zone: ygopro.CardZone) => CardsBothSide<DuelFieldState>;
+  in: (zone: ygopro.CardZone) => BothSide<DuelFieldState>;
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
 }
@@ -114,11 +114,6 @@ export interface CardState {
   counters: { [type: number]: number }; // 指示器
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
 }
-
-/**
- * CardState的顺序index，被称为sequence
- */
-export type DuelFieldState = CardState[];
 
 export interface Interactivity<T> {
   interactType: InteractType;

@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { reloadField } from "@/reducers/duel/mod";
 import { AppDispatch } from "@/store";
-import { type DuelFieldState, matStore } from "@/valtioStores";
+import { matStore } from "@/valtioStores";
 
 type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 
@@ -14,12 +14,12 @@ export default (field: MsgReloadField, dispatch: AppDispatch) => {
 
   const gamers = ["me", "op"] as const;
   gamers.forEach((gamer) => {
-    matStore.banishedZones[gamer] = [];
-    matStore.extraDecks[gamer] = [];
-    matStore.graveyards[gamer] = [];
-    matStore.hands[gamer] = [];
-    matStore.monsters[gamer] = [];
-    matStore.magics[gamer] = [];
+    matStore.banishedZones[gamer].length = 0;
+    matStore.extraDecks[gamer].length = 0;
+    matStore.graveyards[gamer].length = 0;
+    matStore.hands[gamer].length = 0;
+    matStore.monsters[gamer].length = 0;
+    matStore.magics[gamer].length = 0;
   });
 
   const { MZONE, SZONE, HAND, DECK, GRAVE, REMOVED, EXTRA } = ygopro.CardZone;

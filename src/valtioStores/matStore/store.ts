@@ -6,7 +6,6 @@ import { fetchCard } from "@/api/cards";
 
 import type {
   BothSide,
-  CardsBothSide,
   CardState,
   DuelFieldState,
   InitInfo,
@@ -23,35 +22,111 @@ const getWhom = (controller: number): "me" | "op" =>
 
 /**
  * 根据自己的先后手判断是否是自己
+ * 原本名字叫judgeSelf
  */
-const isMe = (player: number): boolean => {
+const isMe = (controller: number): boolean => {
   switch (matStore.selfType) {
     case 1:
       // 自己是先攻
-      return player === 0;
+      return controller === 0;
     case 2:
       // 自己是后攻
-      return player === 1;
+      return controller === 1;
     default:
       // 目前不可能出现这种情况
-      console.error("judgeSelf error", player, matStore.selfType);
+      console.error("judgeSelf error", controller, matStore.selfType);
       return false;
   }
 };
 
-const genDuel = <T>(obj: T): BothSide<T> => {
+const genDuel = <T extends {}>(meObj: T, opObj?: T): BothSide<T> => {
+  // 提供opObj是为了让meObj和opObj的类型可以不同，避免深拷贝的坑...
   const res = proxy({
-    me: cloneDeep(obj),
-    op: cloneDeep(obj),
+    me: Object.assign(meObj, {
+      getController: () => (matStore.selfType == 1 ? 0 : 1),
+    }),
+    op: Object.assign(opObj ?? meObj, {
+      getController: () => (matStore.selfType == 1 ? 0 : 1),
+    }),
     of: (controller: number) => res[getWhom(controller)],
   });
+  return res;
+};
+
+const addMethods = <T extends CardState[]>(
+  entity: T,
+  zone: ygopro.CardZone
+): DuelFieldState => {
+  /** 生成一个卡片，根据`id`获取卡片信息 */
+  const genCard = async (controller: number, id: number) => ({
+    occupant: await fetchCard(id, true),
+    location: {
+      controler: controller,
+      location: zone,
+    },
+    counters: {},
+    idleInteractivities: [],
+  });
+
+  const res = proxy(entity) as unknown as DuelFieldState;
+  res.remove = (sequence: number) => {
+    res.splice(sequence, 1);
+  };
+  res.insert = async (sequence: number, id: number) => {
+    const card = await genCard(res.getController(), id);
+    res.splice(sequence, 0, card);
+  };
+  res.add = async (ids: number[]) => {
+    const cards = await Promise.all(
+      ids.map(async (id) => genCard(res.getController(), id))
+    );
+    res.splice(res.length, 0, ...cards);
+  };
+  res.setOccupant = async (
+    sequence: number,
+    id: number,
+    position?: ygopro.CardPosition
+  ) => {
+    const meta = await fetchCard(id);
+    const target = res[sequence];
+    target.occupant = meta;
+    if (position) {
+      target.location.position = position;
+    }
+  };
+
+  res.addIdleInteractivity = (
+    sequence: number,
+    interactivity: CardState["idleInteractivities"][number]
+  ) => {
+    res[sequence].idleInteractivities.push(interactivity);
+  };
+  res.clearIdleInteractivities = () => {
+    res.forEach((card) => (card.idleInteractivities = []));
+  };
+  res.setPlaceInteractivityType = (
+    sequence: number,
+    interactType: InteractType
+  ) => {
+    res[sequence].placeInteractivity = {
+      interactType: interactType,
+      response: {
+        controler: res.getController(),
+        zone,
+        sequence,
+      },
+    };
+  };
+  res.clearPlaceInteractivity = () => {
+    res.forEach((card) => (card.placeInteractivity = undefined));
+  };
   return res;
 };
 
 /**
  * 生成一个指定长度的卡片数组
  */
-const genBlock = (location: ygopro.CardZone, n: number): DuelFieldState =>
+const genBlock = (location: ygopro.CardZone, n: number) =>
   Array(n)
     .fill(null)
     .map((_) => ({
@@ -82,89 +157,6 @@ const hint: MatState["hint"] = proxy({
 });
 
 /**
- * 在决斗盘仓库之中，
- * 给 `{me: [...], op: [...]}` 这种类型的对象添加一些方法。
- * 具体的方法可以看`CardsBothSide`的类型定义
- */
-const wrap = <T extends DuelFieldState>(
-  entity: BothSide<T>,
-  zone: ygopro.CardZone
-): CardsBothSide<T> => {
-  /**
-   * 生成一个卡片，根据`id`获取卡片信息
-   */
-  const genCard = async (controller: number, id: number) => ({
-    occupant: await fetchCard(id, true),
-    location: {
-      controler: controller,
-      location: zone,
-    },
-    counters: {},
-    idleInteractivities: [],
-  });
-
-  const res: CardsBothSide<T> = proxy({
-    ...entity,
-    remove: (controller: number, sequence: number) => {
-      res.of(controller).splice(sequence, 1);
-    },
-    insert: async (controller: number, sequence: number, id: number) => {
-      const card = await genCard(controller, id);
-      res.of(controller).splice(sequence, 0, card);
-    },
-    add: async (controller: number, ids: number[]) => {
-      const cards = await Promise.all(
-        ids.map(async (id) => genCard(controller, id))
-      );
-      res.of(controller).splice(res.of(controller).length, 0, ...cards);
-    },
-    setOccupant: async (
-      controller: number,
-      sequence: number,
-      id: number,
-      position?: ygopro.CardPosition
-    ) => {
-      const meta = await fetchCard(id);
-      const target = res.of(controller)[sequence];
-      target.occupant = meta;
-      if (position) {
-        target.location.position = position;
-      }
-    },
-    addIdleInteractivity: (
-      controller: number,
-      sequence: number,
-      interactivity: CardState["idleInteractivities"][number]
-    ) => {
-      res.of(controller)[sequence].idleInteractivities.push(interactivity);
-    },
-    clearIdleInteractivities: (controller: number) => {
-      res.of(controller).forEach((card) => (card.idleInteractivities = []));
-    },
-    setPlaceInteractivityType: (
-      controller: number,
-      sequence: number,
-      interactType: InteractType
-    ) => {
-      res.of(controller)[sequence].placeInteractivity = {
-        interactType: interactType,
-        response: {
-          controler: controller,
-          zone,
-          sequence,
-        },
-      };
-    },
-    clearPlaceInteractivity: (controller: number) => {
-      res
-        .of(controller)
-        .forEach((card) => (card.placeInteractivity = undefined));
-    },
-  });
-  return res;
-};
-
-/**
  * zone -> matStore
  */
 const getZone = (zone: ygopro.CardZone) => {
@@ -190,18 +182,25 @@ const getZone = (zone: ygopro.CardZone) => {
 };
 
 const { SZONE, MZONE, GRAVE, REMOVED, HAND, DECK, EXTRA } = ygopro.CardZone;
+
 /**
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`MatState`去看
  */
 export const matStore: MatState = proxy<MatState>({
-  magics: wrap(genDuel(genBlock(SZONE, 6)), SZONE),
-  monsters: wrap(genDuel(genBlock(MZONE, 7)), MZONE),
-  graveyards: wrap(genDuel([]), GRAVE),
-  banishedZones: wrap(genDuel([]), REMOVED),
-  hands: wrap(genDuel([]), HAND),
-  decks: wrap(genDuel([]), DECK),
-  extraDecks: wrap(genDuel([]), EXTRA),
+  magics: genDuel(
+    addMethods(genBlock(SZONE, 6), SZONE),
+    addMethods(genBlock(SZONE, 6), SZONE)
+  ),
+  monsters: genDuel(
+    addMethods(genBlock(MZONE, 7), MZONE),
+    addMethods(genBlock(MZONE, 7), MZONE)
+  ),
+  graveyards: genDuel(addMethods([], GRAVE), addMethods([], GRAVE)),
+  banishedZones: genDuel(addMethods([], REMOVED), addMethods([], REMOVED)),
+  hands: genDuel(addMethods([], HAND), addMethods([], HAND)),
+  decks: genDuel(addMethods([], DECK), addMethods([], DECK)),
+  extraDecks: genDuel(addMethods([], EXTRA), addMethods([], EXTRA)),
 
   timeLimits: {
     // 时间限制
@@ -229,3 +228,6 @@ export const matStore: MatState = proxy<MatState>({
   in: getZone,
   isMe,
 });
+
+// @ts-ignore
+window.matStore = matStore;
