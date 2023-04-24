@@ -54,15 +54,14 @@ export const banishedZoneCase = (
       location: {
         controler,
         location: ygopro.CardZone.REMOVED,
-        sequence,
       },
       idleInteractivities: [],
       counters: {},
     };
     if (judgeSelf(controler, state)) {
-      extendState(state.meBanishedZone, newExclusion);
+      extendState(state.meBanishedZone, newExclusion, sequence);
     } else {
-      extendState(state.opBanishedZone, newExclusion);
+      extendState(state.opBanishedZone, newExclusion, sequence);
     }
   });
   builder.addCase(fetchBanishedZoneMeta.fulfilled, (state, action) => {

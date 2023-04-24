@@ -64,7 +64,6 @@ export const extraDeckCase = (builder: ActionReducerMapBuilder<DuelState>) => {
       location: {
         controler,
         location: ygopro.CardZone.EXTRA,
-        sequence,
       },
       idleInteractivities: [],
       counters: {},
@@ -72,7 +71,7 @@ export const extraDeckCase = (builder: ActionReducerMapBuilder<DuelState>) => {
     const extraDeck = judgeSelf(controler, state)
       ? state.meExtraDeck
       : state.opExtraDeck;
-    extendState(extraDeck, newExtraDeck);
+    extendState(extraDeck, newExtraDeck, sequence);
   });
   builder.addCase(fetchExtraDeckMeta.fulfilled, (state, action) => {
     const controler = action.payload.controler;
