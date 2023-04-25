@@ -12,8 +12,7 @@ export interface BothSide<T> {
 /**
  * CardState的顺序index，被称为sequence
  */
-export type DuelFieldState = CardState[] & {
-  getController: () => number;
+export interface DuelFieldState extends Array<CardState> {
   /** 移除特定位置的卡片 */
   remove: (sequence: number) => void;
   /** 在末尾添加卡片 */
@@ -40,7 +39,10 @@ export type DuelFieldState = CardState[] & {
   ) => void;
   /** 移除 place 的交互性 */
   clearPlaceInteractivity: () => void;
-};
+
+  // 让原型链不报错
+  __proto__?: DuelFieldState;
+}
 
 type test = DuelFieldState extends (infer S)[] ? S : never;
 

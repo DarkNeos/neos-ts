@@ -7,7 +7,7 @@ import { fetchCard } from "@/api/cards";
 import type {
   BothSide,
   CardState,
-  DuelFieldState,
+  DuelFieldState as ArrayCardState,
   InitInfo,
   MatState,
 } from "./types";
@@ -19,6 +19,88 @@ import { InteractType } from "./types";
  */
 const getWhom = (controller: number): "me" | "op" =>
   isMe(controller) ? "me" : "op";
+
+/** 卡的列表，提供了一些方便的方法 */
+class CardArray extends Array<CardState> implements ArrayCardState {
+  public __proto__ = CardArray.prototype;
+  public zone: ygopro.CardZone = ygopro.CardZone.MZONE;
+  public getController: () => number = () => 1;
+  private genCard = async (controller: number, id: number) => ({
+    occupant: await fetchCard(id, true),
+    location: {
+      controler: controller,
+      location: this.zone,
+    },
+    counters: {},
+    idleInteractivities: [],
+  });
+  // methods
+  remove(sequence: number) {
+    this.splice(sequence, 1);
+  }
+  async insert(sequence: number, id: number) {
+    const card = await this.genCard(this.getController(), id);
+    this.splice(sequence, 0, card);
+  }
+  async add(ids: number[]) {
+    const cards = await Promise.all(
+      ids.map(async (id) => this.genCard(this.getController(), id))
+    );
+    this.splice(this.length, 0, ...cards);
+  }
+  async setOccupant(
+    sequence: number,
+    id: number,
+    position?: ygopro.CardPosition
+  ) {
+    const meta = await fetchCard(id);
+    const target = this[sequence];
+    target.occupant = meta;
+    if (position) {
+      target.location.position = position;
+    }
+  }
+  addIdleInteractivity(
+    sequence: number,
+    interactivity: CardState["idleInteractivities"][number]
+  ) {
+    this[sequence].idleInteractivities.push(interactivity);
+  }
+  clearIdleInteractivities() {
+    this.forEach((card) => (card.idleInteractivities = []));
+  }
+  setPlaceInteractivityType(sequence: number, interactType: InteractType) {
+    this[sequence].placeInteractivity = {
+      interactType: interactType,
+      response: {
+        controler: this.getController(),
+        zone: this.zone,
+        sequence,
+      },
+    };
+  }
+  clearPlaceInteractivity() {
+    this.forEach((card) => (card.placeInteractivity = undefined));
+  }
+}
+
+const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
+  const me = new CardArray(...cardStates);
+  me.zone = zone;
+  me.getController = () => (matStore.selfType == 1 ? 0 : 1);
+  const op = new CardArray(...cardStates);
+  op.zone = zone;
+  op.getController = () => (matStore.selfType == 1 ? 1 : 0);
+  const res = proxy({
+    me,
+    op,
+    of: (controller: number) => {
+      res[getWhom(controller)].__proto__ = CardArray.prototype;
+      return res[getWhom(controller)];
+    },
+  });
+  return res;
+};
 
 /**
  * 根据自己的先后手判断是否是自己
@@ -39,86 +121,12 @@ const isMe = (controller: number): boolean => {
   }
 };
 
-const genDuel = <T extends {}>(meObj: T, opObj?: T): BothSide<T> => {
+const genDuelNormal = <T extends {}>(meObj: T): BothSide<T> => {
   // 提供opObj是为了让meObj和opObj的类型可以不同，避免深拷贝的坑...
-  const res = proxy({
-    me: Object.assign(meObj, {
-      getController: () => (matStore.selfType == 1 ? 0 : 1),
-    }),
-    op: Object.assign(opObj ?? meObj, {
-      getController: () => (matStore.selfType == 1 ? 0 : 1),
-    }),
+  const res = {
+    me: { ...meObj },
+    op: { ...meObj },
     of: (controller: number) => res[getWhom(controller)],
-  });
-  return res;
-};
-
-const addMethods = <T extends CardState[]>(
-  entity: T,
-  zone: ygopro.CardZone
-): DuelFieldState => {
-  /** 生成一个卡片，根据`id`获取卡片信息 */
-  const genCard = async (controller: number, id: number) => ({
-    occupant: await fetchCard(id, true),
-    location: {
-      controler: controller,
-      location: zone,
-    },
-    counters: {},
-    idleInteractivities: [],
-  });
-
-  const res = proxy(entity) as unknown as DuelFieldState;
-  res.remove = (sequence: number) => {
-    res.splice(sequence, 1);
-  };
-  res.insert = async (sequence: number, id: number) => {
-    const card = await genCard(res.getController(), id);
-    res.splice(sequence, 0, card);
-  };
-  res.add = async (ids: number[]) => {
-    const cards = await Promise.all(
-      ids.map(async (id) => genCard(res.getController(), id))
-    );
-    res.splice(res.length, 0, ...cards);
-  };
-  res.setOccupant = async (
-    sequence: number,
-    id: number,
-    position?: ygopro.CardPosition
-  ) => {
-    const meta = await fetchCard(id);
-    const target = res[sequence];
-    target.occupant = meta;
-    if (position) {
-      target.location.position = position;
-    }
-  };
-
-  res.addIdleInteractivity = (
-    sequence: number,
-    interactivity: CardState["idleInteractivities"][number]
-  ) => {
-    res[sequence].idleInteractivities.push(interactivity);
-  };
-  res.clearIdleInteractivities = () => {
-    res.forEach((card) => (card.idleInteractivities = []));
-  };
-  res.setPlaceInteractivityType = (
-    sequence: number,
-    interactType: InteractType
-  ) => {
-    res[sequence].placeInteractivity = {
-      interactType: interactType,
-      response: {
-        controler: res.getController(),
-        zone,
-        sequence,
-      },
-    };
-  };
-  res.clearPlaceInteractivity = () => {
-    res.forEach((card) => (card.placeInteractivity = undefined));
   };
   return res;
 };
@@ -138,7 +146,7 @@ const genBlock = (location: ygopro.CardZone, n: number) =>
     }));
 
 const initInfo: MatState["initInfo"] = proxy({
-  ...genDuel({
+  ...genDuelNormal({
     masterRule: "UNKNOWN",
     life: -1, // 特地设置一个不可能的值
     deckSize: 0,
@@ -188,23 +196,18 @@ const { SZONE, MZONE, GRAVE, REMOVED, HAND, DECK, EXTRA } = ygopro.CardZone;
  * 具体介绍可以点进`MatState`去看
  */
 export const matStore: MatState = proxy<MatState>({
-  magics: genDuel(
-    addMethods(genBlock(SZONE, 6), SZONE),
-    addMethods(genBlock(SZONE, 6), SZONE)
-  ),
-  monsters: genDuel(
-    addMethods(genBlock(MZONE, 7), MZONE),
-    addMethods(genBlock(MZONE, 7), MZONE)
-  ),
-  graveyards: genDuel(addMethods([], GRAVE), addMethods([], GRAVE)),
-  banishedZones: genDuel(addMethods([], REMOVED), addMethods([], REMOVED)),
-  hands: genDuel(addMethods([], HAND), addMethods([], HAND)),
-  decks: genDuel(addMethods([], DECK), addMethods([], DECK)),
-  extraDecks: genDuel(addMethods([], EXTRA), addMethods([], EXTRA)),
+  magics: genDuelCardArray(genBlock(SZONE, 6), SZONE),
+  monsters: genDuelCardArray(genBlock(MZONE, 7), MZONE),
+  graveyards: genDuelCardArray([], GRAVE),
+  banishedZones: genDuelCardArray([], REMOVED),
+  hands: genDuelCardArray([], HAND),
+  decks: genDuelCardArray([], DECK),
+  extraDecks: genDuelCardArray([], EXTRA),
 
   timeLimits: {
     // 时间限制
-    ...genDuel(-1),
+    ...genDuelNormal(-1),
+    of: (controller: number) => matStore.timeLimits[getWhom(controller)],
     set: (controller: number, time: number) => {
       matStore.timeLimits[getWhom(controller)] = time;
     },
@@ -229,5 +232,24 @@ export const matStore: MatState = proxy<MatState>({
   isMe,
 });
 
+// 以后再来解决这些...
+
 // @ts-ignore
 window.matStore = matStore;
+
+// 修改原型链，因为valtiol的proxy会把原型链改掉。这应该是valtio的一个bug...有空提issue去改
+(["me", "op"] as const).forEach((who) => {
+  (
+    [
+      "hands",
+      "decks",
+      "extraDecks",
+      "graveyards",
+      "banishedZones",
+      "monsters",
+      "magics",
+    ] as const
+  ).forEach((zone) => {
+    matStore[zone][who].__proto__ = CardArray.prototype;
+  });
+});
