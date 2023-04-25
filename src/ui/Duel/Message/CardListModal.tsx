@@ -16,6 +16,7 @@ import { store } from "@/store";
 
 import {
   messageStore,
+  matStore,
   clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
 } from "@/valtioStores";
 import { useSnapshot } from "valtio";
@@ -44,7 +45,6 @@ export const CardListModal = () => {
     <Drawer open={isOpen} onClose={handleOkOrCancel}>
       <List
         itemLayout="horizontal"
-        // @ts-ignore 报错是因为类型不可变，实际上是没问题的
         dataSource={list}
         renderItem={(item) => (
           <List.Item

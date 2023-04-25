@@ -4,7 +4,7 @@ import { useHover } from "react-babylonjs";
 
 import { useConfig } from "@/config";
 import { useAppSelector, useClick } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
+// import { CardState } from "@/reducers/duel/generic";
 import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
 import {
   setCardModalInteractivies,
@@ -12,6 +12,8 @@ import {
   setCardModalMeta,
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
+import { matStore, type CardState, messageStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
 
 import { animated, useSpring } from "../spring";
 import { interactTypeToString, zip } from "../utils";
@@ -26,9 +28,12 @@ const handRotation = new BABYLON.Vector3(rotation.x, rotation.y, rotation.z);
 const hoverScaling = NeosConfig.ui.card.handHoverScaling;
 
 export const Hands = () => {
-  const meHands = useAppSelector(selectMeHands).inner;
+  const meHands = useSnapshot(matStore.hands.me);
+  const opHands = useSnapshot(matStore.hands.op);
+  // const meHands = useAppSelector(selectMeHands).inner;
+  // const opHands = useAppSelector(selectOpHands).inner;
+
   const meHandPositions = handPositons(0, meHands);
-  const opHands = useAppSelector(selectOpHands).inner;
   const opHandPositions = handPositons(1, opHands);
 
   return (
@@ -116,6 +121,7 @@ const CHand = (props: {
     () => {
       if (state.occupant) {
         dispatch(setCardModalMeta(state.occupant));
+        messageStore.cardModal.meta = state.occupant;
       }
       dispatch(
         setCardModalInteractivies(
@@ -127,7 +133,14 @@ const CHand = (props: {
           })
         )
       );
+      messageStore.cardModal.interactivies = state.idleInteractivities.map(
+        (interactive) => ({
+          desc: interactTypeToString(interactive.interactType),
+          response: interactive.response,
+        })
+      );
       dispatch(setCardModalIsOpen(true));
+      messageStore.cardModal.isOpen = true;
     },
     planeRef,
     [state]
@@ -145,7 +158,8 @@ const CHand = (props: {
         rotation={props.rotation}
         enableEdgesRendering
         edgesWidth={
-          state.idleInteractivities.length > 0 || state.placeInteractivities
+          // state.idleInteractivities.length > 0 || state.placeInteractivities
+          state.idleInteractivities.length > 0 || state.placeInteractivity
             ? edgesWidth
             : 0
         }

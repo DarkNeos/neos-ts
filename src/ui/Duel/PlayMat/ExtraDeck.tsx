@@ -12,19 +12,24 @@ import { Depth, SingleSlot } from "./SingleSlot";
 
 const NeosConfig = useConfig();
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 export const ExtraDeck = () => {
-  const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;
-  const opExtraDeck = useAppSelector(selectOpExtraDeck).inner;
+  // const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;
+  // const opExtraDeck = useAppSelector(selectOpExtraDeck).inner;
+  const meExtraDeck = useSnapshot(matStore.extraDecks.me);
+  const opExtraDeck = useSnapshot(matStore.extraDecks.op);
 
   return (
     <>
       <SingleSlot
-        state={meExtraDeck}
+        state={matStore.extraDecks.me}
         position={extraDeckPosition(0, meExtraDeck.length)}
         rotation={cardSlotRotation(false)}
       />
       <SingleSlot
-        state={opExtraDeck}
+        state={matStore.extraDecks.op}
         position={extraDeckPosition(1, opExtraDeck.length)}
         rotation={cardSlotRotation(true)}
       />

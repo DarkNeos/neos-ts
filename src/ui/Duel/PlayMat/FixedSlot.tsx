@@ -18,6 +18,9 @@ import {
 import { store } from "@/store";
 
 import { interactTypeToString } from "../utils";
+import { useSnapshot } from "valtio";
+
+import { clearAllIdleInteractivities } from "@/valtioStores";
 
 const NeosConfig = useConfig();
 
@@ -30,19 +33,22 @@ const cardDefenceRotation = new BABYLON.Vector3(
 );
 
 export const FixedSlot = (props: {
-  state: CardState;
+  snapState: CardState;
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation?: BABYLON.Vector3;
-  clearPlaceInteractivitiesAction: ActionCreatorWithPayload<number, string>;
+  // clearPlaceInteractivitiesAction: ActionCreatorWithPayload<number, string>;
+  clearPlaceInteractivitiesAction: (controller: number) => void;
 }) => {
   const planeRef = useRef(null);
 
+  // const snapState = useSnapshot(props.state);
+  const snapState = props.snapState;
   const rotation =
-    props.state.location.position === ygopro.CardPosition.DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
+    snapState.location.position === ygopro.CardPosition.DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
       ? props.deffenseRotation || cardDefenceRotation
       : props.rotation;
   const edgesWidth = 2.0;
@@ -50,22 +56,24 @@ export const FixedSlot = (props: {
   const dispatch = store.dispatch;
 
   const faceDown =
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN;
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN;
 
   useClick(
     (_event) => {
-      if (props.state.placeInteractivities) {
-        sendSelectPlaceResponse(props.state.placeInteractivities.response);
-        dispatch(props.clearPlaceInteractivitiesAction(0));
-        dispatch(props.clearPlaceInteractivitiesAction(1));
-      } else if (props.state.occupant) {
+      if (snapState.placeInteractivities) {
+        sendSelectPlaceResponse(snapState.placeInteractivities.response);
+        // dispatch(props.clearPlaceInteractivitiesAction(0));
+        // dispatch(props.clearPlaceInteractivitiesAction(1));
+        clearAllIdleInteractivities(0);
+        clearAllIdleInteractivities(1);
+      } else if (snapState.occupant) {
         // 中央弹窗展示选中卡牌信息
-        dispatch(setCardModalMeta(props.state.occupant));
+        dispatch(setCardModalMeta(snapState.occupant));
         dispatch(
           setCardModalInteractivies(
-            props.state.idleInteractivities.map((interactivity) => {
+            snapState.idleInteractivities.map((interactivity) => {
               return {
                 desc: interactTypeToString(interactivity.interactType),
                 response: interactivity.response,
@@ -73,17 +81,17 @@ export const FixedSlot = (props: {
             })
           )
         );
-        dispatch(setCardModalCounters(props.state.counters));
+        dispatch(setCardModalCounters(snapState.counters));
         dispatch(setCardModalIsOpen(true));
 
         // 侧边栏展示超量素材信息
         if (
-          props.state.overlay_materials &&
-          props.state.overlay_materials.length > 0
+          snapState.overlay_materials &&
+          snapState.overlay_materials.length > 0
         ) {
           dispatch(
             setCardListModalInfo(
-              props.state.overlay_materials?.map((overlay) => {
+              snapState.overlay_materials?.map((overlay) => {
                 return {
                   meta: overlay,
                   interactivies: [],
@@ -96,7 +104,7 @@ export const FixedSlot = (props: {
       }
     },
     planeRef,
-    [props.state]
+    [snapState]
   );
 
   return (
@@ -109,8 +117,8 @@ export const FixedSlot = (props: {
       rotation={rotation}
       enableEdgesRendering
       edgesWidth={
-        props.state.placeInteractivities ||
-        props.state.idleInteractivities.length > 0
+        snapState.placeInteractivities ||
+        snapState.idleInteractivities.length > 0
           ? edgesWidth
           : 0
       }
@@ -119,15 +127,15 @@ export const FixedSlot = (props: {
       <standardMaterial
         name={`fixedslot-mat-${props.sequence}`}
         diffuseTexture={
-          props.state.occupant
+          snapState.occupant
             ? faceDown
               ? new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
               : new BABYLON.Texture(
-                  `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
+                  `${NeosConfig.cardImgUrl}/${snapState.occupant.id}.jpg`
                 )
             : new BABYLON.Texture(`${NeosConfig.assetsPath}/card_slot.png`)
         }
-        alpha={props.state.occupant ? 1 : 0}
+        alpha={snapState.occupant ? 1 : 0}
       ></standardMaterial>
     </plane>
   );

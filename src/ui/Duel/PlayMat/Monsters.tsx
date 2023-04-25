@@ -4,7 +4,7 @@ import * as BABYLON from "@babylonjs/core";
 
 import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
+// import { CardState } from "@/reducers/duel/generic";
 import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
 import {
   selectMeMonsters,
@@ -14,16 +14,24 @@ import {
 import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 
+import { matStore, type CardState, messageStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
 const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
+const clearPlaceInteractivitiesAction = (controller: number) =>
+  matStore.monsters.of(controller).clearPlaceInteractivity();
+
 export const Monsters = () => {
-  const meMonsters = useAppSelector(selectMeMonsters).inner;
+  // const meMonsters = useAppSelector(selectMeMonsters).inner;
+  // const opMonsters = useAppSelector(selectOpMonsters).inner;
+  const meMonsters = useSnapshot(matStore.monsters.me);
+  const opMonsters = useSnapshot(matStore.monsters.op);
   const meMonsterPositions = monsterPositions(0, meMonsters);
-  const opMonsters = useAppSelector(selectOpMonsters).inner;
   const opMonsterPositions = monsterPositions(1, opMonsters);
 
   return (
@@ -32,26 +40,28 @@ export const Monsters = () => {
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
-            state={monster}
+            snapState={monster}
             key={sequence}
             sequence={sequence}
             position={position}
             rotation={cardSlotRotation(false)}
             deffenseRotation={cardSlotDefenceRotation()}
-            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
       {zip(opMonsters, opMonsterPositions)
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
-            state={monster}
+            snapState={monster}
             key={sequence}
             sequence={sequence}
             position={position}
             rotation={cardSlotRotation(true)}
             deffenseRotation={cardSlotDefenceRotation()}
-            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
       <ExtraMonsters meMonsters={meMonsters} opMonsters={opMonsters} />
@@ -79,31 +89,33 @@ const ExtraMonsters = (props: {
     <>
       {meLeft ? (
         <FixedSlot
-          state={meLeft}
+          snapState={meLeft}
           sequence={5}
           position={leftPosition}
           rotation={meRotation}
           deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (
         <></>
       )}
       {meRight ? (
         <FixedSlot
-          state={meRight}
+          snapState={meRight}
           sequence={6}
           position={rightPosition}
           rotation={meRotation}
           deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (
         <></>
       )}
       {opLeft ? (
         <FixedSlot
-          state={opLeft}
+          snapState={opLeft}
           sequence={5}
           position={rightPosition}
           rotation={opRotation}
@@ -115,7 +127,7 @@ const ExtraMonsters = (props: {
       )}
       {opRight ? (
         <FixedSlot
-          state={opRight}
+          snapState={opRight}
           sequence={6}
           position={leftPosition}
           rotation={opRotation}

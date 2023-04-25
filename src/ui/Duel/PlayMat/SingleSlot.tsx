@@ -11,6 +11,7 @@ import {
 import { store } from "@/store";
 
 import { interactTypeToString } from "../utils";
+import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
@@ -21,10 +22,11 @@ export const SingleSlot = (props: {
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
 }) => {
+  const snapState = useSnapshot(props.state);
   const boxRef = useRef(null);
   const dispatch = store.dispatch;
   const edgeRender =
-    props.state.find((item) =>
+    snapState.find((item) =>
       item === undefined ? false : item.idleInteractivities.length > 0
     ) !== undefined;
   const edgesWidth = 2.0;
@@ -32,10 +34,10 @@ export const SingleSlot = (props: {
 
   useClick(
     (_event) => {
-      if (props.state.length != 0) {
+      if (snapState.length != 0) {
         dispatch(
           setCardListModalInfo(
-            props.state
+            snapState
               .filter(
                 (item) => item.occupant !== undefined && item.occupant.id !== 0
               )
@@ -56,7 +58,7 @@ export const SingleSlot = (props: {
       }
     },
     boxRef,
-    [props.state]
+    [snapState]
   );
 
   return (
@@ -64,11 +66,7 @@ export const SingleSlot = (props: {
       name="single-slot"
       ref={boxRef}
       scaling={
-        new BABYLON.Vector3(
-          transform.x,
-          transform.y,
-          Depth * props.state.length
-        )
+        new BABYLON.Vector3(transform.x, transform.y, Depth * snapState.length)
       }
       position={props.position}
       rotation={props.rotation}
@@ -81,7 +79,7 @@ export const SingleSlot = (props: {
         diffuseTexture={
           new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
         }
-        alpha={props.state.length == 0 ? 0 : 1}
+        alpha={snapState.length == 0 ? 0 : 1}
       />
     </box>
   );

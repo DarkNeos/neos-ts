@@ -2,12 +2,15 @@ import * as BABYLON from "@babylonjs/core";
 
 import { useConfig } from "@/config";
 import { useAppSelector } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
+// import { CardState } from "@/reducers/duel/generic";
 import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
 import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 
 import { cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
+
+import { matStore, type CardState, messageStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 // TODO: use config
@@ -16,10 +19,16 @@ const gap = 1.05;
 const transform = NeosConfig.ui.card.transform;
 
 export const Magics = () => {
-  const meMagics = useAppSelector(selectMeMagics).inner;
+  // const meMagics = useAppSelector(selectMeMagics).inner;
+  // const opMagics = useAppSelector(selectOpMagics).inner;
+
+  const meMagics = useSnapshot(matStore.magics.me);
+  const opMagics = useSnapshot(matStore.magics.op);
   const meMagicPositions = magicPositions(0, meMagics);
-  const opMagics = useAppSelector(selectOpMagics).inner;
   const opMagicPositions = magicPositions(1, opMagics);
+
+  const clearPlaceInteractivitiesAction = (controller: number) =>
+    matStore.magics.of(controller).clearPlaceInteractivity();
 
   return (
     <>
@@ -28,12 +37,13 @@ export const Magics = () => {
         .map(([magic, position], sequence) => {
           return (
             <FixedSlot
-              state={magic}
+              snapState={magic}
               key={sequence}
               sequence={sequence}
               position={position}
               rotation={cardSlotRotation(false)}
-              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
             />
           );
         })}
@@ -42,12 +52,13 @@ export const Magics = () => {
         .map(([magic, position], sequence) => {
           return (
             <FixedSlot
-              state={magic}
+              snapState={magic}
               key={sequence}
               sequence={sequence}
               position={position}
               rotation={cardSlotRotation(true)}
-              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
             />
           );
         })}

@@ -10,34 +10,47 @@ import { FixedSlot } from "./FixedSlot";
 import { Depth } from "./SingleSlot";
 
 const NeosConfig = useConfig();
-export const Field = () => {
-  const meField = useAppSelector(selectMeMagics).inner.find(
-    (_, sequence) => sequence == 5
-  );
-  const opField = useAppSelector(selectOpMagics).inner.find(
-    (_, sequence) => sequence == 5
-  );
 
+import { matStore, clearAllPlaceInteradtivities } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
+export const Field = () => {
+  // const meField = useAppSelector(selectMeMagics).inner.find(
+  //   (_, sequence) => sequence == 5
+  // );
+  // const opField = useAppSelector(selectOpMagics).inner.find(
+  //   (_, sequence) => sequence == 5
+  // );
+
+  // 这儿的find可能是出于某种考虑，以后再深思
+
+  const meField = useSnapshot(matStore.magics.me[5]);
+  const opField = useSnapshot(matStore.magics.op[5]);
+
+  const clearPlaceInteractivitiesAction = (controller: number) =>
+    matStore.magics.of(controller).clearPlaceInteractivity();
   return (
     <>
       {meField ? (
         <FixedSlot
-          state={meField}
+          snapState={meField}
           sequence={0}
           position={fieldPosition(0)}
           rotation={cardSlotRotation(false)}
-          clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+          // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (
         <></>
       )}
       {opField ? (
         <FixedSlot
-          state={opField}
+          snapState={opField}
           sequence={0}
           position={fieldPosition(1)}
           rotation={cardSlotRotation(true)}
-          clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+          // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (
         <></>

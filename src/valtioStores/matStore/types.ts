@@ -42,6 +42,8 @@ export type DuelFieldState = CardState[] & {
   clearPlaceInteractivity: () => void;
 };
 
+type test = DuelFieldState extends (infer S)[] ? S : never;
+
 export interface MatState {
   selfType: number;
 

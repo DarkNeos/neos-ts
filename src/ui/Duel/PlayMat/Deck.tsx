@@ -8,19 +8,26 @@ import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
 const NeosConfig = useConfig();
+
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 export const CommonDeck = () => {
-  const meDeck = useAppSelector(selectMeDeck).inner;
-  const opDeck = useAppSelector(selectOpDeck).inner;
+  // const meDeck = useAppSelector(selectMeDeck).inner;
+  // const opDeck = useAppSelector(selectOpDeck).inner;
+
+  const meDeck = useSnapshot(matStore.decks.me);
+  const opDeck = useSnapshot(matStore.decks.op);
 
   return (
     <>
       <SingleSlot
-        state={meDeck}
+        state={matStore.decks.me}
         position={deckPosition(0, meDeck.length)}
         rotation={cardSlotRotation(false)}
       />
       <SingleSlot
-        state={opDeck}
+        state={matStore.decks.op}
         position={deckPosition(1, opDeck.length)}
         rotation={cardSlotRotation(true)}
       />

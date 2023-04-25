@@ -10,20 +10,27 @@ import {
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const NeosConfig = useConfig();
 export const BanishedZone = () => {
-  const meBanishedZone = useAppSelector(selectMeBanishedZone).inner;
-  const opBanishedZone = useAppSelector(selectOpBanishedZone).inner;
+  // const meBanishedZone = useAppSelector(selectMeBanishedZone).inner;
+  // const opBanishedZone = useAppSelector(selectOpBanishedZone).inner;
+
+  const meBanishedZone = useSnapshot(matStore.banishedZones.me);
+  const opBanishedZone = useSnapshot(matStore.banishedZones.op);
 
   return (
     <>
       <SingleSlot
-        state={meBanishedZone}
+        // 因为singleSlot里面会有snap，所以这儿可以直接传入store
+        state={matStore.banishedZones.me}
         position={banishedZonePosition(0, meBanishedZone.length)}
         rotation={cardSlotRotation(false)}
       />
       <SingleSlot
-        state={opBanishedZone}
+        state={matStore.banishedZones.op}
         position={banishedZonePosition(1, opBanishedZone.length)}
         rotation={cardSlotRotation(true)}
       />

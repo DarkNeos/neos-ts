@@ -10,20 +10,26 @@ import {
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
+import { matStore } from "@/valtioStores";
+import { useSnapshot } from "valtio";
+
 const NeosConfig = useConfig();
 export const Graveyard = () => {
-  const meGraveyard = useAppSelector(selectMeGraveyard).inner;
-  const opGraveyard = useAppSelector(selectOpGraveyard).inner;
+  // const meGraveyard = useAppSelector(selectMeGraveyard).inner;
+  // const opGraveyard = useAppSelector(selectOpGraveyard).inner;
+
+  const meGraveyard = useSnapshot(matStore.graveyards.me);
+  const opGraveyard = useSnapshot(matStore.graveyards.op);
 
   return (
     <>
       <SingleSlot
-        state={meGraveyard}
+        state={matStore.graveyards.me}
         position={graveyardPosition(0, meGraveyard.length)}
         rotation={cardSlotRotation(false)}
       />
       <SingleSlot
-        state={opGraveyard}
+        state={matStore.graveyards.op}
         position={graveyardPosition(1, opGraveyard.length)}
         rotation={cardSlotRotation(true)}
       />
