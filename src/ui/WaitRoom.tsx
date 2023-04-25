@@ -163,7 +163,8 @@ const WaitRoom = () => {
     await dispatch(
       initMeExtraDeckMeta({ controler: 0, codes: deck.extra?.reverse() || [] })
     );
-    valtioStore.matStore.extraDecks.of(0).add(deck.extra?.reverse() || []);
+    // FIXME 直接写成了me，但不确定是不是对的
+    valtioStore.matStore.extraDecks.me.add(deck.extra?.reverse() || []);
     setChoseDeck(true);
   };
 
