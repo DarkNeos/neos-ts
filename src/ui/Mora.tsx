@@ -28,8 +28,9 @@ const {
 
 const Mora = () => {
   const snapMora = useSnapshot(moraStore);
+  const snapMatInitInfo = useSnapshot(matStore.initInfo);
 
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const selectHandAble = useAppSelector(selectHandSelectAble);
   // const selectTpAble = useAppSelector(selectTpSelectAble);
   // const duelHsStart = useAppSelector(selectDuelHsStart);
@@ -47,21 +48,21 @@ const Mora = () => {
 
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
-    dispatch(unSelectHandAble());
+    // dispatch(unSelectHandAble());
     moraStore.selectHandAble = false;
   };
   const handleSelectTp = (isFirst: boolean) => {
     sendTpResult(isFirst);
-    dispatch(unSelectTpAble());
+    // dispatch(unSelectTpAble());
     moraStore.selectTpAble = false;
   };
 
   useEffect(() => {
     // 若对局已经开始，自动跳转
-    if (!selectHandAble) {
+    if (snapMatInitInfo.me.life > 0) {
       navigate(`/duel/${player}/${passWd}/${ip}`);
     }
-  }, [selectHandAble]);
+  }, [snapMatInitInfo.me]);
 
   useEffect(() => {
     if (isAiMode) {
