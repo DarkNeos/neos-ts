@@ -132,16 +132,6 @@ const isMe = (controller: number): boolean => {
   }
 };
 
-const genDuelNormal = <T extends {}>(meObj: T): BothSide<T> => {
-  // 提供opObj是为了让meObj和opObj的类型可以不同，避免深拷贝的坑...
-  const res = {
-    me: { ...meObj },
-    op: { ...meObj },
-    of: (controller: number) => res[getWhom(controller)],
-  };
-  return res;
-};
-
 /**
  * 生成一个指定长度的卡片数组
  */
@@ -156,20 +146,25 @@ const genBlock = (location: ygopro.CardZone, n: number) =>
       counters: {},
     }));
 
-const initInfo: MatState["initInfo"] = proxy({
-  ...genDuelNormal({
+const initInfo: MatState["initInfo"] = (() => {
+  const defaultInitInfo = {
     masterRule: "UNKNOWN",
     life: -1, // 特地设置一个不可能的值
     deckSize: 0,
     extraSize: 0,
-  }),
-  set: (controller: number, obj: Partial<InitInfo>) => {
-    initInfo[getWhom(controller)] = {
-      ...initInfo[getWhom(controller)],
-      ...obj,
-    };
-  },
-});
+  };
+  return proxy({
+    me: { ...defaultInitInfo },
+    op: { ...defaultInitInfo },
+    of: (controller: number) => initInfo[getWhom(controller)],
+    set: (controller: number, obj: Partial<InitInfo>) => {
+      initInfo[getWhom(controller)] = {
+        ...initInfo[getWhom(controller)],
+        ...obj,
+      };
+    },
+  });
+})();
 
 const hint: MatState["hint"] = proxy({
   code: -1,
@@ -217,7 +212,8 @@ export const matStore: MatState = proxy<MatState>({
 
   timeLimits: {
     // 时间限制
-    ...genDuelNormal(-1),
+    me: -1,
+    op: -1,
     of: (controller: number) => matStore.timeLimits[getWhom(controller)],
     set: (controller: number, time: number) => {
       matStore.timeLimits[getWhom(controller)] = time;
