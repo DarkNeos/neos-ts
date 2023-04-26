@@ -13,6 +13,8 @@ import { store } from "@/store";
 import { interactTypeToString } from "../utils";
 import { useSnapshot } from "valtio";
 
+import { messageStore } from "@/valtioStores";
+
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
 export const Depth = 0.005;
@@ -24,7 +26,7 @@ export const SingleSlot = (props: {
 }) => {
   const snapState = useSnapshot(props.state);
   const boxRef = useRef(null);
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   const edgeRender =
     snapState.find((item) =>
       item === undefined ? false : item.idleInteractivities.length > 0
@@ -35,26 +37,38 @@ export const SingleSlot = (props: {
   useClick(
     (_event) => {
       if (snapState.length != 0) {
-        dispatch(
-          setCardListModalInfo(
-            snapState
-              .filter(
-                (item) => item.occupant !== undefined && item.occupant.id !== 0
-              )
-              .map((item) => {
-                return {
-                  meta: item.occupant,
-                  interactivies: item.idleInteractivities.map((interactivy) => {
-                    return {
-                      desc: interactTypeToString(interactivy.interactType),
-                      response: interactivy.response,
-                    };
-                  }),
-                };
-              })
+        // dispatch(
+        //   setCardListModalInfo(
+        //     snapState
+        //       .filter(
+        //         (item) => item.occupant !== undefined && item.occupant.id !== 0
+        //       )
+        //       .map((item) => {
+        //         return {
+        //           meta: item.occupant,
+        //           interactivies: item.idleInteractivities.map((interactivy) => {
+        //             return {
+        //               desc: interactTypeToString(interactivy.interactType),
+        //               response: interactivy.response,
+        //             };
+        //           }),
+        //         };
+        //       })
+        //   )
+        // );
+        messageStore.cardListModal.list = snapState
+          .filter(
+            (item) => item.occupant !== undefined && item.occupant.id !== 0
           )
-        );
-        dispatch(setCardListModalIsOpen(true));
+          .map((item) => ({
+            meta: item.occupant,
+            interactivies: item.idleInteractivities.map((interactivy) => ({
+              desc: interactTypeToString(interactivy.interactType),
+              response: interactivy.response,
+            })),
+          }));
+        // dispatch(setCardListModalIsOpen(true));
+        messageStore.cardListModal.isOpen = true;
       }
     },
     boxRef,

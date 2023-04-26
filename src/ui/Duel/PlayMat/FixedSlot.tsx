@@ -24,6 +24,7 @@ import {
   clearAllIdleInteractivities,
   type CardState,
   clearAllPlaceInteradtivities,
+  messageStore,
 } from "@/valtioStores";
 
 const NeosConfig = useConfig();
@@ -57,7 +58,7 @@ export const FixedSlot = (props: {
       : props.rotation;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
 
   const faceDown =
     snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
@@ -77,36 +78,50 @@ export const FixedSlot = (props: {
         clearAllPlaceInteradtivities(1);
       } else if (snapState.occupant) {
         // 中央弹窗展示选中卡牌信息
-        dispatch(setCardModalMeta(snapState.occupant));
-        dispatch(
-          setCardModalInteractivies(
-            snapState.idleInteractivities.map((interactivity) => {
-              return {
-                desc: interactTypeToString(interactivity.interactType),
-                response: interactivity.response,
-              };
-            })
-          )
-        );
-        dispatch(setCardModalCounters(snapState.counters));
-        dispatch(setCardModalIsOpen(true));
+        // dispatch(setCardModalMeta(snapState.occupant));
+        messageStore.cardModal.meta = snapState.occupant;
+        // dispatch(
+        //   setCardModalInteractivies(
+        //     snapState.idleInteractivities.map((interactivity) => {
+        //       return {
+        //         desc: interactTypeToString(interactivity.interactType),
+        //         response: interactivity.response,
+        //       };
+        //     })
+        //   )
+        // );
+        messageStore.cardModal.interactivies =
+          snapState.idleInteractivities.map((interactivity) => ({
+            desc: interactTypeToString(interactivity.interactType),
+            response: interactivity.response,
+          }));
+        // dispatch(setCardModalCounters(snapState.counters));
+        messageStore.cardModal.counters = snapState.counters;
+        // dispatch(setCardModalIsOpen(true));
+        messageStore.cardModal.isOpen = true;
 
         // 侧边栏展示超量素材信息
         if (
           snapState.overlay_materials &&
           snapState.overlay_materials.length > 0
         ) {
-          dispatch(
-            setCardListModalInfo(
-              snapState.overlay_materials?.map((overlay) => {
-                return {
-                  meta: overlay,
-                  interactivies: [],
-                };
-              }) || []
-            )
-          );
-          dispatch(setCardListModalIsOpen(true));
+          // dispatch(
+          //   setCardListModalInfo(
+          //     snapState.overlay_materials?.map((overlay) => {
+          //       return {
+          //         meta: overlay,
+          //         interactivies: [],
+          //       };
+          //     }) || []
+          //   )
+          // );
+          messageStore.cardListModal.list =
+            snapState.overlay_materials?.map((overlay) => ({
+              meta: overlay,
+              interactivies: [],
+            })) || [];
+          // dispatch(setCardListModalIsOpen(true));
+          messageStore.cardListModal.isOpen = true;
         }
       }
     },
