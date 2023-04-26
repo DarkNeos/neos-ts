@@ -19,7 +19,7 @@ import {
   unSelectTpAble,
 } from "@/reducers/moraSlice";
 import { store } from "@/store";
-import { moraStore } from "@/valtioStores";
+import { moraStore, matStore } from "@/valtioStores";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -36,7 +36,7 @@ const Mora = () => {
 
   const selectHandAble = snapMora.selectHandAble;
   const selectTpAble = snapMora.selectTpAble;
-  const duelHsStart = snapMora.duelStart;
+  // const duelHsStart = snapMora.duelStart;
 
   const navigate = useNavigate();
   const { player, passWd, ip } = useParams<{
@@ -58,10 +58,10 @@ const Mora = () => {
 
   useEffect(() => {
     // 若对局已经开始，自动跳转
-    if (duelHsStart) {
+    if (!selectHandAble) {
       navigate(`/duel/${player}/${passWd}/${ip}`);
     }
-  }, [duelHsStart]);
+  }, [selectHandAble]);
 
   useEffect(() => {
     if (isAiMode) {

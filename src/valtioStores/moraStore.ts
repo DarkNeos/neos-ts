@@ -8,6 +8,6 @@ export interface MoraState {
 
 export const moraStore = proxy<MoraState>({
   duelStart: false,
-  selectHandAble: false,
-  selectTpAble: false,
+  selectHandAble: true,
+  selectTpAble: true,
 });
