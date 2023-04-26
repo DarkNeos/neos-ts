@@ -32,7 +32,7 @@ const { checkCardModalV2 } = messageStore;
 const NeosConfig = useConfig();
 export const CheckCardModalV2 = () => {
   const snapCheckCardModalV2 = useSnapshot(checkCardModalV2);
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectCheckCardModalV2IsOpen);
   // const { min, max } = useAppSelector(selectCheckCardModalV2MinMax);
   // const cancelable = useAppSelector(selectCheckCardModalV2CancelAble);
@@ -73,9 +73,9 @@ export const CheckCardModalV2 = () => {
   };
   const onFinishOrCancel = () => {
     sendSelectUnselectCardResponse({ cancel_or_finish: true });
-    dispatch(setCheckCardModalV2IsOpen(false));
-    dispatch(resetCheckCardModalV2());
-    dispatch(setCheckCardModalV2ResponseAble(false));
+    // dispatch(setCheckCardModalV2IsOpen(false));
+    // dispatch(resetCheckCardModalV2());
+    // dispatch(setCheckCardModalV2ResponseAble(false));
 
     checkCardModalV2.isOpen = false;
     checkCardModalV2.responseable = false;
@@ -110,10 +110,10 @@ export const CheckCardModalV2 = () => {
         size="small"
         onChange={(value) => {
           if (responseable) {
-            dispatch(setCheckCardModalV2IsOpen(false));
+            // dispatch(setCheckCardModalV2IsOpen(false));
             // @ts-ignore
             sendSelectUnselectCardResponse({ selected_ptr: value });
-            dispatch(setCheckCardModalV2ResponseAble(false));
+            // dispatch(setCheckCardModalV2ResponseAble(false));
             checkCardModalV2.isOpen = false;
             checkCardModalV2.responseable = false;
           }

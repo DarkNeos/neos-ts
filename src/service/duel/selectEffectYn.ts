@@ -38,18 +38,19 @@ export default async (
           const desc1 = desc.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc1;
         };
-  dispatch(
-    fetchYesNoMeta({
-      code,
-      location,
-      descCode: effect_description,
-      textGenerator,
-    })
-  );
+  // dispatch(
+  //   fetchYesNoMeta({
+  //     code,
+  //     location,
+  //     descCode: effect_description,
+  //     textGenerator,
+  //   })
+  // );
   // TODO: 国际化文案
   dispatch(setYesNoModalIsOpen(true));
 
   const desc = fetchStrings("!system", effect_description);
   const meta = await fetchCard(code);
   messageStore.yesNoModal.msg = textGenerator(desc, meta, location);
+  messageStore.yesNoModal.isOpen = true;
 };

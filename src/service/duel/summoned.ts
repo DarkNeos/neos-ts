@@ -7,6 +7,6 @@ export default (
   _: ygopro.StocGameMessage.MsgSummoned,
   dispatch: AppDispatch
 ) => {
-  dispatch(fetchEsHintMeta({ originMsg: 1604 }));
+  // dispatch(fetchEsHintMeta({ originMsg: 1604 }));
   FIXME_fetchEsHintMeta({ originMsg: 1604 });
 };

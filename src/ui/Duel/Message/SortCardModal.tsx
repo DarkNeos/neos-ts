@@ -34,7 +34,7 @@ const NeosConfig = useConfig();
 const { sortCardModal } = messageStore;
 
 export const SortCardModal = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
 
   const snapSortCardModal = useSnapshot(sortCardModal);
   // const state = useAppSelector(selectSortCardModal);
@@ -52,7 +52,7 @@ export const SortCardModal = () => {
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
-    dispatch(resetSortCardModal());
+    // dispatch(resetSortCardModal());
     sortCardModal.isOpen = false;
     sortCardModal.options = [];
   };

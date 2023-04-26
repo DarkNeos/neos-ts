@@ -6,7 +6,7 @@ import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 import { matStore } from "@/valtioStores";
 
 export default (updateData: MsgUpdateData, dispatch: AppDispatch) => {
-  dispatch(updateFieldData(updateData.toObject()));
+  // dispatch(updateFieldData(updateData.toObject()));
 
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {

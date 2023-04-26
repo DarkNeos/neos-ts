@@ -57,7 +57,7 @@ const PhaseButton = (props: {
 const { phase } = matStore;
 
 export const Phase = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const enableBp = useAppSelector(selectEnableBp);
   // const enableM2 = useAppSelector(selectEnableM2);
   // const enableEp = useAppSelector(selectEnableEp);
@@ -81,8 +81,8 @@ export const Phase = () => {
       : 7;
 
   const onBp = () => {
-    dispatch(clearAllIdleInteractivities(0));
-    dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
 
     sendSelectIdleCmdResponse(6);
     // dispatch(setEnableBp(false));
@@ -91,21 +91,21 @@ export const Phase = () => {
     phase.enableBp = false;
   };
   const onM2 = () => {
-    dispatch(clearAllIdleInteractivities(0));
-    dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
 
     sendSelectBattleCmdResponse(2);
-    dispatch(setEnableM2(false));
+    // dispatch(setEnableM2(false));
     FIXME_clearAllIdleInteractivities(0);
     FIXME_clearAllIdleInteractivities(0);
     phase.enableM2 = false;
   };
   const onEp = () => {
-    dispatch(clearAllIdleInteractivities(0));
-    dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
+    // dispatch(clearAllIdleInteractivities(0));
 
     sendSelectIdleCmdResponse(response);
-    dispatch(setEnableEp(false));
+    // dispatch(setEnableEp(false));
     FIXME_clearAllIdleInteractivities(0);
     FIXME_clearAllIdleInteractivities(0);
     phase.enableEp = false;

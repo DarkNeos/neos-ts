@@ -26,47 +26,47 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的互动性
-  dispatch(clearAllIdleInteractivities(player));
+  // dispatch(clearAllIdleInteractivities(player));
   FIXME_clearAllIdleInteractivities(player);
 
-  const dispatcher = (
-    idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
-    interactType: InteractType | undefined,
-    actionCreator: ActionCreatorWithPayload<
-      {
-        player: number;
-        sequence: number;
-        interactivity: Interactivity<number>;
-      },
-      string
-    >
-  ) => {
-    const cardInfo = idleData.card_info;
-    if (interactType === InteractType.ACTIVATE) {
-      // 发动效果会多一个字段
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: {
-            interactType,
-            activateIndex: idleData.effect_description,
-            response: idleData.response,
-          },
-        })
-      );
-    } else if (interactType) {
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: { interactType, response: idleData.response },
-        })
-      );
-    } else {
-      console.log(`InteractType undefined`);
-    }
-  };
+  // const dispatcher = (
+  //   idleData: MsgSelectIdleCmd.IdleCmd.IdleData,
+  //   interactType: InteractType | undefined,
+  //   actionCreator: ActionCreatorWithPayload<
+  //     {
+  //       player: number;
+  //       sequence: number;
+  //       interactivity: Interactivity<number>;
+  //     },
+  //     string
+  //   >
+  // ) => {
+  //   const cardInfo = idleData.card_info;
+  //   if (interactType === InteractType.ACTIVATE) {
+  //     // 发动效果会多一个字段
+  //     dispatch(
+  //       actionCreator({
+  //         player,
+  //         sequence: cardInfo.sequence,
+  //         interactivity: {
+  //           interactType,
+  //           activateIndex: idleData.effect_description,
+  //           response: idleData.response,
+  //         },
+  //       })
+  //     );
+  //   } else if (interactType) {
+  //     dispatch(
+  //       actionCreator({
+  //         player,
+  //         sequence: cardInfo.sequence,
+  //         interactivity: { interactType, response: idleData.response },
+  //       })
+  //     );
+  //   } else {
+  //     console.log(`InteractType undefined`);
+  //   }
+  // };
 
   cmds.forEach((cmd) => {
     const interactType = idleTypeToInteractType(cmd.idle_type);
@@ -94,46 +94,46 @@ export default (selectIdleCmd: MsgSelectIdleCmd, dispatch: AppDispatch) => {
         console.warn(`Undefined InteractType`);
       }
 
-      switch (location) {
-        case ygopro.CardZone.HAND: {
-          dispatcher(data, interactType, addHandsIdleInteractivity);
+      // switch (location) {
+      //   case ygopro.CardZone.HAND: {
+      //     dispatcher(data, interactType, addHandsIdleInteractivity);
 
-          break;
-        }
-        case ygopro.CardZone.MZONE: {
-          dispatcher(data, interactType, addMonsterIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.MZONE: {
+      //     dispatcher(data, interactType, addMonsterIdleInteractivities);
 
-          break;
-        }
-        case ygopro.CardZone.SZONE: {
-          dispatcher(data, interactType, addMagicIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.SZONE: {
+      //     dispatcher(data, interactType, addMagicIdleInteractivities);
 
-          break;
-        }
-        case ygopro.CardZone.GRAVE: {
-          dispatcher(data, interactType, addGraveyardIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.GRAVE: {
+      //     dispatcher(data, interactType, addGraveyardIdleInteractivities);
 
-          break;
-        }
-        case ygopro.CardZone.REMOVED: {
-          dispatcher(data, interactType, addBanishedZoneIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.REMOVED: {
+      //     dispatcher(data, interactType, addBanishedZoneIdleInteractivities);
 
-          break;
-        }
-        case ygopro.CardZone.EXTRA: {
-          dispatcher(data, interactType, addExtraDeckIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.EXTRA: {
+      //     dispatcher(data, interactType, addExtraDeckIdleInteractivities);
 
-          break;
-        }
-        default: {
-          console.log(`Unhandled zone type: ${location}`);
-        }
-      }
+      //     break;
+      //   }
+      //   default: {
+      //     console.log(`Unhandled zone type: ${location}`);
+      //   }
+      // }
     });
   });
 
-  dispatch(setEnableBp(selectIdleCmd.enable_bp));
-  dispatch(setEnableEp(selectIdleCmd.enable_ep));
+  // dispatch(setEnableBp(selectIdleCmd.enable_bp));
+  // dispatch(setEnableEp(selectIdleCmd.enable_ep));
 
   matStore.phase.enableBp = selectIdleCmd.enable_bp;
   matStore.phase.enableEp = selectIdleCmd.enable_ep;

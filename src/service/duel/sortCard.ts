@@ -7,10 +7,11 @@ import MsgSortCard = ygopro.StocGameMessage.MsgSortCard;
 import { messageStore } from "@/valtioStores";
 
 export default async (sortCard: MsgSortCard, dispatch: AppDispatch) => {
-  for (const option of sortCard.options) {
-    dispatch(fetchSortCardMeta(option.toObject()));
-  }
-  dispatch(setSortCardModalIsOpen(true));
+  // for (const option of sortCard.options) {
+  //   dispatch(fetchSortCardMeta(option.toObject()));
+  // }
+  // dispatch(setSortCardModalIsOpen(true));
+
   await Promise.all(
     sortCard.options.map(async ({ code, response }) => {
       const meta = await fetchCard(code!, true);

@@ -6,7 +6,7 @@ import { getCardByLocation } from "@/valtioStores";
 type MsgUpdateCounter = ygopro.StocGameMessage.MsgUpdateCounter;
 
 export default (updateCounter: MsgUpdateCounter, dispatch: AppDispatch) => {
-  dispatch(updateMonsterCounters(updateCounter.toObject()));
+  // dispatch(updateMonsterCounters(updateCounter.toObject()));
   const { location, count, action_type: counterType } = updateCounter;
   const target = getCardByLocation(location); // 不太确定这个后面能不能相应，我不好说
   if (target) {

@@ -10,6 +10,6 @@ export default (
   _: ygopro.StocGameMessage.MsgAttackDisabled,
   dispatch: AppDispatch
 ) => {
-  dispatch(fetchEsHintMeta({ originMsg: "攻击被无效时" }));
+  // dispatch(fetchEsHintMeta({ originMsg: "攻击被无效时" }));
   FIXME_fetchEsHintMeta({ originMsg: "攻击被无效时" });
 };

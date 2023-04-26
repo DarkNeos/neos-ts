@@ -8,6 +8,6 @@ export default (
   dispatch: AppDispatch
 ) => {
   const player = newTurn.player;
-  dispatch(updateTurn(player));
+  // dispatch(updateTurn(player));
   matStore.currentPlayer = player;
 };

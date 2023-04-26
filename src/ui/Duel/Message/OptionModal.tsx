@@ -18,7 +18,7 @@ import { useSnapshot } from "valtio";
 const { optionModal } = messageStore;
 
 export const OptionModal = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectOptionModalIsOpen);
   // const options = useAppSelector(selectOptionModalOptions);
 
@@ -40,8 +40,8 @@ export const OptionModal = () => {
           onClick={() => {
             if (selected !== undefined) {
               sendSelectOptionResponse(selected);
-              dispatch(setOptionModalIsOpen(false));
-              dispatch(resetOptionModal());
+              // dispatch(setOptionModalIsOpen(false));
+              // dispatch(resetOptionModal());
               optionModal.isOpen = false;
               optionModal.options = [];
             }

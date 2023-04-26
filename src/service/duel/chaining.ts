@@ -9,9 +9,9 @@ export default (
   chaining: ygopro.StocGameMessage.MsgChaining,
   dispatch: AppDispatch
 ) => {
-  dispatch(
-    fetchEsHintMeta({ originMsg: "「[?]」被发动时", cardID: chaining.code })
-  );
+  // dispatch(
+  //   fetchEsHintMeta({ originMsg: "「[?]」被发动时", cardID: chaining.code })
+  // );
   FIXME_fetchEsHintMeta({
     originMsg: "「[?]」被发动时",
     cardID: chaining.code,

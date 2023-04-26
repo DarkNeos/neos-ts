@@ -9,11 +9,11 @@ export default async (selectOption: MsgSelectOption, dispatch: AppDispatch) => {
   const player = selectOption.player;
   const options = selectOption.options;
 
-  for (let option of options) {
-    dispatch(fetchOptionMeta(option));
-  }
+  // for (let option of options) {
+  //   dispatch(fetchOptionMeta(option));
+  // }
 
-  dispatch(setOptionModalIsOpen(true));
+  // dispatch(setOptionModalIsOpen(true));
 
   await Promise.all(
     options.map(async ({ code, response }) => {

@@ -26,10 +26,10 @@ export default (
   }: MsgSelectUnselectCard,
   dispatch: AppDispatch
 ) => {
-  dispatch(setCheckCardModalV2IsOpen(true));
-  dispatch(setCheckCardModalV2FinishAble(finishable));
-  dispatch(setCheckCardModalV2CancelAble(cancelable));
-  dispatch(setCheckCardModalV2MinMax({ min, max }));
+  // dispatch(setCheckCardModalV2IsOpen(true));
+  // dispatch(setCheckCardModalV2FinishAble(finishable));
+  // dispatch(setCheckCardModalV2CancelAble(cancelable));
+  // dispatch(setCheckCardModalV2MinMax({ min, max }));
 
   messageStore.checkCardModalV2.isOpen = true;
   messageStore.checkCardModalV2.finishAble = finishable;
@@ -85,7 +85,7 @@ export default (
     }),
   });
 
-  dispatch(setCheckCardModalV2ResponseAble(true));
+  // dispatch(setCheckCardModalV2ResponseAble(true));
 
   messageStore.checkCardModalV2.responseable = true;
 };

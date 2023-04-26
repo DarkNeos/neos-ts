@@ -42,7 +42,7 @@ const { cardModal } = messageStore;
 export const CardModal = () => {
   const snapCardModal = useSnapshot(cardModal);
 
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectCardModalIsOpen);
   // const meta = useAppSelector(selectCardModalMeta);
 
@@ -68,7 +68,7 @@ export const CardModal = () => {
   const interactivies = snapCardModal.interactivies;
 
   const handleOkOrCancel = () => {
-    dispatch(setCardModalIsOpen(false));
+    // dispatch(setCardModalIsOpen(false));
     cardModal.isOpen = false;
   };
 
@@ -95,9 +95,9 @@ export const CardModal = () => {
             key={idx}
             onClick={() => {
               sendSelectIdleCmdResponse(interactive.response);
-              dispatch(setCardModalIsOpen(false));
-              dispatch(clearAllIdleInteractivities(0));
-              dispatch(clearAllIdleInteractivities(1));
+              // dispatch(setCardModalIsOpen(false));
+              // dispatch(clearAllIdleInteractivities(0));
+              // dispatch(clearAllIdleInteractivities(1));
               cardModal.isOpen = false;
               FIXME_clearAllIdleInteractivities(0);
               FIXME_clearAllIdleInteractivities(1);

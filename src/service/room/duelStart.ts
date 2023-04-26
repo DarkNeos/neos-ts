@@ -4,8 +4,8 @@ import { store } from "@/store";
 import { moraStore } from "@/valtioStores";
 
 export default function handleDuelStart(_pb: ygopro.YgoStocMsg) {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
 
-  dispatch(duelStart());
+  // dispatch(duelStart());
   moraStore.duelStart = true;
 }

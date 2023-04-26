@@ -7,12 +7,12 @@ export default (
   flipSummoning: ygopro.StocGameMessage.MsgFlipSummoning,
   dispatch: AppDispatch
 ) => {
-  dispatch(
-    fetchEsHintMeta({
-      originMsg: "「[?]」反转召唤宣言时",
-      cardID: flipSummoning.code,
-    })
-  );
+  // dispatch(
+  //   fetchEsHintMeta({
+  //     originMsg: "「[?]」反转召唤宣言时",
+  //     cardID: flipSummoning.code,
+  //   })
+  // );
   FIXME_fetchEsHintMeta({
     originMsg: "「[?]」反转召唤宣言时",
     cardID: flipSummoning.code,

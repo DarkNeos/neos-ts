@@ -4,8 +4,8 @@ import { store } from "@/store";
 import { moraStore } from "@/valtioStores";
 
 export default function handleSelectHand(_: ygopro.YgoStocMsg) {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
 
-  dispatch(selectHandAble());
+  // dispatch(selectHandAble());
   moraStore.selectHandAble = true;
 }

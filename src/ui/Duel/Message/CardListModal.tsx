@@ -28,7 +28,7 @@ const CARD_WIDTH = 100;
 const { cardListModal } = messageStore;
 
 export const CardListModal = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectCardListModalIsOpen);
   // const list = useAppSelector(selectCardListModalInfo);
 
@@ -37,7 +37,7 @@ export const CardListModal = () => {
   const list = snapCardListModal.list as typeof cardListModal.list;
 
   const handleOkOrCancel = () => {
-    dispatch(setCardListModalIsOpen(false));
+    // dispatch(setCardListModalIsOpen(false));
     cardListModal.isOpen = false;
   };
 
@@ -53,9 +53,9 @@ export const CardListModal = () => {
                 key={idx}
                 onClick={() => {
                   sendSelectIdleCmdResponse(interactivy.response);
-                  dispatch(setCardListModalIsOpen(false));
-                  dispatch(clearAllIdleInteractivities(0));
-                  dispatch(clearAllIdleInteractivities(1));
+                  // dispatch(setCardListModalIsOpen(false));
+                  // dispatch(clearAllIdleInteractivities(0));
+                  // dispatch(clearAllIdleInteractivities(1));
 
                   cardListModal.isOpen = false;
                   FIXME_clearAllIdleInteractivities(0);

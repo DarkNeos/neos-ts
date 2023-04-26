@@ -10,9 +10,9 @@ export default (
   _wait: ygopro.StocGameMessage.MsgWait,
   dispatch: AppDispatch
 ) => {
-  dispatch(clearAllIdleInteractivities(0));
-  dispatch(clearAllIdleInteractivities(1));
-  dispatch(setWaiting(true));
+  // dispatch(clearAllIdleInteractivities(0));
+  // dispatch(clearAllIdleInteractivities(1));
+  // dispatch(setWaiting(true));
 
   FIXME_clearAllIdleInteractivities(0);
   FIXME_clearAllIdleInteractivities(1);

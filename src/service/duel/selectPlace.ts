@@ -19,9 +19,9 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
   for (const place of selectPlace.places) {
     switch (place.zone) {
       case ygopro.CardZone.MZONE: {
-        dispatch(
-          addMonsterPlaceInteractivities([place.controler, place.sequence])
-        );
+        // dispatch(
+        //   addMonsterPlaceInteractivities([place.controler, place.sequence])
+        // );
         matStore.monsters
           .of(place.controler)
           .setPlaceInteractivityType(
@@ -31,9 +31,9 @@ export default (selectPlace: MsgSelectPlace, dispatch: AppDispatch) => {
         break;
       }
       case ygopro.CardZone.SZONE: {
-        dispatch(
-          addMagicPlaceInteractivities([place.controler, place.sequence])
-        );
+        // dispatch(
+        //   addMagicPlaceInteractivities([place.controler, place.sequence])
+        // );
         matStore.magics
           .of(place.controler)
           .setPlaceInteractivityType(

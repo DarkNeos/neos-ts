@@ -8,7 +8,7 @@ type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 type ZoneActions = ygopro.StocGameMessage.MsgReloadField.ZoneAction[];
 
 export default (field: MsgReloadField, dispatch: AppDispatch) => {
-  dispatch(reloadField(field));
+  // dispatch(reloadField(field));
 
   const _duel_rule = field.duel_rule;
 

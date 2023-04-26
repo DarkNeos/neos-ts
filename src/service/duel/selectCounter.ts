@@ -5,7 +5,7 @@ import { getCardByLocation, messageStore } from "@/valtioStores";
 type MsgSelectCounter = ygopro.StocGameMessage.MsgSelectCounter;
 
 export default (selectCounter: MsgSelectCounter, dispatch: AppDispatch) => {
-  dispatch(setCheckCounter(selectCounter.toObject()));
+  // dispatch(setCheckCounter(selectCounter.toObject()));
 
   messageStore.checkCounterModal.counterType = selectCounter.counter_type;
   messageStore.checkCounterModal.min = selectCounter.min;

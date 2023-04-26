@@ -23,7 +23,7 @@ import { useSnapshot } from "valtio";
 const { positionModal } = messageStore;
 
 export const PositionModal = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   const snapPositionModal = useSnapshot(positionModal);
   // const isOpen = useAppSelector(selectPositionModalIsOpen);
   // const positions = useAppSelector(selectPositionModalPositions);
@@ -45,8 +45,8 @@ export const PositionModal = () => {
           onClick={() => {
             if (selected !== undefined) {
               sendSelectPositionResponse(selected);
-              dispatch(setPositionModalIsOpen(false));
-              dispatch(resetPositionModal());
+              // dispatch(setPositionModalIsOpen(false));
+              // dispatch(resetPositionModal());
               positionModal.isOpen = false;
               positionModal.positions = [];
             }

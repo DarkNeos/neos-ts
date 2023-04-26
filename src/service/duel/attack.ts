@@ -7,9 +7,9 @@ export default (
   attack: ygopro.StocGameMessage.MsgAttack,
   dispatch: AppDispatch
 ) => {
-  dispatch(
-    fetchEsHintMeta({ originMsg: "「[?]」攻击时", location: attack.location })
-  );
+  // dispatch(
+  //   fetchEsHintMeta({ originMsg: "「[?]」攻击时", location: attack.location })
+  // );
   FIXME_fetchEsHintMeta({
     originMsg: "「[?]」攻击时",
     location: attack.location,

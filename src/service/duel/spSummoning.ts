@@ -6,12 +6,12 @@ export default (
   spSummoning: ygopro.StocGameMessage.MsgSpSummoning,
   dispatch: AppDispatch
 ) => {
-  dispatch(
-    fetchEsHintMeta({
-      originMsg: "「[?]」特殊召唤宣言时",
-      cardID: spSummoning.code,
-    })
-  );
+  // dispatch(
+  //   fetchEsHintMeta({
+  //     originMsg: "「[?]」特殊召唤宣言时",
+  //     cardID: spSummoning.code,
+  //   })
+  // );
   FIXME_fetchEsHintMeta({
     originMsg: "「[?]」特殊召唤宣言时",
     cardID: spSummoning.code,

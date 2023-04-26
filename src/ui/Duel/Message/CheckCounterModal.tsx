@@ -21,7 +21,7 @@ export const CheckCounterModal = () => {
   const snapCheckCounterModal = useSnapshot(checkCounterModal);
   const snapMat = useSnapshot(matStore);
 
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const state = useAppSelector(selectCheckCounterModal);
   // const isOpen = state.isOpen;
   // const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
@@ -42,7 +42,11 @@ export const CheckCounterModal = () => {
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
-    dispatch(clearCheckCounter());
+    // dispatch(clearCheckCounter());
+    messageStore.checkCounterModal.isOpen = false;
+    messageStore.checkCounterModal.min = undefined;
+    messageStore.checkCounterModal.counterType = undefined;
+    messageStore.checkCounterModal.options = [];
   };
 
   return (

@@ -26,7 +26,7 @@ const { checkCardModalV3 } = messageStore;
 export const CheckCardModalV3 = () => {
   const snapCheckCardModalV3 = useSnapshot(checkCardModalV3);
 
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const state = useAppSelector(selectCheckCardModalV3);
 
   // const isOpen = state.isOpen;
@@ -69,9 +69,9 @@ export const CheckCardModalV3 = () => {
     sendSelectCardResponse(
       mustSelectOptions.concat(selectedOptions).map((option) => option.response)
     );
-    dispatch(setCheckCardModalV3IsOpen(false));
-    dispatch(resetCheckCardModalV3());
-    dispatch(setCheckCardModalV3ResponseAble(false));
+    // dispatch(setCheckCardModalV3IsOpen(false));
+    // dispatch(resetCheckCardModalV3());
+    // dispatch(setCheckCardModalV3ResponseAble(false));
 
     checkCardModalV3.isOpen = false;
     checkCardModalV3.responseable = false;

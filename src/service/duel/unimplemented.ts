@@ -11,7 +11,7 @@ export default (
   dispatch: AppDispatch
 ) => {
   if (!NeosConfig.unimplementedWhiteList.includes(unimplemented.command)) {
-    dispatch(setUnimplemented(unimplemented.command));
+    // dispatch(setUnimplemented(unimplemented.command));
     matStore.unimplemented = unimplemented.command;
   }
 };

@@ -71,10 +71,10 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
     case 3: {
       // 处理强制发动的卡
 
-      dispatch(setCheckCardModalMinMax({ min: 1, max: 1 }));
-      dispatch(setCheckCardModalOnSubmit("sendSelectChainResponse"));
-      dispatch(setCheckCardMOdalCancelAble(!forced));
-      dispatch(setCheckCardModalCancelResponse(-1));
+      // dispatch(setCheckCardModalMinMax({ min: 1, max: 1 }));
+      // dispatch(setCheckCardModalOnSubmit("sendSelectChainResponse"));
+      // dispatch(setCheckCardMOdalCancelAble(!forced));
+      // dispatch(setCheckCardModalCancelResponse(-1));
 
       messageStore.checkCardModal.selectMin = 1;
       messageStore.checkCardModal.selectMax = 1;
@@ -83,18 +83,18 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
       messageStore.checkCardModal.cancelResponse = -1;
 
       for (const chain of chains) {
-        const tagName = CardZoneToChinese(chain.location.location);
-        dispatch(
-          fetchCheckCardMeta({
-            tagName,
-            option: {
-              code: chain.code,
-              location: chain.location,
-              response: chain.response,
-              effectDescCode: chain.effect_description,
-            },
-          })
-        );
+        // const tagName = CardZoneToChinese(chain.location.location);
+        // dispatch(
+        //   fetchCheckCardMeta({
+        //     tagName,
+        //     option: {
+        //       code: chain.code,
+        //       location: chain.location,
+        //       response: chain.response,
+        //       effectDescCode: chain.effect_description,
+        //     },
+        //   })
+        // );
         FIXME_fetchCheckCardMeta(chain.location.location, {
           code: chain.code,
           location: chain.location,
@@ -102,16 +102,16 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
           effectDescCode: chain.effect_description,
         });
       }
-      dispatch(
-        fetchSelectHintMeta({
-          selectHintData: 203,
-        })
-      );
+      // dispatch(
+      //   fetchSelectHintMeta({
+      //     selectHintData: 203,
+      //   })
+      // );
       FIXME_fetchSelectHintMeta({
         selectHintData: 203,
       });
 
-      dispatch(setCheckCardModalIsOpen(true));
+      // dispatch(setCheckCardModalIsOpen(true));
       messageStore.checkCardModal.isOpen = true;
 
       break;

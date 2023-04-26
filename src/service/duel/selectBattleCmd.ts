@@ -23,51 +23,51 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
-  dispatch(clearAllIdleInteractivities(player));
+  // dispatch(clearAllIdleInteractivities(player));
 
   FIXME_clearAllIdleInteractivities(player);
 
-  const dispatcher = (
-    battleData: MsgSelectBattleCmd.BattleCmd.BattleData,
-    interactType: InteractType | undefined,
-    actionCreator: ActionCreatorWithPayload<
-      {
-        player: number;
-        sequence: number;
-        interactivity: Interactivity<number>;
-      },
-      string
-    >
-  ) => {
-    const cardInfo = battleData.card_info;
-    if (interactType === InteractType.ACTIVATE) {
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: {
-            interactType,
-            activateIndex: battleData.effect_description,
-            response: battleData.response,
-          },
-        })
-      );
-    } else if (interactType === InteractType.ATTACK) {
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: {
-            interactType,
-            directAttackAble: battleData.direct_attackable,
-            response: battleData.response,
-          },
-        })
-      );
-    } else {
-      console.log(`Unhandled InteractType`);
-    }
-  };
+  // const dispatcher = (
+  //   battleData: MsgSelectBattleCmd.BattleCmd.BattleData,
+  //   interactType: InteractType | undefined,
+  //   actionCreator: ActionCreatorWithPayload<
+  //     {
+  //       player: number;
+  //       sequence: number;
+  //       interactivity: Interactivity<number>;
+  //     },
+  //     string
+  //   >
+  // ) => {
+  //   const cardInfo = battleData.card_info;
+  //   if (interactType === InteractType.ACTIVATE) {
+  //     dispatch(
+  //       actionCreator({
+  //         player,
+  //         sequence: cardInfo.sequence,
+  //         interactivity: {
+  //           interactType,
+  //           activateIndex: battleData.effect_description,
+  //           response: battleData.response,
+  //         },
+  //       })
+  //     );
+  //   } else if (interactType === InteractType.ATTACK) {
+  //     dispatch(
+  //       actionCreator({
+  //         player,
+  //         sequence: cardInfo.sequence,
+  //         interactivity: {
+  //           interactType,
+  //           directAttackAble: battleData.direct_attackable,
+  //           response: battleData.response,
+  //         },
+  //       })
+  //     );
+  //   } else {
+  //     console.log(`Unhandled InteractType`);
+  //   }
+  // };
 
   cmds.forEach((cmd) => {
     const interactType = battleTypeToInteracType(cmd.battle_type);
@@ -97,31 +97,31 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
       }
 
       // >>> 从这开始删除 >>>
-      switch (location) {
-        case ygopro.CardZone.HAND: {
-          dispatcher(data, interactType, addHandsIdleInteractivity);
+      // switch (location) {
+      //   case ygopro.CardZone.HAND: {
+      //     dispatcher(data, interactType, addHandsIdleInteractivity);
 
-          break;
-        }
-        case ygopro.CardZone.MZONE: {
-          dispatcher(data, interactType, addMonsterIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.MZONE: {
+      //     dispatcher(data, interactType, addMonsterIdleInteractivities);
 
-          break;
-        }
-        case ygopro.CardZone.SZONE: {
-          dispatcher(data, interactType, addMagicIdleInteractivities);
+      //     break;
+      //   }
+      //   case ygopro.CardZone.SZONE: {
+      //     dispatcher(data, interactType, addMagicIdleInteractivities);
 
-          break;
-        }
-        default: {
-        }
-      }
+      //     break;
+      //   }
+      //   default: {
+      //   }
+      // }
       // <<< 到这结束删除，上面的const dispatcher也删掉 <<<
     });
   });
 
-  dispatch(setEnableM2(selectBattleCmd.enable_m2));
-  dispatch(setEnableEp(selectBattleCmd.enable_ep));
+  // dispatch(setEnableM2(selectBattleCmd.enable_m2));
+  // dispatch(setEnableEp(selectBattleCmd.enable_ep));
 
   matStore.phase.enableM2 = selectBattleCmd.enable_m2;
   matStore.phase.enableEp = selectBattleCmd.enable_ep;

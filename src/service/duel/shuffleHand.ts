@@ -6,9 +6,9 @@ import MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
 import { matStore } from "@/valtioStores";
 
 export default (shuffleHand: MsgShuffleHand, dispatch: AppDispatch) => {
-  dispatch(
-    updateHandsMeta({ controler: shuffleHand.player, codes: shuffleHand.hands })
-  );
+  // dispatch(
+  //   updateHandsMeta({ controler: shuffleHand.player, codes: shuffleHand.hands })
+  // );
 
   const { hands: codes, player: controller } = shuffleHand;
 

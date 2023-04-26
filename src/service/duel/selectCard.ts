@@ -23,8 +23,8 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
 
   // TODO: handle release_param
 
-  dispatch(setCheckCardModalMinMax({ min, max }));
-  dispatch(setCheckCardModalOnSubmit("sendSelectCardResponse"));
+  // dispatch(setCheckCardModalMinMax({ min, max }));
+  // dispatch(setCheckCardModalOnSubmit("sendSelectCardResponse"));
 
   messageStore.checkCardModal.selectMin = min;
   messageStore.checkCardModal.selectMax = max;
@@ -32,16 +32,16 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
 
   for (const card of cards) {
     const tagName = CardZoneToChinese(card.location.location);
-    dispatch(
-      fetchCheckCardMeta({
-        tagName,
-        option: {
-          code: card.code,
-          location: card.location,
-          response: card.response,
-        },
-      })
-    );
+    // dispatch(
+    //   fetchCheckCardMeta({
+    //     tagName,
+    //     option: {
+    //       code: card.code,
+    //       location: card.location,
+    //       response: card.response,
+    //     },
+    //   })
+    // );
     // FIXME: rename
     FIXME_fetchCheckCardMeta(card.location.location, {
       code: card.code,
@@ -50,7 +50,7 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
     });
   }
 
-  dispatch(setCheckCardModalIsOpen(true));
+  // dispatch(setCheckCardModalIsOpen(true));
 
   messageStore.checkCardModal.isOpen = true;
 };

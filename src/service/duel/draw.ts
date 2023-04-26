@@ -11,8 +11,8 @@ export default (
   draw: ygopro.StocGameMessage.MsgDraw,
   dispatch: AppDispatch
 ) => {
-  dispatch(fetchEsHintMeta({ originMsg: "玩家抽卡时" }));
-  dispatch(fetchHandsMeta({ controler: draw.player, codes: draw.cards }));
+  // dispatch(fetchEsHintMeta({ originMsg: "玩家抽卡时" }));
+  // dispatch(fetchHandsMeta({ controler: draw.player, codes: draw.cards }));
 
   FIXME_fetchEsHintMeta({ originMsg: "玩家抽卡时" });
   matStore.hands.of(draw.player).add(draw.cards);

@@ -36,7 +36,7 @@ const { checkCardModal } = messageStore;
 export const CheckCardModal = () => {
   const snapCheckCardModal = useSnapshot(checkCardModal);
 
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectCheckCardModalIsOpen);
   // const { min, max } = useAppSelector(selectCheckCardModalMinMax);
   // const tabs = useAppSelector(selectCheckCardModalTags);
@@ -104,8 +104,8 @@ export const CheckCardModal = () => {
             disabled={response.length < min || response.length > max}
             onClick={() => {
               sendResponseHandler(onSubmit, response);
-              dispatch(setCheckCardModalIsOpen(false));
-              dispatch(resetCheckCardModal());
+              // dispatch(setCheckCardModalIsOpen(false));
+              // dispatch(resetCheckCardModal());
               checkCardModal.isOpen = false;
               FIXME_resetCheckCardModal();
             }}
@@ -120,8 +120,8 @@ export const CheckCardModal = () => {
                 if (cancelResponse) {
                   sendResponseHandler(onSubmit, [cancelResponse]);
                 }
-                dispatch(setCheckCardModalIsOpen(false));
-                dispatch(resetCheckCardModal());
+                // dispatch(setCheckCardModalIsOpen(false));
+                // dispatch(resetCheckCardModal());
                 checkCardModal.isOpen = false;
                 FIXME_resetCheckCardModal();
               }}

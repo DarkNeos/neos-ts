@@ -12,26 +12,26 @@ export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
 
   switch (location) {
     case ygopro.CardZone.MZONE: {
-      dispatch(
-        setMonsterPosition({
-          controler: controler,
-          sequence,
-          position: posChange.cur_position,
-        })
-      );
+      // dispatch(
+      //   setMonsterPosition({
+      //     controler: controler,
+      //     sequence,
+      //     position: posChange.cur_position,
+      //   })
+      // );
       matStore.monsters.of(controler)[sequence].location.position =
         posChange.cur_position;
 
       break;
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        setMagicPosition({
-          controler: controler,
-          sequence,
-          position: posChange.cur_position,
-        })
-      );
+      // dispatch(
+      //   setMagicPosition({
+      //     controler: controler,
+      //     sequence,
+      //     position: posChange.cur_position,
+      //   })
+      // );
       matStore.magics.of(controler)[sequence].location.position =
         posChange.cur_position;
 
@@ -42,7 +42,7 @@ export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
     }
   }
 
-  dispatch(fetchEsHintMeta({ originMsg: 1600 }));
+  // dispatch(fetchEsHintMeta({ originMsg: 1600 }));
   FIXME_fetchEsHintMeta({
     originMsg: 1600,
   });

@@ -12,11 +12,11 @@ export default (selectPosition: MsgSelectPosition, dispatch: AppDispatch) => {
   const player = selectPosition.player;
   const positions = selectPosition.positions;
 
-  dispatch(
-    setPositionModalPositions(positions.map((position) => position.position))
-  );
+  // dispatch(
+  //   setPositionModalPositions(positions.map((position) => position.position))
+  // );
 
-  dispatch(setPositionModalIsOpen(true));
+  // dispatch(setPositionModalIsOpen(true));
 
   messageStore.positionModal.positions = positions.map(
     (position) => position.position

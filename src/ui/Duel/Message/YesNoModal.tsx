@@ -19,7 +19,7 @@ import { useSnapshot } from "valtio";
 const { yesNoModal } = messageStore;
 
 export const YesNoModal = () => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   // const isOpen = useAppSelector(selectYesNoModalIsOpen);
   // const msg = useAppSelector(selectYesNOModalMsg);
   // const hint = useAppSelector(selectHint);
@@ -41,7 +41,7 @@ export const YesNoModal = () => {
           <Button
             onClick={() => {
               sendSelectEffectYnResponse(true);
-              dispatch(setYesNoModalIsOpen(false));
+              // dispatch(setYesNoModalIsOpen(false));
               yesNoModal.isOpen = false;
             }}
           >
@@ -50,7 +50,7 @@ export const YesNoModal = () => {
           <Button
             onClick={() => {
               sendSelectEffectYnResponse(false);
-              dispatch(setYesNoModalIsOpen(false));
+              // dispatch(setYesNoModalIsOpen(false));
               yesNoModal.isOpen = false;
             }}
           >
