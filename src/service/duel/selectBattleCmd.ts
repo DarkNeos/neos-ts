@@ -73,7 +73,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
     const interactType = battleTypeToInteracType(cmd.battle_type);
 
     cmd.battle_datas.forEach((data) => {
-      const cardInfo = data.card_info;
+      const { location, sequence } = data.card_info;
 
       // valtio
       if (interactType) {
@@ -84,22 +84,20 @@ export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
           [InteractType.ATTACK]: { directAttackAble: data.direct_attackable },
         };
         const tmp = map[interactType];
-        if (tmp) {
-          matStore
-            .in(cardInfo.location)
-            .of(player)
-            .addIdleInteractivity(cardInfo.sequence, {
-              ...tmp,
-              interactType,
-              response: data.response,
-            });
-        } else {
-          console.warn(`Unhandled InteractType:`, interactType);
-        }
+        matStore
+          .in(location)
+          .of(player)
+          .addIdleInteractivity(sequence, {
+            ...tmp,
+            interactType,
+            response: data.response,
+          });
+      } else {
+        console.warn(`Undefined InteractType`);
       }
 
       // >>> 从这开始删除 >>>
-      switch (cardInfo.location) {
+      switch (location) {
         case ygopro.CardZone.HAND: {
           dispatcher(data, interactType, addHandsIdleInteractivity);
 

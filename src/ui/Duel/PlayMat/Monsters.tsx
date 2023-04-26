@@ -71,7 +71,7 @@ export const Monsters = () => {
         ))}
       <ExtraMonsters
         meMonsters={meMonstersStore}
-        opMonsters={meMonstersStore}
+        opMonsters={opMonstersStore}
       />
     </>
   );
@@ -82,10 +82,10 @@ const ExtraMonsters = (props: {
   meMonsters: CardState[];
   opMonsters: CardState[];
 }) => {
-  const meLeft = props.meMonsters.find((_, sequence) => sequence == 5);
-  const meRight = props.meMonsters.find((_, sequence) => sequence == 6);
-  const opLeft = props.opMonsters.find((_, sequence) => sequence == 5);
-  const opRight = props.opMonsters.find((_, sequence) => sequence == 6);
+  const meLeft = props.meMonsters[5];
+  const meRight = props.meMonsters[6];
+  const opLeft = props.opMonsters[5];
+  const opRight = props.opMonsters[6];
 
   const leftPosition = new BABYLON.Vector3(-1.1, transform.z / 2 + floating, 0);
   const rightPosition = new BABYLON.Vector3(1.1, transform.z / 2 + floating, 0);
@@ -95,56 +95,40 @@ const ExtraMonsters = (props: {
 
   return (
     <>
-      {meLeft ? (
-        <FixedSlot
-          state={meLeft}
-          sequence={5}
-          position={leftPosition}
-          rotation={meRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
-        />
-      ) : (
-        <></>
-      )}
-      {meRight ? (
-        <FixedSlot
-          state={meRight}
-          sequence={6}
-          position={rightPosition}
-          rotation={meRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-          clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
-        />
-      ) : (
-        <></>
-      )}
-      {opLeft ? (
-        <FixedSlot
-          state={opLeft}
-          sequence={5}
-          position={rightPosition}
-          rotation={opRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
-      {opRight ? (
-        <FixedSlot
-          state={opRight}
-          sequence={6}
-          position={leftPosition}
-          rotation={opRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
+      <FixedSlot
+        state={meLeft}
+        sequence={5}
+        position={leftPosition}
+        rotation={meRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
+      <FixedSlot
+        state={meRight}
+        sequence={6}
+        position={rightPosition}
+        rotation={meRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
+      <FixedSlot
+        state={opLeft}
+        sequence={5}
+        position={rightPosition}
+        rotation={opRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+      />
+      <FixedSlot
+        state={opRight}
+        sequence={6}
+        position={leftPosition}
+        rotation={opRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+      />
     </>
   );
 };

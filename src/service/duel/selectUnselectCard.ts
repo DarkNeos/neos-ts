@@ -37,18 +37,18 @@ export default (
   messageStore.checkCardModalV2.selectMin = min;
   messageStore.checkCardModalV2.selectMax = max;
 
-  dispatch(
-    fetchCheckCardMetasV2({
-      selected: false,
-      options: selectableCards.map((card) => {
-        return {
-          code: card.code,
-          location: card.location,
-          response: card.response,
-        };
-      }),
-    })
-  );
+  // dispatch(
+  //   fetchCheckCardMetasV2({
+  //     selected: false,
+  //     options: selectableCards.map((card) => {
+  //       return {
+  //         code: card.code,
+  //         location: card.location,
+  //         response: card.response,
+  //       };
+  //     }),
+  //   })
+  // );
 
   FIXME_fetchCheckCardMetasV2({
     selected: false,
@@ -61,18 +61,18 @@ export default (
     }),
   });
 
-  dispatch(
-    fetchCheckCardMetasV2({
-      selected: true,
-      options: selectedCards.map((card) => {
-        return {
-          code: card.code,
-          location: card.location,
-          response: card.response,
-        };
-      }),
-    })
-  );
+  // dispatch(
+  //   fetchCheckCardMetasV2({
+  //     selected: true,
+  //     options: selectedCards.map((card) => {
+  //       return {
+  //         code: card.code,
+  //         location: card.location,
+  //         response: card.response,
+  //       };
+  //     }),
+  //   })
+  // );
 
   FIXME_fetchCheckCardMetasV2({
     selected: true,

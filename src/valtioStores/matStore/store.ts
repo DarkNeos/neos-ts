@@ -87,12 +87,24 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     sequence: number,
     interactivity: CardState["idleInteractivities"][number]
   ) {
+    console.warn("addIdleInteractivity", {
+      sequence,
+      interactivity,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     this[sequence].idleInteractivities.push(interactivity);
   }
   clearIdleInteractivities() {
     this.forEach((card) => (card.idleInteractivities = []));
   }
   setPlaceInteractivityType(sequence: number, interactType: InteractType) {
+    console.warn("setPlaceInteractivityType", {
+      sequence,
+      interactType,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     this[sequence].placeInteractivity = {
       interactType: interactType,
       response: {
