@@ -85,7 +85,7 @@ const CHand = (props: {
   const state = props.state;
   const [hovered, setHovered] = useState(false);
   const position = props.position;
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
 
   const [spring, api] = useSpring(
     () => ({
@@ -120,26 +120,26 @@ const CHand = (props: {
   useClick(
     () => {
       if (state.occupant) {
-        dispatch(setCardModalMeta(state.occupant));
+        // dispatch(setCardModalMeta(state.occupant));
         messageStore.cardModal.meta = state.occupant;
       }
-      dispatch(
-        setCardModalInteractivies(
-          state.idleInteractivities.map((interactive) => {
-            return {
-              desc: interactTypeToString(interactive.interactType),
-              response: interactive.response,
-            };
-          })
-        )
-      );
+      // dispatch(
+      //   setCardModalInteractivies(
+      //     state.idleInteractivities.map((interactive) => {
+      //       return {
+      //         desc: interactTypeToString(interactive.interactType),
+      //         response: interactive.response,
+      //       };
+      //     })
+      //   )
+      // );
       messageStore.cardModal.interactivies = state.idleInteractivities.map(
         (interactive) => ({
           desc: interactTypeToString(interactive.interactType),
           response: interactive.response,
         })
       );
-      dispatch(setCardModalIsOpen(true));
+      // dispatch(setCardModalIsOpen(true));
       messageStore.cardModal.isOpen = true;
     },
     planeRef,

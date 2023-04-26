@@ -6,7 +6,7 @@ import { ygopro } from "@/api";
 import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
 import { useConfig } from "@/config";
 import { useClick } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
+// import { CardState } from "@/reducers/duel/generic";
 import {
   setCardListModalInfo,
   setCardListModalIsOpen,
@@ -20,7 +20,7 @@ import { store } from "@/store";
 import { interactTypeToString } from "../utils";
 import { useSnapshot } from "valtio";
 
-import { clearAllIdleInteractivities } from "@/valtioStores";
+import { clearAllIdleInteractivities, type CardState } from "@/valtioStores";
 
 const NeosConfig = useConfig();
 
@@ -62,8 +62,8 @@ export const FixedSlot = (props: {
 
   useClick(
     (_event) => {
-      if (snapState.placeInteractivities) {
-        sendSelectPlaceResponse(snapState.placeInteractivities.response);
+      if (snapState.placeInteractivity) {
+        sendSelectPlaceResponse(snapState.placeInteractivity.response);
         // dispatch(props.clearPlaceInteractivitiesAction(0));
         // dispatch(props.clearPlaceInteractivitiesAction(1));
         clearAllIdleInteractivities(0);
@@ -117,8 +117,7 @@ export const FixedSlot = (props: {
       rotation={rotation}
       enableEdgesRendering
       edgesWidth={
-        snapState.placeInteractivities ||
-        snapState.idleInteractivities.length > 0
+        snapState.placeInteractivity || snapState.idleInteractivities.length > 0
           ? edgesWidth
           : 0
       }
