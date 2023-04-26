@@ -110,18 +110,14 @@ class CardArray extends Array<CardState> implements ArrayCardState {
 const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
   const me = cloneDeep(new CardArray(...cardStates));
   me.zone = zone;
-  me.getController = () => (matStore.selfType == 1 ? 0 : 1);
+  me.getController = () => (matStore.selfType === 1 ? 0 : 1);
   const op = cloneDeep(new CardArray(...cardStates));
   op.zone = zone;
-  op.getController = () => (matStore.selfType == 1 ? 1 : 0);
+  op.getController = () => (matStore.selfType === 1 ? 1 : 0);
   const res = proxy({
     me,
     op,
-    of: (controller: number) => {
-      const tmp = res[getWhom(controller)];
-      tmp.__proto__ = CardArray.prototype; // 手动修复原型链
-      return tmp;
-    },
+    of: (controller: number) => res[getWhom(controller)],
   });
   return res;
 };
