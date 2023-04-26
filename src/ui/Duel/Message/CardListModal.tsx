@@ -34,7 +34,7 @@ export const CardListModal = () => {
 
   const snapCardListModal = useSnapshot(cardListModal);
   const isOpen = snapCardListModal.isOpen;
-  const list = snapCardListModal.list;
+  const list = snapCardListModal.list as typeof cardListModal.list;
 
   const handleOkOrCancel = () => {
     dispatch(setCardListModalIsOpen(false));

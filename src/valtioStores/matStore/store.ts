@@ -36,13 +36,29 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   });
   // methods
   remove(sequence: number) {
+    console.warn("remove", {
+      sequence,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     this.splice(sequence, 1);
   }
   async insert(sequence: number, id: number) {
+    console.warn("insert", {
+      sequence,
+      id,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     const card = await this.genCard(this.getController(), id);
     this.splice(sequence, 0, card);
   }
   async add(ids: number[]) {
+    console.warn("add", {
+      ids,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     const cards = await Promise.all(
       ids.map(async (id) => this.genCard(this.getController(), id))
     );
@@ -53,6 +69,13 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     id: number,
     position?: ygopro.CardPosition
   ) {
+    console.warn("setOccupant", {
+      sequence,
+      id,
+      position,
+      zone: ygopro.CardZone[this.zone],
+      controller: getWhom(this.getController()),
+    });
     const meta = await fetchCard(id);
     const target = this[sequence];
     target.occupant = meta;
@@ -85,18 +108,19 @@ class CardArray extends Array<CardState> implements ArrayCardState {
 }
 
 const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
-  const me = new CardArray(...cardStates);
+  const me = cloneDeep(new CardArray(...cardStates));
   me.zone = zone;
   me.getController = () => (matStore.selfType == 1 ? 0 : 1);
-  const op = new CardArray(...cardStates);
+  const op = cloneDeep(new CardArray(...cardStates));
   op.zone = zone;
   op.getController = () => (matStore.selfType == 1 ? 1 : 0);
   const res = proxy({
     me,
     op,
     of: (controller: number) => {
-      res[getWhom(controller)].__proto__ = CardArray.prototype;
-      return res[getWhom(controller)];
+      const tmp = res[getWhom(controller)];
+      tmp.__proto__ = CardArray.prototype; // 手动修复原型链
+      return tmp;
     },
   });
   return res;

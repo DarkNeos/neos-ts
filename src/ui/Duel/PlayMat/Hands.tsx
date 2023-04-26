@@ -13,7 +13,7 @@ import {
 } from "@/reducers/duel/mod";
 import { store } from "@/store";
 import { matStore, type CardState, messageStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
+import { useSnapshot, INTERNAL_Snapshot } from "valtio";
 
 import { animated, useSpring } from "../spring";
 import { interactTypeToString, zip } from "../utils";
@@ -28,17 +28,20 @@ const handRotation = new BABYLON.Vector3(rotation.x, rotation.y, rotation.z);
 const hoverScaling = NeosConfig.ui.card.handHoverScaling;
 
 export const Hands = () => {
-  const meHands = useSnapshot(matStore.hands.me);
-  const opHands = useSnapshot(matStore.hands.op);
+  const meHandsState = matStore.hands.me;
+  const opHandsState = matStore.hands.op;
+  const meHandsSnap = useSnapshot(meHandsState);
+  const opHandsSnap = useSnapshot(opHandsState);
   // const meHands = useAppSelector(selectMeHands).inner;
   // const opHands = useAppSelector(selectOpHands).inner;
-
-  const meHandPositions = handPositons(0, meHands);
-  const opHandPositions = handPositons(1, opHands);
+  const meHandPositions = handPositons(0, meHandsSnap);
+  const opHandPositions = handPositons(1, opHandsSnap);
+  // const meHandPositions = handPositons(0, meHandsState);
+  // const opHandPositions = handPositons(1, opHandsState);
 
   return (
     <>
-      {zip(meHands, meHandPositions).map(([hand, position], idx) => {
+      {zip(meHandsState, meHandPositions).map(([hand, position], idx) => {
         return (
           <CHand
             key={idx}
@@ -46,11 +49,11 @@ export const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(id) => `${NeosConfig.cardImgUrl}/${id}.jpg`}
+            // cover={(id) => `${NeosConfig.cardImgUrl}/${id}.jpg`}
           />
         );
       })}
-      {zip(opHands, opHandPositions).map(([hand, position], idx) => {
+      {zip(opHandsState, opHandPositions).map(([hand, position], idx) => {
         return (
           <CHand
             key={idx}
@@ -58,7 +61,8 @@ export const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(_) => `${NeosConfig.assetsPath}/card_back.jpg`}
+            // cover={(_) => `${NeosConfig.assetsPath}/card_back.jpg`}
+            back={true}
           />
         );
       })}
@@ -71,7 +75,7 @@ const CHand = (props: {
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
-  cover: (id: number) => string;
+  back?: boolean;
 }) => {
   const hoverScale = new BABYLON.Vector3(
     hoverScaling.x,
@@ -168,7 +172,12 @@ const CHand = (props: {
         <animated.standardMaterial
           name={`hand-mat-${props.sequence}`}
           diffuseTexture={
-            new BABYLON.Texture(props.cover(state.occupant?.id || 0))
+            // new BABYLON.Texture(props.cover(state.occupant?.id || 0))
+            new BABYLON.Texture(
+              props.back
+                ? `${NeosConfig.assetsPath}/card_back.jpg`
+                : `${NeosConfig.cardImgUrl}/${state.occupant?.id || 0}.jpg`
+            )
           }
         />
       </animated.plane>
@@ -176,7 +185,10 @@ const CHand = (props: {
   );
 };
 
-const handPositons = (player: number, hands: CardState[]) => {
+const handPositons = (
+  player: number,
+  hands: INTERNAL_Snapshot<CardState[]>
+) => {
   const gap = groundShape.width / (hands.length - 1);
   const x = (idx: number) =>
     player == 0 ? left + gap * idx : -left - gap * idx;

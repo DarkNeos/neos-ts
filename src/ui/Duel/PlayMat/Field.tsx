@@ -23,9 +23,10 @@ export const Field = () => {
   // );
 
   // 这儿的find可能是出于某种考虑，以后再深思
-
-  const meField = useSnapshot(matStore.magics.me[5]);
-  const opField = useSnapshot(matStore.magics.op[5]);
+  const meFieldState = matStore.magics.me[5];
+  const meField = useSnapshot(meFieldState);
+  const opFieldState = matStore.magics.op[5];
+  const opField = useSnapshot(opFieldState);
 
   const clearPlaceInteractivitiesAction = (controller: number) =>
     matStore.magics.of(controller).clearPlaceInteractivity();
@@ -33,7 +34,7 @@ export const Field = () => {
     <>
       {meField ? (
         <FixedSlot
-          snapState={meField}
+          state={meFieldState}
           sequence={0}
           position={fieldPosition(0)}
           rotation={cardSlotRotation(false)}
@@ -45,7 +46,7 @@ export const Field = () => {
       )}
       {opField ? (
         <FixedSlot
-          snapState={opField}
+          state={opFieldState}
           sequence={0}
           position={fieldPosition(1)}
           rotation={cardSlotRotation(true)}

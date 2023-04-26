@@ -18,9 +18,13 @@ import {
 import { store } from "@/store";
 
 import { interactTypeToString } from "../utils";
-import { useSnapshot } from "valtio";
+import { useSnapshot, INTERNAL_Snapshot } from "valtio";
 
-import { clearAllIdleInteractivities, type CardState } from "@/valtioStores";
+import {
+  clearAllIdleInteractivities,
+  type CardState,
+  clearAllPlaceInteradtivities,
+} from "@/valtioStores";
 
 const NeosConfig = useConfig();
 
@@ -33,7 +37,7 @@ const cardDefenceRotation = new BABYLON.Vector3(
 );
 
 export const FixedSlot = (props: {
-  snapState: CardState;
+  state: CardState;
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
@@ -43,8 +47,8 @@ export const FixedSlot = (props: {
 }) => {
   const planeRef = useRef(null);
 
-  // const snapState = useSnapshot(props.state);
-  const snapState = props.snapState;
+  const snapState = useSnapshot(props.state);
+  // const snapState = props.state;
   const rotation =
     snapState.location.position === ygopro.CardPosition.DEFENSE ||
     snapState.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
@@ -66,8 +70,11 @@ export const FixedSlot = (props: {
         sendSelectPlaceResponse(snapState.placeInteractivity.response);
         // dispatch(props.clearPlaceInteractivitiesAction(0));
         // dispatch(props.clearPlaceInteractivitiesAction(1));
-        clearAllIdleInteractivities(0);
-        clearAllIdleInteractivities(1);
+        // 其实不应该从外面传进来的...
+        // props.clearPlaceInteractivitiesAction(0);
+        // props.clearPlaceInteractivitiesAction(1);
+        clearAllPlaceInteradtivities(0);
+        clearAllPlaceInteradtivities(1);
       } else if (snapState.occupant) {
         // 中央弹窗展示选中卡牌信息
         dispatch(setCardModalMeta(snapState.occupant));

@@ -9,8 +9,8 @@ import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
 import { cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 
-import { matStore, type CardState, messageStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
+import { matStore, type CardState } from "@/valtioStores";
+import { useSnapshot, type INTERNAL_Snapshot } from "valtio";
 
 const NeosConfig = useConfig();
 // TODO: use config
@@ -22,22 +22,26 @@ export const Magics = () => {
   // const meMagics = useAppSelector(selectMeMagics).inner;
   // const opMagics = useAppSelector(selectOpMagics).inner;
 
-  const meMagics = useSnapshot(matStore.magics.me);
-  const opMagics = useSnapshot(matStore.magics.op);
-  const meMagicPositions = magicPositions(0, meMagics);
-  const opMagicPositions = magicPositions(1, opMagics);
+  const meMagicState = matStore.magics.me;
+  const opMagicState = matStore.magics.op;
+  const meMagicsSnap = useSnapshot(meMagicState);
+  const opMagicsSnap = useSnapshot(opMagicState);
+  const meMagicPositions = magicPositions(0, meMagicsSnap);
+  const opMagicPositions = magicPositions(1, opMagicsSnap);
 
-  const clearPlaceInteractivitiesAction = (controller: number) =>
+  const clearPlaceInteractivitiesAction = (controller: number) => {
+    console.warn("magic clearPlaceInteractivitiesAction");
     matStore.magics.of(controller).clearPlaceInteractivity();
+  };
 
   return (
     <>
-      {zip(meMagics, meMagicPositions)
+      {zip(meMagicState, meMagicPositions)
         .slice(0, 5)
         .map(([magic, position], sequence) => {
           return (
             <FixedSlot
-              snapState={magic}
+              state={magic}
               key={sequence}
               sequence={sequence}
               position={position}
@@ -47,12 +51,12 @@ export const Magics = () => {
             />
           );
         })}
-      {zip(opMagics, opMagicPositions)
+      {zip(opMagicState, opMagicPositions)
         .slice(0, 5)
         .map(([magic, position], sequence) => {
           return (
             <FixedSlot
-              snapState={magic}
+              state={magic}
               key={sequence}
               sequence={sequence}
               position={position}
@@ -66,7 +70,10 @@ export const Magics = () => {
   );
 };
 
-const magicPositions = (player: number, magics: CardState[]) => {
+const magicPositions = (
+  player: number,
+  magics: INTERNAL_Snapshot<CardState[]>
+) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = transform.z / 2 + NeosConfig.ui.card.floating;

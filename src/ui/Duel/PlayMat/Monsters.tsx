@@ -15,7 +15,7 @@ import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 
 import { matStore, type CardState, messageStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
+import { useSnapshot, type INTERNAL_Snapshot } from "valtio";
 
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
@@ -23,24 +23,29 @@ const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
-const clearPlaceInteractivitiesAction = (controller: number) =>
+const clearPlaceInteractivitiesAction = (controller: number) => {
+  console.warn("monster clearPlaceInteractivitiesAction");
   matStore.monsters.of(controller).clearPlaceInteractivity();
+};
 
 export const Monsters = () => {
   // const meMonsters = useAppSelector(selectMeMonsters).inner;
   // const opMonsters = useAppSelector(selectOpMonsters).inner;
-  const meMonsters = useSnapshot(matStore.monsters.me);
-  const opMonsters = useSnapshot(matStore.monsters.op);
-  const meMonsterPositions = monsterPositions(0, meMonsters);
-  const opMonsterPositions = monsterPositions(1, opMonsters);
+
+  const meMonstersStore = matStore.monsters.me;
+  const opMonstersStore = matStore.monsters.op;
+  const meMonstersSnap = useSnapshot(meMonstersStore);
+  const opMonstersSnap = useSnapshot(opMonstersStore);
+  const meMonsterPositions = monsterPositions(0, meMonstersSnap);
+  const opMonsterPositions = monsterPositions(1, opMonstersSnap);
 
   return (
     <>
-      {zip(meMonsters, meMonsterPositions)
+      {zip(meMonstersStore, meMonsterPositions)
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
-            snapState={monster}
+            state={monster}
             key={sequence}
             sequence={sequence}
             position={position}
@@ -50,11 +55,11 @@ export const Monsters = () => {
             clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
-      {zip(opMonsters, opMonsterPositions)
+      {zip(opMonstersStore, opMonsterPositions)
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
-            snapState={monster}
+            state={monster}
             key={sequence}
             sequence={sequence}
             position={position}
@@ -64,7 +69,10 @@ export const Monsters = () => {
             clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
-      <ExtraMonsters meMonsters={meMonsters} opMonsters={opMonsters} />
+      <ExtraMonsters
+        meMonsters={meMonstersStore}
+        opMonsters={meMonstersStore}
+      />
     </>
   );
 };
@@ -89,7 +97,7 @@ const ExtraMonsters = (props: {
     <>
       {meLeft ? (
         <FixedSlot
-          snapState={meLeft}
+          state={meLeft}
           sequence={5}
           position={leftPosition}
           rotation={meRotation}
@@ -102,7 +110,7 @@ const ExtraMonsters = (props: {
       )}
       {meRight ? (
         <FixedSlot
-          snapState={meRight}
+          state={meRight}
           sequence={6}
           position={rightPosition}
           rotation={meRotation}
@@ -115,7 +123,7 @@ const ExtraMonsters = (props: {
       )}
       {opLeft ? (
         <FixedSlot
-          snapState={opLeft}
+          state={opLeft}
           sequence={5}
           position={rightPosition}
           rotation={opRotation}
@@ -127,7 +135,7 @@ const ExtraMonsters = (props: {
       )}
       {opRight ? (
         <FixedSlot
-          snapState={opRight}
+          state={opRight}
           sequence={6}
           position={leftPosition}
           rotation={opRotation}
@@ -141,7 +149,10 @@ const ExtraMonsters = (props: {
   );
 };
 
-const monsterPositions = (player: number, monsters: CardState[]) => {
+const monsterPositions = (
+  player: number,
+  monsters: INTERNAL_Snapshot<CardState[]>
+) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = transform.z / 2 + floating;

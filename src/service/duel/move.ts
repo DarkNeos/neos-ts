@@ -94,7 +94,7 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
     case ygopro.CardZone.GRAVE:
     case ygopro.CardZone.EXTRA:
     case ygopro.CardZone.HAND: {
-      matStore.hands.of(to.controler).insert(to.sequence, code);
+      matStore.in(to.location).of(to.controler).insert(to.sequence, code);
       break;
     }
     case ygopro.CardZone.OVERLAY: {
