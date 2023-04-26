@@ -34,31 +34,26 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     counters: {},
     idleInteractivities: [],
   });
-  // methods
-  remove(sequence: number) {
-    console.warn("remove", {
-      sequence,
+  /** 内部输出一些注释，等稳定了再移除这个log */
+  private logInside(name: string, obj: Record<string, any>) {
+    console.warn("matStore", name, {
       zone: ygopro.CardZone[this.zone],
       controller: getWhom(this.getController()),
+      ...obj,
     });
+  }
+  // methods
+  remove(sequence: number) {
+    this.logInside("remove", { sequence });
     this.splice(sequence, 1);
   }
   async insert(sequence: number, id: number) {
-    console.warn("insert", {
-      sequence,
-      id,
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-    });
+    this.logInside("insert", { sequence, id });
     const card = await this.genCard(this.getController(), id);
     this.splice(sequence, 0, card);
   }
   async add(ids: number[]) {
-    console.warn("add", {
-      ids,
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-    });
+    this.logInside("add", { ids });
     const cards = await Promise.all(
       ids.map(async (id) => this.genCard(this.getController(), id))
     );
@@ -69,13 +64,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     id: number,
     position?: ygopro.CardPosition
   ) {
-    console.warn("setOccupant", {
-      sequence,
-      id,
-      position,
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-    });
+    this.logInside("setOccupant", { sequence, id, position });
     const meta = await fetchCard(id);
     const target = this[sequence];
     target.occupant = meta;
@@ -87,24 +76,14 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     sequence: number,
     interactivity: CardState["idleInteractivities"][number]
   ) {
-    console.warn("addIdleInteractivity", {
-      sequence,
-      interactivity,
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-    });
+    this.logInside("addIdleInteractivity", { sequence, interactivity });
     this[sequence].idleInteractivities.push(interactivity);
   }
   clearIdleInteractivities() {
     this.forEach((card) => (card.idleInteractivities = []));
   }
   setPlaceInteractivityType(sequence: number, interactType: InteractType) {
-    console.warn("setPlaceInteractivityType", {
-      sequence,
-      interactType,
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-    });
+    this.logInside("setPlaceInteractivityType", { sequence, interactType });
     this[sequence].placeInteractivity = {
       interactType: interactType,
       response: {
