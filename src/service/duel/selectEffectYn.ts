@@ -1,8 +1,6 @@
 import { fetchStrings, ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
-import { messageStore } from "@/stores";
-
-import { CardZoneToChinese } from "./util";
+import { CardZoneToChinese, messageStore } from "@/stores";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 

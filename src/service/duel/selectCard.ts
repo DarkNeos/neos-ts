@@ -1,8 +1,6 @@
 import { ygopro } from "@/api";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
-import { fetchCheckCardMeta, messageStore } from "@/stores";
-
-import { CardZoneToChinese } from "./util";
+import { CardZoneToChinese, fetchCheckCardMeta, messageStore } from "@/stores";
 
 export default (selectCard: MsgSelectCard) => {
   const _player = selectCard.player;
