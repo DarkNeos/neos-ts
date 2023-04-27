@@ -23,10 +23,8 @@ import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-import { store } from "./store";
 import Neos from "./ui/Neos";
 
 const root = ReactDOM.createRoot(
@@ -35,14 +33,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <ConfigProvider
-          theme={{ algorithm: theme.darkAlgorithm }}
-          locale={zhCN}
-        >
-          <Neos />
-        </ConfigProvider>
-      </Provider>
+      <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }} locale={zhCN}>
+        <Neos />
+      </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

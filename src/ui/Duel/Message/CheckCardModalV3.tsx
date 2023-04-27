@@ -1,23 +1,13 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Col, Row } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectCardResponse } from "@/api/ocgcore/ocgHelper";
+import { sendSelectCardResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { selectHint } from "@/reducers/duel/hintSlice";
-import {
-  resetCheckCardModalV3,
-  setCheckCardModalV3IsOpen,
-  setCheckCardModalV3ResponseAble,
-} from "@/reducers/duel/mod";
-import { selectCheckCardModalV3 } from "@/reducers/duel/modal/checkCardModalV3Slice";
-import { store } from "@/store";
+import { matStore, messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
-
-import { messageStore, matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 
@@ -25,17 +15,6 @@ const { checkCardModalV3 } = messageStore;
 
 export const CheckCardModalV3 = () => {
   const snapCheckCardModalV3 = useSnapshot(checkCardModalV3);
-
-  // const dispatch = store.dispatch;
-  // const state = useAppSelector(selectCheckCardModalV3);
-
-  // const isOpen = state.isOpen;
-  // const min = state.selectMin || 0;
-  // const max = state.selectMax || 0;
-  // const mustSelectOptions = state.mustSelectList;
-  // const selectAbleOptions = state.selectAbleList;
-  // const overflow = state.overflow;
-  // const LevelSum = state.allLevel;
 
   const isOpen = snapCheckCardModalV3.isOpen;
   const min = snapCheckCardModalV3.selectMin || 0;
@@ -54,7 +33,6 @@ export const CheckCardModalV3 = () => {
     .concat(selectedOptions)
     .map((option) => option.level2)
     .reduce((sum, current) => sum + current, 0);
-  // const hint = useAppSelector(selectHint);
   const hint = useSnapshot(matStore.hint);
   const preHintMsg = hint?.esHint || "";
   const selectHintMsg = hint?.esSelectHint || "请选择卡片";
@@ -69,24 +47,12 @@ export const CheckCardModalV3 = () => {
     sendSelectCardResponse(
       mustSelectOptions.concat(selectedOptions).map((option) => option.response)
     );
-    // dispatch(setCheckCardModalV3IsOpen(false));
-    // dispatch(resetCheckCardModalV3());
-    // dispatch(setCheckCardModalV3ResponseAble(false));
-
     checkCardModalV3.isOpen = false;
     checkCardModalV3.responseable = false;
     checkCardModalV3.overflow = false;
     checkCardModalV3.allLevel = 0;
     checkCardModalV3.mustSelectList = [];
     checkCardModalV3.selectAbleList = [];
-
-    // 下面就是resetCheckCardModalV3的内容
-    // modalState.isOpen = false;
-    // modalState.overflow = false;
-    // modalState.allLevel = 0;
-    // modalState.responseable = undefined;
-    // modalState.mustSelectList = [];
-    // modalState.selectAbleList = [];
   };
 
   return (

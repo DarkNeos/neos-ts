@@ -1,20 +1,13 @@
-import { ygopro } from "@/api";
+import { fetchStrings, ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
-import { fetchStrings } from "@/api/strings";
-import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import { fetchYesNoMeta } from "@/reducers/duel/modal/mod";
-import { AppDispatch } from "@/store";
-import { getCardByLocation, messageStore } from "@/valtioStores";
+import { messageStore } from "@/stores";
 
 import { CardZoneToChinese } from "./util";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
 // 这里改成了 async 不知道有没有影响
-export default async (
-  selectEffectYn: MsgSelectEffectYn,
-  dispatch: AppDispatch
-) => {
+export default async (selectEffectYn: MsgSelectEffectYn) => {
   const player = selectEffectYn.player;
   const code = selectEffectYn.code;
   const location = selectEffectYn.location;
@@ -47,7 +40,6 @@ export default async (
   //   })
   // );
   // TODO: 国际化文案
-  dispatch(setYesNoModalIsOpen(true));
 
   const desc = fetchStrings("!system", effect_description);
   const meta = await fetchCard(code);

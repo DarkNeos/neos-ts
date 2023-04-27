@@ -1,23 +1,14 @@
 import * as BABYLON from "@babylonjs/core";
+import { useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import {
-  selectMeBanishedZone,
-  selectOpBanishedZone,
-} from "@/reducers/duel/banishedZoneSlice";
+import { matStore } from "@/stores";
 
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
-import { matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
-
 const NeosConfig = useConfig();
 export const BanishedZone = () => {
-  // const meBanishedZone = useAppSelector(selectMeBanishedZone).inner;
-  // const opBanishedZone = useAppSelector(selectOpBanishedZone).inner;
-
   const meBanishedZone = useSnapshot(matStore.banishedZones.me);
   const opBanishedZone = useSnapshot(matStore.banishedZones.op);
 

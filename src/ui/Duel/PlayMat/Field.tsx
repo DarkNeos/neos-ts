@@ -1,27 +1,16 @@
 import * as BABYLON from "@babylonjs/core";
+import { useSnapshot } from "valtio";
 
+import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
-import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
+import { clearAllPlaceInteradtivities, matStore } from "@/stores";
 
 import { cardSlotRotation } from "../utils";
 import { FixedSlot } from "./FixedSlot";
 import { Depth } from "./SingleSlot";
 
 const NeosConfig = useConfig();
-
-import { matStore, clearAllPlaceInteradtivities } from "@/valtioStores";
-import { useSnapshot } from "valtio";
-
 export const Field = () => {
-  // const meField = useAppSelector(selectMeMagics).inner.find(
-  //   (_, sequence) => sequence == 5
-  // );
-  // const opField = useAppSelector(selectOpMagics).inner.find(
-  //   (_, sequence) => sequence == 5
-  // );
-
   // 这儿的find可能是出于某种考虑，以后再深思
   const meFieldState = matStore.magics.me[5];
   const meField = useSnapshot(meFieldState);
@@ -29,7 +18,8 @@ export const Field = () => {
   const opField = useSnapshot(opFieldState);
 
   const clearPlaceInteractivitiesAction = (controller: number) =>
-    matStore.magics.of(controller).clearPlaceInteractivity();
+    clearAllPlaceInteradtivities(controller, ygopro.CardZone.MZONE); // 应该是对的
+
   return (
     <>
       {meField ? (
@@ -38,7 +28,6 @@ export const Field = () => {
           sequence={0}
           position={fieldPosition(0)}
           rotation={cardSlotRotation(false)}
-          // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
           clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (
@@ -50,7 +39,6 @@ export const Field = () => {
           sequence={0}
           position={fieldPosition(1)}
           rotation={cardSlotRotation(true)}
-          // clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
           clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
         />
       ) : (

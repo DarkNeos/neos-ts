@@ -1,7 +1,5 @@
 import { ygopro } from "@/api";
-import { setWaiting } from "@/reducers/duel/mod";
-import { store } from "@/store";
-import { matStore } from "@/valtioStores";
+import { matStore } from "@/stores";
 
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
@@ -58,212 +56,210 @@ const ActiveList = [
 ];
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
-  const dispatch = store.dispatch;
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
-    dispatch(setWaiting(false));
     matStore.waiting = false;
   }
 
   switch (msg.gameMsg) {
     case "start": {
-      onMsgStart(msg.start, dispatch);
+      onMsgStart(msg.start);
 
       break;
     }
     case "draw": {
-      onMsgDraw(msg.draw, dispatch);
+      onMsgDraw(msg.draw);
 
       break;
     }
     case "new_turn": {
-      onMsgNewTurn(msg.new_turn, dispatch);
+      onMsgNewTurn(msg.new_turn);
 
       break;
     }
     case "new_phase": {
-      onMsgNewPhase(msg.new_phase, dispatch);
+      onMsgNewPhase(msg.new_phase);
 
       break;
     }
     case "hint": {
-      onMsgHint(msg.hint, dispatch);
+      onMsgHint(msg.hint);
 
       break;
     }
     case "select_idle_cmd": {
-      onMsgSelectIdleCmd(msg.select_idle_cmd, dispatch);
+      onMsgSelectIdleCmd(msg.select_idle_cmd);
 
       break;
     }
     case "select_place": {
-      onMsgSelectPlace(msg.select_place, dispatch);
+      onMsgSelectPlace(msg.select_place);
 
       break;
     }
     case "move": {
-      onMsgMove(msg.move, dispatch);
+      onMsgMove(msg.move);
 
       break;
     }
     case "select_card": {
-      onMsgSelectCard(msg.select_card, dispatch);
+      onMsgSelectCard(msg.select_card);
 
       break;
     }
     case "select_chain": {
-      onMsgSelectChain(msg.select_chain, dispatch);
+      onMsgSelectChain(msg.select_chain);
 
       break;
     }
     case "select_effect_yn": {
-      onMsgSelectEffectYn(msg.select_effect_yn, dispatch);
+      onMsgSelectEffectYn(msg.select_effect_yn);
 
       break;
     }
     case "select_position": {
-      onMsgSelectPosition(msg.select_position, dispatch);
+      onMsgSelectPosition(msg.select_position);
 
       break;
     }
     case "select_option": {
-      onMsgSelectOption(msg.select_option, dispatch);
+      onMsgSelectOption(msg.select_option);
 
       break;
     }
     case "shuffle_hand": {
-      onMsgShuffleHand(msg.shuffle_hand, dispatch);
+      onMsgShuffleHand(msg.shuffle_hand);
 
       break;
     }
     case "select_battle_cmd": {
-      onMsgSelectBattleCmd(msg.select_battle_cmd, dispatch);
+      onMsgSelectBattleCmd(msg.select_battle_cmd);
 
       break;
     }
     case "pos_change": {
-      onMsgPosChange(msg.pos_change, dispatch);
+      onMsgPosChange(msg.pos_change);
 
       break;
     }
     case "select_unselect_card": {
-      onMsgSelectUnselectCard(msg.select_unselect_card, dispatch);
+      onMsgSelectUnselectCard(msg.select_unselect_card);
 
       break;
     }
     case "select_yes_no": {
-      onMsgSelectYesNo(msg.select_yes_no, dispatch);
+      onMsgSelectYesNo(msg.select_yes_no);
 
       break;
     }
     case "update_hp": {
-      onMsgUpdateHp(msg.update_hp, dispatch);
+      onMsgUpdateHp(msg.update_hp);
 
       break;
     }
     case "win": {
-      onMsgWin(msg.win, dispatch);
+      onMsgWin(msg.win);
 
       break;
     }
     case "wait": {
-      onMsgWait(msg.wait, dispatch);
+      onMsgWait(msg.wait);
 
       break;
     }
     case "update_data": {
-      onMsgUpdateData(msg.update_data, dispatch);
+      onMsgUpdateData(msg.update_data);
 
       break;
     }
     case "reload_field": {
-      onMsgReloadField(msg.reload_field, dispatch);
+      onMsgReloadField(msg.reload_field);
 
       break;
     }
     case "select_sum": {
-      onMsgSelectSum(msg.select_sum, dispatch);
+      onMsgSelectSum(msg.select_sum);
 
       break;
     }
     case "select_tribute": {
-      onMsgSelectTribute(msg.select_tribute, dispatch);
+      onMsgSelectTribute(msg.select_tribute);
 
       break;
     }
     case "update_counter": {
-      onMsgUpdateCounter(msg.update_counter, dispatch);
+      onMsgUpdateCounter(msg.update_counter);
 
       break;
     }
     case "select_counter": {
-      onMsgSelectCounter(msg.select_counter, dispatch);
+      onMsgSelectCounter(msg.select_counter);
 
       break;
     }
     case "sort_card": {
-      onMsgSortCard(msg.sort_card, dispatch);
+      onMsgSortCard(msg.sort_card);
 
       break;
     }
     case "set": {
-      onMsgSet(msg.set, dispatch);
+      onMsgSet(msg.set);
 
       break;
     }
     case "swap": {
-      onMsgSwap(msg.swap, dispatch);
+      onMsgSwap(msg.swap);
 
       break;
     }
     case "attack": {
-      onMsgAttack(msg.attack, dispatch);
+      onMsgAttack(msg.attack);
 
       break;
     }
     case "attack_disable": {
-      onMsgAttackDisable(msg.attack_disable, dispatch);
+      onMsgAttackDisable(msg.attack_disable);
 
       break;
     }
     case "chaining": {
-      onMsgChaining(msg.chaining, dispatch);
+      onMsgChaining(msg.chaining);
 
       break;
     }
     case "summoning": {
-      onMsgSummoning(msg.summoning, dispatch);
+      onMsgSummoning(msg.summoning);
 
       break;
     }
     case "summoned": {
-      onMsgSummoned(msg.summoned, dispatch);
+      onMsgSummoned(msg.summoned);
 
       break;
     }
     case "flip_summoning": {
-      onMsgFlipSummoning(msg.flip_summoning, dispatch);
+      onMsgFlipSummoning(msg.flip_summoning);
 
       break;
     }
     case "flip_summoned": {
-      onMsgFilpSummoned(msg.flip_summoned, dispatch);
+      onMsgFilpSummoned(msg.flip_summoned);
 
       break;
     }
     case "sp_summoning": {
-      onMsgSpSummoning(msg.sp_summoning, dispatch);
+      onMsgSpSummoning(msg.sp_summoning);
 
       break;
     }
     case "sp_summoned": {
-      onMsgSpSummoned(msg.sp_summoned, dispatch);
+      onMsgSpSummoned(msg.sp_summoned);
 
       break;
     }
     case "unimplemented": {
-      onUnimplemented(msg.unimplemented, dispatch);
+      onUnimplemented(msg.unimplemented);
 
       break;
     }

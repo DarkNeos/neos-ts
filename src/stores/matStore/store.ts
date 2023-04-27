@@ -5,7 +5,6 @@ import { ygopro } from "@/api";
 import { fetchCard } from "@/api/cards";
 
 import type {
-  BothSide,
   CardState,
   DuelFieldState as ArrayCardState,
   InitInfo,
@@ -34,26 +33,15 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     counters: {},
     idleInteractivities: [],
   });
-  /** 内部输出一些注释，等稳定了再移除这个log */
-  private logInside(name: string, obj: Record<string, any>) {
-    console.warn("matStore", name, {
-      zone: ygopro.CardZone[this.zone],
-      controller: getWhom(this.getController()),
-      ...obj,
-    });
-  }
   // methods
   remove(sequence: number) {
-    this.logInside("remove", { sequence });
     this.splice(sequence, 1);
   }
   async insert(sequence: number, id: number) {
-    this.logInside("insert", { sequence, id });
     const card = await this.genCard(this.getController(), id);
     this.splice(sequence, 0, card);
   }
   async add(ids: number[]) {
-    this.logInside("add", { ids });
     const cards = await Promise.all(
       ids.map(async (id) => this.genCard(this.getController(), id))
     );
@@ -64,7 +52,6 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     id: number,
     position?: ygopro.CardPosition
   ) {
-    this.logInside("setOccupant", { sequence, id, position });
     const meta = await fetchCard(id);
     const target = this[sequence];
     target.occupant = meta;
@@ -76,14 +63,12 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     sequence: number,
     interactivity: CardState["idleInteractivities"][number]
   ) {
-    this.logInside("addIdleInteractivity", { sequence, interactivity });
     this[sequence].idleInteractivities.push(interactivity);
   }
   clearIdleInteractivities() {
     this.forEach((card) => (card.idleInteractivities = []));
   }
   setPlaceInteractivityType(sequence: number, interactType: InteractType) {
-    this.logInside("setPlaceInteractivityType", { sequence, interactType });
     this[sequence].placeInteractivity = {
       interactType: interactType,
       response: {
@@ -99,6 +84,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
 }
 
 const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
+  // 为什么不放在构造函数里面，是因为不想改造继承自Array的构造函数
   const me = cloneDeep(new CardArray(...cardStates));
   me.zone = zone;
   me.getController = () => (matStore.selfType === 1 ? 0 : 1);
@@ -239,12 +225,10 @@ export const matStore: MatState = proxy<MatState>({
   isMe,
 });
 
-// 以后再来解决这些...
-
-// @ts-ignore
+// @ts-ignore 挂到全局，便于调试
 window.matStore = matStore;
 
-// 修改原型链，因为valtiol的proxy会把原型链改掉。这应该是valtio的一个bug...有空提issue去改
+// 修改原型链，因为valtio的proxy会把原型链改掉。这应该是valtio的一个bug...有空提issue去改
 (["me", "op"] as const).forEach((who) => {
   (
     [

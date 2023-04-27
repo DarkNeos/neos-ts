@@ -1,31 +1,17 @@
 import * as BABYLON from "@babylonjs/core";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { useRef } from "react";
+import { useSnapshot } from "valtio";
 
-import { ygopro } from "@/api";
-import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
+import { sendSelectPlaceResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { useClick } from "@/hook";
-// import { CardState } from "@/reducers/duel/generic";
 import {
-  setCardListModalInfo,
-  setCardListModalIsOpen,
-  setCardModalCounters,
-  setCardModalInteractivies,
-  setCardModalIsOpen,
-  setCardModalMeta,
-} from "@/reducers/duel/mod";
-import { store } from "@/store";
-
-import { interactTypeToString } from "../utils";
-import { useSnapshot, INTERNAL_Snapshot } from "valtio";
-
-import {
-  clearAllIdleInteractivities,
   type CardState,
   clearAllPlaceInteradtivities,
   messageStore,
-} from "@/valtioStores";
+} from "@/stores";
+
+import { interactTypeToString } from "../utils";
 
 const NeosConfig = useConfig();
 
@@ -43,13 +29,11 @@ export const FixedSlot = (props: {
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation?: BABYLON.Vector3;
-  // clearPlaceInteractivitiesAction: ActionCreatorWithPayload<number, string>;
   clearPlaceInteractivitiesAction: (controller: number) => void;
 }) => {
   const planeRef = useRef(null);
 
   const snapState = useSnapshot(props.state);
-  // const snapState = props.state;
   const rotation =
     snapState.location.position === ygopro.CardPosition.DEFENSE ||
     snapState.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
@@ -58,7 +42,6 @@ export const FixedSlot = (props: {
       : props.rotation;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
-  // const dispatch = store.dispatch;
 
   const faceDown =
     snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
@@ -69,8 +52,6 @@ export const FixedSlot = (props: {
     (_event) => {
       if (snapState.placeInteractivity) {
         sendSelectPlaceResponse(snapState.placeInteractivity.response);
-        // dispatch(props.clearPlaceInteractivitiesAction(0));
-        // dispatch(props.clearPlaceInteractivitiesAction(1));
         // 其实不应该从外面传进来的...
         // props.clearPlaceInteractivitiesAction(0);
         // props.clearPlaceInteractivitiesAction(1);
@@ -78,26 +59,13 @@ export const FixedSlot = (props: {
         clearAllPlaceInteradtivities(1);
       } else if (snapState.occupant) {
         // 中央弹窗展示选中卡牌信息
-        // dispatch(setCardModalMeta(snapState.occupant));
         messageStore.cardModal.meta = snapState.occupant;
-        // dispatch(
-        //   setCardModalInteractivies(
-        //     snapState.idleInteractivities.map((interactivity) => {
-        //       return {
-        //         desc: interactTypeToString(interactivity.interactType),
-        //         response: interactivity.response,
-        //       };
-        //     })
-        //   )
-        // );
         messageStore.cardModal.interactivies =
           snapState.idleInteractivities.map((interactivity) => ({
             desc: interactTypeToString(interactivity.interactType),
             response: interactivity.response,
           }));
-        // dispatch(setCardModalCounters(snapState.counters));
         messageStore.cardModal.counters = snapState.counters;
-        // dispatch(setCardModalIsOpen(true));
         messageStore.cardModal.isOpen = true;
 
         // 侧边栏展示超量素材信息
@@ -105,22 +73,11 @@ export const FixedSlot = (props: {
           snapState.overlay_materials &&
           snapState.overlay_materials.length > 0
         ) {
-          // dispatch(
-          //   setCardListModalInfo(
-          //     snapState.overlay_materials?.map((overlay) => {
-          //       return {
-          //         meta: overlay,
-          //         interactivies: [],
-          //       };
-          //     }) || []
-          //   )
-          // );
           messageStore.cardListModal.list =
             snapState.overlay_materials?.map((overlay) => ({
               meta: overlay,
               interactivies: [],
             })) || [];
-          // dispatch(setCardListModalIsOpen(true));
           messageStore.cardListModal.isOpen = true;
         }
       }

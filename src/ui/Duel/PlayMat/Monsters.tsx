@@ -1,21 +1,13 @@
 import "react-babylonjs";
 
 import * as BABYLON from "@babylonjs/core";
+import { type INTERNAL_Snapshot, useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-// import { CardState } from "@/reducers/duel/generic";
-import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
-import {
-  selectMeMonsters,
-  selectOpMonsters,
-} from "@/reducers/duel/monstersSlice";
+import { type CardState, matStore } from "@/stores";
 
 import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
-
-import { matStore, type CardState, messageStore } from "@/valtioStores";
-import { useSnapshot, type INTERNAL_Snapshot } from "valtio";
 
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
@@ -29,9 +21,6 @@ const clearPlaceInteractivitiesAction = (controller: number) => {
 };
 
 export const Monsters = () => {
-  // const meMonsters = useAppSelector(selectMeMonsters).inner;
-  // const opMonsters = useAppSelector(selectOpMonsters).inner;
-
   const meMonstersStore = matStore.monsters.me;
   const opMonstersStore = matStore.monsters.op;
   const meMonstersSnap = useSnapshot(meMonstersStore);
@@ -51,7 +40,6 @@ export const Monsters = () => {
             position={position}
             rotation={cardSlotRotation(false)}
             deffenseRotation={cardSlotDefenceRotation()}
-            // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
@@ -65,7 +53,6 @@ export const Monsters = () => {
             position={position}
             rotation={cardSlotRotation(true)}
             deffenseRotation={cardSlotDefenceRotation()}
-            // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
             clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
@@ -101,7 +88,6 @@ const ExtraMonsters = (props: {
         position={leftPosition}
         rotation={meRotation}
         deffenseRotation={cardSlotDefenceRotation()}
-        // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
       />
       <FixedSlot
@@ -110,7 +96,6 @@ const ExtraMonsters = (props: {
         position={rightPosition}
         rotation={meRotation}
         deffenseRotation={cardSlotDefenceRotation()}
-        // clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
         clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
       />
       <FixedSlot
@@ -119,7 +104,7 @@ const ExtraMonsters = (props: {
         position={rightPosition}
         rotation={opRotation}
         deffenseRotation={cardSlotDefenceRotation()}
-        clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
       />
       <FixedSlot
         state={opRight}
@@ -127,7 +112,7 @@ const ExtraMonsters = (props: {
         position={leftPosition}
         rotation={opRotation}
         deffenseRotation={cardSlotDefenceRotation()}
-        clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
       />
     </>
   );

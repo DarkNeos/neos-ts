@@ -1,38 +1,36 @@
 import { notification } from "antd";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnapshot } from "valtio";
 
 import { ygopro } from "@/api";
-import { useAppSelector } from "@/hook";
-import { selectHint } from "@/reducers/duel/hintSlice";
-import { selectDuelResult, selectWaiting } from "@/reducers/duel/mod";
-import { selectCurrentPhase } from "@/reducers/duel/phaseSlice";
-import MsgWin = ygopro.StocGameMessage.MsgWin;
 import { useConfig } from "@/config";
+import { matStore } from "@/stores";
 
-import { matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
+const MsgWin = ygopro.StocGameMessage.MsgWin;
 
 const NeosConfig = useConfig();
 export const HintNotification = () => {
-  // const hint = useAppSelector(selectHint);
-  const hint = useSnapshot(matStore.hint);
-  const currentPhase = useAppSelector(selectCurrentPhase);
-  const waiting = useAppSelector(selectWaiting);
-  const result = useAppSelector(selectDuelResult);
+  const hintState = matStore.hint;
+  const hintSnap = useSnapshot(matStore.hint);
+
+  const currentPhase = matStore.phase.currentPhase;
+  const waiting = matStore.waiting;
+  const result = matStore.result;
+
   const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification({
     maxCount: NeosConfig.ui.hint.maxCount,
   });
   useEffect(() => {
-    if (hint && hint.msg) {
+    if (hintState && hintState.msg) {
       api.info({
-        message: `${hint.msg}`,
+        message: `${hintState.msg}`,
         placement: "bottom",
       });
     }
-  }, [hint?.msg]);
+  }, [hintSnap?.msg]);
 
   useEffect(() => {
     if (currentPhase) {

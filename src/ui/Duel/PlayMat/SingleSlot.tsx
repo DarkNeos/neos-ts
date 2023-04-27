@@ -1,19 +1,12 @@
 import * as BABYLON from "@babylonjs/core";
 import { useRef } from "react";
+import { useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
 import { useClick } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
-import {
-  setCardListModalInfo,
-  setCardListModalIsOpen,
-} from "@/reducers/duel/mod";
-import { store } from "@/store";
+import { type CardState, messageStore } from "@/stores";
 
 import { interactTypeToString } from "../utils";
-import { useSnapshot } from "valtio";
-
-import { messageStore } from "@/valtioStores";
 
 const NeosConfig = useConfig();
 const transform = NeosConfig.ui.card.transform;
@@ -26,7 +19,6 @@ export const SingleSlot = (props: {
 }) => {
   const snapState = useSnapshot(props.state);
   const boxRef = useRef(null);
-  // const dispatch = store.dispatch;
   const edgeRender =
     snapState.find((item) =>
       item === undefined ? false : item.idleInteractivities.length > 0
@@ -37,25 +29,6 @@ export const SingleSlot = (props: {
   useClick(
     (_event) => {
       if (snapState.length != 0) {
-        // dispatch(
-        //   setCardListModalInfo(
-        //     snapState
-        //       .filter(
-        //         (item) => item.occupant !== undefined && item.occupant.id !== 0
-        //       )
-        //       .map((item) => {
-        //         return {
-        //           meta: item.occupant,
-        //           interactivies: item.idleInteractivities.map((interactivy) => {
-        //             return {
-        //               desc: interactTypeToString(interactivy.interactType),
-        //               response: interactivy.response,
-        //             };
-        //           }),
-        //         };
-        //       })
-        //   )
-        // );
         messageStore.cardListModal.list = snapState
           .filter(
             (item) => item.occupant !== undefined && item.occupant.id !== 0

@@ -1,4 +1,4 @@
-import { InteractType } from "@/reducers/duel/generic";
+import { InteractType } from "@/stores";
 
 export function interactTypeToString(t: InteractType): string {
   switch (t) {

@@ -1,4 +1,4 @@
-import { matStore } from "@/valtioStores";
+import { matStore } from "@/stores";
 
 export const clearAllIdleInteractivities = (controller: number) => {
   matStore.banishedZones.of(controller).clearIdleInteractivities();

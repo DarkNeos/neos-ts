@@ -2,7 +2,7 @@ import { SendOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row } from "antd";
 import React, { useState } from "react";
 
-import { sendChat } from "@/api/ocgcore/ocgHelper";
+import { sendChat } from "@/api";
 
 export const SendBox = () => {
   const [content, setContent] = useState("");

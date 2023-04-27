@@ -17,29 +17,19 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Button, Card, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-
-import { CardMeta } from "@/api/cards";
-import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
-import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { resetSortCardModal } from "@/reducers/duel/mod";
-import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
-import { store } from "@/store";
-
-import { messageStore } from "@/valtioStores";
 import { useSnapshot } from "valtio";
+
+import { sendSortCardResponse } from "@/api";
+import { CardMeta } from "@/api/cards";
+import { useConfig } from "@/config";
+import { messageStore } from "@/stores";
 
 const NeosConfig = useConfig();
 
 const { sortCardModal } = messageStore;
 
 export const SortCardModal = () => {
-  // const dispatch = store.dispatch;
-
   const snapSortCardModal = useSnapshot(sortCardModal);
-  // const state = useAppSelector(selectSortCardModal);
-  // const isOpen = state.isOpen;
-  // const options = state.options;
   const isOpen = snapSortCardModal.isOpen;
   const options = snapSortCardModal.options;
   const [items, setItems] = useState(options);
@@ -52,7 +42,6 @@ export const SortCardModal = () => {
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
-    // dispatch(resetSortCardModal());
     sortCardModal.isOpen = false;
     sortCardModal.options = [];
   };

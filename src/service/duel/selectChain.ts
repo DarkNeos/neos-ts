@@ -1,25 +1,12 @@
-import { ygopro } from "@/api";
-import { sendSelectChainResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchSelectHintMeta } from "@/reducers/duel/hintSlice";
+import { sendSelectChainResponse, ygopro } from "@/api";
 import {
-  setCheckCardMOdalCancelAble,
-  setCheckCardModalCancelResponse,
-  setCheckCardModalIsOpen,
-  setCheckCardModalMinMax,
-  setCheckCardModalOnSubmit,
-} from "@/reducers/duel/mod";
-import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
-import { AppDispatch } from "@/store";
-import {
-  fetchCheckCardMeta as FIXME_fetchCheckCardMeta,
-  fetchSelectHintMeta as FIXME_fetchSelectHintMeta,
+  fetchCheckCardMeta,
+  fetchSelectHintMeta,
   messageStore,
-} from "@/valtioStores";
-
-import { CardZoneToChinese } from "./util";
+} from "@/stores";
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
-export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
+export default (selectChain: MsgSelectChain) => {
   const player = selectChain.player;
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
@@ -71,11 +58,6 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
     case 3: {
       // 处理强制发动的卡
 
-      // dispatch(setCheckCardModalMinMax({ min: 1, max: 1 }));
-      // dispatch(setCheckCardModalOnSubmit("sendSelectChainResponse"));
-      // dispatch(setCheckCardMOdalCancelAble(!forced));
-      // dispatch(setCheckCardModalCancelResponse(-1));
-
       messageStore.checkCardModal.selectMin = 1;
       messageStore.checkCardModal.selectMax = 1;
       messageStore.checkCardModal.onSubmit = "sendSelectChainResponse";
@@ -83,35 +65,16 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
       messageStore.checkCardModal.cancelResponse = -1;
 
       for (const chain of chains) {
-        // const tagName = CardZoneToChinese(chain.location.location);
-        // dispatch(
-        //   fetchCheckCardMeta({
-        //     tagName,
-        //     option: {
-        //       code: chain.code,
-        //       location: chain.location,
-        //       response: chain.response,
-        //       effectDescCode: chain.effect_description,
-        //     },
-        //   })
-        // );
-        FIXME_fetchCheckCardMeta(chain.location.location, {
+        fetchCheckCardMeta(chain.location.location, {
           code: chain.code,
           location: chain.location,
           response: chain.response,
           effectDescCode: chain.effect_description,
         });
       }
-      // dispatch(
-      //   fetchSelectHintMeta({
-      //     selectHintData: 203,
-      //   })
-      // );
-      FIXME_fetchSelectHintMeta({
+      fetchSelectHintMeta({
         selectHintData: 203,
       });
-
-      // dispatch(setCheckCardModalIsOpen(true));
       messageStore.checkCardModal.isOpen = true;
 
       break;

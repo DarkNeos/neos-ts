@@ -1,17 +1,12 @@
 import { Alert as AntdAlert } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-import { sendSurrender } from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
-import { selectUnimplemented } from "@/reducers/duel/mod";
-
-import { matStore } from "@/valtioStores";
 import { useSnapshot } from "valtio";
 
-export const Alert = () => {
-  // const unimplemented = useAppSelector(selectUnimplemented);
+import { sendSurrender } from "@/api";
+import { matStore } from "@/stores";
 
+export const Alert = () => {
   const matSnap = useSnapshot(matStore);
   const unimplemented = matSnap.unimplemented;
 

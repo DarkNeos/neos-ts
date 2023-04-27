@@ -1,32 +1,18 @@
 import { Button, Card, Col, InputNumber, Row } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectCounterResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchStrings } from "@/api/strings";
+import { fetchStrings, sendSelectCounterResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { clearCheckCounter } from "@/reducers/duel/mod";
-import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
-import { store } from "@/store";
+import { messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
-
-import { messageStore, matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const { checkCounterModal } = messageStore;
 
 const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
   const snapCheckCounterModal = useSnapshot(checkCounterModal);
-  const snapMat = useSnapshot(matStore);
-
-  // const dispatch = store.dispatch;
-  // const state = useAppSelector(selectCheckCounterModal);
-  // const isOpen = state.isOpen;
-  // const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
-  // const min = state.min || 0;
-  // const options = state.options;
 
   const isOpen = snapCheckCounterModal.isOpen;
   const min = snapCheckCounterModal.min || 0;
@@ -42,7 +28,6 @@ export const CheckCounterModal = () => {
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
-    // dispatch(clearCheckCounter());
     messageStore.checkCounterModal.isOpen = false;
     messageStore.checkCounterModal.min = undefined;
     messageStore.checkCounterModal.counterType = undefined;

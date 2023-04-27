@@ -1,14 +1,8 @@
 import { ygopro } from "@/api";
-import { setJoined } from "@/reducers/joinSlice";
-import { store } from "@/store";
-import { joinStore } from "@/valtioStores";
+import { joinStore } from "@/stores";
 
 export default function handleJoinGame(pb: ygopro.YgoStocMsg) {
-  // const dispatch = store.dispatch;
-
   const msg = pb.stoc_join_game;
   // todo
-  // dispatch(setJoined());
-
   joinStore.value = true;
 }

@@ -1,25 +1,13 @@
 import { Button, Drawer, List } from "antd";
 import React from "react";
-
-import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
-import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import {
-  clearAllIdleInteractivities,
-  setCardListModalIsOpen,
-} from "@/reducers/duel/mod";
-import {
-  selectCardListModalInfo,
-  selectCardListModalIsOpen,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
-
-import {
-  messageStore,
-  matStore,
-  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
-} from "@/valtioStores";
 import { useSnapshot } from "valtio";
+
+import { sendSelectIdleCmdResponse } from "@/api";
+import { useConfig } from "@/config";
+import {
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  messageStore,
+} from "@/stores";
 
 const NeosConfig = useConfig();
 
@@ -28,16 +16,11 @@ const CARD_WIDTH = 100;
 const { cardListModal } = messageStore;
 
 export const CardListModal = () => {
-  // const dispatch = store.dispatch;
-  // const isOpen = useAppSelector(selectCardListModalIsOpen);
-  // const list = useAppSelector(selectCardListModalInfo);
-
   const snapCardListModal = useSnapshot(cardListModal);
   const isOpen = snapCardListModal.isOpen;
   const list = snapCardListModal.list as typeof cardListModal.list;
 
   const handleOkOrCancel = () => {
-    // dispatch(setCardListModalIsOpen(false));
     cardListModal.isOpen = false;
   };
 
@@ -53,13 +36,9 @@ export const CardListModal = () => {
                 key={idx}
                 onClick={() => {
                   sendSelectIdleCmdResponse(interactivy.response);
-                  // dispatch(setCardListModalIsOpen(false));
-                  // dispatch(clearAllIdleInteractivities(0));
-                  // dispatch(clearAllIdleInteractivities(1));
-
                   cardListModal.isOpen = false;
-                  FIXME_clearAllIdleInteractivities(0);
-                  FIXME_clearAllIdleInteractivities(1);
+                  clearAllIdleInteractivities(0);
+                  clearAllIdleInteractivities(1);
                 }}
               >
                 {interactivy.desc}

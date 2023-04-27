@@ -1,16 +1,11 @@
 import { ygopro } from "@/api";
-import { reloadField } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
-import { matStore } from "@/valtioStores";
+import { matStore } from "@/stores";
 
 type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
-
 type ZoneActions = ygopro.StocGameMessage.MsgReloadField.ZoneAction[];
 
-export default (field: MsgReloadField, dispatch: AppDispatch) => {
-  // dispatch(reloadField(field));
-
-  const _duel_rule = field.duel_rule;
+export default (field: MsgReloadField) => {
+  const _duel_rule = field.duel_rule; // TODO: duel_rule
 
   const gamers = ["me", "op"] as const;
   gamers.forEach((gamer) => {

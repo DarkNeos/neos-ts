@@ -5,33 +5,17 @@ import { ReactComponent as EpSvg } from "neos-assets/power-button.svg";
 import { ReactComponent as Main2Svg } from "neos-assets/sword-in-stone.svg";
 import { ReactComponent as SurrenderSvg } from "neos-assets/truce.svg";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
-} from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
+} from "@/api";
 import {
-  clearAllIdleInteractivities,
-  setEnableBp,
-  setEnableEp,
-  setEnableM2,
-} from "@/reducers/duel/mod";
-import {
-  selectCurrentPhase,
-  selectEnableBp,
-  selectEnableEp,
-  selectEnableM2,
-} from "@/reducers/duel/phaseSlice";
-import { store } from "@/store";
-
-import {
-  messageStore,
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
   matStore,
-  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
-} from "@/valtioStores";
-import { useSnapshot } from "valtio";
+} from "@/stores";
 
 const IconSize = "150%";
 const SpaceSize = 16;
@@ -57,12 +41,6 @@ const PhaseButton = (props: {
 const { phase } = matStore;
 
 export const Phase = () => {
-  // const dispatch = store.dispatch;
-  // const enableBp = useAppSelector(selectEnableBp);
-  // const enableM2 = useAppSelector(selectEnableM2);
-  // const enableEp = useAppSelector(selectEnableEp);
-  // const currentPhase = useAppSelector(selectCurrentPhase);
-
   const snapPhase = useSnapshot(phase);
   const enableBp = snapPhase.enableBp;
   const enableM2 = snapPhase.enableM2;
@@ -81,33 +59,21 @@ export const Phase = () => {
       : 7;
 
   const onBp = () => {
-    // dispatch(clearAllIdleInteractivities(0));
-    // dispatch(clearAllIdleInteractivities(0));
-
     sendSelectIdleCmdResponse(6);
-    // dispatch(setEnableBp(false));
-    FIXME_clearAllIdleInteractivities(0); // 为什么要clear两次？
-    FIXME_clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(0); // 为什么要clear两次？
+    clearAllIdleInteractivities(0);
     phase.enableBp = false;
   };
   const onM2 = () => {
-    // dispatch(clearAllIdleInteractivities(0));
-    // dispatch(clearAllIdleInteractivities(0));
-
     sendSelectBattleCmdResponse(2);
-    // dispatch(setEnableM2(false));
-    FIXME_clearAllIdleInteractivities(0);
-    FIXME_clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(0);
     phase.enableM2 = false;
   };
   const onEp = () => {
-    // dispatch(clearAllIdleInteractivities(0));
-    // dispatch(clearAllIdleInteractivities(0));
-
     sendSelectIdleCmdResponse(response);
-    // dispatch(setEnableEp(false));
-    FIXME_clearAllIdleInteractivities(0);
-    FIXME_clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(0);
     phase.enableEp = false;
   };
   const onSurrender = () => {

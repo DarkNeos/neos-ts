@@ -1,15 +1,9 @@
 import { ygopro } from "@/api";
-import { updateHandsMeta } from "@/reducers/duel/handsSlice";
-import { AppDispatch } from "@/store";
-import MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
+import { matStore } from "@/stores";
 
-import { matStore } from "@/valtioStores";
+type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
 
-export default (shuffleHand: MsgShuffleHand, dispatch: AppDispatch) => {
-  // dispatch(
-  //   updateHandsMeta({ controler: shuffleHand.player, codes: shuffleHand.hands })
-  // );
-
+export default (shuffleHand: MsgShuffleHand) => {
   const { hands: codes, player: controller } = shuffleHand;
 
   const metas = codes.map((code) => {

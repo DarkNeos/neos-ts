@@ -1,11 +1,6 @@
 import { ygopro } from "@/api";
-import { selectHandAble } from "@/reducers/moraSlice";
-import { store } from "@/store";
-import { moraStore } from "@/valtioStores";
+import { moraStore } from "@/stores";
 
 export default function handleSelectHand(_: ygopro.YgoStocMsg) {
-  // const dispatch = store.dispatch;
-
-  // dispatch(selectHandAble());
   moraStore.selectHandAble = true;
 }

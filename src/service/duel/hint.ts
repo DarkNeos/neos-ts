@@ -3,33 +3,22 @@ import {
   fetchCommonHintMeta,
   fetchEsHintMeta,
   fetchSelectHintMeta,
-} from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
-import {
-  fetchCommonHintMeta as FIXME_fetchCommonHintMeta,
-  fetchEsHintMeta as FIXME_fetchEsHintMeta,
-  fetchSelectHintMeta as FIXME_fetchSelectHintMeta,
-} from "@/valtioStores";
+} from "@/stores";
 
 import MsgHint = ygopro.StocGameMessage.MsgHint;
 
-export default (hint: MsgHint, dispatch: AppDispatch) => {
+export default (hint: MsgHint) => {
   switch (hint.hint_type) {
     case MsgHint.HintType.HINT_EVENT: {
-      // dispatch(fetchEsHintMeta({ originMsg: hint.hint_data }));
-      FIXME_fetchEsHintMeta({ originMsg: hint.hint_data });
+      fetchEsHintMeta({ originMsg: hint.hint_data });
       break;
     }
     case MsgHint.HintType.HINT_MESSAGE: {
-      // dispatch(fetchCommonHintMeta(hint.hint_data));
-      FIXME_fetchCommonHintMeta(hint.hint_data);
+      fetchCommonHintMeta(hint.hint_data);
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      // dispatch(
-      //   fetchSelectHintMeta({ selectHintData: hint.hint_data, esHint: "" })
-      // );
-      FIXME_fetchSelectHintMeta({
+      fetchSelectHintMeta({
         selectHintData: hint.hint_data,
         esHint: "",
       });

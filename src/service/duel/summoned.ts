@@ -1,12 +1,6 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
-import { fetchEsHintMeta as FIXME_fetchEsHintMeta } from "@/valtioStores";
+import { fetchEsHintMeta } from "@/stores";
 
-export default (
-  _: ygopro.StocGameMessage.MsgSummoned,
-  dispatch: AppDispatch
-) => {
-  // dispatch(fetchEsHintMeta({ originMsg: 1604 }));
-  FIXME_fetchEsHintMeta({ originMsg: 1604 });
+export default (_: ygopro.StocGameMessage.MsgSummoned) => {
+  fetchEsHintMeta({ originMsg: 1604 });
 };

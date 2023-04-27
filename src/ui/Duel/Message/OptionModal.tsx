@@ -1,27 +1,16 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectOptionResponse } from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
-import { resetOptionModal, setOptionModalIsOpen } from "@/reducers/duel/mod";
-import {
-  selectOptionModalIsOpen,
-  selectOptionModalOptions,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+import { sendSelectOptionResponse } from "@/api";
+import { messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
-import { messageStore, matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const { optionModal } = messageStore;
 
 export const OptionModal = () => {
-  // const dispatch = store.dispatch;
-  // const isOpen = useAppSelector(selectOptionModalIsOpen);
-  // const options = useAppSelector(selectOptionModalOptions);
-
   const snapOptionModal = useSnapshot(optionModal);
 
   const isOpen = snapOptionModal.isOpen;
@@ -40,8 +29,6 @@ export const OptionModal = () => {
           onClick={() => {
             if (selected !== undefined) {
               sendSelectOptionResponse(selected);
-              // dispatch(setOptionModalIsOpen(false));
-              // dispatch(resetOptionModal());
               optionModal.isOpen = false;
               optionModal.options = [];
             }

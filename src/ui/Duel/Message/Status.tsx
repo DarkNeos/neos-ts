@@ -4,12 +4,6 @@ import { Avatar } from "antd";
 import React from "react";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import {
-  selectMeInitInfo,
-  selectOpInitInfo,
-} from "@/reducers/duel/initInfoSlice";
-import { selectWaiting } from "@/reducers/duel/mod";
 
 const NeosConfig = useConfig();
 
@@ -18,14 +12,11 @@ const avatarSize = 40;
 const ME_VALUE = "myself";
 const OP_VALUE = "opponent";
 
-import { matStore } from "@/valtioStores";
 import { useSnapshot } from "valtio";
 
-export const PlayerStatus = () => {
-  // const meInfo = useAppSelector(selectMeInitInfo);
-  // const opInfo = useAppSelector(selectOpInitInfo);
-  // const waiting = useAppSelector(selectWaiting) || false;
+import { matStore } from "@/stores";
 
+export const PlayerStatus = () => {
   const meInfo = useSnapshot(matStore.initInfo.me);
   const opInfo = useSnapshot(matStore.initInfo.op);
   const waiting = useSnapshot(matStore).waiting;

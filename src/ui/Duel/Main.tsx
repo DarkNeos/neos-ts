@@ -2,7 +2,6 @@ import * as BABYLON from "@babylonjs/core";
 import { Row } from "antd";
 import React from "react";
 import { Engine, Scene } from "react-babylonjs";
-import { Provider, ReactReduxContext } from "react-redux";
 
 import { useConfig } from "@/config";
 
@@ -75,28 +74,22 @@ const NeosSider = () => (
 );
 
 const NeosCanvas = () => (
-  <ReactReduxContext.Consumer>
-    {({ store }) => (
-      <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
-        <Scene>
-          <Provider store={store}>
-            <Camera />
-            <Light />
-            <Hands />
-            <Monsters />
-            <Magics />
-            <Field />
-            <CommonDeck />
-            <ExtraDeck />
-            <Graveyard />
-            <BanishedZone />
-            <Field />
-            <Ground />
-          </Provider>
-        </Scene>
-      </Engine>
-    )}
-  </ReactReduxContext.Consumer>
+  <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
+    <Scene>
+      <Camera />
+      <Light />
+      <Hands />
+      <Monsters />
+      <Magics />
+      <Field />
+      <CommonDeck />
+      <ExtraDeck />
+      <Graveyard />
+      <BanishedZone />
+      <Field />
+      <Ground />
+    </Scene>
+  </Engine>
 );
 
 const Camera = () => (

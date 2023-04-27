@@ -1,23 +1,14 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { updateHp } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
-import {
-  fetchEsHintMeta as FIXME_fetchEsHintMeta,
-  matStore,
-} from "@/valtioStores";
+import { fetchEsHintMeta, matStore } from "@/stores";
+
 import MsgUpdateHp = ygopro.StocGameMessage.MsgUpdateHp;
 
-export default (msgUpdateHp: MsgUpdateHp, dispatch: AppDispatch) => {
+export default (msgUpdateHp: MsgUpdateHp) => {
   if (msgUpdateHp.type_ == MsgUpdateHp.ActionType.DAMAGE) {
-    // dispatch(fetchEsHintMeta({ originMsg: "玩家收到伤害时" })); // TODO: i18n
-    FIXME_fetchEsHintMeta({ originMsg: "玩家收到伤害时" });
+    fetchEsHintMeta({ originMsg: "玩家收到伤害时" }); // TODO: i18n
     matStore.initInfo.of(msgUpdateHp.player).life -= msgUpdateHp.value;
   } else if (msgUpdateHp.type_ == MsgUpdateHp.ActionType.RECOVER) {
-    // dispatch(fetchEsHintMeta({ originMsg: "玩家生命值回复时" })); // TODO: i18n
-    FIXME_fetchEsHintMeta({ originMsg: "玩家生命值回复时" });
+    fetchEsHintMeta({ originMsg: "玩家生命值回复时" }); // TODO: i18n
     matStore.initInfo.of(msgUpdateHp.player).life += msgUpdateHp.value;
   }
-
-  dispatch(updateHp(msgUpdateHp)); // 可以删除了
 };

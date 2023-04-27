@@ -1,6 +1,5 @@
-import { matStore } from "@/valtioStores";
-
 import { ygopro } from "@/api";
+import { matStore } from "@/stores";
 
 /** 清空所有place互动性，也可以删除某一个zone的互动性。zone为空则为清除所有。 */
 export const clearAllPlaceInteradtivities = (

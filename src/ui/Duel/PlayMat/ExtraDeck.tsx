@@ -1,23 +1,17 @@
 import * as BABYLON from "@babylonjs/core";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import {
-  selectMeExtraDeck,
-  selectOpExtraDeck,
-} from "@/reducers/duel/extraDeckSlice";
 
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
 const NeosConfig = useConfig();
 
-import { matStore } from "@/valtioStores";
 import { useSnapshot } from "valtio";
 
+import { matStore } from "@/stores";
+
 export const ExtraDeck = () => {
-  // const meExtraDeck = useAppSelector(selectMeExtraDeck).inner;
-  // const opExtraDeck = useAppSelector(selectOpExtraDeck).inner;
   const meExtraDeck = useSnapshot(matStore.extraDecks.me);
   const opExtraDeck = useSnapshot(matStore.extraDecks.op);
 

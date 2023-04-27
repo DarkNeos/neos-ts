@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { fetchCard, getCardStr } from "@/api/cards";
-import { matStore, messageStore } from "@/valtioStores";
+import { matStore, messageStore } from "@/stores";
 
 function CardZoneToChinese(zone: ygopro.CardZone): string {
   switch (zone) {

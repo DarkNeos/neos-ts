@@ -19,34 +19,18 @@ import {
   Space,
   Upload,
 } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
 import { useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
+import { initStrings, sendHsReady, sendHsStart, sendUpdateDeck } from "@/api";
 import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
-import {
-  sendHsReady,
-  sendHsStart,
-  sendUpdateDeck,
-} from "@/api/ocgcore/ocgHelper";
-import { initStrings } from "@/api/strings";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
-import { selectChat } from "@/reducers/chatSlice";
-import { initMeExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
-import { selectJoined } from "@/reducers/joinSlice";
-import { selectDuelStart } from "@/reducers/moraSlice";
-import {
-  selectIsHost,
-  selectPlayer0,
-  selectPlayer1,
-} from "@/reducers/playerSlice";
-import { store } from "@/store";
-import { valtioStore } from "@/valtioStores";
+import { store } from "@/stores";
 
 const NeosConfig = useConfig();
 
@@ -58,7 +42,7 @@ const {
 } = useConfig();
 
 const WaitRoom = () => {
-  const state = valtioStore;
+  const state = store;
   const snap = useSnapshot(state);
   const params = useParams<{
     player?: string;
@@ -103,13 +87,6 @@ const WaitRoom = () => {
     }
   }, []);
 
-  const dispatch = store.dispatch;
-  // const joined = useAppSelector(selectJoined);
-  // const chat = useAppSelector(selectChat);
-  // const isHost = useAppSelector(selectIsHost);
-  // const player0 = useAppSelector(selectPlayer0);
-  // const player1 = useAppSelector(selectPlayer1);
-  // const duelStart = useAppSelector(selectDuelStart);
   const [api, contextHolder] = notification.useNotification();
 
   const joined = snap.joinStore.value;
@@ -160,11 +137,7 @@ const WaitRoom = () => {
 
   const onDeckReady = async (deck: IDeck) => {
     sendUpdateDeck(deck);
-    await dispatch(
-      initMeExtraDeckMeta({ controler: 0, codes: deck.extra?.reverse() || [] })
-    );
-    // FIXME 直接写成了me，但不确定是不是对的
-    valtioStore.matStore.extraDecks.me.add(deck.extra?.reverse() || []);
+    store.matStore.extraDecks.me.add(deck.extra?.reverse() || []);
     setChoseDeck(true);
   };
 

@@ -1,5 +1,5 @@
 import { fetchCard } from "@/api";
-import { matStore } from "@/valtioStores";
+import { matStore } from "@/stores";
 
 export const fetchOverlayMeta = async (
   controller: number,

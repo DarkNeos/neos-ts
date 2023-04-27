@@ -1,19 +1,7 @@
 import { ygopro } from "@/api";
-import { fetchHandsMeta } from "@/reducers/duel/handsSlice";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
-import {
-  fetchEsHintMeta as FIXME_fetchEsHintMeta,
-  matStore,
-} from "@/valtioStores";
+import { fetchEsHintMeta, matStore } from "@/stores";
 
-export default (
-  draw: ygopro.StocGameMessage.MsgDraw,
-  dispatch: AppDispatch
-) => {
-  // dispatch(fetchEsHintMeta({ originMsg: "玩家抽卡时" }));
-  // dispatch(fetchHandsMeta({ controler: draw.player, codes: draw.cards }));
-
-  FIXME_fetchEsHintMeta({ originMsg: "玩家抽卡时" });
+export default (draw: ygopro.StocGameMessage.MsgDraw) => {
+  fetchEsHintMeta({ originMsg: "玩家抽卡时" });
   matStore.hands.of(draw.player).add(draw.cards);
 };

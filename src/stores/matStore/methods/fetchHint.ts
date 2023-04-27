@@ -1,6 +1,6 @@
 import type { ygopro } from "@/api";
+import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api";
 import { fetchCard } from "@/api/cards";
-import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api/strings";
 
 import { matStore } from "../store";
 

@@ -15,7 +15,7 @@ import { messageStore } from "./messageStore";
 import { moraStore } from "./moraStore";
 import { playerStore } from "./playerStore";
 
-export const valtioStore = proxy({
+export const store = proxy({
   playerStore,
   chatStore,
   joinStore,
@@ -24,4 +24,4 @@ export const valtioStore = proxy({
   messageStore, // 决斗的信息，包括模态框
 });
 
-devtools(valtioStore, { name: "valtio store", enabled: true });
+devtools(store, { name: "valtio store", enabled: true });

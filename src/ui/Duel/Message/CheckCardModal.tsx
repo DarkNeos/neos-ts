@@ -2,32 +2,13 @@ import { ThunderboltOutlined } from "@ant-design/icons";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import { Button, Col, Popover, Row } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import {
-  sendSelectCardResponse,
-  sendSelectChainResponse,
-} from "@/api/ocgcore/ocgHelper";
+import { sendSelectCardResponse, sendSelectChainResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { selectHint } from "@/reducers/duel/hintSlice";
-import {
-  resetCheckCardModal,
-  setCheckCardModalIsOpen,
-} from "@/reducers/duel/mod";
-import {
-  selectCheckCardModalCacnelResponse,
-  selectCheckCardModalCancelAble,
-  selectCheckCardModalIsOpen,
-  selectCheckCardModalMinMax,
-  selectCheckCardModalOnSubmit,
-  selectCheckCardModalTags,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+import { matStore, messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
-
-import { messageStore, matStore } from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 
@@ -35,15 +16,6 @@ const { checkCardModal } = messageStore;
 
 export const CheckCardModal = () => {
   const snapCheckCardModal = useSnapshot(checkCardModal);
-
-  // const dispatch = store.dispatch;
-  // const isOpen = useAppSelector(selectCheckCardModalIsOpen);
-  // const { min, max } = useAppSelector(selectCheckCardModalMinMax);
-  // const tabs = useAppSelector(selectCheckCardModalTags);
-  // const onSubmit = useAppSelector(selectCheckCardModalOnSubmit);
-  // const cancelAble = useAppSelector(selectCheckCardModalCancelAble);
-  // const cancelResponse = useAppSelector(selectCheckCardModalCacnelResponse);
-
   const isOpen = snapCheckCardModal.isOpen;
   const min = snapCheckCardModal.selectMin ?? 0;
   const max = snapCheckCardModal.selectMax ?? 10;
@@ -54,7 +26,6 @@ export const CheckCardModal = () => {
 
   const [response, setResponse] = useState<number[]>([]);
   const defaultValue: number[] = [];
-  // const hint = useAppSelector(selectHint);
   const hint = useSnapshot(matStore.hint);
   const preHintMsg = hint?.esHint || "";
   const selectHintMsg = hint?.esSelectHint || "请选择卡片";
@@ -78,13 +49,7 @@ export const CheckCardModal = () => {
     }
   };
 
-  const FIXME_resetCheckCardModal = () => {
-    // state.modalState.checkCardModal.isOpen = false;
-    // state.modalState.checkCardModal.selectMin = undefined;
-    // state.modalState.checkCardModal.selectMax = undefined;
-    // state.modalState.checkCardModal.cancelAble = false;
-    // state.modalState.checkCardModal.cancelResponse = undefined;
-    // state.modalState.checkCardModal.tags = [];
+  const resetCheckCardModal = () => {
     checkCardModal.isOpen = false;
     checkCardModal.selectMin = undefined;
     checkCardModal.selectMax = undefined;
@@ -104,10 +69,8 @@ export const CheckCardModal = () => {
             disabled={response.length < min || response.length > max}
             onClick={() => {
               sendResponseHandler(onSubmit, response);
-              // dispatch(setCheckCardModalIsOpen(false));
-              // dispatch(resetCheckCardModal());
               checkCardModal.isOpen = false;
-              FIXME_resetCheckCardModal();
+              resetCheckCardModal();
             }}
             onFocus={() => {}}
             onBlur={() => {}}
@@ -120,10 +83,8 @@ export const CheckCardModal = () => {
                 if (cancelResponse) {
                   sendResponseHandler(onSubmit, [cancelResponse]);
                 }
-                // dispatch(setCheckCardModalIsOpen(false));
-                // dispatch(resetCheckCardModal());
                 checkCardModal.isOpen = false;
-                FIXME_resetCheckCardModal();
+                resetCheckCardModal();
               }}
               onFocus={() => {}}
               onBlur={() => {}}

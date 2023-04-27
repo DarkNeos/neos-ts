@@ -3,22 +3,14 @@ import { Button, Card, Col, Modal, Row } from "antd";
 import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
 import React from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchStrings } from "@/api/strings";
+import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
 import {
-  clearAllIdleInteractivities,
-  setCardModalIsOpen,
-} from "@/reducers/duel/mod";
-import {
-  selectCardModalCounters,
-  selectCardModalInteractivies,
-  selectCardModalIsOpen,
-  selectCardModalMeta,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  messageStore,
+} from "@/stores";
 
 import {
   Attribute2StringCodeMap,
@@ -26,12 +18,6 @@ import {
   Race2StringCodeMap,
   Type2StringCodeMap,
 } from "../../../common";
-
-import {
-  messageStore,
-  clearAllIdleInteractivities as FIXME_clearAllIdleInteractivities,
-} from "@/valtioStores";
-import { useSnapshot } from "valtio";
 
 const NeosConfig = useConfig();
 const { Meta } = Card;
@@ -64,11 +50,9 @@ export const CardModal = () => {
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
-  // const interactivies = useAppSelector(selectCardModalInteractivies);
   const interactivies = snapCardModal.interactivies;
 
   const handleOkOrCancel = () => {
-    // dispatch(setCardModalIsOpen(false));
     cardModal.isOpen = false;
   };
 
@@ -95,12 +79,9 @@ export const CardModal = () => {
             key={idx}
             onClick={() => {
               sendSelectIdleCmdResponse(interactive.response);
-              // dispatch(setCardModalIsOpen(false));
-              // dispatch(clearAllIdleInteractivities(0));
-              // dispatch(clearAllIdleInteractivities(1));
               cardModal.isOpen = false;
-              FIXME_clearAllIdleInteractivities(0);
-              FIXME_clearAllIdleInteractivities(1);
+              clearAllIdleInteractivities(0);
+              clearAllIdleInteractivities(1);
             }}
           >
             {interactive.desc}

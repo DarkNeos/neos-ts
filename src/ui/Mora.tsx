@@ -4,22 +4,13 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
+import { sendHandResult, sendTpResult } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { selectDuelHsStart } from "@/reducers/duel/mod";
-import {
-  selectHandSelectAble,
-  selectTpSelectAble,
-  unSelectHandAble,
-  unSelectTpAble,
-} from "@/reducers/moraSlice";
-import { store } from "@/store";
-import { moraStore, matStore } from "@/valtioStores";
+import { matStore, moraStore } from "@/stores";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -30,14 +21,8 @@ const Mora = () => {
   const snapMora = useSnapshot(moraStore);
   const snapMatInitInfo = useSnapshot(matStore.initInfo);
 
-  // const dispatch = store.dispatch;
-  // const selectHandAble = useAppSelector(selectHandSelectAble);
-  // const selectTpAble = useAppSelector(selectTpSelectAble);
-  // const duelHsStart = useAppSelector(selectDuelHsStart);
-
   const selectHandAble = snapMora.selectHandAble;
   const selectTpAble = snapMora.selectTpAble;
-  // const duelHsStart = snapMora.duelStart;
 
   const navigate = useNavigate();
   const { player, passWd, ip } = useParams<{
@@ -48,12 +33,10 @@ const Mora = () => {
 
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
-    // dispatch(unSelectHandAble());
     moraStore.selectHandAble = false;
   };
   const handleSelectTp = (isFirst: boolean) => {
     sendTpResult(isFirst);
-    // dispatch(unSelectTpAble());
     moraStore.selectTpAble = false;
   };
 
