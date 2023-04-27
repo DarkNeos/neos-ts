@@ -1,39 +1,27 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { setMagicPosition, setMonsterPosition } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
+import { fetchEsHintMeta, matStore } from "@/stores";
+export default (posChange: MsgPosChange) => {
+  const { location, controler, sequence } = posChange.card_info;
 
-export default (posChange: MsgPosChange, dispatch: AppDispatch) => {
-  const cardInfo = posChange.card_info;
-
-  switch (cardInfo.location) {
+  switch (location) {
     case ygopro.CardZone.MZONE: {
-      dispatch(
-        setMonsterPosition({
-          controler: cardInfo.controler,
-          sequence: cardInfo.sequence,
-          position: posChange.cur_position,
-        })
-      );
+      matStore.monsters.of(controler)[sequence].location.position =
+        posChange.cur_position;
 
       break;
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        setMagicPosition({
-          controler: cardInfo.controler,
-          sequence: cardInfo.sequence,
-          position: posChange.cur_position,
-        })
-      );
+      matStore.magics.of(controler)[sequence].location.position =
+        posChange.cur_position;
 
       break;
     }
     default: {
-      console.log(`Unhandled zone ${cardInfo.location}`);
+      console.log(`Unhandled zone ${location}`);
     }
   }
-
-  dispatch(fetchEsHintMeta({ originMsg: 1600 }));
+  fetchEsHintMeta({
+    originMsg: 1600,
+  });
 };

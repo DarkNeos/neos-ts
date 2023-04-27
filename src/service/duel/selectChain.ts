@@ -1,20 +1,12 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { sendSelectChainResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchSelectHintMeta } from "@/reducers/duel/hintSlice";
+import { sendSelectChainResponse, ygopro } from "@/api";
 import {
-  setCheckCardMOdalCancelAble,
-  setCheckCardModalCancelResponse,
-  setCheckCardModalIsOpen,
-  setCheckCardModalMinMax,
-  setCheckCardModalOnSubmit,
-} from "@/reducers/duel/mod";
-import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
-import { AppDispatch } from "@/store";
+  fetchCheckCardMeta,
+  fetchSelectHintMeta,
+  messageStore,
+} from "@/stores";
 
-import { CardZoneToChinese } from "./util";
-import MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
-
-export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
+type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
+export default (selectChain: MsgSelectChain) => {
   const player = selectChain.player;
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
@@ -66,32 +58,24 @@ export default (selectChain: MsgSelectChain, dispatch: AppDispatch) => {
     case 3: {
       // 处理强制发动的卡
 
-      dispatch(setCheckCardModalMinMax({ min: 1, max: 1 }));
-      dispatch(setCheckCardModalOnSubmit("sendSelectChainResponse"));
-      dispatch(setCheckCardMOdalCancelAble(!forced));
-      dispatch(setCheckCardModalCancelResponse(-1));
+      messageStore.checkCardModal.selectMin = 1;
+      messageStore.checkCardModal.selectMax = 1;
+      messageStore.checkCardModal.onSubmit = "sendSelectChainResponse";
+      messageStore.checkCardModal.cancelAble = !forced;
+      messageStore.checkCardModal.cancelResponse = -1;
 
       for (const chain of chains) {
-        const tagName = CardZoneToChinese(chain.location.location);
-        dispatch(
-          fetchCheckCardMeta({
-            tagName,
-            option: {
-              code: chain.code,
-              location: chain.location,
-              response: chain.response,
-              effectDescCode: chain.effect_description,
-            },
-          })
-        );
+        fetchCheckCardMeta(chain.location.location, {
+          code: chain.code,
+          location: chain.location,
+          response: chain.response,
+          effectDescCode: chain.effect_description,
+        });
       }
-      dispatch(
-        fetchSelectHintMeta({
-          selectHintData: 203,
-        })
-      );
-
-      dispatch(setCheckCardModalIsOpen(true));
+      fetchSelectHintMeta({
+        selectHintData: 203,
+      });
+      messageStore.checkCardModal.isOpen = true;
 
       break;
     }

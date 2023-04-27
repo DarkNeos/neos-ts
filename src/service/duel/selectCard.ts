@@ -1,15 +1,8 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import {
-  setCheckCardModalIsOpen,
-  setCheckCardModalMinMax,
-  setCheckCardModalOnSubmit,
-} from "@/reducers/duel/mod";
-import { fetchCheckCardMeta } from "@/reducers/duel/modal/mod";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
-import { CardZoneToChinese } from "./util";
+import { CardZoneToChinese, fetchCheckCardMeta, messageStore } from "@/stores";
 
-export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
+export default (selectCard: MsgSelectCard) => {
   const _player = selectCard.player;
   const _cancelable = selectCard.cancelable; // TODO: 处理可取消逻辑
   const min = selectCard.min;
@@ -17,23 +10,17 @@ export default (selectCard: MsgSelectCard, dispatch: AppDispatch) => {
   const cards = selectCard.cards;
 
   // TODO: handle release_param
-
-  dispatch(setCheckCardModalMinMax({ min, max }));
-  dispatch(setCheckCardModalOnSubmit("sendSelectCardResponse"));
+  messageStore.checkCardModal.selectMin = min;
+  messageStore.checkCardModal.selectMax = max;
+  messageStore.checkCardModal.onSubmit = "sendSelectCardResponse";
 
   for (const card of cards) {
     const tagName = CardZoneToChinese(card.location.location);
-    dispatch(
-      fetchCheckCardMeta({
-        tagName,
-        option: {
-          code: card.code,
-          location: card.location,
-          response: card.response,
-        },
-      })
-    );
+    fetchCheckCardMeta(card.location.location, {
+      code: card.code,
+      location: card.location,
+      response: card.response,
+    });
   }
-
-  dispatch(setCheckCardModalIsOpen(true));
+  messageStore.checkCardModal.isOpen = true;
 };

@@ -1,29 +1,26 @@
 import * as BABYLON from "@babylonjs/core";
+import { useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import {
-  selectMeGraveyard,
-  selectOpGraveyard,
-} from "@/reducers/duel/graveyardSlice";
+import { matStore } from "@/stores";
 
 import { cardSlotRotation } from "../utils";
 import { Depth, SingleSlot } from "./SingleSlot";
 
 const NeosConfig = useConfig();
 export const Graveyard = () => {
-  const meGraveyard = useAppSelector(selectMeGraveyard).inner;
-  const opGraveyard = useAppSelector(selectOpGraveyard).inner;
+  const meGraveyard = useSnapshot(matStore.graveyards.me);
+  const opGraveyard = useSnapshot(matStore.graveyards.op);
 
   return (
     <>
       <SingleSlot
-        state={meGraveyard}
+        state={matStore.graveyards.me}
         position={graveyardPosition(0, meGraveyard.length)}
         rotation={cardSlotRotation(false)}
       />
       <SingleSlot
-        state={opGraveyard}
+        state={matStore.graveyards.op}
         position={graveyardPosition(1, opGraveyard.length)}
         rotation={cardSlotRotation(true)}
       />

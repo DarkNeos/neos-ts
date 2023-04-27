@@ -1,96 +1,50 @@
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { Interactivity, InteractType } from "@/reducers/duel/generic";
+import { ygopro } from "@/api";
 import {
-  addHandsIdleInteractivity,
-  addMagicIdleInteractivities,
-  addMonsterIdleInteractivities,
-  clearAllIdleInteractivities,
-  setEnableEp,
-  setEnableM2,
-} from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  type Interactivity,
+  InteractType,
+  matStore,
+} from "@/stores";
+
 import MsgSelectBattleCmd = ygopro.StocGameMessage.MsgSelectBattleCmd;
 
-export default (selectBattleCmd: MsgSelectBattleCmd, dispatch: AppDispatch) => {
+export default (selectBattleCmd: MsgSelectBattleCmd) => {
   const player = selectBattleCmd.player;
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
-  dispatch(clearAllIdleInteractivities(player));
-
-  const dispatcher = (
-    battleData: MsgSelectBattleCmd.BattleCmd.BattleData,
-    interactType: InteractType | undefined,
-    actionCreator: ActionCreatorWithPayload<
-      {
-        player: number;
-        sequence: number;
-        interactivity: Interactivity<number>;
-      },
-      string
-    >
-  ) => {
-    const cardInfo = battleData.card_info;
-    if (interactType === InteractType.ACTIVATE) {
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: {
-            interactType,
-            activateIndex: battleData.effect_description,
-            response: battleData.response,
-          },
-        })
-      );
-    } else if (interactType === InteractType.ATTACK) {
-      dispatch(
-        actionCreator({
-          player,
-          sequence: cardInfo.sequence,
-          interactivity: {
-            interactType,
-            directAttackAble: battleData.direct_attackable,
-            response: battleData.response,
-          },
-        })
-      );
-    } else {
-      console.log(`Unhandled InteractType`);
-    }
-  };
+  clearAllIdleInteractivities(player);
 
   cmds.forEach((cmd) => {
     const interactType = battleTypeToInteracType(cmd.battle_type);
 
     cmd.battle_datas.forEach((data) => {
-      const cardInfo = data.card_info;
-      switch (cardInfo.location) {
-        case ygopro.CardZone.HAND: {
-          dispatcher(data, interactType, addHandsIdleInteractivity);
+      const { location, sequence } = data.card_info;
 
-          break;
-        }
-        case ygopro.CardZone.MZONE: {
-          dispatcher(data, interactType, addMonsterIdleInteractivities);
-
-          break;
-        }
-        case ygopro.CardZone.SZONE: {
-          dispatcher(data, interactType, addMagicIdleInteractivities);
-
-          break;
-        }
-        default: {
-        }
+      // valtio
+      if (interactType) {
+        const map: Partial<
+          Record<InteractType, undefined | Partial<Interactivity<number>>>
+        > = {
+          [InteractType.ACTIVATE]: { activateIndex: data.effect_description },
+          [InteractType.ATTACK]: { directAttackAble: data.direct_attackable },
+        };
+        const tmp = map[interactType]; // 添加额外信息
+        matStore
+          .in(location)
+          .of(player)
+          .addIdleInteractivity(sequence, {
+            ...tmp,
+            interactType,
+            response: data.response,
+          });
+      } else {
+        console.warn(`Undefined InteractType`);
       }
     });
   });
-
-  dispatch(setEnableM2(selectBattleCmd.enable_m2));
-  dispatch(setEnableEp(selectBattleCmd.enable_ep));
+  matStore.phase.enableM2 = selectBattleCmd.enable_m2;
+  matStore.phase.enableEp = selectBattleCmd.enable_ep;
 };
 
 function battleTypeToInteracType(

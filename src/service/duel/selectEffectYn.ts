@@ -1,13 +1,11 @@
-import { CardMeta } from "@/api/cards";
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import { fetchYesNoMeta } from "@/reducers/duel/modal/mod";
-import { AppDispatch } from "@/store";
+import { fetchStrings, ygopro } from "@/api";
+import { CardMeta, fetchCard } from "@/api/cards";
+import { CardZoneToChinese, messageStore } from "@/stores";
 
-import { CardZoneToChinese } from "./util";
-import MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
+type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
-export default (selectEffectYn: MsgSelectEffectYn, dispatch: AppDispatch) => {
+// 这里改成了 async 不知道有没有影响
+export default async (selectEffectYn: MsgSelectEffectYn) => {
   const player = selectEffectYn.player;
   const code = selectEffectYn.code;
   const location = selectEffectYn.location;
@@ -31,13 +29,18 @@ export default (selectEffectYn: MsgSelectEffectYn, dispatch: AppDispatch) => {
           const desc1 = desc.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc1;
         };
-  dispatch(
-    fetchYesNoMeta({
-      code,
-      location,
-      descCode: effect_description,
-      textGenerator,
-    })
-  );
-  dispatch(setYesNoModalIsOpen(true));
+  // dispatch(
+  //   fetchYesNoMeta({
+  //     code,
+  //     location,
+  //     descCode: effect_description,
+  //     textGenerator,
+  //   })
+  // );
+  // TODO: 国际化文案
+
+  const desc = fetchStrings("!system", effect_description);
+  const meta = await fetchCard(code);
+  messageStore.yesNoModal.msg = textGenerator(desc, meta, location);
+  messageStore.yesNoModal.isOpen = true;
 };

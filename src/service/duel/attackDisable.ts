@@ -1,10 +1,6 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { fetchEsHintMeta } from "@/stores";
 
-export default (
-  _: ygopro.StocGameMessage.MsgAttackDisabled,
-  dispatch: AppDispatch
-) => {
-  dispatch(fetchEsHintMeta({ originMsg: "攻击被无效时" }));
+export default (_: ygopro.StocGameMessage.MsgAttackDisabled) => {
+  fetchEsHintMeta({ originMsg: "攻击被无效时" });
 };

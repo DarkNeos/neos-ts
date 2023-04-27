@@ -1,31 +1,37 @@
 import { Button, Card, Col, InputNumber, Row } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectCounterResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchStrings } from "@/api/strings";
+import { fetchStrings, sendSelectCounterResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { clearCheckCounter } from "@/reducers/duel/mod";
-import { selectCheckCounterModal } from "@/reducers/duel/modal/checkCounterModalSlice";
-import { store } from "@/store";
+import { messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
 
+const { checkCounterModal } = messageStore;
+
 const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
-  const dispatch = store.dispatch;
-  const state = useAppSelector(selectCheckCounterModal);
-  const isOpen = state.isOpen;
-  const counterName = fetchStrings("!counter", `0x${state.counterType!}`);
-  const min = state.min || 0;
-  const options = state.options;
+  const snapCheckCounterModal = useSnapshot(checkCounterModal);
+
+  const isOpen = snapCheckCounterModal.isOpen;
+  const min = snapCheckCounterModal.min || 0;
+  const options = snapCheckCounterModal.options;
+  const counterName = fetchStrings(
+    "!counter",
+    `0x${snapCheckCounterModal.counterType!}`
+  );
+
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);
   const finishable = sum == min;
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
-    dispatch(clearCheckCounter());
+    messageStore.checkCounterModal.isOpen = false;
+    messageStore.checkCounterModal.min = undefined;
+    messageStore.checkCounterModal.counterType = undefined;
+    messageStore.checkCounterModal.options = [];
   };
 
   return (

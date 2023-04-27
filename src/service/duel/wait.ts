@@ -1,12 +1,11 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { clearAllIdleInteractivities, setWaiting } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import {
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  matStore,
+} from "@/stores";
 
-export default (
-  _wait: ygopro.StocGameMessage.MsgWait,
-  dispatch: AppDispatch
-) => {
-  dispatch(clearAllIdleInteractivities(0));
-  dispatch(clearAllIdleInteractivities(1));
-  dispatch(setWaiting(true));
+export default (_wait: ygopro.StocGameMessage.MsgWait) => {
+  clearAllIdleInteractivities(0);
+  clearAllIdleInteractivities(1);
+  matStore.waiting = true;
 };

@@ -1,17 +1,11 @@
 import * as BABYLON from "@babylonjs/core";
 import { useEffect, useRef, useState } from "react";
 import { useHover } from "react-babylonjs";
+import { INTERNAL_Snapshot, useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector, useClick } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
-import { selectMeHands, selectOpHands } from "@/reducers/duel/handsSlice";
-import {
-  setCardModalInteractivies,
-  setCardModalIsOpen,
-  setCardModalMeta,
-} from "@/reducers/duel/mod";
-import { store } from "@/store";
+import { useClick } from "@/hook";
+import { type CardState, matStore, messageStore } from "@/stores";
 
 import { animated, useSpring } from "../spring";
 import { interactTypeToString, zip } from "../utils";
@@ -26,14 +20,16 @@ const handRotation = new BABYLON.Vector3(rotation.x, rotation.y, rotation.z);
 const hoverScaling = NeosConfig.ui.card.handHoverScaling;
 
 export const Hands = () => {
-  const meHands = useAppSelector(selectMeHands).inner;
-  const meHandPositions = handPositons(0, meHands);
-  const opHands = useAppSelector(selectOpHands).inner;
-  const opHandPositions = handPositons(1, opHands);
+  const meHandsState = matStore.hands.me;
+  const opHandsState = matStore.hands.op;
+  const meHandsSnap = useSnapshot(meHandsState);
+  const opHandsSnap = useSnapshot(opHandsState);
+  const meHandPositions = handPositons(0, meHandsSnap);
+  const opHandPositions = handPositons(1, opHandsSnap);
 
   return (
     <>
-      {zip(meHands, meHandPositions).map(([hand, position], idx) => {
+      {zip(meHandsState, meHandPositions).map(([hand, position], idx) => {
         return (
           <CHand
             key={idx}
@@ -41,11 +37,10 @@ export const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(id) => `${NeosConfig.cardImgUrl}/${id}.jpg`}
           />
         );
       })}
-      {zip(opHands, opHandPositions).map(([hand, position], idx) => {
+      {zip(opHandsState, opHandPositions).map(([hand, position], idx) => {
         return (
           <CHand
             key={idx}
@@ -53,7 +48,7 @@ export const Hands = () => {
             sequence={idx}
             position={position}
             rotation={handRotation}
-            cover={(_) => `${NeosConfig.assetsPath}/card_back.jpg`}
+            back={true}
           />
         );
       })}
@@ -66,7 +61,7 @@ const CHand = (props: {
   sequence: number;
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
-  cover: (id: number) => string;
+  back?: boolean;
 }) => {
   const hoverScale = new BABYLON.Vector3(
     hoverScaling.x,
@@ -80,7 +75,6 @@ const CHand = (props: {
   const state = props.state;
   const [hovered, setHovered] = useState(false);
   const position = props.position;
-  const dispatch = store.dispatch;
 
   const [spring, api] = useSpring(
     () => ({
@@ -115,19 +109,15 @@ const CHand = (props: {
   useClick(
     () => {
       if (state.occupant) {
-        dispatch(setCardModalMeta(state.occupant));
+        messageStore.cardModal.meta = state.occupant;
       }
-      dispatch(
-        setCardModalInteractivies(
-          state.idleInteractivities.map((interactive) => {
-            return {
-              desc: interactTypeToString(interactive.interactType),
-              response: interactive.response,
-            };
-          })
-        )
+      messageStore.cardModal.interactivies = state.idleInteractivities.map(
+        (interactive) => ({
+          desc: interactTypeToString(interactive.interactType),
+          response: interactive.response,
+        })
       );
-      dispatch(setCardModalIsOpen(true));
+      messageStore.cardModal.isOpen = true;
     },
     planeRef,
     [state]
@@ -145,7 +135,7 @@ const CHand = (props: {
         rotation={props.rotation}
         enableEdgesRendering
         edgesWidth={
-          state.idleInteractivities.length > 0 || state.placeInteractivities
+          state.idleInteractivities.length > 0 || state.placeInteractivity
             ? edgesWidth
             : 0
         }
@@ -154,7 +144,11 @@ const CHand = (props: {
         <animated.standardMaterial
           name={`hand-mat-${props.sequence}`}
           diffuseTexture={
-            new BABYLON.Texture(props.cover(state.occupant?.id || 0))
+            new BABYLON.Texture(
+              props.back
+                ? `${NeosConfig.assetsPath}/card_back.jpg`
+                : `${NeosConfig.cardImgUrl}/${state.occupant?.id || 0}.jpg`
+            )
           }
         />
       </animated.plane>
@@ -162,7 +156,10 @@ const CHand = (props: {
   );
 };
 
-const handPositons = (player: number, hands: CardState[]) => {
+const handPositons = (
+  player: number,
+  hands: INTERNAL_Snapshot<CardState[]>
+) => {
   const gap = groundShape.width / (hands.length - 1);
   const x = (idx: number) =>
     player == 0 ? left + gap * idx : -left - gap * idx;

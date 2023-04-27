@@ -1,11 +1,7 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { updateTurn } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { matStore } from "@/stores";
 
-export default (
-  newTurn: ygopro.StocGameMessage.MsgNewTurn,
-  dispatch: AppDispatch
-) => {
+export default (newTurn: ygopro.StocGameMessage.MsgNewTurn) => {
   const player = newTurn.player;
-  dispatch(updateTurn(player));
+  matStore.currentPlayer = player;
 };

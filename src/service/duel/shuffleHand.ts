@@ -1,10 +1,23 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { updateHandsMeta } from "@/reducers/duel/handsSlice";
-import { AppDispatch } from "@/store";
-import MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
+import { ygopro } from "@/api";
+import { matStore } from "@/stores";
 
-export default (shuffleHand: MsgShuffleHand, dispatch: AppDispatch) => {
-  dispatch(
-    updateHandsMeta({ controler: shuffleHand.player, codes: shuffleHand.hands })
-  );
+type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
+
+export default (shuffleHand: MsgShuffleHand) => {
+  const { hands: codes, player: controller } = shuffleHand;
+
+  const metas = codes.map((code) => {
+    return {
+      occupant: { id: code, data: {}, text: {} },
+      location: {
+        controler: controller,
+        location: ygopro.CardZone.HAND,
+      },
+      idleInteractivities: [],
+      counters: {},
+    };
+  });
+
+  matStore.hands.of(controller).length = 0;
+  matStore.hands.of(controller).push(...metas);
 };

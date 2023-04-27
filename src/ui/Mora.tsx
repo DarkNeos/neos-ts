@@ -4,22 +4,13 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { sendHandResult, sendTpResult } from "@/api/ocgcore/ocgHelper";
+import { sendHandResult, sendTpResult } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { selectDuelHsStart } from "@/reducers/duel/mod";
-import {
-  selectHandSelectAble,
-  selectTpSelectAble,
-  unSelectHandAble,
-  unSelectTpAble,
-} from "@/reducers/moraSlice";
-import { store } from "@/store";
-import { valtioContext } from "@/valtioStores";
+import { matStore, moraStore } from "@/stores";
 
 const {
   automation: { isAiMode, isAiFirst },
@@ -27,17 +18,11 @@ const {
 } = useConfig();
 
 const Mora = () => {
-  const stateMora = useContext(valtioContext).moraStore;
-  const snapMora = useSnapshot(stateMora);
+  const snapMora = useSnapshot(moraStore);
+  const snapMatInitInfo = useSnapshot(matStore.initInfo);
 
-  const dispatch = store.dispatch;
-  const selectHandAble = useAppSelector(selectHandSelectAble);
-  const selectTpAble = useAppSelector(selectTpSelectAble);
-  const duelHsStart = useAppSelector(selectDuelHsStart);
-
-  // const selectHandAble = snapMora.selectHandAble;
-  // const selectTpAble = snapMora.selectTpAble;
-  // const duelHsStart = snapMora.duelStart;
+  const selectHandAble = snapMora.selectHandAble;
+  const selectTpAble = snapMora.selectTpAble;
 
   const navigate = useNavigate();
   const { player, passWd, ip } = useParams<{
@@ -48,21 +33,19 @@ const Mora = () => {
 
   const handleSelectMora = (selected: string) => {
     sendHandResult(selected);
-    dispatch(unSelectHandAble());
-    stateMora.selectHandAble = false;
+    moraStore.selectHandAble = false;
   };
   const handleSelectTp = (isFirst: boolean) => {
     sendTpResult(isFirst);
-    dispatch(unSelectTpAble());
-    stateMora.selectTpAble = false;
+    moraStore.selectTpAble = false;
   };
 
   useEffect(() => {
     // 若对局已经开始，自动跳转
-    if (duelHsStart) {
+    if (snapMatInitInfo.me.life > 0) {
       navigate(`/duel/${player}/${passWd}/${ip}`);
     }
-  }, [duelHsStart]);
+  }, [snapMatInitInfo.me]);
 
   useEffect(() => {
     if (isAiMode) {

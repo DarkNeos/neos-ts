@@ -17,22 +17,21 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Button, Card, Modal } from "antd";
 import React, { useEffect, useState } from "react";
+import { useSnapshot } from "valtio";
 
+import { sendSortCardResponse } from "@/api";
 import { CardMeta } from "@/api/cards";
-import { sendSortCardResponse } from "@/api/ocgcore/ocgHelper";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { resetSortCardModal } from "@/reducers/duel/mod";
-import { selectSortCardModal } from "@/reducers/duel/modal/sortCardModalSlice";
-import { store } from "@/store";
+import { messageStore } from "@/stores";
 
 const NeosConfig = useConfig();
 
+const { sortCardModal } = messageStore;
+
 export const SortCardModal = () => {
-  const dispatch = store.dispatch;
-  const state = useAppSelector(selectSortCardModal);
-  const isOpen = state.isOpen;
-  const options = state.options;
+  const snapSortCardModal = useSnapshot(sortCardModal);
+  const isOpen = snapSortCardModal.isOpen;
+  const options = snapSortCardModal.options;
   const [items, setItems] = useState(options);
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -43,7 +42,8 @@ export const SortCardModal = () => {
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
-    dispatch(resetSortCardModal());
+    sortCardModal.isOpen = false;
+    sortCardModal.options = [];
   };
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -52,7 +52,7 @@ export const SortCardModal = () => {
       setItems((items) => {
         const oldIndex = items.findIndex((item) => item.response == active.id);
         const newIndex = items.findIndex((item) => item.response === over?.id);
-
+        // @ts-ignore
         return arrayMove(items, oldIndex, newIndex);
       });
     }

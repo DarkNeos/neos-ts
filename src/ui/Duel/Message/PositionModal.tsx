@@ -1,26 +1,20 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
+import { useSnapshot } from "valtio";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { sendSelectPositionResponse } from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
-import {
-  resetPositionModal,
-  setPositionModalIsOpen,
-} from "@/reducers/duel/mod";
-import {
-  selectPositionModalIsOpen,
-  selectPositionModalPositions,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+import { sendSelectPositionResponse, ygopro } from "@/api";
+import { messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
 
+const { positionModal } = messageStore;
+
 export const PositionModal = () => {
-  const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectPositionModalIsOpen);
-  const positions = useAppSelector(selectPositionModalPositions);
+  const snapPositionModal = useSnapshot(positionModal);
+  const isOpen = snapPositionModal.isOpen;
+  const positions = snapPositionModal.positions;
+
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined
   );
@@ -36,8 +30,8 @@ export const PositionModal = () => {
           onClick={() => {
             if (selected !== undefined) {
               sendSelectPositionResponse(selected);
-              dispatch(setPositionModalIsOpen(false));
-              dispatch(resetPositionModal());
+              positionModal.isOpen = false;
+              positionModal.positions = [];
             }
           }}
         >

@@ -1,10 +1,6 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { fetchEsHintMeta } from "@/stores";
 
-export default (
-  _: ygopro.StocGameMessage.MsgSummoned,
-  dispatch: AppDispatch
-) => {
-  dispatch(fetchEsHintMeta({ originMsg: 1604 }));
+export default (_: ygopro.StocGameMessage.MsgSummoned) => {
+  fetchEsHintMeta({ originMsg: 1604 });
 };

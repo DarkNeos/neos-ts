@@ -1,15 +1,10 @@
 import "react-babylonjs";
 
 import * as BABYLON from "@babylonjs/core";
+import { type INTERNAL_Snapshot, useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
-import { clearMonsterPlaceInteractivities } from "@/reducers/duel/mod";
-import {
-  selectMeMonsters,
-  selectOpMonsters,
-} from "@/reducers/duel/monstersSlice";
+import { type CardState, matStore } from "@/stores";
 
 import { cardSlotDefenceRotation, cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
@@ -20,15 +15,22 @@ const floating = NeosConfig.ui.card.floating;
 const left = -2.15; // TODO: config
 const gap = 1.05;
 
+const clearPlaceInteractivitiesAction = (controller: number) => {
+  console.warn("monster clearPlaceInteractivitiesAction");
+  matStore.monsters.of(controller).clearPlaceInteractivity();
+};
+
 export const Monsters = () => {
-  const meMonsters = useAppSelector(selectMeMonsters).inner;
-  const meMonsterPositions = monsterPositions(0, meMonsters);
-  const opMonsters = useAppSelector(selectOpMonsters).inner;
-  const opMonsterPositions = monsterPositions(1, opMonsters);
+  const meMonstersStore = matStore.monsters.me;
+  const opMonstersStore = matStore.monsters.op;
+  const meMonstersSnap = useSnapshot(meMonstersStore);
+  const opMonstersSnap = useSnapshot(opMonstersStore);
+  const meMonsterPositions = monsterPositions(0, meMonstersSnap);
+  const opMonsterPositions = monsterPositions(1, opMonstersSnap);
 
   return (
     <>
-      {zip(meMonsters, meMonsterPositions)
+      {zip(meMonstersStore, meMonsterPositions)
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
@@ -38,10 +40,10 @@ export const Monsters = () => {
             position={position}
             rotation={cardSlotRotation(false)}
             deffenseRotation={cardSlotDefenceRotation()}
-            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
-      {zip(opMonsters, opMonsterPositions)
+      {zip(opMonstersStore, opMonsterPositions)
         .slice(0, 5)
         .map(([monster, position], sequence) => (
           <FixedSlot
@@ -51,10 +53,13 @@ export const Monsters = () => {
             position={position}
             rotation={cardSlotRotation(true)}
             deffenseRotation={cardSlotDefenceRotation()}
-            clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
+            clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
           />
         ))}
-      <ExtraMonsters meMonsters={meMonsters} opMonsters={opMonsters} />
+      <ExtraMonsters
+        meMonsters={meMonstersStore}
+        opMonsters={opMonstersStore}
+      />
     </>
   );
 };
@@ -64,10 +69,10 @@ const ExtraMonsters = (props: {
   meMonsters: CardState[];
   opMonsters: CardState[];
 }) => {
-  const meLeft = props.meMonsters.find((_, sequence) => sequence == 5);
-  const meRight = props.meMonsters.find((_, sequence) => sequence == 6);
-  const opLeft = props.opMonsters.find((_, sequence) => sequence == 5);
-  const opRight = props.opMonsters.find((_, sequence) => sequence == 6);
+  const meLeft = props.meMonsters[5];
+  const meRight = props.meMonsters[6];
+  const opLeft = props.opMonsters[5];
+  const opRight = props.opMonsters[6];
 
   const leftPosition = new BABYLON.Vector3(-1.1, transform.z / 2 + floating, 0);
   const rightPosition = new BABYLON.Vector3(1.1, transform.z / 2 + floating, 0);
@@ -77,59 +82,46 @@ const ExtraMonsters = (props: {
 
   return (
     <>
-      {meLeft ? (
-        <FixedSlot
-          state={meLeft}
-          sequence={5}
-          position={leftPosition}
-          rotation={meRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
-      {meRight ? (
-        <FixedSlot
-          state={meRight}
-          sequence={6}
-          position={rightPosition}
-          rotation={meRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
-      {opLeft ? (
-        <FixedSlot
-          state={opLeft}
-          sequence={5}
-          position={rightPosition}
-          rotation={opRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
-      {opRight ? (
-        <FixedSlot
-          state={opRight}
-          sequence={6}
-          position={leftPosition}
-          rotation={opRotation}
-          deffenseRotation={cardSlotDefenceRotation()}
-          clearPlaceInteractivitiesAction={clearMonsterPlaceInteractivities}
-        />
-      ) : (
-        <></>
-      )}
+      <FixedSlot
+        state={meLeft}
+        sequence={5}
+        position={leftPosition}
+        rotation={meRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
+      <FixedSlot
+        state={meRight}
+        sequence={6}
+        position={rightPosition}
+        rotation={meRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
+      <FixedSlot
+        state={opLeft}
+        sequence={5}
+        position={rightPosition}
+        rotation={opRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
+      <FixedSlot
+        state={opRight}
+        sequence={6}
+        position={leftPosition}
+        rotation={opRotation}
+        deffenseRotation={cardSlotDefenceRotation()}
+        clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
+      />
     </>
   );
 };
 
-const monsterPositions = (player: number, monsters: CardState[]) => {
+const monsterPositions = (
+  player: number,
+  monsters: INTERNAL_Snapshot<CardState[]>
+) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = transform.z / 2 + floating;

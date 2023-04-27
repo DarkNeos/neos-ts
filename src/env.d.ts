@@ -10,3 +10,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// // 重新声明useSnapshot，暂时先这么写。原版的会把所有的改成readonly，引发一些棘手的类型报错。
+// import "valtio/react";
+// declare module "valtio/react" {
+//   export declare function useSnapshot<T extends object>(proxyObject: T): T;
+//   export {};
+// }

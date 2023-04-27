@@ -1,7 +1,6 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { setResult } from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { matStore } from "@/stores";
 
-export default (win: ygopro.StocGameMessage.MsgWin, dispatch: AppDispatch) => {
-  dispatch(setResult(win.type_));
+export default (win: ygopro.StocGameMessage.MsgWin) => {
+  matStore.result = win.type_;
 };

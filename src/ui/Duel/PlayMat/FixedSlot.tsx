@@ -1,21 +1,15 @@
 import * as BABYLON from "@babylonjs/core";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { useRef } from "react";
+import { useSnapshot } from "valtio";
 
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { sendSelectPlaceResponse } from "@/api/ocgcore/ocgHelper";
+import { sendSelectPlaceResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { useClick } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
 import {
-  setCardListModalInfo,
-  setCardListModalIsOpen,
-  setCardModalCounters,
-  setCardModalInteractivies,
-  setCardModalIsOpen,
-  setCardModalMeta,
-} from "@/reducers/duel/mod";
-import { store } from "@/store";
+  type CardState,
+  clearAllPlaceInteradtivities,
+  messageStore,
+} from "@/stores";
 
 import { interactTypeToString } from "../utils";
 
@@ -35,68 +29,61 @@ export const FixedSlot = (props: {
   position: BABYLON.Vector3;
   rotation: BABYLON.Vector3;
   deffenseRotation?: BABYLON.Vector3;
-  clearPlaceInteractivitiesAction: ActionCreatorWithPayload<number, string>;
+  clearPlaceInteractivitiesAction: (controller: number) => void;
 }) => {
   const planeRef = useRef(null);
 
+  const snapState = useSnapshot(props.state);
   const rotation =
-    props.state.location.position === ygopro.CardPosition.DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
+    snapState.location.position === ygopro.CardPosition.DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEUP_DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE
       ? props.deffenseRotation || cardDefenceRotation
       : props.rotation;
   const edgesWidth = 2.0;
   const edgesColor = BABYLON.Color4.FromColor3(BABYLON.Color3.Yellow());
-  const dispatch = store.dispatch;
 
   const faceDown =
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
-    props.state.location.position === ygopro.CardPosition.FACEDOWN;
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_DEFENSE ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+    snapState.location.position === ygopro.CardPosition.FACEDOWN;
 
   useClick(
     (_event) => {
-      if (props.state.placeInteractivities) {
-        sendSelectPlaceResponse(props.state.placeInteractivities.response);
-        dispatch(props.clearPlaceInteractivitiesAction(0));
-        dispatch(props.clearPlaceInteractivitiesAction(1));
-      } else if (props.state.occupant) {
+      if (snapState.placeInteractivity) {
+        sendSelectPlaceResponse(snapState.placeInteractivity.response);
+        // 其实不应该从外面传进来的...
+        // props.clearPlaceInteractivitiesAction(0);
+        // props.clearPlaceInteractivitiesAction(1);
+        clearAllPlaceInteradtivities(0);
+        clearAllPlaceInteradtivities(1);
+      } else if (snapState.occupant) {
         // 中央弹窗展示选中卡牌信息
-        dispatch(setCardModalMeta(props.state.occupant));
-        dispatch(
-          setCardModalInteractivies(
-            props.state.idleInteractivities.map((interactivity) => {
-              return {
-                desc: interactTypeToString(interactivity.interactType),
-                response: interactivity.response,
-              };
-            })
-          )
-        );
-        dispatch(setCardModalCounters(props.state.counters));
-        dispatch(setCardModalIsOpen(true));
+        messageStore.cardModal.meta = snapState.occupant;
+        messageStore.cardModal.interactivies =
+          snapState.idleInteractivities.map((interactivity) => ({
+            desc: interactTypeToString(interactivity.interactType),
+            response: interactivity.response,
+          }));
+        messageStore.cardModal.counters = snapState.counters;
+        messageStore.cardModal.isOpen = true;
 
         // 侧边栏展示超量素材信息
         if (
-          props.state.overlay_materials &&
-          props.state.overlay_materials.length > 0
+          snapState.overlay_materials &&
+          snapState.overlay_materials.length > 0
         ) {
-          dispatch(
-            setCardListModalInfo(
-              props.state.overlay_materials?.map((overlay) => {
-                return {
-                  meta: overlay,
-                  interactivies: [],
-                };
-              }) || []
-            )
-          );
-          dispatch(setCardListModalIsOpen(true));
+          messageStore.cardListModal.list =
+            snapState.overlay_materials?.map((overlay) => ({
+              meta: overlay,
+              interactivies: [],
+            })) || [];
+          messageStore.cardListModal.isOpen = true;
         }
       }
     },
     planeRef,
-    [props.state]
+    [snapState]
   );
 
   return (
@@ -109,8 +96,7 @@ export const FixedSlot = (props: {
       rotation={rotation}
       enableEdgesRendering
       edgesWidth={
-        props.state.placeInteractivities ||
-        props.state.idleInteractivities.length > 0
+        snapState.placeInteractivity || snapState.idleInteractivities.length > 0
           ? edgesWidth
           : 0
       }
@@ -119,15 +105,15 @@ export const FixedSlot = (props: {
       <standardMaterial
         name={`fixedslot-mat-${props.sequence}`}
         diffuseTexture={
-          props.state.occupant
+          snapState.occupant
             ? faceDown
               ? new BABYLON.Texture(`${NeosConfig.assetsPath}/card_back.jpg`)
               : new BABYLON.Texture(
-                  `${NeosConfig.cardImgUrl}/${props.state.occupant.id}.jpg`
+                  `${NeosConfig.cardImgUrl}/${snapState.occupant.id}.jpg`
                 )
             : new BABYLON.Texture(`${NeosConfig.assetsPath}/card_slot.png`)
         }
-        alpha={props.state.occupant ? 1 : 0}
+        alpha={snapState.occupant ? 1 : 0}
       ></standardMaterial>
     </plane>
   );

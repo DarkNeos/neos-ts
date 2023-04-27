@@ -75,7 +75,10 @@ export default async function (action: sqliteAction): Promise<sqliteResult> {
           selectResult: constructCardMeta(code, dataResult, textResult),
         };
       } else {
-        console.warn("ygo db not init or id not provied!");
+        if (action.payload?.id !== 0) {
+          // 0是无效的卡片ID，不需要报错，返回空即可
+          console.warn("ygo db not init or id not provied!");
+        }
       }
 
       return {};

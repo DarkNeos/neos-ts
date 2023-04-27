@@ -1,10 +1,8 @@
 import * as BABYLON from "@babylonjs/core";
+import { type INTERNAL_Snapshot, useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
-import { CardState } from "@/reducers/duel/generic";
-import { selectMeMagics, selectOpMagics } from "@/reducers/duel/magicSlice";
-import { clearMagicPlaceInteractivities } from "@/reducers/duel/mod";
+import { type CardState, matStore } from "@/stores";
 
 import { cardSlotRotation, zip } from "../utils";
 import { FixedSlot } from "./FixedSlot";
@@ -16,14 +14,21 @@ const gap = 1.05;
 const transform = NeosConfig.ui.card.transform;
 
 export const Magics = () => {
-  const meMagics = useAppSelector(selectMeMagics).inner;
-  const meMagicPositions = magicPositions(0, meMagics);
-  const opMagics = useAppSelector(selectOpMagics).inner;
-  const opMagicPositions = magicPositions(1, opMagics);
+  const meMagicState = matStore.magics.me;
+  const opMagicState = matStore.magics.op;
+  const meMagicsSnap = useSnapshot(meMagicState);
+  const opMagicsSnap = useSnapshot(opMagicState);
+  const meMagicPositions = magicPositions(0, meMagicsSnap);
+  const opMagicPositions = magicPositions(1, opMagicsSnap);
+
+  const clearPlaceInteractivitiesAction = (controller: number) => {
+    console.warn("magic clearPlaceInteractivitiesAction");
+    matStore.magics.of(controller).clearPlaceInteractivity();
+  };
 
   return (
     <>
-      {zip(meMagics, meMagicPositions)
+      {zip(meMagicState, meMagicPositions)
         .slice(0, 5)
         .map(([magic, position], sequence) => {
           return (
@@ -33,11 +38,11 @@ export const Magics = () => {
               sequence={sequence}
               position={position}
               rotation={cardSlotRotation(false)}
-              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
             />
           );
         })}
-      {zip(opMagics, opMagicPositions)
+      {zip(opMagicState, opMagicPositions)
         .slice(0, 5)
         .map(([magic, position], sequence) => {
           return (
@@ -47,7 +52,7 @@ export const Magics = () => {
               sequence={sequence}
               position={position}
               rotation={cardSlotRotation(true)}
-              clearPlaceInteractivitiesAction={clearMagicPlaceInteractivities}
+              clearPlaceInteractivitiesAction={clearPlaceInteractivitiesAction}
             />
           );
         })}
@@ -55,7 +60,10 @@ export const Magics = () => {
   );
 };
 
-const magicPositions = (player: number, magics: CardState[]) => {
+const magicPositions = (
+  player: number,
+  magics: INTERNAL_Snapshot<CardState[]>
+) => {
   const x = (sequence: number) =>
     player == 0 ? left + gap * sequence : -left - gap * sequence;
   const y = transform.z / 2 + NeosConfig.ui.card.floating;

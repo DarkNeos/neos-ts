@@ -1,23 +1,20 @@
 import { Button } from "antd";
 import React from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectEffectYnResponse } from "@/api/ocgcore/ocgHelper";
-import { useAppSelector } from "@/hook";
-import { selectHint } from "@/reducers/duel/hintSlice";
-import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import {
-  selectYesNoModalIsOpen,
-  selectYesNOModalMsg,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+import { sendSelectEffectYnResponse } from "@/api";
+import { matStore, messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
 
+const { yesNoModal } = messageStore;
+
 export const YesNoModal = () => {
-  const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectYesNoModalIsOpen);
-  const msg = useAppSelector(selectYesNOModalMsg);
-  const hint = useAppSelector(selectHint);
+  const snapYesNoModal = useSnapshot(yesNoModal);
+  const isOpen = snapYesNoModal.isOpen;
+  const msg = snapYesNoModal.msg;
+  const hint = useSnapshot(matStore.hint);
+
   const preHintMsg = hint?.esHint || "";
 
   return (
@@ -30,7 +27,8 @@ export const YesNoModal = () => {
           <Button
             onClick={() => {
               sendSelectEffectYnResponse(true);
-              dispatch(setYesNoModalIsOpen(false));
+              // dispatch(setYesNoModalIsOpen(false));
+              yesNoModal.isOpen = false;
             }}
           >
             Yes
@@ -38,7 +36,8 @@ export const YesNoModal = () => {
           <Button
             onClick={() => {
               sendSelectEffectYnResponse(false);
-              dispatch(setYesNoModalIsOpen(false));
+              // dispatch(setYesNoModalIsOpen(false));
+              yesNoModal.isOpen = false;
             }}
           >
             No

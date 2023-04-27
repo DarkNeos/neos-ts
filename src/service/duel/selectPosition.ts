@@ -1,17 +1,14 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import {
-  setPositionModalIsOpen,
-  setPositionModalPositions,
-} from "@/reducers/duel/mod";
-import { AppDispatch } from "@/store";
-import MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
+import { ygopro } from "@/api";
+import { messageStore } from "@/stores";
 
-export default (selectPosition: MsgSelectPosition, dispatch: AppDispatch) => {
+type MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
+
+export default (selectPosition: MsgSelectPosition) => {
   const player = selectPosition.player;
   const positions = selectPosition.positions;
 
-  dispatch(
-    setPositionModalPositions(positions.map((position) => position.position))
+  messageStore.positionModal.positions = positions.map(
+    (position) => position.position
   );
-  dispatch(setPositionModalIsOpen(true));
+  messageStore.positionModal.isOpen = true;
 };

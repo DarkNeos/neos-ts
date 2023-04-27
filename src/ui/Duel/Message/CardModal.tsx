@@ -3,22 +3,14 @@ import { Button, Card, Col, Modal, Row } from "antd";
 import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
 import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
 import React from "react";
+import { useSnapshot } from "valtio";
 
-import { sendSelectIdleCmdResponse } from "@/api/ocgcore/ocgHelper";
-import { fetchStrings } from "@/api/strings";
+import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
-import { useAppSelector } from "@/hook";
 import {
-  clearAllIdleInteractivities,
-  setCardModalIsOpen,
-} from "@/reducers/duel/mod";
-import {
-  selectCardModalCounters,
-  selectCardModalInteractivies,
-  selectCardModalIsOpen,
-  selectCardModalMeta,
-} from "@/reducers/duel/modal/mod";
-import { store } from "@/store";
+  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  messageStore,
+} from "@/stores";
 
 import {
   Attribute2StringCodeMap,
@@ -31,10 +23,18 @@ const NeosConfig = useConfig();
 const { Meta } = Card;
 const CARD_WIDTH = 240;
 
+const { cardModal } = messageStore;
+
 export const CardModal = () => {
-  const dispatch = store.dispatch;
-  const isOpen = useAppSelector(selectCardModalIsOpen);
-  const meta = useAppSelector(selectCardModalMeta);
+  const snapCardModal = useSnapshot(cardModal);
+
+  // const dispatch = store.dispatch;
+  // const isOpen = useAppSelector(selectCardModalIsOpen);
+  // const meta = useAppSelector(selectCardModalMeta);
+
+  const isOpen = snapCardModal.isOpen;
+  const meta = snapCardModal.meta;
+
   const name = meta?.text.name;
   const types = meta?.data.type;
   const race = meta?.data.race;
@@ -43,14 +43,17 @@ export const CardModal = () => {
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
-  const counters = useAppSelector(selectCardModalCounters);
+
+  // const counters = useAppSelector(selectCardModalCounters);
+  const counters = snapCardModal.counters;
+
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
-  const interactivies = useAppSelector(selectCardModalInteractivies);
+  const interactivies = snapCardModal.interactivies;
 
   const handleOkOrCancel = () => {
-    dispatch(setCardModalIsOpen(false));
+    cardModal.isOpen = false;
   };
 
   return (
@@ -76,9 +79,9 @@ export const CardModal = () => {
             key={idx}
             onClick={() => {
               sendSelectIdleCmdResponse(interactive.response);
-              dispatch(setCardModalIsOpen(false));
-              dispatch(clearAllIdleInteractivities(0));
-              dispatch(clearAllIdleInteractivities(1));
+              cardModal.isOpen = false;
+              clearAllIdleInteractivities(0);
+              clearAllIdleInteractivities(1);
             }}
           >
             {interactive.desc}

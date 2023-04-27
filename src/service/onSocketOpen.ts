@@ -2,7 +2,7 @@
  * 长连接建立事件订阅处理逻辑
  *
  * */
-import { sendJoinGame, sendPlayerInfo } from "@/api/ocgcore/ocgHelper";
+import { sendJoinGame, sendPlayerInfo } from "@/api";
 import { useConfig } from "@/config";
 
 const NeosConfig = useConfig();

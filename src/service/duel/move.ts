@@ -1,88 +1,47 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import MsgMove = ygopro.StocGameMessage.MsgMove;
-import { fetchBanishedZoneMeta } from "@/reducers/duel/banishedZoneSlice";
-import { fetchExtraDeckMeta } from "@/reducers/duel/extraDeckSlice";
-import { fetchGraveyardMeta } from "@/reducers/duel/graveyardSlice";
-import { insertHandMeta } from "@/reducers/duel/handsSlice";
-import { fetchMagicMeta } from "@/reducers/duel/magicSlice";
-import {
-  removeBanishedZone,
-  removeExtraDeck,
-  removeGraveyard,
-  removeHand,
-  removeMagic,
-  removeMonster,
-  removeOverlay,
-} from "@/reducers/duel/mod";
-import {
-  fetchMonsterMeta,
-  fetchOverlayMeta,
-} from "@/reducers/duel/monstersSlice";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { fetchOverlayMeta, store } from "@/stores";
+type MsgMove = ygopro.StocGameMessage.MsgMove;
 
 import { REASON_MATERIAL } from "../../common";
 
+const { matStore } = store;
+
 const OVERLAY_STACK: { code: number; sequence: number }[] = [];
 
-export default (move: MsgMove, dispatch: AppDispatch) => {
+export default (move: MsgMove) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
   const reason = move.reason;
 
+  // TODO: 如果后面做动画的话，要考虑DECK的情况。
+  // 现在不会对DECK做判断
+
   switch (from.location) {
-    case ygopro.CardZone.HAND: {
-      dispatch(removeHand([from.controler, from.sequence]));
-
-      break;
-    }
-    case ygopro.CardZone.MZONE: {
-      dispatch(
-        removeMonster({ controler: from.controler, sequence: from.sequence })
-      );
-
-      break;
-    }
+    case ygopro.CardZone.MZONE:
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        removeMagic({ controler: from.controler, sequence: from.sequence })
-      );
-
+      // 魔陷和怪兽需要清掉占用、清掉超量素材
+      const target = matStore.in(from.location).of(from.controler)[
+        from.sequence
+      ];
+      target.occupant = undefined;
+      target.overlay_materials = [];
       break;
     }
-    case ygopro.CardZone.GRAVE: {
-      dispatch(
-        removeGraveyard({ controler: from.controler, sequence: from.sequence })
-      );
-
-      break;
-    }
-    case ygopro.CardZone.REMOVED: {
-      dispatch(
-        removeBanishedZone({
-          controler: from.controler,
-          sequence: from.sequence,
-        })
-      );
-
-      break;
-    }
+    case ygopro.CardZone.REMOVED:
+    case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.HAND:
     case ygopro.CardZone.EXTRA: {
-      dispatch(
-        removeExtraDeck({ controler: from.controler, sequence: from.sequence })
-      );
-
+      // 其余区域就是在list删掉这张卡
+      matStore.in(from.location).of(from.controler).remove(from.sequence);
       break;
     }
+    // 仅仅去除超量素材
     case ygopro.CardZone.OVERLAY: {
-      dispatch(
-        removeOverlay({
-          controler: from.controler,
-          sequence: from.sequence,
-          overlaySequence: from.overlay_sequence,
-        })
-      );
-
+      const target = matStore.monsters.of(from.controler)[from.sequence];
+      if (target && target.overlay_materials) {
+        target.overlay_materials.splice(from.overlay_sequence, 1);
+      }
       break;
     }
     default: {
@@ -92,81 +51,28 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
   }
 
   switch (to.location) {
+    // @ts-ignore
     case ygopro.CardZone.MZONE: {
-      dispatch(
-        fetchMonsterMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          position: to.position,
-          code,
-        })
-      );
-
-      // 处理超量素材
+      // 设置超量素材
       const overlayMetarials = OVERLAY_STACK.splice(0, OVERLAY_STACK.length);
-      let sorted = overlayMetarials
+      const sorted = overlayMetarials
         .sort((a, b) => a.sequence - b.sequence)
         .map((overlay) => overlay.code);
-      dispatch(
-        fetchOverlayMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          overlayCodes: sorted,
-        })
-      );
-
-      break;
+      fetchOverlayMeta(to.controler, to.sequence, sorted);
+      // 设置Occupant，和魔陷区/其他区共用一个逻辑，特地不写break
     }
     case ygopro.CardZone.SZONE: {
-      dispatch(
-        fetchMagicMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          position: to.position,
-          code,
-        })
-      );
-
+      matStore
+        .in(to.location)
+        .of(to.controler)
+        .setOccupant(to.sequence, code, to.position);
       break;
     }
-    case ygopro.CardZone.GRAVE: {
-      dispatch(
-        fetchGraveyardMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          code,
-        })
-      );
-
-      break;
-    }
+    case ygopro.CardZone.REMOVED:
+    case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.EXTRA:
     case ygopro.CardZone.HAND: {
-      dispatch(
-        insertHandMeta({ controler: to.controler, sequence: to.sequence, code })
-      );
-
-      break;
-    }
-    case ygopro.CardZone.REMOVED: {
-      dispatch(
-        fetchBanishedZoneMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          code,
-        })
-      );
-
-      break;
-    }
-    case ygopro.CardZone.EXTRA: {
-      dispatch(
-        fetchExtraDeckMeta({
-          controler: to.controler,
-          sequence: to.sequence,
-          code,
-        })
-      );
-
+      matStore.in(to.location).of(to.controler).insert(to.sequence, code);
       break;
     }
     case ygopro.CardZone.OVERLAY: {
@@ -176,21 +82,12 @@ export default (move: MsgMove, dispatch: AppDispatch) => {
         OVERLAY_STACK.push({ code, sequence: to.overlay_sequence });
       } else {
         // 其他情况下，比如“宵星的机神 丁吉尔苏”的“补充超量素材”效果，直接更新状态中
-        dispatch(
-          fetchOverlayMeta({
-            controler: to.controler,
-            sequence: to.sequence,
-            overlayCodes: [code],
-            append: true,
-          })
-        );
+        fetchOverlayMeta(to.controler, to.sequence, [code], true);
       }
-
       break;
     }
     default: {
       console.log(`Unhandled zone type ${to.location}`);
-
       break;
     }
   }

@@ -1,15 +1,9 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { fetchEsHintMeta } from "@/reducers/duel/hintSlice";
-import { AppDispatch } from "@/store";
+import { ygopro } from "@/api";
+import { fetchEsHintMeta } from "@/stores";
 
-export default (
-  summoning: ygopro.StocGameMessage.MsgSummoning,
-  dispatch: AppDispatch
-) => {
-  dispatch(
-    fetchEsHintMeta({
-      originMsg: "「[?]」通常召唤宣言时",
-      cardID: summoning.code,
-    })
-  );
+export default (summoning: ygopro.StocGameMessage.MsgSummoning) => {
+  fetchEsHintMeta({
+    originMsg: "「[?]」通常召唤宣言时",
+    cardID: summoning.code,
+  });
 };

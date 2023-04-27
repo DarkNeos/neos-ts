@@ -51,15 +51,14 @@ export interface CardText {
  * */
 export async function fetchCard(
   id: number,
-  local?: boolean
+  local: boolean = true
 ): Promise<CardMeta> {
   if (local) {
-    return await sqliteMiddleWare({
+    const res = await sqliteMiddleWare({
       cmd: sqliteCmd.SELECT,
       payload: { id },
-    }).then((res) =>
-      res.selectResult ? res.selectResult : { id, data: {}, text: {} }
-    );
+    });
+    return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
   }
   const res = await axios.get<CardMeta>("http://localhost:3030/cards/" + id);
 

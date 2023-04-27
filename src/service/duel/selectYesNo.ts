@@ -1,13 +1,12 @@
-import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-import { setYesNoModalIsOpen } from "@/reducers/duel/mod";
-import { fetchYesNoMetaWithEffecDesc } from "@/reducers/duel/modal/yesNoModalSlice";
-import { AppDispatch } from "@/store";
-import MsgSelectYesNo = ygopro.StocGameMessage.MsgSelectYesNo;
+import { getStrings, ygopro } from "@/api";
+import { messageStore } from "@/stores";
 
-export default (selectYesNo: MsgSelectYesNo, dispatch: AppDispatch) => {
+type MsgSelectYesNo = ygopro.StocGameMessage.MsgSelectYesNo;
+
+export default async (selectYesNo: MsgSelectYesNo) => {
   const player = selectYesNo.player;
   const effect_description = selectYesNo.effect_description;
 
-  dispatch(fetchYesNoMetaWithEffecDesc(effect_description));
-  dispatch(setYesNoModalIsOpen(true));
+  messageStore.yesNoModal.msg = await getStrings(effect_description);
+  messageStore.yesNoModal.isOpen = true;
 };
