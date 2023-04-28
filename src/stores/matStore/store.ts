@@ -24,11 +24,17 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   public __proto__ = CardArray.prototype;
   public zone: ygopro.CardZone = ygopro.CardZone.MZONE;
   public getController: () => number = () => 1;
-  private genCard = async (controller: number, id: number) => ({
+  private genCard = async (
+    controller: number,
+    id: number,
+    position?: ygopro.CardPosition
+  ) => ({
     occupant: await fetchCard(id, true),
     location: {
       controler: controller,
       location: this.zone,
+      position:
+        position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
     counters: {},
     idleInteractivities: [],
@@ -37,13 +43,13 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   remove(sequence: number) {
     this.splice(sequence, 1);
   }
-  async insert(sequence: number, id: number) {
-    const card = await this.genCard(this.getController(), id);
+  async insert(sequence: number, id: number, position?: ygopro.CardPosition) {
+    const card = await this.genCard(this.getController(), id, position);
     this.splice(sequence, 0, card);
   }
-  async add(ids: number[]) {
+  async add(ids: number[], position?: ygopro.CardPosition) {
     const cards = await Promise.all(
-      ids.map(async (id) => this.genCard(this.getController(), id))
+      ids.map(async (id) => this.genCard(this.getController(), id, position))
     );
     this.splice(this.length, 0, ...cards);
   }

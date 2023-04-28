@@ -25,7 +25,13 @@ import rustInit from "rust-src";
 import { useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
-import { initStrings, sendHsReady, sendHsStart, sendUpdateDeck } from "@/api";
+import {
+  initStrings,
+  sendHsReady,
+  sendHsStart,
+  sendUpdateDeck,
+  ygopro,
+} from "@/api";
 import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
 import { useConfig } from "@/config";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
@@ -137,7 +143,10 @@ const WaitRoom = () => {
 
   const onDeckReady = async (deck: IDeck) => {
     sendUpdateDeck(deck);
-    store.matStore.extraDecks.me.add(deck.extra?.reverse() || []);
+    store.matStore.extraDecks.me.add(
+      deck.extra?.reverse() || [],
+      ygopro.CardPosition.FACEDOWN_ATTACK
+    );
     setChoseDeck(true);
   };
 

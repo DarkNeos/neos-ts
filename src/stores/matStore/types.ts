@@ -15,10 +15,14 @@ export interface BothSide<T> {
 export interface DuelFieldState extends Array<CardState> {
   /** 移除特定位置的卡片 */
   remove: (sequence: number) => void;
-  /** 在末尾添加卡片 */
-  insert: (sequence: number, id: number) => Promise<void>;
   /** 在指定位置插入卡片 */
-  add: (ids: number[]) => Promise<void>;
+  insert: (
+    id: number,
+    sequence: number,
+    position?: ygopro.CardPosition
+  ) => Promise<void>;
+  /** 在末尾添加卡片 */
+  add: (ids: number[], position?: ygopro.CardPosition) => Promise<void>;
   /** 设置占据这个位置的卡片信息 */
   setOccupant: (
     sequence: number,
