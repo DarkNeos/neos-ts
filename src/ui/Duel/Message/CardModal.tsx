@@ -28,10 +28,6 @@ const { cardModal } = messageStore;
 export const CardModal = () => {
   const snapCardModal = useSnapshot(cardModal);
 
-  // const dispatch = store.dispatch;
-  // const isOpen = useAppSelector(selectCardModalIsOpen);
-  // const meta = useAppSelector(selectCardModalMeta);
-
   const isOpen = snapCardModal.isOpen;
   const meta = snapCardModal.meta;
 
