@@ -11,12 +11,12 @@ const MsgWin = ygopro.StocGameMessage.MsgWin;
 
 const NeosConfig = useConfig();
 export const HintNotification = () => {
-  const hintState = matStore.hint;
-  const hintSnap = useSnapshot(matStore.hint);
+  const snap = useSnapshot(matStore);
+  const hintState = snap.hint;
 
-  const currentPhase = matStore.phase.currentPhase;
-  const waiting = matStore.waiting;
-  const result = matStore.result;
+  const currentPhase = snap.phase.currentPhase;
+  const waiting = snap.waiting;
+  const result = snap.result;
 
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ export const HintNotification = () => {
         placement: "bottom",
       });
     }
-  }, [hintSnap?.msg]);
+  }, [hintState.msg]);
 
   useEffect(() => {
     if (currentPhase) {
