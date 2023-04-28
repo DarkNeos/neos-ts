@@ -19,7 +19,8 @@ const {
 
 const Mora = () => {
   const snapMora = useSnapshot(moraStore);
-  const snapMatInitInfo = useSnapshot(matStore.initInfo);
+  const snapMat = useSnapshot(matStore);
+  const meLife = snapMat.initInfo.me.life;
 
   const selectHandAble = snapMora.selectHandAble;
   const selectTpAble = snapMora.selectTpAble;
@@ -42,10 +43,10 @@ const Mora = () => {
 
   useEffect(() => {
     // 若对局已经开始，自动跳转
-    if (snapMatInitInfo.me.life > 0) {
+    if (meLife > 0) {
       navigate(`/duel/${player}/${passWd}/${ip}`);
     }
-  }, [snapMatInitInfo.me]);
+  }, [meLife]);
 
   useEffect(() => {
     if (isAiMode) {
