@@ -3,9 +3,9 @@ import "@/styles/mat.css";
 import React from "react";
 import { useSnapshot } from "valtio";
 
-import { DuelFieldState, matStore } from "@/stores";
+import { CardState, DuelFieldState, matStore } from "@/stores";
 
-import { Block } from "./Block";
+import { BlockRow, ExtraBlockRow } from "./Block";
 import { Menu } from "./Menu";
 
 export const Mat = () => {
@@ -22,16 +22,14 @@ export const Mat = () => {
       </div>
       <div id="camera">
         <div id="board">
-          <div id="borad-bg">
+          <div id="board-bg">
             <BlockRow states={magics.op.slice(0, 5) as DuelFieldState} />
             <BlockRow states={monsters.op.slice(0, 5) as DuelFieldState} />
-            <BlockRow
-              states={monsters.op.slice(5, 7) as DuelFieldState}
-              isExtra={true}
-            />
-            <BlockRow
-              states={monsters.me.slice(5, 7) as DuelFieldState}
-              isExtra={true}
+            <ExtraBlockRow
+              meLeft={monsters.me[5] as CardState}
+              meRight={monsters.me[6] as CardState}
+              opLeft={monsters.op[5] as CardState}
+              opRight={monsters.op[6] as CardState}
             />
             <BlockRow states={monsters.me.slice(0, 5) as DuelFieldState} />
             <BlockRow states={magics.me.slice(0, 5) as DuelFieldState} />
@@ -41,23 +39,3 @@ export const Mat = () => {
     </>
   );
 };
-
-function BlockRow<T extends DuelFieldState>(props: {
-  states: T;
-  isExtra?: boolean;
-}) {
-  return (
-    <div className="block-row">
-      {props.states.map((block, idx) => (
-        <Block
-          key={idx}
-          isExtra={props.isExtra}
-          highlight={block.placeInteractivity !== undefined}
-          onClick={() => {
-            // TODO
-          }}
-        />
-      ))}
-    </div>
-  );
-}
