@@ -41,21 +41,21 @@ export const Mat = () => {
   const filter = (state: CardState) => state.occupant !== undefined;
 
   const renderCards: RenderCard[] = monsters.me
-    .filter(filter)
     .map(mapper())
-    .concat(monsters.op.filter(filter).map(mapper(true)))
-    .concat(magics.me.filter(filter).map(mapper()))
-    .concat(magics.op.filter(filter).map(mapper(true)))
-    .concat(hands.me.filter(filter).map(mapper()))
-    .concat(hands.op.filter(filter).map(mapper(true)))
-    .concat(grave.me.filter(filter).map(mapper()))
-    .concat(grave.op.filter(filter).map(mapper(true)))
-    .concat(banished.me.filter(filter).map(mapper()))
-    .concat(banished.op.filter(filter).map(mapper(true)))
-    .concat(deck.me.filter(filter).map(mapper()))
-    .concat(deck.op.filter(filter).map(mapper(true)))
-    .concat(extraDeck.me.filter(filter).map(mapper()))
-    .concat(extraDeck.op.filter(filter).map(mapper(true)));
+    .filter(filter)
+    .concat(monsters.op.map(mapper(true)).filter(filter))
+    .concat(magics.me.map(mapper()).filter(filter))
+    .concat(magics.op.map(mapper(true)).filter(filter))
+    .concat(hands.me.map(mapper()).filter(filter))
+    .concat(hands.op.map(mapper(true)).filter(filter))
+    .concat(grave.me.map(mapper()).filter(filter))
+    .concat(grave.op.map(mapper(true)).filter(filter))
+    .concat(banished.me.map(mapper()).filter(filter))
+    .concat(banished.op.map(mapper(true)).filter(filter))
+    .concat(deck.me.map(mapper()).filter(filter))
+    .concat(deck.op.map(mapper(true)).filter(filter))
+    .concat(extraDeck.me.map(mapper()).filter(filter))
+    .concat(extraDeck.op.map(mapper(true)).filter(filter));
 
   renderCards.sort((card_a, card_b) => (card_a.uuid > card_b.uuid ? 1 : 0));
 
