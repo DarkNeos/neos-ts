@@ -84,9 +84,6 @@ export const ExtraBlockRow: React.FC<{
         opLeft.placeInteractivity !== undefined
       }
       isExtra={true}
-      onClick={() => {
-        // TODO
-      }}
     />
     <Block
       highlight={

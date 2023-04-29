@@ -60,39 +60,6 @@ export const Mat = () => {
 
   renderCards.sort((card_a, card_b) => (card_a.uuid > card_b.uuid ? 1 : 0));
 
-  const onClick = (state: CardState) => () => {
-    const zone = state.location.zone;
-    if (
-      zone == YgoZone.HAND ||
-      zone == YgoZone.MZONE ||
-      zone == YgoZone.SZONE
-    ) {
-      const occupant = state.occupant;
-      if (occupant) {
-        // 中央弹窗展示选中卡牌信息
-        messageStore.cardModal.meta = occupant;
-        messageStore.cardModal.interactivies = state.idleInteractivities.map(
-          (interactivity) => ({
-            desc: interactTypeToString(interactivity.interactType),
-            response: interactivity.response,
-          })
-        );
-        messageStore.cardModal.counters = state.counters;
-        messageStore.cardModal.isOpen = true;
-
-        // 侧边栏展示超量素材信息
-        if (state.overlay_materials && state.overlay_materials.length > 0) {
-          messageStore.cardListModal.list =
-            state.overlay_materials?.map((overlay) => ({
-              meta: overlay,
-              interactivies: [],
-            })) || [];
-          messageStore.cardListModal.isOpen = true;
-        }
-      }
-    }
-  };
-
   return (
     <>
       <Menu />
@@ -136,7 +103,7 @@ export const Mat = () => {
               vertical={card.location.zone == YgoZone.HAND}
               highlight={card.idleInteractivities.length > 0}
               opponent={card.opponent}
-              onClick={onClick(card)}
+              onClick={onCardClick(card)}
             />
           ))}
         </div>
@@ -258,3 +225,32 @@ function CardStateToFaceDown(state: RenderCard): boolean {
     state.occupant!.id == 0
   );
 }
+
+const onCardClick = (state: CardState) => () => {
+  const zone = state.location.zone;
+  if (zone == YgoZone.HAND || zone == YgoZone.MZONE || zone == YgoZone.SZONE) {
+    const occupant = state.occupant;
+    if (occupant) {
+      // 中央弹窗展示选中卡牌信息
+      messageStore.cardModal.meta = occupant;
+      messageStore.cardModal.interactivies = state.idleInteractivities.map(
+        (interactivity) => ({
+          desc: interactTypeToString(interactivity.interactType),
+          response: interactivity.response,
+        })
+      );
+      messageStore.cardModal.counters = state.counters;
+      messageStore.cardModal.isOpen = true;
+
+      // 侧边栏展示超量素材信息
+      if (state.overlay_materials && state.overlay_materials.length > 0) {
+        messageStore.cardListModal.list =
+          state.overlay_materials?.map((overlay) => ({
+            meta: overlay,
+            interactivies: [],
+          })) || [];
+        messageStore.cardListModal.isOpen = true;
+      }
+    }
+  }
+};
