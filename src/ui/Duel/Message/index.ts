@@ -8,7 +8,6 @@ export * from "./CheckCounterModal";
 export * from "./DragModal";
 export * from "./HintNotification";
 export * from "./OptionModal";
-export * from "./Phase";
 export * from "./PositionModal";
 export * from "./SendBox";
 export * from "./SortCardModal";
