@@ -32,7 +32,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     occupant: await fetchCard(id, true),
     location: {
       controler: controller,
-      location: this.zone,
+      zone: this.zone,
       position:
         position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
@@ -127,12 +127,12 @@ const isMe = (controller: number): boolean => {
 /**
  * 生成一个指定长度的卡片数组
  */
-const genBlock = (location: ygopro.CardZone, n: number) =>
+const genBlock = (zone: ygopro.CardZone, n: number) =>
   Array(n)
     .fill(null)
     .map((_) => ({
       location: {
-        location,
+        zone,
       },
       idleInteractivities: [],
       counters: {},

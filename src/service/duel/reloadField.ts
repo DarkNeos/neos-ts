@@ -42,7 +42,7 @@ function reloadDuelField(
     return {
       location: {
         controler: controller,
-        location: action.zone,
+        zone: action.zone,
         position: action.position,
       },
       idleInteractivities: [],

@@ -109,7 +109,7 @@ export interface CardState {
   occupant?: CardMeta; // 占据此位置的卡牌元信息
   location: {
     controler?: number; // 控制这个位置的玩家，0或1
-    location: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
+    zone: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
     position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
   }; // 位置信息，叫location的原因是为了和ygo对齐
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
@@ -121,6 +121,20 @@ export interface CardState {
   overlay_materials?: CardMeta[]; // 超量素材
   counters: { [type: number]: number }; // 指示器
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
+}
+
+export interface BlockState {
+  // 位置信息
+  location: {
+    controller: number;
+    zone: ygopro.CardZone;
+  };
+  // 选择位置状态下的互动信息
+  placeInteractivity?: Interactivity<{
+    controler: number;
+    zone: ygopro.CardZone;
+    sequence: number;
+  }>;
 }
 
 export interface Interactivity<T> {
