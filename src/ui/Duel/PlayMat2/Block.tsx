@@ -3,8 +3,12 @@ import "@/styles/mat.css";
 import classnames from "classnames";
 import React, { MouseEventHandler } from "react";
 
-import { CardState, clearAllPlaceInteradtivities, DuelFieldState } from "@/stores";
 import { sendSelectPlaceResponse } from "@/api";
+import {
+  CardState,
+  clearAllPlaceInteradtivities,
+  DuelFieldState,
+} from "@/stores";
 
 export const Block: React.FC<{
   isExtra?: boolean;
@@ -44,7 +48,9 @@ export function BlockRow<T extends DuelFieldState>(props: {
       {props.leftState ? (
         <Block
           highlight={props.leftState.placeInteractivity !== undefined}
-          onClick={() => {onBlockClick(props.leftState!);}}
+          onClick={() => {
+            onBlockClick(props.leftState!);
+          }}
           outerLeft
         />
       ) : (
@@ -87,12 +93,10 @@ export const ExtraBlockRow: React.FC<{
         opLeft.placeInteractivity !== undefined
       }
       isExtra={true}
-      onClick={
-        () => {
-          onBlockClick(meLeft);
-          onBlockClick(opLeft);
-        }
-      }
+      onClick={() => {
+        onBlockClick(meLeft);
+        onBlockClick(opLeft);
+      }}
     />
     <Block
       highlight={
@@ -100,12 +104,10 @@ export const ExtraBlockRow: React.FC<{
         opRight.placeInteractivity !== undefined
       }
       isExtra={true}
-      onClick={
-        () => {
-          onBlockClick(meRight);
-          onBlockClick(opRight);
-        }
-      }
+      onClick={() => {
+        onBlockClick(meRight);
+        onBlockClick(opRight);
+      }}
     />
   </div>
 );
@@ -116,4 +118,4 @@ const onBlockClick = (state: CardState) => {
     clearAllPlaceInteradtivities(0);
     clearAllPlaceInteradtivities(1);
   }
-}
+};
