@@ -101,6 +101,7 @@ export const Mat = () => {
               facedown={CardStateToFaceDown(card)}
               vertical={card.location.zone == YgoZone.HAND}
               highlight={card.idleInteractivities.length > 0}
+              opponent={card.opponent}
             />
           ))}
         </div>
