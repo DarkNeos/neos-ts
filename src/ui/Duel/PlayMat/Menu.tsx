@@ -1,5 +1,7 @@
+import "@/styles/mat.css";
+
 import Icon from "@ant-design/icons";
-import { Button, Modal, Space } from "antd";
+import { Button, Modal } from "antd";
 import { ReactComponent as BattleSvg } from "neos-assets/crossed-swords.svg";
 import { ReactComponent as EpSvg } from "neos-assets/power-button.svg";
 import { ReactComponent as Main2Svg } from "neos-assets/sword-in-stone.svg";
@@ -18,7 +20,6 @@ import {
 } from "@/stores";
 
 const IconSize = "150%";
-const SpaceSize = 16;
 
 const PhaseButton = (props: {
   text: string;
@@ -40,7 +41,7 @@ const PhaseButton = (props: {
 
 const { phase } = matStore;
 
-export const Phase = () => {
+export const Menu = () => {
   const snapPhase = useSnapshot(phase);
   const enableBp = snapPhase.enableBp;
   const enableM2 = snapPhase.enableM2;
@@ -81,7 +82,7 @@ export const Phase = () => {
   };
 
   return (
-    <Space wrap size={SpaceSize}>
+    <div id="controller">
       <PhaseButton
         icon={<Icon component={BattleSvg} style={{ fontSize: IconSize }} />}
         enable={enableBp}
@@ -130,6 +131,6 @@ export const Phase = () => {
           </>
         }
       />
-    </Space>
+    </div>
   );
 };

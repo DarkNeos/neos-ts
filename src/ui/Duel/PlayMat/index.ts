@@ -1,10 +1,3 @@
-export * from "./BanishedZone";
-export * from "./Deck";
-export * from "./ExtraDeck";
-export * from "./Field";
-export * from "./FixedSlot";
-export * from "./Graveyard";
-export * from "./Hands";
-export * from "./Magics";
-export * from "./Monsters";
-export * from "./SingleSlot";
+import { Mat } from "./Mat";
+
+export default Mat;

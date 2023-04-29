@@ -1,4 +1,5 @@
 import { cloneDeep } from "lodash-es";
+import { v4 as v4uuid } from "uuid";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
@@ -25,14 +26,16 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   public zone: ygopro.CardZone = ygopro.CardZone.MZONE;
   public getController: () => number = () => 1;
   private genCard = async (
+    uuid: string,
     controller: number,
     id: number,
     position?: ygopro.CardPosition
   ) => ({
+    uuid,
     occupant: await fetchCard(id, true),
     location: {
       controler: controller,
-      location: this.zone,
+      zone: this.zone,
       position:
         position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
@@ -41,15 +44,25 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   });
   // methods
   remove(sequence: number) {
-    this.splice(sequence, 1);
+    return this.splice(sequence, 1)[0];
   }
-  async insert(sequence: number, id: number, position?: ygopro.CardPosition) {
-    const card = await this.genCard(this.getController(), id, position);
+  async insert(
+    uuid: string,
+    id: number,
+    sequence: number,
+    position?: ygopro.CardPosition
+  ) {
+    const card = await this.genCard(uuid, this.getController(), id, position);
     this.splice(sequence, 0, card);
   }
-  async add(ids: number[], position?: ygopro.CardPosition) {
+  async add(
+    data: { uuid: string; id: number }[],
+    position?: ygopro.CardPosition
+  ) {
     const cards = await Promise.all(
-      ids.map(async (id) => this.genCard(this.getController(), id, position))
+      data.map(async ({ uuid, id }) =>
+        this.genCard(uuid, this.getController(), id, position)
+      )
     );
     this.splice(this.length, 0, ...cards);
   }
@@ -127,12 +140,13 @@ const isMe = (controller: number): boolean => {
 /**
  * 生成一个指定长度的卡片数组
  */
-const genBlock = (location: ygopro.CardZone, n: number) =>
+const genBlock = (zone: ygopro.CardZone, n: number) =>
   Array(n)
     .fill(null)
     .map((_) => ({
+      uuid: v4uuid(), // WARN: 这里其实应该不分配UUID
       location: {
-        location,
+        zone,
       },
       idleInteractivities: [],
       counters: {},

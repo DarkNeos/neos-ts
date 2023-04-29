@@ -22,6 +22,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
+import { v4 as v4uuid } from "uuid";
 import { useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
@@ -144,7 +145,9 @@ const WaitRoom = () => {
   const onDeckReady = async (deck: IDeck) => {
     sendUpdateDeck(deck);
     store.matStore.extraDecks.me.add(
-      deck.extra?.reverse() || [],
+      (deck.extra?.reverse() || []).map((id) => {
+        return { uuid: v4uuid(), id };
+      }),
       ygopro.CardPosition.FACEDOWN_ATTACK
     );
     setChoseDeck(true);
