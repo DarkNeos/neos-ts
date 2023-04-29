@@ -1,12 +1,13 @@
 import "@/styles/mat.css";
 
 import classnames from "classnames";
-import React from "react";
+import React, { MouseEventHandler } from "react";
 
 export const Block: React.FC<{
   isExtra?: boolean;
   highlight?: boolean;
-}> = ({ isExtra = false, highlight = false }) => (
+  onClick?: MouseEventHandler;
+}> = ({ isExtra = false, highlight = false, onClick }) => (
   <div
     className={classnames("block", {
       "block-extra": isExtra,
@@ -16,5 +17,6 @@ export const Block: React.FC<{
         "--highlight-on": highlight ? 1 : 0,
       } as any
     }
+    onClick={onClick}
   />
 );
