@@ -1,1 +1,3 @@
-export * from "./Mat";
+import { Mat } from "./Mat";
+
+export default Mat;
