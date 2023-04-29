@@ -1,0 +1,190 @@
+:root {
+  --perspective: 800px;
+  --scale: 1.35;
+  --board-rotate-z: 20deg;
+  --block-width: calc(80px * var(--scale));
+  --block-height: calc(80px * var(--scale));
+  --block-column-gap: calc(10px * var(--scale));
+  --block-row-gap: calc(10px * var(--scale));
+  --card-w-l-ratio: calc(5.9 / 8.6);
+  --deck-offset-x: calc(90px * var(--scale));
+  --deck-offset-y: calc(45px * var(--scale));
+  --deck-rotate-z: 30deg;
+  --opponent-deg: 180deg;
+  --hand-rotate: calc(var(--board-rotate-z) * -1);
+  --highlight-interval: 800ms;
+  --highlight-color-x: #393;
+  --highlight-color-y: #6f6;
+}
+#camera {
+  perspective: var(--perspective);
+  transform-style: preserve-3d;
+}
+#board {
+  perspective-origin: center center;
+  transform: translateX(0) translateY(0) translateZ(0)
+    rotateX(var(--board-rotate-z));
+  transform-style: preserve-3d;
+  position: relative;
+}
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  --trans-time: 0.3s;
+  transition: var(--trans-time);
+  aspect-ratio: var(--card-w-l-ratio);
+  background-color: skyblue;
+  background: var(--card-img);
+  background-size: cover;
+  height: var(--block-height);
+  --x-margin-left: calc(
+    var(--c) * calc(var(--block-width) + var(--block-column-gap))
+  );
+  --x-padding: calc(
+    (var(--block-width) - var(--block-height) * var(--card-w-l-ratio)) / 2
+  );
+  --x: calc(var(--x-margin-left) + var(--x-padding));
+  --y: calc(var(--r) * calc(var(--block-height) + var(--block-row-gap)));
+  --z: calc(var(--h) * 1px);
+  transform: translateZ(var(--z)) rotateX(calc(var(--hand-rotate) * var(--vertical)));
+  translate: var(--x) var(--y);
+  rotate: var(--opponent-deg);
+  transform-style: preserve-3d;
+  z-index: 10;
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+}
+
+.card-defense {
+  --height: var(--block-width);
+  height: calc(var(--height));
+  --x-margin-left: calc(
+    var(--c) * calc(var(--block-width) + var(--block-column-gap))
+  );
+  --x-padding: calc(
+    (var(--block-width) - var(--height) * var(--card-w-l-ratio)) / 2
+  );
+  --y-margin-top: calc(
+    var(--r) * calc(var(--block-height) + var(--block-row-gap))
+  );
+  --y-padding: calc((var(--block-height) - var(--height)) / 2);
+  --x: calc(var(--x-margin-left) + var(--x-padding));
+  --y: calc(var(--y-margin-top) + var(--y-padding));
+  --z: calc(var(--h) * 1px);
+  transform: translateZ(var(--z));
+  translate: var(--x) var(--y);
+  rotate: calc(90deg + var(--opponent-deg));
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+}
+
+.card::after {
+  z-index: 9;
+  /* opacity: var(--shadow); */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0000003f;
+  filter: blur(5px);
+  transform: translateZ(calc(-1 * var(--z)));
+}
+
+.card:hover {
+  animation: glow-hover var(--highlight-interval) ease-out infinite alternate;
+}
+
+.block {
+  width: var(--block-width);
+  height: var(--block-height);
+  background-color: #333;
+  cursor: pointer;
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+}
+
+.block-extra {
+  margin-left: calc(var(--block-width) + var(--block-column-gap));
+}
+
+.block-row {
+  display: flex;
+  gap: var(--block-column-gap);
+}
+
+#board-bg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-row-gap);
+  transform-style: preserve-3d;
+}
+
+@keyframes animation-fly {
+  0% {
+    transform: translateZ(1px);
+  }
+  50% {
+    transform: translateZ(80px);
+  }
+  100% {
+    transform: translateZ(1px);
+  }
+}
+
+@keyframes animation-fly-shadow {
+  0% {
+    transform: translateZ(0px);
+    /* background-color: #00000000; */
+  }
+  50% {
+    transform: translateZ(-80px);
+    /* background-color: #00000063; */
+  }
+  100% {
+    transform: translateZ(0px);
+    /* background-color: #00000000; */
+  }
+}
+
+.fly {
+  --trans-time: 0.3s;
+  animation: animation-fly var(--trans-time);
+  z-index: 10;
+}
+
+.fly::after {
+  --trans-time: 0.3s;
+  z-index: 9;
+  opacity: 1;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000063;
+  filter: blur(5px);
+  animation: animation-fly-shadow var(--trans-time) ease-out;
+}
+
+@keyframes glow {
+  0% {
+      border-color: var(--highlight-color-x);
+      box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 1px 0 #393;
+  }
+  100% {
+      border-color: var(--highlight-color-y);
+      box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 1px 0 #6f6;
+  }
+}
+
+@keyframes glow-hover {
+  0% {
+      border-color: #CBCC24;
+      box-shadow: 0 0 5px rgba(255,255,0,.2), inset 0 0 5px rgba(255,255,0,.1), 0 1px 0 #CBCC24;
+  }
+  100% {
+      border-color: #F0F224;
+      box-shadow: 0 0 20px rgba(255,255,0,.6), inset 0 0 10px rgba(255,255,0,.4), 0 1px 0 #F0F224;
+  }
+}
