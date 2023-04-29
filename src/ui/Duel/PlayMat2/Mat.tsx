@@ -24,14 +24,20 @@ export const Mat = () => {
         <div id="board">
           <div id="board-bg">
             <BlockRow states={magics.op.slice(0, 5) as DuelFieldState} />
-            <BlockRow states={monsters.op.slice(0, 5) as DuelFieldState} />
+            <BlockRow
+              states={monsters.op.slice(0, 5) as DuelFieldState}
+              rightState={magics.op[5] as CardState}
+            />
             <ExtraBlockRow
               meLeft={monsters.me[5] as CardState}
               meRight={monsters.me[6] as CardState}
               opLeft={monsters.op[5] as CardState}
               opRight={monsters.op[6] as CardState}
             />
-            <BlockRow states={monsters.me.slice(0, 5) as DuelFieldState} />
+            <BlockRow
+              states={monsters.me.slice(0, 5) as DuelFieldState}
+              leftState={magics.me[5] as CardState}
+            />
             <BlockRow states={magics.me.slice(0, 5) as DuelFieldState} />
           </div>
         </div>

@@ -165,6 +165,14 @@ button:focus-visible {
   gap: var(--block-column-gap);
 }
 
+.block-left {
+  margin-left: calc((var(--block-width) + var(--block-column-gap)) * -1);
+}
+
+.block-right {
+  margin-right: calc((var(--block-width) + var(--block-column-gap)) * -1);
+}
+
 #board-bg {
   display: flex;
   flex-direction: column;

@@ -9,10 +9,20 @@ export const Block: React.FC<{
   isExtra?: boolean;
   highlight?: boolean;
   onClick?: MouseEventHandler;
-}> = ({ isExtra = false, highlight = false, onClick }) => (
+  outerLeft?: boolean;
+  outerRight?: boolean;
+}> = ({
+  isExtra = false,
+  highlight = false,
+  onClick,
+  outerLeft = false,
+  outerRight = false,
+}) => (
   <div
     className={classnames("block", {
       "block-extra": isExtra,
+      "block-left": outerLeft,
+      "block-right": outerRight,
     })}
     style={
       {
@@ -23,9 +33,22 @@ export const Block: React.FC<{
   />
 );
 
-export function BlockRow<T extends DuelFieldState>(props: { states: T }) {
+export function BlockRow<T extends DuelFieldState>(props: {
+  states: T;
+  leftState?: CardState;
+  rightState?: CardState;
+}) {
   return (
     <div className="block-row">
+      {props.leftState ? (
+        <Block
+          highlight={props.leftState.placeInteractivity !== undefined}
+          onClick={() => {}}
+          outerLeft
+        />
+      ) : (
+        <></>
+      )}
       {props.states.map((block, idx) => (
         <Block
           key={idx}
@@ -35,6 +58,15 @@ export function BlockRow<T extends DuelFieldState>(props: { states: T }) {
           }}
         />
       ))}
+      {props.rightState ? (
+        <Block
+          highlight={props.rightState.placeInteractivity !== undefined}
+          onClick={() => {}}
+          outerRight
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
