@@ -110,7 +110,7 @@ export const Mat = () => {
                   ? onCardClick(card)
                   : card.location.zone == YgoZone.DECK
                   ? () => {}
-                  : onFieldClick(renderCards, card.location.zone)
+                  : onFieldClick(renderCards, card)
               }
             />
           ))}
@@ -260,8 +260,12 @@ const onCardClick = (state: CardState) => () => {
   }
 };
 
-const onFieldClick = (states: Array<CardState>, zone: YgoZone) => () => {
-  const displayStates = states.filter((state) => state.location.zone == zone);
+const onFieldClick = (states: Array<CardState>, clicked: CardState) => () => {
+  const displayStates = states.filter(
+    (state) =>
+      state.location.zone == clicked.location.zone &&
+      state.location.controler === clicked.location.controler
+  );
 
   messageStore.cardListModal.list = displayStates.map((item) => ({
     meta: item.occupant,

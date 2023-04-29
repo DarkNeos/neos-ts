@@ -2,7 +2,6 @@ import { v4 as v4uuid } from "uuid";
 
 import { ygopro } from "@/api";
 import { store } from "@/stores";
-
 const { matStore } = store;
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
@@ -77,4 +76,9 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
       idleInteractivities: [],
     });
   }
+
+  // 在`WaitRoom`页面会设置自己的额外卡组，但那时候拿不到正确的`controller`值，因为不知道自己是先攻还是后手，因此这里需要重新为自己的额外卡组设置`controller`值
+  matStore
+    .in(ygopro.CardZone.EXTRA)
+    .me.forEach((state) => (state.location.controler = 1 - opponent));
 };
