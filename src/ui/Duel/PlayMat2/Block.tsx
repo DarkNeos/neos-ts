@@ -3,7 +3,8 @@ import "@/styles/mat.css";
 import classnames from "classnames";
 import React, { MouseEventHandler } from "react";
 
-import { CardState, DuelFieldState } from "@/stores";
+import { CardState, clearAllPlaceInteradtivities, DuelFieldState } from "@/stores";
+import { sendSelectPlaceResponse } from "@/api";
 
 export const Block: React.FC<{
   isExtra?: boolean;
@@ -43,7 +44,7 @@ export function BlockRow<T extends DuelFieldState>(props: {
       {props.leftState ? (
         <Block
           highlight={props.leftState.placeInteractivity !== undefined}
-          onClick={() => {}}
+          onClick={() => {onBlockClick(props.leftState!);}}
           outerLeft
         />
       ) : (
@@ -54,14 +55,16 @@ export function BlockRow<T extends DuelFieldState>(props: {
           key={idx}
           highlight={block.placeInteractivity !== undefined}
           onClick={() => {
-            // TODO
+            onBlockClick(block);
           }}
         />
       ))}
       {props.rightState ? (
         <Block
           highlight={props.rightState.placeInteractivity !== undefined}
-          onClick={() => {}}
+          onClick={() => {
+            onBlockClick(props.rightState!);
+          }}
           outerRight
         />
       ) : (
@@ -84,6 +87,12 @@ export const ExtraBlockRow: React.FC<{
         opLeft.placeInteractivity !== undefined
       }
       isExtra={true}
+      onClick={
+        () => {
+          onBlockClick(meLeft);
+          onBlockClick(opLeft);
+        }
+      }
     />
     <Block
       highlight={
@@ -91,9 +100,20 @@ export const ExtraBlockRow: React.FC<{
         opRight.placeInteractivity !== undefined
       }
       isExtra={true}
-      onClick={() => {
-        // TODO
-      }}
+      onClick={
+        () => {
+          onBlockClick(meRight);
+          onBlockClick(opRight);
+        }
+      }
     />
   </div>
 );
+
+const onBlockClick = (state: CardState) => {
+  if (state.placeInteractivity) {
+    sendSelectPlaceResponse(state.placeInteractivity.response);
+    clearAllPlaceInteradtivities(0);
+    clearAllPlaceInteradtivities(1);
+  }
+}
