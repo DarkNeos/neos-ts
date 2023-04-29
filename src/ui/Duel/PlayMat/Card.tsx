@@ -7,6 +7,11 @@ import { useConfig } from "@/config";
 
 const NeosConfig = useConfig();
 
+const ASSETS_BASE =
+  import.meta.env.BASE_URL == "/"
+    ? NeosConfig.assetsPath
+    : import.meta.env.BASE_URL + NeosConfig.assetsPath;
+
 export const Card: React.FC<{
   code: number;
   row: number;
@@ -52,7 +57,7 @@ export const Card: React.FC<{
         "--trans-time": `${transTime}s`,
         "--highlight-on": highlight ? 1 : 0,
         "--card-img": facedown
-          ? `url(${NeosConfig.assetsPath + "/card_back.jpg"})`
+          ? `url(${ASSETS_BASE + "/card_back.jpg"})`
           : `url(${NeosConfig.cardImgUrl + "/" + code + ".jpg"})`,
         ...style,
       } as any
