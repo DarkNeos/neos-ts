@@ -14,15 +14,19 @@ export interface BothSide<T> {
  */
 export interface DuelFieldState extends Array<CardState> {
   /** 移除特定位置的卡片 */
-  remove: (sequence: number) => void;
+  remove: (sequence: number) => CardState;
   /** 在指定位置插入卡片 */
   insert: (
+    uuid: string,
     id: number,
     sequence: number,
     position?: ygopro.CardPosition
   ) => Promise<void>;
   /** 在末尾添加卡片 */
-  add: (ids: number[], position?: ygopro.CardPosition) => Promise<void>;
+  add: (
+    data: { uuid: string; id: number }[],
+    position?: ygopro.CardPosition
+  ) => Promise<void>;
   /** 设置占据这个位置的卡片信息 */
   setOccupant: (
     sequence: number,
@@ -106,6 +110,7 @@ export interface InitInfo {
  * 以后会更名为 BlockState
  */
 export interface CardState {
+  uuid: string; // 一张卡的唯一标识
   occupant?: CardMeta; // 占据此位置的卡牌元信息
   location: {
     controler?: number; // 控制这个位置的玩家，0或1
@@ -118,7 +123,7 @@ export interface CardState {
     zone: ygopro.CardZone;
     sequence: number;
   }>; // 选择位置状态下的互动信息
-  overlay_materials?: CardMeta[]; // 超量素材
+  overlay_materials?: CardMeta[]; // 超量素材, FIXME: 这里需要加上UUID
   counters: { [type: number]: number }; // 指示器
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
 }

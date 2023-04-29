@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { ygopro } from "@/api";
 import { matStore } from "@/stores";
 
@@ -40,6 +42,7 @@ function reloadDuelField(
   const cards = zoneActions.map((action) => {
     // FIXME: OVERLAY
     return {
+      uuid: uuidv4(), // 因为是重连，所以这里重新申请UUID
       location: {
         controler: controller,
         zone: action.zone,
