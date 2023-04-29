@@ -1,3 +1,8 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
 :root {
   --perspective: 800px;
   --scale: 1.35;
@@ -16,6 +21,54 @@
   --highlight-color-x: #393;
   --highlight-color-y: #6f6;
 }
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+#controller {
+  position: fixed;
+  display: flex;
+  gap: 20px;
+  bottom: 20px;
+  right: 20px;
+}
+
+#life-bar-container {
+  position: fixed;
+  display: flex;
+  gap: 20px;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5em;
+  font-weight: 500;
+  font-family: inherit;
+  flex-direction: column;
+}
+
+#life-bar {
+  padding: 0.8em 1.6em;
+  background-color: #A9A9A9;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  color: black;
+  opacity: .4;
+}
+
 #camera {
   perspective: var(--perspective);
   transform-style: preserve-3d;
