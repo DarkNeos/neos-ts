@@ -103,7 +103,15 @@ export const Mat = () => {
               vertical={card.location.zone == YgoZone.HAND}
               highlight={card.idleInteractivities.length > 0}
               opponent={card.opponent}
-              onClick={onCardClick(card)}
+              onClick={
+                card.location.zone == YgoZone.SZONE ||
+                card.location.zone == YgoZone.MZONE ||
+                card.location.zone == YgoZone.HAND
+                  ? onCardClick(card)
+                  : card.location.zone == YgoZone.DECK
+                  ? () => {}
+                  : onFieldClick(renderCards, card.location.zone)
+              }
             />
           ))}
         </div>
@@ -227,30 +235,41 @@ function CardStateToFaceDown(state: RenderCard): boolean {
 }
 
 const onCardClick = (state: CardState) => () => {
-  const zone = state.location.zone;
-  if (zone == YgoZone.HAND || zone == YgoZone.MZONE || zone == YgoZone.SZONE) {
-    const occupant = state.occupant;
-    if (occupant) {
-      // 中央弹窗展示选中卡牌信息
-      messageStore.cardModal.meta = occupant;
-      messageStore.cardModal.interactivies = state.idleInteractivities.map(
-        (interactivity) => ({
-          desc: interactTypeToString(interactivity.interactType),
-          response: interactivity.response,
-        })
-      );
-      messageStore.cardModal.counters = state.counters;
-      messageStore.cardModal.isOpen = true;
+  const occupant = state.occupant;
+  if (occupant) {
+    // 中央弹窗展示选中卡牌信息
+    messageStore.cardModal.meta = occupant;
+    messageStore.cardModal.interactivies = state.idleInteractivities.map(
+      (interactivity) => ({
+        desc: interactTypeToString(interactivity.interactType),
+        response: interactivity.response,
+      })
+    );
+    messageStore.cardModal.counters = state.counters;
+    messageStore.cardModal.isOpen = true;
 
-      // 侧边栏展示超量素材信息
-      if (state.overlay_materials && state.overlay_materials.length > 0) {
-        messageStore.cardListModal.list =
-          state.overlay_materials?.map((overlay) => ({
-            meta: overlay,
-            interactivies: [],
-          })) || [];
-        messageStore.cardListModal.isOpen = true;
-      }
+    // 侧边栏展示超量素材信息
+    if (state.overlay_materials && state.overlay_materials.length > 0) {
+      messageStore.cardListModal.list =
+        state.overlay_materials?.map((overlay) => ({
+          meta: overlay,
+          interactivies: [],
+        })) || [];
+      messageStore.cardListModal.isOpen = true;
     }
   }
+};
+
+const onFieldClick = (states: Array<CardState>, zone: YgoZone) => () => {
+  const displayStates = states.filter((state) => state.location.zone == zone);
+
+  messageStore.cardListModal.list = displayStates.map((item) => ({
+    meta: item.occupant,
+    interactivies: item.idleInteractivities.map((interactivy) => ({
+      desc: interactTypeToString(interactivy.interactType),
+      response: interactivy.response,
+    })),
+  }));
+
+  messageStore.cardListModal.isOpen = true;
 };
