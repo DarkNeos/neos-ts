@@ -47,7 +47,11 @@ export const CardListModal = () => {
             extra={
               <img
                 alt={item.meta?.text.name}
-                src={`${NeosConfig.cardImgUrl}/${item.meta?.id}.jpg`}
+                src={
+                  item.meta?.id
+                    ? `${NeosConfig.cardImgUrl}/${item.meta.id}.jpg`
+                    : `${NeosConfig.assetsPath}/card_back.jpg`
+                }
                 style={{ width: CARD_WIDTH }}
               />
             }
