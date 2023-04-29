@@ -10,6 +10,7 @@ import { BlockRow, ExtraBlockRow } from "./Block";
 import { Card } from "./Card";
 import { Menu } from "./Menu";
 import YgoZone = ygopro.CardZone;
+import YgoPosition = ygopro.CardPosition;
 
 type RenderCard = CardState & {
   sequence: number;
@@ -92,6 +93,14 @@ export const Mat = () => {
               row={cardStateToRow(card)}
               col={cardStateToCol(card)}
               hight={CardStateToHigh(card)}
+              defense={
+                card.location.position === YgoPosition.DEFENSE ||
+                card.location.position === YgoPosition.FACEDOWN_DEFENSE ||
+                card.location.position === YgoPosition.FACEUP_DEFENSE
+              }
+              facedown={CardStateToFaceDown(card)}
+              vertical={card.location.zone == YgoZone.HAND}
+              highlight={card.idleInteractivities.length > 0}
             />
           ))}
         </div>
@@ -200,4 +209,15 @@ function CardStateToHigh(state: RenderCard): number {
     default:
       return 0;
   }
+}
+
+function CardStateToFaceDown(state: RenderCard): boolean {
+  const position = state.location.position;
+
+  return (
+    position === YgoPosition.FACEDOWN ||
+    position === YgoPosition.FACEDOWN_ATTACK ||
+    position === YgoPosition.FACEDOWN_DEFENSE ||
+    state.occupant!.id == 0
+  );
 }
