@@ -102,7 +102,7 @@ button:focus-visible {
   --z: calc(var(--h) * 1px);
   transform: translateZ(var(--z)) rotateX(calc(var(--hand-rotate) * var(--vertical)));
   translate: var(--x) var(--y);
-  rotate: var(--opponent-deg);
+  rotate: calc(var(--opponent-deg) * (1 - var(--vertical)));
   transform-style: preserve-3d;
   z-index: 10;
   animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
