@@ -7,6 +7,10 @@ const { matStore } = store;
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
   matStore.selfType = start.playerType;
+  const opponent =
+    start.playerType == ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+      ? 1
+      : 0;
 
   matStore.initInfo.set(0, {
     life: start.life1,
@@ -25,7 +29,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   matStore.magics.of(1).forEach((x) => (x.location.controler = 1));
 
   for (let i = 0; i < start.deckSize1; i++) {
-    matStore.decks.of(0).push({
+    matStore.decks.me.push({
       uuid: v4uuid(),
       occupant: {
         id: 0,
@@ -33,7 +37,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         text: {},
       },
       location: {
-        controler: 0,
+        controler: 1 - opponent,
         zone: ygopro.CardZone.DECK,
       },
       counters: {},
@@ -41,7 +45,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     });
   }
   for (let i = 0; i < start.deckSize2; i++) {
-    matStore.decks.of(1).push({
+    matStore.decks.op.push({
       uuid: v4uuid(),
       occupant: {
         id: 0,
@@ -49,8 +53,25 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         text: {},
       },
       location: {
-        controler: 0,
+        controler: opponent,
         zone: ygopro.CardZone.DECK,
+      },
+      counters: {},
+      idleInteractivities: [],
+    });
+  }
+  // 初始化对手的额外卡组
+  for (let i = 0; i < start.extraSize2; i++) {
+    matStore.extraDecks.op.push({
+      uuid: v4uuid(),
+      occupant: {
+        id: 0,
+        data: {},
+        text: {},
+      },
+      location: {
+        controler: opponent,
+        zone: ygopro.CardZone.EXTRA,
       },
       counters: {},
       idleInteractivities: [],
