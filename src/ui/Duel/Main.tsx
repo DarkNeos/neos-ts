@@ -14,7 +14,7 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import Mat from "./PlayMat2";
+import Mat from "./PlayMat";
 
 const NeosDuel = () => {
   return (
