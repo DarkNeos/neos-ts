@@ -1,3 +1,5 @@
+import { v4 as v4uuid } from "uuid";
+
 import { ygopro } from "@/api";
 import { fetchOverlayMeta, store } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
@@ -27,6 +29,8 @@ export default (move: MsgMove) => {
       target.occupant = undefined;
       target.overlay_materials = [];
       uuid = target.uuid;
+      // 需要重新分配UUID
+      target.uuid = v4uuid();
       break;
     }
     case ygopro.CardZone.REMOVED:
@@ -69,6 +73,9 @@ export default (move: MsgMove) => {
         .in(to.location)
         .of(to.controler)
         .setOccupant(to.sequence, code, to.position);
+      if (uuid) {
+        matStore.in(to.location).of(to.controler)[to.sequence].uuid = uuid;
+      }
       break;
     }
     case ygopro.CardZone.REMOVED:
