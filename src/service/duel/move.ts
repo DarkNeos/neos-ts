@@ -72,13 +72,21 @@ export default (move: MsgMove) => {
     }
     case ygopro.CardZone.REMOVED:
     case ygopro.CardZone.GRAVE:
-    case ygopro.CardZone.EXTRA:
-    case ygopro.CardZone.HAND: {
+    case ygopro.CardZone.EXTRA: {
       if (uuid) {
         matStore
           .in(to.location)
           .of(to.controler)
           .insert(uuid, code, to.sequence, to.position);
+      }
+      break;
+    }
+    case ygopro.CardZone.HAND: {
+      if (uuid) {
+        matStore
+          .in(to.location)
+          .of(to.controler)
+          .insert(uuid, code, to.sequence);
       }
       break;
     }

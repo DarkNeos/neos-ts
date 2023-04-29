@@ -1,3 +1,5 @@
+import { v4 as v4uuid } from "uuid";
+
 import { ygopro } from "@/api";
 import { store } from "@/stores";
 
@@ -22,6 +24,36 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   matStore.magics.of(0).forEach((x) => (x.location.controler = 0));
   matStore.magics.of(1).forEach((x) => (x.location.controler = 1));
 
-  matStore.decks.of(0).add(Array(start.deckSize1).fill(0));
-  matStore.decks.of(1).add(Array(start.deckSize2).fill(0));
+  for (let i = 0; i < start.deckSize1; i++) {
+    matStore.decks.of(0).push({
+      uuid: v4uuid(),
+      occupant: {
+        id: 0,
+        data: {},
+        text: {},
+      },
+      location: {
+        controler: 0,
+        zone: ygopro.CardZone.DECK,
+      },
+      counters: {},
+      idleInteractivities: [],
+    });
+  }
+  for (let i = 0; i < start.deckSize2; i++) {
+    matStore.decks.of(1).push({
+      uuid: v4uuid(),
+      occupant: {
+        id: 0,
+        data: {},
+        text: {},
+      },
+      location: {
+        controler: 0,
+        zone: ygopro.CardZone.DECK,
+      },
+      counters: {},
+      idleInteractivities: [],
+    });
+  }
 };

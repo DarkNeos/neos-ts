@@ -155,9 +155,9 @@ function cardStateToCol(state: RenderCard): number {
       case YgoZone.EXTRA:
         return 5;
       case YgoZone.HAND:
-        return -state.sequence;
+        return 4 - state.sequence;
       case YgoZone.SZONE:
-        return state.sequence >= 5 ? 5 : -state.sequence;
+        return state.sequence >= 5 ? 5 : 4 - state.sequence;
       case YgoZone.DECK:
       case YgoZone.REMOVED:
       case YgoZone.GRAVE:
@@ -167,7 +167,7 @@ function cardStateToCol(state: RenderCard): number {
           ? state.sequence == 5
             ? 3
             : 1
-          : -state.sequence;
+          : 4 - state.sequence;
       default:
         return 0;
     }
@@ -215,9 +215,10 @@ function CardStateToFaceDown(state: RenderCard): boolean {
   const position = state.location.position;
 
   return (
-    position === YgoPosition.FACEDOWN ||
-    position === YgoPosition.FACEDOWN_ATTACK ||
-    position === YgoPosition.FACEDOWN_DEFENSE ||
+    ((position === YgoPosition.FACEDOWN ||
+      position === YgoPosition.FACEDOWN_ATTACK ||
+      position === YgoPosition.FACEDOWN_DEFENSE) &&
+      state.location.zone != YgoZone.HAND) ||
     state.occupant!.id == 0
   );
 }

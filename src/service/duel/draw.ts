@@ -9,11 +9,11 @@ export default (draw: ygopro.StocGameMessage.MsgDraw) => {
   const drawLength = draw.cards.length;
   const popCards = matStore.decks
     .of(draw.player)
-    .slice(deckLength - drawLength, drawLength);
+    .splice(deckLength - drawLength, drawLength);
 
   const data = zip(popCards, draw.cards).map(([pop, hand]) => {
     return { uuid: pop.uuid, id: hand };
   });
 
-  matStore.hands.of(draw.player).add(data);
+  matStore.hands.of(draw.player).add(data, ygopro.CardPosition.FACEUP_ATTACK);
 };
