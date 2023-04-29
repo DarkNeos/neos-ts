@@ -48,8 +48,8 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   }
   async insert(
     uuid: string,
-    sequence: number,
     id: number,
+    sequence: number,
     position?: ygopro.CardPosition
   ) {
     const card = await this.genCard(uuid, this.getController(), id, position);

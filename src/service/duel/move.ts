@@ -26,6 +26,7 @@ export default (move: MsgMove) => {
       ];
       target.occupant = undefined;
       target.overlay_materials = [];
+      uuid = target.uuid;
       break;
     }
     case ygopro.CardZone.REMOVED:
