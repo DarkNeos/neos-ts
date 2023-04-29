@@ -9,9 +9,9 @@ const NeosConfig = useConfig();
 
 export const Card: React.FC<{
   code: number;
-  row?: number;
-  col?: number;
-  hight?: number;
+  row: number;
+  col: number;
+  hight: number;
   opponent?: boolean;
   defense?: boolean;
   facedown?: boolean;
@@ -23,9 +23,9 @@ export const Card: React.FC<{
   style?: CSSProperties;
 }> = ({
   code,
-  row = 0,
-  col = 0,
-  hight = 1,
+  row,
+  col,
+  hight,
   defense = false,
   facedown = false,
   opponent = false,
