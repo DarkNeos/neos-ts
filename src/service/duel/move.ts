@@ -19,11 +19,19 @@ export default async (move: MsgMove) => {
   const to = move.to;
   const reason = move.reason;
 
-  const card = cardStore.at(from.location, from.controler, from.sequence);
-  card.zone = to.location;
-  card.sequence = to.sequence;
-  card.position = to.position;
-  card.code = code;
+  cardStore.move(
+    code,
+    {
+      zone: from.location,
+      controller: from.controler,
+      sequence: from.sequence,
+    },
+    {
+      zone: to.location,
+      controller: to.controler,
+      sequence: to.sequence,
+    }
+  );
 
   // FIXME: 考虑超量素材的情况
 
