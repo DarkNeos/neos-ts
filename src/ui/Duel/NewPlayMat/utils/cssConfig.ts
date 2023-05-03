@@ -24,7 +24,7 @@ export const matConfig = {
     value: 1500,
     unit: UNIT.PX,
   },
-  PLANE_ROTATE_Z: {
+  PLANE_ROTATE_X: {
     value: 20,
     unit: UNIT.DEG,
   },
@@ -51,5 +51,17 @@ export const matConfig = {
   CARD_RATIO: {
     value: 5.9 / 8.6,
     unit: UNIT.NONE,
+  },
+  HAND_MARGIN_TOP: {
+    value: 0,
+    unit: UNIT.PX,
+  },
+  HAND_CIRCLE_CENTER_OFFSET_Y: {
+    value: 800,
+    unit: UNIT.PX,
+  },
+  HAND_CARD_HEIGHT: {
+    value: 120,
+    unit: UNIT.PX,
   },
 };

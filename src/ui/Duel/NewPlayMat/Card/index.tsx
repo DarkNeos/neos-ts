@@ -12,12 +12,16 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
   ygopro.CardZone;
 
 const {
+  PLANE_ROTATE_X,
   BLOCK_WIDTH,
   BLOCK_HEIGHT_M,
   BLOCK_HEIGHT_S,
   CARD_RATIO,
   COL_GAP,
   ROW_GAP,
+  HAND_MARGIN_TOP,
+  HAND_CARD_HEIGHT,
+  HAND_CIRCLE_CENTER_OFFSET_Y,
 } = matConfig;
 
 export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
@@ -67,7 +71,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
             props.rotateZ,
           ],
           (x, y, z, rx, ry, rz) =>
-            `translate3d(${x}px, ${y}px, ${z}px) rotateZ(${rz}deg)`
+            `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rx}deg) rotateZ(${rz}deg)`
         ),
         height: props.height,
       }}
@@ -79,7 +83,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 });
 
 function calcCoordinate(
-  { zone, sequence, position, xyzMonster }: CardType,
+  { zone, sequence, position, xyzMonster, controller }: CardType,
   opponent: boolean
 ) {
   const res = {
@@ -142,7 +146,43 @@ function calcCoordinate(
       BLOCK_HEIGHT_M.value * Math.min(Math.max(0, row - 1), 3) +
       BLOCK_HEIGHT_S.value * Math.ceil(row / 4);
   }
-  console.log({ col, row });
+
+  if (zone === HAND && isMe(controller)) {
+    // 手卡会有很复杂的计算...
+    // 暂时先看成是我的手卡
+
+    const hand_circle_center_x =
+      (5 * BLOCK_WIDTH.value + 4 * COL_GAP.value) / 2;
+    const hand_circle_center_y =
+      2 * BLOCK_HEIGHT_M.value +
+      2 * BLOCK_HEIGHT_S.value +
+      4 * ROW_GAP.value +
+      HAND_MARGIN_TOP.value +
+      HAND_CARD_HEIGHT.value +
+      HAND_CIRCLE_CENTER_OFFSET_Y.value;
+    const hand_card_width = CARD_RATIO.value * HAND_CARD_HEIGHT.value;
+    const THETA =
+      2 *
+      Math.atan(
+        hand_card_width /
+          2 /
+          (HAND_CIRCLE_CENTER_OFFSET_Y.value + HAND_CARD_HEIGHT.value)
+      );
+    // 接下来计算每一张手卡
+    const hands_length = cardStore.at(HAND, controller).length;
+    const angle = (sequence - (hands_length - 1) / 2) * THETA;
+    const r = HAND_CIRCLE_CENTER_OFFSET_Y.value + HAND_CARD_HEIGHT.value / 2;
+    const negativeX = Math.sin(angle) * r - hand_card_width / 2;
+    const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT.value / 2;
+    const x = hand_circle_center_x + negativeX;
+    const y = hand_circle_center_y - negativeY;
+    res.translateX = x;
+    res.translateY = y;
+    res.translateZ = 50;
+    res.rotateZ = (angle * 180) / Math.PI;
+    res.rotateX = -PLANE_ROTATE_X.value;
+  }
+
   return res;
 }
 

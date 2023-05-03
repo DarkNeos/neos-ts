@@ -13,7 +13,7 @@ section#mat {
   }
   #plane {
     transform: translateX(0) translateY(0) translateZ(0)
-      rotateX(var(--plane-rotate-z));
+      rotateX(var(--plane-rotate-x));
     width: fit-content;
   }
 }

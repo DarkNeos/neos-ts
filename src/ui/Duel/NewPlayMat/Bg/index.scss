@@ -14,7 +14,7 @@ section#mat {
   .block {
     height: var(--block-height-m);
     width: var(--block-width);
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.447);
     &.extra {
       margin-inline: calc(var(--block-width) / 2 + var(--col-gap) / 2);
     }
