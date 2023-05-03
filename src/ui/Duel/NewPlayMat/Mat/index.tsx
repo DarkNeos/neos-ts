@@ -17,16 +17,14 @@ export const Mat: FC = () => {
       id="mat"
       style={{
         width: "100%",
-        // height: "100vh",
-        backgroundColor: "black",
         ...toCssProperties(matConfig),
       }}
     >
       <Plane>
         <Bg />
-        {snap.map((cardSnap, i) =>
-          cardSnap.zone ? <Card key={i} idx={i} /> : null
-        )}
+        {snap.map((cardSnap, i) => (
+          <Card key={i} idx={i} />
+        ))}
       </Plane>
     </section>
   );

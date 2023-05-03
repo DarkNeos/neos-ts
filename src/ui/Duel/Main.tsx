@@ -17,13 +17,15 @@ import Mat from "./PlayMat";
 import { Test } from "./Test";
 
 import { Mat as NewMat } from "./NewPlayMat";
+import { Menu } from "./NewPlayMat/Menu";
 
 const NeosDuel = () => {
   return (
     <>
       <Alert />
       {/* <Test /> */}
-      <Mat />
+      {/* <Mat /> */}
+      <Menu />
       <NewMat />
       <CardModal />
       <CardListModal />

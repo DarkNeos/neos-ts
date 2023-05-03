@@ -5,6 +5,7 @@ section#mat {
     row-gap: var(--row-gap);
     justify-content: center;
     align-items: center;
+    background-color: transparent;
     .bg-row {
       display: flex;
       column-gap: var(--col-gap);
@@ -14,7 +15,8 @@ section#mat {
   .block {
     height: var(--block-height-m);
     width: var(--block-width);
-    background-color: rgba(128, 128, 128, 0.447);
+    // background-color: rgba(128, 128, 128, 0.447);
+    box-shadow: 0 0 0 1px purple;
     &.extra {
       margin-inline: calc(var(--block-width) / 2 + var(--col-gap) / 2);
     }

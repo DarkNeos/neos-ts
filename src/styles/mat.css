@@ -155,7 +155,7 @@ button:focus-visible {
 .block {
   width: var(--block-width);
   height: var(--block-height);
-  background-color: #333;
+  /* background-color: #333; */
   cursor: pointer;
   animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out
     infinite alternate;

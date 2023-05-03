@@ -1,6 +1,6 @@
 section#mat {
   margin-top: 200px;
-  padding-top: 50px; // 先不管 后面调整
+  // padding-top: 50px; // 先不管 后面调整
   position: relative;
   #camera {
     height: 100%;
@@ -9,11 +9,11 @@ section#mat {
     justify-content: center;
     align-items: center;
     perspective: var(--perspective);
-    transform-style: preserve-3d;
   }
   #plane {
     transform: translateX(0) translateY(0) translateZ(0)
       rotateX(var(--plane-rotate-x));
     width: fit-content;
+    transform-style: preserve-3d;
   }
 }

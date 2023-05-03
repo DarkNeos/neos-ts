@@ -25,7 +25,7 @@ export const matConfig = {
     unit: UNIT.PX,
   },
   PLANE_ROTATE_X: {
-    value: 20,
+    value: 0,
     unit: UNIT.DEG,
   },
   BLOCK_WIDTH: {
@@ -57,11 +57,23 @@ export const matConfig = {
     unit: UNIT.PX,
   },
   HAND_CIRCLE_CENTER_OFFSET_Y: {
-    value: 800,
+    value: 2000,
     unit: UNIT.PX,
   },
   HAND_CARD_HEIGHT: {
     value: 120,
     unit: UNIT.PX,
+  },
+  DECK_OFFSET_X: {
+    value: 140,
+    unit: UNIT.PX,
+  },
+  DECK_OFFSET_Y: {
+    value: 80,
+    unit: UNIT.PX,
+  },
+  DECK_ROTATE_Z: {
+    value: 30,
+    unit: UNIT.DEG,
   },
 };
