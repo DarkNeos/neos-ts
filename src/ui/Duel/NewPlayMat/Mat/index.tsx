@@ -22,9 +22,11 @@ export const Mat: FC = () => {
     >
       <Plane>
         <Bg />
-        {snap.map((cardSnap, i) => (
-          <Card key={i} idx={i} />
-        ))}
+        <CardContainer>
+          {snap.map((cardSnap, i) => (
+            <Card key={i} idx={i} />
+          ))}
+        </CardContainer>
       </Plane>
     </section>
   );
@@ -34,4 +36,8 @@ const Plane: FC<PropsWithChildren> = ({ children }) => (
   <div id="camera">
     <div id="plane">{children}</div>
   </div>
+);
+
+const CardContainer: FC<PropsWithChildren> = ({ children }) => (
+  <div className="mat-card-container">{children}</div>
 );

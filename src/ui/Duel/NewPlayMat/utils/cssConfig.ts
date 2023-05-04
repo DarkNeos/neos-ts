@@ -76,4 +76,8 @@ export const matConfig = {
     value: 30,
     unit: UNIT.DEG,
   },
+  DECK_CARD_HEIGHT: {
+    value: 120,
+    unit: UNIT.PX,
+  },
 };

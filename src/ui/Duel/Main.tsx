@@ -14,7 +14,6 @@ import {
   YesNoModal,
 } from "./Message";
 import Mat from "./PlayMat";
-import { Test } from "./Test";
 
 import { Mat as NewMat } from "./NewPlayMat";
 import { Menu } from "./NewPlayMat/Menu";

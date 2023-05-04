@@ -1,8 +1,8 @@
 section#mat {
   .mat-card {
     position: absolute;
-    left: 0;
-    top: 0;
+    // left: 50%;
+    // top: 50%;
     --card-height: 100px;
     height: var(--card-height);
     aspect-ratio: var(--card-ratio);
@@ -12,7 +12,8 @@ section#mat {
       position: relative;
       height: 100%;
       width: 100%;
-      transform: rotateY(calc(var(--ry) * 1deg));
+      transform: translateZ(calc(var(--z) * 1px))
+        rotateY(calc(var(--ry) * 1deg));
       .card-cover,
       .card-back {
         width: 100%;

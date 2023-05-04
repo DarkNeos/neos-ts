@@ -1,5 +1,5 @@
 section#mat {
-  margin-top: 200px;
+  // margin-top: 200px;
   // padding-top: 50px; // 先不管 后面调整
   position: relative;
   #camera {
@@ -8,12 +8,26 @@ section#mat {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    perspective: var(--perspective);
+    // perspective: var(--perspective);
   }
   #plane {
     transform: translateX(0) translateY(0) translateZ(0)
       rotateX(var(--plane-rotate-x));
     width: fit-content;
-    transform-style: preserve-3d;
+
+    perspective: var(--perspective);
   }
+}
+
+.mat-card-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform-style: preserve-3d;
 }
