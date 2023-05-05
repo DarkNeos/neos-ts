@@ -59,7 +59,7 @@ Create merge requests in [gitlab repo](https://code.mycard.moe/mycard/Neos).
 Neos is developed in [mycard](https://mycard.moe/) community, join the [QQ Chat](https://github.com/DarkNeos/ygopro-doc/blob/main/assets/ygo_qq.png), where you can ask questions and make discussions.
 
 ## Why we develop Neos?
-- [Document](https://github.com/DarkNeos/ygopro-doc/blob/main/doc/progress/2022-07-01_2022-10-07.md) by the author
+- [Document](./docs/release-2023_02_19_CN.md) by the author
 - [Post](https://ygobbs.com/t/ygopro%E7%BD%91%E9%A1%B5%E7%89%88%E5%BC%80%E5%8F%91%E8%BF%9B%E5%B1%95/403397) in [ygobbs](https://ygobbs.com/) forum
 
 ## Updates
