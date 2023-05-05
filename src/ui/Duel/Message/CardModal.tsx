@@ -1,7 +1,6 @@
-import Icon, { StarOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Modal, Row } from "antd";
-import { ReactComponent as BattleSvg } from "neos-assets/battle-axe.svg";
-import { ReactComponent as DefenceSvg } from "neos-assets/checked-shield.svg";
+import "@/styles/card-modal.scss";
+
+import classnames from "classnames";
 import React from "react";
 import { useSnapshot } from "valtio";
 
@@ -19,104 +18,71 @@ import {
   Type2StringCodeMap,
 } from "../../../common";
 
-const NeosConfig = useConfig();
-const { Meta } = Card;
-const CARD_WIDTH = 240;
-
 const { cardModal } = messageStore;
+const NeosConfig = useConfig();
+const CARD_WIDTH = 200;
 
 export const CardModal = () => {
-  const snapCardModal = useSnapshot(cardModal);
+  const snap = useSnapshot(cardModal);
 
-  const isOpen = snapCardModal.isOpen;
-  const meta = snapCardModal.meta;
+  const isOpen = snap.isOpen;
+  const meta = snap.meta;
 
   const name = meta?.text.name;
   const types = meta?.data.type;
   const race = meta?.data.race;
   const attribute = meta?.data.attribute;
-  const level = meta?.data.level;
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
-
-  // const counters = useAppSelector(selectCardModalCounters);
-  const counters = snapCardModal.counters;
+  const counters = snap.counters;
 
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
-  const interactivies = snapCardModal.interactivies;
-
-  const handleOkOrCancel = () => {
-    cardModal.isOpen = false;
-  };
+  const interactivies = snap.interactivies;
 
   return (
-    <Modal open={isOpen} onOk={handleOkOrCancel} onCancel={handleOkOrCancel}>
-      <Card
-        hoverable
-        style={{ width: CARD_WIDTH }}
-        cover={<img alt={name} src={imgUrl} />}
-      >
-        <Meta title={name} />
+    <div
+      className={classnames("card-modal")}
+      style={
+        {
+          "--visibility": isOpen ? "visible" : "hidden",
+          "--opacity": isOpen ? 1 : 0,
+        } as any
+      }
+    >
+      <div className="card-modal-container">
+        <img src={imgUrl} width={CARD_WIDTH} />
+        <div className="card-modal-name">{name}</div>
         <AttLine
           types={extraCardTypes(types || 0)}
           race={race}
           attribute={attribute}
         />
-        <AtkLine level={level} atk={atk} def={def} />
+        <AtkLine atk={atk} def={def} />
         <CounterLine counters={counters} />
-        <p>{desc}</p>
-      </Card>
-      {interactivies.map((interactive, idx) => {
-        return (
-          <Button
-            key={idx}
-            onClick={() => {
-              sendSelectIdleCmdResponse(interactive.response);
-              cardModal.isOpen = false;
-              clearAllIdleInteractivities(0);
-              clearAllIdleInteractivities(1);
-            }}
-          >
-            {interactive.desc}
-          </Button>
-        );
-      })}
-    </Modal>
+        <div className="card-modal-effect">{desc}</div>
+        {interactivies.map((interactive, idx) => {
+          return (
+            <button
+              key={idx}
+              className="card-modal-btn"
+              onClick={() => {
+                sendSelectIdleCmdResponse(interactive.response);
+                cardModal.isOpen = false;
+                clearAllIdleInteractivities(0);
+                clearAllIdleInteractivities(1);
+              }}
+            >
+              {interactive.desc}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 };
-
-const AtkLine = (props: { level?: number; atk?: number; def?: number }) => (
-  <Row gutter={8}>
-    {props.level ? (
-      <Col>
-        <StarOutlined />
-        {props.level}
-      </Col>
-    ) : (
-      <></>
-    )}
-    {props.atk ? (
-      <Col>
-        <Icon component={BattleSvg} />
-        <a>{props.atk}</a>
-      </Col>
-    ) : (
-      <></>
-    )}
-    <Col>/</Col>
-    {props.def ? (
-      <Col>
-        <Icon component={DefenceSvg} />
-        <a>{props.def}</a>
-      </Col>
-    ) : (
-      <></>
-    )}
-  </Row>
-);
 
 const AttLine = (props: {
   types: number[];
@@ -125,22 +91,23 @@ const AttLine = (props: {
 }) => {
   const race = props.race
     ? fetchStrings("!system", Race2StringCodeMap.get(props.race) || 0)
-    : undefined;
+    : "?";
   const attribute = props.attribute
     ? fetchStrings("!system", Attribute2StringCodeMap.get(props.attribute) || 0)
-    : undefined;
+    : "?";
   const types = props.types
     .map((t) => fetchStrings("!system", Type2StringCodeMap.get(t) || 0))
     .join("|");
   return (
-    <Row gutter={8}>
-      <Col>{`[${types}]`}</Col>
-      {race ? <Col>{race}</Col> : <></>}
-      <Col>/</Col>
-      {attribute ? <Col>{attribute}</Col> : <></>}
-    </Row>
+    <div className="card-modal-attribute">{`【 ${race} / ${types} 】【 ${attribute} 】`}</div>
   );
 };
+
+const AtkLine = (props: { atk?: number; def?: number }) => (
+  <div className="card-modal-atk">{`ATK/${
+    props.atk !== undefined ? props.atk : "?"
+  } DEF/${props.def !== undefined ? props.def : "?"}`}</div>
+);
 
 const CounterLine = (props: { counters: { [type: number]: number } }) => {
   const counters = [];
@@ -152,13 +119,11 @@ const CounterLine = (props: { counters: { [type: number]: number } }) => {
     }
   }
 
-  return counters.length > 0 ? (
-    <Row gutter={8}>
+  return (
+    <>
       {counters.map((counter) => (
-        <Col>{counter}</Col>
+        <div className="card-modal-counter">{counter}</div>
       ))}
-    </Row>
-  ) : (
-    <></>
+    </>
   );
 };
