@@ -23,7 +23,7 @@
 
 English | [简体中文](./README-zh_CN.md)
 
-Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [Babylon.js](https://www.babylonjs.com/).
+Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [WASM](https://webassembly.org/).
 
 ## ✨ Features
 
