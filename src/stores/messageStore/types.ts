@@ -36,6 +36,8 @@ export interface ModalState {
     isChain?: boolean;
     min?: number;
     max?: number;
+    // 是否只能选择单个
+    single?: boolean;
     cancelAble: boolean;
     finishAble: boolean;
     // 上级/同调/超量/链接召唤的总cost

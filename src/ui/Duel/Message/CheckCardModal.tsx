@@ -1,6 +1,6 @@
 import { ThunderboltOutlined } from "@ant-design/icons";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
-import { Button, Col, Popover, Row } from "antd";
+import { Button, Card, Col, Popover, Row } from "antd";
 import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
@@ -26,6 +26,7 @@ export const CheckCardModal = () => {
   const isChain = snap.isChain;
   const min = snap.min ?? 0;
   const max = snap.max ?? 10;
+  const single = snap.single ?? false;
   const selecteds = snap.selecteds;
   const selectables = snap.selectables;
   const mustSelects = snap.mustSelects;
@@ -37,7 +38,7 @@ export const CheckCardModal = () => {
 
   const cancelable = snap.cancelAble;
   const finishable = snap.finishAble;
-  const totalLevels = snap.totalLevels || 0;
+  const totalLevels = snap.totalLevels ?? 0;
   const overflow = snap.overflow || false;
   const LevelSum1 = mustSelects
     .concat(response)
@@ -50,8 +51,9 @@ export const CheckCardModal = () => {
   const levelMatched = overflow
     ? LevelSum1 >= totalLevels || LevelSum2 >= totalLevels
     : LevelSum1 == totalLevels || LevelSum2 == totalLevels;
-  const submitable =
-    response.length >= min && response.length <= max && levelMatched;
+  const submitable = single
+    ? response.length == 1
+    : response.length >= min && response.length <= max && levelMatched;
 
   const resetCheckCardModal = () => {
     selectCardActions.isOpen = false;
@@ -68,7 +70,9 @@ export const CheckCardModal = () => {
 
   return (
     <DragModal
-      title={`${preHintMsg} ${selectHintMsg} ${min}-${max}`}
+      title={`${preHintMsg} ${selectHintMsg} ${min}-${max} ${
+        single ? "每次选择一张" : ""
+      }`}
       open={isOpen}
       closable={false}
       footer={
@@ -157,7 +161,7 @@ export const CheckCardModal = () => {
           {selecteds.concat(mustSelects).map((option, idx) => {
             return (
               <Col span={4} key={idx}>
-                <CheckCard
+                <Card
                   style={{ width: 120 }}
                   cover={
                     <img

@@ -16,6 +16,7 @@ export default ({
   messageStore.selectCardActions.cancelAble = cancelable;
   messageStore.selectCardActions.min = min;
   messageStore.selectCardActions.max = max;
+  messageStore.selectCardActions.single = true;
 
   for (const option of selectableCards) {
     fetchCheckCardMeta(option);
