@@ -6,8 +6,8 @@ import { useSnapshot } from "valtio";
 
 import {
   fetchStrings,
-  sendSelectCardResponse,
-  sendSelectChainResponse,
+  sendSelectMultiResponse,
+  sendSelectSingleResponse,
 } from "@/api";
 import { useConfig } from "@/config";
 import { matStore, messageStore } from "@/stores";
@@ -85,9 +85,9 @@ export const CheckCardModal = () => {
                 .map((option) => option.response);
 
               if (isChain) {
-                sendSelectChainResponse(values[0]);
+                sendSelectSingleResponse(values[0]);
               } else {
-                sendSelectCardResponse(values);
+                sendSelectMultiResponse(values);
               }
               resetCheckCardModal();
             }}
@@ -99,7 +99,7 @@ export const CheckCardModal = () => {
           <Button
             disabled={!finishable}
             onClick={() => {
-              sendSelectCardResponse([FINISH_RESPONSE]);
+              sendSelectSingleResponse(FINISH_RESPONSE);
               resetCheckCardModal();
             }}
             onFocus={() => {}}
@@ -111,7 +111,7 @@ export const CheckCardModal = () => {
           <Button
             disabled={!cancelable}
             onClick={() => {
-              sendSelectChainResponse(CANCEL_RESPONSE);
+              sendSelectSingleResponse(CANCEL_RESPONSE);
               resetCheckCardModal();
             }}
             onFocus={() => {}}

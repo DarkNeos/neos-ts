@@ -1,4 +1,4 @@
-import { sendSelectChainResponse, ygopro } from "@/api";
+import { sendSelectSingleResponse, ygopro } from "@/api";
 import {
   fetchCheckCardMeta,
   fetchSelectHintMeta,
@@ -49,7 +49,7 @@ export default (selectChain: MsgSelectChain) => {
   switch (handle_flag) {
     case 0: {
       // 直接回答
-      sendSelectChainResponse(-1);
+      sendSelectSingleResponse(-1);
 
       break;
     }
@@ -79,7 +79,7 @@ export default (selectChain: MsgSelectChain) => {
     }
     case 4: {
       // 有一张强制发动的卡，直接回应
-      sendSelectChainResponse(chains[0].response);
+      sendSelectSingleResponse(chains[0].response);
 
       break;
     }

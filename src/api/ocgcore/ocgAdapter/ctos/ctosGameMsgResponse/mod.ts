@@ -2,15 +2,14 @@ import { ygopro } from "../../../idl/ocgcore";
 import { YgoProPacket } from "../../packet";
 import { CTOS_RESPONSE } from "../../protoDecl";
 import adaptSelectBattleCmdResponse from "./selectBattleCmd";
-import adaptSelectCardResponse from "./selectCard";
-import adaptSelectChainResponse from "./selectChain";
 import adaptSelectCounterResponse from "./selectCounter";
 import adaptSelectEffectYnResponse from "./selectEffectYn";
 import adaptSelectIdleCmdResponse from "./selectIdleCmd";
+import adaptSelectMultiResponse from "./selectMulti";
 import adaptSelectOptionResponse from "./selectOption";
 import adaptSelectPlaceResponse from "./selectPlace";
 import adaptSelectPositionResponse from "./selectPosition";
-import adaptSelectUnselectCardResponse from "./selectUnselectCard";
+import adaptSelectSingleResponse from "./selectSingle";
 import adaptSortCardResponse from "./sortCard";
 
 /*
@@ -37,13 +36,13 @@ export default class CtosResponsePacket extends YgoProPacket {
 
         break;
       }
-      case "select_card": {
-        extraData = adaptSelectCardResponse(response.select_card);
+      case "select_multi": {
+        extraData = adaptSelectMultiResponse(response.select_multi);
 
         break;
       }
-      case "select_chain": {
-        extraData = adaptSelectChainResponse(response.select_chain);
+      case "select_single": {
+        extraData = adaptSelectSingleResponse(response.select_single);
 
         break;
       }
@@ -64,13 +63,6 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_battle_cmd": {
         extraData = adaptSelectBattleCmdResponse(response.select_battle_cmd);
-
-        break;
-      }
-      case "select_unselect_card": {
-        extraData = adaptSelectUnselectCardResponse(
-          response.select_unselect_card
-        );
 
         break;
       }
