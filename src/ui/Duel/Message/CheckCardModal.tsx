@@ -4,7 +4,11 @@ import { Button, Col, Popover, Row } from "antd";
 import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
-import { fetchStrings, sendSelectCardResponse } from "@/api";
+import {
+  fetchStrings,
+  sendSelectCardResponse,
+  sendSelectChainResponse,
+} from "@/api";
 import { useConfig } from "@/config";
 import { matStore, messageStore } from "@/stores";
 
@@ -19,6 +23,7 @@ const { selectCardActions } = messageStore;
 export const CheckCardModal = () => {
   const snap = useSnapshot(selectCardActions);
   const isOpen = snap.isOpen;
+  const isChain = snap.isChain;
   const min = snap.min ?? 0;
   const max = snap.max ?? 10;
   const selecteds = snap.selecteds;
@@ -50,6 +55,7 @@ export const CheckCardModal = () => {
 
   const resetCheckCardModal = () => {
     selectCardActions.isOpen = false;
+    selectCardActions.isChain = undefined;
     selectCardActions.min = undefined;
     selectCardActions.max = undefined;
     selectCardActions.cancelAble = false;
@@ -73,7 +79,12 @@ export const CheckCardModal = () => {
               const values = mustSelects
                 .concat(response)
                 .map((option) => option.response);
-              sendSelectCardResponse(values);
+
+              if (isChain) {
+                sendSelectChainResponse(values[0]);
+              } else {
+                sendSelectCardResponse(values);
+              }
               resetCheckCardModal();
             }}
             onFocus={() => {}}
@@ -96,7 +107,7 @@ export const CheckCardModal = () => {
           <Button
             disabled={!cancelable}
             onClick={() => {
-              sendSelectCardResponse([CANCEL_RESPONSE]);
+              sendSelectChainResponse(CANCEL_RESPONSE);
               resetCheckCardModal();
             }}
             onFocus={() => {}}

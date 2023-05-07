@@ -32,6 +32,8 @@ export interface ModalState {
   // 卡牌选择状态
   selectCardActions: {
     isOpen: boolean;
+    // 如果是连锁，发response给后端的方式稍微有点不同，这里标记下
+    isChain?: boolean;
     min?: number;
     max?: number;
     cancelAble: boolean;

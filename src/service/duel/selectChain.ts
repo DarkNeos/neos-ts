@@ -57,6 +57,7 @@ export default (selectChain: MsgSelectChain) => {
     case 3: {
       // 处理强制发动的卡
 
+      messageStore.selectCardActions.isChain = true;
       messageStore.selectCardActions.min = 1;
       messageStore.selectCardActions.max = 1;
       messageStore.selectCardActions.cancelAble = !forced;
