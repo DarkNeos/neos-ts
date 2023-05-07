@@ -10,7 +10,7 @@ import {
   sendSelectSingleResponse,
 } from "@/api";
 import { useConfig } from "@/config";
-import { matStore, messageStore } from "@/stores";
+import { clearSelectActions, matStore, messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
 
@@ -20,7 +20,7 @@ const FINISH_RESPONSE = -1;
 
 const { selectCardActions } = messageStore;
 
-export const CheckCardModal = () => {
+export const SelectActionsModal = () => {
   const snap = useSnapshot(selectCardActions);
   const isOpen = snap.isOpen;
   const isChain = snap.isChain;
@@ -55,19 +55,6 @@ export const CheckCardModal = () => {
     ? response.length == 1
     : response.length >= min && response.length <= max && levelMatched;
 
-  const resetCheckCardModal = () => {
-    selectCardActions.isOpen = false;
-    selectCardActions.isChain = undefined;
-    selectCardActions.min = undefined;
-    selectCardActions.max = undefined;
-    selectCardActions.cancelAble = false;
-    selectCardActions.totalLevels = undefined;
-    selectCardActions.selecteds = [];
-    selectCardActions.selectables = [];
-    selectCardActions.finishAble = false;
-    selectCardActions.overflow = false;
-  };
-
   return (
     <DragModal
       title={`${preHintMsg} ${selectHintMsg} ${min}-${max} ${
@@ -89,7 +76,7 @@ export const CheckCardModal = () => {
               } else {
                 sendSelectMultiResponse(values);
               }
-              resetCheckCardModal();
+              clearSelectActions();
             }}
             onFocus={() => {}}
             onBlur={() => {}}
@@ -100,7 +87,7 @@ export const CheckCardModal = () => {
             disabled={!finishable}
             onClick={() => {
               sendSelectSingleResponse(FINISH_RESPONSE);
-              resetCheckCardModal();
+              clearSelectActions();
             }}
             onFocus={() => {}}
             onBlur={() => {}}
@@ -112,7 +99,7 @@ export const CheckCardModal = () => {
             disabled={!cancelable}
             onClick={() => {
               sendSelectSingleResponse(CANCEL_RESPONSE);
-              resetCheckCardModal();
+              clearSelectActions();
             }}
             onFocus={() => {}}
             onBlur={() => {}}

@@ -4,11 +4,11 @@ import {
   Alert,
   CardListModal,
   CardModal,
-  CheckCardModal,
   CheckCounterModal,
   HintNotification,
   OptionModal,
   PositionModal,
+  SelectActionsModal,
   SortCardModal,
   YesNoModal,
 } from "./Message";
@@ -22,7 +22,7 @@ const NeosDuel = () => {
       <CardModal />
       <CardListModal />
       <HintNotification />
-      <CheckCardModal />
+      <SelectActionsModal />
       <YesNoModal />
       <PositionModal />
       <OptionModal />
