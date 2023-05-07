@@ -25,7 +25,7 @@ export const SelectActionsModal = () => {
   const isOpen = snap.isOpen;
   const isChain = snap.isChain;
   const min = snap.min ?? 0;
-  const max = snap.max ?? 10;
+  const max = snap.max ?? 0;
   const single = snap.single ?? false;
   const selecteds = snap.selecteds;
   const selectables = snap.selectables;

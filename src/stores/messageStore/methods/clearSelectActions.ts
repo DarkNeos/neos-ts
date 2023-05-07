@@ -14,4 +14,5 @@ export const clearSelectActions = () => {
   selectCardActions.mustSelects = [];
   selectCardActions.finishAble = false;
   selectCardActions.overflow = false;
+  selectCardActions.single = undefined;
 };
