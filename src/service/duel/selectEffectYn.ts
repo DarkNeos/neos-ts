@@ -1,12 +1,11 @@
 import { fetchStrings, ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
-import { CardZoneToChinese, messageStore } from "@/stores";
+import { messageStore } from "@/stores";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
 // 这里改成了 async 不知道有没有影响
 export default async (selectEffectYn: MsgSelectEffectYn) => {
-  const player = selectEffectYn.player;
   const code = selectEffectYn.code;
   const location = selectEffectYn.location;
   const effect_description = selectEffectYn.effect_description;
@@ -20,7 +19,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
         ) => {
           const desc1 = desc.replace(
             `[%ls]`,
-            CardZoneToChinese(cardLocation.location)
+            fetchStrings("!system", cardLocation.location + 1000)
           );
           const desc2 = desc1.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc2;
@@ -29,14 +28,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
           const desc1 = desc.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc1;
         };
-  // dispatch(
-  //   fetchYesNoMeta({
-  //     code,
-  //     location,
-  //     descCode: effect_description,
-  //     textGenerator,
-  //   })
-  // );
+
   // TODO: 国际化文案
 
   const desc = fetchStrings("!system", effect_description);

@@ -1,6 +1,18 @@
 import type { CardMeta, ygopro } from "@/api";
 type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
 
+interface Option {
+  // card id
+  code: number;
+  location?: CardLocation;
+  // 效果
+  effectDesc?: string;
+  // 作为素材的cost，比如同调召唤的星级
+  level1?: number;
+  level2?: number;
+  response: number;
+}
+
 export interface ModalState {
   // 卡牌弹窗
   cardModal: {
@@ -17,24 +29,27 @@ export interface ModalState {
       interactivies: { desc: string; response: number }[];
     }[];
   };
-  // 卡牌选择弹窗
-  checkCardModal: {
+  // 卡牌选择状态
+  selectCardActions: {
     isOpen: boolean;
-    onSubmit?: string;
-    selectMin?: number;
-    selectMax?: number;
+    // 如果是连锁，发response给后端的方式稍微有点不同，这里标记下
+    isChain?: boolean;
+    min?: number;
+    max?: number;
+    // 是否只能选择单个
+    single?: boolean;
     cancelAble: boolean;
-    cancelResponse?: number;
-    tags: {
-      tagName: string;
-      options: {
-        meta: CardMeta;
-        location?: CardLocation;
-        effectDescCode?: number;
-        effectDesc?: string;
-        response: number;
-      }[];
-    }[];
+    finishAble: boolean;
+    // 上级/同调/超量/链接召唤的总cost
+    totalLevels?: number;
+    // cost是否可以溢出，比如同调召唤是false，某些链接召唤是true
+    overflow?: boolean;
+    // 已经选择的列表
+    selecteds: Option[];
+    // 可以选择的列表
+    selectables: Option[];
+    // 必须选择的列表
+    mustSelects: Option[];
   };
   // Yes or No弹窗
   yesNoModal: {
@@ -50,48 +65,6 @@ export interface ModalState {
   optionModal: {
     isOpen: boolean;
     options: { msg: string; response: number }[];
-  };
-  // 卡牌选择弹窗V2
-  checkCardModalV2: {
-    isOpen: boolean;
-    cancelAble: boolean;
-    finishAble: boolean;
-    selectMin?: number;
-    selectMax?: number;
-    responseable?: boolean;
-    selectableOptions: {
-      code: number;
-      name?: string;
-      desc?: string;
-      response: number;
-    }[];
-    selectedOptions: {
-      code: number;
-      name?: string;
-      desc?: string;
-      response: number;
-    }[];
-  };
-  // 卡牌选择弹窗V3
-  checkCardModalV3: {
-    isOpen: boolean;
-    overflow: boolean;
-    allLevel: number;
-    selectMin?: number;
-    selectMax?: number;
-    responseable?: boolean;
-    mustSelectList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
-    }[];
-    selectAbleList: {
-      meta: CardMeta;
-      level1: number;
-      level2: number;
-      response: number;
-    }[];
   };
   // 指示器选择弹窗
   checkCounterModal: {

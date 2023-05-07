@@ -2668,7 +2668,7 @@ export namespace ygopro {
     }
   }
   export class CtosGameMsgResponse extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
     constructor(
       data?:
         | any[]
@@ -2676,143 +2676,120 @@ export namespace ygopro {
             | {
                 select_idle_cmd?: CtosGameMsgResponse.SelectIdleCmdResponse;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: CtosGameMsgResponse.SelectPlaceResponse;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: CtosGameMsgResponse.SelectCardResponse;
-                select_chain?: never;
+                select_multi?: CtosGameMsgResponse.SelectMultiResponse;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: CtosGameMsgResponse.SelectChainResponse;
+                select_multi?: never;
+                select_single?: CtosGameMsgResponse.SelectSingleResponse;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: CtosGameMsgResponse.SelectEffectYnResponse;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: CtosGameMsgResponse.SelectPositionResponse;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: CtosGameMsgResponse.SelectOptionResponse;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: CtosGameMsgResponse.SelectBattleCmdResponse;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: CtosGameMsgResponse.SelectUnselectCardResponse;
-                select_counter_response?: never;
-                sort_card?: never;
-              }
-            | {
-                select_idle_cmd?: never;
-                select_place?: never;
-                select_card?: never;
-                select_chain?: never;
-                select_effect_yn?: never;
-                select_position?: never;
-                select_option?: never;
-                select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: CtosGameMsgResponse.SelectCounterResponse;
                 sort_card?: never;
               }
             | {
                 select_idle_cmd?: never;
                 select_place?: never;
-                select_card?: never;
-                select_chain?: never;
+                select_multi?: never;
+                select_single?: never;
                 select_effect_yn?: never;
                 select_position?: never;
                 select_option?: never;
                 select_battle_cmd?: never;
-                select_unselect_card?: never;
                 select_counter_response?: never;
                 sort_card?: CtosGameMsgResponse.SortCardResponse;
               }
@@ -2834,11 +2811,11 @@ export namespace ygopro {
         if ("select_place" in data && data.select_place != undefined) {
           this.select_place = data.select_place;
         }
-        if ("select_card" in data && data.select_card != undefined) {
-          this.select_card = data.select_card;
+        if ("select_multi" in data && data.select_multi != undefined) {
+          this.select_multi = data.select_multi;
         }
-        if ("select_chain" in data && data.select_chain != undefined) {
-          this.select_chain = data.select_chain;
+        if ("select_single" in data && data.select_single != undefined) {
+          this.select_single = data.select_single;
         }
         if ("select_effect_yn" in data && data.select_effect_yn != undefined) {
           this.select_effect_yn = data.select_effect_yn;
@@ -2854,12 +2831,6 @@ export namespace ygopro {
           data.select_battle_cmd != undefined
         ) {
           this.select_battle_cmd = data.select_battle_cmd;
-        }
-        if (
-          "select_unselect_card" in data &&
-          data.select_unselect_card != undefined
-        ) {
-          this.select_unselect_card = data.select_unselect_card;
         }
         if (
           "select_counter_response" in data &&
@@ -2898,30 +2869,30 @@ export namespace ygopro {
     get has_select_place() {
       return pb_1.Message.getField(this, 2) != null;
     }
-    get select_card() {
+    get select_multi() {
       return pb_1.Message.getWrapperField(
         this,
-        CtosGameMsgResponse.SelectCardResponse,
+        CtosGameMsgResponse.SelectMultiResponse,
         3
-      ) as CtosGameMsgResponse.SelectCardResponse;
+      ) as CtosGameMsgResponse.SelectMultiResponse;
     }
-    set select_card(value: CtosGameMsgResponse.SelectCardResponse) {
+    set select_multi(value: CtosGameMsgResponse.SelectMultiResponse) {
       pb_1.Message.setOneofWrapperField(this, 3, this.#one_of_decls[0], value);
     }
-    get has_select_card() {
+    get has_select_multi() {
       return pb_1.Message.getField(this, 3) != null;
     }
-    get select_chain() {
+    get select_single() {
       return pb_1.Message.getWrapperField(
         this,
-        CtosGameMsgResponse.SelectChainResponse,
+        CtosGameMsgResponse.SelectSingleResponse,
         4
-      ) as CtosGameMsgResponse.SelectChainResponse;
+      ) as CtosGameMsgResponse.SelectSingleResponse;
     }
-    set select_chain(value: CtosGameMsgResponse.SelectChainResponse) {
+    set select_single(value: CtosGameMsgResponse.SelectSingleResponse) {
       pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
     }
-    get has_select_chain() {
+    get has_select_single() {
       return pb_1.Message.getField(this, 4) != null;
     }
     get select_effect_yn() {
@@ -2976,48 +2947,33 @@ export namespace ygopro {
     get has_select_battle_cmd() {
       return pb_1.Message.getField(this, 8) != null;
     }
-    get select_unselect_card() {
-      return pb_1.Message.getWrapperField(
-        this,
-        CtosGameMsgResponse.SelectUnselectCardResponse,
-        9
-      ) as CtosGameMsgResponse.SelectUnselectCardResponse;
-    }
-    set select_unselect_card(
-      value: CtosGameMsgResponse.SelectUnselectCardResponse
-    ) {
-      pb_1.Message.setOneofWrapperField(this, 9, this.#one_of_decls[0], value);
-    }
-    get has_select_unselect_card() {
-      return pb_1.Message.getField(this, 9) != null;
-    }
     get select_counter_response() {
       return pb_1.Message.getWrapperField(
         this,
         CtosGameMsgResponse.SelectCounterResponse,
-        10
+        9
       ) as CtosGameMsgResponse.SelectCounterResponse;
     }
     set select_counter_response(
       value: CtosGameMsgResponse.SelectCounterResponse
     ) {
-      pb_1.Message.setOneofWrapperField(this, 10, this.#one_of_decls[0], value);
+      pb_1.Message.setOneofWrapperField(this, 9, this.#one_of_decls[0], value);
     }
     get has_select_counter_response() {
-      return pb_1.Message.getField(this, 10) != null;
+      return pb_1.Message.getField(this, 9) != null;
     }
     get sort_card() {
       return pb_1.Message.getWrapperField(
         this,
         CtosGameMsgResponse.SortCardResponse,
-        11
+        10
       ) as CtosGameMsgResponse.SortCardResponse;
     }
     set sort_card(value: CtosGameMsgResponse.SortCardResponse) {
-      pb_1.Message.setOneofWrapperField(this, 11, this.#one_of_decls[0], value);
+      pb_1.Message.setOneofWrapperField(this, 10, this.#one_of_decls[0], value);
     }
     get has_sort_card() {
-      return pb_1.Message.getField(this, 11) != null;
+      return pb_1.Message.getField(this, 10) != null;
     }
     get gameMsgResponse() {
       const cases: {
@@ -3025,31 +2981,29 @@ export namespace ygopro {
           | "none"
           | "select_idle_cmd"
           | "select_place"
-          | "select_card"
-          | "select_chain"
+          | "select_multi"
+          | "select_single"
           | "select_effect_yn"
           | "select_position"
           | "select_option"
           | "select_battle_cmd"
-          | "select_unselect_card"
           | "select_counter_response"
           | "sort_card";
       } = {
         0: "none",
         1: "select_idle_cmd",
         2: "select_place",
-        3: "select_card",
-        4: "select_chain",
+        3: "select_multi",
+        4: "select_single",
         5: "select_effect_yn",
         6: "select_position",
         7: "select_option",
         8: "select_battle_cmd",
-        9: "select_unselect_card",
-        10: "select_counter_response",
-        11: "sort_card",
+        9: "select_counter_response",
+        10: "sort_card",
       };
       return cases[
-        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+        pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
       ];
     }
     static fromObject(data: {
@@ -3059,11 +3013,11 @@ export namespace ygopro {
       select_place?: ReturnType<
         typeof CtosGameMsgResponse.SelectPlaceResponse.prototype.toObject
       >;
-      select_card?: ReturnType<
-        typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
+      select_multi?: ReturnType<
+        typeof CtosGameMsgResponse.SelectMultiResponse.prototype.toObject
       >;
-      select_chain?: ReturnType<
-        typeof CtosGameMsgResponse.SelectChainResponse.prototype.toObject
+      select_single?: ReturnType<
+        typeof CtosGameMsgResponse.SelectSingleResponse.prototype.toObject
       >;
       select_effect_yn?: ReturnType<
         typeof CtosGameMsgResponse.SelectEffectYnResponse.prototype.toObject
@@ -3076,9 +3030,6 @@ export namespace ygopro {
       >;
       select_battle_cmd?: ReturnType<
         typeof CtosGameMsgResponse.SelectBattleCmdResponse.prototype.toObject
-      >;
-      select_unselect_card?: ReturnType<
-        typeof CtosGameMsgResponse.SelectUnselectCardResponse.prototype.toObject
       >;
       select_counter_response?: ReturnType<
         typeof CtosGameMsgResponse.SelectCounterResponse.prototype.toObject
@@ -3098,14 +3049,15 @@ export namespace ygopro {
         message.select_place =
           CtosGameMsgResponse.SelectPlaceResponse.fromObject(data.select_place);
       }
-      if (data.select_card != null) {
-        message.select_card = CtosGameMsgResponse.SelectCardResponse.fromObject(
-          data.select_card
-        );
+      if (data.select_multi != null) {
+        message.select_multi =
+          CtosGameMsgResponse.SelectMultiResponse.fromObject(data.select_multi);
       }
-      if (data.select_chain != null) {
-        message.select_chain =
-          CtosGameMsgResponse.SelectChainResponse.fromObject(data.select_chain);
+      if (data.select_single != null) {
+        message.select_single =
+          CtosGameMsgResponse.SelectSingleResponse.fromObject(
+            data.select_single
+          );
       }
       if (data.select_effect_yn != null) {
         message.select_effect_yn =
@@ -3131,12 +3083,6 @@ export namespace ygopro {
             data.select_battle_cmd
           );
       }
-      if (data.select_unselect_card != null) {
-        message.select_unselect_card =
-          CtosGameMsgResponse.SelectUnselectCardResponse.fromObject(
-            data.select_unselect_card
-          );
-      }
       if (data.select_counter_response != null) {
         message.select_counter_response =
           CtosGameMsgResponse.SelectCounterResponse.fromObject(
@@ -3158,11 +3104,11 @@ export namespace ygopro {
         select_place?: ReturnType<
           typeof CtosGameMsgResponse.SelectPlaceResponse.prototype.toObject
         >;
-        select_card?: ReturnType<
-          typeof CtosGameMsgResponse.SelectCardResponse.prototype.toObject
+        select_multi?: ReturnType<
+          typeof CtosGameMsgResponse.SelectMultiResponse.prototype.toObject
         >;
-        select_chain?: ReturnType<
-          typeof CtosGameMsgResponse.SelectChainResponse.prototype.toObject
+        select_single?: ReturnType<
+          typeof CtosGameMsgResponse.SelectSingleResponse.prototype.toObject
         >;
         select_effect_yn?: ReturnType<
           typeof CtosGameMsgResponse.SelectEffectYnResponse.prototype.toObject
@@ -3175,9 +3121,6 @@ export namespace ygopro {
         >;
         select_battle_cmd?: ReturnType<
           typeof CtosGameMsgResponse.SelectBattleCmdResponse.prototype.toObject
-        >;
-        select_unselect_card?: ReturnType<
-          typeof CtosGameMsgResponse.SelectUnselectCardResponse.prototype.toObject
         >;
         select_counter_response?: ReturnType<
           typeof CtosGameMsgResponse.SelectCounterResponse.prototype.toObject
@@ -3192,11 +3135,11 @@ export namespace ygopro {
       if (this.select_place != null) {
         data.select_place = this.select_place.toObject();
       }
-      if (this.select_card != null) {
-        data.select_card = this.select_card.toObject();
+      if (this.select_multi != null) {
+        data.select_multi = this.select_multi.toObject();
       }
-      if (this.select_chain != null) {
-        data.select_chain = this.select_chain.toObject();
+      if (this.select_single != null) {
+        data.select_single = this.select_single.toObject();
       }
       if (this.select_effect_yn != null) {
         data.select_effect_yn = this.select_effect_yn.toObject();
@@ -3209,9 +3152,6 @@ export namespace ygopro {
       }
       if (this.select_battle_cmd != null) {
         data.select_battle_cmd = this.select_battle_cmd.toObject();
-      }
-      if (this.select_unselect_card != null) {
-        data.select_unselect_card = this.select_unselect_card.toObject();
       }
       if (this.select_counter_response != null) {
         data.select_counter_response = this.select_counter_response.toObject();
@@ -3233,13 +3173,13 @@ export namespace ygopro {
         writer.writeMessage(2, this.select_place, () =>
           this.select_place.serialize(writer)
         );
-      if (this.has_select_card)
-        writer.writeMessage(3, this.select_card, () =>
-          this.select_card.serialize(writer)
+      if (this.has_select_multi)
+        writer.writeMessage(3, this.select_multi, () =>
+          this.select_multi.serialize(writer)
         );
-      if (this.has_select_chain)
-        writer.writeMessage(4, this.select_chain, () =>
-          this.select_chain.serialize(writer)
+      if (this.has_select_single)
+        writer.writeMessage(4, this.select_single, () =>
+          this.select_single.serialize(writer)
         );
       if (this.has_select_effect_yn)
         writer.writeMessage(5, this.select_effect_yn, () =>
@@ -3257,16 +3197,12 @@ export namespace ygopro {
         writer.writeMessage(8, this.select_battle_cmd, () =>
           this.select_battle_cmd.serialize(writer)
         );
-      if (this.has_select_unselect_card)
-        writer.writeMessage(9, this.select_unselect_card, () =>
-          this.select_unselect_card.serialize(writer)
-        );
       if (this.has_select_counter_response)
-        writer.writeMessage(10, this.select_counter_response, () =>
+        writer.writeMessage(9, this.select_counter_response, () =>
           this.select_counter_response.serialize(writer)
         );
       if (this.has_sort_card)
-        writer.writeMessage(11, this.sort_card, () =>
+        writer.writeMessage(10, this.sort_card, () =>
           this.sort_card.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
@@ -3300,18 +3236,18 @@ export namespace ygopro {
             break;
           case 3:
             reader.readMessage(
-              message.select_card,
+              message.select_multi,
               () =>
-                (message.select_card =
-                  CtosGameMsgResponse.SelectCardResponse.deserialize(reader))
+                (message.select_multi =
+                  CtosGameMsgResponse.SelectMultiResponse.deserialize(reader))
             );
             break;
           case 4:
             reader.readMessage(
-              message.select_chain,
+              message.select_single,
               () =>
-                (message.select_chain =
-                  CtosGameMsgResponse.SelectChainResponse.deserialize(reader))
+                (message.select_single =
+                  CtosGameMsgResponse.SelectSingleResponse.deserialize(reader))
             );
             break;
           case 5:
@@ -3354,23 +3290,13 @@ export namespace ygopro {
             break;
           case 9:
             reader.readMessage(
-              message.select_unselect_card,
-              () =>
-                (message.select_unselect_card =
-                  CtosGameMsgResponse.SelectUnselectCardResponse.deserialize(
-                    reader
-                  ))
-            );
-            break;
-          case 10:
-            reader.readMessage(
               message.select_counter_response,
               () =>
                 (message.select_counter_response =
                   CtosGameMsgResponse.SelectCounterResponse.deserialize(reader))
             );
             break;
-          case 11:
+          case 10:
             reader.readMessage(
               message.sort_card,
               () =>
@@ -3602,7 +3528,7 @@ export namespace ygopro {
         return SelectPlaceResponse.deserialize(bytes);
       }
     }
-    export class SelectCardResponse extends pb_1.Message {
+    export class SelectMultiResponse extends pb_1.Message {
       #one_of_decls: number[][] = [];
       constructor(
         data?:
@@ -3634,8 +3560,8 @@ export namespace ygopro {
       }
       static fromObject(data: {
         selected_ptrs?: number[];
-      }): SelectCardResponse {
-        const message = new SelectCardResponse({});
+      }): SelectMultiResponse {
+        const message = new SelectMultiResponse({});
         if (data.selected_ptrs != null) {
           message.selected_ptrs = data.selected_ptrs;
         }
@@ -3660,12 +3586,12 @@ export namespace ygopro {
       }
       static deserialize(
         bytes: Uint8Array | pb_1.BinaryReader
-      ): SelectCardResponse {
+      ): SelectMultiResponse {
         const reader =
             bytes instanceof pb_1.BinaryReader
               ? bytes
               : new pb_1.BinaryReader(bytes),
-          message = new SelectCardResponse();
+          message = new SelectMultiResponse();
         while (reader.nextField()) {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
@@ -3681,11 +3607,11 @@ export namespace ygopro {
       serializeBinary(): Uint8Array {
         return this.serialize();
       }
-      static deserializeBinary(bytes: Uint8Array): SelectCardResponse {
-        return SelectCardResponse.deserialize(bytes);
+      static deserializeBinary(bytes: Uint8Array): SelectMultiResponse {
+        return SelectMultiResponse.deserialize(bytes);
       }
     }
-    export class SelectChainResponse extends pb_1.Message {
+    export class SelectSingleResponse extends pb_1.Message {
       #one_of_decls: number[][] = [];
       constructor(
         data?:
@@ -3715,8 +3641,8 @@ export namespace ygopro {
       set selected_ptr(value: number) {
         pb_1.Message.setField(this, 1, value);
       }
-      static fromObject(data: { selected_ptr?: number }): SelectChainResponse {
-        const message = new SelectChainResponse({});
+      static fromObject(data: { selected_ptr?: number }): SelectSingleResponse {
+        const message = new SelectSingleResponse({});
         if (data.selected_ptr != null) {
           message.selected_ptr = data.selected_ptr;
         }
@@ -3740,12 +3666,12 @@ export namespace ygopro {
       }
       static deserialize(
         bytes: Uint8Array | pb_1.BinaryReader
-      ): SelectChainResponse {
+      ): SelectSingleResponse {
         const reader =
             bytes instanceof pb_1.BinaryReader
               ? bytes
               : new pb_1.BinaryReader(bytes),
-          message = new SelectChainResponse();
+          message = new SelectSingleResponse();
         while (reader.nextField()) {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
@@ -3761,8 +3687,8 @@ export namespace ygopro {
       serializeBinary(): Uint8Array {
         return this.serialize();
       }
-      static deserializeBinary(bytes: Uint8Array): SelectChainResponse {
-        return SelectChainResponse.deserialize(bytes);
+      static deserializeBinary(bytes: Uint8Array): SelectSingleResponse {
+        return SelectSingleResponse.deserialize(bytes);
       }
     }
     export class SelectEffectYnResponse extends pb_1.Message {
@@ -4092,114 +4018,6 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): SelectBattleCmdResponse {
         return SelectBattleCmdResponse.deserialize(bytes);
-      }
-    }
-    export class SelectUnselectCardResponse extends pb_1.Message {
-      #one_of_decls: number[][] = [];
-      constructor(
-        data?:
-          | any[]
-          | {
-              cancel_or_finish?: boolean;
-              selected_ptr?: number;
-            }
-      ) {
-        super();
-        pb_1.Message.initialize(
-          this,
-          Array.isArray(data) ? data : [],
-          0,
-          -1,
-          [],
-          this.#one_of_decls
-        );
-        if (!Array.isArray(data) && typeof data == "object") {
-          if (
-            "cancel_or_finish" in data &&
-            data.cancel_or_finish != undefined
-          ) {
-            this.cancel_or_finish = data.cancel_or_finish;
-          }
-          if ("selected_ptr" in data && data.selected_ptr != undefined) {
-            this.selected_ptr = data.selected_ptr;
-          }
-        }
-      }
-      get cancel_or_finish() {
-        return pb_1.Message.getFieldWithDefault(this, 1, false) as boolean;
-      }
-      set cancel_or_finish(value: boolean) {
-        pb_1.Message.setField(this, 1, value);
-      }
-      get selected_ptr() {
-        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
-      }
-      set selected_ptr(value: number) {
-        pb_1.Message.setField(this, 2, value);
-      }
-      static fromObject(data: {
-        cancel_or_finish?: boolean;
-        selected_ptr?: number;
-      }): SelectUnselectCardResponse {
-        const message = new SelectUnselectCardResponse({});
-        if (data.cancel_or_finish != null) {
-          message.cancel_or_finish = data.cancel_or_finish;
-        }
-        if (data.selected_ptr != null) {
-          message.selected_ptr = data.selected_ptr;
-        }
-        return message;
-      }
-      toObject() {
-        const data: {
-          cancel_or_finish?: boolean;
-          selected_ptr?: number;
-        } = {};
-        if (this.cancel_or_finish != null) {
-          data.cancel_or_finish = this.cancel_or_finish;
-        }
-        if (this.selected_ptr != null) {
-          data.selected_ptr = this.selected_ptr;
-        }
-        return data;
-      }
-      serialize(): Uint8Array;
-      serialize(w: pb_1.BinaryWriter): void;
-      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-        const writer = w || new pb_1.BinaryWriter();
-        if (this.cancel_or_finish != false)
-          writer.writeBool(1, this.cancel_or_finish);
-        if (this.selected_ptr != 0) writer.writeInt32(2, this.selected_ptr);
-        if (!w) return writer.getResultBuffer();
-      }
-      static deserialize(
-        bytes: Uint8Array | pb_1.BinaryReader
-      ): SelectUnselectCardResponse {
-        const reader =
-            bytes instanceof pb_1.BinaryReader
-              ? bytes
-              : new pb_1.BinaryReader(bytes),
-          message = new SelectUnselectCardResponse();
-        while (reader.nextField()) {
-          if (reader.isEndGroup()) break;
-          switch (reader.getFieldNumber()) {
-            case 1:
-              message.cancel_or_finish = reader.readBool();
-              break;
-            case 2:
-              message.selected_ptr = reader.readInt32();
-              break;
-            default:
-              reader.skipField();
-          }
-        }
-        return message;
-      }
-      serializeBinary(): Uint8Array {
-        return this.serialize();
-      }
-      static deserializeBinary(bytes: Uint8Array): SelectUnselectCardResponse {
-        return SelectUnselectCardResponse.deserialize(bytes);
       }
     }
     export class SelectCounterResponse extends pb_1.Message {

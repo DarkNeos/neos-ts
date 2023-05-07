@@ -2,7 +2,7 @@ import { BufferWriter } from "rust-src";
 
 import { ygopro } from "../../../idl/ocgcore";
 
-export default (response: ygopro.CtosGameMsgResponse.SelectCardResponse) => {
+export default (response: ygopro.CtosGameMsgResponse.SelectMultiResponse) => {
   const writer = new BufferWriter();
 
   writer.writeUint8(response.selected_ptrs.length);

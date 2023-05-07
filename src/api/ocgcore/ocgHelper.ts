@@ -172,10 +172,10 @@ export function sendSelectPlaceResponse(value: {
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
 
-export function sendSelectCardResponse(value: number[]) {
+export function sendSelectMultiResponse(value: number[]) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
-      select_card: new ygopro.CtosGameMsgResponse.SelectCardResponse({
+      select_multi: new ygopro.CtosGameMsgResponse.SelectMultiResponse({
         selected_ptrs: value,
       }),
     }),
@@ -185,10 +185,10 @@ export function sendSelectCardResponse(value: number[]) {
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }
 
-export function sendSelectChainResponse(value: number) {
+export function sendSelectSingleResponse(value: number) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
-      select_chain: new ygopro.CtosGameMsgResponse.SelectChainResponse({
+      select_single: new ygopro.CtosGameMsgResponse.SelectSingleResponse({
         selected_ptr: value,
       }),
     }),
@@ -245,24 +245,6 @@ export function sendSelectBattleCmdResponse(value: number) {
           selected_cmd: value,
         }
       ),
-    }),
-  });
-  const payload = new GameMsgResponse(response).serialize();
-
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
-}
-
-export function sendSelectUnselectCardResponse(value: {
-  cancel_or_finish?: boolean;
-  selected_ptr?: number;
-}) {
-  const response = new ygopro.YgoCtosMsg({
-    ctos_response: new ygopro.CtosGameMsgResponse({
-      select_unselect_card:
-        new ygopro.CtosGameMsgResponse.SelectUnselectCardResponse({
-          selected_ptr: value.selected_ptr,
-          cancel_or_finish: value.cancel_or_finish,
-        }),
     }),
   });
   const payload = new GameMsgResponse(response).serialize();
