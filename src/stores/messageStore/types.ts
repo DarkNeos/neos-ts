@@ -31,7 +31,10 @@ export interface ModalState {
   };
   // 卡牌选择状态
   selectCardActions: {
+    // 是否打开
     isOpen: boolean;
+    // 是否有效，当有`MSG_SELECT_xxx`到前端时为true，用户选择完成后设置为false
+    isValid: boolean;
     // 如果是连锁，发response给后端的方式稍微有点不同，这里标记下
     isChain?: boolean;
     min?: number;

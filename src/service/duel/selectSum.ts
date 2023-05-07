@@ -16,5 +16,6 @@ export default (selectSum: MsgSelectSum) => {
     fetchCheckCardMeta(option);
   }
 
+  messageStore.selectCardActions.isValid = true;
   messageStore.selectCardActions.isOpen = true;
 };

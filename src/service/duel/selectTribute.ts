@@ -14,5 +14,6 @@ export default (selectTribute: MsgSelectTribute) => {
     fetchCheckCardMeta(option);
   }
 
+  messageStore.selectCardActions.isValid = true;
   messageStore.selectCardActions.isOpen = true;
 };
