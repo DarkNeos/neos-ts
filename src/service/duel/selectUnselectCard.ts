@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { fetchCheckCardMetasV2, messageStore } from "@/stores";
+import { fetchCheckCardMeta, messageStore } from "@/stores";
 
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
@@ -11,33 +11,17 @@ export default ({
   selectable_cards: selectableCards,
   selected_cards: selectedCards,
 }: MsgSelectUnselectCard) => {
-  messageStore.checkCardModalV2.isOpen = true;
-  messageStore.checkCardModalV2.finishAble = finishable;
-  messageStore.checkCardModalV2.cancelAble = cancelable;
-  messageStore.checkCardModalV2.selectMin = min;
-  messageStore.checkCardModalV2.selectMax = max;
+  messageStore.selectCardActions.isOpen = true;
+  messageStore.selectCardActions.finishAble = finishable;
+  messageStore.selectCardActions.cancelAble = cancelable;
+  messageStore.selectCardActions.min = min;
+  messageStore.selectCardActions.max = max;
 
-  fetchCheckCardMetasV2({
-    selected: false,
-    options: selectableCards.map((card) => {
-      return {
-        code: card.code,
-        location: card.location,
-        response: card.response,
-      };
-    }),
-  });
+  for (const option of selectableCards) {
+    fetchCheckCardMeta(option);
+  }
 
-  fetchCheckCardMetasV2({
-    selected: true,
-    options: selectedCards.map((card) => {
-      return {
-        code: card.code,
-        location: card.location,
-        response: card.response,
-      };
-    }),
-  });
-
-  messageStore.checkCardModalV2.responseable = true;
+  for (const option of selectedCards) {
+    fetchCheckCardMeta(option, true);
+  }
 };

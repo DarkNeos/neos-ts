@@ -2,8 +2,6 @@ export * from "./Alert";
 export * from "./CardListModal";
 export * from "./CardModal";
 export * from "./CheckCardModal";
-export * from "./CheckCardModalV2";
-export * from "./CheckCardModalV3";
 export * from "./CheckCounterModal";
 export * from "./DragModal";
 export * from "./HintNotification";

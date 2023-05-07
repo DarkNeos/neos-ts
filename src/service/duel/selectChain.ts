@@ -7,7 +7,6 @@ import {
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default (selectChain: MsgSelectChain) => {
-  const player = selectChain.player;
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
   const hint0 = selectChain.hint0;
@@ -58,14 +57,12 @@ export default (selectChain: MsgSelectChain) => {
     case 3: {
       // 处理强制发动的卡
 
-      messageStore.checkCardModal.selectMin = 1;
-      messageStore.checkCardModal.selectMax = 1;
-      messageStore.checkCardModal.onSubmit = "sendSelectChainResponse";
-      messageStore.checkCardModal.cancelAble = !forced;
-      messageStore.checkCardModal.cancelResponse = -1;
+      messageStore.selectCardActions.min = 1;
+      messageStore.selectCardActions.max = 1;
+      messageStore.selectCardActions.cancelAble = !forced;
 
       for (const chain of chains) {
-        fetchCheckCardMeta(chain.location.location, {
+        fetchCheckCardMeta({
           code: chain.code,
           location: chain.location,
           response: chain.response,
@@ -75,7 +72,7 @@ export default (selectChain: MsgSelectChain) => {
       fetchSelectHintMeta({
         selectHintData: 203,
       });
-      messageStore.checkCardModal.isOpen = true;
+      messageStore.selectCardActions.isOpen = true;
 
       break;
     }

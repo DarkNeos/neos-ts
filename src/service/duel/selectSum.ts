@@ -1,22 +1,20 @@
 import { ygopro } from "@/api";
-import { fetchCheckCardMetasV3, messageStore } from "@/stores";
+import { fetchCheckCardMeta, messageStore } from "@/stores";
 type MsgSelectSum = ygopro.StocGameMessage.MsgSelectSum;
 
 export default (selectSum: MsgSelectSum) => {
-  messageStore.checkCardModalV3.overflow = selectSum.overflow != 0;
-  messageStore.checkCardModalV3.allLevel = selectSum.level_sum;
-  messageStore.checkCardModalV3.selectMin = selectSum.min;
-  messageStore.checkCardModalV3.selectMax = selectSum.max;
+  messageStore.selectCardActions.overflow = selectSum.overflow != 0;
+  messageStore.selectCardActions.totalLevels = selectSum.level_sum;
+  messageStore.selectCardActions.min = selectSum.min;
+  messageStore.selectCardActions.max = selectSum.max;
 
-  fetchCheckCardMetasV3({
-    mustSelect: true,
-    options: selectSum.must_select_cards,
-  });
+  for (const option of selectSum.must_select_cards) {
+    fetchCheckCardMeta(option, false, true);
+  }
 
-  fetchCheckCardMetasV3({
-    mustSelect: false,
-    options: selectSum.selectable_cards,
-  });
+  for (const option of selectSum.selectable_cards) {
+    fetchCheckCardMeta(option);
+  }
 
-  messageStore.checkCardModalV3.isOpen = true;
+  messageStore.selectCardActions.isOpen = true;
 };

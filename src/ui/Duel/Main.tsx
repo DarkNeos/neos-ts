@@ -5,8 +5,6 @@ import {
   CardListModal,
   CardModal,
   CheckCardModal,
-  CheckCardModalV2,
-  CheckCardModalV3,
   CheckCounterModal,
   HintNotification,
   OptionModal,
@@ -28,8 +26,6 @@ const NeosDuel = () => {
       <YesNoModal />
       <PositionModal />
       <OptionModal />
-      <CheckCardModalV2 />
-      <CheckCardModalV3 />
       <CheckCounterModal />
       <SortCardModal />
     </>

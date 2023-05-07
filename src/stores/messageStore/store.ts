@@ -5,25 +5,17 @@ import type { ModalState } from "./types";
 export const messageStore = proxy<ModalState>({
   cardModal: { isOpen: false, interactivies: [], counters: {} },
   cardListModal: { isOpen: false, list: [] },
-  checkCardModal: { isOpen: false, cancelAble: false, tags: [] },
-  yesNoModal: { isOpen: false },
-  positionModal: { isOpen: false, positions: [] },
-  optionModal: { isOpen: false, options: [] },
-  checkCardModalV2: {
+  selectCardActions: {
     isOpen: false,
     cancelAble: false,
     finishAble: false,
-    responseable: false,
-    selectableOptions: [],
-    selectedOptions: [],
+    selecteds: [],
+    selectables: [],
+    mustSelects: [],
   },
-  checkCardModalV3: {
-    isOpen: false,
-    overflow: false,
-    allLevel: 0,
-    mustSelectList: [],
-    selectAbleList: [],
-  },
+  yesNoModal: { isOpen: false },
+  positionModal: { isOpen: false, positions: [] },
+  optionModal: { isOpen: false, options: [] },
   checkCounterModal: {
     isOpen: false,
     options: [],
