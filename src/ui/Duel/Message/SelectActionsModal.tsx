@@ -1,6 +1,6 @@
 import "@/styles/select-modal.scss";
 
-import { ThunderboltOutlined } from "@ant-design/icons";
+import { MinusOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import { Button, Card, Col, Popover, Row } from "antd";
 import React, { useState } from "react";
@@ -68,9 +68,10 @@ export const SelectActionsModal = () => {
         onCancel={() => {
           selectCardActions.isOpen = false;
         }}
+        closeIcon={<MinusOutlined />}
         footer={
           <>
-            <button
+            <Button
               disabled={!submitable}
               onClick={() => {
                 const values = mustSelects
@@ -88,8 +89,8 @@ export const SelectActionsModal = () => {
               onBlur={() => {}}
             >
               {fetchStrings("!system", 1211)}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={!finishable}
               onClick={() => {
                 sendSelectSingleResponse(FINISH_RESPONSE);
@@ -99,9 +100,9 @@ export const SelectActionsModal = () => {
               onBlur={() => {}}
             >
               {fetchStrings("!system", 1296)}
-            </button>
+            </Button>
 
-            <button
+            <Button
               disabled={!cancelable}
               onClick={() => {
                 sendSelectSingleResponse(CANCEL_RESPONSE);
@@ -111,7 +112,7 @@ export const SelectActionsModal = () => {
               onBlur={() => {}}
             >
               {fetchStrings("!system", 1295)}
-            </button>
+            </Button>
           </>
         }
         width={800}
@@ -180,8 +181,9 @@ export const SelectActionsModal = () => {
             onClick={() => {
               selectCardActions.isOpen = true;
             }}
-          ></button>
-          SCROLL UP
+          >
+            SCROLL UP
+          </button>
         </div>
       ) : (
         <></>
