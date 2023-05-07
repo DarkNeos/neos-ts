@@ -73,6 +73,7 @@ export default (selectChain: MsgSelectChain) => {
       fetchSelectHintMeta({
         selectHintData: 203,
       });
+      messageStore.selectCardActions.isValid = true;
       messageStore.selectCardActions.isOpen = true;
 
       break;

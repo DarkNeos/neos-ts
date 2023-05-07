@@ -4,6 +4,7 @@ const { selectCardActions } = messageStore;
 
 export const clearSelectActions = () => {
   selectCardActions.isOpen = false;
+  selectCardActions.isValid = false;
   selectCardActions.isChain = undefined;
   selectCardActions.min = undefined;
   selectCardActions.max = undefined;

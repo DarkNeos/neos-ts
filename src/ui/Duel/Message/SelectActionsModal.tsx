@@ -1,3 +1,5 @@
+import "@/styles/select-modal.scss";
+
 import { ThunderboltOutlined } from "@ant-design/icons";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import { Button, Card, Col, Popover, Row } from "antd";
@@ -23,6 +25,7 @@ const { selectCardActions } = messageStore;
 export const SelectActionsModal = () => {
   const snap = useSnapshot(selectCardActions);
   const isOpen = snap.isOpen;
+  const isValid = snap.isValid;
   const isChain = snap.isChain;
   const min = snap.min ?? 0;
   const max = snap.max ?? 0;
@@ -56,117 +59,134 @@ export const SelectActionsModal = () => {
     : response.length >= min && response.length <= max && levelMatched;
 
   return (
-    <DragModal
-      title={`${preHintMsg} ${selectHintMsg} ${min}-${max} ${
-        single ? "每次选择一张" : ""
-      }`}
-      open={isOpen}
-      closable={false}
-      footer={
-        <>
-          <Button
-            disabled={!submitable}
-            onClick={() => {
-              const values = mustSelects
-                .concat(response)
-                .map((option) => option.response);
-
-              if (isChain) {
-                sendSelectSingleResponse(values[0]);
-              } else {
-                sendSelectMultiResponse(values);
-              }
-              clearSelectActions();
-            }}
-            onFocus={() => {}}
-            onBlur={() => {}}
-          >
-            {fetchStrings("!system", 1211)}
-          </Button>
-          <Button
-            disabled={!finishable}
-            onClick={() => {
-              sendSelectSingleResponse(FINISH_RESPONSE);
-              clearSelectActions();
-            }}
-            onFocus={() => {}}
-            onBlur={() => {}}
-          >
-            {fetchStrings("!system", 1296)}
-          </Button>
-
-          <Button
-            disabled={!cancelable}
-            onClick={() => {
-              sendSelectSingleResponse(CANCEL_RESPONSE);
-              clearSelectActions();
-            }}
-            onFocus={() => {}}
-            onBlur={() => {}}
-          >
-            {fetchStrings("!system", 1295)}
-          </Button>
-        </>
-      }
-      width={800}
-    >
-      <CheckCard.Group
-        multiple
-        bordered
-        size="small"
-        onChange={(value) => {
-          // @ts-ignore
-          setResponse(value);
+    <>
+      <DragModal
+        title={`${preHintMsg} ${selectHintMsg} ${min}-${max} ${
+          single ? "每次选择一张" : ""
+        }`}
+        open={isOpen && isValid}
+        onCancel={() => {
+          selectCardActions.isOpen = false;
         }}
+        footer={
+          <>
+            <button
+              disabled={!submitable}
+              onClick={() => {
+                const values = mustSelects
+                  .concat(response)
+                  .map((option) => option.response);
+
+                if (isChain) {
+                  sendSelectSingleResponse(values[0]);
+                } else {
+                  sendSelectMultiResponse(values);
+                }
+                clearSelectActions();
+              }}
+              onFocus={() => {}}
+              onBlur={() => {}}
+            >
+              {fetchStrings("!system", 1211)}
+            </button>
+            <button
+              disabled={!finishable}
+              onClick={() => {
+                sendSelectSingleResponse(FINISH_RESPONSE);
+                clearSelectActions();
+              }}
+              onFocus={() => {}}
+              onBlur={() => {}}
+            >
+              {fetchStrings("!system", 1296)}
+            </button>
+
+            <button
+              disabled={!cancelable}
+              onClick={() => {
+                sendSelectSingleResponse(CANCEL_RESPONSE);
+                clearSelectActions();
+              }}
+              onFocus={() => {}}
+              onBlur={() => {}}
+            >
+              {fetchStrings("!system", 1295)}
+            </button>
+          </>
+        }
+        width={800}
       >
-        <Row>
-          {selectables.map((option, idx) => {
-            return (
-              <Col span={4} key={idx}>
-                <HoverCheckCard
-                  hoverContent={option.effectDesc}
-                  style={{ width: 120 }}
-                  cover={
-                    <img
-                      alt={option.code.toString()}
-                      src={
-                        option.code
-                          ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
-                          : `${NeosConfig.assetsPath}/card_back.jpg`
-                      }
-                      style={{ width: 100 }}
-                    />
-                  }
-                  value={option}
-                />
-              </Col>
-            );
-          })}
-        </Row>
-        <p>{fetchStrings("!system", 212)}</p>
-        <Row>
-          {selecteds.concat(mustSelects).map((option, idx) => {
-            return (
-              <Col span={4} key={idx}>
-                <Card
-                  style={{ width: 120 }}
-                  cover={
-                    <img
-                      alt={option.code.toString()}
-                      src={
-                        option.code
-                          ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
-                          : `${NeosConfig.assetsPath}/card_back.jpg`
-                      }
-                    />
-                  }
-                />
-              </Col>
-            );
-          })}
-        </Row>
-      </CheckCard.Group>
-    </DragModal>
+        <CheckCard.Group
+          multiple
+          bordered
+          size="small"
+          onChange={(value) => {
+            // @ts-ignore
+            setResponse(value);
+          }}
+        >
+          <Row>
+            {selectables.map((option, idx) => {
+              return (
+                <Col span={4} key={idx}>
+                  <HoverCheckCard
+                    hoverContent={option.effectDesc}
+                    style={{ width: 120 }}
+                    cover={
+                      <img
+                        alt={option.code.toString()}
+                        src={
+                          option.code
+                            ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
+                            : `${NeosConfig.assetsPath}/card_back.jpg`
+                        }
+                        style={{ width: 100 }}
+                      />
+                    }
+                    value={option}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+          <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
+          <Row>
+            {selecteds.concat(mustSelects).map((option, idx) => {
+              return (
+                <Col span={4} key={idx}>
+                  <Card
+                    style={{ width: 120 }}
+                    cover={
+                      <img
+                        alt={option.code.toString()}
+                        src={
+                          option.code
+                            ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
+                            : `${NeosConfig.assetsPath}/card_back.jpg`
+                        }
+                      />
+                    }
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </CheckCard.Group>
+      </DragModal>
+      {isValid && !isOpen ? (
+        <div className="select-modal">
+          <button
+            className="select-modal-button"
+            onClick={() => {
+              selectCardActions.isOpen = true;
+            }}
+          ></button>
+          SCROLL UP
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

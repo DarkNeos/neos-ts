@@ -20,5 +20,6 @@ export default (selectCard: MsgSelectCard) => {
       response: card.response,
     });
   }
+  messageStore.selectCardActions.isValid = true;
   messageStore.selectCardActions.isOpen = true;
 };

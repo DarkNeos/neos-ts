@@ -7,6 +7,7 @@ export const messageStore = proxy<ModalState>({
   cardListModal: { isOpen: false, list: [] },
   selectCardActions: {
     isOpen: false,
+    isValid: false,
     cancelAble: false,
     finishAble: false,
     selecteds: [],
