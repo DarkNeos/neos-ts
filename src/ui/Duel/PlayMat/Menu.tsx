@@ -5,26 +5,17 @@ import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
 import {
+  fetchStrings,
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
+  ygopro,
 } from "@/api";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
   matStore,
 } from "@/stores";
-
-const PhaseButton = (props: {
-  text: string;
-  enable: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <button disabled={!props.enable} onClick={props.onClick}>
-      {props.text}
-    </button>
-  );
-};
+import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase } = matStore;
 
@@ -38,11 +29,11 @@ export const Menu = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const response =
-    currentPhase === "BATTLE_START" ||
-    currentPhase === "BATTLE_STEP" ||
-    currentPhase === "DAMAGE" ||
-    currentPhase === "DAMAGE_GAL" ||
-    currentPhase === "BATTLE"
+    currentPhase === PhaseType.BATTLE_START ||
+    currentPhase === PhaseType.BATTLE_STEP ||
+    currentPhase === PhaseType.DAMAGE ||
+    currentPhase === PhaseType.DAMAGE_GAL ||
+    currentPhase === PhaseType.BATTLE
       ? 3
       : 7;
 
@@ -71,15 +62,15 @@ export const Menu = () => {
   return (
     <div id="controller">
       <button disabled={!enableBp} onClick={onBp}>
-        战斗阶段
+        {fetchStrings("!system", 80)}
       </button>
       <button disabled={!enableM2} onClick={onM2}>
-        主要阶段2
+        进入主要阶段2
       </button>
       <button disabled={!enableEp} onClick={onEp}>
-        结束回合
+        {fetchStrings("!system", 81)}
       </button>
-      <button onClick={onSurrender}>投降</button>
+      <button onClick={onSurrender}>{fetchStrings("!system", 1351)}</button>
       <Modal
         title="是否确认要投降？"
         open={modalOpen}

@@ -1,3 +1,5 @@
+import { ygopro } from "@/api";
+import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 //! 一些Neos中基础的数据结构
 
 // 类型
@@ -220,3 +222,16 @@ export const QUERY_STATUS = 0x80000;
 export const QUERY_LSCALE = 0x200000;
 export const QUERY_RSCALE = 0x400000;
 export const QUERY_LINK = 0x800000;
+
+export const Phase2StringCodeMap: Map<number, number> = new Map([
+  [PhaseType.DRAW, 20],
+  [PhaseType.STANDBY, 21],
+  [PhaseType.MAIN1, 22],
+  [PhaseType.BATTLE_START, 28],
+  [PhaseType.BATTLE_STEP, 29],
+  [PhaseType.DAMAGE, 40],
+  [PhaseType.DAMAGE_GAL, 42],
+  [PhaseType.BATTLE, 24],
+  [PhaseType.MAIN2, 22],
+  [PhaseType.END, 26],
+]);

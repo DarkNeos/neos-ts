@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { ygopro } from "@/api";
+import { fetchStrings, ygopro } from "@/api";
+import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
 
@@ -41,7 +42,10 @@ export const HintNotification = () => {
   useEffect(() => {
     if (currentPhase) {
       api.open({
-        message: `<当前阶段>${currentPhase}`,
+        message: fetchStrings(
+          "!system",
+          Phase2StringCodeMap.get(currentPhase) ?? 0
+        ),
         placement: "topRight",
         style: style,
       });
@@ -51,7 +55,7 @@ export const HintNotification = () => {
   useEffect(() => {
     if (waiting) {
       api.open({
-        message: "...等待对方行动中...",
+        message: fetchStrings("!system", 1390),
         placement: "top",
         duration: NeosConfig.ui.hint.waitingDuration,
         style: style,
