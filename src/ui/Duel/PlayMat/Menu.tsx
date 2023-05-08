@@ -65,7 +65,7 @@ export const Menu = () => {
         {fetchStrings("!system", 80)}
       </button>
       <button disabled={!enableM2} onClick={onM2}>
-        {fetchStrings("!system", 80)?.concat("2")}
+        进入主要阶段2
       </button>
       <button disabled={!enableEp} onClick={onEp}>
         {fetchStrings("!system", 81)}
