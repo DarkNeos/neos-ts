@@ -8,23 +8,13 @@ import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
+  ygopro,
 } from "@/api";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
   matStore,
 } from "@/stores";
-
-const PhaseButton = (props: {
-  text: string;
-  enable: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <button disabled={!props.enable} onClick={props.onClick}>
-      {props.text}
-    </button>
-  );
-};
+import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase } = matStore;
 
@@ -38,11 +28,11 @@ export const Menu = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const response =
-    currentPhase === "BATTLE_START" ||
-    currentPhase === "BATTLE_STEP" ||
-    currentPhase === "DAMAGE" ||
-    currentPhase === "DAMAGE_GAL" ||
-    currentPhase === "BATTLE"
+    currentPhase === PhaseType.BATTLE_START ||
+    currentPhase === PhaseType.BATTLE_STEP ||
+    currentPhase === PhaseType.DAMAGE ||
+    currentPhase === PhaseType.DAMAGE_GAL ||
+    currentPhase === PhaseType.BATTLE
       ? 3
       : 7;
 

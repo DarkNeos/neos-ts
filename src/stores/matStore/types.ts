@@ -189,11 +189,8 @@ export interface HintState {
   esSelectHint?: string;
 }
 
-export type PhaseName =
-  keyof typeof ygopro.StocGameMessage.MsgNewPhase.PhaseType;
-
 export interface PhaseState {
-  currentPhase: PhaseName; // TODO 当前的阶段 应该改成enum
+  currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType; // TODO 当前的阶段 应该改成enum
   enableBp: boolean; // 允许进入战斗阶段
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
