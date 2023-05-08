@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
 import {
+  fetchStrings,
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
@@ -61,15 +62,15 @@ export const Menu = () => {
   return (
     <div id="controller">
       <button disabled={!enableBp} onClick={onBp}>
-        战斗阶段
+        {fetchStrings("!system", 80)}
       </button>
       <button disabled={!enableM2} onClick={onM2}>
-        主要阶段2
+        {fetchStrings("!system", 80)?.concat("2")}
       </button>
       <button disabled={!enableEp} onClick={onEp}>
-        结束回合
+        {fetchStrings("!system", 81)}
       </button>
-      <button onClick={onSurrender}>投降</button>
+      <button onClick={onSurrender}>{fetchStrings("!system", 1351)}</button>
       <Modal
         title="是否确认要投降？"
         open={modalOpen}
