@@ -7,6 +7,12 @@ import { ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
 
+const style = {
+  borderStyle: "groove",
+  borderRadius: "8px",
+  backgroundColor: "#303030",
+};
+
 const MsgWin = ygopro.StocGameMessage.MsgWin;
 
 const NeosConfig = useConfig();
@@ -19,34 +25,36 @@ export const HintNotification = () => {
   const result = snap.result;
 
   const navigate = useNavigate();
-
   const [api, contextHolder] = notification.useNotification({
     maxCount: NeosConfig.ui.hint.maxCount,
   });
   useEffect(() => {
     if (hintState && hintState.msg) {
-      api.info({
+      api.open({
         message: `${hintState.msg}`,
-        placement: "bottom",
+        placement: "topLeft",
+        style: style,
       });
     }
   }, [hintState.msg]);
 
   useEffect(() => {
     if (currentPhase) {
-      api.info({
+      api.open({
         message: `<当前阶段>${currentPhase}`,
         placement: "topRight",
+        style: style,
       });
     }
   }, [currentPhase]);
 
   useEffect(() => {
     if (waiting) {
-      api.info({
+      api.open({
         message: "...等待对方行动中...",
         placement: "top",
         duration: NeosConfig.ui.hint.waitingDuration,
+        style: style,
       });
     }
   }, [waiting]);
@@ -59,9 +67,10 @@ export const HintNotification = () => {
           : MsgWin.ActionType.Defeated
           ? "失败"
           : "未知结果";
-      api.info({
+      api.open({
         message,
         placement: "bottom",
+        style: style,
         onClose() {
           navigate("/");
         },

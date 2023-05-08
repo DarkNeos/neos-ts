@@ -6,7 +6,7 @@ import Draggable from "react-draggable";
 
 export interface DragModalProps extends ModalProps {}
 
-const Style = {
+const style = {
   borderStyle: "groove",
   borderRadius: "8px",
   backgroundColor: "#303030",
@@ -39,7 +39,7 @@ export const DragModal = (props: DragModalProps) => {
       {...props}
       modalRender={(modal) => (
         <Draggable bounds={bounds} onStart={onStart}>
-          <div ref={dragRef} style={Style}>
+          <div ref={dragRef} style={style}>
             {modal}
           </div>
         </Draggable>
