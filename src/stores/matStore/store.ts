@@ -29,7 +29,8 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     uuid: string,
     controller: number,
     id: number,
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) => ({
     uuid,
     occupant: await fetchCard(id, true),
@@ -39,6 +40,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
       position:
         position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
+    focus,
     counters: {},
     idleInteractivities: [],
   });
@@ -50,18 +52,26 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     uuid: string,
     id: number,
     sequence: number,
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) {
-    const card = await this.genCard(uuid, this.getController(), id, position);
+    const card = await this.genCard(
+      uuid,
+      this.getController(),
+      id,
+      position,
+      focus
+    );
     this.splice(sequence, 0, card);
   }
   async add(
     data: { uuid: string; id: number }[],
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) {
     const cards = await Promise.all(
       data.map(async ({ uuid, id }) =>
-        this.genCard(uuid, this.getController(), id, position)
+        this.genCard(uuid, this.getController(), id, position, focus)
       )
     );
     this.splice(this.length, 0, ...cards);
@@ -69,10 +79,12 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   async setOccupant(
     sequence: number,
     id: number,
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) {
     const meta = await fetchCard(id);
     const target = this[sequence];
+    target.focus = focus;
     target.occupant = meta;
     if (position) {
       target.location.position = position;

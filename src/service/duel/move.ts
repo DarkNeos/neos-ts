@@ -72,10 +72,17 @@ export default (move: MsgMove) => {
       matStore
         .in(to.location)
         .of(to.controler)
-        .setOccupant(to.sequence, code, to.position);
+        .setOccupant(to.sequence, code, to.position, true);
       if (uuid) {
         matStore.in(to.location).of(to.controler)[to.sequence].uuid = uuid;
       }
+
+      setTimeout(
+        () =>
+          (matStore.in(to.location).of(to.controler)[to.sequence].focus =
+            false),
+        500 // use config
+      );
       break;
     }
     case ygopro.CardZone.REMOVED:
@@ -94,7 +101,7 @@ export default (move: MsgMove) => {
         matStore
           .in(to.location)
           .of(to.controler)
-          .insert(uuid, code, to.sequence);
+          .insert(uuid, code, to.sequence, ygopro.CardPosition.FACEUP_ATTACK);
       }
       break;
     }

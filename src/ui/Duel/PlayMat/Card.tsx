@@ -12,6 +12,9 @@ const ASSETS_BASE =
     ? NeosConfig.assetsPath
     : import.meta.env.BASE_URL + NeosConfig.assetsPath;
 
+const FOCUS_SCALE = 2.5;
+const FOCUS_HIGHT = 100;
+
 export const Card: React.FC<{
   code: number;
   row: number;
@@ -23,6 +26,7 @@ export const Card: React.FC<{
   vertical?: boolean;
   highlight?: boolean;
   fly?: boolean;
+  focus?: boolean;
   transTime?: number;
   onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
@@ -37,6 +41,7 @@ export const Card: React.FC<{
   vertical = false,
   highlight = false,
   fly = false,
+  focus = false,
   transTime = 0.3,
   onClick,
   style = {},
@@ -48,7 +53,7 @@ export const Card: React.FC<{
     })}
     style={
       {
-        "--h": hight,
+        "--h": focus ? FOCUS_HIGHT : hight,
         "--r": row,
         "--c": col,
         "--shadow": hight > 0 ? 1 : 0,
@@ -56,6 +61,7 @@ export const Card: React.FC<{
         "--vertical": vertical ? 1 : 0,
         "--trans-time": `${transTime}s`,
         "--highlight-on": highlight ? 1 : 0,
+        "--scale-focus": focus ? FOCUS_SCALE : 1,
         "--card-img": facedown
           ? `url(${ASSETS_BASE + "/card_back.jpg"})`
           : `url(${NeosConfig.cardImgUrl + "/" + code + ".jpg"})`,

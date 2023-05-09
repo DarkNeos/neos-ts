@@ -100,7 +100,7 @@ button:focus-visible {
   --x: calc(var(--x-margin-left) + var(--x-padding));
   --y: calc(var(--r) * calc(var(--block-height) + var(--block-row-gap)));
   --z: calc(var(--h) * 1px);
-  transform: translateZ(var(--z)) rotateX(calc(var(--hand-rotate) * var(--vertical)));
+  transform: translateZ(var(--z)) rotateX(calc(var(--hand-rotate) * var(--vertical))) scale(var(--scale-focus));
   translate: var(--x) var(--y);
   rotate: calc(var(--opponent-deg) * (1 - var(--vertical)));
   transform-style: preserve-3d;
