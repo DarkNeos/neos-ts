@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React from "react";
 import { useSnapshot } from "valtio";
 
-import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
+import { fetchStrings, getCardStr, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
@@ -40,7 +40,12 @@ export const CardModal = () => {
   const imgUrl = meta?.id
     ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
     : undefined;
-  const interactivies = snap.interactivies;
+  const nonEffectInteractivies = snap.interactivies.filter(
+    (item) => item.desc != "发动效果"
+  );
+  const effectInteractivies = snap.interactivies.filter(
+    (item) => item.desc == "发动效果"
+  );
 
   return (
     <div
@@ -63,7 +68,7 @@ export const CardModal = () => {
         <AtkLine atk={atk} def={def} />
         <CounterLine counters={counters} />
         <div className="card-modal-effect">{desc}</div>
-        {interactivies.map((interactive, idx) => {
+        {nonEffectInteractivies.map((interactive, idx) => {
           return (
             <button
               key={idx}
@@ -79,6 +84,47 @@ export const CardModal = () => {
             </button>
           );
         })}
+        {effectInteractivies.length > 0 ? (
+          effectInteractivies.length == 1 ? (
+            // 如果只有一个效果，点击直接触发
+            <button
+              className="card-modal-btn"
+              onClick={() => {
+                sendSelectIdleCmdResponse(effectInteractivies[0].response);
+                cardModal.isOpen = false;
+                clearAllIdleInteractivities(0);
+                clearAllIdleInteractivities(1);
+              }}
+            >
+              {effectInteractivies[0].desc}
+            </button>
+          ) : (
+            // 如果有多个效果，点击后进入`OptionModal`选择
+            <button
+              className="card-modal-btn"
+              onClick={() => {
+                for (const effect of effectInteractivies) {
+                  const effectMsg =
+                    meta && effect.effectCode
+                      ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
+                      : "[:?]";
+                  messageStore.optionModal.options.push({
+                    msg: effectMsg,
+                    response: effect.response,
+                  });
+                }
+                cardModal.isOpen = false;
+                clearAllIdleInteractivities(0);
+                clearAllIdleInteractivities(1);
+                messageStore.optionModal.isOpen = true;
+              }}
+            >
+              发动效果
+            </button>
+          )
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
