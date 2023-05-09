@@ -69,10 +69,12 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   async setOccupant(
     sequence: number,
     id: number,
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) {
     const meta = await fetchCard(id);
     const target = this[sequence];
+    target.focus = focus;
     target.occupant = meta;
     if (position) {
       target.location.position = position;
