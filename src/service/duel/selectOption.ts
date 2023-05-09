@@ -3,7 +3,6 @@ import MsgSelectOption = ygopro.StocGameMessage.MsgSelectOption;
 import { messageStore } from "@/stores";
 
 export default async (selectOption: MsgSelectOption) => {
-  const player = selectOption.player;
   const options = selectOption.options;
 
   await Promise.all(

@@ -247,6 +247,7 @@ const onCardClick = (state: CardState) => () => {
     messageStore.cardModal.interactivies = state.idleInteractivities.map(
       (interactivity) => ({
         desc: interactTypeToString(interactivity.interactType),
+        effectCode: interactivity.activateIndex,
         response: interactivity.response,
       })
     );
