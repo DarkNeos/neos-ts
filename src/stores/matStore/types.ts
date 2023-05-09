@@ -120,7 +120,7 @@ export interface CardState {
     zone: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
     position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
   }; // 位置信息，叫location的原因是为了和ygo对齐
-  focus?: boolean;
+  focus?: boolean; // 用于实现动画效果，当这个字段为true时，该张卡片会被放大并在屏幕中央展示
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
     controler: number;

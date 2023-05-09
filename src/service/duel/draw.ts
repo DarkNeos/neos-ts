@@ -15,5 +15,13 @@ export default (draw: ygopro.StocGameMessage.MsgDraw) => {
     return { uuid: pop.uuid, id: hand };
   });
 
-  matStore.hands.of(draw.player).add(data, ygopro.CardPosition.FACEUP_ATTACK);
+  matStore.hands
+    .of(draw.player)
+    .add(data, ygopro.CardPosition.FACEUP_ATTACK, true);
+
+  setTimeout(() => {
+    for (const hand of matStore.hands.of(draw.player)) {
+      hand.focus = false;
+    }
+  }, 500);
 };
