@@ -55,216 +55,223 @@ const ActiveList = [
   "select_yes_no",
 ];
 
+const TIME_GAP = 200;
+
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
-  const msg = pb.stoc_game_msg;
+  // 防止MSG更新太频繁，做下控频
+  //
+  // TODO: 细化需要控频的MSG
+  setTimeout(() => {
+    const msg = pb.stoc_game_msg;
 
-  if (ActiveList.includes(msg.gameMsg)) {
-    matStore.waiting = false;
-  }
-
-  switch (msg.gameMsg) {
-    case "start": {
-      onMsgStart(msg.start);
-
-      break;
+    if (ActiveList.includes(msg.gameMsg)) {
+      matStore.waiting = false;
     }
-    case "draw": {
-      onMsgDraw(msg.draw);
 
-      break;
-    }
-    case "new_turn": {
-      onMsgNewTurn(msg.new_turn);
+    switch (msg.gameMsg) {
+      case "start": {
+        onMsgStart(msg.start);
 
-      break;
-    }
-    case "new_phase": {
-      onMsgNewPhase(msg.new_phase);
+        break;
+      }
+      case "draw": {
+        onMsgDraw(msg.draw);
 
-      break;
-    }
-    case "hint": {
-      onMsgHint(msg.hint);
+        break;
+      }
+      case "new_turn": {
+        onMsgNewTurn(msg.new_turn);
 
-      break;
-    }
-    case "select_idle_cmd": {
-      onMsgSelectIdleCmd(msg.select_idle_cmd);
+        break;
+      }
+      case "new_phase": {
+        onMsgNewPhase(msg.new_phase);
 
-      break;
-    }
-    case "select_place": {
-      onMsgSelectPlace(msg.select_place);
+        break;
+      }
+      case "hint": {
+        onMsgHint(msg.hint);
 
-      break;
-    }
-    case "move": {
-      onMsgMove(msg.move);
+        break;
+      }
+      case "select_idle_cmd": {
+        onMsgSelectIdleCmd(msg.select_idle_cmd);
 
-      break;
-    }
-    case "select_card": {
-      onMsgSelectCard(msg.select_card);
+        break;
+      }
+      case "select_place": {
+        onMsgSelectPlace(msg.select_place);
 
-      break;
-    }
-    case "select_chain": {
-      onMsgSelectChain(msg.select_chain);
+        break;
+      }
+      case "move": {
+        onMsgMove(msg.move);
 
-      break;
-    }
-    case "select_effect_yn": {
-      onMsgSelectEffectYn(msg.select_effect_yn);
+        break;
+      }
+      case "select_card": {
+        onMsgSelectCard(msg.select_card);
 
-      break;
-    }
-    case "select_position": {
-      onMsgSelectPosition(msg.select_position);
+        break;
+      }
+      case "select_chain": {
+        onMsgSelectChain(msg.select_chain);
 
-      break;
-    }
-    case "select_option": {
-      onMsgSelectOption(msg.select_option);
+        break;
+      }
+      case "select_effect_yn": {
+        onMsgSelectEffectYn(msg.select_effect_yn);
 
-      break;
-    }
-    case "shuffle_hand": {
-      onMsgShuffleHand(msg.shuffle_hand);
+        break;
+      }
+      case "select_position": {
+        onMsgSelectPosition(msg.select_position);
 
-      break;
-    }
-    case "select_battle_cmd": {
-      onMsgSelectBattleCmd(msg.select_battle_cmd);
+        break;
+      }
+      case "select_option": {
+        onMsgSelectOption(msg.select_option);
 
-      break;
-    }
-    case "pos_change": {
-      onMsgPosChange(msg.pos_change);
+        break;
+      }
+      case "shuffle_hand": {
+        onMsgShuffleHand(msg.shuffle_hand);
 
-      break;
-    }
-    case "select_unselect_card": {
-      onMsgSelectUnselectCard(msg.select_unselect_card);
+        break;
+      }
+      case "select_battle_cmd": {
+        onMsgSelectBattleCmd(msg.select_battle_cmd);
 
-      break;
-    }
-    case "select_yes_no": {
-      onMsgSelectYesNo(msg.select_yes_no);
+        break;
+      }
+      case "pos_change": {
+        onMsgPosChange(msg.pos_change);
 
-      break;
-    }
-    case "update_hp": {
-      onMsgUpdateHp(msg.update_hp);
+        break;
+      }
+      case "select_unselect_card": {
+        onMsgSelectUnselectCard(msg.select_unselect_card);
 
-      break;
-    }
-    case "win": {
-      onMsgWin(msg.win);
+        break;
+      }
+      case "select_yes_no": {
+        onMsgSelectYesNo(msg.select_yes_no);
 
-      break;
-    }
-    case "wait": {
-      onMsgWait(msg.wait);
+        break;
+      }
+      case "update_hp": {
+        onMsgUpdateHp(msg.update_hp);
 
-      break;
-    }
-    case "update_data": {
-      onMsgUpdateData(msg.update_data);
+        break;
+      }
+      case "win": {
+        onMsgWin(msg.win);
 
-      break;
-    }
-    case "reload_field": {
-      onMsgReloadField(msg.reload_field);
+        break;
+      }
+      case "wait": {
+        onMsgWait(msg.wait);
 
-      break;
-    }
-    case "select_sum": {
-      onMsgSelectSum(msg.select_sum);
+        break;
+      }
+      case "update_data": {
+        onMsgUpdateData(msg.update_data);
 
-      break;
-    }
-    case "select_tribute": {
-      onMsgSelectTribute(msg.select_tribute);
+        break;
+      }
+      case "reload_field": {
+        onMsgReloadField(msg.reload_field);
 
-      break;
-    }
-    case "update_counter": {
-      onMsgUpdateCounter(msg.update_counter);
+        break;
+      }
+      case "select_sum": {
+        onMsgSelectSum(msg.select_sum);
 
-      break;
-    }
-    case "select_counter": {
-      onMsgSelectCounter(msg.select_counter);
+        break;
+      }
+      case "select_tribute": {
+        onMsgSelectTribute(msg.select_tribute);
 
-      break;
-    }
-    case "sort_card": {
-      onMsgSortCard(msg.sort_card);
+        break;
+      }
+      case "update_counter": {
+        onMsgUpdateCounter(msg.update_counter);
 
-      break;
-    }
-    case "set": {
-      onMsgSet(msg.set);
+        break;
+      }
+      case "select_counter": {
+        onMsgSelectCounter(msg.select_counter);
 
-      break;
-    }
-    case "swap": {
-      onMsgSwap(msg.swap);
+        break;
+      }
+      case "sort_card": {
+        onMsgSortCard(msg.sort_card);
 
-      break;
-    }
-    case "attack": {
-      onMsgAttack(msg.attack);
+        break;
+      }
+      case "set": {
+        onMsgSet(msg.set);
 
-      break;
-    }
-    case "attack_disable": {
-      onMsgAttackDisable(msg.attack_disable);
+        break;
+      }
+      case "swap": {
+        onMsgSwap(msg.swap);
 
-      break;
-    }
-    case "chaining": {
-      onMsgChaining(msg.chaining);
+        break;
+      }
+      case "attack": {
+        onMsgAttack(msg.attack);
 
-      break;
-    }
-    case "summoning": {
-      onMsgSummoning(msg.summoning);
+        break;
+      }
+      case "attack_disable": {
+        onMsgAttackDisable(msg.attack_disable);
 
-      break;
-    }
-    case "summoned": {
-      onMsgSummoned(msg.summoned);
+        break;
+      }
+      case "chaining": {
+        onMsgChaining(msg.chaining);
 
-      break;
-    }
-    case "flip_summoning": {
-      onMsgFlipSummoning(msg.flip_summoning);
+        break;
+      }
+      case "summoning": {
+        onMsgSummoning(msg.summoning);
 
-      break;
-    }
-    case "flip_summoned": {
-      onMsgFilpSummoned(msg.flip_summoned);
+        break;
+      }
+      case "summoned": {
+        onMsgSummoned(msg.summoned);
 
-      break;
-    }
-    case "sp_summoning": {
-      onMsgSpSummoning(msg.sp_summoning);
+        break;
+      }
+      case "flip_summoning": {
+        onMsgFlipSummoning(msg.flip_summoning);
 
-      break;
-    }
-    case "sp_summoned": {
-      onMsgSpSummoned(msg.sp_summoned);
+        break;
+      }
+      case "flip_summoned": {
+        onMsgFilpSummoned(msg.flip_summoned);
 
-      break;
-    }
-    case "unimplemented": {
-      onUnimplemented(msg.unimplemented);
+        break;
+      }
+      case "sp_summoning": {
+        onMsgSpSummoning(msg.sp_summoning);
 
-      break;
+        break;
+      }
+      case "sp_summoned": {
+        onMsgSpSummoned(msg.sp_summoned);
+
+        break;
+      }
+      case "unimplemented": {
+        onUnimplemented(msg.unimplemented);
+
+        break;
+      }
+      default: {
+        break;
+      }
     }
-    default: {
-      break;
-    }
-  }
+  }, TIME_GAP);
 }
