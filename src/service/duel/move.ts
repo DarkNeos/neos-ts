@@ -109,12 +109,12 @@ export default (move: MsgMove) => {
             true
           );
 
-        setTimeout(
-          () =>
-            (matStore.in(to.location).of(to.controler)[to.sequence].focus =
-              false),
-          200
-        );
+        setTimeout(() => {
+          // 因为手牌可能会洗牌，sequence就对不上了，所以这里把所有手牌的focus字段都设置成false
+          for (const hand of matStore.in(to.location).of(to.controler)) {
+            hand.focus = false;
+          }
+        }, 200);
       }
       break;
     }

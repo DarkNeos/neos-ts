@@ -39,6 +39,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         controler: 1 - opponent,
         zone: ygopro.CardZone.DECK,
       },
+      focus: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -55,6 +56,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         controler: opponent,
         zone: ygopro.CardZone.DECK,
       },
+      focus: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -72,6 +74,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         controler: opponent,
         zone: ygopro.CardZone.EXTRA,
       },
+      focus: false,
       counters: {},
       idleInteractivities: [],
     });

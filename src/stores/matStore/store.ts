@@ -40,7 +40,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
       position:
         position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
-    focus,
+    focus: focus ?? false,
     counters: {},
     idleInteractivities: [],
   });
@@ -84,7 +84,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
   ) {
     const meta = await fetchCard(id);
     const target = this[sequence];
-    target.focus = focus;
+    target.focus = focus ?? false;
     target.occupant = meta;
     if (position) {
       target.location.position = position;
@@ -160,6 +160,7 @@ const genBlock = (zone: ygopro.CardZone, n: number) =>
       location: {
         zone,
       },
+      focus: false,
       idleInteractivities: [],
       counters: {},
     }));

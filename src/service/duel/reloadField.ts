@@ -50,6 +50,7 @@ function reloadDuelField(
       },
       idleInteractivities: [],
       counters: {},
+      focus: false,
       reload: true,
     };
   });
