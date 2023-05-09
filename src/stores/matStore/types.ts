@@ -20,12 +20,14 @@ export interface DuelFieldState extends Array<CardState> {
     uuid: string,
     id: number,
     sequence: number,
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) => Promise<void>;
   /** 在末尾添加卡片 */
   add: (
     data: { uuid: string; id: number }[],
-    position?: ygopro.CardPosition
+    position?: ygopro.CardPosition,
+    focus?: boolean
   ) => Promise<void>;
   /** 设置占据这个位置的卡片信息 */
   setOccupant: (

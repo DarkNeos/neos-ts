@@ -95,14 +95,15 @@ export const Mat = () => {
               col={cardStateToCol(card)}
               hight={CardStateToHigh(card)}
               defense={
-                card.location.position === YgoPosition.DEFENSE ||
-                card.location.position === YgoPosition.FACEDOWN_DEFENSE ||
-                card.location.position === YgoPosition.FACEUP_DEFENSE
+                !card.focus &&
+                (card.location.position === YgoPosition.DEFENSE ||
+                  card.location.position === YgoPosition.FACEDOWN_DEFENSE ||
+                  card.location.position === YgoPosition.FACEUP_DEFENSE)
               }
               facedown={CardStateToFaceDown(card)}
               vertical={card.location.zone == YgoZone.HAND || card.focus}
               highlight={card.idleInteractivities.length > 0}
-              focus={card.focus && card.occupant?.id !== 0}
+              focus={card.focus}
               opponent={card.opponent}
               onClick={
                 card.location.zone == YgoZone.SZONE ||
