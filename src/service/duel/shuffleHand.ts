@@ -1,17 +1,17 @@
 import { ygopro } from "@/api";
 import { matStore } from "@/stores";
-import { zip } from "@/ui/Duel/utils";
 
 type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
 
 export default (shuffleHand: MsgShuffleHand) => {
   const { hands: codes, player: controller } = shuffleHand;
 
-  const uuids = matStore.hands.of(controller).map((hand) => hand.uuid);
-  const data = zip(uuids, codes).map(([uuid, id]) => {
-    return { uuid, id };
-  });
+  const indexMap = new Map(codes.map((code, idx) => [code, idx]));
 
-  matStore.hands.of(controller).length = 0;
-  matStore.hands.of(controller).add(data);
+  matStore.hands.of(controller).sort((a, b) => {
+    const indexA = indexMap.get(a.occupant?.id ?? 0) ?? 0;
+    const indexB = indexMap.get(b.occupant?.id ?? 0) ?? 0;
+
+    return indexA - indexB;
+  });
 };

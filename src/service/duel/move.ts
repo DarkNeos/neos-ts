@@ -81,7 +81,7 @@ export default (move: MsgMove) => {
         () =>
           (matStore.in(to.location).of(to.controler)[to.sequence].focus =
             false),
-        500 // use config
+        500 // TODO: use config
       );
       break;
     }
@@ -101,7 +101,20 @@ export default (move: MsgMove) => {
         matStore
           .in(to.location)
           .of(to.controler)
-          .insert(uuid, code, to.sequence, ygopro.CardPosition.FACEUP_ATTACK);
+          .insert(
+            uuid,
+            code,
+            to.sequence,
+            ygopro.CardPosition.FACEUP_ATTACK,
+            true
+          );
+
+        setTimeout(
+          () =>
+            (matStore.in(to.location).of(to.controler)[to.sequence].focus =
+              false),
+          200
+        );
       }
       break;
     }
