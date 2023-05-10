@@ -123,7 +123,7 @@ export const SelectActionsModal = () => {
           size="small"
           onChange={(values: any) => {
             if (values.length > 0) {
-              const meta = values[values.length - 1];
+              const meta = values[values.length - 1].meta;
               cardModal.meta = meta;
               cardModal.isOpen = true;
             }
