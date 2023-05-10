@@ -125,6 +125,8 @@ export const SelectActionsModal = () => {
             if (values.length > 0) {
               const meta = values[values.length - 1].meta;
               cardModal.meta = meta;
+              cardModal.counters = {};
+              cardModal.interactivies = [];
               cardModal.isOpen = true;
             }
             setResponse(values);
