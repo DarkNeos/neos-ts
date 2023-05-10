@@ -20,7 +20,7 @@ const NeosConfig = useConfig();
 const CANCEL_RESPONSE = -1;
 const FINISH_RESPONSE = -1;
 
-const { selectCardActions } = messageStore;
+const { selectCardActions, cardModal } = messageStore;
 
 export const SelectActionsModal = () => {
   const snap = useSnapshot(selectCardActions);
@@ -121,9 +121,13 @@ export const SelectActionsModal = () => {
           multiple
           bordered
           size="small"
-          onChange={(value) => {
-            // @ts-ignore
-            setResponse(value);
+          onChange={(values: any) => {
+            if (values.length > 0) {
+              const meta = values[values.length - 1];
+              cardModal.meta = meta;
+              cardModal.isOpen = true;
+            }
+            setResponse(values);
           }}
         >
           <Row>
