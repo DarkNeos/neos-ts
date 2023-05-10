@@ -16757,7 +16757,9 @@ export namespace ygopro {
         data?:
           | any[]
           | {
-              location?: CardLocation;
+              direct_attack?: boolean;
+              attacker_location?: CardLocation;
+              target_location?: CardLocation;
             }
       ) {
         super();
@@ -16770,39 +16772,89 @@ export namespace ygopro {
           this.#one_of_decls
         );
         if (!Array.isArray(data) && typeof data == "object") {
-          if ("location" in data && data.location != undefined) {
-            this.location = data.location;
+          if ("direct_attack" in data && data.direct_attack != undefined) {
+            this.direct_attack = data.direct_attack;
+          }
+          if (
+            "attacker_location" in data &&
+            data.attacker_location != undefined
+          ) {
+            this.attacker_location = data.attacker_location;
+          }
+          if ("target_location" in data && data.target_location != undefined) {
+            this.target_location = data.target_location;
           }
         }
       }
-      get location() {
+      get direct_attack() {
+        return pb_1.Message.getFieldWithDefault(this, 1, false) as boolean;
+      }
+      set direct_attack(value: boolean) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get attacker_location() {
         return pb_1.Message.getWrapperField(
           this,
           CardLocation,
-          1
+          2
         ) as CardLocation;
       }
-      set location(value: CardLocation) {
-        pb_1.Message.setWrapperField(this, 1, value);
+      set attacker_location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 2, value);
       }
-      get has_location() {
-        return pb_1.Message.getField(this, 1) != null;
+      get has_attacker_location() {
+        return pb_1.Message.getField(this, 2) != null;
+      }
+      get target_location() {
+        return pb_1.Message.getWrapperField(
+          this,
+          CardLocation,
+          3
+        ) as CardLocation;
+      }
+      set target_location(value: CardLocation) {
+        pb_1.Message.setWrapperField(this, 3, value);
+      }
+      get has_target_location() {
+        return pb_1.Message.getField(this, 3) != null;
       }
       static fromObject(data: {
-        location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        direct_attack?: boolean;
+        attacker_location?: ReturnType<typeof CardLocation.prototype.toObject>;
+        target_location?: ReturnType<typeof CardLocation.prototype.toObject>;
       }): MsgAttack {
         const message = new MsgAttack({});
-        if (data.location != null) {
-          message.location = CardLocation.fromObject(data.location);
+        if (data.direct_attack != null) {
+          message.direct_attack = data.direct_attack;
+        }
+        if (data.attacker_location != null) {
+          message.attacker_location = CardLocation.fromObject(
+            data.attacker_location
+          );
+        }
+        if (data.target_location != null) {
+          message.target_location = CardLocation.fromObject(
+            data.target_location
+          );
         }
         return message;
       }
       toObject() {
         const data: {
-          location?: ReturnType<typeof CardLocation.prototype.toObject>;
+          direct_attack?: boolean;
+          attacker_location?: ReturnType<
+            typeof CardLocation.prototype.toObject
+          >;
+          target_location?: ReturnType<typeof CardLocation.prototype.toObject>;
         } = {};
-        if (this.location != null) {
-          data.location = this.location.toObject();
+        if (this.direct_attack != null) {
+          data.direct_attack = this.direct_attack;
+        }
+        if (this.attacker_location != null) {
+          data.attacker_location = this.attacker_location.toObject();
+        }
+        if (this.target_location != null) {
+          data.target_location = this.target_location.toObject();
         }
         return data;
       }
@@ -16810,9 +16862,15 @@ export namespace ygopro {
       serialize(w: pb_1.BinaryWriter): void;
       serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
-        if (this.has_location)
-          writer.writeMessage(1, this.location, () =>
-            this.location.serialize(writer)
+        if (this.direct_attack != false)
+          writer.writeBool(1, this.direct_attack);
+        if (this.has_attacker_location)
+          writer.writeMessage(2, this.attacker_location, () =>
+            this.attacker_location.serialize(writer)
+          );
+        if (this.has_target_location)
+          writer.writeMessage(3, this.target_location, () =>
+            this.target_location.serialize(writer)
           );
         if (!w) return writer.getResultBuffer();
       }
@@ -16826,9 +16884,20 @@ export namespace ygopro {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
             case 1:
+              message.direct_attack = reader.readBool();
+              break;
+            case 2:
               reader.readMessage(
-                message.location,
-                () => (message.location = CardLocation.deserialize(reader))
+                message.attacker_location,
+                () =>
+                  (message.attacker_location = CardLocation.deserialize(reader))
+              );
+              break;
+            case 3:
+              reader.readMessage(
+                message.target_location,
+                () =>
+                  (message.target_location = CardLocation.deserialize(reader))
               );
               break;
             default:
