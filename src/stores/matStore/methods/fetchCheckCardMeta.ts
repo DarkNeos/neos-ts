@@ -27,13 +27,13 @@ export const fetchCheckCardMeta = async (
       ? code
       : matStore.in(location.location).of(controller)[location.sequence]
           ?.occupant?.id || 0;
-  const meta = await fetchCard(code);
+  const meta = await fetchCard(newID);
 
   const effectDesc = effectDescCode
     ? getCardStr(meta, effectDescCode & 0xf)
     : undefined;
   const newOption = {
-    code: newID,
+    meta,
     location: location.toObject(),
     level1,
     level2,

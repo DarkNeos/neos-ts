@@ -114,7 +114,7 @@ export default (move: MsgMove) => {
           for (const hand of matStore.in(to.location).of(to.controler)) {
             hand.focus = false;
           }
-        }, 200);
+        }, 500);
       }
       break;
     }
