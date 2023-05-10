@@ -135,10 +135,10 @@ export const SelectActionsModal = () => {
                     style={{ width: 120 }}
                     cover={
                       <img
-                        alt={option.code.toString()}
+                        alt={option.meta.id.toString()}
                         src={
-                          option.code
-                            ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
+                          option.meta.id
+                            ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
                             : `${NeosConfig.assetsPath}/card_back.jpg`
                         }
                         style={{ width: 100 }}
@@ -159,10 +159,10 @@ export const SelectActionsModal = () => {
                     style={{ width: 120 }}
                     cover={
                       <img
-                        alt={option.code.toString()}
+                        alt={option.meta.id.toString()}
                         src={
-                          option.code
-                            ? `${NeosConfig.cardImgUrl}/${option.code}.jpg`
+                          option.meta.id
+                            ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
                             : `${NeosConfig.assetsPath}/card_back.jpg`
                         }
                       />

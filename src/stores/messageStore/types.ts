@@ -3,7 +3,7 @@ type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
 
 interface Option {
   // card id
-  code: number;
+  meta: CardMeta;
   location?: CardLocation;
   // 效果
   effectDesc?: string;
