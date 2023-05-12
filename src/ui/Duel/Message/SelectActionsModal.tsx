@@ -149,7 +149,13 @@ export const SelectActionsModal = () => {
                         <Col span={4} key={idx}>
                           <HoverCheckCard
                             hoverContent={option.effectDesc}
-                            style={{ width: 120 }}
+                            style={{
+                              width: 120,
+                              backgroundColor:
+                                option.location?.controler === 0
+                                  ? "white"
+                                  : "grey",
+                            }}
                             cover={
                               <img
                                 alt={option.meta.id.toString()}
