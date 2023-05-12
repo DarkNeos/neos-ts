@@ -2,7 +2,7 @@ import "@/styles/select-modal.scss";
 
 import { MinusOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
-import { Button, Card, Col, Popover, Row } from "antd";
+import { Button, Card, Col, Popover, Row, Tabs } from "antd";
 import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
@@ -10,10 +10,12 @@ import {
   fetchStrings,
   sendSelectMultiResponse,
   sendSelectSingleResponse,
+  ygopro,
 } from "@/api";
 import { useConfig } from "@/config";
 import { clearSelectActions, matStore, messageStore } from "@/stores";
 
+import { groupBy } from "../utils";
 import { DragModal } from "./DragModal";
 
 const NeosConfig = useConfig();
@@ -57,6 +59,8 @@ export const SelectActionsModal = () => {
   const submitable = single
     ? response.length == 1
     : response.length >= min && response.length <= max && levelMatched;
+
+  const grouped = groupBy(selectables, (option) => option.location?.location!);
 
   return (
     <>
@@ -132,30 +136,47 @@ export const SelectActionsModal = () => {
             setResponse(values);
           }}
         >
-          <Row>
-            {selectables.map((option, idx) => {
-              return (
-                <Col span={4} key={idx}>
-                  <HoverCheckCard
-                    hoverContent={option.effectDesc}
-                    style={{ width: 120 }}
-                    cover={
-                      <img
-                        alt={option.meta.id.toString()}
-                        src={
-                          option.meta.id
-                            ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
-                            : `${NeosConfig.assetsPath}/card_back.jpg`
-                        }
-                        style={{ width: 100 }}
-                      />
-                    }
-                    value={option}
-                  />
-                </Col>
-              );
+          <Tabs
+            type="card"
+            items={grouped.map((group, idx) => {
+              return {
+                label: fetchStrings("!system", group[0] + 1000),
+                key: idx.toString(),
+                children: (
+                  <Row>
+                    {group[1].map((option, idx) => {
+                      return (
+                        <Col span={4} key={idx}>
+                          <HoverCheckCard
+                            hoverContent={option.effectDesc}
+                            style={{
+                              width: 120,
+                              backgroundColor:
+                                option.location?.controler === 0
+                                  ? "white"
+                                  : "grey",
+                            }}
+                            cover={
+                              <img
+                                alt={option.meta.id.toString()}
+                                src={
+                                  option.meta.id
+                                    ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
+                                    : `${NeosConfig.assetsPath}/card_back.jpg`
+                                }
+                                style={{ width: 100 }}
+                              />
+                            }
+                            value={option}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                ),
+              };
             })}
-          </Row>
+          />
           <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
           <Row>
             {selecteds.concat(mustSelects).map((option, idx) => {

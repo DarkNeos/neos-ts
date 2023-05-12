@@ -1,9 +1,12 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
+import { useConfig } from "@/config";
 import {
   fetchCheckCardMeta,
   fetchSelectHintMeta,
   messageStore,
 } from "@/stores";
+
+const NeosConfig = useConfig();
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default (selectChain: MsgSelectChain) => {
@@ -22,8 +25,13 @@ export default (selectChain: MsgSelectChain) => {
         // 直接回答
         handle_flag = 0;
       } else {
-        // 处理多张
-        handle_flag = 2;
+        if (NeosConfig.chainALL) {
+          // 配置了全部连锁，则处理多张
+          handle_flag = 2;
+        } else {
+          // 否则不连锁
+          handle_flag = 0;
+        }
       }
     } else {
       // 有关键卡

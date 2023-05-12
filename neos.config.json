@@ -10,6 +10,7 @@
    "cardImgUrl":"https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
    "cardsDbUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
    "stringsUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
+   "chainALL": false,
    "ui":{
       "ground":{
          "width":9.9,
@@ -69,7 +70,7 @@
       },
       "hint":{
          "waitingDuration":1.5,
-         "maxCount": 3
+         "maxCount": 1
       }
    },
    "unimplementedWhiteList":[
