@@ -136,39 +136,41 @@ export const SelectActionsModal = () => {
             setResponse(values);
           }}
         >
-          <Row>
-            <Tabs
-              type="card"
-              items={grouped.map((group, idx) => {
-                return {
-                  label: fetchStrings("!system", group[0] + 1000),
-                  key: idx.toString(),
-                  children: group[1].map((option, idx) => {
-                    return (
-                      <Col span={4} key={idx}>
-                        <HoverCheckCard
-                          hoverContent={option.effectDesc}
-                          style={{ width: 120 }}
-                          cover={
-                            <img
-                              alt={option.meta.id.toString()}
-                              src={
-                                option.meta.id
-                                  ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
-                                  : `${NeosConfig.assetsPath}/card_back.jpg`
-                              }
-                              style={{ width: 100 }}
-                            />
-                          }
-                          value={option}
-                        />
-                      </Col>
-                    );
-                  }),
-                };
-              })}
-            />
-          </Row>
+          <Tabs
+            type="card"
+            items={grouped.map((group, idx) => {
+              return {
+                label: fetchStrings("!system", group[0] + 1000),
+                key: idx.toString(),
+                children: (
+                  <Row>
+                    {group[1].map((option, idx) => {
+                      return (
+                        <Col span={4} key={idx}>
+                          <HoverCheckCard
+                            hoverContent={option.effectDesc}
+                            style={{ width: 120 }}
+                            cover={
+                              <img
+                                alt={option.meta.id.toString()}
+                                src={
+                                  option.meta.id
+                                    ? `${NeosConfig.cardImgUrl}/${option.meta.id}.jpg`
+                                    : `${NeosConfig.assetsPath}/card_back.jpg`
+                                }
+                                style={{ width: 100 }}
+                              />
+                            }
+                            value={option}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                ),
+              };
+            })}
+          />
           <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
           <Row>
             {selecteds.concat(mustSelects).map((option, idx) => {
