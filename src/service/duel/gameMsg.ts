@@ -4,6 +4,7 @@ import { matStore } from "@/stores";
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
 import onMsgChaining from "./chaining";
+import onMsgChainSolved from "./chainSolved";
 import onMsgDraw from "./draw";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
@@ -231,6 +232,11 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       }
       case "chaining": {
         onMsgChaining(msg.chaining);
+
+        break;
+      }
+      case "chain_solved": {
+        onMsgChainSolved(msg.chain_solved);
 
         break;
       }

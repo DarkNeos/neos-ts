@@ -115,5 +115,9 @@
   "112": {
     "protoType": "attack_disable",
     "fields": []
+  },
+  "73": {
+    "protoType": "chain_solved",
+    "fields": [{ "fieldName": "solved_index", "fieldType": "uint8"}]
   }
 }
