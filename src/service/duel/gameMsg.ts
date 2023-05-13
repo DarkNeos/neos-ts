@@ -61,17 +61,14 @@ const NeosConfig = useConfig();
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   // 防止MSG更新太频繁，做下控频
-  //
-  // TODO: 细化需要控频的MSG
+  const delay = matStore.delay;
+
   setTimeout(() => {
     const msg = pb.stoc_game_msg;
 
     if (ActiveList.includes(msg.gameMsg)) {
       matStore.waiting = false;
     }
-
-    // 先重置`delay`
-    matStore.delay = NeosConfig.ui.commonDelay;
 
     switch (msg.gameMsg) {
       case "start": {
@@ -111,8 +108,6 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       }
       case "move": {
         onMsgMove(msg.move);
-
-        matStore.delay = NeosConfig.ui.moveDelay + 500;
 
         break;
       }
@@ -239,8 +234,6 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       case "chaining": {
         onMsgChaining(msg.chaining);
 
-        matStore.delay += NeosConfig.ui.chainingDelay;
-
         break;
       }
       case "chain_solved": {
@@ -287,5 +280,5 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
         break;
       }
     }
-  }, matStore.delay);
+  }, delay);
 }
