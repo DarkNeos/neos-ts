@@ -1,5 +1,7 @@
 import { ygopro } from "@/api";
+import { useConfig } from "@/config";
 import { fetchEsHintMeta, matStore } from "@/stores";
+
 export default (chaining: ygopro.StocGameMessage.MsgChaining) => {
   fetchEsHintMeta({
     originMsg: "「[?]」被发动时",
@@ -11,5 +13,5 @@ export default (chaining: ygopro.StocGameMessage.MsgChaining) => {
   setTimeout(() => {
     matStore.setChaining(chaining.location, chaining.code, false);
     // TODO: set chained
-  }, 500);
+  }, useConfig().ui.chainingDelay);
 };

@@ -59,7 +59,9 @@ export const Card: React.FC<{
         "--shadow": hight > 0 ? 1 : 0,
         "--opponent-deg": opponent ? "180deg" : "0deg",
         "--vertical": vertical ? 1 : 0,
-        "--trans-time": `${transTime}s`,
+        "--trans-time": `${
+          chaining ? NeosConfig.ui.chainingDelay / 1000 : transTime
+        }s`,
         "--highlight-on": highlight ? 1 : 0,
         "--scale-focus": focus ? FOCUS_SCALE : 1,
         "--card-img": facedown

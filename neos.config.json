@@ -71,7 +71,9 @@
       "hint":{
          "waitingDuration":1.5,
          "maxCount": 1
-      }
+      },
+      "moveDelay": 500,
+      "chainingDelay": 800
    },
    "unimplementedWhiteList":[
       1,

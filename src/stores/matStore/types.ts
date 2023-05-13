@@ -94,6 +94,8 @@ export interface MatState {
 
   unimplemented: number; // 未处理的`Message`
 
+  delay: number; // MSG处理的延迟时间，目的时为了让一些动画处理完后再开始处理下一个MSG
+
   // >>> methods >>>
   /** 根据zone获取hands/masters/magics... */
   in: (zone: ygopro.CardZone) => BothSide<DuelFieldState>;
