@@ -13,6 +13,7 @@ const ASSETS_BASE =
     : import.meta.env.BASE_URL + NeosConfig.assetsPath;
 
 const FOCUS_SCALE = 2.5;
+const CHAINING_SCALE = 1.5;
 const FOCUS_HIGHT = 100;
 
 export const Card: React.FC<{
@@ -25,8 +26,8 @@ export const Card: React.FC<{
   facedown?: boolean;
   vertical?: boolean;
   highlight?: boolean;
-  fly?: boolean;
   focus?: boolean;
+  chaining?: boolean;
   transTime?: number;
   onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
@@ -40,8 +41,8 @@ export const Card: React.FC<{
   opponent = false,
   vertical = false,
   highlight = false,
-  fly = false,
   focus = false,
+  chaining = false,
   transTime = 0.3,
   onClick,
   style = {},
@@ -49,7 +50,7 @@ export const Card: React.FC<{
   <div
     className={classnames("card", {
       "card-defense": defense,
-      fly,
+      fly: chaining,
     })}
     style={
       {
@@ -61,7 +62,7 @@ export const Card: React.FC<{
         "--vertical": vertical ? 1 : 0,
         "--trans-time": `${transTime}s`,
         "--highlight-on": highlight ? 1 : 0,
-        "--scale-focus": focus ? FOCUS_SCALE : 1,
+        "--scale-focus": focus ? FOCUS_SCALE : chaining ? CHAINING_SCALE : 1,
         "--card-img": facedown
           ? `url(${ASSETS_BASE + "/card_back.jpg"})`
           : `url(${NeosConfig.cardImgUrl + "/" + code + ".jpg"})`,

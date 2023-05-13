@@ -104,6 +104,7 @@ export const Mat = () => {
               vertical={card.location.zone == YgoZone.HAND || card.focus}
               highlight={card.idleInteractivities.length > 0}
               focus={card.focus}
+              chaining={card.chaining}
               opponent={card.opponent}
               onClick={
                 card.location.zone == YgoZone.SZONE ||
