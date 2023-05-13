@@ -112,7 +112,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       case "move": {
         onMsgMove(msg.move);
 
-        matStore.delay += NeosConfig.ui.moveDelay;
+        matStore.delay = NeosConfig.ui.moveDelay + 500;
 
         break;
       }
