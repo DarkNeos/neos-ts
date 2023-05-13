@@ -94,11 +94,21 @@ export interface MatState {
 
   unimplemented: number; // 未处理的`Message`
 
+  delay: number; // MSG处理的延迟时间，目的时为了让一些动画处理完后再开始处理下一个MSG
+
   // >>> methods >>>
   /** 根据zone获取hands/masters/magics... */
   in: (zone: ygopro.CardZone) => BothSide<DuelFieldState>;
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
+  // 添加连锁中状态
+  // - 当是手牌以外的卡时，修改code并设置chaining字段；
+  // - 当是手牌中的卡时，修改code，设置chaining字段，并修改position，参数`isChaining`为true时修改成`FaceUpAttack`，为false时修改成`FaceDownAttack`
+  setChaining: (
+    location: ygopro.CardLocation,
+    code: number,
+    isChaining: boolean
+  ) => void;
 }
 
 export interface InitInfo {
@@ -121,6 +131,7 @@ export interface CardState {
     position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
   }; // 位置信息，叫location的原因是为了和ygo对齐
   focus: boolean; // 用于实现动画效果，当这个字段为true时，该张卡片会被放大并在屏幕中央展示
+  chaining: boolean; // 是否在连锁中
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
     controler: number;

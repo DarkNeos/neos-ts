@@ -1,9 +1,11 @@
 import { ygopro } from "@/api";
+import { useConfig } from "@/config";
 import { matStore } from "@/stores";
 
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
 import onMsgChaining from "./chaining";
+import onMsgChainSolved from "./chainSolved";
 import onMsgDraw from "./draw";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
@@ -55,7 +57,7 @@ const ActiveList = [
   "select_yes_no",
 ];
 
-const TIME_GAP = 200;
+const NeosConfig = useConfig();
 
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   // 防止MSG更新太频繁，做下控频
@@ -67,6 +69,9 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     if (ActiveList.includes(msg.gameMsg)) {
       matStore.waiting = false;
     }
+
+    // 先重置`delay`
+    matStore.delay = NeosConfig.ui.commonDelay;
 
     switch (msg.gameMsg) {
       case "start": {
@@ -106,6 +111,8 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       }
       case "move": {
         onMsgMove(msg.move);
+
+        matStore.delay = NeosConfig.ui.moveDelay + 500;
 
         break;
       }
@@ -232,6 +239,13 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       case "chaining": {
         onMsgChaining(msg.chaining);
 
+        matStore.delay += NeosConfig.ui.chainingDelay;
+
+        break;
+      }
+      case "chain_solved": {
+        onMsgChainSolved(msg.chain_solved);
+
         break;
       }
       case "summoning": {
@@ -273,5 +287,5 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
         break;
       }
     }
-  }, TIME_GAP);
+  }, matStore.delay);
 }

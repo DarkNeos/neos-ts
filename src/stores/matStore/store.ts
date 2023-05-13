@@ -41,6 +41,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
         position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
     },
     focus: focus ?? false,
+    chaining: false,
     counters: {},
     idleInteractivities: [],
   });
@@ -161,6 +162,7 @@ const genBlock = (zone: ygopro.CardZone, n: number) =>
         zone,
       },
       focus: false,
+      chaining: false,
       idleInteractivities: [],
       counters: {},
     }));
@@ -253,9 +255,24 @@ export const matStore: MatState = proxy<MatState>({
   result: ygopro.StocGameMessage.MsgWin.ActionType.UNKNOWN,
   waiting: false,
   unimplemented: 0,
+  delay: 0,
   // methods
   in: getZone,
   isMe,
+  setChaining(location, code, isChaining) {
+    const target = this.in(location.location).of(location.controler)[
+      location.sequence
+    ];
+    target.chaining = isChaining;
+    if (target.occupant) {
+      target.occupant.id = code;
+    }
+    if (target.location.zone == ygopro.CardZone.HAND) {
+      target.location.position = isChaining
+        ? ygopro.CardPosition.FACEUP_ATTACK
+        : ygopro.CardPosition.FACEDOWN_ATTACK;
+    }
+  },
 });
 
 // @ts-ignore 挂到全局，便于调试

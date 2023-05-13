@@ -40,6 +40,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         zone: ygopro.CardZone.DECK,
       },
       focus: false,
+      chaining: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -57,6 +58,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         zone: ygopro.CardZone.DECK,
       },
       focus: false,
+      chaining: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -75,6 +77,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         zone: ygopro.CardZone.EXTRA,
       },
       focus: false,
+      chaining: false,
       counters: {},
       idleInteractivities: [],
     });
