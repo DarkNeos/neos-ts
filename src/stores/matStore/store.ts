@@ -258,6 +258,20 @@ export const matStore: MatState = proxy<MatState>({
   // methods
   in: getZone,
   isMe,
+  setChaining(location, code, isChaining) {
+    const target = this.in(location.location).of(location.controler)[
+      location.sequence
+    ];
+    target.chaining = isChaining;
+    if (target.occupant) {
+      target.occupant.id = code;
+    }
+    if (target.location.zone == ygopro.CardZone.HAND) {
+      target.location.position = isChaining
+        ? ygopro.CardPosition.FACEUP_ATTACK
+        : ygopro.CardPosition.FACEDOWN_ATTACK;
+    }
+  },
 });
 
 // @ts-ignore 挂到全局，便于调试

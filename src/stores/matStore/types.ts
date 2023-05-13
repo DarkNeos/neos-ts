@@ -99,6 +99,14 @@ export interface MatState {
   in: (zone: ygopro.CardZone) => BothSide<DuelFieldState>;
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
+  // 添加连锁中状态
+  // - 当是手牌以外的卡时，修改code并设置chaining字段；
+  // - 当是手牌中的卡时，修改code，设置chaining字段，并修改position，参数`isChaining`为true时修改成`FaceUpAttack`，为false时修改成`FaceDownAttack`
+  setChaining: (
+    location: ygopro.CardLocation,
+    code: number,
+    isChaining: boolean
+  ) => void;
 }
 
 export interface InitInfo {
