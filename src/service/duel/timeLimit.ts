@@ -1,7 +1,10 @@
 import { sendTimeConfirm, ygopro } from "@/api";
+import { useConfig } from "@/config";
 import { matStore } from "@/stores";
 
 export default function handleTimeLimit(timeLimit: ygopro.StocTimeLimit) {
-  matStore.timeLimits.set(timeLimit.player, timeLimit.left_time);
-  sendTimeConfirm();
+  setTimeout(() => {
+    matStore.timeLimits.set(timeLimit.player, timeLimit.left_time);
+    sendTimeConfirm();
+  }, useConfig().ui.commonDelay);
 }

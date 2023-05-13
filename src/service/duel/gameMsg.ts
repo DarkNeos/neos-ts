@@ -71,7 +71,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
 
     // 先重置`delay`
-    matStore.delay = 0;
+    matStore.delay = NeosConfig.ui.commonDelay;
 
     switch (msg.gameMsg) {
       case "start": {
@@ -112,7 +112,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       case "move": {
         onMsgMove(msg.move);
 
-        matStore.delay = NeosConfig.ui.moveDelay;
+        matStore.delay += NeosConfig.ui.moveDelay;
 
         break;
       }
@@ -239,7 +239,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       case "chaining": {
         onMsgChaining(msg.chaining);
 
-        matStore.delay = NeosConfig.ui.chainingDelay;
+        matStore.delay += NeosConfig.ui.chainingDelay;
 
         break;
       }

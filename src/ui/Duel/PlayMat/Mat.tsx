@@ -103,8 +103,11 @@ export const Mat = () => {
               facedown={CardStateToFaceDown(card)}
               vertical={card.location.zone == YgoZone.HAND || card.focus}
               highlight={card.idleInteractivities.length > 0}
-              focus={card.focus}
-              chaining={card.chaining}
+              focus={
+                card.focus ||
+                (card.chaining && card.location.zone == YgoZone.HAND)
+              }
+              fly={card.chaining && card.location.zone != YgoZone.HAND}
               opponent={card.opponent}
               onClick={
                 card.location.zone == YgoZone.SZONE ||
@@ -131,7 +134,7 @@ function cardStateToRow(state: RenderCard): number {
       case YgoZone.DECK:
         return 0;
       case YgoZone.HAND:
-        return -1;
+        return state.chaining ? 2 : -1;
       case YgoZone.SZONE:
         return state.sequence >= 5 ? 1 : 0;
       case YgoZone.GRAVE:
@@ -149,7 +152,7 @@ function cardStateToRow(state: RenderCard): number {
       case YgoZone.DECK:
         return 4;
       case YgoZone.HAND:
-        return 5;
+        return state.chaining ? 2 : 5;
       case YgoZone.SZONE:
         return state.sequence >= 5 ? 3 : 4;
       case YgoZone.GRAVE:
@@ -171,7 +174,7 @@ function cardStateToCol(state: RenderCard): number {
       case YgoZone.EXTRA:
         return 5;
       case YgoZone.HAND:
-        return 4 - state.sequence;
+        return state.chaining ? 2 : 4 - state.sequence;
       case YgoZone.SZONE:
         return state.sequence >= 5 ? 5 : 4 - state.sequence;
       case YgoZone.DECK:
@@ -192,7 +195,7 @@ function cardStateToCol(state: RenderCard): number {
       case YgoZone.EXTRA:
         return -1;
       case YgoZone.HAND:
-        return state.sequence;
+        return state.chaining ? 2 : state.sequence;
       case YgoZone.SZONE:
         return state.sequence >= 5 ? -1 : state.sequence;
       case YgoZone.DECK:

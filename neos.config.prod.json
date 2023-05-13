@@ -72,6 +72,7 @@
          "waitingDuration":1.5,
          "maxCount": 1
       },
+      "commonDelay": 200,
       "moveDelay": 500,
       "chainingDelay": 800
    },

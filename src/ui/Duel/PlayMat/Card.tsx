@@ -26,7 +26,7 @@ export const Card: React.FC<{
   vertical?: boolean;
   highlight?: boolean;
   focus?: boolean;
-  chaining?: boolean;
+  fly?: boolean;
   transTime?: number;
   onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
@@ -41,7 +41,7 @@ export const Card: React.FC<{
   vertical = false,
   highlight = false,
   focus = false,
-  chaining = false,
+  fly = false,
   transTime = 0.3,
   onClick,
   style = {},
@@ -49,7 +49,7 @@ export const Card: React.FC<{
   <div
     className={classnames("card", {
       "card-defense": defense,
-      fly: chaining && !focus,
+      fly: fly && !focus,
     })}
     style={
       {
@@ -60,7 +60,7 @@ export const Card: React.FC<{
         "--opponent-deg": opponent ? "180deg" : "0deg",
         "--vertical": vertical ? 1 : 0,
         "--trans-time": `${
-          chaining ? NeosConfig.ui.chainingDelay / 1000 : transTime
+          fly ? NeosConfig.ui.chainingDelay / 1000 : transTime
         }s`,
         "--highlight-on": highlight ? 1 : 0,
         "--scale-focus": focus ? FOCUS_SCALE : 1,

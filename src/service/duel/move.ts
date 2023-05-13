@@ -3,10 +3,12 @@ import { v4 as v4uuid } from "uuid";
 import { ygopro } from "@/api";
 import { fetchOverlayMeta, store } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
+import { useConfig } from "@/config";
 
 import { REASON_MATERIAL } from "../../common";
 
 const { matStore } = store;
+const NeosConfig = useConfig();
 
 const OVERLAY_STACK: { uuid: string; code: number; sequence: number }[] = [];
 
@@ -81,7 +83,7 @@ export default (move: MsgMove) => {
         () =>
           (matStore.in(to.location).of(to.controler)[to.sequence].focus =
             false),
-        500 // TODO: use config
+        NeosConfig.ui.moveDelay
       );
       break;
     }
@@ -114,7 +116,7 @@ export default (move: MsgMove) => {
           for (const hand of matStore.in(to.location).of(to.controler)) {
             hand.focus = false;
           }
-        }, 500);
+        }, NeosConfig.ui.moveDelay);
       }
       break;
     }
