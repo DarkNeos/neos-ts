@@ -41,6 +41,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
       },
       focus: false,
       chaining: false,
+      directAttack: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -59,6 +60,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
       },
       focus: false,
       chaining: false,
+      directAttack: false,
       counters: {},
       idleInteractivities: [],
     });
@@ -78,6 +80,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
       },
       focus: false,
       chaining: false,
+      directAttack: false,
       counters: {},
       idleInteractivities: [],
     });

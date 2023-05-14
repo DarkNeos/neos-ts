@@ -132,6 +132,8 @@ export interface CardState {
   }; // 位置信息，叫location的原因是为了和ygo对齐
   focus: boolean; // 用于实现动画效果，当这个字段为true时，该张卡片会被放大并在屏幕中央展示
   chaining: boolean; // 是否在连锁中
+  directAttack: boolean; // 是否正在直接攻击为玩家
+  attackTarget?: CardState; // 攻击目标。（嵌套结构可行么？）
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
     controler: number;
