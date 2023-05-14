@@ -1,5 +1,7 @@
-import React from "react";
 import "@/styles/card-modal.scss";
+
+import React from "react";
+
 import { CardMeta, getCardStr, sendSelectIdleCmdResponse } from "@/api";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
