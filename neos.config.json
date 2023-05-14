@@ -74,7 +74,8 @@
       },
       "commonDelay": 200,
       "moveDelay": 500,
-      "chainingDelay": 800
+      "chainingDelay": 800,
+      "attackDelay": 500
    },
    "unimplementedWhiteList":[
       1,

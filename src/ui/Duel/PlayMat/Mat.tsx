@@ -142,7 +142,10 @@ function cardStateToRow(state: RenderCard): number {
   }
   if (state.attackTarget) {
     // 正在攻击怪兽
-    return cardStateToRow(state.attackTarget) - 0.5 * (state.opponent ? 1 : -1);
+    return (
+      cardStateToRow(state.attackTarget) -
+      0.2 * (state.attackTarget.opponent ? -1 : 1)
+    );
   }
   if (state.opponent) {
     switch (state.location.zone) {
@@ -185,6 +188,10 @@ function cardStateToRow(state: RenderCard): number {
 
 function cardStateToCol(state: RenderCard): number {
   if (state.focus) return 2;
+  if (state.attackTarget) {
+    // 正在攻击对方怪兽
+    return cardStateToCol(state.attackTarget);
+  }
   if (state.opponent) {
     switch (state.location.zone) {
       case YgoZone.EXTRA:

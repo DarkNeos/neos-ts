@@ -26,7 +26,7 @@ export default (attack: ygopro.StocGameMessage.MsgAttack) => {
       if (target) {
         attacker.attackTarget = {
           sequence: attack.target_location.sequence,
-          opponent: matStore.isMe(attack.target_location.controler),
+          opponent: !matStore.isMe(attack.target_location.controler),
           ...target,
         };
 
