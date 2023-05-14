@@ -7,6 +7,7 @@ import { ygopro } from "../../../idl/ocgcore";
 import { StocAdapter, YgoProPacket } from "../../packet";
 import * as GAME_MSG from "../../protoDecl";
 import MsgAddCounter from "./addCounter";
+import MsgAttack from "./attack";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
 import MsgHintAdapter from "./hint";
@@ -187,6 +188,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SORT_CARD: {
           gameMsg.sort_card = MsgSortCard(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ATTACK: {
+          gameMsg.attack = MsgAttack(gameData);
 
           break;
         }

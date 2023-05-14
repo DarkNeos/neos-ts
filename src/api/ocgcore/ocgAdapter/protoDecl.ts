@@ -56,3 +56,4 @@ export const MSG_ADD_COUNTER = 101;
 export const MSG_REMOVE_COUNTER = 102;
 export const MSG_SELECT_COUNTER = 22;
 export const MSG_SORT_CARD = 25;
+export const MSG_ATTACK = 110;

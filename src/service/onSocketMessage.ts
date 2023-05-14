@@ -126,6 +126,8 @@ function handleDelay(stoc: ygopro.YgoStocMsg): number {
       matStore.delay = NeosConfig.ui.moveDelay + 500;
     } else if (stoc.stoc_game_msg.gameMsg == "chaining") {
       matStore.delay = NeosConfig.ui.chainingDelay;
+    } else if (stoc.stoc_game_msg.gameMsg == "attack") {
+      matStore.delay = NeosConfig.ui.attackDelay + 200;
     }
   }
 

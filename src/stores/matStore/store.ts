@@ -43,6 +43,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     },
     focus: focus ?? false,
     chaining: false,
+    directAttack: false,
     counters: {},
     idleInteractivities: [],
   });
@@ -164,6 +165,7 @@ const genBlock = (zone: ygopro.CardZone, n: number) =>
       },
       focus: false,
       chaining: false,
+      directAttack: false,
       idleInteractivities: [],
       counters: {},
     }));

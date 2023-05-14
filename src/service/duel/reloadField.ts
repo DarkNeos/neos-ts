@@ -52,6 +52,7 @@ function reloadDuelField(
       counters: {},
       focus: false,
       chaining: false,
+      directAttack: false,
       reload: true,
     };
   });

@@ -107,7 +107,11 @@ export const Mat = () => {
                 card.focus ||
                 (card.chaining && card.location.zone == YgoZone.HAND)
               }
-              fly={card.chaining && card.location.zone != YgoZone.HAND}
+              fly={
+                (card.chaining && card.location.zone != YgoZone.HAND) ||
+                card.attackTarget !== undefined ||
+                card.directAttack
+              }
               opponent={card.opponent}
               onClick={
                 card.location.zone == YgoZone.SZONE ||
@@ -128,6 +132,21 @@ export const Mat = () => {
 
 function cardStateToRow(state: RenderCard): number {
   if (state.focus) return 2;
+  if (state.directAttack) {
+    // 正在直接攻击玩家
+    if (state.opponent) {
+      return 4.5;
+    } else {
+      return -0.5;
+    }
+  }
+  if (state.attackTarget) {
+    // 正在攻击怪兽
+    return (
+      cardStateToRow(state.attackTarget) -
+      0.2 * (state.attackTarget.opponent ? -1 : 1)
+    );
+  }
   if (state.opponent) {
     switch (state.location.zone) {
       case YgoZone.EXTRA:
@@ -169,6 +188,10 @@ function cardStateToRow(state: RenderCard): number {
 
 function cardStateToCol(state: RenderCard): number {
   if (state.focus) return 2;
+  if (state.attackTarget) {
+    // 正在攻击对方怪兽
+    return cardStateToCol(state.attackTarget);
+  }
   if (state.opponent) {
     switch (state.location.zone) {
       case YgoZone.EXTRA:
