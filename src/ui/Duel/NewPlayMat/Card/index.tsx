@@ -101,6 +101,8 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       onClick={() => {
         if ([MZONE, SZONE, HAND].includes(state.zone)) {
           onCardClick(state);
+        } else if ([EXTRA, GRAVE, REMOVED].includes(state.zone)) {
+          onFieldClick(state);
         }
       }}
     >
@@ -153,4 +155,20 @@ const onCardClick = (card: CardType) => {
       })) || [];
     messageStore.cardListModal.isOpen = true;
   }
+};
+
+const onFieldClick = (card: CardType) => () => {
+  const displayStates = cardStore.at(card.zone, card.controller);
+  messageStore.cardListModal.list = displayStates.map((item) => ({
+    meta: {
+      id: item.code,
+      text: item.text,
+      data: item.data,
+    },
+    interactivies: item.idleInteractivities.map((interactivy) => ({
+      desc: interactTypeToString(interactivy.interactType),
+      response: interactivy.response,
+    })),
+  }));
+  messageStore.cardListModal.isOpen = true;
 };
