@@ -46,6 +46,10 @@ export const CardListModal = () => {
                 style={{ width: CARD_WIDTH }}
               />
             }
+            onClick={() => {
+              messageStore.cardModal.meta = item.meta;
+              messageStore.cardModal.isOpen = true;
+            }}
           >
             <List.Item.Meta
               title={item.meta?.text.name}
