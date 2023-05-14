@@ -24,7 +24,11 @@ export default (attack: ygopro.StocGameMessage.MsgAttack) => {
         .at(attack.target_location.sequence);
 
       if (target) {
-        attacker.attackTarget = target;
+        attacker.attackTarget = {
+          sequence: attack.target_location.sequence,
+          opponent: matStore.isMe(attack.target_location.controler),
+          ...target,
+        };
 
         setTimeout(() => (attacker.attackTarget = undefined), 500);
       }

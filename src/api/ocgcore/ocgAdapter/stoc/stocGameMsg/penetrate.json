@@ -106,12 +106,6 @@
       { "fieldName": "location", "fieldType": "CardLocation" }
     ]
   },
-  "110": {
-    "protoType": "attack",
-    "fields": [
-      { "fieldName": "location", "fieldType": "CardLocation" }
-    ]
-  },
   "112": {
     "protoType": "attack_disable",
     "fields": []

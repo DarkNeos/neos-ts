@@ -29,7 +29,6 @@ const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["sp_summoning", ygopro.StocGameMessage.MsgSpSummoning],
   ["sp_summoned", ygopro.StocGameMessage.MsgSpSummoned],
   ["chaining", ygopro.StocGameMessage.MsgChaining],
-  ["attack", ygopro.StocGameMessage.MsgAttack],
   ["attack_disable", ygopro.StocGameMessage.MsgAttackDisabled],
   ["chain_solved", ygopro.StocGameMessage.MsgChainSolved],
 ]);
