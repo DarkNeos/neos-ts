@@ -1,5 +1,4 @@
 import { ygopro } from "@/api";
-import { useConfig } from "@/config";
 import { matStore } from "@/stores";
 
 import onMsgAttack from "./attack";
@@ -57,8 +56,6 @@ const ActiveList = [
   "select_yes_no",
 ];
 
-const NeosConfig = useConfig();
-
 export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
@@ -104,7 +101,6 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "move": {
       onMsgMove(msg.move);
-      matStore.delay = NeosConfig.ui.moveDelay + 500;
 
       break;
     }
@@ -230,7 +226,6 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "chaining": {
       onMsgChaining(msg.chaining);
-      matStore.delay = NeosConfig.ui.chainingDelay;
 
       break;
     }
