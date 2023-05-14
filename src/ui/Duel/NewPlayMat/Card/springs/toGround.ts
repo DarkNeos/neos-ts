@@ -24,7 +24,7 @@ const {
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
   ygopro.CardZone;
 
-export const moveToField = async (props: {
+export const moveToGround = async (props: {
   card: CardType;
   api: SpringApi;
   report: boolean;
@@ -40,7 +40,7 @@ export const moveToField = async (props: {
       ? BLOCK_HEIGHT_S.value * CARD_RATIO.value
       : BLOCK_HEIGHT_M.value * CARD_RATIO.value;
 
-  const height = zone === SZONE ? BLOCK_HEIGHT_S.value : BLOCK_HEIGHT_M.value;
+  let height = zone === SZONE ? BLOCK_HEIGHT_S.value : BLOCK_HEIGHT_M.value;
 
   // 首先计算 x 和 y
   let x = 0,
@@ -94,6 +94,17 @@ export const moveToField = async (props: {
     y = -y;
   }
 
+  // 判断是不是防御表示
+  const defence = [
+    ygopro.CardPosition.DEFENSE,
+    ygopro.CardPosition.FACEDOWN_DEFENSE,
+    ygopro.CardPosition.FACEUP_DEFENSE,
+  ].includes(position ?? 5);
+  height = defence ? BLOCK_WIDTH.value : height;
+  let rz = isMe(controller) ? 0 : 180;
+  rz += defence ? 90 : 0;
+
+  // 动画
   await asyncStart(api)({
     x,
     y,
@@ -106,17 +117,17 @@ export const moveToField = async (props: {
     ].includes(position ?? 5)
       ? 180
       : 0,
-    rz: isMe(controller) ? 0 : 180,
+    rz,
     config: {
       // mass: 0.5,
-      easing: easings.easeOutSine,
+      easing: easings.easeInSine,
     },
   });
   await asyncStart(api)({
     z: 0,
     zIndex: overlayMaterials.length ? 3 : 1,
     config: {
-      easing: easings.easeInSine,
+      easing: easings.easeOutSine,
       mass: 5,
       tension: 300, // 170
       friction: 12, // 26

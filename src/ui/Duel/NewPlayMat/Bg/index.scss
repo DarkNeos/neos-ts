@@ -9,6 +9,9 @@ section#mat {
     .bg-row {
       display: flex;
       column-gap: var(--col-gap);
+      &.opponent {
+        flex-direction: row-reverse;
+      }
     }
   }
 
@@ -22,6 +25,10 @@ section#mat {
     }
     &.szone {
       height: var(--block-height-s);
+    }
+    &.highlight {
+      box-shadow: 0 0 0 1px #00b0ff, 0 0 13px 0px #0077ff,
+        0 0 11px 0 skyblue inset;
     }
   }
 }

@@ -1,43 +1,21 @@
 import "@/styles/mat.css";
 
-import Icon from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import { ReactComponent as BattleSvg } from "neos-assets/crossed-swords.svg";
-import { ReactComponent as EpSvg } from "neos-assets/power-button.svg";
-import { ReactComponent as Main2Svg } from "neos-assets/sword-in-stone.svg";
-import { ReactComponent as SurrenderSvg } from "neos-assets/truce.svg";
 import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 
 import {
+  fetchStrings,
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
   sendSurrender,
+  ygopro,
 } from "@/api";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
   matStore,
 } from "@/stores";
-
-const IconSize = "150%";
-
-const PhaseButton = (props: {
-  text: string;
-  enable: boolean;
-  onClick: () => void;
-  icon?: React.ReactNode;
-}) => {
-  return (
-    <Button
-      icon={props.icon}
-      disabled={!props.enable}
-      onClick={props.onClick}
-      size="large"
-    >
-      {props.text}
-    </Button>
-  );
-};
+import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase } = matStore;
 
@@ -51,30 +29,30 @@ export const Menu = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const response =
-    currentPhase === "BATTLE_START" ||
-    currentPhase === "BATTLE_STEP" ||
-    currentPhase === "DAMAGE" ||
-    currentPhase === "DAMAGE_GAL" ||
-    currentPhase === "BATTLE"
+    currentPhase === PhaseType.BATTLE_START ||
+    currentPhase === PhaseType.BATTLE_STEP ||
+    currentPhase === PhaseType.DAMAGE ||
+    currentPhase === PhaseType.DAMAGE_GAL ||
+    currentPhase === PhaseType.BATTLE
       ? 3
       : 7;
 
   const onBp = () => {
     sendSelectIdleCmdResponse(6);
-    clearAllIdleInteractivities(0); // 为什么要clear两次？
     clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(1);
     phase.enableBp = false;
   };
   const onM2 = () => {
     sendSelectBattleCmdResponse(2);
     clearAllIdleInteractivities(0);
-    clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(1);
     phase.enableM2 = false;
   };
   const onEp = () => {
     sendSelectIdleCmdResponse(response);
     clearAllIdleInteractivities(0);
-    clearAllIdleInteractivities(0);
+    clearAllIdleInteractivities(1);
     phase.enableEp = false;
   };
   const onSurrender = () => {
@@ -83,30 +61,16 @@ export const Menu = () => {
 
   return (
     <div id="controller">
-      <PhaseButton
-        icon={<Icon component={BattleSvg} style={{ fontSize: IconSize }} />}
-        enable={enableBp}
-        text="战斗阶段"
-        onClick={onBp}
-      />
-      <PhaseButton
-        icon={<Icon component={Main2Svg} style={{ fontSize: IconSize }} />}
-        enable={enableM2}
-        text="主要阶段2"
-        onClick={onM2}
-      />
-      <PhaseButton
-        icon={<Icon component={EpSvg} style={{ fontSize: IconSize }} />}
-        enable={enableEp}
-        text="结束回合"
-        onClick={onEp}
-      />
-      <PhaseButton
-        icon={<Icon component={SurrenderSvg} style={{ fontSize: IconSize }} />}
-        enable={true}
-        text="投降"
-        onClick={onSurrender}
-      />
+      <button disabled={!enableBp} onClick={onBp}>
+        {fetchStrings("!system", 80)}
+      </button>
+      <button disabled={!enableM2} onClick={onM2}>
+        进入主要阶段2
+      </button>
+      <button disabled={!enableEp} onClick={onEp}>
+        {fetchStrings("!system", 81)}
+      </button>
+      <button onClick={onSurrender}>{fetchStrings("!system", 1351)}</button>
       <Modal
         title="是否确认要投降？"
         open={modalOpen}

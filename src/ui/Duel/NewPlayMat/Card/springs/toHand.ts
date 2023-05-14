@@ -70,8 +70,11 @@ export const moveToHand = async (props: {
   api.start({
     x: isMe(controller) ? x : -x,
     y: isMe(controller) ? y : -y,
+    z: 0,
     rz: isMe(controller) ? _rz : 180 - _rz,
+    ry: isMe(controller) ? 0 : 180,
     height: HAND_CARD_HEIGHT.value,
+    zIndex: sequence,
     // rx: -PLANE_ROTATE_X.value,
   });
 };

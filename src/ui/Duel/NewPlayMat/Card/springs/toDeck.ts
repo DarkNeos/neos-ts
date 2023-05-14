@@ -48,16 +48,15 @@ export const moveToDeck = async (props: {
   if (zone === EXTRA) {
     x = isMe(controller) ? leftX : rightX;
   }
-  let rz = isMe(controller) ? 180 - DECK_ROTATE_Z.value : -DECK_ROTATE_Z.value;
-  if (zone === EXTRA) {
-    rz = isMe(controller) ? DECK_ROTATE_Z.value : DECK_ROTATE_Z.value;
-  }
+  let rz = zone === EXTRA ? DECK_ROTATE_Z.value : -DECK_ROTATE_Z.value;
+  rz += isMe(controller) ? 0 : 180;
   const z = sequence;
   api.start({
     x,
     y,
     z,
     rz,
+    ry: isMe(controller) ? (zone === DECK ? 180 : 0) : 180,
     zIndex: z,
     height: DECK_CARD_HEIGHT.value,
   });

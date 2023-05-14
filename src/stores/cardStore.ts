@@ -1,6 +1,6 @@
 import { CardData, CardText, fetchCard, ygopro } from "@/api";
 import { proxy } from "valtio";
-import { Interactivity } from "./matStore/types";
+import type { Interactivity } from "./matStore/types";
 
 /**
  * 场上某位置的状态，

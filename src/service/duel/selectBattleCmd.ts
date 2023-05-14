@@ -4,6 +4,7 @@ import {
   type Interactivity,
   InteractType,
   matStore,
+  cardStore,
 } from "@/stores";
 
 import MsgSelectBattleCmd = ygopro.StocGameMessage.MsgSelectBattleCmd;
@@ -14,6 +15,9 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
 
   // 先清掉之前的互动性
   clearAllIdleInteractivities(player);
+  cardStore.inner.forEach((card) => {
+    card.idleInteractivities = [];
+  });
 
   cmds.forEach((cmd) => {
     const interactType = battleTypeToInteracType(cmd.battle_type);
@@ -38,6 +42,11 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
             interactType,
             response: data.response,
           });
+        cardStore.at(location, player)[sequence].idleInteractivities.push({
+          ...tmp,
+          interactType,
+          response: data.response,
+        });
       } else {
         console.warn(`Undefined InteractType`);
       }

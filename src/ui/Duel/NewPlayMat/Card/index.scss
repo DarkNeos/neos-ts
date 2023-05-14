@@ -12,7 +12,7 @@ section#mat {
       position: relative;
       height: 100%;
       width: 100%;
-      transform: translateZ(calc(var(--z) * 1px))
+      transform: translateZ(calc(var(--z) * 1px + 0.1px))
         rotateY(calc(var(--ry) * 1deg));
       .card-cover,
       .card-back {
@@ -31,5 +31,18 @@ section#mat {
         transform: translateZ(0px);
       }
     }
+    .card-shadow {
+      // position: absolute;
+      // left: 0;
+      // top: 0;
+      // width: 100%;
+      // height: 100%;
+      // background-color: #0000005e;
+      // filter: blur(2px);
+    }
   }
+}
+
+.highlight {
+  box-shadow: 0 0 10px 2px #5db7ff;
 }

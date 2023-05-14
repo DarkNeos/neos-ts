@@ -34,14 +34,8 @@ export const moveToOutside = async (props: {
   const { zone, sequence, controller, xyzMonster, position, overlayMaterials } =
     card;
 
-  let x = 0,
-    y = 0;
-  if (zone === GRAVE) {
-    x = (BLOCK_WIDTH.value + COL_GAP.value) * 3;
-    y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
-  } else if (zone === REMOVED) {
-    x = (BLOCK_WIDTH.value + COL_GAP.value) * 2;
-  }
+  let x = (BLOCK_WIDTH.value + COL_GAP.value) * 3,
+    y = zone === GRAVE ? BLOCK_HEIGHT_M.value + ROW_GAP.value : 0;
   if (!isMe(controller)) {
     x = -x;
     y = -y;
@@ -50,6 +44,7 @@ export const moveToOutside = async (props: {
     x,
     y,
     z: 0,
+    height: BLOCK_HEIGHT_S.value,
     rz: isMe(controller) ? 0 : 180,
   });
 };

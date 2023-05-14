@@ -1,4 +1,4 @@
-import React, { useEffect, type CSSProperties, type FC } from "react";
+import React, { useEffect, type CSSProperties, type FC, useState } from "react";
 import { cardStore, messageStore, CardType } from "@/stores";
 import "./index.scss";
 import { useSnapshot } from "valtio";
@@ -6,9 +6,10 @@ import { watch } from "valtio/utils";
 import { useSpring, animated, to } from "@react-spring/web";
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { moveToDeck, moveToField, moveToHand, moveToOutside } from "./springs";
+import { moveToDeck, moveToGround, moveToHand, moveToOutside } from "./springs";
 import { ReportEnum } from "./springs/types";
 import { interactTypeToString } from "../../utils";
+import classnames from "classnames";
 
 const NeosConfig = useConfig();
 
@@ -35,7 +36,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       case MZONE:
       case SZONE:
       case OVERLAY:
-        moveToField({ card: state, api, report });
+        moveToGround({ card: state, api, report });
         break;
       case HAND:
         moveToHand({ card: state, api, report });
@@ -54,16 +55,28 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     reload(state.zone, false);
   }, []);
 
+  const [highlight, setHighlight] = useState(false);
+  const [shadowOpacity, setShadowOpacity] = useState(0);
+
   watch((get) => {
-    const { zone, sequence, controller, xyzMonster } = get(state);
+    const { zone, sequence, controller, xyzMonster, idleInteractivities } =
+      get(state);
     reload(zone, true);
   });
+
+  useEffect(() => {
+    setHighlight(!!snap.idleInteractivities.length);
+  }, [snap.idleInteractivities]);
 
   // 在别的手卡更改时候，刷新这张手卡
   eventBus.on(
     ReportEnum.ReloadHand,
     ({ sequence, controller }: { sequence: number; controller: number }) => {
-      if (state.sequence !== sequence && state.controller === controller) {
+      if (
+        state.zone === HAND &&
+        state.sequence !== sequence &&
+        state.controller === controller
+      ) {
         reload(state.zone, false);
       }
     }
@@ -71,7 +84,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className="mat-card"
+      className={classnames("mat-card", { highlight })}
       style={
         {
           transform: to(
@@ -82,17 +95,20 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
           "--z": styles.z,
           "--ry": styles.ry,
           height: styles.height,
+          zIndex: styles.zIndex,
         } as any as CSSProperties
       }
-      onClick={() =>
-        [MZONE, SZONE, HAND].includes(state.zone) && onCardClick(state)
-      }
+      onClick={() => {
+        if ([MZONE, SZONE, HAND].includes(state.zone)) {
+          onCardClick(state);
+        }
+      }}
     >
+      <div className="card-shadow" />
       <div className="card-img-wrap">
         <img className="card-cover" src={getCardImgUrl(snap.code)} alt="" />
         <img className="card-back" src={getCardImgUrl(0, true)} alt="" />
       </div>
-      <div className="card-shadow" />
     </animated.div>
   );
 });
@@ -108,7 +124,7 @@ function getCardImgUrl(code: number, back = false) {
   return NeosConfig.cardImgUrl + "/" + code + ".jpg";
 }
 
-const onCardClick = (card: CardType) => () => {
+const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息
   messageStore.cardModal.meta = {
     id: card.code,
