@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React from "react";
 import { useSnapshot } from "valtio";
 
-import { fetchStrings, getCardStr, sendSelectIdleCmdResponse } from "@/api";
+import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
 import {
   clearAllIdleInteractivities as clearAllIdleInteractivities,
@@ -17,6 +17,7 @@ import {
   Race2StringCodeMap,
   Type2StringCodeMap,
 } from "../../../common";
+import { EffectButton } from "./EffectButton";
 
 const { cardModal } = messageStore;
 const NeosConfig = useConfig();
@@ -84,47 +85,7 @@ export const CardModal = () => {
             </button>
           );
         })}
-        {effectInteractivies.length > 0 ? (
-          effectInteractivies.length == 1 ? (
-            // 如果只有一个效果，点击直接触发
-            <button
-              className="card-modal-btn"
-              onClick={() => {
-                sendSelectIdleCmdResponse(effectInteractivies[0].response);
-                cardModal.isOpen = false;
-                clearAllIdleInteractivities(0);
-                clearAllIdleInteractivities(1);
-              }}
-            >
-              {effectInteractivies[0].desc}
-            </button>
-          ) : (
-            // 如果有多个效果，点击后进入`OptionModal`选择
-            <button
-              className="card-modal-btn"
-              onClick={() => {
-                for (const effect of effectInteractivies) {
-                  const effectMsg =
-                    meta && effect.effectCode
-                      ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
-                      : "[:?]";
-                  messageStore.optionModal.options.push({
-                    msg: effectMsg,
-                    response: effect.response,
-                  });
-                }
-                cardModal.isOpen = false;
-                clearAllIdleInteractivities(0);
-                clearAllIdleInteractivities(1);
-                messageStore.optionModal.isOpen = true;
-              }}
-            >
-              发动效果
-            </button>
-          )
-        ) : (
-          <></>
-        )}
+        <EffectButton meta={meta} effectInteractivies={effectInteractivies} />
       </div>
     </div>
   );

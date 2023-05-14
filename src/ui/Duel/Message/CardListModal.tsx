@@ -1,13 +1,11 @@
-import { Button, Drawer, List } from "antd";
+import { Drawer, List } from "antd";
 import React from "react";
 import { useSnapshot } from "valtio";
 
-import { sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
-import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
-  messageStore,
-} from "@/stores";
+import { messageStore } from "@/stores";
+
+import { EffectButton } from "./EffectButton";
 
 const NeosConfig = useConfig();
 
@@ -16,9 +14,9 @@ const CARD_WIDTH = 100;
 const { cardListModal } = messageStore;
 
 export const CardListModal = () => {
-  const snapCardListModal = useSnapshot(cardListModal);
-  const isOpen = snapCardListModal.isOpen;
-  const list = snapCardListModal.list as typeof cardListModal.list;
+  const snap = useSnapshot(cardListModal);
+  const isOpen = snap.isOpen;
+  const list = snap.list as typeof cardListModal.list;
 
   const handleOkOrCancel = () => {
     cardListModal.isOpen = false;
@@ -31,19 +29,12 @@ export const CardListModal = () => {
         dataSource={list}
         renderItem={(item) => (
           <List.Item
-            actions={item.interactivies.map((interactivy, idx) => (
-              <Button
-                key={idx}
-                onClick={() => {
-                  sendSelectIdleCmdResponse(interactivy.response);
-                  cardListModal.isOpen = false;
-                  clearAllIdleInteractivities(0);
-                  clearAllIdleInteractivities(1);
-                }}
-              >
-                {interactivy.desc}
-              </Button>
-            ))}
+            actions={[
+              <EffectButton
+                effectInteractivies={item.interactivies}
+                meta={item.meta}
+              />,
+            ]}
             extra={
               <img
                 alt={item.meta?.text.name}
@@ -55,6 +46,10 @@ export const CardListModal = () => {
                 style={{ width: CARD_WIDTH }}
               />
             }
+            onClick={() => {
+              messageStore.cardModal.meta = item.meta;
+              messageStore.cardModal.isOpen = true;
+            }}
           >
             <List.Item.Meta
               title={item.meta?.text.name}
