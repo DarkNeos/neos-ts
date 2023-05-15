@@ -203,6 +203,7 @@ const WaitRoom = () => {
       <Modal
         title="单局房间"
         open={true}
+        maskClosable={false}
         footer={
           <>
             <Space direction="vertical" size={10}>
