@@ -89,6 +89,7 @@ export default (move: MsgMove) => {
     }
     case ygopro.CardZone.REMOVED:
     case ygopro.CardZone.GRAVE:
+    case ygopro.CardZone.DECK:
     case ygopro.CardZone.EXTRA: {
       if (uuid) {
         matStore
