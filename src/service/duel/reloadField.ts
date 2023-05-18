@@ -52,6 +52,7 @@ function reloadDuelField(
       counters: {},
       focus: false,
       chaining: false,
+      chained: false, // TODO: 这里是否能简单设置成false？
       directAttack: false,
       reload: true,
     };
