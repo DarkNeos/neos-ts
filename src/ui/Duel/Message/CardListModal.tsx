@@ -48,6 +48,8 @@ export const CardListModal = () => {
             }
             onClick={() => {
               messageStore.cardModal.meta = item.meta;
+              messageStore.cardModal.interactivies = item.interactivies;
+              messageStore.cardModal.counters = [];
               messageStore.cardModal.isOpen = true;
             }}
           >
