@@ -43,7 +43,6 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     },
     focus: focus ?? false,
     chaining: false,
-    chained: false,
     directAttack: false,
     counters: {},
     idleInteractivities: [],
@@ -166,7 +165,6 @@ const genBlock = (zone: ygopro.CardZone, n: number) =>
       },
       focus: false,
       chaining: false,
-      chained: false,
       directAttack: false,
       idleInteractivities: [],
       counters: {},
@@ -283,12 +281,12 @@ export const matStore: MatState = proxy<MatState>({
       }
     }
   },
-  setChained(location, isChained) {
+  setChained(location, chainIndex) {
     const target = this.in(location.location)
       .of(location.controler)
       .at(location.sequence);
     if (target) {
-      target.chained = isChained;
+      target.chainIndex = chainIndex;
     }
   },
 });

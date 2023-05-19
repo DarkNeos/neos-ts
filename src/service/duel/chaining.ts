@@ -19,5 +19,5 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   // 将`location`添加到连锁栈
   matStore.chains.push(location);
   // 设置被连锁状态
-  matStore.setChained(location, true);
+  matStore.setChained(location, matStore.chains.length);
 };
