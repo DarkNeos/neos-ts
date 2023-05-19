@@ -1,3 +1,8 @@
+// web平台上websocket的消息到达是保序的，但是不能保证对这些消息的逻辑处理是保序的。
+// 现在我们有这样一个需求：需要保证每次只处理一个消息，在上一个消息处理完后，再进行下一个消息的处理。
+//
+// 因此封装了一个`WebSocketStream`类，当每次Websocket连接中有消息到达时，往流中添加event，
+// 同时执行器会不断地从流中获取event进行处理。
 import { sleep } from "./sleep";
 
 const SLEEP_INTERVAL = 200;
