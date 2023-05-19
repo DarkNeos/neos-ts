@@ -12,12 +12,12 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   matStore.setChaining(chaining.location, chaining.code, true);
 
   await sleep(useConfig().ui.chainingDelay);
-    const location = chaining.location;
+  const location = chaining.location;
 
-    // 恢复成非`chaining`状态
-    matStore.setChaining(location, chaining.code, false);
-    // 将`location`添加到连锁栈
-    matStore.chains.push(location);
-    // 设置被连锁状态
-    matStore.setChained(location, true);
+  // 恢复成非`chaining`状态
+  matStore.setChaining(location, chaining.code, false);
+  // 将`location`添加到连锁栈
+  matStore.chains.push(location);
+  // 设置被连锁状态
+  matStore.setChained(location, true);
 };
