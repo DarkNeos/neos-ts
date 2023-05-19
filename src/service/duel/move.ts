@@ -110,10 +110,7 @@ export default async (move: MsgMove) => {
           );
 
         await sleep(NeosConfig.ui.moveDelay);
-        // 因为手牌可能会洗牌，sequence就对不上了，所以这里把所有手牌的focus字段都设置成false
-        for (const hand of matStore.in(to.location).of(to.controler)) {
-          hand.focus = false;
-        }
+        matStore.in(to.location).of(to.controler)[to.sequence].focus = false;
       }
       break;
     }

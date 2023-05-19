@@ -1,5 +1,3 @@
-import handleSocketMessage from "@/service/onSocketMessage";
-
 import { sleep } from "./sleep";
 
 const SLEEP_INTERVAL = 200;

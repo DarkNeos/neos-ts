@@ -70,7 +70,7 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "draw": {
-      onMsgDraw(msg.draw);
+      await onMsgDraw(msg.draw);
 
       break;
     }
