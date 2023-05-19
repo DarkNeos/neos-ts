@@ -4,6 +4,8 @@
  * 所有长连接/Websocket相关的逻辑都应该收敛在这里。
  *
  * */
+import { WebSocketStream } from "@/infra";
+
 import handleSocketMessage from "../service/onSocketMessage";
 import handleSocketOpen from "../service/onSocketOpen";
 
@@ -28,24 +30,19 @@ export interface socketAction {
   payload?: Uint8Array;
 }
 
-let ws: WebSocket | null = null;
+let ws: WebSocketStream | null = null;
 
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果。比如建立长连接失败。
-export default function (action: socketAction) {
+export default async function (action: socketAction) {
   switch (action.cmd) {
     case socketCmd.CONNECT: {
       const info = action.initInfo;
       if (info) {
-        ws = new WebSocket("wss://" + info.ip);
+        ws = new WebSocketStream(info.ip, (conn, _event) =>
+          handleSocketOpen(conn, info.ip, info.player, info.passWd)
+        );
 
-        ws.onopen = () => {
-          handleSocketOpen(ws, info.ip, info.player, info.passWd);
-        };
-        ws.onclose = () => {
-          console.log("WebSocket closed.");
-          ws = null;
-        };
-        ws.onmessage = handleSocketMessage;
+        await ws.execute(handleSocketMessage);
       }
 
       break;
@@ -60,7 +57,7 @@ export default function (action: socketAction) {
     case socketCmd.SEND: {
       const payload = action.payload;
       if (ws && payload) {
-        ws.send(payload);
+        ws.ws.send(payload);
       }
 
       break;

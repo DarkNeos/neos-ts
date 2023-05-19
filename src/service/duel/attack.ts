@@ -1,7 +1,8 @@
 import { ygopro } from "@/api";
+import { sleep } from "@/infra";
 import { fetchEsHintMeta, matStore } from "@/stores";
 
-export default (attack: ygopro.StocGameMessage.MsgAttack) => {
+export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
   fetchEsHintMeta({
     originMsg: "「[?]」攻击时",
     location: attack.attacker_location,
@@ -16,7 +17,8 @@ export default (attack: ygopro.StocGameMessage.MsgAttack) => {
     if (attack.direct_attack) {
       attacker.directAttack = true;
 
-      setTimeout(() => (attacker.directAttack = false), 500);
+      await sleep(500);
+      attacker.directAttack = false;
     } else {
       const target = matStore
         .in(attack.target_location.location)
@@ -30,7 +32,8 @@ export default (attack: ygopro.StocGameMessage.MsgAttack) => {
           ...target,
         };
 
-        setTimeout(() => (attacker.attackTarget = undefined), 500);
+        await sleep(500);
+        attacker.attackTarget = undefined;
       }
     }
   }
