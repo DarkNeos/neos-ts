@@ -111,7 +111,7 @@ export interface MatState {
     location: ygopro.CardLocation,
     code: number,
     isChaining: boolean
-  ) => void;
+  ) => Promise<void>;
   // 添加被连锁状态
   setChained: (location: ygopro.CardLocation, chainIndex?: number) => void;
 }
@@ -137,7 +137,8 @@ export interface CardState {
   }; // 位置信息，叫location的原因是为了和ygo对齐
   focus: boolean; // 用于实现动画效果，当这个字段为true时，该张卡片会被放大并在屏幕中央展示
   chaining: boolean; // 是否在连锁中
-  chainIndex?: number; // 连锁的序号，如果为空表示不在连锁
+  chainIndex?: number /*连锁的序号，如果为空表示不在连锁
+  TODO: 目前是妥协的设计，因为其实一张卡是可以在同一个连锁链中被连锁多次的，这里为了避免太过复杂只保存最后的连锁序号*/;
   directAttack: boolean; // 是否正在直接攻击为玩家
   attackTarget?: CardState & { sequence: number; opponent: boolean }; // 攻击目标。（嵌套结构可行么？）
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
