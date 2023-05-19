@@ -56,7 +56,7 @@ const ActiveList = [
   "select_yes_no",
 ];
 
-export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
+export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
@@ -100,7 +100,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "move": {
-      onMsgMove(msg.move);
+      await onMsgMove(msg.move);
 
       break;
     }
@@ -215,7 +215,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "attack": {
-      onMsgAttack(msg.attack);
+      await onMsgAttack(msg.attack);
 
       break;
     }
@@ -225,7 +225,7 @@ export default function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "chaining": {
-      onMsgChaining(msg.chaining);
+      await onMsgChaining(msg.chaining);
 
       break;
     }

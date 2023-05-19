@@ -4,6 +4,7 @@ import { ygopro } from "@/api";
 import { fetchOverlayMeta, store } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 import { useConfig } from "@/config";
+import { sleep } from "@/infra";
 
 import { REASON_MATERIAL } from "../../common";
 
@@ -12,7 +13,7 @@ const NeosConfig = useConfig();
 
 const OVERLAY_STACK: { uuid: string; code: number; sequence: number }[] = [];
 
-export default (move: MsgMove) => {
+export default async (move: MsgMove) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
@@ -79,12 +80,8 @@ export default (move: MsgMove) => {
         matStore.in(to.location).of(to.controler)[to.sequence].uuid = uuid;
       }
 
-      setTimeout(
-        () =>
-          (matStore.in(to.location).of(to.controler)[to.sequence].focus =
-            false),
-        NeosConfig.ui.moveDelay
-      );
+      await sleep(NeosConfig.ui.moveDelay);
+      matStore.in(to.location).of(to.controler)[to.sequence].focus = false;
       break;
     }
     case ygopro.CardZone.REMOVED:
@@ -112,12 +109,11 @@ export default (move: MsgMove) => {
             true
           );
 
-        setTimeout(() => {
-          // 因为手牌可能会洗牌，sequence就对不上了，所以这里把所有手牌的focus字段都设置成false
-          for (const hand of matStore.in(to.location).of(to.controler)) {
-            hand.focus = false;
-          }
-        }, NeosConfig.ui.moveDelay);
+        await sleep(NeosConfig.ui.moveDelay);
+        // 因为手牌可能会洗牌，sequence就对不上了，所以这里把所有手牌的focus字段都设置成false
+        for (const hand of matStore.in(to.location).of(to.controler)) {
+          hand.focus = false;
+        }
       }
       break;
     }
