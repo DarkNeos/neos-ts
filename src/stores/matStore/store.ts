@@ -35,7 +35,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     chainIndex?: number
   ) => ({
     uuid,
-    occupant: await fetchCard(id, true),
+    occupant: await fetchCard(id),
     location: {
       controler: controller,
       zone: this.zone,
@@ -44,6 +44,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     },
     focus: focus ?? false,
     chaining: false,
+    chainIndex,
     directAttack: false,
     counters: {},
     idleInteractivities: [],
