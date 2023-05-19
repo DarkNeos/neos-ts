@@ -31,7 +31,8 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     controller: number,
     id: number,
     position?: ygopro.CardPosition,
-    focus?: boolean
+    focus?: boolean,
+    chainIndex?: number
   ) => ({
     uuid,
     occupant: await fetchCard(id, true),
@@ -56,14 +57,16 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     id: number,
     sequence: number,
     position?: ygopro.CardPosition,
-    focus?: boolean
+    focus?: boolean,
+    chainIndex?: number
   ) {
     const card = await this.genCard(
       uuid,
       this.getController(),
       id,
       position,
-      focus
+      focus,
+      chainIndex
     );
     this.splice(sequence, 0, card);
   }

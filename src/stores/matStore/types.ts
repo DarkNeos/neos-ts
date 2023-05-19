@@ -21,7 +21,8 @@ export interface DuelFieldState extends Array<CardState> {
     id: number,
     sequence: number,
     position?: ygopro.CardPosition,
-    focus?: boolean
+    focus?: boolean,
+    chainIndex?: number
   ) => Promise<void>;
   /** 在末尾添加卡片 */
   add: (

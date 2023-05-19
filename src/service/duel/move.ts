@@ -22,6 +22,7 @@ export default async (move: MsgMove) => {
   // FIXME: 考虑超量素材的情况
 
   let uuid;
+  let chainIndex;
   switch (from.location) {
     case ygopro.CardZone.MZONE:
     case ygopro.CardZone.SZONE: {
@@ -32,6 +33,7 @@ export default async (move: MsgMove) => {
       target.occupant = undefined;
       target.overlay_materials = [];
       uuid = target.uuid;
+      chainIndex = target.chainIndex;
       // 需要重新分配UUID
       target.uuid = v4uuid();
       break;
@@ -47,6 +49,7 @@ export default async (move: MsgMove) => {
         .of(from.controler)
         .remove(from.sequence);
       uuid = removed.uuid;
+      chainIndex = removed.chainIndex;
 
       break;
     }
@@ -77,8 +80,12 @@ export default async (move: MsgMove) => {
         .of(to.controler)
         .setOccupant(to.sequence, code, to.position, true);
       if (uuid) {
+        // 设置UUID
         matStore.in(to.location).of(to.controler)[to.sequence].uuid = uuid;
       }
+      // 设置连锁序号
+      matStore.in(to.location).of(to.controler)[to.sequence].chainIndex =
+        chainIndex;
 
       await sleep(NeosConfig.ui.moveDelay);
       matStore.in(to.location).of(to.controler)[to.sequence].focus = false;
@@ -92,7 +99,7 @@ export default async (move: MsgMove) => {
         matStore
           .in(to.location)
           .of(to.controler)
-          .insert(uuid, code, to.sequence, to.position);
+          .insert(uuid, code, to.sequence, to.position, false, chainIndex);
       }
       break;
     }
@@ -106,7 +113,8 @@ export default async (move: MsgMove) => {
             code,
             to.sequence,
             ygopro.CardPosition.FACEUP_ATTACK,
-            true
+            true,
+            chainIndex
           );
 
         await sleep(NeosConfig.ui.moveDelay);
