@@ -30,6 +30,6 @@ export async function getStrings(description: number): Promise<string> {
     const code = description >> 4;
     const index = description & 0xf;
 
-    return getCardStr(await fetchCard(code, true), index) || "";
+    return getCardStr(await fetchCard(code), index) || "";
   }
 }

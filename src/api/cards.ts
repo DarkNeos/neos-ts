@@ -49,20 +49,12 @@ export interface CardText {
  * @returns 卡片数据
  *
  * */
-export async function fetchCard(
-  id: number,
-  local: boolean = true
-): Promise<CardMeta> {
-  if (local) {
-    const res = await sqliteMiddleWare({
-      cmd: sqliteCmd.SELECT,
-      payload: { id },
-    });
-    return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
-  }
-  const res = await axios.get<CardMeta>("http://localhost:3030/cards/" + id);
-
-  return res.data;
+export async function fetchCard(id: number): Promise<CardMeta> {
+  const res = await sqliteMiddleWare({
+    cmd: sqliteCmd.SELECT,
+    payload: { id },
+  });
+  return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
 }
 
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {

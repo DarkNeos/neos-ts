@@ -31,10 +31,11 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     controller: number,
     id: number,
     position?: ygopro.CardPosition,
-    focus?: boolean
+    focus?: boolean,
+    chainIndex?: number
   ) => ({
     uuid,
-    occupant: await fetchCard(id, true),
+    occupant: await fetchCard(id),
     location: {
       controler: controller,
       zone: this.zone,
@@ -43,6 +44,7 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     },
     focus: focus ?? false,
     chaining: false,
+    chainIndex,
     directAttack: false,
     counters: {},
     idleInteractivities: [],
@@ -56,14 +58,16 @@ class CardArray extends Array<CardState> implements ArrayCardState {
     id: number,
     sequence: number,
     position?: ygopro.CardPosition,
-    focus?: boolean
+    focus?: boolean,
+    chainIndex?: number
   ) {
     const card = await this.genCard(
       uuid,
       this.getController(),
       id,
       position,
-      focus
+      focus,
+      chainIndex
     );
     this.splice(sequence, 0, card);
   }
@@ -234,6 +238,8 @@ export const matStore: MatState = proxy<MatState>({
   decks: genDuelCardArray([], DECK),
   extraDecks: genDuelCardArray([], EXTRA),
 
+  chains: [],
+
   timeLimits: {
     // 时间限制
     me: -1,
@@ -262,21 +268,31 @@ export const matStore: MatState = proxy<MatState>({
   // methods
   in: getZone,
   isMe,
-  setChaining(location, code, isChaining) {
+  async setChaining(location, code, isChaining) {
     const target = this.in(location.location)
       .of(location.controler)
       .at(location.sequence);
     if (target) {
       target.chaining = isChaining;
       if (target.occupant && isChaining) {
-        // 目前需要判断`isChaining`为ture才设置id，因为有些手坑发效果后会move到墓地，运行到这里的时候已经和原来的位置对不上了，这时候不设置id
-        target.occupant.id = code;
+        // 目前需要判断`isChaining`为ture才设置meta，因为有些手坑发效果后会move到墓地，
+        // 运行到这里的时候已经和原来的位置对不上了，这时候不设置meta
+        const meta = await fetchCard(code);
+        target.occupant = meta;
       }
       if (target.location.zone == ygopro.CardZone.HAND) {
         target.location.position = isChaining
           ? ygopro.CardPosition.FACEUP_ATTACK
           : ygopro.CardPosition.FACEDOWN_ATTACK;
       }
+    }
+  },
+  setChained(location, chainIndex) {
+    const target = this.in(location.location)
+      .of(location.controler)
+      .at(location.sequence);
+    if (target) {
+      target.chainIndex = chainIndex;
     }
   },
 });

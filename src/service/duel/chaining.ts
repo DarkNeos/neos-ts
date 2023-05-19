@@ -9,9 +9,15 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
     cardID: chaining.code,
   });
 
-  matStore.setChaining(chaining.location, chaining.code, true);
+  await matStore.setChaining(chaining.location, chaining.code, true);
 
   await sleep(useConfig().ui.chainingDelay);
-  matStore.setChaining(chaining.location, chaining.code, false);
-  // TODO: set chained
+  const location = chaining.location;
+
+  // 恢复成非`chaining`状态
+  await matStore.setChaining(location, chaining.code, false);
+  // 将`location`添加到连锁栈
+  matStore.chains.push(location);
+  // 设置被连锁状态
+  matStore.setChained(location, matStore.chains.length);
 };
