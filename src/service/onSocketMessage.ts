@@ -28,7 +28,7 @@ const NeosConfig = useConfig();
  * 然后再分发到各个处理函数中去处理。
  *
  * */
-export default function handleSocketMessage(e: MessageEvent) {
+export default async function handleSocketMessage(e: MessageEvent) {
   const packet = YgoProPacket.deserialize(e.data);
   const pb = adaptStoc(packet);
   const delay = handleDelay(pb);

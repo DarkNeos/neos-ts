@@ -12,7 +12,7 @@ const NeosConfig = useConfig();
  *
  * */
 export default function handleSocketOpen(
-  ws: WebSocket | null,
+  ws: WebSocket | undefined,
   _ip: string,
   player: string,
   passWd: string
