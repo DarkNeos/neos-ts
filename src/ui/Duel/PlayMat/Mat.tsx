@@ -113,6 +113,7 @@ export const Mat = () => {
                 card.directAttack
               }
               opponent={card.opponent}
+              chainIdx={card.chainIndex}
               onClick={
                 card.location.zone == YgoZone.SZONE ||
                 card.location.zone == YgoZone.MZONE ||

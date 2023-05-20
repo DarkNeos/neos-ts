@@ -6,8 +6,8 @@ const CIRCLES_COUNT = 8;
 const EASE = 0.2;
 const R = 60;
 
-export const Chain: React.FC<{ chainIdex: number }> = (props: {
-  chainIdex: number;
+export const Chain: React.FC<{ chainIdx: number }> = (props: {
+  chainIdx: number;
 }) => (
   <div
     className="circles"
@@ -29,7 +29,7 @@ export const Chain: React.FC<{ chainIdex: number }> = (props: {
         }
       ></div>
     ))}
-    <div className="font">{props.chainIdex}</div>
+    <div className="font">{props.chainIdx}</div>
   </div>
 );
 
