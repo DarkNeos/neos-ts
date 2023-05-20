@@ -1,0 +1,34 @@
+.circles {
+  position: relative;
+  margin: 50% auto;
+  width: var(--R);
+  height: var(--R);
+  font-size: 50px;
+}
+
+.circle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: var(--x);
+  bottom: var(--y);
+  border-radius: 50%;
+  background: yellow;
+  animation: flade 1s ease var(--ease) alternate infinite;
+}
+
+.font {
+  position: absolute;
+  margin: 25% 30%;
+  font-size: 50px;
+}
+
+@keyframes flade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
