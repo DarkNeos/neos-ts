@@ -2,7 +2,7 @@ import "@/styles/chain.css";
 
 import React from "react";
 
-const CIRCLES_COUNT = 8;
+const CIRCLES_COUNT = 10;
 const EASE = 0.2;
 const R = 60;
 

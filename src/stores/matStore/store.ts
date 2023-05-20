@@ -264,7 +264,6 @@ export const matStore: MatState = proxy<MatState>({
   result: ygopro.StocGameMessage.MsgWin.ActionType.UNKNOWN,
   waiting: false,
   unimplemented: 0,
-  delay: useConfig().ui.commonDelay,
   // methods
   in: getZone,
   isMe,
