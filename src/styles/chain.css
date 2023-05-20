@@ -13,7 +13,7 @@
   left: var(--x);
   bottom: var(--y);
   border-radius: 50%;
-  background: yellow;
+  background-color: #ffff00;
   animation: flade 1s ease var(--ease) alternate infinite;
 }
 
