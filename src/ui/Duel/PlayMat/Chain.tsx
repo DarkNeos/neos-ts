@@ -20,6 +20,7 @@ export const Chain: React.FC<{ chainIdx: number }> = (props: {
     {calcXYs(30, CIRCLES_COUNT).map((item, idx) => (
       <div
         className="circle"
+        key={idx}
         style={
           {
             "--x": item.X + "px",

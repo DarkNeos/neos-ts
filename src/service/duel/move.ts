@@ -63,6 +63,11 @@ export default async (move: MsgMove) => {
     }
   }
 
+  if (chainIndex) {
+    // 如果`chainIndex`不为空，则连锁位置变了，需要更新连锁栈的状态
+    matStore.chains[chainIndex - 1] = to;
+  }
+
   switch (to.location) {
     // @ts-ignore
     case ygopro.CardZone.MZONE: {
