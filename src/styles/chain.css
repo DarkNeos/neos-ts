@@ -21,6 +21,7 @@
   position: absolute;
   margin: 25% 30%;
   font-size: 50px;
+  font-style: oblique;
 }
 
 @keyframes flade {
