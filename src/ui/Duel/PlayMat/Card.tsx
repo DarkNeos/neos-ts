@@ -5,6 +5,8 @@ import React, { type CSSProperties, MouseEventHandler } from "react";
 
 import { useConfig } from "@/config";
 
+import { Chain } from "./Chain";
+
 const NeosConfig = useConfig();
 
 const ASSETS_BASE =
@@ -27,6 +29,7 @@ export const Card: React.FC<{
   highlight?: boolean;
   focus?: boolean;
   fly?: boolean;
+  chainIdx?: number;
   transTime?: number;
   onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
@@ -42,6 +45,7 @@ export const Card: React.FC<{
   highlight = false,
   focus = false,
   fly = false,
+  chainIdx,
   transTime = 0.3,
   onClick,
   style = {},
@@ -71,5 +75,7 @@ export const Card: React.FC<{
       } as any
     }
     onClick={onClick}
-  ></div>
+  >
+    {chainIdx ? <Chain chainIdx={chainIdx} /> : <></>}
+  </div>
 );
