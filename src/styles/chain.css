@@ -13,16 +13,17 @@
   left: var(--x);
   bottom: var(--y);
   border-radius: 50%;
-  background-color: #ffff00;
+  border: 2px solid #ffff00;
   animation: flade 1s ease var(--ease) alternate infinite;
 }
 
 .font {
   position: absolute;
   margin: 25% 30%;
-  font-size: 50px;
+  font-size: 40px;
   font-style: initial;
-  color: black;
+  color: #00BFFF;
+  -webkit-text-stroke: 2px #333;
 }
 
 @keyframes flade {
