@@ -44,7 +44,7 @@ const Mora = () => {
   useEffect(() => {
     // 若对局已经开始，自动跳转
     if (meLife > 0) {
-      navigate(`/duel/${player}/${passWd}/${ip}`);
+      navigate(`/duel/${player}/${encodeURIComponent(passWd ?? "")}/${ip}`);
     }
   }, [meLife]);
 

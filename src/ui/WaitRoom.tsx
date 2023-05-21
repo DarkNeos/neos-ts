@@ -194,7 +194,7 @@ const WaitRoom = () => {
     // 若当前玩家是房主并且对战双方都已准备完毕，跳转到猜拳页面；
     // 否则停留在当前页面。
     if (duelStart) {
-      navigate(`/mora/${player}/${passWd}/${ip}`);
+      navigate(`/mora/${player}/${encodeURIComponent(passWd ?? "")}/${ip}`);
     }
   }, [duelStart]);
 
