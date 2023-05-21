@@ -64,6 +64,10 @@ export default async (move: MsgMove) => {
       if (target && target.overlay_materials) {
         target.overlay_materials.splice(from.overlay_sequence, 1);
       }
+
+      // 如果是超量素材的移动，暂时采用妥协的设计，重新生成uuid
+      // 后续需要正确处理超量素材的移动
+      uuid = v4uuid();
       break;
     }
   }
