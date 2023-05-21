@@ -48,6 +48,11 @@ export default async (move: MsgMove) => {
         .in(from.location)
         .of(from.controler)
         .remove(from.sequence);
+
+      if (removed === undefined) {
+        console.warn(`remove from matStore return undefined, location=${from}`);
+      }
+
       uuid = removed.uuid;
       chainIndex = removed.chainIndex;
 

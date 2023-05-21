@@ -292,6 +292,8 @@ export const matStore: MatState = proxy<MatState>({
       .at(location.sequence);
     if (target) {
       target.chainIndex = chainIndex;
+    } else {
+      console.warn(`target is null in setChained, location=${location}`);
     }
   },
 });
