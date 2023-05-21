@@ -17,6 +17,8 @@ export default (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     // 设置被连锁状态为空
     matStore.setChained(location, undefined);
   } else {
-    console.warn("pop from chains return null!");
+    console.warn(
+      `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`
+    );
   }
 };
