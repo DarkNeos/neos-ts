@@ -38,7 +38,9 @@ export default function Login() {
     setIp(event.target.value);
   };
 
-  const handleSubmit = () => navigate(`/room/${player}/${passWd}/${ip}`);
+  // 因为萌卡服务器的房间密码会有`#`等特殊字符，因此这里用`encodeURIComponent`做下转义
+  const handleSubmit = () =>
+    navigate(`/room/${player}/${encodeURIComponent(passWd)}/${ip}`);
 
   useEffect(() => {
     // 如果开启了AI模式，直接进入房间
