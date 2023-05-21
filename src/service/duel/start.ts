@@ -28,7 +28,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   matStore.magics.of(1).forEach((x) => (x.location.controler = 1));
 
   for (let i = 0; i < start.deckSize1; i++) {
-    matStore.decks.me.push({
+    matStore.decks.of(0).push({
       uuid: v4uuid(),
       occupant: {
         id: 0,
@@ -36,7 +36,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         text: {},
       },
       location: {
-        controler: 1 - opponent,
+        controler: 0,
         zone: ygopro.CardZone.DECK,
       },
       focus: false,
@@ -47,7 +47,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     });
   }
   for (let i = 0; i < start.deckSize2; i++) {
-    matStore.decks.op.push({
+    matStore.decks.of(1).push({
       uuid: v4uuid(),
       occupant: {
         id: 0,
@@ -55,7 +55,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         text: {},
       },
       location: {
-        controler: opponent,
+        controler: 1,
         zone: ygopro.CardZone.DECK,
       },
       focus: false,
