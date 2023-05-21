@@ -66,7 +66,7 @@ export default async (move: MsgMove) => {
       }
 
       // 如果是超量素材的移动，暂时采用妥协的设计，重新生成uuid
-      // 后续需要正确处理超量素材的移动
+      // FIXME: 后续需要正确处理超量素材的移动
       uuid = v4uuid();
       break;
     }
