@@ -3,6 +3,7 @@ import { matStore } from "@/stores";
 
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
+import onMsgChainEnd from "./chainEnd";
 import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
 import onMsgDraw from "./draw";
@@ -231,6 +232,11 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "chain_solved": {
       onMsgChainSolved(msg.chain_solved);
+
+      break;
+    }
+    case "chain_end": {
+      onMsgChainEnd(msg.chain_end);
 
       break;
     }

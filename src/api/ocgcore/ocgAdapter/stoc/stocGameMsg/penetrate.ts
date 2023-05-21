@@ -31,6 +31,7 @@ const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["chaining", ygopro.StocGameMessage.MsgChaining],
   ["attack_disable", ygopro.StocGameMessage.MsgAttackDisabled],
   ["chain_solved", ygopro.StocGameMessage.MsgChainSolved],
+  ["chain_end", ygopro.StocGameMessage.MsgChainEnd],
 ]);
 
 export interface penetrateType {

@@ -114,6 +114,10 @@
     "protoType": "chain_solved",
     "fields": [{ "fieldName": "solved_index", "fieldType": "uint8"}]
   },
+  "74": {
+    "protoType": "chain_end",
+    "fields": []
+  },
   "75": {
     "protoType": "chain_solved",
     "fields": [{ "fieldName": "solved_index", "fieldType": "uint8"}]
