@@ -5567,7 +5567,7 @@ export namespace ygopro {
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-        39, 40, 41,
+        39, 40, 41, 42,
       ],
     ];
     constructor(
@@ -5616,6 +5616,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5659,6 +5660,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5702,6 +5704,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5745,6 +5748,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5788,6 +5792,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5831,6 +5836,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5874,6 +5880,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5917,6 +5924,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -5960,6 +5968,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6003,6 +6012,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6046,6 +6056,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6089,6 +6100,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6132,6 +6144,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6175,6 +6188,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6218,6 +6232,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6261,6 +6276,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6304,6 +6320,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6347,6 +6364,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6390,6 +6408,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6433,6 +6452,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6476,6 +6496,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6519,6 +6540,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6562,6 +6584,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6605,6 +6628,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6648,6 +6672,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6691,6 +6716,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6734,6 +6760,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6777,6 +6804,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6820,6 +6848,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6863,6 +6892,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6906,6 +6936,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6949,6 +6980,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -6992,6 +7024,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7035,6 +7068,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7078,6 +7112,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7121,6 +7156,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7164,6 +7200,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7207,6 +7244,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7250,6 +7288,7 @@ export namespace ygopro {
                 attack?: StocGameMessage.MsgAttack;
                 attack_disable?: never;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7293,6 +7332,7 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: StocGameMessage.MsgAttackDisabled;
                 chain_solved?: never;
+                chain_end?: never;
               }
             | {
                 start?: never;
@@ -7336,6 +7376,51 @@ export namespace ygopro {
                 attack?: never;
                 attack_disable?: never;
                 chain_solved?: StocGameMessage.MsgChainSolved;
+                chain_end?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+                chain_solved?: never;
+                chain_end?: StocGameMessage.MsgChainEnd;
               }
           ))
     ) {
@@ -7477,6 +7562,9 @@ export namespace ygopro {
         }
         if ("chain_solved" in data && data.chain_solved != undefined) {
           this.chain_solved = data.chain_solved;
+        }
+        if ("chain_end" in data && data.chain_end != undefined) {
+          this.chain_end = data.chain_end;
         }
       }
     }
@@ -8013,6 +8101,19 @@ export namespace ygopro {
     get has_chain_solved() {
       return pb_1.Message.getField(this, 41) != null;
     }
+    get chain_end() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgChainEnd,
+        42
+      ) as StocGameMessage.MsgChainEnd;
+    }
+    set chain_end(value: StocGameMessage.MsgChainEnd) {
+      pb_1.Message.setOneofWrapperField(this, 42, this.#one_of_decls[0], value);
+    }
+    get has_chain_end() {
+      return pb_1.Message.getField(this, 42) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -8057,7 +8158,8 @@ export namespace ygopro {
           | "chaining"
           | "attack"
           | "attack_disable"
-          | "chain_solved";
+          | "chain_solved"
+          | "chain_end";
       } = {
         0: "none",
         1: "start",
@@ -8101,6 +8203,7 @@ export namespace ygopro {
         39: "attack",
         40: "attack_disable",
         41: "chain_solved",
+        42: "chain_end",
       };
       return cases[
         pb_1.Message.computeOneofCase(
@@ -8108,7 +8211,7 @@ export namespace ygopro {
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-            37, 38, 39, 40, 41,
+            37, 38, 39, 40, 41, 42,
           ]
         )
       ];
@@ -8218,6 +8321,9 @@ export namespace ygopro {
       >;
       chain_solved?: ReturnType<
         typeof StocGameMessage.MsgChainSolved.prototype.toObject
+      >;
+      chain_end?: ReturnType<
+        typeof StocGameMessage.MsgChainEnd.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -8406,6 +8512,11 @@ export namespace ygopro {
           data.chain_solved
         );
       }
+      if (data.chain_end != null) {
+        message.chain_end = StocGameMessage.MsgChainEnd.fromObject(
+          data.chain_end
+        );
+      }
       return message;
     }
     toObject() {
@@ -8516,6 +8627,9 @@ export namespace ygopro {
         >;
         chain_solved?: ReturnType<
           typeof StocGameMessage.MsgChainSolved.prototype.toObject
+        >;
+        chain_end?: ReturnType<
+          typeof StocGameMessage.MsgChainEnd.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -8640,6 +8754,9 @@ export namespace ygopro {
       }
       if (this.chain_solved != null) {
         data.chain_solved = this.chain_solved.toObject();
+      }
+      if (this.chain_end != null) {
+        data.chain_end = this.chain_end.toObject();
       }
       return data;
     }
@@ -8794,6 +8911,10 @@ export namespace ygopro {
       if (this.has_chain_solved)
         writer.writeMessage(41, this.chain_solved, () =>
           this.chain_solved.serialize(writer)
+        );
+      if (this.has_chain_end)
+        writer.writeMessage(42, this.chain_end, () =>
+          this.chain_end.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -9116,6 +9237,14 @@ export namespace ygopro {
               () =>
                 (message.chain_solved =
                   StocGameMessage.MsgChainSolved.deserialize(reader))
+            );
+            break;
+          case 42:
+            reader.readMessage(
+              message.chain_end,
+              () =>
+                (message.chain_end =
+                  StocGameMessage.MsgChainEnd.deserialize(reader))
             );
             break;
           default:
@@ -16956,6 +17085,57 @@ export namespace ygopro {
       }
       static deserializeBinary(bytes: Uint8Array): MsgChainSolved {
         return MsgChainSolved.deserialize(bytes);
+      }
+    }
+    export class MsgChainEnd extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+        }
+      }
+      static fromObject(data: {}): MsgChainEnd {
+        const message = new MsgChainEnd({});
+        return message;
+      }
+      toObject() {
+        const data: {} = {};
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgChainEnd {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgChainEnd();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgChainEnd {
+        return MsgChainEnd.deserialize(bytes);
       }
     }
     export class MsgAttack extends pb_1.Message {
