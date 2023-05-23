@@ -64,8 +64,8 @@ export const Mat = () => {
     <>
       <Menu />
       <div id="life-bar-container">
-        <div id="life-bar">{snap.initInfo.me.life}</div>
-        <div id="life-bar">{snap.initInfo.op.life}</div>
+        <div id="life-bar">{`${snap.initInfo.me.name}: ${snap.initInfo.me.life}`}</div>
+        <div id="life-bar">{`${snap.initInfo.op.name}: ${snap.initInfo.op.life}`}</div>
       </div>
       <div id="camera">
         <div id="board">
