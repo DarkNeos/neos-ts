@@ -64,6 +64,7 @@ button:focus-visible {
   padding: 0.8em 1.6em;
   background-color: #A9A9A9;
   border-radius: 8px;
+  text-align: left;
   border: 1px solid transparent;
   color: black;
   opacity: .4;

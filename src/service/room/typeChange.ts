@@ -8,6 +8,7 @@ export default function handleTypeChange(pb: ygopro.YgoStocMsg) {
   const assertHost = pb.stoc_type_change.is_host;
 
   playerStore.isHost = assertHost;
+  playerStore.selfType = selfType;
 
   if (assertHost) {
     switch (selfType) {

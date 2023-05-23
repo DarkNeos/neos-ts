@@ -1,7 +1,7 @@
 import { v4 as v4uuid } from "uuid";
 
 import { ygopro } from "@/api";
-import { store } from "@/stores";
+import { playerStore, store } from "@/stores";
 const { matStore } = store;
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
@@ -11,13 +11,18 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
       ? 1
       : 0;
 
+  const meName = playerStore.getMePlayer().name;
+  const opName = playerStore.getOpPlayer().name;
+
   matStore.initInfo.set(0, {
     life: start.life1,
+    name: opponent == 0 ? opName : meName,
     deckSize: start.deckSize1,
     extraSize: start.extraSize1,
   });
   matStore.initInfo.set(1, {
     life: start.life2,
+    name: opponent == 1 ? opName : meName,
     deckSize: start.deckSize2,
     extraSize: start.extraSize2,
   });

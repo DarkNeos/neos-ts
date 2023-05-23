@@ -177,6 +177,7 @@ const genBlock = (zone: ygopro.CardZone, n: number) =>
 const initInfo: MatState["initInfo"] = (() => {
   const defaultInitInfo = {
     masterRule: "UNKNOWN",
+    name: "?",
     life: -1, // 特地设置一个不可能的值
     deckSize: 0,
     extraSize: 0,
