@@ -112,6 +112,8 @@ export interface MatState {
   ) => Promise<void>;
   // 添加被连锁状态
   setChained: (location: ygopro.CardLocation, chainIndex?: number) => void;
+  // 设置聚焦状态
+  setFocus: (location: ygopro.CardLocation, focus: boolean) => void;
 }
 
 export interface InitInfo {

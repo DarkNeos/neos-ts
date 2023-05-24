@@ -9,12 +9,12 @@ import { matStore } from "@/stores";
 // 对于这三种情况`service`层的逻辑是一致的，但是UI展示应该有区别，
 // 因为现在还没实现连锁处理的动画，因此暂时先都一致处理，
 // 体现在 `penetrage.json`文件中三个一样的配置。
-export default (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
+export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
   const location = matStore.chains
     .splice(chainSolved.solved_index - 1, 1)
     .at(0);
   if (location) {
-    // 设置被连锁状态为空
+    // 设置被连锁状态为空，解除连锁
     matStore.setChained(location, undefined);
   } else {
     console.warn(

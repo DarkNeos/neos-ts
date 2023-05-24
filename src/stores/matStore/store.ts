@@ -297,6 +297,16 @@ export const matStore: MatState = proxy<MatState>({
       console.warn(`target is null in setChained, location=${location}`);
     }
   },
+  setFocus(location, focus) {
+    const target = this.in(location.location)
+      .of(location.controler)
+      .at(location.sequence);
+    if (target) {
+      target.focus = focus;
+    } else {
+      console.warn(`target is null in setFocus, location=${location}`);
+    }
+  },
 });
 
 // @ts-ignore 挂到全局，便于调试

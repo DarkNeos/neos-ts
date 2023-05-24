@@ -102,7 +102,7 @@ export default async (move: MsgMove) => {
         chainIndex;
 
       await sleep(NeosConfig.ui.moveDelay);
-      matStore.in(to.location).of(to.controler)[to.sequence].focus = false;
+      matStore.setFocus(to, false);
       break;
     }
     case ygopro.CardZone.REMOVED:
@@ -132,7 +132,7 @@ export default async (move: MsgMove) => {
           );
 
         await sleep(NeosConfig.ui.moveDelay);
-        matStore.in(to.location).of(to.controler)[to.sequence].focus = false;
+        matStore.setFocus(to, false);
       }
       break;
     }
