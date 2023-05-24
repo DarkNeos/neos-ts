@@ -1,5 +1,4 @@
 import { ygopro } from "@/api";
-import { sleep } from "@/infra";
 import { matStore } from "@/stores";
 
 // FIXME: 处理连锁会存在三种结果：
@@ -15,18 +14,8 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     .splice(chainSolved.solved_index - 1, 1)
     .at(0);
   if (location) {
-    // 连锁处理时，先聚焦这张卡
-    matStore.setFocus(location, true);
-    await sleep(100);
-
-    // TODO: 针对不同处理结果实现不同动画
-
-    // 设置被连锁状态为空，接触连锁
+    // 设置被连锁状态为空，解除连锁
     matStore.setChained(location, undefined);
-    await sleep(100);
-
-    // 取消聚焦
-    matStore.setFocus(location, false);
   } else {
     console.warn(
       `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`
