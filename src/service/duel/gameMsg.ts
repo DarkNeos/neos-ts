@@ -231,7 +231,7 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "chain_solved": {
-      onMsgChainSolved(msg.chain_solved);
+      await onMsgChainSolved(msg.chain_solved);
 
       break;
     }
