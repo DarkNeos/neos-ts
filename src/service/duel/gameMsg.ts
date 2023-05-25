@@ -277,8 +277,8 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
 
       break;
     }
-    case "lp_udpate": {
-      onLpUpdate(msg.lp_udpate);
+    case "lp_update": {
+      onLpUpdate(msg.lp_update);
 
       break;
     }
