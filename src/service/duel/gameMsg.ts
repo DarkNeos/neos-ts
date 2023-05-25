@@ -11,6 +11,7 @@ import onMsgDraw from "./draw";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
 import onMsgHint from "./hint";
+import onLpUpdate from "./lpUpdate";
 import onMsgMove from "./move";
 import onMsgNewPhase from "./newPhase";
 import onMsgNewTurn from "./newTurn";
@@ -273,6 +274,11 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "announce": {
       await onAnnounce(msg.announce);
+
+      break;
+    }
+    case "lp_update": {
+      onLpUpdate(msg.lp_update);
 
       break;
     }

@@ -125,5 +125,12 @@
   "76": {
     "protoType": "chain_solved",
     "fields": [{ "fieldName": "solved_index", "fieldType": "uint8"}]
+  },
+  "94": {
+    "protoType": "lp_update",
+    "fields": [
+      { "fieldName": "player", "fieldType": "uint8" },
+      { "fieldName": "new_lp", "fieldType": "uint32" }
+    ]
   }
 }
