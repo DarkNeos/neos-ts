@@ -272,7 +272,7 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "announce": {
-      onAnnounce(msg.announce);
+      await onAnnounce(msg.announce);
 
       break;
     }

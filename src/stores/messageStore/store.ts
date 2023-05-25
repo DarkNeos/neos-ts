@@ -27,6 +27,7 @@ export const messageStore = proxy<ModalState>({
   },
   announceModal: {
     isOpen: false,
+    min: 1,
     options: [],
   },
 });

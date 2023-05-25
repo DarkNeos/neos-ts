@@ -91,6 +91,7 @@ export interface ModalState {
   announceModal: {
     isOpen: boolean;
     title?: string;
+    min: number;
     options: {
       info: string;
       response: number;
