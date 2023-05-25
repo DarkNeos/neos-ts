@@ -9,6 +9,7 @@ import * as GAME_MSG from "../../protoDecl";
 import MsgAddCounter from "./addCounter";
 import MsgAnnounceAttribute from "./announceAttrib";
 import MsgAnnounceCard from "./announceCard";
+import MsgAnnounceNumber from "./announceNumber";
 import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
 import MsgDamage from "./damage";
@@ -211,6 +212,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_ANNOUNCE_CARD: {
           gameMsg.announceCard = MsgAnnounceCard(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ANNOUNCE_NUMBER: {
+          gameMsg.announceNumber = MsgAnnounceNumber(gameData);
 
           break;
         }
