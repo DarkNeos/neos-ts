@@ -4,35 +4,32 @@ import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
 
 /*
- * Announce Attribute
+ * Announce Card
  *
  * @param - TODO
- * @usage - 声明属性
+ * @usage - 声明卡片
  * */
 export default (data: Uint8Array) => {
   const reader = new BufferReader(data);
 
   const player = reader.readUint8();
-  const min = reader.readUint8();
-  const avaiable = reader.readUint32();
+  const count = reader.readUint8();
 
   const options = [];
 
-  for (let i = 0; i < 7; i++) {
-    if ((avaiable & (1 << i)) > 0) {
-      options.push(
-        new MsgAnnounce.Option({
-          code: i,
-          response: 1 << i,
-        })
-      );
-    }
+  for (let i = 0; i < count; i++) {
+    const code = reader.readUint32();
+    options.push(
+      new MsgAnnounce.Option({
+        code,
+        response: code,
+      })
+    );
   }
 
   return new MsgAnnounce({
     player,
-    announce_type: MsgAnnounce.AnnounceType.Attribute,
-    min,
+    announce_type: MsgAnnounce.AnnounceType.Card,
     options,
   });
 };
