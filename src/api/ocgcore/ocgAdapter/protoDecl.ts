@@ -57,3 +57,7 @@ export const MSG_REMOVE_COUNTER = 102;
 export const MSG_SELECT_COUNTER = 22;
 export const MSG_SORT_CARD = 25;
 export const MSG_ATTACK = 110;
+export const MSG_ANNOUNCE_RACE = 140;
+export const MSG_ANNOUNCE_ATTRIB = 141;
+export const MSG_ANNOUNCE_CARD = 142;
+export const MSG_ANNOUNCE_NUMBER = 143;

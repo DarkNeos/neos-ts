@@ -7,6 +7,10 @@ import { ygopro } from "../../../idl/ocgcore";
 import { StocAdapter, YgoProPacket } from "../../packet";
 import * as GAME_MSG from "../../protoDecl";
 import MsgAddCounter from "./addCounter";
+import MsgAnnounceAttribute from "./announceAttrib";
+import MsgAnnounceCard from "./announceCard";
+import MsgAnnounceNumber from "./announceNumber";
+import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
@@ -193,6 +197,26 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_ATTACK: {
           gameMsg.attack = MsgAttack(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ANNOUNCE_RACE: {
+          gameMsg.announce = MsgAnnounceRace(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ANNOUNCE_ATTRIB: {
+          gameMsg.announce = MsgAnnounceAttribute(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ANNOUNCE_CARD: {
+          gameMsg.announce = MsgAnnounceCard(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_ANNOUNCE_NUMBER: {
+          gameMsg.announce = MsgAnnounceNumber(gameData);
 
           break;
         }
