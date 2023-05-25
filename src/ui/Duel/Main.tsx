@@ -2,6 +2,7 @@ import React from "react";
 
 import {
   Alert,
+  AnnounceModal,
   CardListModal,
   CardModal,
   CheckCounterModal,
@@ -28,6 +29,7 @@ const NeosDuel = () => {
       <OptionModal />
       <CheckCounterModal />
       <SortCardModal />
+      <AnnounceModal />
     </>
   );
 };

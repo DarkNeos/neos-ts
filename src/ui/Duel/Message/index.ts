@@ -1,4 +1,5 @@
 export * from "./Alert";
+export * from "./AnnounceModal";
 export * from "./CardListModal";
 export * from "./CardModal";
 export * from "./CheckCounterModal";
