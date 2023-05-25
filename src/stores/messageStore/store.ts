@@ -25,6 +25,10 @@ export const messageStore = proxy<ModalState>({
     isOpen: false,
     options: [],
   },
+  announceModal: {
+    isOpen: false,
+    options: [],
+  },
 });
 
 // >>> modal types >>>

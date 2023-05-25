@@ -87,4 +87,13 @@ export interface ModalState {
       response: number;
     }[];
   };
+  // 宣言弹窗
+  announceModal: {
+    isOpen: boolean;
+    title?: string;
+    options: {
+      info: string;
+      response: number;
+    }[];
+  };
 }
