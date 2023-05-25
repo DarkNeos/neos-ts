@@ -1,6 +1,7 @@
 import { ygopro } from "@/api";
 import { matStore } from "@/stores";
 
+import onAnnounce from "./announce";
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
 import onMsgChainEnd from "./chainEnd";
@@ -267,6 +268,11 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "sp_summoned": {
       onMsgSpSummoned(msg.sp_summoned);
+
+      break;
+    }
+    case "announce": {
+      onAnnounce(msg.announce);
 
       break;
     }
