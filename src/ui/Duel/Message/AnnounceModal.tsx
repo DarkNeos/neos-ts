@@ -41,6 +41,7 @@ export const AnnounceModal = () => {
     >
       <CheckCard.Group
         bordered
+        multiple
         size="small"
         onChange={(value: any) => {
           setSelected(value);

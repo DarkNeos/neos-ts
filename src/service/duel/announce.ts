@@ -1,4 +1,4 @@
-import { fetchCard, fetchStrings, getStrings, ygopro } from "@/api";
+import { fetchCard, fetchStrings, ygopro } from "@/api";
 import { messageStore } from "@/stores";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
 

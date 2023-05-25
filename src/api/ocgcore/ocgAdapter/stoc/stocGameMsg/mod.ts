@@ -201,22 +201,22 @@ export default class GameMsgAdapter implements StocAdapter {
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_RACE: {
-          gameMsg.announceRace = MsgAnnounceRace(gameData);
+          gameMsg.announce = MsgAnnounceRace(gameData);
 
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_ATTRIB: {
-          gameMsg.announceAttrib = MsgAnnounceAttribute(gameData);
+          gameMsg.announce = MsgAnnounceAttribute(gameData);
 
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_CARD: {
-          gameMsg.announceCard = MsgAnnounceCard(gameData);
+          gameMsg.announce = MsgAnnounceCard(gameData);
 
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_NUMBER: {
-          gameMsg.announceNumber = MsgAnnounceNumber(gameData);
+          gameMsg.announce = MsgAnnounceNumber(gameData);
 
           break;
         }
