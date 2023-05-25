@@ -5567,7 +5567,7 @@ export namespace ygopro {
       [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-        39, 40, 41, 42, 43,
+        39, 40, 41, 42, 43, 44,
       ],
     ];
     constructor(
@@ -5618,6 +5618,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5663,6 +5664,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5708,6 +5710,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5753,6 +5756,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5798,6 +5802,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5843,6 +5848,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5888,6 +5894,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5933,6 +5940,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -5978,6 +5986,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6023,6 +6032,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6068,6 +6078,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6113,6 +6124,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6158,6 +6170,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6203,6 +6216,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6248,6 +6262,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6293,6 +6308,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6338,6 +6354,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6383,6 +6400,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6428,6 +6446,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6473,6 +6492,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6518,6 +6538,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6563,6 +6584,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6608,6 +6630,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6653,6 +6676,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6698,6 +6722,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6743,6 +6768,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6788,6 +6814,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6833,6 +6860,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6878,6 +6906,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6923,6 +6952,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -6968,6 +6998,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7013,6 +7044,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7058,6 +7090,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7103,6 +7136,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7148,6 +7182,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7193,6 +7228,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7238,6 +7274,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7283,6 +7320,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7328,6 +7366,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7373,6 +7412,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7418,6 +7458,7 @@ export namespace ygopro {
                 chain_solved?: StocGameMessage.MsgChainSolved;
                 chain_end?: never;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7463,6 +7504,7 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: StocGameMessage.MsgChainEnd;
                 announce?: never;
+                lp_udpate?: never;
               }
             | {
                 start?: never;
@@ -7508,6 +7550,53 @@ export namespace ygopro {
                 chain_solved?: never;
                 chain_end?: never;
                 announce?: StocGameMessage.MsgAnnounce;
+                lp_udpate?: never;
+              }
+            | {
+                start?: never;
+                draw?: never;
+                new_turn?: never;
+                new_phase?: never;
+                hint?: never;
+                select_idle_cmd?: never;
+                select_place?: never;
+                move?: never;
+                select_card?: never;
+                select_chain?: never;
+                select_effect_yn?: never;
+                select_position?: never;
+                select_option?: never;
+                shuffle_hand?: never;
+                select_battle_cmd?: never;
+                pos_change?: never;
+                select_unselect_card?: never;
+                select_yes_no?: never;
+                update_hp?: never;
+                win?: never;
+                wait?: never;
+                unimplemented?: never;
+                update_data?: never;
+                reload_field?: never;
+                select_sum?: never;
+                select_tribute?: never;
+                update_counter?: never;
+                select_counter?: never;
+                sort_card?: never;
+                set?: never;
+                swap?: never;
+                summoning?: never;
+                summoned?: never;
+                flip_summoning?: never;
+                flip_summoned?: never;
+                sp_summoning?: never;
+                sp_summoned?: never;
+                chaining?: never;
+                attack?: never;
+                attack_disable?: never;
+                chain_solved?: never;
+                chain_end?: never;
+                announce?: never;
+                lp_udpate?: StocGameMessage.MsgLpUpdate;
               }
           ))
     ) {
@@ -7655,6 +7744,9 @@ export namespace ygopro {
         }
         if ("announce" in data && data.announce != undefined) {
           this.announce = data.announce;
+        }
+        if ("lp_udpate" in data && data.lp_udpate != undefined) {
+          this.lp_udpate = data.lp_udpate;
         }
       }
     }
@@ -8217,6 +8309,19 @@ export namespace ygopro {
     get has_announce() {
       return pb_1.Message.getField(this, 43) != null;
     }
+    get lp_udpate() {
+      return pb_1.Message.getWrapperField(
+        this,
+        StocGameMessage.MsgLpUpdate,
+        44
+      ) as StocGameMessage.MsgLpUpdate;
+    }
+    set lp_udpate(value: StocGameMessage.MsgLpUpdate) {
+      pb_1.Message.setOneofWrapperField(this, 44, this.#one_of_decls[0], value);
+    }
+    get has_lp_udpate() {
+      return pb_1.Message.getField(this, 44) != null;
+    }
     get gameMsg() {
       const cases: {
         [index: number]:
@@ -8263,7 +8368,8 @@ export namespace ygopro {
           | "attack_disable"
           | "chain_solved"
           | "chain_end"
-          | "announce";
+          | "announce"
+          | "lp_udpate";
       } = {
         0: "none",
         1: "start",
@@ -8309,6 +8415,7 @@ export namespace ygopro {
         41: "chain_solved",
         42: "chain_end",
         43: "announce",
+        44: "lp_udpate",
       };
       return cases[
         pb_1.Message.computeOneofCase(
@@ -8316,7 +8423,7 @@ export namespace ygopro {
           [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-            37, 38, 39, 40, 41, 42, 43,
+            37, 38, 39, 40, 41, 42, 43, 44,
           ]
         )
       ];
@@ -8432,6 +8539,9 @@ export namespace ygopro {
       >;
       announce?: ReturnType<
         typeof StocGameMessage.MsgAnnounce.prototype.toObject
+      >;
+      lp_udpate?: ReturnType<
+        typeof StocGameMessage.MsgLpUpdate.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -8630,6 +8740,11 @@ export namespace ygopro {
           data.announce
         );
       }
+      if (data.lp_udpate != null) {
+        message.lp_udpate = StocGameMessage.MsgLpUpdate.fromObject(
+          data.lp_udpate
+        );
+      }
       return message;
     }
     toObject() {
@@ -8746,6 +8861,9 @@ export namespace ygopro {
         >;
         announce?: ReturnType<
           typeof StocGameMessage.MsgAnnounce.prototype.toObject
+        >;
+        lp_udpate?: ReturnType<
+          typeof StocGameMessage.MsgLpUpdate.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -8876,6 +8994,9 @@ export namespace ygopro {
       }
       if (this.announce != null) {
         data.announce = this.announce.toObject();
+      }
+      if (this.lp_udpate != null) {
+        data.lp_udpate = this.lp_udpate.toObject();
       }
       return data;
     }
@@ -9038,6 +9159,10 @@ export namespace ygopro {
       if (this.has_announce)
         writer.writeMessage(43, this.announce, () =>
           this.announce.serialize(writer)
+        );
+      if (this.has_lp_udpate)
+        writer.writeMessage(44, this.lp_udpate, () =>
+          this.lp_udpate.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -9376,6 +9501,14 @@ export namespace ygopro {
               () =>
                 (message.announce =
                   StocGameMessage.MsgAnnounce.deserialize(reader))
+            );
+            break;
+          case 44:
+            reader.readMessage(
+              message.lp_udpate,
+              () =>
+                (message.lp_udpate =
+                  StocGameMessage.MsgLpUpdate.deserialize(reader))
             );
             break;
           default:
@@ -17767,6 +17900,108 @@ export namespace ygopro {
         static deserializeBinary(bytes: Uint8Array): Option {
           return Option.deserialize(bytes);
         }
+      }
+    }
+    export class MsgLpUpdate extends pb_1.Message {
+      #one_of_decls: number[][] = [];
+      constructor(
+        data?:
+          | any[]
+          | {
+              player?: number;
+              new_lp?: number;
+            }
+      ) {
+        super();
+        pb_1.Message.initialize(
+          this,
+          Array.isArray(data) ? data : [],
+          0,
+          -1,
+          [],
+          this.#one_of_decls
+        );
+        if (!Array.isArray(data) && typeof data == "object") {
+          if ("player" in data && data.player != undefined) {
+            this.player = data.player;
+          }
+          if ("new_lp" in data && data.new_lp != undefined) {
+            this.new_lp = data.new_lp;
+          }
+        }
+      }
+      get player() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+      }
+      set player(value: number) {
+        pb_1.Message.setField(this, 1, value);
+      }
+      get new_lp() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+      }
+      set new_lp(value: number) {
+        pb_1.Message.setField(this, 2, value);
+      }
+      static fromObject(data: {
+        player?: number;
+        new_lp?: number;
+      }): MsgLpUpdate {
+        const message = new MsgLpUpdate({});
+        if (data.player != null) {
+          message.player = data.player;
+        }
+        if (data.new_lp != null) {
+          message.new_lp = data.new_lp;
+        }
+        return message;
+      }
+      toObject() {
+        const data: {
+          player?: number;
+          new_lp?: number;
+        } = {};
+        if (this.player != null) {
+          data.player = this.player;
+        }
+        if (this.new_lp != null) {
+          data.new_lp = this.new_lp;
+        }
+        return data;
+      }
+      serialize(): Uint8Array;
+      serialize(w: pb_1.BinaryWriter): void;
+      serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.player != 0) writer.writeInt32(1, this.player);
+        if (this.new_lp != 0) writer.writeInt32(2, this.new_lp);
+        if (!w) return writer.getResultBuffer();
+      }
+      static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgLpUpdate {
+        const reader =
+            bytes instanceof pb_1.BinaryReader
+              ? bytes
+              : new pb_1.BinaryReader(bytes),
+          message = new MsgLpUpdate();
+        while (reader.nextField()) {
+          if (reader.isEndGroup()) break;
+          switch (reader.getFieldNumber()) {
+            case 1:
+              message.player = reader.readInt32();
+              break;
+            case 2:
+              message.new_lp = reader.readInt32();
+              break;
+            default:
+              reader.skipField();
+          }
+        }
+        return message;
+      }
+      serializeBinary(): Uint8Array {
+        return this.serialize();
+      }
+      static deserializeBinary(bytes: Uint8Array): MsgLpUpdate {
+        return MsgLpUpdate.deserialize(bytes);
       }
     }
     export class MsgReloadField extends pb_1.Message {
