@@ -1,7 +1,7 @@
 import { v4 as v4uuid } from "uuid";
 
 import { ygopro } from "@/api";
-import { fetchOverlayMeta, store } from "@/stores";
+import { fetchOverlayMeta, store, cardStore } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
@@ -18,6 +18,12 @@ export default async (move: MsgMove) => {
   const from = move.from;
   const to = move.to;
   const reason = move.reason;
+
+  const card = cardStore.at(from.location, from.controler, from.sequence);
+  card.zone = to.location;
+  card.sequence = to.sequence;
+  card.position = to.position;
+  card.code = code;
 
   // FIXME: 考虑超量素材的情况
 

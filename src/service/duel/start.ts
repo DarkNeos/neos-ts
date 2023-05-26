@@ -1,7 +1,11 @@
 import { v4 as v4uuid } from "uuid";
 
-import { ygopro } from "@/api";
-import { playerStore, store } from "@/stores";
+import { fetchCard, ygopro } from "@/api";
+import { playerStore, store, cardStore, CardType } from "@/stores";
+
+import { flatten } from "lodash-es";
+import { proxy } from "valtio";
+import { subscribeKey } from "valtio/utils";
 const { matStore } = store;
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
@@ -95,4 +99,41 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   matStore
     .in(ygopro.CardZone.EXTRA)
     .me.forEach((state) => (state.location.controler = 1 - opponent));
+
+  /** 自动从code推断出occupant */
+  const genCard = (o: CardType) => {
+    // FIXME 还没处理超量
+    const t = proxy(o);
+    subscribeKey(t, "code", async (code) => {
+      const { text, data } = await fetchCard(code ?? 0);
+      t.text = text;
+      t.data = data;
+    });
+    return t;
+  };
+
+  const cards = flatten(
+    [start.deckSize1, start.extraSize1, start.deckSize2, start.extraSize2].map(
+      (length, i) =>
+        Array.from({ length }).map((_, sequence) =>
+          genCard({
+            uuid: v4uuid(),
+            code: 0,
+            controller: i < 2 ? 1 - opponent : opponent, // 前两个是自己的卡组，后两个是对手的卡组
+            zone: i % 2 ? ygopro.CardZone.EXTRA : ygopro.CardZone.DECK,
+            counters: {},
+            idleInteractivities: [],
+            sequence,
+            data: {},
+            text: {},
+          })
+        )
+    )
+  );
+
+  cardStore.inner.push(...cards);
+  // 设置自己的额外卡组，信息是在waitroom之中拿到的
+  cardStore
+    .at(ygopro.CardZone.EXTRA, 1 - opponent)
+    .forEach((card) => (card.code = myExtraDeckCodes.shift()!));
 };

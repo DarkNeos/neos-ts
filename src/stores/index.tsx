@@ -4,6 +4,7 @@ export * from "./matStore";
 export * from "./messageStore";
 export * from "./moraStore";
 export * from "./playerStore";
+export * from "./cardStore";
 
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
@@ -14,6 +15,7 @@ import { matStore } from "./matStore";
 import { messageStore } from "./messageStore";
 import { moraStore } from "./moraStore";
 import { playerStore } from "./playerStore";
+import { cardStore } from "./cardStore";
 
 export const store = proxy({
   playerStore,
@@ -22,6 +24,7 @@ export const store = proxy({
   moraStore,
   matStore, // 决斗盘
   messageStore, // 决斗的信息，包括模态框
+  cardStore,
 });
 
 devtools(store, { name: "valtio store", enabled: true });

@@ -14,11 +14,13 @@ import {
   YesNoModal,
 } from "./Message";
 import Mat from "./PlayMat";
+import { Test } from "./Test";
 
 const NeosDuel = () => {
   return (
     <>
       <Alert />
+      <Test />
       <Mat />
       <CardModal />
       <CardListModal />

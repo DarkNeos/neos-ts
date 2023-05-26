@@ -151,6 +151,8 @@ const WaitRoom = () => {
       ygopro.CardPosition.FACEDOWN_ATTACK
     );
     setChoseDeck(true);
+
+    window.myExtraDeckCodes = deck.extra;
   };
 
   const handleChoseDeck = async (deckName: string) => {

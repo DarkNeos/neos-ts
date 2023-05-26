@@ -1,6 +1,6 @@
-import { ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { fetchEsHintMeta, matStore } from "@/stores";
+import { fetchCard, ygopro } from "@/api";
+import { fetchEsHintMeta, matStore, cardStore } from "@/stores";
 import { zip } from "@/ui/Duel/utils";
 
 export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
@@ -25,4 +25,15 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   for (const hand of matStore.hands.of(draw.player)) {
     hand.focus = false;
   }
+
+  // 将卡从卡组移到手牌：设置zone、occupant、sequence
+  const handsLength = cardStore.at(ygopro.CardZone.HAND, draw.player).length;
+  cardStore
+    .at(ygopro.CardZone.DECK, draw.player)
+    .slice(-drawLength)
+    .forEach(async (card, idx) => {
+      card.zone = ygopro.CardZone.HAND;
+      card.code = draw.cards[idx];
+      card.sequence = idx + handsLength;
+    });
 };
