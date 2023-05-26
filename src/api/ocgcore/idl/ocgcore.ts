@@ -5619,7 +5619,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5666,7 +5666,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5713,7 +5713,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5760,7 +5760,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5807,7 +5807,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5854,7 +5854,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5901,7 +5901,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5948,7 +5948,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -5995,7 +5995,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6042,7 +6042,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6089,7 +6089,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6136,7 +6136,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6183,7 +6183,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6230,7 +6230,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6277,7 +6277,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6324,7 +6324,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6371,7 +6371,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6418,7 +6418,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6465,7 +6465,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6512,7 +6512,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6559,7 +6559,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6606,7 +6606,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6653,7 +6653,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6700,7 +6700,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6747,7 +6747,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6794,7 +6794,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6841,7 +6841,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6888,7 +6888,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6935,7 +6935,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -6982,7 +6982,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7029,7 +7029,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7076,7 +7076,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7123,7 +7123,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7170,7 +7170,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7217,7 +7217,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7264,7 +7264,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7311,7 +7311,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7358,7 +7358,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7405,7 +7405,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7452,7 +7452,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7499,7 +7499,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7546,7 +7546,7 @@ export namespace ygopro {
                 chain_end?: StocGameMessage.MsgChainEnd;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7593,7 +7593,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: StocGameMessage.MsgAnnounce;
                 lp_update?: never;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7640,7 +7640,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: StocGameMessage.MsgLpUpdate;
-                confirm_desktop?: never;
+                confirm_cards?: never;
               }
             | {
                 start?: never;
@@ -7687,7 +7687,7 @@ export namespace ygopro {
                 chain_end?: never;
                 announce?: never;
                 lp_update?: never;
-                confirm_desktop?: StocGameMessage.MsgConfirmDeskTop;
+                confirm_cards?: StocGameMessage.MsgConfirmCards;
               }
           ))
     ) {
@@ -7839,8 +7839,8 @@ export namespace ygopro {
         if ("lp_update" in data && data.lp_update != undefined) {
           this.lp_update = data.lp_update;
         }
-        if ("confirm_desktop" in data && data.confirm_desktop != undefined) {
-          this.confirm_desktop = data.confirm_desktop;
+        if ("confirm_cards" in data && data.confirm_cards != undefined) {
+          this.confirm_cards = data.confirm_cards;
         }
       }
     }
@@ -8416,17 +8416,17 @@ export namespace ygopro {
     get has_lp_update() {
       return pb_1.Message.getField(this, 44) != null;
     }
-    get confirm_desktop() {
+    get confirm_cards() {
       return pb_1.Message.getWrapperField(
         this,
-        StocGameMessage.MsgConfirmDeskTop,
+        StocGameMessage.MsgConfirmCards,
         45
-      ) as StocGameMessage.MsgConfirmDeskTop;
+      ) as StocGameMessage.MsgConfirmCards;
     }
-    set confirm_desktop(value: StocGameMessage.MsgConfirmDeskTop) {
+    set confirm_cards(value: StocGameMessage.MsgConfirmCards) {
       pb_1.Message.setOneofWrapperField(this, 45, this.#one_of_decls[0], value);
     }
-    get has_confirm_desktop() {
+    get has_confirm_cards() {
       return pb_1.Message.getField(this, 45) != null;
     }
     get gameMsg() {
@@ -8477,7 +8477,7 @@ export namespace ygopro {
           | "chain_end"
           | "announce"
           | "lp_update"
-          | "confirm_desktop";
+          | "confirm_cards";
       } = {
         0: "none",
         1: "start",
@@ -8524,7 +8524,7 @@ export namespace ygopro {
         42: "chain_end",
         43: "announce",
         44: "lp_update",
-        45: "confirm_desktop",
+        45: "confirm_cards",
       };
       return cases[
         pb_1.Message.computeOneofCase(
@@ -8652,8 +8652,8 @@ export namespace ygopro {
       lp_update?: ReturnType<
         typeof StocGameMessage.MsgLpUpdate.prototype.toObject
       >;
-      confirm_desktop?: ReturnType<
-        typeof StocGameMessage.MsgConfirmDeskTop.prototype.toObject
+      confirm_cards?: ReturnType<
+        typeof StocGameMessage.MsgConfirmCards.prototype.toObject
       >;
     }): StocGameMessage {
       const message = new StocGameMessage({});
@@ -8857,9 +8857,9 @@ export namespace ygopro {
           data.lp_update
         );
       }
-      if (data.confirm_desktop != null) {
-        message.confirm_desktop = StocGameMessage.MsgConfirmDeskTop.fromObject(
-          data.confirm_desktop
+      if (data.confirm_cards != null) {
+        message.confirm_cards = StocGameMessage.MsgConfirmCards.fromObject(
+          data.confirm_cards
         );
       }
       return message;
@@ -8982,8 +8982,8 @@ export namespace ygopro {
         lp_update?: ReturnType<
           typeof StocGameMessage.MsgLpUpdate.prototype.toObject
         >;
-        confirm_desktop?: ReturnType<
-          typeof StocGameMessage.MsgConfirmDeskTop.prototype.toObject
+        confirm_cards?: ReturnType<
+          typeof StocGameMessage.MsgConfirmCards.prototype.toObject
         >;
       } = {};
       if (this.start != null) {
@@ -9118,8 +9118,8 @@ export namespace ygopro {
       if (this.lp_update != null) {
         data.lp_update = this.lp_update.toObject();
       }
-      if (this.confirm_desktop != null) {
-        data.confirm_desktop = this.confirm_desktop.toObject();
+      if (this.confirm_cards != null) {
+        data.confirm_cards = this.confirm_cards.toObject();
       }
       return data;
     }
@@ -9287,9 +9287,9 @@ export namespace ygopro {
         writer.writeMessage(44, this.lp_update, () =>
           this.lp_update.serialize(writer)
         );
-      if (this.has_confirm_desktop)
-        writer.writeMessage(45, this.confirm_desktop, () =>
-          this.confirm_desktop.serialize(writer)
+      if (this.has_confirm_cards)
+        writer.writeMessage(45, this.confirm_cards, () =>
+          this.confirm_cards.serialize(writer)
         );
       if (!w) return writer.getResultBuffer();
     }
@@ -9640,10 +9640,10 @@ export namespace ygopro {
             break;
           case 45:
             reader.readMessage(
-              message.confirm_desktop,
+              message.confirm_cards,
               () =>
-                (message.confirm_desktop =
-                  StocGameMessage.MsgConfirmDeskTop.deserialize(reader))
+                (message.confirm_cards =
+                  StocGameMessage.MsgConfirmCards.deserialize(reader))
             );
             break;
           default:
@@ -18139,7 +18139,7 @@ export namespace ygopro {
         return MsgLpUpdate.deserialize(bytes);
       }
     }
-    export class MsgConfirmDeskTop extends pb_1.Message {
+    export class MsgConfirmCards extends pb_1.Message {
       #one_of_decls: number[][] = [];
       constructor(
         data?:
@@ -18186,8 +18186,8 @@ export namespace ygopro {
       static fromObject(data: {
         player?: number;
         cards?: ReturnType<typeof CardInfo.prototype.toObject>[];
-      }): MsgConfirmDeskTop {
-        const message = new MsgConfirmDeskTop({});
+      }): MsgConfirmCards {
+        const message = new MsgConfirmCards({});
         if (data.player != null) {
           message.player = data.player;
         }
@@ -18222,12 +18222,12 @@ export namespace ygopro {
       }
       static deserialize(
         bytes: Uint8Array | pb_1.BinaryReader
-      ): MsgConfirmDeskTop {
+      ): MsgConfirmCards {
         const reader =
             bytes instanceof pb_1.BinaryReader
               ? bytes
               : new pb_1.BinaryReader(bytes),
-          message = new MsgConfirmDeskTop();
+          message = new MsgConfirmCards();
         while (reader.nextField()) {
           if (reader.isEndGroup()) break;
           switch (reader.getFieldNumber()) {
@@ -18253,8 +18253,8 @@ export namespace ygopro {
       serializeBinary(): Uint8Array {
         return this.serialize();
       }
-      static deserializeBinary(bytes: Uint8Array): MsgConfirmDeskTop {
-        return MsgConfirmDeskTop.deserialize(bytes);
+      static deserializeBinary(bytes: Uint8Array): MsgConfirmCards {
+        return MsgConfirmCards.deserialize(bytes);
       }
     }
     export class MsgReloadField extends pb_1.Message {
