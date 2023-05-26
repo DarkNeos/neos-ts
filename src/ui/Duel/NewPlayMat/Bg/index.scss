@@ -1,0 +1,25 @@
+section#mat {
+  .mat-bg {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--row-gap);
+    justify-content: center;
+    align-items: center;
+    .bg-row {
+      display: flex;
+      column-gap: var(--col-gap);
+    }
+  }
+
+  .block {
+    height: var(--block-height-m);
+    width: var(--block-width);
+    background-color: gray;
+    &.extra {
+      margin-inline: calc(var(--block-width) / 2 + var(--col-gap) / 2);
+    }
+    &.szone {
+      height: var(--block-height-s);
+    }
+  }
+}

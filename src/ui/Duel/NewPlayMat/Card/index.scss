@@ -1,0 +1,11 @@
+section#mat {
+  .mat-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    --card-height: 100px;
+    height: var(--card-height);
+    aspect-ratio: var(--card-ratio);
+    background-color: red;
+  }
+}

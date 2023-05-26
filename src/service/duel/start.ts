@@ -100,6 +100,8 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     .in(ygopro.CardZone.EXTRA)
     .me.forEach((state) => (state.location.controler = 1 - opponent));
 
+  // 下面是cardStore的初始化
+
   /** 自动从code推断出occupant */
   const genCard = (o: CardType) => {
     // FIXME 还没处理超量
@@ -112,22 +114,36 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     return t;
   };
 
+  const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
   const cards = flatten(
-    [start.deckSize1, start.extraSize1, start.deckSize2, start.extraSize2].map(
-      (length, i) =>
-        Array.from({ length }).map((_, sequence) =>
-          genCard({
-            uuid: v4uuid(),
-            code: 0,
-            controller: i < 2 ? 1 - opponent : opponent, // 前两个是自己的卡组，后两个是对手的卡组
-            zone: i % 2 ? ygopro.CardZone.EXTRA : ygopro.CardZone.DECK,
-            counters: {},
-            idleInteractivities: [],
-            sequence,
-            data: {},
-            text: {},
-          })
-        )
+    [
+      start.deckSize1,
+      start.extraSize1,
+      TOKEN_SIZE,
+      start.deckSize2,
+      start.extraSize2,
+      TOKEN_SIZE,
+    ].map((length, i) =>
+      Array.from({ length }).map((_, sequence) =>
+        genCard({
+          // uuid: v4uuid(),
+          code: 0,
+          controller: i < 3 ? 1 - opponent : opponent, // 前3个是自己的卡组，后3个是对手的卡组
+          originController: i < 3 ? 1 - opponent : opponent,
+          zone: [
+            ygopro.CardZone.DECK,
+            ygopro.CardZone.EXTRA,
+            ygopro.CardZone.TZONE,
+          ][i % 3],
+          counters: {},
+          idleInteractivities: [],
+          sequence,
+          data: {},
+          text: {},
+          isToken: !((i + 1) % 3),
+          overlayMaterials: [],
+        })
+      )
     )
   );
 

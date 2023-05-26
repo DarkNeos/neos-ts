@@ -141,7 +141,7 @@ const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
  * 根据自己的先后手判断是否是自己
  * 原本名字叫judgeSelf
  */
-const isMe = (controller: number): boolean => {
+export const isMe = (controller: number): boolean => {
   switch (matStore.selfType) {
     case 1:
       // 自己是先攻

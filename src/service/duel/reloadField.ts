@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { matStore, cardStore } from "@/stores";
 
 type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 type ZoneActions = ygopro.StocGameMessage.MsgReloadField.ZoneAction[];
@@ -61,4 +61,7 @@ function reloadDuelField(
     .in(cardZone)
     .of(controller)
     .push(...cards);
+
+  // FIXME cardStore的逻辑不是很好处理...
+  // 以后再写
 }

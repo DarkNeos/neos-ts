@@ -44,8 +44,9 @@ button:focus-visible {
   position: fixed;
   display: flex;
   gap: 20px;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
+  z-index: 999;
 }
 
 #life-bar-container {
@@ -62,12 +63,12 @@ button:focus-visible {
 
 #life-bar {
   padding: 0.8em 1.6em;
-  background-color: #A9A9A9;
+  background-color: #a9a9a9;
   border-radius: 8px;
   text-align: left;
   border: 1px solid transparent;
   color: black;
-  opacity: .4;
+  opacity: 0.4;
 }
 
 #camera {
@@ -106,7 +107,8 @@ button:focus-visible {
   rotate: calc(var(--opponent-deg) * (1 - var(--vertical)));
   transform-style: preserve-3d;
   z-index: 10;
-  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out
+    infinite alternate;
 }
 
 .card-defense {
@@ -128,7 +130,8 @@ button:focus-visible {
   transform: translateZ(var(--z));
   translate: var(--x) var(--y);
   rotate: calc(90deg + var(--opponent-deg));
-  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out
+    infinite alternate;
 }
 
 .card::after {
@@ -154,7 +157,8 @@ button:focus-visible {
   height: var(--block-height);
   background-color: #333;
   cursor: pointer;
-  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out infinite alternate;
+  animation: glow calc(var(--highlight-interval) * var(--highlight-on)) ease-out
+    infinite alternate;
 }
 
 .block-extra {
@@ -231,22 +235,26 @@ button:focus-visible {
 
 @keyframes glow {
   0% {
-      border-color: var(--highlight-color-x);
-      box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 1px 0 #393;
+    border-color: var(--highlight-color-x);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.2), inset 0 0 5px rgba(0, 255, 0, 0.1),
+      0 1px 0 #393;
   }
   100% {
-      border-color: var(--highlight-color-y);
-      box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 1px 0 #6f6;
+    border-color: var(--highlight-color-y);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6),
+      inset 0 0 10px rgba(0, 255, 0, 0.4), 0 1px 0 #6f6;
   }
 }
 
 @keyframes glow-hover {
   0% {
-      border-color: #CBCC24;
-      box-shadow: 0 0 5px rgba(255,255,0,.2), inset 0 0 5px rgba(255,255,0,.1), 0 1px 0 #CBCC24;
+    border-color: #cbcc24;
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.2),
+      inset 0 0 5px rgba(255, 255, 0, 0.1), 0 1px 0 #cbcc24;
   }
   100% {
-      border-color: #F0F224;
-      box-shadow: 0 0 20px rgba(255,255,0,.6), inset 0 0 10px rgba(255,255,0,.4), 0 1px 0 #F0F224;
+    border-color: #f0f224;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.6),
+      inset 0 0 10px rgba(255, 255, 0, 0.4), 0 1px 0 #f0f224;
   }
 }

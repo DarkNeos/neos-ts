@@ -1,8 +1,10 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-import { fetchEsHintMeta, matStore } from "@/stores";
+import { fetchEsHintMeta, matStore, cardStore } from "@/stores";
 export default (posChange: MsgPosChange) => {
   const { location, controler, sequence } = posChange.card_info;
+
+  cardStore.at(location, controler, sequence).position = posChange.cur_position;
 
   switch (location) {
     case ygopro.CardZone.MZONE: {

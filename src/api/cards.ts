@@ -57,6 +57,8 @@ export async function fetchCard(id: number): Promise<CardMeta> {
   return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
 }
 
+window.fetchCard = fetchCard;
+
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   switch (idx) {
     case 0: {

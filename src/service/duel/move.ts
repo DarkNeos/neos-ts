@@ -1,7 +1,7 @@
 import { v4 as v4uuid } from "uuid";
 
-import { ygopro } from "@/api";
-import { fetchOverlayMeta, store, cardStore } from "@/stores";
+import { fetchCard, ygopro } from "@/api";
+import { fetchOverlayMeta, store, cardStore, CardType } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
@@ -11,7 +11,12 @@ import { REASON_MATERIAL } from "../../common";
 const { matStore } = store;
 const NeosConfig = useConfig();
 
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
+  ygopro.CardZone;
+
 const OVERLAY_STACK: { uuid: string; code: number; sequence: number }[] = [];
+
+const overlayStack: CardType[] = [];
 
 export default async (move: MsgMove) => {
   const code = move.code;
@@ -19,21 +24,9 @@ export default async (move: MsgMove) => {
   const to = move.to;
   const reason = move.reason;
 
-  cardStore.move(
-    code,
-    {
-      zone: from.location,
-      controller: from.controler,
-      sequence: from.sequence,
-    },
-    {
-      zone: to.location,
-      controller: to.controler,
-      sequence: to.sequence,
-    }
-  );
-
   // FIXME: 考虑超量素材的情况
+
+  // FIXME：需要考虑【卡名当作另一张卡】的情况
 
   let uuid;
   let chainIndex;
@@ -166,4 +159,103 @@ export default async (move: MsgMove) => {
       break;
     }
   }
+
+  // card store
+  const fromCards = cardStore.at(from.location, from.controler);
+  const toCards = cardStore.at(to.location, to.controler);
+
+  const fromZone =
+    move.from.toArray()[1] === undefined
+      ? ygopro.CardZone.TZONE
+      : from.location;
+  const toZone =
+    move.to.toArray()[1] === undefined ? ygopro.CardZone.TZONE : to.location;
+
+  // 处理token
+  let target: CardType;
+
+  if (fromZone === TZONE) {
+    // 召唤 token
+    target = cardStore.at(TZONE, from.controler)[0]; // 必有，随便取一个没用到的token
+  } else if (fromZone === OVERLAY) {
+    // 超量素材的去除
+    const xyzMoster = cardStore.at(MZONE, from.controler, from.sequence);
+    target = xyzMoster.overlayMaterials.splice(from.overlay_sequence, 1)[0];
+    target.xyzMonster = undefined;
+  } else {
+    target = cardStore.at(fromZone, from.controler, from.sequence);
+  }
+
+  (async () => {
+    const { text } = await fetchCard(code);
+    console.warn("---");
+    console.log(
+      "move",
+      text.name,
+      ygopro.CardZone[fromZone],
+      from.sequence,
+      "->",
+      ygopro.CardZone[toZone],
+      to.sequence
+    );
+    console.log("over", from.overlay_sequence, to.overlay_sequence);
+    console.log({ fromCards });
+    console.log({ target });
+    console.warn("---");
+  })();
+
+  if (toZone === OVERLAY) {
+    // 准备超量召唤，超量素材入栈
+    if (reason == REASON_MATERIAL) overlayStack.push(target);
+    // 超量素材的添加
+    else {
+      target.overlayMaterials.splice(to.overlay_sequence, 0, target);
+      target.xyzMonster = undefined;
+    }
+  }
+  if (toZone === MZONE && overlayStack.length) {
+    // 超量召唤
+    target.overlayMaterials = overlayStack.splice(0, overlayStack.length);
+    target.overlayMaterials.forEach((c) => (c.xyzMonster = target));
+  }
+
+  // 维护sequence
+  if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(fromZone))
+    fromCards.forEach((c) => c.sequence > from.sequence && c.sequence--);
+  if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(toZone))
+    toCards.forEach((c) => c.sequence >= to.sequence && c.sequence++);
+
+  target.zone = toZone;
+  target.controller = to.controler;
+  target.sequence = to.sequence;
+  target.code = code;
+  target.position = to.position;
+
+  // 注意，一个monster的overlayMaterials中的每一项都是一个cardType，
+  // 并且，overlayMaterials的idx就是超量素材的sequence。
+  // 如果一个card的zone是OVERLAY，那么它本身的sequence项是无意义的。
+
+  // 超量召唤:
+  // - 超量素材：toZone === OVERLAY, reason === REASON_MATERIAL
+  // - 超量怪兽：toZone === MZONE
+  // 解决方法是将超量素材放到一个list之中，等待超量怪兽的Move消息到来时从list中获取超量素材补充到超量怪兽的素材中
+
+  // 超量怪兽增加超量素材
+  // - 超量素材：toZone === OVERLAY, reason !== REASON_MATERIAL
+  // 这里要注意toZone和toSequence的不一致
+  // 超量素材(target)是cardStore.at(from.location, from.controler, from.sequence)
+  // 超量怪兽(xyzMonster)是cardStore.at(MZONE, to.controler, to.sequence)
+
+  // 超量怪兽失去超量素材
+  // - 超量素材：fromZone === OVERLAY
+  // 超量怪兽(xyzMonster)是cardStore.at(MZONE, from.controler, from.sequence)
+  // 超量素材(target)是xyzMoster.overlayMaterials[from.overlay_sequence]
+
+  // 在超量召唤/超量素材更改时候，target是超量素材，但同时也要维护超量怪兽的overlayMaterials
+
+  // token登场
+  // - token：fromZone === TZONE
+
+  // token离场
+  // - token：toZone === TZONE
 };

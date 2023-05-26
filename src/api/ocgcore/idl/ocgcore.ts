@@ -23,6 +23,7 @@ export namespace ygopro {
     ONFIELD = 8,
     FZONE = 9,
     PZONE = 10,
+    TZONE = 11, // 还在想有没有什么好的解决方案
   }
   export enum CardPosition {
     FACEUP_ATTACK = 0,
