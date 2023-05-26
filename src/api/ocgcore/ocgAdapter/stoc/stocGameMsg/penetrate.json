@@ -132,5 +132,19 @@
       { "fieldName": "player", "fieldType": "uint8" },
       { "fieldName": "new_lp", "fieldType": "uint32" }
     ]
+  },
+  "30": {
+    "protoType": "confirm_desktop",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "cards",
+        "fieldType": "repeated",
+        "repeatedType": "CardInfo"
+      }
+    ]
   }
 }

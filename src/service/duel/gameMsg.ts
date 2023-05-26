@@ -7,6 +7,7 @@ import onMsgAttackDisable from "./attackDisable";
 import onMsgChainEnd from "./chainEnd";
 import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
+import onConfirmDeskTop from "./confirmDeskTop";
 import onMsgDraw from "./draw";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
@@ -279,6 +280,11 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "lp_update": {
       onLpUpdate(msg.lp_update);
+
+      break;
+    }
+    case "confirm_desktop": {
+      await onConfirmDeskTop(msg.confirm_desktop);
 
       break;
     }
