@@ -284,7 +284,7 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "confirm_desktop": {
-      onConfirmDeskTop(msg.confirm_desktop);
+      await onConfirmDeskTop(msg.confirm_desktop);
 
       break;
     }
