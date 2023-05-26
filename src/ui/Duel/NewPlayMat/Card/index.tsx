@@ -1,7 +1,8 @@
 import React, { useEffect, type CSSProperties, type FC, useState } from "react";
 import { cardStore, messageStore, CardType } from "@/stores";
 import "./index.scss";
-import { useSnapshot } from "valtio";
+import { useSnapshot, subscribe } from "valtio";
+import { subscribeKey } from "valtio/utils";
 import { watch } from "valtio/utils";
 import { useSpring, animated, to } from "@react-spring/web";
 import { ygopro } from "@/api";
@@ -31,56 +32,40 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     height: 0,
   }));
 
-  const reload = (zone: ygopro.CardZone, report: boolean) => {
+  const reload = async (zone: ygopro.CardZone) => {
     switch (zone) {
       case MZONE:
       case SZONE:
       case OVERLAY:
-        moveToGround({ card: state, api, report });
+        await moveToGround({ card: state, api });
         break;
       case HAND:
-        moveToHand({ card: state, api, report });
+        await moveToHand({ card: state, api });
         break;
       case DECK:
       case EXTRA:
-        moveToDeck({ card: state, api, report });
+        await moveToDeck({ card: state, api });
         break;
       case GRAVE:
       case REMOVED:
-        moveToOutside({ card: state, api, report });
+        await moveToOutside({ card: state, api });
         break;
     }
   };
   useEffect(() => {
-    reload(state.zone, false);
+    reload(state.zone);
   }, []);
 
   const [highlight, setHighlight] = useState(false);
   const [shadowOpacity, setShadowOpacity] = useState(0);
 
-  watch((get) => {
-    const { zone, sequence, controller, xyzMonster, idleInteractivities } =
-      get(state);
-    reload(zone, true);
+  eventBus.on(ReportEnum.Move, (uuid) => {
+    if (uuid === state.uuid) reload(state.zone);
   });
 
   useEffect(() => {
     setHighlight(!!snap.idleInteractivities.length);
   }, [snap.idleInteractivities]);
-
-  // 在别的手卡更改时候，刷新这张手卡
-  eventBus.on(
-    ReportEnum.ReloadHand,
-    ({ sequence, controller }: { sequence: number; controller: number }) => {
-      if (
-        state.zone === HAND &&
-        state.sequence !== sequence &&
-        state.controller === controller
-      ) {
-        reload(state.zone, false);
-      }
-    }
-  );
 
   return (
     <animated.div

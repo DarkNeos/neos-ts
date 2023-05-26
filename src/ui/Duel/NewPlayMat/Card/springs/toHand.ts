@@ -24,20 +24,9 @@ const {
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
   ygopro.CardZone;
 
-export const moveToHand = async (props: {
-  card: CardType;
-  api: SpringApi;
-  report: boolean;
-}) => {
-  const { card, api, report } = props;
+export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
+  const { card, api } = props;
   const { zone, sequence, controller } = card;
-  // 得刷新除了这个卡以外所有的自己的手卡
-  if (report) {
-    eventBus.emit(ReportEnum.ReloadHand, {
-      controller,
-      sequence,
-    });
-  }
   // 手卡会有很复杂的计算...
   const hand_circle_center_x = 0;
   const hand_circle_center_y =

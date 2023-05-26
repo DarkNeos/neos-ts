@@ -7,6 +7,7 @@ import { useConfig } from "@/config";
 import { sleep } from "@/infra";
 
 import { REASON_MATERIAL } from "../../common";
+import { ReportEnum } from "@/ui/Duel/NewPlayMat/Card/springs/types";
 
 const { matStore } = store;
 const NeosConfig = useConfig();
@@ -171,6 +172,21 @@ export default async (move: MsgMove) => {
   const toZone =
     move.to.toArray()[1] === undefined ? ygopro.CardZone.TZONE : to.location;
 
+  // log出来看看，后期删掉即可
+  (async () => {
+    const { text } = await fetchCard(code);
+    console.warn(
+      "move",
+      text.name,
+      ygopro.CardZone[fromZone],
+      from.sequence,
+      "->",
+      ygopro.CardZone[toZone],
+      to.sequence
+    );
+    console.warn("overlay", from.overlay_sequence, to.overlay_sequence);
+  })();
+
   // 处理token
   let target: CardType;
 
@@ -185,24 +201,6 @@ export default async (move: MsgMove) => {
   } else {
     target = cardStore.at(fromZone, from.controler, from.sequence);
   }
-
-  (async () => {
-    const { text } = await fetchCard(code);
-    console.warn("---");
-    console.log(
-      "move",
-      text.name,
-      ygopro.CardZone[fromZone],
-      from.sequence,
-      "->",
-      ygopro.CardZone[toZone],
-      to.sequence
-    );
-    console.log("over", from.overlay_sequence, to.overlay_sequence);
-    console.log({ fromCards });
-    console.log({ target });
-    console.warn("---");
-  })();
 
   if (toZone === OVERLAY) {
     // 准备超量召唤，超量素材入栈
@@ -225,11 +223,24 @@ export default async (move: MsgMove) => {
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(toZone))
     toCards.forEach((c) => c.sequence >= to.sequence && c.sequence++);
 
+  // 更新信息
   target.zone = toZone;
   target.controller = to.controler;
   target.sequence = to.sequence;
   target.code = code;
   target.position = to.position;
+
+  // 维护完了之后，开始动画
+  eventBus.emit(ReportEnum.Move, target.uuid);
+  // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
+  if ([fromZone, toZone].includes(HAND)) {
+    cardStore.at(HAND, target.controller).forEach((card) => {
+      if (card.uuid !== target.uuid) {
+        console.log("refresh hand", card.uuid);
+        eventBus.emit(ReportEnum.Move, card.uuid);
+      }
+    });
+  }
 
   // 注意，一个monster的overlayMaterials中的每一项都是一个cardType，
   // 并且，overlayMaterials的idx就是超量素材的sequence。

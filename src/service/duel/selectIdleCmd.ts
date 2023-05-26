@@ -41,6 +41,14 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
             interactType,
             response: data.response,
           });
+        console.log(
+          "idleTypeToInteractType",
+          cardStore.at(location, player)[sequence],
+          {
+            location: ygopro.CardZone[location],
+            sequence,
+          }
+        );
         cardStore.at(location, player)[sequence].idleInteractivities.push({
           ...tmp,
           interactType,

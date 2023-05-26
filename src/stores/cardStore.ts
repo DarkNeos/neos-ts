@@ -7,14 +7,14 @@ import type { Interactivity } from "./matStore/types";
  * 以后会更名为 BlockState
  */
 export interface CardType {
-  // uuid: string; // FIXME 一张卡的唯一标识 一定需要这个吗？list的idx是不是就够了？
-  code: number;
+  uuid: number; // 一张卡的唯一标识
+  code: number; // 卡号
   data: CardData;
   text: CardText;
   controller: number; // 控制这个位置的玩家，0或1
   originController: number; // 在卡组构建之中持有这张卡的玩家，方便reloadField的使用
   zone: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
-  position?: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
+  position: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
   sequence: number; // 卡片在区域中的序号
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{

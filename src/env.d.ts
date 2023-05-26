@@ -12,11 +12,9 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// 定义一个全局的myExtraDeckCodes变量
-declare var myExtraDeckCodes: number[];
-
 import { EventEmitter } from "eventemitter3";
 
 declare global {
   var eventBus: EventEmitter;
+  var myExtraDeckCodes: number[];
 }

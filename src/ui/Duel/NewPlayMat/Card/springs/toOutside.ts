@@ -27,9 +27,8 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
 export const moveToOutside = async (props: {
   card: CardType;
   api: SpringApi;
-  report: boolean;
 }) => {
-  const { card, api, report } = props;
+  const { card, api } = props;
   // report
   const { zone, sequence, controller, xyzMonster, position, overlayMaterials } =
     card;
@@ -46,5 +45,6 @@ export const moveToOutside = async (props: {
     z: 0,
     height: BLOCK_HEIGHT_S.value,
     rz: isMe(controller) ? 0 : 180,
+    ry: [ygopro.CardPosition.FACEDOWN].includes(position) ? 180 : 0,
   });
 };

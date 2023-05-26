@@ -27,9 +27,8 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
 export const moveToGround = async (props: {
   card: CardType;
   api: SpringApi;
-  report: boolean;
 }) => {
-  const { card, api, report } = props;
+  const { card, api } = props;
   // report
   const { zone, sequence, controller, xyzMonster, position, overlayMaterials } =
     card;

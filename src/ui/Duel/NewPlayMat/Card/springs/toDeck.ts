@@ -25,12 +25,8 @@ const {
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
   ygopro.CardZone;
 
-export const moveToDeck = async (props: {
-  card: CardType;
-  api: SpringApi;
-  report: boolean;
-}) => {
-  const { card, api, report } = props;
+export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
+  const { card, api } = props;
   // report
   const { zone, sequence, controller, xyzMonster, position } = card;
 

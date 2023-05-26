@@ -104,7 +104,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
 
   /** 自动从code推断出occupant */
   const genCard = (o: CardType) => {
-    // FIXME 还没处理超量
     const t = proxy(o);
     subscribeKey(t, "code", async (code) => {
       const { text, data } = await fetchCard(code ?? 0);
@@ -115,6 +114,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   };
 
   const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
+  let uuid = 0;
   const cards = flatten(
     [
       start.deckSize1,
@@ -126,7 +126,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     ].map((length, i) =>
       Array.from({ length }).map((_, sequence) =>
         genCard({
-          // uuid: v4uuid(),
+          uuid: uuid++,
           code: 0,
           controller: i < 3 ? 1 - opponent : opponent, // 前3个是自己的卡组，后3个是对手的卡组
           originController: i < 3 ? 1 - opponent : opponent,
@@ -142,6 +142,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
           text: {},
           isToken: !((i + 1) % 3),
           overlayMaterials: [],
+          position: ygopro.CardPosition.FACEDOWN,
         })
       )
     )

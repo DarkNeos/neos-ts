@@ -12,5 +12,5 @@ export type SpringApi = SpringRef<{
 }>;
 
 export enum ReportEnum {
-  ReloadHand = "reload-hand",
+  Move = "move",
 }
