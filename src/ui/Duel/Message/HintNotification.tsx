@@ -41,14 +41,16 @@ export const HintNotification = () => {
 
   useEffect(() => {
     if (currentPhase) {
+      const message = fetchStrings(
+        "!system",
+        Phase2StringCodeMap.get(currentPhase) ?? 0
+      );
       api.open({
-        message: fetchStrings(
-          "!system",
-          Phase2StringCodeMap.get(currentPhase) ?? 0
-        ),
+        message,
         placement: "topRight",
         style: style,
       });
+      console.log(message);
     }
   }, [currentPhase]);
 

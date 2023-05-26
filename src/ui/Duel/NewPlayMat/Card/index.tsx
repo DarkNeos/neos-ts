@@ -1,9 +1,7 @@
 import React, { useEffect, type CSSProperties, type FC, useState } from "react";
 import { cardStore, messageStore, CardType } from "@/stores";
 import "./index.scss";
-import { useSnapshot, subscribe } from "valtio";
-import { subscribeKey } from "valtio/utils";
-import { watch } from "valtio/utils";
+import { useSnapshot } from "valtio";
 import { useSpring, animated, to } from "@react-spring/web";
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
