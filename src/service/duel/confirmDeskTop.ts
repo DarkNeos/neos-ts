@@ -16,6 +16,8 @@ export default async (
       // 设置`occupant`
       const meta = await fetchCard(card.code);
       target.occupant = meta;
+      // 设置`position`，否则会横放
+      target.location.position = ygopro.CardPosition.ATTACK;
 
       // 聚焦1s
       target.focus = true;
