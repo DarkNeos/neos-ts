@@ -2,10 +2,8 @@ import { fetchCard, ygopro } from "@/api";
 import { sleep } from "@/infra";
 import { matStore } from "@/stores";
 
-export default async (
-  confirmDeskTop: ygopro.StocGameMessage.MsgConfirmDeskTop
-) => {
-  const cards = confirmDeskTop.cards;
+export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
+  const cards = confirmCards.cards;
 
   for (const card of cards) {
     const target = matStore

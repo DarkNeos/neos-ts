@@ -134,7 +134,7 @@
     ]
   },
   "30": {
-    "protoType": "confirm_desktop",
+    "protoType": "confirm_cards",
     "fields": [
       {
         "fieldName": "player",
