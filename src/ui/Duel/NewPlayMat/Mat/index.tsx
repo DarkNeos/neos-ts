@@ -1,13 +1,13 @@
-import type { FC, PropsWithChildren } from "react";
 import "./index.scss";
+
+import type { FC, PropsWithChildren } from "react";
+import { useSnapshot } from "valtio";
+
+import { cardStore } from "@/stores";
 
 import { Bg } from "../Bg";
 import { Card } from "../Card";
-
-import { type CSSConfig, toCssProperties, matConfig } from "../utils";
-
-import { cardStore } from "@/stores";
-import { useSnapshot } from "valtio";
+import { type CSSConfig, matConfig, toCssProperties } from "../utils";
 
 // 后面再改名
 export const Mat: FC = () => {

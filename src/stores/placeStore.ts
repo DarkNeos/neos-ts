@@ -1,7 +1,9 @@
-import { ygopro } from "@/api";
 import { proxy } from "valtio";
-import type { Interactivity } from "./matStore/types";
+
+import { ygopro } from "@/api";
 import { matStore } from "@/stores";
+
+import type { Interactivity } from "./matStore/types";
 
 export type PlaceInteractivity =
   | Interactivity<{

@@ -1,10 +1,10 @@
 import { ygopro } from "@/api";
 import {
+  cardStore,
   clearAllIdleInteractivities as clearAllIdleInteractivities,
   type Interactivity,
   InteractType,
   matStore,
-  cardStore,
 } from "@/stores";
 
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;

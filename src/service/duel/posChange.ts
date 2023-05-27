@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-import { fetchEsHintMeta, matStore, cardStore } from "@/stores";
+import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
 export default (posChange: MsgPosChange) => {
   const { location, controler, sequence } = posChange.card_info;
 

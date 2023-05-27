@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 
 export interface CardMeta {
@@ -57,7 +55,8 @@ export async function fetchCard(id: number): Promise<CardMeta> {
   return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
 }
 
-window.fetchCard = fetchCard;
+// TS检查错误，先注释掉
+// window.fetchCard = fetchCard;
 
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   switch (idx) {

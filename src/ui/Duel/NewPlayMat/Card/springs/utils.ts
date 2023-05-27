@@ -1,4 +1,4 @@
-import { type SpringRef, type SpringConfig } from "@react-spring/web";
+import { type SpringConfig, type SpringRef } from "@react-spring/web";
 
 export const asyncStart = <T extends {}>(api: SpringRef<T>) => {
   return (p: Partial<T> & { config: SpringConfig }) =>

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { ygopro } from "@/api";
-import { matStore, cardStore } from "@/stores";
+import { cardStore, matStore } from "@/stores";
 
 type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 type ZoneActions = ygopro.StocGameMessage.MsgReloadField.ZoneAction[];

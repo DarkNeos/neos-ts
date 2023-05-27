@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { matStore, cardStore } from "@/stores";
+import { cardStore, matStore } from "@/stores";
 import { zip } from "@/ui/Duel/utils";
 
 type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;

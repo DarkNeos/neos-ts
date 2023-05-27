@@ -1,15 +1,18 @@
-import { type FC } from "react";
-import classnames from "classnames";
 import "./index.scss";
-import {
-  placeStore,
-  type PlaceInteractivity,
-  messageStore,
-  CardType,
-  cardStore,
-} from "@/stores";
-import { useSnapshot, type INTERNAL_Snapshot as Snapshot } from "valtio";
+
+import classnames from "classnames";
+import { type FC } from "react";
+import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
+
 import { sendSelectPlaceResponse, ygopro } from "@/api";
+import {
+  cardStore,
+  CardType,
+  messageStore,
+  type PlaceInteractivity,
+  placeStore,
+} from "@/stores";
+
 import { interactTypeToString } from "../../utils";
 
 const BgExtraRow: FC = () => {

@@ -1,10 +1,10 @@
+/* eslint valtio/avoid-this-in-proxy: 0 */
 import { cloneDeep } from "lodash-es";
 import { v4 as v4uuid } from "uuid";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
 import { fetchCard } from "@/api/cards";
-import { useConfig } from "@/config";
 
 import type {
   CardState,

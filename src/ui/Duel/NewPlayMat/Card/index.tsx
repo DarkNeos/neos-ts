@@ -1,13 +1,16 @@
-import React, { useEffect, type CSSProperties, type FC, useState } from "react";
-import { cardStore, messageStore, CardType } from "@/stores";
 import "./index.scss";
+
+import { animated, to, useSpring } from "@react-spring/web";
+import classnames from "classnames";
+import React, { type CSSProperties, type FC, useEffect, useState } from "react";
 import { useSnapshot } from "valtio";
-import { useSpring, animated, to } from "@react-spring/web";
+
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { moveToDeck, moveToGround, moveToHand, moveToOutside } from "./springs";
+import { cardStore, CardType, messageStore } from "@/stores";
+
 import { interactTypeToString } from "../../utils";
-import classnames from "classnames";
+import { moveToDeck, moveToGround, moveToHand, moveToOutside } from "./springs";
 
 const NeosConfig = useConfig();
 

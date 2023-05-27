@@ -1,7 +1,7 @@
 import { v4 as v4uuid } from "uuid";
 
 import { fetchCard, ygopro } from "@/api";
-import { fetchOverlayMeta, store, cardStore, CardType } from "@/stores";
+import { cardStore, CardType, fetchOverlayMeta, store } from "@/stores";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";

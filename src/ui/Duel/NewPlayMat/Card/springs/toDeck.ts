@@ -1,8 +1,10 @@
-import { isMe, type CardType } from "@/stores";
-import { SpringApi } from "./types";
-import { matConfig } from "../../utils";
-import { ygopro } from "@/api";
 import { easings } from "@react-spring/web";
+
+import { ygopro } from "@/api";
+import { type CardType, isMe } from "@/stores";
+
+import { matConfig } from "../../utils";
+import { SpringApi } from "./types";
 import { asyncStart } from "./utils";
 
 const {
