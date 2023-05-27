@@ -1,18 +1,9 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
-import { cloneDeep } from "lodash-es";
-import { v4 as v4uuid } from "uuid";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
-import { fetchCard } from "@/api/cards";
 
-import type {
-  CardState,
-  DuelFieldState as ArrayCardState,
-  InitInfo,
-  MatState,
-} from "./types";
-import { InteractType } from "./types";
+import type { InitInfo, MatState } from "./types";
 
 /**
  * 根据controller判断是自己还是对方。
@@ -20,122 +11,6 @@ import { InteractType } from "./types";
  */
 const getWhom = (controller: number): "me" | "op" =>
   isMe(controller) ? "me" : "op";
-
-/** 卡的列表，提供了一些方便的方法 */
-class CardArray extends Array<CardState> implements ArrayCardState {
-  public __proto__ = CardArray.prototype;
-  public zone: ygopro.CardZone = ygopro.CardZone.MZONE;
-  public getController: () => number = () => 1;
-  private genCard = async (
-    uuid: string,
-    controller: number,
-    id: number,
-    position?: ygopro.CardPosition,
-    focus?: boolean,
-    chainIndex?: number
-  ) => ({
-    uuid,
-    occupant: await fetchCard(id),
-    location: {
-      controler: controller,
-      zone: this.zone,
-      position:
-        position == undefined ? ygopro.CardPosition.FACEUP_ATTACK : position,
-    },
-    focus: focus ?? false,
-    chaining: false,
-    chainIndex,
-    directAttack: false,
-    counters: {},
-    idleInteractivities: [],
-  });
-  // methods
-  remove(sequence: number) {
-    return this.splice(sequence, 1)[0];
-  }
-  async insert(
-    uuid: string,
-    id: number,
-    sequence: number,
-    position?: ygopro.CardPosition,
-    focus?: boolean,
-    chainIndex?: number
-  ) {
-    const card = await this.genCard(
-      uuid,
-      this.getController(),
-      id,
-      position,
-      focus,
-      chainIndex
-    );
-    this.splice(sequence, 0, card);
-  }
-  async add(
-    data: { uuid: string; id: number }[],
-    position?: ygopro.CardPosition,
-    focus?: boolean
-  ) {
-    const cards = await Promise.all(
-      data.map(async ({ uuid, id }) =>
-        this.genCard(uuid, this.getController(), id, position, focus)
-      )
-    );
-    this.splice(this.length, 0, ...cards);
-  }
-  async setOccupant(
-    sequence: number,
-    id: number,
-    position?: ygopro.CardPosition,
-    focus?: boolean
-  ) {
-    const meta = await fetchCard(id);
-    const target = this[sequence];
-    target.focus = focus ?? false;
-    target.occupant = meta;
-    if (position) {
-      target.location.position = position;
-    }
-  }
-  addIdleInteractivity(
-    sequence: number,
-    interactivity: CardState["idleInteractivities"][number]
-  ) {
-    this[sequence].idleInteractivities.push(interactivity);
-  }
-  clearIdleInteractivities() {
-    this.forEach((card) => (card.idleInteractivities = []));
-  }
-  setPlaceInteractivityType(sequence: number, interactType: InteractType) {
-    this[sequence].placeInteractivity = {
-      interactType: interactType,
-      response: {
-        controler: this.getController(),
-        zone: this.zone,
-        sequence,
-      },
-    };
-  }
-  clearPlaceInteractivity() {
-    this.forEach((card) => (card.placeInteractivity = undefined));
-  }
-}
-
-const genDuelCardArray = (cardStates: CardState[], zone: ygopro.CardZone) => {
-  // 为什么不放在构造函数里面，是因为不想改造继承自Array的构造函数
-  const me = cloneDeep(new CardArray(...cardStates));
-  me.zone = zone;
-  me.getController = () => (matStore.selfType === 1 ? 0 : 1);
-  const op = cloneDeep(new CardArray(...cardStates));
-  op.zone = zone;
-  op.getController = () => (matStore.selfType === 1 ? 1 : 0);
-  const res = proxy({
-    me,
-    op,
-    of: (controller: number) => res[getWhom(controller)],
-  });
-  return res;
-};
 
 /**
  * 根据自己的先后手判断是否是自己
@@ -155,24 +30,6 @@ export const isMe = (controller: number): boolean => {
       return false;
   }
 };
-
-/**
- * 生成一个指定长度的卡片数组
- */
-const genBlock = (zone: ygopro.CardZone, n: number) =>
-  Array(n)
-    .fill(null)
-    .map((_) => ({
-      uuid: v4uuid(), // WARN: 这里其实应该不分配UUID
-      location: {
-        zone,
-      },
-      focus: false,
-      chaining: false,
-      directAttack: false,
-      idleInteractivities: [],
-      counters: {},
-    }));
 
 const initInfo: MatState["initInfo"] = (() => {
   const defaultInitInfo = {
@@ -200,45 +57,10 @@ const hint: MatState["hint"] = proxy({
 });
 
 /**
- * zone -> matStore
- */
-const getZone = (zone: ygopro.CardZone) => {
-  switch (zone) {
-    case ygopro.CardZone.MZONE:
-      return matStore.monsters;
-    case ygopro.CardZone.SZONE:
-      return matStore.magics;
-    case ygopro.CardZone.HAND:
-      return matStore.hands;
-    case ygopro.CardZone.DECK:
-      return matStore.decks;
-    case ygopro.CardZone.GRAVE:
-      return matStore.graveyards;
-    case ygopro.CardZone.REMOVED:
-      return matStore.banishedZones;
-    case ygopro.CardZone.EXTRA:
-      return matStore.extraDecks;
-    default:
-      console.error("in error", zone);
-      return matStore.extraDecks;
-  }
-};
-
-const { SZONE, MZONE, GRAVE, REMOVED, HAND, DECK, EXTRA } = ygopro.CardZone;
-
-/**
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`MatState`去看
  */
 export const matStore: MatState = proxy<MatState>({
-  magics: genDuelCardArray(genBlock(SZONE, 6), SZONE),
-  monsters: genDuelCardArray(genBlock(MZONE, 7), MZONE),
-  graveyards: genDuelCardArray([], GRAVE),
-  banishedZones: genDuelCardArray([], REMOVED),
-  hands: genDuelCardArray([], HAND),
-  decks: genDuelCardArray([], DECK),
-  extraDecks: genDuelCardArray([], EXTRA),
-
   chains: [],
 
   timeLimits: {
@@ -266,65 +88,8 @@ export const matStore: MatState = proxy<MatState>({
   waiting: false,
   unimplemented: 0,
   // methods
-  in: getZone,
   isMe,
-  async setChaining(location, code, isChaining) {
-    const target = this.in(location.location)
-      .of(location.controler)
-      .at(location.sequence);
-    if (target) {
-      target.chaining = isChaining;
-      if (target.occupant && isChaining) {
-        // 目前需要判断`isChaining`为ture才设置meta，因为有些手坑发效果后会move到墓地，
-        // 运行到这里的时候已经和原来的位置对不上了，这时候不设置meta
-        const meta = await fetchCard(code);
-        target.occupant = meta;
-      }
-      if (target.location.zone == ygopro.CardZone.HAND) {
-        target.location.position = isChaining
-          ? ygopro.CardPosition.FACEUP_ATTACK
-          : ygopro.CardPosition.FACEDOWN_ATTACK;
-      }
-    }
-  },
-  setChained(location, chainIndex) {
-    const target = this.in(location.location)
-      .of(location.controler)
-      .at(location.sequence);
-    if (target) {
-      target.chainIndex = chainIndex;
-    } else {
-      console.warn(`target is null in setChained, location=${location}`);
-    }
-  },
-  setFocus(location, focus) {
-    const target = this.in(location.location)
-      .of(location.controler)
-      .at(location.sequence);
-    if (target) {
-      target.focus = focus;
-    } else {
-      console.warn(`target is null in setFocus, location=${location}`);
-    }
-  },
 });
 
 // @ts-ignore 挂到全局，便于调试
 window.matStore = matStore;
-
-// 修改原型链，因为valtio的proxy会把原型链改掉。这应该是valtio的一个bug...有空提issue去改
-(["me", "op"] as const).forEach((who) => {
-  (
-    [
-      "hands",
-      "decks",
-      "extraDecks",
-      "graveyards",
-      "banishedZones",
-      "monsters",
-      "magics",
-    ] as const
-  ).forEach((zone) => {
-    matStore[zone][who].__proto__ = CardArray.prototype;
-  });
-});

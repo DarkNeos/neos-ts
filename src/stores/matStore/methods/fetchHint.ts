@@ -1,6 +1,7 @@
 import type { ygopro } from "@/api";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api";
 import { fetchCard } from "@/api/cards";
+import { cardStore } from "@/stores/cardStore";
 
 import { matStore } from "../store";
 
@@ -63,12 +64,13 @@ export const fetchEsHintMeta = async ({
   }
 
   if (location) {
-    const fieldMeta = matStore
-      .in(location.location)
-      .of(location.controler)
-      .at(location.sequence);
-    if (fieldMeta?.occupant?.text.name) {
-      esHint = esHint.replace("[?]", fieldMeta.occupant.text.name);
+    const fieldMeta = cardStore.at(
+      location.location,
+      location.controler,
+      location.sequence
+    );
+    if (fieldMeta.text.name) {
+      esHint = esHint.replace("[?]", fieldMeta.text.name);
     }
   }
 
