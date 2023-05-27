@@ -1,5 +1,7 @@
-import { CardData, CardText, fetchCard, ygopro } from "@/api";
 import { proxy } from "valtio";
+
+import { CardData, CardText, fetchCard, ygopro } from "@/api";
+
 import type { Interactivity } from "./matStore/types";
 
 /**
@@ -33,7 +35,7 @@ export interface CardType {
   chainIndex?: number /*连锁的序号，如果为空表示不在连锁
   TODO: 目前是妥协的设计，因为其实一张卡是可以在同一个连锁链中被连锁多次的，这里为了避免太过复杂只保存最后的连锁序号*/;
   directAttack: boolean; // 是否正在直接攻击为玩家
-  attackTarget?: CardType & { sequence: number; opponent: boolean }; // 攻击目标。（嵌套结构可行么？）
+  attackTarget?: CardType & { opponent: boolean }; // 攻击目标。（嵌套结构可行么？）
 }
 
 class CardStore {
