@@ -111,6 +111,9 @@ export function cardZoneToNumber(zone: ygopro.CardZone): number {
     case ygopro.CardZone.PZONE: {
       return 0x200;
     }
+    case ygopro.CardZone.TZONE: {
+      return 0x300;
+    }
   }
 }
 
