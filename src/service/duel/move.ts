@@ -7,7 +7,6 @@ import { useConfig } from "@/config";
 import { sleep } from "@/infra";
 
 import { REASON_MATERIAL } from "../../common";
-import { ReportEnum } from "@/ui/Duel/NewPlayMat/Card/springs/types";
 
 const { matStore } = store;
 const NeosConfig = useConfig();
@@ -187,9 +186,9 @@ export default async (move: MsgMove) => {
     console.warn("overlay", from.overlay_sequence, to.overlay_sequence);
   })();
 
-  // 处理token
   let target: CardType;
 
+  // 处理token
   if (fromZone === TZONE) {
     // 召唤 token
     target = cardStore.at(TZONE, from.controler)[0]; // 必有，随便取一个没用到的token
@@ -202,6 +201,7 @@ export default async (move: MsgMove) => {
     target = cardStore.at(fromZone, from.controler, from.sequence);
   }
 
+  // 超量
   if (toZone === OVERLAY) {
     // 准备超量召唤，超量素材入栈
     if (reason == REASON_MATERIAL) overlayStack.push(target);
@@ -231,14 +231,11 @@ export default async (move: MsgMove) => {
   target.position = to.position;
 
   // 维护完了之后，开始动画
-  eventBus.emit(ReportEnum.Move, target.uuid);
+  eventBus.emit(Report.Move, target.uuid);
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([fromZone, toZone].includes(HAND)) {
     cardStore.at(HAND, target.controller).forEach((card) => {
-      if (card.uuid !== target.uuid) {
-        console.log("refresh hand", card.uuid);
-        eventBus.emit(ReportEnum.Move, card.uuid);
-      }
+      if (card.uuid !== target.uuid) eventBus.emit(Report.Move, card.uuid);
     });
   }
 

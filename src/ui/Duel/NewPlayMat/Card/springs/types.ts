@@ -10,7 +10,3 @@ export type SpringApi = SpringRef<{
   zIndex: number;
   height: number;
 }>;
-
-export enum ReportEnum {
-  Move = "move",
-}

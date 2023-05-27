@@ -6,7 +6,6 @@ import { useSpring, animated, to } from "@react-spring/web";
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { moveToDeck, moveToGround, moveToHand, moveToOutside } from "./springs";
-import { ReportEnum } from "./springs/types";
 import { interactTypeToString } from "../../utils";
 import classnames from "classnames";
 
@@ -57,7 +56,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   const [highlight, setHighlight] = useState(false);
   const [shadowOpacity, setShadowOpacity] = useState(0);
 
-  eventBus.on(ReportEnum.Move, (uuid) => {
+  eventBus.on(Report.Move, (uuid) => {
     if (uuid === state.uuid) reload(state.zone);
   });
 

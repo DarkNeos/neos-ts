@@ -1,5 +1,5 @@
 import { isMe, type CardType, cardStore } from "@/stores";
-import { SpringApi, ReportEnum } from "./types";
+import { SpringApi } from "./types";
 import { matConfig } from "../../utils";
 import { ygopro } from "@/api";
 import { easings } from "@react-spring/web";

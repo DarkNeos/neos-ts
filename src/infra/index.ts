@@ -2,3 +2,4 @@
 
 export * from "./sleep";
 export * from "./stream";
+export * from "./eventbus";

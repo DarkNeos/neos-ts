@@ -27,10 +27,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import Neos from "./ui/Neos";
 
-import { EventEmitter } from "eventemitter3";
-
-window.eventBus = new EventEmitter();
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

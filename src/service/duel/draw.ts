@@ -2,7 +2,6 @@ import { sleep } from "@/infra";
 import { fetchCard, ygopro } from "@/api";
 import { fetchEsHintMeta, matStore, cardStore } from "@/stores";
 import { zip } from "@/ui/Duel/utils";
-import { ReportEnum } from "@/ui/Duel/NewPlayMat/Card/springs/types";
 
 export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   fetchEsHintMeta({ originMsg: "玩家抽卡时" });
@@ -40,5 +39,5 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   // 抽卡动画
   cardStore
     .at(ygopro.CardZone.HAND, draw.player)
-    .forEach((card) => eventBus.emit(ReportEnum.Move, card.uuid));
+    .forEach((card) => eventBus.emit(Report.Move, card.uuid));
 };
