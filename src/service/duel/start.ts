@@ -7,8 +7,11 @@ import { fetchCard, ygopro } from "@/api";
 import { cardStore, CardType, playerStore, store } from "@/stores";
 const { matStore } = store;
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
+const MZONE_SIZE = 7; // 普通怪兽区 + 额外怪兽区
+const SZONE_SIZE = 6; // 普通魔陷区 + 场地区
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
+  // 先初始化`matStore`
   matStore.selfType = start.playerType;
   const opponent =
     start.playerType == ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
@@ -31,7 +34,41 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     extraSize: start.extraSize2,
   });
 
-  // 下面是cardStore的初始化
+  for (let sequence = 0; sequence < MZONE_SIZE; sequence++) {
+    matStore.blocks.push({
+      location: {
+        zone: ygopro.CardZone.MZONE,
+        controller: 0,
+        sequence,
+      },
+    });
+    matStore.blocks.push({
+      location: {
+        zone: ygopro.CardZone.MZONE,
+        controller: 1,
+        sequence,
+      },
+    });
+  }
+
+  for (let sequence = 0; sequence < SZONE_SIZE; sequence++) {
+    matStore.blocks.push({
+      location: {
+        zone: ygopro.CardZone.SZONE,
+        controller: 0,
+        sequence,
+      },
+    });
+    matStore.blocks.push({
+      location: {
+        zone: ygopro.CardZone.SZONE,
+        controller: 1,
+        sequence,
+      },
+    });
+  }
+
+  // 再初始化`cardStore`
 
   const cards = flatten(
     [

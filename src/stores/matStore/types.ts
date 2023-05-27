@@ -16,6 +16,8 @@ export interface MatState {
     set: (controller: number, obj: Partial<InitInfo>) => void;
   }; // 双方的初始化信息
 
+  blocks: BlockState[]; // 场上`Block`信息，比如怪兽区，墓地等
+
   chains: ygopro.CardLocation[]; // 连锁的卡片位置
 
   timeLimits: BothSide<number> & {
@@ -36,6 +38,22 @@ export interface MatState {
 
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
+}
+
+export interface BlockState {
+  // `Block`的位置
+  location: {
+    controller: number;
+    zone: ygopro.CardZone;
+    sequence: number;
+  };
+  // 位置选择信息，如果当前`Block`可以被选择作为
+  // 怪兽召唤/发动魔陷的位置时，该字段会被设置
+  selectInfo?: Interactivity<{
+    controler: number;
+    zone: ygopro.CardZone;
+    sequence: number;
+  }>;
 }
 
 export interface InitInfo {
