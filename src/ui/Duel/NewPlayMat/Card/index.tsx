@@ -90,8 +90,14 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     >
       <div className="card-shadow" />
       <div className="card-img-wrap">
-        <img className="card-cover" src={getCardImgUrl(snap.code)} alt="" />
-        <img className="card-back" src={getCardImgUrl(0, true)} alt="" />
+        <img
+          className="card-cover"
+          onError={() => {
+            console.log("");
+          }}
+          src={getCardImgUrl(snap.code)}
+        />
+        <img className="card-back" src={getCardImgUrl(0, true)} />
       </div>
     </animated.div>
   );
@@ -102,7 +108,7 @@ function getCardImgUrl(code: number, back = false) {
     import.meta.env.BASE_URL == "/"
       ? NeosConfig.assetsPath
       : import.meta.env.BASE_URL + NeosConfig.assetsPath;
-  if (back) {
+  if (code === 0 || back) {
     return ASSETS_BASE + "/card_back.jpg";
   }
   return NeosConfig.cardImgUrl + "/" + code + ".jpg";

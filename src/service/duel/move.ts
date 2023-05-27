@@ -175,15 +175,9 @@ export default async (move: MsgMove) => {
   (async () => {
     const { text } = await fetchCard(code);
     console.warn(
-      "move",
-      text.name,
-      ygopro.CardZone[fromZone],
-      from.sequence,
-      "->",
-      ygopro.CardZone[toZone],
-      to.sequence
+      `${text.name} ${ygopro.CardZone[fromZone]}:${from.sequence} → ${ygopro.CardZone[toZone]}:${to.sequence}`
     );
-    console.warn("overlay", from.overlay_sequence, to.overlay_sequence);
+    // console.warn("overlay", from.overlay_sequence, to.overlay_sequence);
   })();
 
   let target: CardType;
@@ -238,6 +232,7 @@ export default async (move: MsgMove) => {
       if (card.uuid !== target.uuid) eventBus.emit(Report.Move, card.uuid);
     });
   }
+  // TODO: 如果涉及了有超量素材的怪兽的移动，那么这个怪兽的移动应该也会带动超量素材的移动
 
   // 注意，一个monster的overlayMaterials中的每一项都是一个cardType，
   // 并且，overlayMaterials的idx就是超量素材的sequence。

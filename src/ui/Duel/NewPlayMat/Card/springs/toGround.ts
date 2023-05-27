@@ -29,9 +29,13 @@ export const moveToGround = async (props: {
   api: SpringApi;
 }) => {
   const { card, api } = props;
-  // report
+
+  // 如果是超量素材，那么，应该看超量素材所属的xyzMonster
+  const targetCard =
+    card.zone === OVERLAY ? (card.xyzMonster ? card.xyzMonster : card) : card;
+
   const { zone, sequence, controller, xyzMonster, position, overlayMaterials } =
-    card;
+    targetCard;
 
   // 根据zone计算卡片的宽度
   const cardWidth =
@@ -61,6 +65,7 @@ export const moveToGround = async (props: {
       }
       break;
     }
+    case OVERLAY:
     case MZONE: {
       if (sequence > 4) {
         // 额外怪兽区
@@ -69,20 +74,6 @@ export const moveToGround = async (props: {
       } else {
         x = (sequence - 2) * (BLOCK_WIDTH.value + COL_GAP.value);
         y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
-      }
-      break;
-    }
-    case OVERLAY: {
-      if (xyzMonster) {
-        const { sequence } = xyzMonster;
-        if (sequence > 4) {
-          // 额外怪兽区
-          x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH.value + COL_GAP.value);
-          y = 0;
-        } else {
-          x = (sequence - 2) * (BLOCK_WIDTH.value + COL_GAP.value);
-          y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
-        }
       }
       break;
     }
@@ -119,14 +110,14 @@ export const moveToGround = async (props: {
     rz,
     config: {
       // mass: 0.5,
-      easing: easings.easeInSine,
+      easing: easings.easeInOutSine,
     },
   });
   await asyncStart(api)({
     z: 0,
     zIndex: overlayMaterials.length ? 3 : 1,
     config: {
-      easing: easings.easeOutSine,
+      easing: easings.easeInOutQuad,
       mass: 5,
       tension: 300, // 170
       friction: 12, // 26
