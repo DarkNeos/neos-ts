@@ -41,7 +41,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
             interactType,
             response: data.response,
           });
-        cardStore.at(location, player)[sequence].idleInteractivities.push({
+        cardStore.at(location, player, sequence).idleInteractivities.push({
           ...tmp,
           interactType,
           response: data.response,

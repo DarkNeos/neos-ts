@@ -42,7 +42,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
             interactType,
             response: data.response,
           });
-        cardStore.at(location, player)[sequence].idleInteractivities.push({
+        cardStore.at(location, player, sequence).idleInteractivities.push({
           ...tmp,
           interactType,
           response: data.response,
