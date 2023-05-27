@@ -55,8 +55,8 @@ export async function fetchCard(id: number): Promise<CardMeta> {
   return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
 }
 
-// TS检查错误，先注释掉
-// window.fetchCard = fetchCard;
+// @ts-ignore
+window.fetchCard = fetchCard;
 
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   switch (idx) {
