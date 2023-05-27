@@ -22,17 +22,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
-import { v4 as v4uuid } from "uuid";
 import { useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
-import {
-  initStrings,
-  sendHsReady,
-  sendHsStart,
-  sendUpdateDeck,
-  ygopro,
-} from "@/api";
+import { initStrings, sendHsReady, sendHsStart, sendUpdateDeck } from "@/api";
 import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
 import { useConfig } from "@/config";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
@@ -144,12 +137,6 @@ const WaitRoom = () => {
 
   const onDeckReady = async (deck: IDeck) => {
     sendUpdateDeck(deck);
-    store.matStore.extraDecks.me.add(
-      (deck.extra?.reverse() || []).map((id) => {
-        return { uuid: v4uuid(), id };
-      }),
-      ygopro.CardPosition.FACEDOWN_ATTACK
-    );
     setChoseDeck(true);
 
     window.myExtraDeckCodes = deck.extra;

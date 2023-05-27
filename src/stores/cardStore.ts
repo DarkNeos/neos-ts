@@ -8,7 +8,7 @@ import type { Interactivity } from "./matStore/types";
  * 场上某位置的状态
  */
 export interface CardType {
-  uuid: number; // 一张卡的唯一标识
+  uuid: string; // 一张卡的唯一标识
   code: number; // 卡号
   data: CardData;
   text: CardText;
