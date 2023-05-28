@@ -36,17 +36,12 @@ export const placeStore = proxy({
       placeInteractivity;
   },
   clearAll() {
-    placeStore.inner[MZONE].me = placeStore.inner[MZONE].me.map(
-      () => undefined
-    );
-    placeStore.inner[MZONE].op = placeStore.inner[MZONE].op.map(
-      () => undefined
-    );
-    placeStore.inner[SZONE].me = placeStore.inner[SZONE].me.map(
-      () => undefined
-    );
-    placeStore.inner[SZONE].op = placeStore.inner[SZONE].op.map(
-      () => undefined
-    );
+    (["me", "op"] as const).forEach((who) => {
+      ([MZONE, SZONE] as const).forEach((where) => {
+        placeStore.inner[where][who] = placeStore.inner[where][who].map(
+          () => undefined
+        );
+      });
+    });
   },
 });
