@@ -23,6 +23,6 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   if (target) {
     target.chainIndex = matStore.chains.length;
   } else {
-    console.warn(`<chaining>target from ${location} is null`);
+    console.warn(`<Chaining>target from ${location} is null`);
   }
 };
