@@ -79,10 +79,11 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   });
 
+  // TODO：测试和改bug
   eventBus.on(Report.Chaining, (uuid: string) => {
     if (uuid === state.uuid) {
-      const p = chaining({ card: state, api });
-      animation = animation ? animation.then(() => p) : p;
+      // const p = chaining({ card: state, api });
+      // animation = animation ? animation.then(() => p) : p;
     }
   });
 
