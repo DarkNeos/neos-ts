@@ -1,7 +1,6 @@
 import { ygopro } from "@/api";
 import {
   cardStore,
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
   type Interactivity,
   InteractType,
   matStore,
@@ -14,7 +13,6 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的互动性
-  clearAllIdleInteractivities(player);
   cardStore.inner.forEach((card) => {
     card.idleInteractivities = [];
   });
@@ -33,19 +31,18 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
           [InteractType.ACTIVATE]: { activateIndex: data.effect_description },
         };
         const tmp = map[interactType];
-        matStore
-          .in(location)
-          .of(player)
-          .addIdleInteractivity(sequence, {
+        const target = cardStore.at(location, player, sequence);
+        if (target) {
+          target.idleInteractivities.push({
             ...tmp,
             interactType,
             response: data.response,
           });
-        cardStore.at(location, player, sequence).idleInteractivities.push({
-          ...tmp,
-          interactType,
-          response: data.response,
-        });
+        } else {
+          console.warn(
+            `target from zone=${location}, controller=${player}, sequence=${sequence} is null`
+          );
+        }
       } else {
         console.warn(`Undefined InteractType`);
       }
