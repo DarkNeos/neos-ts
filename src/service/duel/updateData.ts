@@ -14,29 +14,29 @@ export default (updateData: MsgUpdateData) => {
         if (target) {
           const meta = target.meta;
           // 目前只更新以下字段
-          if (action.code !== undefined && action.code >= 0) {
+          if (action?.code >= 0) {
             meta.id = action.code;
             meta.text.id = action.code;
           }
           if (action.location !== undefined) {
             target.position = action.location.position;
           }
-          if (action.type_ !== undefined && action.type_ >= 0) {
+          if (action?.type_ >= 0) {
             meta.data.type = action.type_;
           }
-          if (action.level !== undefined && action.level >= 0) {
+          if (action?.level >= 0) {
             meta.data.level = action.level;
           }
-          if (action.attribute !== undefined && action.attribute >= 0) {
+          if (action?.attribute >= 0) {
             meta.data.attribute = action.attribute;
           }
-          if (action.race !== undefined && action.race >= 0) {
+          if (action?.race >= 0) {
             meta.data.race = action.race;
           }
-          if (action.attack !== undefined && action.attack >= 0) {
+          if (action?.attack >= 0) {
             meta.data.atk = action.attack;
           }
-          if (action.defense !== undefined && action.defense >= 0) {
+          if (action?.defense >= 0) {
             meta.data.def = action.defense;
           }
           // TODO: counters
