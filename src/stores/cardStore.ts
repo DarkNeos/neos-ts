@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 
-import { CardData, CardText, fetchCard, ygopro } from "@/api";
+import { CardMeta, fetchCard, ygopro } from "@/api";
 
 import type { Interactivity } from "./matStore/types";
 
@@ -10,8 +10,7 @@ import type { Interactivity } from "./matStore/types";
 export interface CardType {
   uuid: string; // 一张卡的唯一标识
   code: number; // 卡号
-  data: CardData;
-  text: CardText;
+  meta: CardMeta; // 卡片元数据
   controller: number; // 控制这个位置的玩家，0或1
   originController: number; // 在卡组构建之中持有这张卡的玩家，方便reloadField的使用
   zone: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
@@ -65,7 +64,11 @@ class CardStore {
   find(location: ygopro.CardLocation): CardType | undefined {
     return this.at(location.location, location.controler, location.sequence);
   }
-  async setChaining(location: ygopro.CardLocation, code: number, isChaining: boolean): Promise<void> {
+  async setChaining(
+    location: ygopro.CardLocation,
+    code: number,
+    isChaining: boolean
+  ): Promise<void> {
     const target = this.find(location);
     if (target) {
       target.chaining = isChaining;
@@ -74,8 +77,7 @@ class CardStore {
         // 运行到这里的时候已经和原来的位置对不上了，这时候不设置meta
         const meta = await fetchCard(code);
         target.code = meta.id;
-        target.data = meta.data;
-        target.text = meta.text;
+        target.meta = meta;
       }
       if (target.zone == ygopro.CardZone.HAND) {
         target.position = isChaining

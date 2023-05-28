@@ -1,21 +1,19 @@
 import { fetchCard, ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { matStore } from "@/stores";
+import { cardStore, matStore } from "@/stores";
 
 export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
   const cards = confirmCards.cards;
 
   for (const card of cards) {
-    const target = matStore
-      .in(card.location)
-      .of(card.controler)
-      .at(card.sequence);
+    const target = cardStore.at(card.location, card.controler, card.sequence);
+
     if (target) {
       // 设置`occupant`
       const meta = await fetchCard(card.code);
-      target.occupant = meta;
+      target.meta = meta;
       // 设置`position`，否则会横放
-      target.location.position = ygopro.CardPosition.ATTACK;
+      target.position = ygopro.CardPosition.ATTACK;
 
       // 聚焦1s
       target.focus = true;

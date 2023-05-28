@@ -93,8 +93,11 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
           counters: {},
           idleInteractivities: [],
           sequence,
-          data: {},
-          text: {},
+          meta: {
+            id: 0,
+            data: {},
+            text: {},
+          },
           isToken: !((i + 1) % 3),
           overlayMaterials: [],
           position: ygopro.CardPosition.FACEDOWN,
@@ -117,9 +120,8 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
 const genCard = (o: CardType) => {
   const t = proxy(o);
   subscribeKey(t, "code", async (code) => {
-    const { text, data } = await fetchCard(code ?? 0);
-    t.text = text;
-    t.data = data;
+    const meta = await fetchCard(code ?? 0);
+    t.meta = meta;
   });
   return t;
 };
