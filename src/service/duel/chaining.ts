@@ -22,6 +22,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const target = cardStore.find(location);
   if (target) {
     target.chainIndex = matStore.chains.length;
+    eventBus.emit(Report.Chaining, target.uuid);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);
   }

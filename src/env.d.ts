@@ -20,6 +20,7 @@ declare global {
   var myExtraDeckCodes: number[];
   enum Report {
     Move = "move",
+    Chaining = "chaining",
   }
   interface Console {
     color: (

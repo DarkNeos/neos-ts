@@ -10,7 +10,13 @@ import { useConfig } from "@/config";
 import { cardStore, CardType, messageStore } from "@/stores";
 
 import { interactTypeToString } from "../../utils";
-import { moveToDeck, moveToGround, moveToHand, moveToOutside } from "./springs";
+import {
+  moveToDeck,
+  moveToGround,
+  moveToHand,
+  moveToOutside,
+  chaining,
+} from "./springs";
 
 const NeosConfig = useConfig();
 
@@ -50,8 +56,12 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       case REMOVED:
         await moveToOutside({ card: state, api });
         break;
+      case TZONE:
+        // TODO: 衍生物直接消散
+        break;
     }
   };
+
   useEffect(() => {
     move(state.zone);
   }, []);
@@ -62,14 +72,17 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   /** 动画序列的promise，当不是undefined，就说明现在这个卡有动画 */
   let animation: Promise<void> | undefined = undefined;
 
-  eventBus.on(Report.Move, (uuid) => {
+  eventBus.on(Report.Move, (uuid: string) => {
     if (uuid === state.uuid) {
-      if (animation) {
-        // 当前有动画，move等当前动画完成之后再播放
-        animation = animation.then(() => move(state.zone));
-      } else {
-        animation = move(state.zone);
-      }
+      const p = move(state.zone);
+      animation = animation ? animation.then(() => p) : p;
+    }
+  });
+
+  eventBus.on(Report.Chaining, (uuid: string) => {
+    if (uuid === state.uuid) {
+      const p = chaining({ card: state, api });
+      animation = animation ? animation.then(() => p) : p;
     }
   });
 
