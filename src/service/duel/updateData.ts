@@ -10,7 +10,7 @@ export default (updateData: MsgUpdateData) => {
     actions.forEach((action) => {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {
-        const target = field.at(sequence);
+        const target = field.filter((card) => card.sequence == sequence).at(0);
         if (target) {
           const meta = target.meta;
           // 目前只更新以下字段
