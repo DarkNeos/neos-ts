@@ -1,28 +1,16 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
+import { cardStore, fetchEsHintMeta } from "@/stores";
 export default (posChange: MsgPosChange) => {
   const { location, controler, sequence } = posChange.card_info;
 
-  cardStore.at(location, controler, sequence).position = posChange.cur_position;
-
-  switch (location) {
-    case ygopro.CardZone.MZONE: {
-      matStore.monsters.of(controler)[sequence].location.position =
-        posChange.cur_position;
-
-      break;
-    }
-    case ygopro.CardZone.SZONE: {
-      matStore.magics.of(controler)[sequence].location.position =
-        posChange.cur_position;
-
-      break;
-    }
-    default: {
-      console.log(`Unhandled zone ${location}`);
-    }
+  const target = cardStore.at(location, controler, sequence);
+  if (target) {
+    target.position = posChange.cur_position;
+  } else {
+    console.warn(`<PosChange>target from ${posChange.card_info} is null`);
   }
+
   fetchEsHintMeta({
     originMsg: 1600,
   });
