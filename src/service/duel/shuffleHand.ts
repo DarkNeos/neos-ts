@@ -8,17 +8,14 @@ export default (shuffleHand: MsgShuffleHand) => {
 
   // 本质上是要将手卡的sequence变成和codes一样的顺序
   const hands = cardStore.at(ygopro.CardZone.HAND, controller);
-  const hash: Map<number, number> = new Map();
-  for (const idx in codes) {
-    const sequence = Number(idx);
-    const code = codes[sequence];
-
-    hash.set(code, (hash.get(code) || 0) + 1);
-  }
+  const hash = [...codes].reduce(
+    (hash, code, sequence) => hash.set(code, sequence),
+    new Map()
+  );
 
   hands.forEach((hand) => {
     const sequence = hash.get(hand.code);
-    if (sequence) {
+    if (sequence !== undefined) {
       if (sequence >= 0) {
         hand.sequence = sequence;
         hash.set(hand.code, sequence - 1);

@@ -63,6 +63,7 @@ export default async (move: MsgMove) => {
       console.warn(
         `<Move>card from zone=${fromZone}, controller=${from.controler} sequence=${from.sequence} is null`
       );
+      console.info(cardStore.at(fromZone, from.controler));
       return;
     }
   }
