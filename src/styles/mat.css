@@ -44,7 +44,7 @@ button:focus-visible {
   position: fixed;
   display: flex;
   gap: 20px;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
   z-index: 999;
 }

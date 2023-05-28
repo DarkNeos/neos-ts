@@ -1,4 +1,4 @@
-import "@/styles/mat.css";
+import "./index.scss";
 
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
