@@ -158,7 +158,7 @@ const onCardClick = (card: CardType) => {
   }
 };
 
-const onFieldClick = (card: CardType) => () => {
+const onFieldClick = (card: CardType) => {
   const displayStates = cardStore.at(card.zone, card.controller);
   messageStore.cardListModal.list = displayStates.map((item) => ({
     meta: {
