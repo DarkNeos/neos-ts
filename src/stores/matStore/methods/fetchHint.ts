@@ -69,7 +69,7 @@ export const fetchEsHintMeta = async ({
       location.controler,
       location.sequence
     );
-    if (fieldMeta.text.name) {
+    if (fieldMeta?.text.name) {
       esHint = esHint.replace("[?]", fieldMeta.text.name);
     }
   }

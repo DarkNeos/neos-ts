@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { cardStore, matStore } from "@/stores";
 
 export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
   while (true) {
@@ -8,6 +8,11 @@ export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
       break;
     }
 
-    matStore.setChained(chain, undefined);
+    const target = cardStore.find(chain);
+    if (target) {
+      target.chainIndex = undefined;
+    } else {
+      console.warn(`<ChainEnd>target is null`);
+    }
   }
 };

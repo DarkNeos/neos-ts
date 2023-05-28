@@ -41,20 +41,29 @@ export interface CardType {
 class CardStore {
   inner: CardType[] = [];
   at(zone: ygopro.CardZone, controller: number): CardType[];
-  at(zone: ygopro.CardZone, controller: number, sequence?: number): CardType;
+  at(
+    zone: ygopro.CardZone,
+    controller: number,
+    sequence?: number
+  ): CardType | undefined;
   at(zone: ygopro.CardZone, controller: number, sequence?: number) {
     if (sequence !== undefined) {
-      return this.inner.filter(
-        (card) =>
-          card.zone === zone &&
-          card.controller === controller &&
-          card.sequence === sequence
-      )[0];
+      return this.inner
+        .filter(
+          (card) =>
+            card.zone === zone &&
+            card.controller === controller &&
+            card.sequence === sequence
+        )
+        .at(0);
     } else {
       return this.inner.filter(
         (card) => card.zone === zone && card.controller === controller
       );
     }
+  }
+  find(location: ygopro.CardLocation): CardType | undefined {
+    return this.at(location.location, location.controler, location.sequence);
   }
 }
 
