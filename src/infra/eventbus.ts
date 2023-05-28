@@ -8,3 +8,5 @@ enum Report {
 
 // @ts-ignore
 window.Report = Report;
+
+export {};

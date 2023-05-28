@@ -4,3 +4,4 @@
 export * from "./eventbus";
 export * from "./sleep";
 export * from "./stream";
+export * from "./console";

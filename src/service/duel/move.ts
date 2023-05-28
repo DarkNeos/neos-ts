@@ -31,10 +31,10 @@ export default async (move: MsgMove) => {
   // log出来看看，后期删掉即可
   (async () => {
     const { text } = await fetchCard(code);
-    console.info(
+    console.color("green")(
       `${text.name} ${ygopro.CardZone[fromZone]}:${from.sequence} → ${ygopro.CardZone[toZone]}:${to.sequence}`
     );
-    // console.info("overlay", from.overlay_sequence, to.overlay_sequence);
+    // console.color("green")("overlay", from.overlay_sequence, to.overlay_sequence);
   })();
 
   let target: CardType;

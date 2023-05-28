@@ -18,7 +18,13 @@ import { EventEmitter } from "eventemitter3";
 declare global {
   var eventBus: EventEmitter;
   var myExtraDeckCodes: number[];
-  export enum Report {
+  enum Report {
     Move = "move",
+  }
+  interface Console {
+    color: (
+      color: string,
+      backgroundColor?: string
+    ) => (...args: any[]) => void;
   }
 }
