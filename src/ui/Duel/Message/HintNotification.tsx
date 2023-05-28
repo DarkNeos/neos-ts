@@ -50,7 +50,9 @@ export const HintNotification = () => {
         placement: "topRight",
         style: style,
       });
-      console.log(message);
+      console.color("DeepPink")(
+        `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`
+      );
     }
   }, [currentPhase]);
 
