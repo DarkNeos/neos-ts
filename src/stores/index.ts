@@ -3,6 +3,7 @@ export * from "./chatStore";
 export * from "./joinStore";
 export * from "./matStore";
 export * from "./messageStore";
+export * from "./methods";
 export * from "./moraStore";
 export * from "./placeStore";
 export * from "./playerStore";
