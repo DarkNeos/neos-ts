@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { cardStore, matStore } from "@/stores";
+import { cardStore } from "@/stores";
 
 export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
   const cards = confirmCards.cards;

@@ -1,30 +1,10 @@
 import { fetchCard, ygopro } from "@/api";
-import { sleep } from "@/infra";
-import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
-import { zip } from "@/ui/Duel/utils";
+import { cardStore, fetchEsHintMeta } from "@/stores";
 
 export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   fetchEsHintMeta({ originMsg: "玩家抽卡时" });
 
-  const deckLength = matStore.decks.of(draw.player).length;
   const drawLength = draw.cards.length;
-  const popCards = matStore.decks
-    .of(draw.player)
-    .splice(deckLength - drawLength, drawLength);
-
-  const data = zip(popCards, draw.cards).map(([pop, hand]) => {
-    return { uuid: pop.uuid, id: hand };
-  });
-
-  matStore.hands
-    .of(draw.player)
-    .add(data, ygopro.CardPosition.FACEUP_ATTACK, true);
-
-  await sleep(500);
-
-  for (const hand of matStore.hands.of(draw.player)) {
-    hand.focus = false;
-  }
 
   // 将卡从卡组移到手牌：设置zone、occupant、sequence
   const handsLength = cardStore.at(ygopro.CardZone.HAND, draw.player).length;
@@ -32,12 +12,17 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
     .at(ygopro.CardZone.DECK, draw.player)
     .slice(-drawLength)
     .forEach(async (card, idx) => {
+      const code = draw.cards[idx];
+      const meta = await fetchCard(code);
+      card.code = code;
+      card.meta = meta;
       card.zone = ygopro.CardZone.HAND;
-      card.code = draw.cards[idx];
       card.sequence = idx + handsLength;
     });
   // 抽卡动画
   cardStore
     .at(ygopro.CardZone.HAND, draw.player)
     .forEach((card) => eventBus.emit(Report.Move, card.uuid));
+  // FIXME: `eventBus.emit`的方式能保证动画完成后才进行下一次msg的处理么
+  // 如果下一次msg来得很快，可能会有动画冲突？
 };
