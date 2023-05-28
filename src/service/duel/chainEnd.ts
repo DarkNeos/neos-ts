@@ -12,7 +12,7 @@ export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
     if (target) {
       target.chainIndex = undefined;
     } else {
-      console.warn(`<ChainEnd>target is null`);
+      console.warn(`<ChainEnd>target from ${chain} is null`);
     }
   }
 };

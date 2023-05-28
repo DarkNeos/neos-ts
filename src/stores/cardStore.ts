@@ -65,6 +65,25 @@ class CardStore {
   find(location: ygopro.CardLocation): CardType | undefined {
     return this.at(location.location, location.controler, location.sequence);
   }
+  async setChaining(location: ygopro.CardLocation, code: number, isChaining: boolean): Promise<void> {
+    const target = this.find(location);
+    if (target) {
+      target.chaining = isChaining;
+      if (isChaining) {
+        // 目前需要判断`isChaining`为ture才设置meta，因为有些手坑发效果后会move到墓地，
+        // 运行到这里的时候已经和原来的位置对不上了，这时候不设置meta
+        const meta = await fetchCard(code);
+        target.code = meta.id;
+        target.data = meta.data;
+        target.text = meta.text;
+      }
+      if (target.zone == ygopro.CardZone.HAND) {
+        target.position = isChaining
+          ? ygopro.CardPosition.FACEUP_ATTACK
+          : ygopro.CardPosition.FACEDOWN_ATTACK;
+      }
+    }
+  }
 }
 
 export const cardStore = proxy(new CardStore());
