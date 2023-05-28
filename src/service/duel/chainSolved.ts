@@ -19,7 +19,7 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     if (target) {
       target.chainIndex = undefined;
     } else {
-      console.log(`<ChainSolved>target from ${location} is null`);
+      console.warn(`<ChainSolved>target from ${location} is null`);
     }
   } else {
     console.warn(

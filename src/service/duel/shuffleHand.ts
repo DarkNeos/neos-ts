@@ -14,10 +14,20 @@ export default (shuffleHand: MsgShuffleHand) => {
     t[code].push(sequence);
   });
   hands.forEach((hand) => {
-    const sequence = t[hand.code].shift();
-    if (sequence === undefined) {
-      throw new Error("手牌数量和洗牌后的数量不一致");
+    const target = t[hand.code];
+    if (target !== undefined) {
+      const sequence = target.shift();
+      if (sequence) {
+        hand.sequence = sequence;
+      } else {
+        console.warn(
+          `<ShuffleHand>sequence shift from target is null, controller=${controller} hands=${hands}, codes=${codes}`
+        );
+      }
+    } else {
+      console.warn(
+        `<ShuffleHand>target from records is null, controller=${controller} hands=${hands}, codes=${codes}`
+      );
     }
-    hand.sequence = sequence;
   });
 };
