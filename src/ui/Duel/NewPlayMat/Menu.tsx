@@ -11,10 +11,7 @@ import {
   sendSurrender,
   ygopro,
 } from "@/api";
-import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
-  matStore,
-} from "@/stores";
+import { cardStore, matStore } from "@/stores";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase } = matStore;
@@ -37,22 +34,25 @@ export const Menu = () => {
       ? 3
       : 7;
 
+  const clearAllIdleInteractivities = () => {
+    for (const card of cardStore.inner) {
+      card.idleInteractivities = [];
+    }
+  };
+
   const onBp = () => {
     sendSelectIdleCmdResponse(6);
-    clearAllIdleInteractivities(0);
-    clearAllIdleInteractivities(1);
+    clearAllIdleInteractivities();
     phase.enableBp = false;
   };
   const onM2 = () => {
     sendSelectBattleCmdResponse(2);
-    clearAllIdleInteractivities(0);
-    clearAllIdleInteractivities(1);
+    clearAllIdleInteractivities();
     phase.enableM2 = false;
   };
   const onEp = () => {
     sendSelectIdleCmdResponse(response);
-    clearAllIdleInteractivities(0);
-    clearAllIdleInteractivities(1);
+    clearAllIdleInteractivities();
     phase.enableEp = false;
   };
   const onSurrender = () => {

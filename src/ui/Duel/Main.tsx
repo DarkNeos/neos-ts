@@ -13,9 +13,8 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import { Mat as NewMat } from "./NewPlayMat";
+import { Mat } from "./NewPlayMat";
 import { Menu } from "./NewPlayMat/Menu";
-import Mat from "./PlayMat";
 
 const NeosDuel = () => {
   return (
@@ -24,7 +23,7 @@ const NeosDuel = () => {
       {/* <Test /> */}
       {/* <Mat /> */}
       <Menu />
-      <NewMat />
+      <Mat />
       <CardModal />
       <CardListModal />
       <HintNotification />

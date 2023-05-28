@@ -121,8 +121,8 @@ const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息
   messageStore.cardModal.meta = {
     id: card.code,
-    text: card.text,
-    data: card.data,
+    text: card.meta.text,
+    data: card.meta.data,
   };
   messageStore.cardModal.interactivies = card.idleInteractivities.map(
     (interactivity) => ({
@@ -139,8 +139,8 @@ const onCardClick = (card: CardType) => {
       card.overlayMaterials.map((overlay) => ({
         meta: {
           id: overlay.code,
-          text: overlay.text,
-          data: overlay.data,
+          text: overlay.meta.text,
+          data: overlay.meta.data,
         },
         interactivies: [],
       })) || [];
@@ -153,8 +153,8 @@ const onFieldClick = (card: CardType) => () => {
   messageStore.cardListModal.list = displayStates.map((item) => ({
     meta: {
       id: item.code,
-      text: item.text,
-      data: item.data,
+      text: item.meta.text,
+      data: item.meta.data,
     },
     interactivies: item.idleInteractivities.map((interactivy) => ({
       desc: interactTypeToString(interactivy.interactType),
