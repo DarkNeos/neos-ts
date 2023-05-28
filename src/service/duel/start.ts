@@ -34,40 +34,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
     extraSize: start.extraSize2,
   });
 
-  for (let sequence = 0; sequence < MZONE_SIZE; sequence++) {
-    matStore.blocks.push({
-      location: {
-        zone: ygopro.CardZone.MZONE,
-        controller: 0,
-        sequence,
-      },
-    });
-    matStore.blocks.push({
-      location: {
-        zone: ygopro.CardZone.MZONE,
-        controller: 1,
-        sequence,
-      },
-    });
-  }
-
-  for (let sequence = 0; sequence < SZONE_SIZE; sequence++) {
-    matStore.blocks.push({
-      location: {
-        zone: ygopro.CardZone.SZONE,
-        controller: 0,
-        sequence,
-      },
-    });
-    matStore.blocks.push({
-      location: {
-        zone: ygopro.CardZone.SZONE,
-        controller: 1,
-        sequence,
-      },
-    });
-  }
-
   // 再初始化`cardStore`
 
   const cards = flatten(

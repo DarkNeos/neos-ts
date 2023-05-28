@@ -62,7 +62,6 @@ const hint: MatState["hint"] = proxy({
  */
 export const matStore: MatState = proxy<MatState>({
   chains: [],
-  blocks: [],
 
   timeLimits: {
     // 时间限制
