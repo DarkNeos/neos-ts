@@ -1,6 +1,5 @@
 import { ygopro } from "@/api";
-import { cardStore, matStore } from "@/stores";
-import { zip } from "@/ui/Duel/utils";
+import { cardStore } from "@/stores";
 
 type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
 
@@ -20,18 +19,5 @@ export default (shuffleHand: MsgShuffleHand) => {
       throw new Error("手牌数量和洗牌后的数量不一致");
     }
     hand.sequence = sequence;
-  });
-
-  const uuids = matStore.hands.of(controller).map((hand) => hand.uuid);
-  const data = zip(uuids, codes).map(([uuid, id]) => {
-    return { uuid, id };
-  });
-
-  const indexMap = new Map(codes.map((code, idx) => [code, idx]));
-  matStore.hands.of(controller).sort((a, b) => {
-    const indexA = indexMap.get(a.occupant?.id ?? 0) ?? 0;
-    const indexB = indexMap.get(b.occupant?.id ?? 0) ?? 0;
-
-    return indexA - indexB;
   });
 };
