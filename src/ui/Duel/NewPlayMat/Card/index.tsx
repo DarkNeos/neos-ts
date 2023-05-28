@@ -32,7 +32,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     height: 0,
   }));
 
-  const reload = async (zone: ygopro.CardZone) => {
+  const move = async (zone: ygopro.CardZone) => {
     switch (zone) {
       case MZONE:
       case SZONE:
@@ -53,14 +53,24 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   };
   useEffect(() => {
-    reload(state.zone);
+    move(state.zone);
   }, []);
 
   const [highlight, setHighlight] = useState(false);
   const [shadowOpacity, setShadowOpacity] = useState(0);
 
+  /** 动画序列的promise，当不是undefined，就说明现在这个卡有动画 */
+  let animation: Promise<void> | undefined = undefined;
+
   eventBus.on(Report.Move, (uuid) => {
-    if (uuid === state.uuid) reload(state.zone);
+    if (uuid === state.uuid) {
+      if (animation) {
+        // 当前有动画，move等当前动画完成之后再播放
+        animation = animation.then(() => move(state.zone));
+      } else {
+        animation = move(state.zone);
+      }
+    }
   });
 
   useEffect(() => {
