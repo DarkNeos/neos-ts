@@ -6,10 +6,7 @@ import { useSnapshot } from "valtio";
 
 import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
-import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
-  messageStore,
-} from "@/stores";
+import { cardStore, messageStore } from "@/stores";
 
 import {
   Attribute2StringCodeMap,
@@ -77,8 +74,11 @@ export const CardModal = () => {
               onClick={() => {
                 sendSelectIdleCmdResponse(interactive.response);
                 cardModal.isOpen = false;
-                clearAllIdleInteractivities(0);
-                clearAllIdleInteractivities(1);
+
+                // 清空互动性
+                for (const card of cardStore.inner) {
+                  card.idleInteractivities = [];
+                }
               }}
             >
               {interactive.desc}

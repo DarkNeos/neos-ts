@@ -3,10 +3,7 @@ import "@/styles/card-modal.scss";
 import React from "react";
 
 import { CardMeta, getCardStr, sendSelectIdleCmdResponse } from "@/api";
-import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
-  messageStore,
-} from "@/stores";
+import { cardStore, messageStore } from "@/stores";
 
 const { cardModal } = messageStore;
 export const EffectButton = (props: {
@@ -26,8 +23,10 @@ export const EffectButton = (props: {
           onClick={() => {
             sendSelectIdleCmdResponse(props.effectInteractivies[0].response);
             cardModal.isOpen = false;
-            clearAllIdleInteractivities(0);
-            clearAllIdleInteractivities(1);
+            // 清空互动性
+            for (const card of cardStore.inner) {
+              card.idleInteractivities = [];
+            }
           }}
         >
           {props.effectInteractivies[0].desc}
@@ -48,8 +47,10 @@ export const EffectButton = (props: {
               });
             }
             cardModal.isOpen = false;
-            clearAllIdleInteractivities(0);
-            clearAllIdleInteractivities(1);
+            // 清空互动性
+            for (const card of cardStore.inner) {
+              card.idleInteractivities = [];
+            }
             messageStore.optionModal.isOpen = true;
           }}
         >
