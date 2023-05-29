@@ -69,23 +69,32 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   const [highlight, setHighlight] = useState(false);
   const [shadowOpacity, setShadowOpacity] = useState(0);
 
+  // >>> 动画 >>>
   /** 动画序列的promise，当不是undefined，就说明现在这个卡有动画 */
-  let animation: Promise<void> | undefined = undefined;
+  let animation: Promise<void> | null = null;
+
+  const play = (p: () => Promise<void>) => {
+    if (animation) {
+      animation = animation.then(p).then(() => {
+        animation = null;
+      });
+    } else {
+      animation = p();
+    }
+  };
 
   eventBus.on(Report.Move, (uuid: string) => {
     if (uuid === state.uuid) {
-      const p = move(state.zone);
-      animation = animation ? animation.then(() => p) : p;
+      play(() => move(state.zone));
     }
   });
 
-  // TODO：测试和改bug
   eventBus.on(Report.Chaining, (uuid: string) => {
     if (uuid === state.uuid) {
-      // const p = chaining({ card: state, api });
-      // animation = animation ? animation.then(() => p) : p;
+      play(() => chaining({ card: state, api }));
     }
   });
+  // <<< 动画 <<<
 
   useEffect(() => {
     setHighlight(!!snap.idleInteractivities.length);
