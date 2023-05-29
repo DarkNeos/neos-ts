@@ -7,8 +7,6 @@ import { fetchCard, ygopro } from "@/api";
 import { cardStore, CardType, playerStore, store } from "@/stores";
 const { matStore } = store;
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
-const MZONE_SIZE = 7; // 普通怪兽区 + 额外怪兽区
-const SZONE_SIZE = 6; // 普通魔陷区 + 场地区
 
 export default (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
@@ -79,7 +77,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   // 设置自己的额外卡组，信息是在waitroom之中拿到的
   cardStore
     .at(ygopro.CardZone.EXTRA, 1 - opponent)
-    .forEach((card) => (card.code = myExtraDeckCodes.shift()!));
+    .forEach((card) => (card.code = myExtraDeckCodes.pop()!));
 };
 
 // 自动从code推断出occupant

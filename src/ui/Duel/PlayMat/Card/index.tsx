@@ -11,11 +11,11 @@ import { cardStore, CardType, messageStore } from "@/stores";
 
 import { interactTypeToString } from "../../utils";
 import {
+  chaining,
   moveToDeck,
   moveToGround,
   moveToHand,
   moveToOutside,
-  chaining,
 } from "./springs";
 
 const NeosConfig = useConfig();

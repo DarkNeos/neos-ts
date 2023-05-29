@@ -1,7 +1,7 @@
 import { easings } from "@react-spring/web";
 
 import { ygopro } from "@/api";
-import { type CardType, isMe, cardStore } from "@/stores";
+import { cardStore, type CardType, isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
 import { SpringApi } from "./types";
