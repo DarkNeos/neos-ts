@@ -71,15 +71,13 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   // >>> 动画 >>>
   /** 动画序列的promise，当不是undefined，就说明现在这个卡有动画 */
-  let animation: Promise<void> | null = null;
+  let animation: Promise<unknown> | null = null;
 
-  const play = (p: () => Promise<void>) => {
+  const play = (p: () => Promise<unknown>) => {
     if (animation) {
-      animation = animation.then(p).then(() => {
-        animation = null;
-      });
+      animation = animation.then(p).then(() => (animation = null));
     } else {
-      animation = p();
+      animation = p().then(() => (animation = null));
     }
   };
 
