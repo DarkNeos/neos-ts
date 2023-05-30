@@ -70,26 +70,22 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   const [shadowOpacity, setShadowOpacity] = useState(0);
 
   // >>> 动画 >>>
-  /** 动画序列的promise，当不是undefined，就说明现在这个卡有动画 */
-  let animation: Promise<unknown> | null = null;
+  /** 动画序列的promise */
+  let animation: Promise<unknown> = new Promise<void>((rs) => rs());
 
-  const play = (p: () => Promise<unknown>) => {
-    if (animation) {
-      animation = animation.then(p).then(() => (animation = null));
-    } else {
-      animation = p().then(() => (animation = null));
-    }
+  const addToAnimation = (p: () => Promise<unknown>) => {
+    animation = animation.then(p);
   };
 
   eventBus.on(Report.Move, (uuid: string) => {
     if (uuid === state.uuid) {
-      play(() => move(state.zone));
+      addToAnimation(() => move(state.zone));
     }
   });
 
   eventBus.on(Report.Chaining, (uuid: string) => {
     if (uuid === state.uuid) {
-      play(() => chaining({ card: state, api }));
+      addToAnimation(() => chaining({ card: state, api }));
     }
   });
   // <<< 动画 <<<
