@@ -47,8 +47,18 @@ export default async (move: MsgMove) => {
     // 超量素材的去除
     const xyzMonster = cardStore.at(MZONE, from.controler, from.sequence);
     if (xyzMonster) {
-      target = xyzMonster.overlayMaterials.splice(from.overlay_sequence, 1)[0];
-      target.xyzMonster = undefined;
+      const overlay = xyzMonster.overlayMaterials
+        .splice(from.overlay_sequence, 1)
+        .at(0);
+      if (overlay) {
+        target = overlay;
+        target.xyzMonster = undefined;
+      } else {
+        console.warn(
+          `<Move>overlay from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
+        );
+        return;
+      }
     } else {
       console.warn(
         `<Move>xyzMonster from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence} is null`
