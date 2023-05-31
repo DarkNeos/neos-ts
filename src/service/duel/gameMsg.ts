@@ -60,7 +60,14 @@ const ActiveList = [
   "select_yes_no",
 ];
 
+let animation: Promise<unknown> = new Promise<void>((rs) => rs());
+
 export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
+  animation = animation.then(() => _handleGameMsg(pb));
+  // _handleGameMsg(pb);
+}
+
+async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {

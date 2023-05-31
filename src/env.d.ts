@@ -16,12 +16,7 @@ import { EventEmitter } from "eventemitter3";
 
 /* eslint no-var: 0 */
 declare global {
-  var eventBus: EventEmitter;
   var myExtraDeckCodes: number[];
-  enum Report {
-    Move = "move",
-    Chaining = "chaining",
-  }
   interface Console {
     color: (
       color: string,

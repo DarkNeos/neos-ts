@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { sleep } from "@/infra";
+import { sleep, eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
@@ -22,7 +22,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const target = cardStore.find(location);
   if (target) {
     target.chainIndex = matStore.chains.length;
-    eventBus.emit(Report.Chaining, target.uuid);
+    await eventbus.call(Task.Chaining, target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);

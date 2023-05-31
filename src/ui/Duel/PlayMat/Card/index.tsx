@@ -18,6 +18,8 @@ import {
   moveToOutside,
 } from "./springs";
 
+import { eventbus, Task } from "@/infra";
+
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
@@ -67,25 +69,26 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   }, []);
 
   const [highlight, setHighlight] = useState(false);
-  const [shadowOpacity, setShadowOpacity] = useState(0);
+  const [shadowOpacity, setShadowOpacity] = useState(0); // TODO 透明度
 
   // >>> 动画 >>>
   /** 动画序列的promise */
-  let animation: Promise<unknown> = new Promise<void>((rs) => rs());
+  let animationQueue: Promise<unknown> = new Promise<void>((rs) => rs());
 
-  const addToAnimation = (p: () => Promise<unknown>) => {
-    animation = animation.then(p);
-  };
+  const addToAnimation = (p: () => Promise<void>) =>
+    new Promise((rs) => {
+      animationQueue = animationQueue.then(p).then(rs);
+    });
 
-  eventBus.on(Report.Move, (uuid: string) => {
+  eventbus.register(Task.Move, async (uuid: string) => {
     if (uuid === state.uuid) {
-      addToAnimation(() => move(state.zone));
+      await addToAnimation(() => move(state.zone));
     }
   });
 
-  eventBus.on(Report.Chaining, (uuid: string) => {
+  eventbus.register(Task.Chaining, async (uuid: string) => {
     if (uuid === state.uuid) {
-      addToAnimation(() => chaining({ card: state, api }));
+      await addToAnimation(() => chaining({ card: state, api }));
     }
   });
   // <<< 动画 <<<

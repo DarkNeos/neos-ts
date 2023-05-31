@@ -1,9 +1,11 @@
 import { fetchCard, ygopro } from "@/api";
 import { cardStore, CardType } from "@/stores";
-type MsgMove = ygopro.StocGameMessage.MsgMove;
 
 import { REASON_MATERIAL } from "../../common";
 
+import { eventbus, Task } from "@/infra";
+
+type MsgMove = ygopro.StocGameMessage.MsgMove;
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE, OVERLAY } =
   ygopro.CardZone;
 
@@ -109,13 +111,17 @@ export default async (move: MsgMove) => {
   target.position = to.position;
 
   // 维护完了之后，开始动画
-  eventBus.emit(Report.Move, target.uuid);
+  const promises: Promise<unknown>[] = [];
+  promises.push(eventbus.call(Task.Move, target.uuid));
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([fromZone, toZone].includes(HAND)) {
     cardStore.at(HAND, target.controller).forEach((card) => {
-      if (card.uuid !== target.uuid) eventBus.emit(Report.Move, card.uuid);
+      if (card.uuid !== target.uuid)
+        promises.push(eventbus.call(Task.Move, card.uuid));
     });
   }
+  await Promise.all(promises);
+
   // TODO: 如果涉及了有超量素材的怪兽的移动，那么这个怪兽的移动应该也会带动超量素材的移动
 
   // 注意，一个monster的overlayMaterials中的每一项都是一个cardType，
