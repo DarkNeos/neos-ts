@@ -40,7 +40,6 @@ export interface MatState {
 
 export interface InitInfo {
   masterRule?: string;
-  name: string;
   life: number;
   deckSize: number;
   extraSize: number;

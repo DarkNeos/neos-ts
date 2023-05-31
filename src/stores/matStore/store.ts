@@ -52,10 +52,6 @@ const initInfo: MatState["initInfo"] = (() => {
   });
 })();
 
-const hint: MatState["hint"] = proxy({
-  code: -1,
-});
-
 /**
  * 💡 决斗盘状态仓库，本文件核心，
  * 具体介绍可以点进`MatState`去看
@@ -76,7 +72,7 @@ export const matStore: MatState = proxy<MatState>({
   initInfo,
 
   selfType: ygopro.StocTypeChange.SelfType.UNKNOWN,
-  hint,
+  hint: { code: -1 },
   currentPlayer: -1,
   phase: {
     currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN, // TODO 当前的阶段 应该改成enum
