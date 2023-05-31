@@ -10,6 +10,7 @@ export enum Task {
 
 const getEnd = (task: Task) => `${task}-end`;
 
+/** 在组件之中注册方法 */
 const register = (task: Task, fn: (...args: any[]) => Promise<any>) => {
   eventEmitter.on(
     task,
@@ -20,6 +21,7 @@ const register = (task: Task, fn: (...args: any[]) => Promise<any>) => {
   );
 };
 
+/** 在service之中调用组件中的方法 */
 const call = (task: Task, ...args: any[]) =>
   new Promise<void>((rs) => {
     const taskId = v4uuid();
