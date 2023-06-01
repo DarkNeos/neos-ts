@@ -42,8 +42,8 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         genCard({
           uuid: v4uuid(),
           code: 0,
-          controller: i < 3 ? 1 - opponent : opponent, // 前3个是自己的卡组，后3个是对手的卡组
-          originController: i < 3 ? 1 - opponent : opponent,
+          controller: i < 3 ? 0 : 1,
+          originController: i < 3 ? 0 : 1,
           zone: [
             ygopro.CardZone.DECK,
             ygopro.CardZone.EXTRA,
