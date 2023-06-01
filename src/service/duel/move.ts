@@ -1,9 +1,8 @@
 import { fetchCard, ygopro } from "@/api";
+import { eventbus, Task } from "@/infra";
 import { cardStore, CardType } from "@/stores";
 
 import { REASON_MATERIAL } from "../../common";
-
-import { eventbus, Task } from "@/infra";
 
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE, OVERLAY } =

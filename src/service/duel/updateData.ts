@@ -44,6 +44,7 @@ export default (updateData: MsgUpdateData) => {
           console.warn(
             `<UpdateData>target from zone=${zone}, controller=${controller}, sequence=${sequence} is null`
           );
+          console.info(field);
         }
         if (target?.reload) {
           target.reload = false;

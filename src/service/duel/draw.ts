@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { cardStore, fetchEsHintMeta } from "@/stores";
 import { eventbus, Task } from "@/infra";
+import { cardStore, fetchEsHintMeta } from "@/stores";
 
 let cnt = 0;
 

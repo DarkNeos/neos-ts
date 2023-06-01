@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { sleep, eventbus, Task } from "@/infra";
+import { eventbus, sleep, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
