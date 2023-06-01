@@ -3,6 +3,7 @@ import { cardStore } from "@/stores";
 
 export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
   const cards = confirmCards.cards;
+  console.color("pink")(`confirmCards: ${cards}`);
 
   for (const card of cards) {
     const target = cardStore.at(card.location, card.controler, card.sequence);
