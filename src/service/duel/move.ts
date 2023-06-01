@@ -30,7 +30,7 @@ export default async (move: MsgMove) => {
     move.to.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : to.location;
 
   // log出来看看，后期删掉即可
-  (async () => {
+  await (async () => {
     const { text } = await fetchCard(code);
     console.color("green")(
       `${text.name} ${ygopro.CardZone[fromZone]}:${from.sequence} → ${ygopro.CardZone[toZone]}:${to.sequence}`
