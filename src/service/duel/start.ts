@@ -4,7 +4,7 @@ import { proxy } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
 import { fetchCard, ygopro } from "@/api";
-import { cardStore, CardType, playerStore, store } from "@/stores";
+import { cardStore, CardType, store } from "@/stores";
 const { matStore } = store;
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
@@ -60,7 +60,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
           isToken: !((i + 1) % 3),
           overlayMaterials: [],
           position: ygopro.CardPosition.FACEDOWN,
-          focus: false,
           chaining: false,
           directAttack: false,
         })
