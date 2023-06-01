@@ -8,7 +8,7 @@ import { SpringApi } from "./types";
 import { asyncStart } from "./utils";
 
 /** 发动效果的动画 */
-export const chaining = async (props: { card: CardType; api: SpringApi }) => {
+export const focus = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
   const current = api.current[0].get();
   if (card.zone === ygopro.CardZone.HAND) {

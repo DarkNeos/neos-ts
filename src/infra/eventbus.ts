@@ -5,7 +5,7 @@ const eventEmitter = new EventEmitter();
 
 export enum Task {
   Move = "move",
-  Chaining = "chaining",
+  Focus = "focus",
 }
 
 const getEnd = (task: Task) => `${task}-end`;

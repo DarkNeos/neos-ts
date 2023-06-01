@@ -22,7 +22,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const target = cardStore.find(location);
   if (target) {
     target.chainIndex = matStore.chains.length;
-    await eventbus.call(Task.Chaining, target.uuid);
+    await eventbus.call(Task.Focus, target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);

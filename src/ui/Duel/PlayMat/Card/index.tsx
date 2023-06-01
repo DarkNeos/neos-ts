@@ -12,7 +12,7 @@ import { cardStore, CardType, messageStore } from "@/stores";
 
 import { interactTypeToString } from "../../utils";
 import {
-  chaining,
+  focus,
   moveToDeck,
   moveToGround,
   moveToHand,
@@ -85,9 +85,9 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   });
 
-  eventbus.register(Task.Chaining, async (uuid: string) => {
+  eventbus.register(Task.Focus, async (uuid: string) => {
     if (uuid === state.uuid) {
-      await addToAnimation(() => chaining({ card: state, api }));
+      await addToAnimation(() => focus({ card: state, api }));
     }
   });
   // <<< 动画 <<<
