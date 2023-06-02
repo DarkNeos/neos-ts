@@ -10,7 +10,9 @@ export default (updateData: MsgUpdateData) => {
     actions.forEach((action) => {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {
-        const target = field.filter((card) => card.sequence == sequence).at(0);
+        const target = field
+          .filter((card) => card.location.sequence == sequence)
+          .at(0);
         if (target) {
           const meta = target.meta;
           // 目前只更新以下字段
@@ -19,7 +21,7 @@ export default (updateData: MsgUpdateData) => {
             meta.text.id = action.code;
           }
           if (action.location !== undefined) {
-            target.position = action.location.position;
+            target.location.position = action.location.position;
           }
           if (action?.type_ >= 0) {
             meta.data.type = action.type_;

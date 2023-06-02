@@ -63,7 +63,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   };
 
   useEffect(() => {
-    move(state.zone);
+    move(state.location.zone);
   }, []);
 
   const [highlight, setHighlight] = useState(false);
@@ -80,7 +80,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   eventbus.register(Task.Move, async (uuid: string) => {
     if (uuid === state.uuid) {
-      await addToAnimation(() => move(state.zone));
+      await addToAnimation(() => move(state.location.zone));
     }
   });
 
@@ -112,9 +112,9 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         } as any as CSSProperties
       }
       onClick={() => {
-        if ([MZONE, SZONE, HAND].includes(state.zone)) {
+        if ([MZONE, SZONE, HAND].includes(state.location.zone)) {
           onCardClick(state);
-        } else if ([EXTRA, GRAVE, REMOVED].includes(state.zone)) {
+        } else if ([EXTRA, GRAVE, REMOVED].includes(state.location.zone)) {
           onFieldClick(state);
         }
       }}
@@ -177,7 +177,10 @@ const onCardClick = (card: CardType) => {
 };
 
 const onFieldClick = (card: CardType) => {
-  const displayStates = cardStore.at(card.zone, card.controller);
+  const displayStates = cardStore.at(
+    card.location.zone,
+    card.location.controler
+  );
   messageStore.cardListModal.list = displayStates.map((item) => ({
     meta: {
       id: item.code,

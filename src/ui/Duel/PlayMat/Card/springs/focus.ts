@@ -11,9 +11,9 @@ import { asyncStart } from "./utils";
 export const focus = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
   const current = api.current[0].get();
-  if (card.zone === ygopro.CardZone.HAND) {
+  if (card.location.zone === ygopro.CardZone.HAND) {
     await asyncStart(api)({
-      y: current.y + (matStore.isMe(card.controller) ? -1 : 1) * 200, // TODO: 放到config之中
+      y: current.y + (matStore.isMe(card.location.controler) ? -1 : 1) * 200, // TODO: 放到config之中
       rz: 0,
     });
     await asyncStart(api)({ y: current.y, rz: current.rz });

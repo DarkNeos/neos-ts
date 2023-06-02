@@ -11,11 +11,8 @@ export interface CardType {
   uuid: string; // 一张卡的唯一标识
   code: number; // 卡号
   meta: CardMeta; // 卡片元数据
-  controller: number; // 控制这个位置的玩家，0或1
+  location: ygopro.CardLocation;
   originController: number; // 在卡组构建之中持有这张卡的玩家，方便reloadField的使用
-  zone: ygopro.CardZone; // 怪兽区/魔法陷阱区/手牌/卡组/墓地/除外区
-  position: ygopro.CardPosition; // 卡片的姿势：攻击还是守备
-  sequence: number; // 卡片在区域中的序号
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
     controler: number;
@@ -49,14 +46,15 @@ class CardStore {
       return this.inner
         .filter(
           (card) =>
-            card.zone === zone &&
-            card.controller === controller &&
-            card.sequence === sequence
+            card.location.zone === zone &&
+            card.location.controler === controller &&
+            card.location.sequence === sequence
         )
         .at(0);
     } else {
       return this.inner.filter(
-        (card) => card.zone === zone && card.controller === controller
+        (card) =>
+          card.location.zone === zone && card.location.controler === controller
       );
     }
   }
@@ -80,8 +78,8 @@ class CardStore {
         // target.code = meta.id;
         target.meta = meta;
       }
-      if (target.zone == ygopro.CardZone.HAND) {
-        target.position = isChaining
+      if (target.location.zone == ygopro.CardZone.HAND) {
+        target.location.position = isChaining
           ? ygopro.CardPosition.FACEUP_ATTACK
           : ygopro.CardPosition.FACEDOWN_ATTACK;
       }

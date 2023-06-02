@@ -13,7 +13,7 @@ export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
       const meta = await fetchCard(card.code);
       target.meta = meta;
       // 设置`position`，否则会横放
-      target.position = ygopro.CardPosition.ATTACK;
+      target.location.position = ygopro.CardPosition.ATTACK;
     } else {
       console.warn(`card of ${card} is null`);
     }

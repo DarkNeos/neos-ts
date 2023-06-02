@@ -42,16 +42,19 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
         genCard({
           uuid: v4uuid(),
           code: 0,
-          controller: i < 3 ? 0 : 1,
+          location: new ygopro.CardLocation({
+            controler: i < 3 ? 0 : 1,
+            zone: [
+              ygopro.CardZone.DECK,
+              ygopro.CardZone.EXTRA,
+              ygopro.CardZone.TZONE,
+            ][i % 3],
+            sequence,
+            position: ygopro.CardPosition.FACEDOWN,
+          }),
           originController: i < 3 ? 0 : 1,
-          zone: [
-            ygopro.CardZone.DECK,
-            ygopro.CardZone.EXTRA,
-            ygopro.CardZone.TZONE,
-          ][i % 3],
           counters: {},
           idleInteractivities: [],
-          sequence,
           meta: {
             id: 0,
             data: {},
@@ -59,7 +62,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
           },
           isToken: !((i + 1) % 3),
           overlayMaterials: [],
-          position: ygopro.CardPosition.FACEDOWN,
           chaining: false,
           directAttack: false,
         })

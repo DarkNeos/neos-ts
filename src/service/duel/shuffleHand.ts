@@ -17,7 +17,7 @@ export default (shuffleHand: MsgShuffleHand) => {
     const sequence = hash.get(hand.code);
     if (sequence !== undefined) {
       if (sequence >= 0) {
-        hand.sequence = sequence;
+        hand.location.sequence = sequence;
         hash.set(hand.code, sequence - 1);
       } else {
         console.warn(

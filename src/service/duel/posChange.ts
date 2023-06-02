@@ -7,7 +7,7 @@ export default async (posChange: MsgPosChange) => {
 
   const target = cardStore.at(location, controler, sequence);
   if (target) {
-    target.position = posChange.cur_position;
+    target.location.position = posChange.cur_position;
 
     // TODO: 暂时用`Move`动画，后续可以单独实现一个改变表示形式的动画
     await eventbus.call(Task.Move, target.uuid);

@@ -32,12 +32,12 @@ export const moveToOutside = async (props: {
 }) => {
   const { card, api } = props;
   // report
-  const { zone, sequence, controller, xyzMonster, position, overlayMaterials } =
-    card;
+  const { xyzMonster, overlayMaterials } = card;
+  const { zone, sequence, controler, position } = card.location;
 
   let x = (BLOCK_WIDTH.value + COL_GAP.value) * 3,
     y = zone === GRAVE ? BLOCK_HEIGHT_M.value + ROW_GAP.value : 0;
-  if (!isMe(controller)) {
+  if (!isMe(controler)) {
     x = -x;
     y = -y;
   }
@@ -46,7 +46,7 @@ export const moveToOutside = async (props: {
     y,
     z: 0,
     height: BLOCK_HEIGHT_S.value,
-    rz: isMe(controller) ? 0 : 180,
+    rz: isMe(controler) ? 0 : 180,
     ry: [ygopro.CardPosition.FACEDOWN].includes(position) ? 180 : 0,
   });
 };

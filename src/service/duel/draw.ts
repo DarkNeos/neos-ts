@@ -21,8 +21,8 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
     const meta = await fetchCard(code);
     card.code = code;
     card.meta = meta;
-    card.zone = ygopro.CardZone.HAND;
-    card.sequence = Number(idx) + handsLength;
+    card.location.zone = ygopro.CardZone.HAND;
+    card.location.sequence = Number(idx) + handsLength;
   }
 
   if (cnt++ < 2) {

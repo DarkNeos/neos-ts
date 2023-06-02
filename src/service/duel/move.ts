@@ -95,23 +95,27 @@ export default async (move: MsgMove) => {
   // 维护sequence
   // TODO: 这些逻辑是不是可以考虑沉淀到store里面
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(fromZone))
-    fromCards.forEach((c) => c.sequence > from.sequence && c.sequence--);
+    fromCards.forEach(
+      (c) => c.location.sequence > from.sequence && c.location.sequence--
+    );
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(toZone))
-    toCards.forEach((c) => c.sequence >= to.sequence && c.sequence++);
+    toCards.forEach(
+      (c) => c.location.sequence >= to.sequence && c.location.sequence++
+    );
 
   // 更新信息
-  target.zone = toZone;
-  target.controller = to.controler;
-  target.sequence = to.sequence;
+  target.location.zone = toZone;
+  target.location.controler = to.controler;
+  target.location.sequence = to.sequence;
   target.code = code;
-  target.position = to.position;
+  target.location.position = to.position;
 
   // 维护完了之后，开始动画
   const promises: Promise<unknown>[] = [];
   promises.push(eventbus.call(Task.Move, target.uuid));
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([fromZone, toZone].includes(HAND)) {
-    cardStore.at(HAND, target.controller).forEach((card) => {
+    cardStore.at(HAND, target.location.controler).forEach((card) => {
       if (card.uuid !== target.uuid)
         promises.push(eventbus.call(Task.Move, card.uuid));
     });
