@@ -61,7 +61,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
             text: {},
           },
           isToken: !((i + 1) % 3),
-          overlayMaterials: [],
           chaining: false,
           directAttack: false,
         })

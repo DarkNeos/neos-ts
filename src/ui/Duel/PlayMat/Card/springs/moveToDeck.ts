@@ -30,7 +30,7 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
 export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
   // report
-  const { location, xyzMonster } = card;
+  const { location } = card;
   const { controler, zone, sequence, position } = location;
 
   const rightX = DECK_OFFSET_X.value + 2 * (BLOCK_WIDTH.value + COL_GAP.value);

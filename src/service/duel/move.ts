@@ -7,7 +7,7 @@ import { REASON_MATERIAL } from "../../common";
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;
 
-const overlayStack: CardType[] = [];
+const overlayStack: ygopro.CardLocation[] = [];
 
 export default async (move: MsgMove) => {
   const code = move.code;
@@ -15,12 +15,10 @@ export default async (move: MsgMove) => {
   const to = move.to;
   const reason = move.reason;
 
-  // FIXME: 考虑超量素材的情况
-
   const fromCards = cardStore.at(from.zone, from.controler);
   const toCards = cardStore.at(to.zone, to.controler);
 
-  // TODO: 这段逻辑有点迷惑，后面问问作者
+  // TODO: 是否能有更solid的衍生物判断方式？
   const fromZone =
     move.from.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : from.zone;
   const toZone =
@@ -30,9 +28,12 @@ export default async (move: MsgMove) => {
   await (async () => {
     const { text } = await fetchCard(code);
     console.color("green")(
-      `${text.name} ${ygopro.CardZone[fromZone]}:${from.sequence} → ${ygopro.CardZone[toZone]}:${to.sequence}`
+      `${text.name} ${ygopro.CardZone[fromZone]}:${from.sequence}:${
+        from.is_overlay ? from.overlay_sequence : ""
+      } → ${ygopro.CardZone[toZone]}:${to.sequence}:${
+        to.is_overlay ? to.overlay_sequence : ""
+      }`
     );
-    // console.color("green")("overlay", from.overlay_sequence, to.overlay_sequence);
   })();
 
   let target: CardType;
@@ -43,23 +44,17 @@ export default async (move: MsgMove) => {
     target = cardStore.at(TZONE, from.controler)[0]; // 必有，随便取一个没用到的token
   } else if (from.is_overlay) {
     // 超量素材的去除
-    const xyzMonster = cardStore.at(MZONE, from.controler, from.sequence);
-    if (xyzMonster) {
-      const overlay = xyzMonster.overlayMaterials
-        .splice(from.overlay_sequence, 1)
-        .at(0);
-      if (overlay) {
-        target = overlay;
-        target.xyzMonster = undefined;
-      } else {
-        console.warn(
-          `<Move>overlay from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
-        );
-        return;
-      }
+    const overlayMaterial = cardStore.at(
+      MZONE,
+      from.controler,
+      from.sequence,
+      from.overlay_sequence
+    );
+    if (overlayMaterial) {
+      target = overlayMaterial;
     } else {
       console.warn(
-        `<Move>xyzMonster from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence} is null`
+        `<Move>overlayMaterial from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
       );
       return;
     }
@@ -79,21 +74,30 @@ export default async (move: MsgMove) => {
   // 超量
   if (to.is_overlay) {
     // 准备超量召唤，超量素材入栈
-    if (reason == REASON_MATERIAL) overlayStack.push(target);
-    // 超量素材的添加
-    else {
-      target.overlayMaterials.splice(to.overlay_sequence, 0, target);
-      target.xyzMonster = undefined;
-    }
+    if (reason == REASON_MATERIAL) overlayStack.push(to);
   }
   if (toZone === MZONE && overlayStack.length) {
     // 超量召唤
-    target.overlayMaterials = overlayStack.splice(0, overlayStack.length);
-    target.overlayMaterials.forEach((c) => (c.xyzMonster = target));
+    const xyzLocations = overlayStack.splice(0, overlayStack.length);
+    for (const location of xyzLocations) {
+      const overlayMaterial = cardStore.at(
+        location.zone,
+        location.controler,
+        location.sequence,
+        location.overlay_sequence
+      );
+      if (overlayMaterial) {
+        // 超量素材的位置应该和超量怪兽保持一致
+        overlayMaterial.location.controler = to.controler;
+        overlayMaterial.location.zone = to.zone;
+        overlayMaterial.location.sequence = to.sequence;
+
+        await eventbus.call(Task.Move, overlayMaterial.uuid);
+      }
+    }
   }
 
   // 维护sequence
-  // TODO: 这些逻辑是不是可以考虑沉淀到store里面
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA].includes(fromZone))
     fromCards.forEach(
       (c) => c.location.sequence > from.sequence && c.location.sequence--
@@ -104,11 +108,8 @@ export default async (move: MsgMove) => {
     );
 
   // 更新信息
-  target.location.zone = toZone;
-  target.location.controler = to.controler;
-  target.location.sequence = to.sequence;
   target.code = code;
-  target.location.position = to.position;
+  target.location = to;
 
   // 维护完了之后，开始动画
   const promises: Promise<unknown>[] = [];
@@ -121,6 +122,19 @@ export default async (move: MsgMove) => {
     });
   }
   await Promise.all(promises);
+
+  // 超量素材位置随之移动
+  if (from.zone == MZONE && !from.is_overlay) {
+    for (const overlay of cardStore.findOverlay(
+      from.zone,
+      from.controler,
+      from.sequence
+    )) {
+      overlay.location = to;
+
+      await eventbus.call(Task.Move, overlay.uuid);
+    }
+  }
 
   // TODO: 如果涉及了有超量素材的怪兽的移动，那么这个怪兽的移动应该也会带动超量素材的移动
 

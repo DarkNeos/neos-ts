@@ -19,8 +19,6 @@ export interface CardType {
     zone: ygopro.CardZone;
     sequence: number;
   }>; // 选择位置状态下的互动信息
-  overlayMaterials: CardType[]; // 超量素材, FIXME: 这里需要加上UUID
-  xyzMonster?: CardType; // 超量怪兽（这张卡作为这个怪兽的超量素材）
   counters: { [type: number]: number }; // 指示器
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
   isToken: boolean; // 是否是token
@@ -39,18 +37,38 @@ class CardStore {
   at(
     zone: ygopro.CardZone,
     controller: number,
-    sequence?: number
+    sequence?: number,
+    overlay_sequence?: number
   ): CardType | undefined;
-  at(zone: ygopro.CardZone, controller: number, sequence?: number) {
+  at(
+    zone: ygopro.CardZone,
+    controller: number,
+    sequence?: number,
+    overlay_sequence?: number
+  ) {
     if (sequence !== undefined) {
-      return this.inner
-        .filter(
-          (card) =>
-            card.location.zone === zone &&
-            card.location.controler === controller &&
-            card.location.sequence === sequence
-        )
-        .at(0);
+      if (overlay_sequence !== undefined) {
+        return this.inner
+          .filter(
+            (card) =>
+              card.location.zone === zone &&
+              card.location.controler === controller &&
+              card.location.sequence === sequence &&
+              card.location.is_overlay == true &&
+              card.location.overlay_sequence == overlay_sequence
+          )
+          .at(0);
+      } else {
+        return this.inner
+          .filter(
+            (card) =>
+              card.location.zone === zone &&
+              card.location.controler === controller &&
+              card.location.sequence === sequence &&
+              card.location.is_overlay == false
+          )
+          .at(0);
+      }
     } else {
       return this.inner.filter(
         (card) =>
@@ -60,6 +78,20 @@ class CardStore {
   }
   find(location: ygopro.CardLocation): CardType | undefined {
     return this.at(location.zone, location.controler, location.sequence);
+  }
+  // 获取特定位置下的所有超量素材
+  findOverlay(
+    zone: ygopro.CardZone,
+    controller: number,
+    sequence: number
+  ): CardType[] {
+    return this.inner.filter(
+      (card) =>
+        card.location.zone == zone &&
+        card.location.controler == controller &&
+        card.location.sequence == sequence &&
+        card.location.is_overlay
+    );
   }
   async setChaining(
     location: ygopro.CardLocation,

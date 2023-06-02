@@ -32,16 +32,9 @@ export const moveToGround = async (props: {
 }) => {
   const { card, api } = props;
 
-  // 如果是超量素材，那么，应该看超量素材所属的xyzMonster
-  const targetCard = card.location.is_overlay
-    ? card.xyzMonster
-      ? card.xyzMonster
-      : card
-    : card;
+  const { location } = card;
 
-  const { location, xyzMonster, overlayMaterials } = targetCard;
-
-  const { controler, zone, sequence, position } = location;
+  const { controler, zone, sequence, position, is_overlay } = location;
 
   // 根据zone计算卡片的宽度
   const cardWidth =
@@ -104,7 +97,7 @@ export const moveToGround = async (props: {
     x,
     y,
     height,
-    z: overlayMaterials.length ? 200 : 120,
+    z: is_overlay ? 120 : 200,
     ry: [
       ygopro.CardPosition.FACEDOWN,
       ygopro.CardPosition.FACEDOWN_ATTACK,
@@ -120,7 +113,7 @@ export const moveToGround = async (props: {
   });
   await asyncStart(api)({
     z: 0,
-    zIndex: overlayMaterials.length ? 3 : 1,
+    zIndex: is_overlay ? 1 : 3,
     config: {
       easing: easings.easeInOutQuad,
       mass: 5,

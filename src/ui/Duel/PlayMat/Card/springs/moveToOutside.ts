@@ -32,7 +32,6 @@ export const moveToOutside = async (props: {
 }) => {
   const { card, api } = props;
   // report
-  const { xyzMonster, overlayMaterials } = card;
   const { zone, sequence, controler, position } = card.location;
 
   let x = (BLOCK_WIDTH.value + COL_GAP.value) * 3,

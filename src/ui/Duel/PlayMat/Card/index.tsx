@@ -162,9 +162,14 @@ const onCardClick = (card: CardType) => {
   messageStore.cardModal.isOpen = true;
 
   // 侧边栏展示超量素材信息
-  if (card.overlayMaterials.length > 0) {
+  const overlayMaterials = cardStore.findOverlay(
+    card.location.zone,
+    card.location.controler,
+    card.location.sequence
+  );
+  if (overlayMaterials.length > 0) {
     messageStore.cardListModal.list =
-      card.overlayMaterials.map((overlay) => ({
+      overlayMaterials.map((overlay) => ({
         meta: {
           id: overlay.code,
           text: overlay.meta.text,
