@@ -151,12 +151,12 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "pos_change": {
-      onMsgPosChange(msg.pos_change);
+      await onMsgPosChange(msg.pos_change);
 
       break;
     }
     case "select_unselect_card": {
-      onMsgSelectUnselectCard(msg.select_unselect_card);
+      await onMsgSelectUnselectCard(msg.select_unselect_card);
 
       break;
     }
