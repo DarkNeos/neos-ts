@@ -24,7 +24,7 @@ const {
   DECK_CARD_HEIGHT,
 } = matConfig;
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
 export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {

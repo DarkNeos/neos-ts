@@ -19,7 +19,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
         ) => {
           const desc1 = desc.replace(
             `[%ls]`,
-            fetchStrings("!system", cardLocation.location + 1000)
+            fetchStrings("!system", cardLocation.zone + 1000)
           );
           const desc2 = desc1.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc2;

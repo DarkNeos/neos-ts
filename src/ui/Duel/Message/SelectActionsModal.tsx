@@ -10,7 +10,6 @@ import {
   fetchStrings,
   sendSelectMultiResponse,
   sendSelectSingleResponse,
-  ygopro,
 } from "@/api";
 import { useConfig } from "@/config";
 import { clearSelectActions, matStore, messageStore } from "@/stores";
@@ -60,7 +59,7 @@ export const SelectActionsModal = () => {
     ? response.length == 1
     : response.length >= min && response.length <= max && levelMatched;
 
-  const grouped = groupBy(selectables, (option) => option.location?.location!);
+  const grouped = groupBy(selectables, (option) => option.location?.zone!);
 
   return (
     <>

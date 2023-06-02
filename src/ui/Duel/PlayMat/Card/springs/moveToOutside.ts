@@ -23,7 +23,7 @@ const {
   DECK_ROTATE_Z,
 } = matConfig;
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
 export const moveToOutside = async (props: {

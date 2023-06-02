@@ -21,7 +21,7 @@ import {
 
 const NeosConfig = useConfig();
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
 export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
@@ -43,7 +43,6 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     switch (zone) {
       case MZONE:
       case SZONE:
-      case OVERLAY:
         await moveToGround({ card: state, api });
         break;
       case HAND:

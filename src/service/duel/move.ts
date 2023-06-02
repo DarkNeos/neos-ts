@@ -5,8 +5,7 @@ import { cardStore, CardType } from "@/stores";
 import { REASON_MATERIAL } from "../../common";
 
 type MsgMove = ygopro.StocGameMessage.MsgMove;
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE, OVERLAY } =
-  ygopro.CardZone;
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;
 
 const overlayStack: CardType[] = [];
 
@@ -18,16 +17,14 @@ export default async (move: MsgMove) => {
 
   // FIXME: 考虑超量素材的情况
 
-  const fromCards = cardStore.at(from.location, from.controler);
-  const toCards = cardStore.at(to.location, to.controler);
+  const fromCards = cardStore.at(from.zone, from.controler);
+  const toCards = cardStore.at(to.zone, to.controler);
 
   // TODO: 这段逻辑有点迷惑，后面问问作者
   const fromZone =
-    move.from.toArray().at(1) === undefined
-      ? ygopro.CardZone.TZONE
-      : from.location;
+    move.from.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : from.zone;
   const toZone =
-    move.to.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : to.location;
+    move.to.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : to.zone;
 
   // log出来看看，后期删掉即可
   await (async () => {
@@ -44,7 +41,7 @@ export default async (move: MsgMove) => {
   if (fromZone === TZONE) {
     // 召唤 token
     target = cardStore.at(TZONE, from.controler)[0]; // 必有，随便取一个没用到的token
-  } else if (fromZone === OVERLAY) {
+  } else if (from.is_overlay) {
     // 超量素材的去除
     const xyzMonster = cardStore.at(MZONE, from.controler, from.sequence);
     if (xyzMonster) {
@@ -80,7 +77,7 @@ export default async (move: MsgMove) => {
   }
 
   // 超量
-  if (toZone === OVERLAY) {
+  if (to.is_overlay) {
     // 准备超量召唤，超量素材入栈
     if (reason == REASON_MATERIAL) overlayStack.push(target);
     // 超量素材的添加

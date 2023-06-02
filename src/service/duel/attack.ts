@@ -9,7 +9,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
   });
 
   const attacker = cardStore.at(
-    attack.attacker_location.location,
+    attack.attacker_location.zone,
     attack.attacker_location.controler,
     attack.attacker_location.sequence
   );
@@ -22,7 +22,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
       attacker.directAttack = false;
     } else {
       const target = cardStore.at(
-        attack.target_location.location,
+        attack.target_location.zone,
         attack.target_location.controler,
         attack.target_location.sequence
       );

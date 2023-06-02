@@ -25,8 +25,7 @@ export const fetchCheckCardMeta = async (
   const newID =
     code != 0
       ? code
-      : cardStore.at(location.location, controller, location.sequence)?.code ||
-        0;
+      : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
   const meta = await fetchCard(newID);
 
   const effectDesc = effectDescCode

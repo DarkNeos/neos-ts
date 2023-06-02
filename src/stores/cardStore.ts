@@ -61,7 +61,7 @@ class CardStore {
     }
   }
   find(location: ygopro.CardLocation): CardType | undefined {
-    return this.at(location.location, location.controler, location.sequence);
+    return this.at(location.zone, location.controler, location.sequence);
   }
   async setChaining(
     location: ygopro.CardLocation,

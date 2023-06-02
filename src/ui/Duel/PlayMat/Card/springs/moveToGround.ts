@@ -23,7 +23,7 @@ const {
   DECK_ROTATE_Z,
 } = matConfig;
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE, OVERLAY } =
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
 export const moveToGround = async (props: {
@@ -67,7 +67,6 @@ export const moveToGround = async (props: {
       }
       break;
     }
-    case OVERLAY:
     case MZONE: {
       if (sequence > 4) {
         // 额外怪兽区

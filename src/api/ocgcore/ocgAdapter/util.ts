@@ -99,9 +99,6 @@ export function cardZoneToNumber(zone: ygopro.CardZone): number {
     case ygopro.CardZone.EXTRA: {
       return 0x40;
     }
-    case ygopro.CardZone.OVERLAY: {
-      return 0x80;
-    }
     case ygopro.CardZone.ONFIELD: {
       return 0x0c;
     }
@@ -141,9 +138,6 @@ export function numberToCardZone(
     }
     case 0x40: {
       return ygopro.CardZone.EXTRA;
-    }
-    case 0x80: {
-      return ygopro.CardZone.OVERLAY;
     }
     case 0x0c: {
       return ygopro.CardZone.ONFIELD;

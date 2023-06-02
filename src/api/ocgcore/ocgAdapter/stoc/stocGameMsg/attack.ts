@@ -18,7 +18,7 @@ export default (data: Uint8Array) => {
 
   if (
     target_location.controler == 0 &&
-    target_location.location == 0 &&
+    target_location.zone == 0 &&
     target_location.sequence == 0
   ) {
     // 全零表示直接攻击玩家

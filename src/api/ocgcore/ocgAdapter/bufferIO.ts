@@ -36,15 +36,17 @@ export class BufferReaderExt {
       // 超量素材
       return new ygopro.CardLocation({
         controler,
-        location: ygopro.CardZone.OVERLAY,
+        zone: numberToCardZone(location),
         sequence,
+        is_overlay: true,
         overlay_sequence: ss,
       });
     } else {
       return new ygopro.CardLocation({
         controler,
-        location: numberToCardZone(location),
+        zone: numberToCardZone(location),
         sequence,
+        is_overlay: false,
         position: numberToCardPosition(ss),
       });
     }
@@ -57,7 +59,7 @@ export class BufferReaderExt {
 
     return new ygopro.CardLocation({
       controler,
-      location: numberToCardZone(location),
+      zone: numberToCardZone(location),
       sequence,
     });
   }
