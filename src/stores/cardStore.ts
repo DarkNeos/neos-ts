@@ -72,7 +72,9 @@ class CardStore {
     } else {
       return this.inner.filter(
         (card) =>
-          card.location.zone === zone && card.location.controler === controller
+          card.location.zone === zone &&
+          card.location.controler === controller &&
+          card.location.is_overlay == false
       );
     }
   }

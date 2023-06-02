@@ -47,7 +47,7 @@ export default async (move: MsgMove) => {
   } else if (from.is_overlay) {
     // 超量素材的去除
     const overlayMaterial = cardStore.at(
-      MZONE,
+      fromZone,
       from.controler,
       from.sequence,
       from.overlay_sequence
@@ -56,7 +56,7 @@ export default async (move: MsgMove) => {
       target = overlayMaterial;
     } else {
       console.warn(
-        `<Move>overlayMaterial from zone=${MZONE}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
+        `<Move>overlayMaterial from zone=${fromZone}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
       );
       return;
     }
@@ -74,7 +74,7 @@ export default async (move: MsgMove) => {
   }
 
   // 超量
-  if (to.is_overlay) {
+  if (to.is_overlay && fromZone == MZONE) {
     // 准备超量召唤，超量素材入栈
     if (reason == REASON_MATERIAL) {
       toZone = MZONE;
@@ -101,7 +101,7 @@ export default async (move: MsgMove) => {
         await eventbus.call(Task.Move, overlayMaterial.uuid);
       } else {
         console.warn(
-          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controler}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence}`
+          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controler}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
         );
       }
     }
@@ -116,6 +116,19 @@ export default async (move: MsgMove) => {
     toCards.forEach(
       (c) => c.location.sequence >= to.sequence && c.location.sequence++
     );
+  if (from.is_overlay) {
+    // 超量素材的序号也需要维护
+    const overlay_sequence = from.overlay_sequence;
+    for (const overlay of cardStore.findOverlay(
+      from.zone,
+      from.controler,
+      from.sequence
+    )) {
+      if (overlay.location.overlay_sequence > overlay_sequence) {
+        overlay.location.overlay_sequence--;
+      }
+    }
+  }
 
   // 更新信息
   target.code = code;
@@ -140,7 +153,9 @@ export default async (move: MsgMove) => {
       from.controler,
       from.sequence
     )) {
-      overlay.location = to;
+      overlay.location.zone = toZone;
+      overlay.location.controler = to.controler;
+      overlay.location.sequence = to.sequence;
 
       await eventbus.call(Task.Move, overlay.uuid);
     }
