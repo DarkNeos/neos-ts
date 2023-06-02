@@ -36,7 +36,7 @@ export class BufferReaderExt {
       // 超量素材
       return new ygopro.CardLocation({
         controler,
-        zone: numberToCardZone(location),
+        zone: numberToCardZone(location & ~LOCATION_OVERLAY),
         sequence,
         is_overlay: true,
         overlay_sequence: ss,

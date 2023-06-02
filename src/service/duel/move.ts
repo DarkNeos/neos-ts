@@ -18,10 +18,12 @@ export default async (move: MsgMove) => {
   const fromCards = cardStore.at(from.zone, from.controler);
   const toCards = cardStore.at(to.zone, to.controler);
 
-  // TODO: 是否能有更solid的衍生物判断方式？
+  // TODO:
+  // 1. 是否能有更solid的衍生物判断方式？
+  // 2. 应该判断是否是`TZONE`应该收敛到`readCardLocation`里面
   const fromZone =
     move.from.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : from.zone;
-  const toZone =
+  let toZone =
     move.to.toArray().at(1) === undefined ? ygopro.CardZone.TZONE : to.zone;
 
   // log出来看看，后期删掉即可
@@ -74,10 +76,14 @@ export default async (move: MsgMove) => {
   // 超量
   if (to.is_overlay) {
     // 准备超量召唤，超量素材入栈
-    if (reason == REASON_MATERIAL) overlayStack.push(to);
-  }
-  if (toZone === MZONE && overlayStack.length) {
+    if (reason == REASON_MATERIAL) {
+      toZone = MZONE;
+      to.zone = MZONE;
+      overlayStack.push(to);
+    }
+  } else if (toZone === MZONE && overlayStack.length) {
     // 超量召唤
+    console.color("grey")(`超量召唤！overlayStack=${overlayStack}`);
     const xyzLocations = overlayStack.splice(0, overlayStack.length);
     for (const location of xyzLocations) {
       const overlayMaterial = cardStore.at(
@@ -93,6 +99,10 @@ export default async (move: MsgMove) => {
         overlayMaterial.location.sequence = to.sequence;
 
         await eventbus.call(Task.Move, overlayMaterial.uuid);
+      } else {
+        console.warn(
+          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controler}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence}`
+        );
       }
     }
   }
@@ -135,30 +145,6 @@ export default async (move: MsgMove) => {
       await eventbus.call(Task.Move, overlay.uuid);
     }
   }
-
-  // TODO: 如果涉及了有超量素材的怪兽的移动，那么这个怪兽的移动应该也会带动超量素材的移动
-
-  // 注意，一个monster的overlayMaterials中的每一项都是一个cardType，
-  // 并且，overlayMaterials的idx就是超量素材的sequence。
-  // 如果一个card的zone是OVERLAY，那么它本身的sequence项是无意义的。
-
-  // 超量召唤:
-  // - 超量素材：toZone === OVERLAY, reason === REASON_MATERIAL
-  // - 超量怪兽：toZone === MZONE
-  // 解决方法是将超量素材放到一个list之中，等待超量怪兽的Move消息到来时从list中获取超量素材补充到超量怪兽的素材中
-
-  // 超量怪兽增加超量素材
-  // - 超量素材：toZone === OVERLAY, reason !== REASON_MATERIAL
-  // 这里要注意toZone和toSequence的不一致
-  // 超量素材(target)是cardStore.at(from.location, from.controler, from.sequence)
-  // 超量怪兽(xyzMonster)是cardStore.at(MZONE, to.controler, to.sequence)
-
-  // 超量怪兽失去超量素材
-  // - 超量素材：fromZone === OVERLAY
-  // 超量怪兽(xyzMonster)是cardStore.at(MZONE, from.controler, from.sequence)
-  // 超量素材(target)是xyzMonster.overlayMaterials[from.overlay_sequence]
-
-  // 在超量召唤/超量素材更改时候，target是超量素材，但同时也要维护超量怪兽的overlayMaterials
 
   // token登场
   // - token：fromZone === TZONE
