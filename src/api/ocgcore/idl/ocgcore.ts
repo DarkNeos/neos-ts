@@ -19,11 +19,10 @@ export namespace ygopro {
     GRAVE = 4,
     REMOVED = 5,
     EXTRA = 6,
-    OVERLAY = 7,
-    ONFIELD = 8,
-    FZONE = 9,
-    PZONE = 10,
-    TZONE = 11,
+    ONFIELD = 7,
+    FZONE = 8,
+    PZONE = 9,
+    TZONE = 10,
   }
   export enum CardPosition {
     FACEUP_ATTACK = 0,
@@ -192,9 +191,10 @@ export namespace ygopro {
         | any[]
         | {
             controler?: number;
-            location?: CardZone;
+            zone?: CardZone;
             sequence?: number;
             position?: CardPosition;
+            is_overlay?: boolean;
             overlay_sequence?: number;
           }
     ) {
@@ -211,14 +211,17 @@ export namespace ygopro {
         if ("controler" in data && data.controler != undefined) {
           this.controler = data.controler;
         }
-        if ("location" in data && data.location != undefined) {
-          this.location = data.location;
+        if ("zone" in data && data.zone != undefined) {
+          this.zone = data.zone;
         }
         if ("sequence" in data && data.sequence != undefined) {
           this.sequence = data.sequence;
         }
         if ("position" in data && data.position != undefined) {
           this.position = data.position;
+        }
+        if ("is_overlay" in data && data.is_overlay != undefined) {
+          this.is_overlay = data.is_overlay;
         }
         if ("overlay_sequence" in data && data.overlay_sequence != undefined) {
           this.overlay_sequence = data.overlay_sequence;
@@ -231,14 +234,14 @@ export namespace ygopro {
     set controler(value: number) {
       pb_1.Message.setField(this, 1, value);
     }
-    get location() {
+    get zone() {
       return pb_1.Message.getFieldWithDefault(
         this,
         2,
         CardZone.DECK
       ) as CardZone;
     }
-    set location(value: CardZone) {
+    set zone(value: CardZone) {
       pb_1.Message.setField(this, 2, value);
     }
     get sequence() {
@@ -257,31 +260,41 @@ export namespace ygopro {
     set position(value: CardPosition) {
       pb_1.Message.setField(this, 4, value);
     }
+    get is_overlay() {
+      return pb_1.Message.getFieldWithDefault(this, 5, false) as boolean;
+    }
+    set is_overlay(value: boolean) {
+      pb_1.Message.setField(this, 5, value);
+    }
     get overlay_sequence() {
-      return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+      return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
     }
     set overlay_sequence(value: number) {
-      pb_1.Message.setField(this, 5, value);
+      pb_1.Message.setField(this, 6, value);
     }
     static fromObject(data: {
       controler?: number;
-      location?: CardZone;
+      zone?: CardZone;
       sequence?: number;
       position?: CardPosition;
+      is_overlay?: boolean;
       overlay_sequence?: number;
     }): CardLocation {
       const message = new CardLocation({});
       if (data.controler != null) {
         message.controler = data.controler;
       }
-      if (data.location != null) {
-        message.location = data.location;
+      if (data.zone != null) {
+        message.zone = data.zone;
       }
       if (data.sequence != null) {
         message.sequence = data.sequence;
       }
       if (data.position != null) {
         message.position = data.position;
+      }
+      if (data.is_overlay != null) {
+        message.is_overlay = data.is_overlay;
       }
       if (data.overlay_sequence != null) {
         message.overlay_sequence = data.overlay_sequence;
@@ -291,22 +304,26 @@ export namespace ygopro {
     toObject() {
       const data: {
         controler?: number;
-        location?: CardZone;
+        zone?: CardZone;
         sequence?: number;
         position?: CardPosition;
+        is_overlay?: boolean;
         overlay_sequence?: number;
       } = {};
       if (this.controler != null) {
         data.controler = this.controler;
       }
-      if (this.location != null) {
-        data.location = this.location;
+      if (this.zone != null) {
+        data.zone = this.zone;
       }
       if (this.sequence != null) {
         data.sequence = this.sequence;
       }
       if (this.position != null) {
         data.position = this.position;
+      }
+      if (this.is_overlay != null) {
+        data.is_overlay = this.is_overlay;
       }
       if (this.overlay_sequence != null) {
         data.overlay_sequence = this.overlay_sequence;
@@ -318,12 +335,13 @@ export namespace ygopro {
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
       const writer = w || new pb_1.BinaryWriter();
       if (this.controler != 0) writer.writeInt32(1, this.controler);
-      if (this.location != CardZone.DECK) writer.writeEnum(2, this.location);
+      if (this.zone != CardZone.DECK) writer.writeEnum(2, this.zone);
       if (this.sequence != 0) writer.writeInt32(3, this.sequence);
       if (this.position != CardPosition.FACEUP_ATTACK)
         writer.writeEnum(4, this.position);
+      if (this.is_overlay != false) writer.writeBool(5, this.is_overlay);
       if (this.overlay_sequence != 0)
-        writer.writeInt32(5, this.overlay_sequence);
+        writer.writeInt32(6, this.overlay_sequence);
       if (!w) return writer.getResultBuffer();
     }
     static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CardLocation {
@@ -339,7 +357,7 @@ export namespace ygopro {
             message.controler = reader.readInt32();
             break;
           case 2:
-            message.location = reader.readEnum();
+            message.zone = reader.readEnum();
             break;
           case 3:
             message.sequence = reader.readInt32();
@@ -348,6 +366,9 @@ export namespace ygopro {
             message.position = reader.readEnum();
             break;
           case 5:
+            message.is_overlay = reader.readBool();
+            break;
+          case 6:
             message.overlay_sequence = reader.readInt32();
             break;
           default:
