@@ -5,21 +5,25 @@ import { type FC } from "react";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
-import {
-  cardStore,
-  CardType,
-  messageStore,
-  type PlaceInteractivity,
-  placeStore,
-} from "@/stores";
+import { cardStore, type PlaceInteractivity, placeStore } from "@/stores";
 
-import { interactTypeToString } from "../../utils";
-
-const BgExtraRow: FC = () => {
+const BgExtraRow: FC<{
+  meSnap: Snapshot<PlaceInteractivity[]>;
+  opSnap: Snapshot<PlaceInteractivity[]>;
+}> = ({ meSnap, opSnap }) => {
   return (
     <div className={classnames("bg-row")}>
       {Array.from({ length: 2 }).map((_, i) => (
-        <div key={i} className={classnames("block", "extra")}></div>
+        <div
+          key={i}
+          className={classnames("block", "extra", {
+            highlight: !!meSnap[i] || !!opSnap[i],
+          })}
+          onClick={() => {
+            onBlockClick(meSnap[i]);
+            onBlockClick(opSnap[i]);
+          }}
+        ></div>
       ))}
     </div>
   );
@@ -50,7 +54,10 @@ export const Bg: FC = () => {
     <div className="mat-bg">
       <BgRow snap={snap[ygopro.CardZone.SZONE].op} isSzone opponent />
       <BgRow snap={snap[ygopro.CardZone.MZONE].op} opponent />
-      <BgExtraRow />
+      <BgExtraRow
+        meSnap={snap[ygopro.CardZone.MZONE].me.slice(5, 7)}
+        opSnap={snap[ygopro.CardZone.MZONE].op.slice(5, 7)}
+      />
       <BgRow snap={snap[ygopro.CardZone.MZONE].me} />
       <BgRow snap={snap[ygopro.CardZone.SZONE].me} isSzone />
     </div>
