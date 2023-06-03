@@ -3,10 +3,6 @@
 //
 // 因此封装了一个`WebSocketStream`类，当每次Websocket连接中有消息到达时，往流中添加event，
 // 同时执行器会不断地从流中获取event进行处理。
-import { sleep } from "./sleep";
-
-const SLEEP_INTERVAL = 200;
-
 export class WebSocketStream {
   public ws: WebSocket;
   stream: ReadableStream;
@@ -52,9 +48,7 @@ export class WebSocketStream {
 
           return;
         } else {
-          // websocket not closed, sleep sometime, wait for next message from server
-          await sleep(SLEEP_INTERVAL);
-
+          // websocket not closed, handle next message from server
           return reader.read().then(process);
         }
       }

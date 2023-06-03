@@ -1,5 +1,4 @@
 import { ygopro } from "@/api";
-import { sleep } from "@/infra";
 import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
 
 export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
@@ -18,7 +17,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
     if (attack.direct_attack) {
       attacker.directAttack = true;
 
-      await sleep(500);
+      // await sleep(500);
       attacker.directAttack = false;
     } else {
       const target = cardStore.at(
@@ -33,7 +32,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
           ...target,
         };
 
-        await sleep(500);
+        // await sleep(500);
         attacker.attackTarget = undefined;
       }
     }
