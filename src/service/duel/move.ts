@@ -9,6 +9,18 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;
 
 const overlayStack: ygopro.CardLocation[] = [];
 
+/*
+ * 超量素材的`Location`：
+ * - 位置是跟随超量怪兽的，通过`is_overlay`字段判断是否是超量素材，`overlay_sequence`是在某个超量怪兽下面的超量序列；
+ * - 超量怪兽移动，超量素材需要跟着移动，并且需要前端自己维护这个关系，因为当超量怪兽移动时，
+ *   后端不会针对超量素材传`MSG_MOVE`；
+ * - 某个超量怪兽下面的超量素材的`overlay_sequence`也需要前端自己维护；
+ * - 当进行超量召唤时，超量素材会临时移动到某个位置，玩家选择完超量怪兽的位置后，超量怪兽会从`EXTRA ZONE`
+ *   move到`MZONE`，这之后超量素材应该移动到超量怪兽的位置，但是后端会传这部分的`MSG_MOVE`信息，
+ *   因此前端需要自己维护，现在的做法采用了`入栈-出栈`的方式。
+ * - 当场上的超量怪兽离开`MZONE`，比如送墓/除外时，超量素材会跟着超量怪兽移动，这时候它们的`sequence`还是一样的，
+ *   然后后端会传`MSG_MOVE`，对超量素材的位置进行修正。
+ * */
 export default async (move: MsgMove) => {
   const code = move.code;
   const from = move.from;
@@ -56,7 +68,8 @@ export default async (move: MsgMove) => {
       target = overlayMaterial;
     } else {
       console.warn(
-        `<Move>overlayMaterial from zone=${fromZone}, controller=${from.controler}, sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
+        `<Move>overlayMaterial from zone=${fromZone}, controller=${from.controler},
+          sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
       );
       return;
     }
@@ -84,6 +97,8 @@ export default async (move: MsgMove) => {
   } else if (toZone === MZONE && overlayStack.length) {
     // 超量召唤
     console.color("grey")(`超量召唤！overlayStack=${overlayStack}`);
+
+    // 超量素材出栈
     const xyzLocations = overlayStack.splice(0, overlayStack.length);
     for (const location of xyzLocations) {
       const overlayMaterial = cardStore.at(
@@ -146,7 +161,7 @@ export default async (move: MsgMove) => {
   }
   await Promise.all(promises);
 
-  // 超量素材位置随之移动
+  // 超量素材位置跟随超量怪兽移动
   if (from.zone == MZONE && !from.is_overlay) {
     for (const overlay of cardStore.findOverlay(
       from.zone,
@@ -160,10 +175,4 @@ export default async (move: MsgMove) => {
       await eventbus.call(Task.Move, overlay.uuid);
     }
   }
-
-  // token登场
-  // - token：fromZone === TZONE
-
-  // token离场
-  // - token：toZone === TZONE
 };
