@@ -165,6 +165,7 @@ export default async (move: MsgMove) => {
         promises.push(eventbus.call(Task.Move, card.uuid));
     });
   }
+  // FIXME: 当和AI联机对战，且AI先手时，下面这个`await`会block住
   await Promise.all(promises);
 
   // 超量素材位置跟随超量怪兽移动
