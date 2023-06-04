@@ -164,7 +164,7 @@ const onCardClick = (card: CardType) => {
   // 侧边栏展示超量素材信息
   const overlayMaterials = cardStore.findOverlay(
     card.location.zone,
-    card.location.controler,
+    card.location.controller,
     card.location.sequence
   );
   if (overlayMaterials.length > 0) {
@@ -184,7 +184,7 @@ const onCardClick = (card: CardType) => {
 const onFieldClick = (card: CardType) => {
   const displayStates = cardStore.at(
     card.location.zone,
-    card.location.controler
+    card.location.controller
   );
   messageStore.cardListModal.list = displayStates.map((item) => ({
     meta: {

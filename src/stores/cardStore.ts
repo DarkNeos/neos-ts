@@ -15,7 +15,7 @@ export interface CardType {
   originController: number; // 在卡组构建之中持有这张卡的玩家，方便reloadField的使用
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
-    controler: number;
+    controller: number;
     zone: ygopro.CardZone;
     sequence: number;
   }>; // 选择位置状态下的互动信息
@@ -52,7 +52,7 @@ class CardStore {
           .filter(
             (card) =>
               card.location.zone === zone &&
-              card.location.controler === controller &&
+              card.location.controller === controller &&
               card.location.sequence === sequence &&
               card.location.is_overlay == true &&
               card.location.overlay_sequence == overlay_sequence
@@ -63,7 +63,7 @@ class CardStore {
           .filter(
             (card) =>
               card.location.zone === zone &&
-              card.location.controler === controller &&
+              card.location.controller === controller &&
               card.location.sequence === sequence &&
               card.location.is_overlay == false
           )
@@ -73,13 +73,13 @@ class CardStore {
       return this.inner.filter(
         (card) =>
           card.location.zone === zone &&
-          card.location.controler === controller &&
+          card.location.controller === controller &&
           card.location.is_overlay == false
       );
     }
   }
   find(location: ygopro.CardLocation): CardType | undefined {
-    return this.at(location.zone, location.controler, location.sequence);
+    return this.at(location.zone, location.controller, location.sequence);
   }
   // 获取特定位置下的所有超量素材
   findOverlay(
@@ -90,7 +90,7 @@ class CardStore {
     return this.inner.filter(
       (card) =>
         card.location.zone == zone &&
-        card.location.controler == controller &&
+        card.location.controller == controller &&
         card.location.sequence == sequence &&
         card.location.is_overlay
     );

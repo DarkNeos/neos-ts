@@ -6,7 +6,7 @@ export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
   console.color("pink")(`confirmCards: ${cards}`);
 
   for (const card of cards) {
-    const target = cardStore.at(card.location, card.controler, card.sequence);
+    const target = cardStore.at(card.location, card.controller, card.sequence);
 
     if (target) {
       // 设置`occupant`

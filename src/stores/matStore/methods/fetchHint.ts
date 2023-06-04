@@ -66,7 +66,7 @@ export const fetchEsHintMeta = async ({
   if (location) {
     const fieldMeta = cardStore.at(
       location.zone,
-      location.controler,
+      location.controller,
       location.sequence
     );
     if (fieldMeta?.meta.text.name) {

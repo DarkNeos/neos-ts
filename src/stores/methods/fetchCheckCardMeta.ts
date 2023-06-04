@@ -21,7 +21,7 @@ export const fetchCheckCardMeta = async (
   selected?: boolean,
   mustSelect?: boolean
 ) => {
-  const controller = location.controler;
+  const controller = location.controller;
   const newID =
     code != 0
       ? code

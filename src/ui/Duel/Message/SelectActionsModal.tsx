@@ -151,7 +151,7 @@ export const SelectActionsModal = () => {
                             style={{
                               width: 120,
                               backgroundColor:
-                                option.location?.controler === 0
+                                option.location?.controller === 0
                                   ? "white"
                                   : "grey",
                             }}

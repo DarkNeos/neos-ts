@@ -41,7 +41,7 @@ export namespace ygopro {
         | any[]
         | {
             code?: number;
-            controler?: number;
+            controller?: number;
             location?: CardZone;
             sequence?: number;
           }
@@ -59,8 +59,8 @@ export namespace ygopro {
         if ("code" in data && data.code != undefined) {
           this.code = data.code;
         }
-        if ("controler" in data && data.controler != undefined) {
-          this.controler = data.controler;
+        if ("controller" in data && data.controller != undefined) {
+          this.controller = data.controller;
         }
         if ("location" in data && data.location != undefined) {
           this.location = data.location;
@@ -76,10 +76,10 @@ export namespace ygopro {
     set code(value: number) {
       pb_1.Message.setField(this, 1, value);
     }
-    get controler() {
+    get controller() {
       return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
     }
-    set controler(value: number) {
+    set controller(value: number) {
       pb_1.Message.setField(this, 2, value);
     }
     get location() {
@@ -100,7 +100,7 @@ export namespace ygopro {
     }
     static fromObject(data: {
       code?: number;
-      controler?: number;
+      controller?: number;
       location?: CardZone;
       sequence?: number;
     }): CardInfo {
@@ -108,8 +108,8 @@ export namespace ygopro {
       if (data.code != null) {
         message.code = data.code;
       }
-      if (data.controler != null) {
-        message.controler = data.controler;
+      if (data.controller != null) {
+        message.controller = data.controller;
       }
       if (data.location != null) {
         message.location = data.location;
@@ -122,15 +122,15 @@ export namespace ygopro {
     toObject() {
       const data: {
         code?: number;
-        controler?: number;
+        controller?: number;
         location?: CardZone;
         sequence?: number;
       } = {};
       if (this.code != null) {
         data.code = this.code;
       }
-      if (this.controler != null) {
-        data.controler = this.controler;
+      if (this.controller != null) {
+        data.controller = this.controller;
       }
       if (this.location != null) {
         data.location = this.location;
@@ -145,7 +145,7 @@ export namespace ygopro {
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
       const writer = w || new pb_1.BinaryWriter();
       if (this.code != 0) writer.writeInt32(1, this.code);
-      if (this.controler != 0) writer.writeInt32(2, this.controler);
+      if (this.controller != 0) writer.writeInt32(2, this.controller);
       if (this.location != CardZone.DECK) writer.writeEnum(3, this.location);
       if (this.sequence != 0) writer.writeInt32(4, this.sequence);
       if (!w) return writer.getResultBuffer();
@@ -163,7 +163,7 @@ export namespace ygopro {
             message.code = reader.readInt32();
             break;
           case 2:
-            message.controler = reader.readInt32();
+            message.controller = reader.readInt32();
             break;
           case 3:
             message.location = reader.readEnum();
@@ -190,7 +190,7 @@ export namespace ygopro {
       data?:
         | any[]
         | {
-            controler?: number;
+            controller?: number;
             zone?: CardZone;
             sequence?: number;
             position?: CardPosition;
@@ -208,8 +208,8 @@ export namespace ygopro {
         this.#one_of_decls
       );
       if (!Array.isArray(data) && typeof data == "object") {
-        if ("controler" in data && data.controler != undefined) {
-          this.controler = data.controler;
+        if ("controller" in data && data.controller != undefined) {
+          this.controller = data.controller;
         }
         if ("zone" in data && data.zone != undefined) {
           this.zone = data.zone;
@@ -228,10 +228,10 @@ export namespace ygopro {
         }
       }
     }
-    get controler() {
+    get controller() {
       return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
     }
-    set controler(value: number) {
+    set controller(value: number) {
       pb_1.Message.setField(this, 1, value);
     }
     get zone() {
@@ -273,7 +273,7 @@ export namespace ygopro {
       pb_1.Message.setField(this, 6, value);
     }
     static fromObject(data: {
-      controler?: number;
+      controller?: number;
       zone?: CardZone;
       sequence?: number;
       position?: CardPosition;
@@ -281,8 +281,8 @@ export namespace ygopro {
       overlay_sequence?: number;
     }): CardLocation {
       const message = new CardLocation({});
-      if (data.controler != null) {
-        message.controler = data.controler;
+      if (data.controller != null) {
+        message.controller = data.controller;
       }
       if (data.zone != null) {
         message.zone = data.zone;
@@ -303,15 +303,15 @@ export namespace ygopro {
     }
     toObject() {
       const data: {
-        controler?: number;
+        controller?: number;
         zone?: CardZone;
         sequence?: number;
         position?: CardPosition;
         is_overlay?: boolean;
         overlay_sequence?: number;
       } = {};
-      if (this.controler != null) {
-        data.controler = this.controler;
+      if (this.controller != null) {
+        data.controller = this.controller;
       }
       if (this.zone != null) {
         data.zone = this.zone;
@@ -334,7 +334,7 @@ export namespace ygopro {
     serialize(w: pb_1.BinaryWriter): void;
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
       const writer = w || new pb_1.BinaryWriter();
-      if (this.controler != 0) writer.writeInt32(1, this.controler);
+      if (this.controller != 0) writer.writeInt32(1, this.controller);
       if (this.zone != CardZone.DECK) writer.writeEnum(2, this.zone);
       if (this.sequence != 0) writer.writeInt32(3, this.sequence);
       if (this.position != CardPosition.FACEUP_ATTACK)
@@ -354,7 +354,7 @@ export namespace ygopro {
         if (reader.isEndGroup()) break;
         switch (reader.getFieldNumber()) {
           case 1:
-            message.controler = reader.readInt32();
+            message.controller = reader.readInt32();
             break;
           case 2:
             message.zone = reader.readEnum();
@@ -11006,7 +11006,7 @@ export namespace ygopro {
           data?:
             | any[]
             | {
-                controler?: number;
+                controller?: number;
                 zone?: CardZone;
                 sequence?: number;
               }
@@ -11021,8 +11021,8 @@ export namespace ygopro {
             this.#one_of_decls
           );
           if (!Array.isArray(data) && typeof data == "object") {
-            if ("controler" in data && data.controler != undefined) {
-              this.controler = data.controler;
+            if ("controller" in data && data.controller != undefined) {
+              this.controller = data.controller;
             }
             if ("zone" in data && data.zone != undefined) {
               this.zone = data.zone;
@@ -11032,10 +11032,10 @@ export namespace ygopro {
             }
           }
         }
-        get controler() {
+        get controller() {
           return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
         }
-        set controler(value: number) {
+        set controller(value: number) {
           pb_1.Message.setField(this, 1, value);
         }
         get zone() {
@@ -11055,13 +11055,13 @@ export namespace ygopro {
           pb_1.Message.setField(this, 3, value);
         }
         static fromObject(data: {
-          controler?: number;
+          controller?: number;
           zone?: CardZone;
           sequence?: number;
         }): SelectAblePlace {
           const message = new SelectAblePlace({});
-          if (data.controler != null) {
-            message.controler = data.controler;
+          if (data.controller != null) {
+            message.controller = data.controller;
           }
           if (data.zone != null) {
             message.zone = data.zone;
@@ -11073,12 +11073,12 @@ export namespace ygopro {
         }
         toObject() {
           const data: {
-            controler?: number;
+            controller?: number;
             zone?: CardZone;
             sequence?: number;
           } = {};
-          if (this.controler != null) {
-            data.controler = this.controler;
+          if (this.controller != null) {
+            data.controller = this.controller;
           }
           if (this.zone != null) {
             data.zone = this.zone;
@@ -11092,7 +11092,7 @@ export namespace ygopro {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
           const writer = w || new pb_1.BinaryWriter();
-          if (this.controler != 0) writer.writeInt32(1, this.controler);
+          if (this.controller != 0) writer.writeInt32(1, this.controller);
           if (this.zone != CardZone.DECK) writer.writeEnum(2, this.zone);
           if (this.sequence != 0) writer.writeInt32(3, this.sequence);
           if (!w) return writer.getResultBuffer();
@@ -11109,7 +11109,7 @@ export namespace ygopro {
             if (reader.isEndGroup()) break;
             switch (reader.getFieldNumber()) {
               case 1:
-                message.controler = reader.readInt32();
+                message.controller = reader.readInt32();
                 break;
               case 2:
                 message.zone = reader.readEnum();

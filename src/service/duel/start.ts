@@ -43,7 +43,7 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
           uuid: v4uuid(),
           code: 0,
           location: new ygopro.CardLocation({
-            controler: i < 3 ? 0 : 1,
+            controller: i < 3 ? 0 : 1,
             zone: [
               ygopro.CardZone.DECK,
               ygopro.CardZone.EXTRA,

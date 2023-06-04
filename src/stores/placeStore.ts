@@ -7,7 +7,7 @@ import type { Interactivity } from "./matStore/types";
 
 export type PlaceInteractivity =
   | Interactivity<{
-      controler: number;
+      controller: number;
       zone: ygopro.CardZone;
       sequence: number;
     }>

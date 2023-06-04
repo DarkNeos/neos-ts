@@ -3,9 +3,9 @@ import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
 import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 export default async (posChange: MsgPosChange) => {
-  const { location, controler, sequence } = posChange.card_info;
+  const { location, controller, sequence } = posChange.card_info;
 
-  const target = cardStore.at(location, controler, sequence);
+  const target = cardStore.at(location, controller, sequence);
   if (target) {
     target.location.position = posChange.cur_position;
 

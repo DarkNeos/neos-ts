@@ -30,7 +30,7 @@ export default (data: Uint8Array) => {
   });
 
   for (let i = 0; i < 2; i++) {
-    const controler = i == 0 ? player : 1 - player;
+    const controller = i == 0 ? player : 1 - player;
     const field = i == 0 ? _field & 0xffff : _field >> 16;
 
     if ((field & 0x7f) != 0) {
@@ -42,7 +42,7 @@ export default (data: Uint8Array) => {
         if ((filter & (1 << sequence)) != 0) {
           msg.places.push(
             new MsgSelectPlace.SelectAblePlace({
-              controler,
+              controller,
               zone,
               sequence: sequence,
             })
@@ -60,7 +60,7 @@ export default (data: Uint8Array) => {
         if ((filter & (1 << sequence)) != 0) {
           msg.places.push(
             new MsgSelectPlace.SelectAblePlace({
-              controler,
+              controller,
               zone,
               sequence,
             })
@@ -77,7 +77,7 @@ export default (data: Uint8Array) => {
       if ((filter & 0x1) != 0) {
         msg.places.push(
           new MsgSelectPlace.SelectAblePlace({
-            controler,
+            controller,
             zone,
             sequence: 6,
           })
@@ -87,7 +87,7 @@ export default (data: Uint8Array) => {
       if ((filter & 0x2) != 0) {
         msg.places.push(
           new MsgSelectPlace.SelectAblePlace({
-            controler,
+            controller,
             zone,
             sequence: 7,
           })

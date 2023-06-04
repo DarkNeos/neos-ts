@@ -31,7 +31,7 @@ export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
   // report
   const { location } = card;
-  const { controler, zone, sequence, position } = location;
+  const { controller, zone, sequence, position } = location;
 
   const rightX = DECK_OFFSET_X.value + 2 * (BLOCK_WIDTH.value + COL_GAP.value);
   const leftX = -rightX;
@@ -42,20 +42,20 @@ export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
     2 * ROW_GAP.value -
     BLOCK_HEIGHT_S.value;
   const topY = -bottomY;
-  let x = isMe(controler) ? rightX : leftX;
-  let y = isMe(controler) ? bottomY : topY;
+  let x = isMe(controller) ? rightX : leftX;
+  let y = isMe(controller) ? bottomY : topY;
   if (zone === EXTRA) {
-    x = isMe(controler) ? leftX : rightX;
+    x = isMe(controller) ? leftX : rightX;
   }
   let rz = zone === EXTRA ? DECK_ROTATE_Z.value : -DECK_ROTATE_Z.value;
-  rz += isMe(controler) ? 0 : 180;
+  rz += isMe(controller) ? 0 : 180;
   const z = sequence;
   api.start({
     x,
     y,
     z,
     rz,
-    ry: isMe(controler) ? (zone === DECK ? 180 : 0) : 180,
+    ry: isMe(controller) ? (zone === DECK ? 180 : 0) : 180,
     zIndex: z,
     height: DECK_CARD_HEIGHT.value,
   });

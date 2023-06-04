@@ -17,7 +17,7 @@ export default (data: Uint8Array) => {
   const target_location = reader.readCardLocation();
 
   if (
-    target_location.controler == 0 &&
+    target_location.controller == 0 &&
     target_location.zone == 0 &&
     target_location.sequence == 0
   ) {

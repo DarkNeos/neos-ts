@@ -64,7 +64,7 @@ export default async (move: MsgMove) => {
     // 超量素材的去除
     const overlayMaterial = cardStore.at(
       from.zone,
-      from.controler,
+      from.controller,
       from.sequence,
       from.overlay_sequence
     );
@@ -72,20 +72,20 @@ export default async (move: MsgMove) => {
       target = overlayMaterial;
     } else {
       console.warn(
-        `<Move>overlayMaterial from zone=${from.zone}, controller=${from.controler},
+        `<Move>overlayMaterial from zone=${from.zone}, controller=${from.controller},
           sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
       );
       return;
     }
   } else {
-    const card = cardStore.at(from.zone, from.controler, from.sequence);
+    const card = cardStore.at(from.zone, from.controller, from.sequence);
     if (card) {
       target = card;
     } else {
       console.warn(
-        `<Move>card from zone=${from.zone}, controller=${from.controler} sequence=${from.sequence} is null`
+        `<Move>card from zone=${from.zone}, controller=${from.controller} sequence=${from.sequence} is null`
       );
-      console.info(cardStore.at(from.zone, from.controler));
+      console.info(cardStore.at(from.zone, from.controller));
       return;
     }
   }
@@ -106,28 +106,28 @@ export default async (move: MsgMove) => {
     for (const location of xyzLocations) {
       const overlayMaterial = cardStore.at(
         location.zone,
-        location.controler,
+        location.controller,
         location.sequence,
         location.overlay_sequence
       );
       if (overlayMaterial) {
         // 超量素材的位置应该和超量怪兽保持一致
-        overlayMaterial.location.controler = to.controler;
+        overlayMaterial.location.controller = to.controller;
         overlayMaterial.location.zone = to.zone;
         overlayMaterial.location.sequence = to.sequence;
 
         await eventbus.call(Task.Move, overlayMaterial.uuid);
       } else {
         console.warn(
-          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controler}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
+          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
         );
       }
     }
   }
 
   // 维护sequence
-  const fromCards = cardStore.at(from.zone, from.controler);
-  const toCards = cardStore.at(to.zone, to.controler);
+  const fromCards = cardStore.at(from.zone, from.controller);
+  const toCards = cardStore.at(to.zone, to.controller);
 
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone))
     fromCards.forEach(
@@ -142,7 +142,7 @@ export default async (move: MsgMove) => {
     const overlay_sequence = from.overlay_sequence;
     for (const overlay of cardStore.findOverlay(
       from.zone,
-      from.controler,
+      from.controller,
       from.sequence
     )) {
       if (overlay.location.overlay_sequence > overlay_sequence) {
@@ -160,7 +160,7 @@ export default async (move: MsgMove) => {
   promises.push(eventbus.call(Task.Move, target.uuid));
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
-    cardStore.at(HAND, target.location.controler).forEach((card) => {
+    cardStore.at(HAND, target.location.controller).forEach((card) => {
       if (card.uuid !== target.uuid)
         promises.push(eventbus.call(Task.Move, card.uuid));
     });
@@ -172,11 +172,11 @@ export default async (move: MsgMove) => {
   if (from.zone == MZONE && !from.is_overlay) {
     for (const overlay of cardStore.findOverlay(
       from.zone,
-      from.controler,
+      from.controller,
       from.sequence
     )) {
       overlay.location.zone = to.zone;
-      overlay.location.controler = to.controler;
+      overlay.location.controller = to.controller;
       overlay.location.sequence = to.sequence;
 
       await eventbus.call(Task.Move, overlay.uuid);

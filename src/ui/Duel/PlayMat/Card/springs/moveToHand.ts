@@ -28,7 +28,7 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
 
 export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
-  const { zone, sequence, controler } = card.location;
+  const { zone, sequence, controller } = card.location;
   // 手卡会有很复杂的计算...
   const hand_circle_center_x = 0;
   const hand_circle_center_y =
@@ -48,22 +48,22 @@ export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
     ) *
     0.9;
   // 接下来计算每一张手卡
-  const hands_length = cardStore.at(HAND, controler).length;
+  const hands_length = cardStore.at(HAND, controller).length;
   const angle = (sequence - (hands_length - 1) / 2) * THETA;
   const r = HAND_CIRCLE_CENTER_OFFSET_Y.value + HAND_CARD_HEIGHT.value / 2;
   const negativeX = Math.sin(angle) * r;
   const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT.value / 2;
-  const x = hand_circle_center_x + negativeX * (isMe(controler) ? 1 : -1);
+  const x = hand_circle_center_x + negativeX * (isMe(controller) ? 1 : -1);
   const y = hand_circle_center_y - negativeY + 130; // 常量 是手动调的 这里肯定有问题 有空来修
 
   const _rz = (angle * 180) / Math.PI;
 
   api.start({
-    x: isMe(controler) ? x : -x,
-    y: isMe(controler) ? y : -y,
+    x: isMe(controller) ? x : -x,
+    y: isMe(controller) ? y : -y,
     z: 0,
-    rz: isMe(controler) ? _rz : 180 - _rz,
-    ry: isMe(controler) ? 0 : 180,
+    rz: isMe(controller) ? _rz : 180 - _rz,
+    ry: isMe(controller) ? 0 : 180,
     height: HAND_CARD_HEIGHT.value,
     zIndex: sequence,
     // rx: -PLANE_ROTATE_X.value,

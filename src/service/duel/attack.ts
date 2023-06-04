@@ -9,7 +9,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
 
   const attacker = cardStore.at(
     attack.attacker_location.zone,
-    attack.attacker_location.controler,
+    attack.attacker_location.controller,
     attack.attacker_location.sequence
   );
 
@@ -22,13 +22,13 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
     } else {
       const target = cardStore.at(
         attack.target_location.zone,
-        attack.target_location.controler,
+        attack.target_location.controller,
         attack.target_location.sequence
       );
 
       if (target) {
         attacker.attackTarget = {
-          opponent: !matStore.isMe(attack.target_location.controler),
+          opponent: !matStore.isMe(attack.target_location.controller),
           ...target,
         };
 

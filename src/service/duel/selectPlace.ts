@@ -13,10 +13,10 @@ export default (selectPlace: MsgSelectPlace) => {
     switch (place.zone) {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
-        placeStore.set(place.zone, place.controler, place.sequence, {
+        placeStore.set(place.zone, place.controller, place.sequence, {
           interactType: InteractType.PLACE_SELECTABLE,
           response: {
-            controler: place.controler,
+            controller: place.controller,
             zone: place.zone,
             sequence: place.sequence,
           },
