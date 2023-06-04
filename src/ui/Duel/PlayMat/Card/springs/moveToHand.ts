@@ -1,34 +1,24 @@
-import { easings } from "@react-spring/web";
-
 import { ygopro } from "@/api";
 import { cardStore, type CardType, isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
 import { SpringApi } from "./types";
-import { asyncStart } from "./utils";
 
 const {
-  PLANE_ROTATE_X,
-  BLOCK_WIDTH,
   BLOCK_HEIGHT_M,
   BLOCK_HEIGHT_S,
   CARD_RATIO,
-  COL_GAP,
   ROW_GAP,
   HAND_MARGIN_TOP,
   HAND_CARD_HEIGHT,
   HAND_CIRCLE_CENTER_OFFSET_Y,
-  DECK_OFFSET_X,
-  DECK_OFFSET_Y,
-  DECK_ROTATE_Z,
 } = matConfig;
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
-  ygopro.CardZone;
+const { HAND } = ygopro.CardZone;
 
 export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
-  const { zone, sequence, controller } = card.location;
+  const { sequence, controller } = card.location;
   // 手卡会有很复杂的计算...
   const hand_circle_center_x = 0;
   const hand_circle_center_y =

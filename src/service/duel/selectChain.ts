@@ -12,8 +12,8 @@ type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default (selectChain: MsgSelectChain) => {
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
-  const hint0 = selectChain.hint0;
-  const hint1 = selectChain.hint1;
+  const _hint0 = selectChain.hint0;
+  const _hint1 = selectChain.hint1;
   const chains = selectChain.chains;
 
   let handle_flag = 0;

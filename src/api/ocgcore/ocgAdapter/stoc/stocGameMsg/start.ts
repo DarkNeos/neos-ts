@@ -26,7 +26,7 @@ export default (data: Uint8Array) => {
   let offset = 1;
   if (dataView.byteLength > 17) {
     // data长度大于17，会多传一个大师规则字段
-    const masterRule = dataView.getUint8(offset); // TODO
+    const _masterRule = dataView.getUint8(offset); // TODO
 
     offset += 1;
   }

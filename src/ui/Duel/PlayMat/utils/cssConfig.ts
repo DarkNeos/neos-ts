@@ -1,4 +1,4 @@
-type CSSValue = [number, string] | number;
+// type CSSValue = [number, string] | number;
 
 export type CSSConfig = Record<string, { value: number; unit: UNIT }>;
 

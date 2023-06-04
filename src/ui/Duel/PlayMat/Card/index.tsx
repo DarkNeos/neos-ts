@@ -67,7 +67,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   }, []);
 
   const [highlight, setHighlight] = useState(false);
-  const [shadowOpacity, setShadowOpacity] = useState(0); // TODO 透明度
+  // const [shadowOpacity, setShadowOpacity] = useState(0); // TODO: 透明度
 
   // >>> 动画 >>>
   /** 动画序列的promise */

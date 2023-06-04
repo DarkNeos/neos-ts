@@ -1,4 +1,4 @@
-import { type SpringRef, type SpringValue } from "@react-spring/web";
+import { type SpringRef } from "@react-spring/web";
 
 export type SpringApi = SpringRef<{
   x: number;

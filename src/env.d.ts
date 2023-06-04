@@ -12,6 +12,7 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+/* eslint @typescript-eslint/no-unused-vars: 0 */
 import { EventEmitter } from "eventemitter3";
 
 /* eslint no-var: 0 */

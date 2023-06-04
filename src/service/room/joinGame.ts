@@ -2,7 +2,7 @@ import { ygopro } from "@/api";
 import { joinStore } from "@/stores";
 
 export default function handleJoinGame(pb: ygopro.YgoStocMsg) {
-  const msg = pb.stoc_join_game;
-  // todo
+  const _msg = pb.stoc_join_game;
+  // TODO
   joinStore.value = true;
 }

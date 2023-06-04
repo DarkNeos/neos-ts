@@ -7,7 +7,7 @@ import { cardStore } from "@/stores";
 
 import { Bg } from "../Bg";
 import { Card } from "../Card";
-import { type CSSConfig, matConfig, toCssProperties } from "../utils";
+import { matConfig, toCssProperties } from "../utils";
 
 // 后面再改名
 export const Mat: FC = () => {
@@ -23,7 +23,7 @@ export const Mat: FC = () => {
       <Plane>
         <Bg />
         <CardContainer>
-          {snap.map((cardSnap, i) => (
+          {snap.map((_cardSnap, i) => (
             <Card key={i} idx={i} />
           ))}
         </CardContainer>
