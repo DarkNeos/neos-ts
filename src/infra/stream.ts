@@ -2,6 +2,11 @@
 // 现在我们有这样一个需求：需要保证每次只处理一个消息，在上一个消息处理完后，再进行下一个消息的处理。
 //
 // 因此封装了一个`WebSocketStream`类，当每次Websocket连接中有消息到达时，往流中添加event，
+
+import { useConfig } from "@/config";
+
+import { sleep } from "./sleep";
+
 // 同时执行器会不断地从流中获取event进行处理。
 export class WebSocketStream {
   public ws: WebSocket;
@@ -48,7 +53,10 @@ export class WebSocketStream {
 
           return;
         } else {
-          // websocket not closed, handle next message from server
+          // websocket not closed, wait some time, and then handle next message from server
+
+          await sleep(useConfig().streamInterval);
+
           return reader.read().then(process);
         }
       }
