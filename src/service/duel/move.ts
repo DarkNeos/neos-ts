@@ -156,17 +156,15 @@ export default async (move: MsgMove) => {
   target.location = to;
 
   // 维护完了之后，开始动画
-  const promises: Promise<unknown>[] = [];
-  promises.push(eventbus.call(Task.Move, target.uuid));
+  await eventbus.call(Task.Move, target.uuid);
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
-    cardStore.at(HAND, target.location.controller).forEach((card) => {
-      if (card.uuid !== target.uuid)
-        promises.push(eventbus.call(Task.Move, card.uuid));
-    });
+    for (const card of cardStore.at(HAND, target.location.controller)) {
+      if (card.uuid !== target.uuid) {
+        await eventbus.call(Task.Move, card.uuid);
+      }
+    }
   }
-  // FIXME: 当和AI联机对战，且AI先手时，下面这个`await`会block住
-  await Promise.all(promises);
 
   // 超量素材位置跟随超量怪兽移动
   if (from.zone == MZONE && !from.is_overlay) {
