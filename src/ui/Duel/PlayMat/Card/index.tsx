@@ -57,7 +57,8 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         await moveToOutside({ card: state, api });
         break;
       case TZONE:
-        // TODO: 衍生物直接消散
+        // FIXME: 这里应该实现一个衍生物消散的动画，现在暂时让它在动画在展示上回到卡组
+        await moveToDeck({ card: state, api });
         break;
     }
   };
