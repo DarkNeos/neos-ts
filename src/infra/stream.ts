@@ -53,14 +53,14 @@ export class WebSocketStream {
 
           return;
         } else {
-          // websocket not closed, wait some time, and then handle next message from server
-
-          await sleep(useConfig().streamInterval);
+          // websocket not closed, handle next message from server
           await reader.read().then(process);
         }
       }
 
       if (value) {
+        // wait some time, and then handle message from server
+        await sleep(useConfig().streamInterval);
         await onMessage(value);
       } else {
         console.warn("value from ReadableStream is undefined!");
