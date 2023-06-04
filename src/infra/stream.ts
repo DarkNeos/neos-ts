@@ -56,8 +56,7 @@ export class WebSocketStream {
           // websocket not closed, wait some time, and then handle next message from server
 
           await sleep(useConfig().streamInterval);
-
-          return reader.read().then(process);
+          await reader.read().then(process);
         }
       }
 
@@ -68,7 +67,7 @@ export class WebSocketStream {
       }
 
       // read some more, and call process function again
-      return reader.read().then(process);
+      await reader.read().then(process);
     });
   }
 
