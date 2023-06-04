@@ -4,7 +4,7 @@ import { messageStore } from "@/stores";
 type MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
 
 export default (selectPosition: MsgSelectPosition) => {
-  const player = selectPosition.player;
+  const _player = selectPosition.player;
   const positions = selectPosition.positions;
 
   messageStore.positionModal.positions = positions.map(

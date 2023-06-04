@@ -60,7 +60,14 @@ const ActiveList = [
   "select_yes_no",
 ];
 
+let animation: Promise<unknown> = new Promise<void>((rs) => rs());
+
 export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
+  animation = animation.then(() => _handleGameMsg(pb));
+  // _handleGameMsg(pb);
+}
+
+async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
@@ -144,12 +151,12 @@ export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "pos_change": {
-      onMsgPosChange(msg.pos_change);
+      await onMsgPosChange(msg.pos_change);
 
       break;
     }
     case "select_unselect_card": {
-      onMsgSelectUnselectCard(msg.select_unselect_card);
+      await onMsgSelectUnselectCard(msg.select_unselect_card);
 
       break;
     }

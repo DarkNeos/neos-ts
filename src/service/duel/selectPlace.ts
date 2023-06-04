@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { InteractType, matStore } from "@/stores";
+import { InteractType, placeStore } from "@/stores";
 
 type MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 
@@ -11,27 +11,17 @@ export default (selectPlace: MsgSelectPlace) => {
 
   for (const place of selectPlace.places) {
     switch (place.zone) {
-      case ygopro.CardZone.MZONE: {
-        matStore.monsters
-          .of(place.controler)
-          .setPlaceInteractivityType(
-            place.sequence,
-            InteractType.PLACE_SELECTABLE
-          );
+      case ygopro.CardZone.MZONE:
+      case ygopro.CardZone.SZONE:
+        placeStore.set(place.zone, place.controller, place.sequence, {
+          interactType: InteractType.PLACE_SELECTABLE,
+          response: {
+            controller: place.controller,
+            zone: place.zone,
+            sequence: place.sequence,
+          },
+        });
         break;
-      }
-      case ygopro.CardZone.SZONE: {
-        matStore.magics
-          .of(place.controler)
-          .setPlaceInteractivityType(
-            place.sequence,
-            InteractType.PLACE_SELECTABLE
-          );
-        break;
-      }
-      default: {
-        console.warn(`Unhandled zoneType: ${place.zone}`);
-      }
     }
   }
 };

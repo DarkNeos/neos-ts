@@ -1,26 +1,20 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-import { fetchEsHintMeta, matStore } from "@/stores";
-export default (posChange: MsgPosChange) => {
-  const { location, controler, sequence } = posChange.card_info;
+import { eventbus, Task } from "@/infra";
+import { cardStore, fetchEsHintMeta } from "@/stores";
+export default async (posChange: MsgPosChange) => {
+  const { location, controller, sequence } = posChange.card_info;
 
-  switch (location) {
-    case ygopro.CardZone.MZONE: {
-      matStore.monsters.of(controler)[sequence].location.position =
-        posChange.cur_position;
+  const target = cardStore.at(location, controller, sequence);
+  if (target) {
+    target.location.position = posChange.cur_position;
 
-      break;
-    }
-    case ygopro.CardZone.SZONE: {
-      matStore.magics.of(controler)[sequence].location.position =
-        posChange.cur_position;
-
-      break;
-    }
-    default: {
-      console.log(`Unhandled zone ${location}`);
-    }
+    // TODO: 暂时用`Move`动画，后续可以单独实现一个改变表示形式的动画
+    await eventbus.call(Task.Move, target.uuid);
+  } else {
+    console.warn(`<PosChange>target from ${posChange.card_info} is null`);
   }
+
   fetchEsHintMeta({
     originMsg: 1600,
   });

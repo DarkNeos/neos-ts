@@ -3,7 +3,7 @@ import { fetchCheckCardMeta, messageStore } from "@/stores";
 
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
-export default ({
+export default async ({
   finishable,
   cancelable,
   min,
@@ -16,14 +16,15 @@ export default ({
   messageStore.selectCardActions.min = min;
   messageStore.selectCardActions.max = max;
   messageStore.selectCardActions.single = true;
-  messageStore.selectCardActions.isValid = true;
-  messageStore.selectCardActions.isOpen = true;
 
   for (const option of selectableCards) {
-    fetchCheckCardMeta(option);
+    await fetchCheckCardMeta(option);
   }
 
   for (const option of selectedCards) {
-    fetchCheckCardMeta(option, true);
+    await fetchCheckCardMeta(option, true);
   }
+
+  messageStore.selectCardActions.isValid = true;
+  messageStore.selectCardActions.isOpen = true;
 };

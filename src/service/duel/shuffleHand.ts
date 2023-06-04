@@ -1,17 +1,36 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { cardStore } from "@/stores";
 
 type MsgShuffleHand = ygopro.StocGameMessage.MsgShuffleHand;
 
 export default (shuffleHand: MsgShuffleHand) => {
   const { hands: codes, player: controller } = shuffleHand;
 
-  const indexMap = new Map(codes.map((code, idx) => [code, idx]));
+  // 本质上是要将手卡的sequence变成和codes一样的顺序
+  const hands = cardStore.at(ygopro.CardZone.HAND, controller);
+  const hash = new Map(codes.map((code) => [code, new Array()]));
+  codes.forEach((code, sequence) => {
+    hash.get(code)?.push(sequence);
+  });
 
-  matStore.hands.of(controller).sort((a, b) => {
-    const indexA = indexMap.get(a.occupant?.id ?? 0) ?? 0;
-    const indexB = indexMap.get(b.occupant?.id ?? 0) ?? 0;
-
-    return indexA - indexB;
+  hands.forEach((hand) => {
+    const sequences = hash.get(hand.code);
+    if (sequences !== undefined) {
+      const sequence = sequences.pop();
+      if (sequence !== undefined) {
+        hand.location.sequence = sequence;
+        hash.set(hand.code, sequences);
+      } else {
+        console.warn(
+          `<ShuffleHand>sequence poped is none, controller=${controller}, code=${hand.code}, sequence=${sequence}`
+        );
+      }
+    } else {
+      console.warn(
+        `<ShuffleHand>target from records is null, controller=${controller}, hands=${hands.map(
+          (hand) => hand.code
+        )}, codes=${codes}`
+      );
+    }
   });
 };

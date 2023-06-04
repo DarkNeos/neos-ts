@@ -1,155 +1,183 @@
-import { v4 as v4uuid } from "uuid";
+import { fetchCard, ygopro } from "@/api";
+import { eventbus, Task } from "@/infra";
+import { cardStore, CardType } from "@/stores";
 
-import { ygopro } from "@/api";
-import { fetchOverlayMeta, store } from "@/stores";
+import { REASON_MATERIAL, TYPE_TOKEN } from "../../common";
+
 type MsgMove = ygopro.StocGameMessage.MsgMove;
-import { useConfig } from "@/config";
-import { sleep } from "@/infra";
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;
 
-import { REASON_MATERIAL } from "../../common";
+const overlayStack: ygopro.CardLocation[] = [];
 
-const { matStore } = store;
-const NeosConfig = useConfig();
-
-const OVERLAY_STACK: { uuid: string; code: number; sequence: number }[] = [];
-
+/*
+ * * 超量素材的`Location`：
+ * - 位置是跟随超量怪兽的，通过`is_overlay`字段判断是否是超量素材，`overlay_sequence`是在某个超量怪兽下面的超量序列；
+ * - 超量怪兽移动，超量素材需要跟着移动，并且需要前端自己维护这个关系，因为当超量怪兽移动时，
+ *   后端不会针对超量素材传`MSG_MOVE`；
+ * - 某个超量怪兽下面的超量素材的`overlay_sequence`也需要前端自己维护；
+ * - 当进行超量召唤时，超量素材会临时移动到某个位置，玩家选择完超量怪兽的位置后，超量怪兽会从`EXTRA ZONE`
+ *   move到`MZONE`，这之后超量素材应该移动到超量怪兽的位置，但是后端会传这部分的`MSG_MOVE`信息，
+ *   因此前端需要自己维护，现在的做法采用了`入栈-出栈`的方式。
+ * - 当场上的超量怪兽离开`MZONE`，比如送墓/除外时，超量素材会跟着超量怪兽移动，这时候它们的`sequence`还是一样的，
+ *   然后后端会传`MSG_MOVE`，对超量素材的位置进行修正。
+ *
+ * * 衍生物的`Location`
+ * - 在neos视角中，衍生物放在`TZONE`区域；
+ * - 在ygopro后端视角中，衍生物放在`DECK`区域；
+ * - 当衍生物进场和离场的时候，from和to的zone都是`DECK`，因此这里手动修改；
+ * - 通过`meta.data.type`判断一张卡是否是衍生物。
+ *
+ * */
 export default async (move: MsgMove) => {
   const code = move.code;
   const from = move.from;
   const to = move.to;
   const reason = move.reason;
 
-  // FIXME: 考虑超量素材的情况
-
-  let uuid;
-  let chainIndex;
-  switch (from.location) {
-    case ygopro.CardZone.MZONE:
-    case ygopro.CardZone.SZONE: {
-      // 魔陷和怪兽需要清掉占用、清掉超量素材
-      const target = matStore.in(from.location).of(from.controler)[
-        from.sequence
-      ];
-      target.occupant = undefined;
-      target.overlay_materials = [];
-      uuid = target.uuid;
-      chainIndex = target.chainIndex;
-      // 需要重新分配UUID
-      target.uuid = v4uuid();
-      break;
+  const meta = await fetchCard(code);
+  if (meta.data.type !== undefined && (meta.data.type & TYPE_TOKEN) > 0) {
+    // 衍生物
+    if (from.zone == DECK) {
+      // 衍生物出场的场景，设置`from.zone`为`TZONE`
+      from.zone = TZONE;
     }
-    case ygopro.CardZone.REMOVED:
-    case ygopro.CardZone.GRAVE:
-    case ygopro.CardZone.HAND:
-    case ygopro.CardZone.DECK:
-    case ygopro.CardZone.EXTRA: {
-      // 其余区域就是在list删掉这张卡
-      const removed = matStore
-        .in(from.location)
-        .of(from.controler)
-        .remove(from.sequence);
-
-      if (removed === undefined) {
-        console.warn(`remove from matStore return undefined, location=${from}`);
-      }
-
-      uuid = removed.uuid;
-      chainIndex = removed.chainIndex;
-
-      break;
-    }
-    // 仅仅去除超量素材
-    case ygopro.CardZone.OVERLAY: {
-      const target = matStore.monsters.of(from.controler)[from.sequence];
-      if (target && target.overlay_materials) {
-        target.overlay_materials.splice(from.overlay_sequence, 1);
-      }
-
-      // 如果是超量素材的移动，暂时采用妥协的设计，重新生成uuid
-      // FIXME: 后续需要正确处理超量素材的移动
-      uuid = v4uuid();
-      break;
+    if (to.zone == DECK) {
+      // 衍生物离开场上的场合，设置`to.zone`为`TZONE`
+      to.zone = TZONE;
     }
   }
 
-  if (chainIndex) {
-    // 如果`chainIndex`不为空，则连锁位置变了，需要更新连锁栈的状态
-    matStore.chains[chainIndex - 1] = to;
+  // log出来看看，后期删掉即可
+  await (async () => {
+    console.color("green")(
+      `${meta.text.name} ${ygopro.CardZone[from.zone]}:${from.sequence}:${
+        from.is_overlay ? from.overlay_sequence : ""
+      } → ${ygopro.CardZone[to.zone]}:${to.sequence}:${
+        to.is_overlay ? to.overlay_sequence : ""
+      }`
+    );
+  })();
+
+  let target: CardType;
+
+  if (from.is_overlay) {
+    // 超量素材的去除
+    const overlayMaterial = cardStore.at(
+      from.zone,
+      from.controller,
+      from.sequence,
+      from.overlay_sequence
+    );
+    if (overlayMaterial) {
+      target = overlayMaterial;
+    } else {
+      console.warn(
+        `<Move>overlayMaterial from zone=${from.zone}, controller=${from.controller},
+          sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
+      );
+      return;
+    }
+  } else {
+    const card = cardStore.at(from.zone, from.controller, from.sequence);
+    if (card) {
+      target = card;
+    } else {
+      console.warn(
+        `<Move>card from zone=${from.zone}, controller=${from.controller} sequence=${from.sequence} is null`
+      );
+      console.info(cardStore.at(from.zone, from.controller));
+      return;
+    }
   }
 
-  switch (to.location) {
-    // @ts-ignore
-    case ygopro.CardZone.MZONE: {
-      // 设置超量素材
-      const overlayMetarials = OVERLAY_STACK.splice(0, OVERLAY_STACK.length);
-      const sorted = overlayMetarials
-        .sort((a, b) => a.sequence - b.sequence)
-        .map((overlay) => overlay.code);
-      fetchOverlayMeta(to.controler, to.sequence, sorted);
-      // 设置Occupant，和魔陷区/其他区共用一个逻辑，特地不写break
+  // 超量
+  if (to.is_overlay && from.zone == MZONE) {
+    // 准备超量召唤，超量素材入栈
+    if (reason == REASON_MATERIAL) {
+      to.zone = MZONE;
+      overlayStack.push(to);
     }
-    case ygopro.CardZone.SZONE: {
-      matStore
-        .in(to.location)
-        .of(to.controler)
-        .setOccupant(to.sequence, code, to.position, true);
-      if (uuid) {
-        // 设置UUID
-        matStore.in(to.location).of(to.controler)[to.sequence].uuid = uuid;
-      }
-      // 设置连锁序号
-      matStore.in(to.location).of(to.controler)[to.sequence].chainIndex =
-        chainIndex;
+  } else if (to.zone === MZONE && overlayStack.length) {
+    // 超量召唤
+    console.color("grey")(`超量召唤！overlayStack=${overlayStack}`);
 
-      await sleep(NeosConfig.ui.moveDelay);
-      matStore.setFocus(to, false);
-      break;
-    }
-    case ygopro.CardZone.REMOVED:
-    case ygopro.CardZone.GRAVE:
-    case ygopro.CardZone.DECK:
-    case ygopro.CardZone.EXTRA: {
-      if (uuid) {
-        matStore
-          .in(to.location)
-          .of(to.controler)
-          .insert(uuid, code, to.sequence, to.position, false, chainIndex);
-      }
-      break;
-    }
-    case ygopro.CardZone.HAND: {
-      if (uuid) {
-        matStore
-          .in(to.location)
-          .of(to.controler)
-          .insert(
-            uuid,
-            code,
-            to.sequence,
-            ygopro.CardPosition.FACEUP_ATTACK,
-            true,
-            chainIndex
-          );
+    // 超量素材出栈
+    const xyzLocations = overlayStack.splice(0, overlayStack.length);
+    for (const location of xyzLocations) {
+      const overlayMaterial = cardStore.at(
+        location.zone,
+        location.controller,
+        location.sequence,
+        location.overlay_sequence
+      );
+      if (overlayMaterial) {
+        // 超量素材的位置应该和超量怪兽保持一致
+        overlayMaterial.location.controller = to.controller;
+        overlayMaterial.location.zone = to.zone;
+        overlayMaterial.location.sequence = to.sequence;
 
-        await sleep(NeosConfig.ui.moveDelay);
-        matStore.setFocus(to, false);
-      }
-      break;
-    }
-    case ygopro.CardZone.OVERLAY: {
-      if (reason == REASON_MATERIAL && uuid) {
-        // 超量素材在进行超量召唤时，若玩家未选择超量怪兽的位置，会“沉到决斗盘下面”，`reason`字段值是`REASON_MATERIAL`
-        // 这时候将它们放到一个栈中，待超量怪兽的Move消息到来时从栈中获取超量素材补充到状态中
-        OVERLAY_STACK.push({ uuid, code, sequence: to.overlay_sequence });
+        await eventbus.call(Task.Move, overlayMaterial.uuid);
       } else {
-        // 其他情况下，比如“宵星的机神 丁吉尔苏”的“补充超量素材”效果，直接更新状态中
-        fetchOverlayMeta(to.controler, to.sequence, [code], true);
+        console.warn(
+          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
+        );
       }
-      break;
     }
-    default: {
-      console.log(`Unhandled zone type ${to.location}`);
-      break;
+  }
+
+  // 维护sequence
+  const fromCards = cardStore.at(from.zone, from.controller);
+  const toCards = cardStore.at(to.zone, to.controller);
+
+  if ([HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone))
+    fromCards.forEach(
+      (c) => c.location.sequence > from.sequence && c.location.sequence--
+    );
+  if ([HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(to.zone))
+    toCards.forEach(
+      (c) => c.location.sequence >= to.sequence && c.location.sequence++
+    );
+  if (from.is_overlay) {
+    // 超量素材的序号也需要维护
+    const overlay_sequence = from.overlay_sequence;
+    for (const overlay of cardStore.findOverlay(
+      from.zone,
+      from.controller,
+      from.sequence
+    )) {
+      if (overlay.location.overlay_sequence > overlay_sequence) {
+        overlay.location.overlay_sequence--;
+      }
+    }
+  }
+
+  // 更新信息
+  target.code = code;
+  target.location = to;
+
+  // 维护完了之后，开始动画
+  await eventbus.call(Task.Move, target.uuid);
+  // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
+  if ([from.zone, to.zone].includes(HAND)) {
+    for (const card of cardStore.at(HAND, target.location.controller)) {
+      if (card.uuid !== target.uuid) {
+        await eventbus.call(Task.Move, card.uuid);
+      }
+    }
+  }
+
+  // 超量素材位置跟随超量怪兽移动
+  if (from.zone == MZONE && !from.is_overlay) {
+    for (const overlay of cardStore.findOverlay(
+      from.zone,
+      from.controller,
+      from.sequence
+    )) {
+      overlay.location.zone = to.zone;
+      overlay.location.controller = to.controller;
+      overlay.location.sequence = to.sequence;
+
+      await eventbus.call(Task.Move, overlay.uuid);
     }
   }
 };

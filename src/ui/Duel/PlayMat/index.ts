@@ -1,3 +1,3 @@
-import { Mat } from "./Mat";
-
-export default Mat;
+export * from "./LifeBar";
+export * from "./Mat";
+export * from "./Menu";

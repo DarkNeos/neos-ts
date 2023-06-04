@@ -19,12 +19,12 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
       case ygopro.StocHsPlayerChange.State.MOVE: {
         console.log("Player " + change.pos + " moved to " + change.moved_pos);
 
-        let src = change.pos;
-        let dst = change.moved_pos;
+        let _src = change.pos;
+        let _dst = change.moved_pos;
 
         console.log("Currently unsupport Move type of StocHsPlayerChange.");
 
-        // todo
+        // TODO
 
         break;
       }

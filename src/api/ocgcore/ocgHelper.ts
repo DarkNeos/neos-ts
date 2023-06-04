@@ -154,14 +154,14 @@ export function sendSelectIdleCmdResponse(value: number) {
 }
 
 export function sendSelectPlaceResponse(value: {
-  controler: number;
+  controller: number;
   zone: ygopro.CardZone;
   sequence: number;
 }) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_place: new ygopro.CtosGameMsgResponse.SelectPlaceResponse({
-        player: value.controler,
+        player: value.controller,
         zone: value.zone,
         sequence: value.sequence,
       }),

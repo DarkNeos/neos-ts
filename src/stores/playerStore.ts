@@ -1,3 +1,4 @@
+/* eslint valtio/avoid-this-in-proxy: 0 */
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";

@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { getCardByLocation, messageStore } from "@/stores";
+import { cardStore, messageStore } from "@/stores";
 type MsgSelectCounter = ygopro.StocGameMessage.MsgSelectCounter;
 
 export default (selectCounter: MsgSelectCounter) => {
@@ -7,7 +7,7 @@ export default (selectCounter: MsgSelectCounter) => {
   messageStore.checkCounterModal.min = selectCounter.min;
   messageStore.checkCounterModal.options = selectCounter.options!.map(
     ({ location, code, counter_count }) => {
-      const id = getCardByLocation(location)?.occupant?.id;
+      const id = cardStore.find(location)?.code;
       const newCode = code ? code : id || 0;
 
       return {

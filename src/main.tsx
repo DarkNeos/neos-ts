@@ -31,11 +31,9 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }} locale={zhCN}>
-        <Neos />
-      </ConfigProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }} locale={zhCN}>
+      <Neos />
+    </ConfigProvider>
+  </BrowserRouter>
 );

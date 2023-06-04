@@ -2,40 +2,39 @@
 // thanks!
 @charset "utf-8";
 
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 #root {
-  display: flex;
   margin: 0 auto;
   text-align: center;
 }
 
-@import
-url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"),
-"commom",
-"header",
-"login-form",
-"sign-in";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"),
+  "commom", "header", "login-form", "sign-in";
 
 body {
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  font: 87.5%/1.5em 'Open Sans', sans-serif;
+  font: 87.5%/1.5em "Open Sans", sans-serif;
   display: flex;
   margin: 0;
   place-items: center;
@@ -44,20 +43,20 @@ body {
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 input {
-	border: none;
-	font-family: 'Open Sans', Arial, sans-serif;
-	font-size: 14px;
-	line-height: 1.5em;
-	padding: 0;
-	-webkit-appearance: none;
+  border: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  padding: 0;
+  -webkit-appearance: none;
 }
 
 p {
-	line-height: 1.5em;
+  line-height: 1.5em;
 }
 
 .clearfix {
@@ -65,25 +64,28 @@ p {
 
   &:before,
   &:after {
-    content: ' ';
+    content: " ";
     display: table;
   }
 
   &:after {
     clear: both;
   }
-
 }
 
 .container {
-	margin: 0 auto;
+  // left: 50%;
+  // position: fixed;
+  // top: 50%;
+  // transform: translate(-50%, -50%);
+  margin: 0 auto;
   width: 100%;
-	max-width: 300px;
-	margin-top: 200px;
+  max-width: 300px;
+  margin-top: 200px;
 }
 
 .g-row {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
 }

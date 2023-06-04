@@ -1,6 +1,5 @@
 import { notification } from "antd";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { fetchStrings, ygopro } from "@/api";
@@ -25,7 +24,6 @@ export const HintNotification = () => {
   const waiting = snap.waiting;
   const result = snap.result;
 
-  const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification({
     maxCount: NeosConfig.ui.hint.maxCount,
   });
@@ -41,14 +39,18 @@ export const HintNotification = () => {
 
   useEffect(() => {
     if (currentPhase) {
+      const message = fetchStrings(
+        "!system",
+        Phase2StringCodeMap.get(currentPhase) ?? 0
+      );
       api.open({
-        message: fetchStrings(
-          "!system",
-          Phase2StringCodeMap.get(currentPhase) ?? 0
-        ),
+        message,
         placement: "topRight",
         style: style,
       });
+      console.color("DeepPink")(
+        `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`
+      );
     }
   }, [currentPhase]);
 
@@ -75,9 +77,6 @@ export const HintNotification = () => {
         message,
         placement: "bottom",
         style: style,
-        onClose() {
-          navigate("/");
-        },
       });
     }
   }, [result]);

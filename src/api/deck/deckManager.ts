@@ -24,6 +24,10 @@ export const DeckManager = _objToMap(
 export async function fetchDeck(deck: string): Promise<IDeck> {
   const res = DeckManager.get(deck);
 
+  if (!res) {
+    console.error(`Deck ${deck} doesn't exist.`);
+  }
+
   return res ?? { deckName: "undefined", main: [], extra: [], side: [] };
 }
 

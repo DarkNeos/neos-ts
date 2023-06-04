@@ -1,11 +1,9 @@
 import { ygopro } from "@/api";
-import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
-  matStore,
-} from "@/stores";
+import { cardStore, matStore } from "@/stores";
 
 export default (_wait: ygopro.StocGameMessage.MsgWait) => {
-  clearAllIdleInteractivities(0);
-  clearAllIdleInteractivities(1);
+  for (const card of cardStore.inner) {
+    card.idleInteractivities = [];
+  }
   matStore.waiting = true;
 };

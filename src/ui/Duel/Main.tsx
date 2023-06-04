@@ -13,12 +13,14 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import Mat from "./PlayMat";
+import { LifeBar, Mat, Menu } from "./PlayMat";
 
 const NeosDuel = () => {
   return (
     <>
       <Alert />
+      <Menu />
+      <LifeBar />
       <Mat />
       <CardModal />
       <CardListModal />

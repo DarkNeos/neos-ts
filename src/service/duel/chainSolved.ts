@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { cardStore, matStore } from "@/stores";
 
 // FIXME: 处理连锁会存在三种结果：
 // 1. Solved - 已处理；
@@ -15,7 +15,12 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     .at(0);
   if (location) {
     // 设置被连锁状态为空，解除连锁
-    matStore.setChained(location, undefined);
+    const target = cardStore.find(location);
+    if (target) {
+      target.chainIndex = undefined;
+    } else {
+      console.warn(`<ChainSolved>target from ${location} is null`);
+    }
   } else {
     console.warn(
       `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`

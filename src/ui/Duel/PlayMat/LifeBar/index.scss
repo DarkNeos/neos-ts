@@ -1,0 +1,21 @@
+#life-bar-container {
+  position: fixed;
+  display: flex;
+  gap: 20px;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5em;
+  font-weight: 500;
+  font-family: inherit;
+  flex-direction: column;
+}
+
+#life-bar {
+  padding: 0.8em 1.6em;
+  background-color: #a9a9a9;
+  border-radius: 8px;
+  text-align: left;
+  border: 1px solid transparent;
+  color: black;
+  opacity: 0.4;
+}

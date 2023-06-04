@@ -1,0 +1,31 @@
+section#mat {
+  // margin-top: 200px;
+  // padding-top: 50px; // 先不管 后面调整
+  position: relative;
+  #camera {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // perspective: var(--perspective);
+  }
+  #plane {
+    transform: translateX(0) translateY(0) translateZ(0)
+      rotateX(var(--plane-rotate-x));
+    width: fit-content;
+
+    perspective: var(--perspective);
+  }
+}
+
+.mat-card-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform-style: preserve-3d;
+}

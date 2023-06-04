@@ -14,20 +14,20 @@ export class BufferReaderExt {
 
   readCardInfo(): ygopro.CardInfo {
     const code = this.inner.readUint32();
-    const controler = this.inner.readUint8();
+    const controller = this.inner.readUint8();
     const location = numberToCardZone(this.inner.readUint8());
     const sequence = this.inner.readUint8();
 
     return new ygopro.CardInfo({
       code,
-      controler,
+      controller,
       location,
       sequence,
     });
   }
 
   readCardLocation(): ygopro.CardLocation {
-    const controler = this.inner.readUint8();
+    const controller = this.inner.readUint8();
     const location = this.inner.readUint8();
     const sequence = this.inner.readUint8();
     const ss = this.inner.readUint8();
@@ -35,29 +35,31 @@ export class BufferReaderExt {
     if (location & LOCATION_OVERLAY) {
       // 超量素材
       return new ygopro.CardLocation({
-        controler,
-        location: ygopro.CardZone.OVERLAY,
+        controller,
+        zone: numberToCardZone(location & ~LOCATION_OVERLAY),
         sequence,
+        is_overlay: true,
         overlay_sequence: ss,
       });
     } else {
       return new ygopro.CardLocation({
-        controler,
-        location: numberToCardZone(location),
+        controller,
+        zone: numberToCardZone(location),
         sequence,
+        is_overlay: false,
         position: numberToCardPosition(ss),
       });
     }
   }
 
   readCardShortLocation(): ygopro.CardLocation {
-    const controler = this.inner.readUint8();
+    const controller = this.inner.readUint8();
     const location = this.inner.readUint8();
     const sequence = this.inner.readUint8();
 
     return new ygopro.CardLocation({
-      controler,
-      location: numberToCardZone(location),
+      controller,
+      zone: numberToCardZone(location),
       sequence,
     });
   }

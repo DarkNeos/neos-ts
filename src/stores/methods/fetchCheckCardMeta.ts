@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { fetchCard, getCardStr } from "@/api/cards";
-import { matStore, messageStore } from "@/stores";
+import { cardStore, messageStore } from "@/stores";
 
 export const fetchCheckCardMeta = async (
   {
@@ -21,12 +21,11 @@ export const fetchCheckCardMeta = async (
   selected?: boolean,
   mustSelect?: boolean
 ) => {
-  const controller = location.controler;
+  const controller = location.controller;
   const newID =
     code != 0
       ? code
-      : matStore.in(location.location).of(controller)[location.sequence]
-          ?.occupant?.id || 0;
+      : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
   const meta = await fetchCard(newID);
 
   const effectDesc = effectDescCode

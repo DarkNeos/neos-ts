@@ -18,12 +18,17 @@
       "interface"
     ],
     "simple-import-sort/imports": "warn",
-    "simple-import-sort/exports": "warn"
+    "simple-import-sort/exports": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ]
   },
   "settings": {
     "import/resolver": {
       "node": true,
       "typescript": true
     }
-  }
+  },
+  "ignorePatterns": ["src/api/ocgcore/idl/ocgcore.ts"]
 }

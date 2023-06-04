@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import {
-  clearAllIdleInteractivities as clearAllIdleInteractivities,
+  cardStore,
   type Interactivity,
   InteractType,
   matStore,
@@ -13,7 +13,9 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
-  clearAllIdleInteractivities(player);
+  cardStore.inner.forEach((card) => {
+    card.idleInteractivities = [];
+  });
 
   cmds.forEach((cmd) => {
     const interactType = battleTypeToInteracType(cmd.battle_type);
@@ -30,14 +32,18 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
           [InteractType.ATTACK]: { directAttackAble: data.direct_attackable },
         };
         const tmp = map[interactType]; // 添加额外信息
-        matStore
-          .in(location)
-          .of(player)
-          .addIdleInteractivity(sequence, {
+        const target = cardStore.at(location, player, sequence);
+        if (target) {
+          target.idleInteractivities.push({
             ...tmp,
             interactType,
             response: data.response,
           });
+        } else {
+          console.warn(
+            `<selectBattleCmd>target from zone=${location}, player=${player}, sequence=${sequence} is null`
+          );
+        }
       } else {
         console.warn(`Undefined InteractType`);
       }

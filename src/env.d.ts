@@ -1,5 +1,6 @@
 /// <reference types="react-scripts" />
 /// <reference types="vite/client" />
+/// <reference types="eventemitter3" />
 
 interface ImportMetaEnv {
   readonly VITE_IS_AI_MODE: boolean;
@@ -11,9 +12,16 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// // 重新声明useSnapshot，暂时先这么写。原版的会把所有的改成readonly，引发一些棘手的类型报错。
-// import "valtio/react";
-// declare module "valtio/react" {
-//   export declare function useSnapshot<T extends object>(proxyObject: T): T;
-//   export {};
-// }
+/* eslint @typescript-eslint/no-unused-vars: 0 */
+import { EventEmitter } from "eventemitter3";
+
+/* eslint no-var: 0 */
+declare global {
+  var myExtraDeckCodes: number[];
+  interface Console {
+    color: (
+      color: string,
+      backgroundColor?: string
+    ) => (...args: any[]) => void;
+  }
+}
