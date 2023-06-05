@@ -136,7 +136,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_option": {
-      onMsgSelectOption(msg.select_option);
+      await onMsgSelectOption(msg.select_option);
 
       break;
     }

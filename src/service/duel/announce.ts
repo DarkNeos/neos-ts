@@ -38,14 +38,15 @@ export default async (announce: MsgAnnounce) => {
     }
     case MsgAnnounce.AnnounceType.Card: {
       announceModal.title = fetchStrings("!system", 564);
-      announceModal.options = await Promise.all(
-        announce.options.map(async (option) => ({
-          info: await fetchCard(option.code).then(
-            (meta) => meta.text.name ?? "[?]"
-          ),
-          response: option.response,
-        }))
-      );
+      for (const option of announce.options) {
+        const meta = await fetchCard(option.code);
+        if (meta.text.name) {
+          announceModal.options.push({
+            info: meta.text.name,
+            response: option.response,
+          });
+        }
+      }
       announceModal.isOpen = true;
 
       break;
