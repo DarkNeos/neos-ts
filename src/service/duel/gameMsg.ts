@@ -76,7 +76,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
 
   switch (msg.gameMsg) {
     case "start": {
-      onMsgStart(msg.start);
+      await onMsgStart(msg.start);
 
       break;
     }

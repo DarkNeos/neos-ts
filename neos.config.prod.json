@@ -12,6 +12,7 @@
    "stringsUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
    "chainALL": false,
    "streamInterval": 20,
+   "startDelay": 1000,
    "ui":{
       "hint":{
          "waitingDuration":1.5,
