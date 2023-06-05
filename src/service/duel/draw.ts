@@ -2,8 +2,6 @@ import { fetchCard, ygopro } from "@/api";
 import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 
-let cnt = 0;
-
 export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   fetchEsHintMeta({ originMsg: "玩家抽卡时" });
 
@@ -25,11 +23,6 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
     card.location.sequence = Number(idx) + handsLength;
   }
 
-  if (cnt++ < 2) {
-    // FIXME 暂时性的解决方案，头两回抽卡（双方各自初始手卡）先屏蔽掉
-    // 不然会出现一些问题...
-    return;
-  }
   // 抽卡动画
   await Promise.all(
     cardStore

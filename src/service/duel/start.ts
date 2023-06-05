@@ -4,11 +4,13 @@ import { proxy } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
 import { fetchCard, ygopro } from "@/api";
+import { useConfig } from "@/config";
+import { sleep } from "@/infra";
 import { cardStore, CardType, store } from "@/stores";
 const { matStore } = store;
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
-export default (start: ygopro.StocGameMessage.MsgStart) => {
+export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
   matStore.selfType = start.playerType;
   const opponent =
@@ -61,8 +63,6 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
             text: {},
           },
           isToken: !((i + 1) % 3),
-          chaining: false,
-          directAttack: false,
         })
       )
     )
@@ -73,6 +73,10 @@ export default (start: ygopro.StocGameMessage.MsgStart) => {
   cardStore
     .at(ygopro.CardZone.EXTRA, 1 - opponent)
     .forEach((card) => (card.code = myExtraDeckCodes.pop()!));
+
+  // 初始化完后，sleep 1s，让UI初始化完成，
+  // 否则在和AI对战时，由于后端给传给前端的`MSG`频率太高，会导致一些问题。
+  await sleep(useConfig().startDelay);
 };
 
 // 自动从code推断出occupant

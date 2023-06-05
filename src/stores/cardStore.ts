@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 
-import { CardMeta, fetchCard, ygopro } from "@/api";
+import { CardMeta, ygopro } from "@/api";
 
 import type { Interactivity } from "./matStore/types";
 
@@ -23,12 +23,8 @@ export interface CardType {
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
   isToken: boolean; // 是否是token
 
-  // 新的字段（从matstore之中搬过来的）
-  chaining: boolean; // 是否在连锁中
   chainIndex?: number /*连锁的序号，如果为空表示不在连锁
   TODO: 目前是妥协的设计，因为其实一张卡是可以在同一个连锁链中被连锁多次的，这里为了避免太过复杂只保存最后的连锁序号*/;
-  directAttack: boolean; // 是否正在直接攻击为玩家
-  attackTarget?: CardType & { opponent: boolean }; // 攻击目标。（嵌套结构可行么？）
 }
 
 class CardStore {
@@ -94,30 +90,6 @@ class CardStore {
         card.location.sequence == sequence &&
         card.location.is_overlay
     );
-  }
-  async setChaining(
-    location: ygopro.CardLocation,
-    code: number,
-    isChaining: boolean
-  ): Promise<void> {
-    const target = this.find(location);
-    if (target) {
-      target.chaining = isChaining;
-      if (isChaining) {
-        // 目前需要判断`isChaining`为ture才设置meta，因为有些手坑发效果后会move到墓地，
-        // 运行到这里的时候已经和原来的位置对不上了，这时候不设置meta
-        const meta = await fetchCard(code);
-        // 这里不能设置`code`，因为存在一个场景：
-        // 对方的`魔神仪-曼德拉护肤草`发动效果后，后端会发一次`MSG_SHUFFLE_HAND`，但传给前端的codes全是0，如果这里设置了`code`的话，在后面的`MSG_SHUFFLE_HAND`处理就会有问题。
-        // target.code = meta.id;
-        target.meta = meta;
-      }
-      if (target.location.zone == ygopro.CardZone.HAND) {
-        target.location.position = isChaining
-          ? ygopro.CardPosition.FACEUP_ATTACK
-          : ygopro.CardPosition.FACEDOWN_ATTACK;
-      }
-    }
   }
 }
 
