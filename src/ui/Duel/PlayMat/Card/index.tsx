@@ -127,7 +127,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
           onError={() => {
             console.log("");
           }}
-          src={getCardImgUrl(snap.code)}
+          src={getCardImgUrl(snap.code == 0 ? snap.meta.id : snap.code)}
         />
         <img className="card-back" src={getCardImgUrl(0, true)} />
       </div>
