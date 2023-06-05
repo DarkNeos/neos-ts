@@ -157,6 +157,7 @@ const onCardClick = (card: CardType) => {
     (interactivity) => ({
       desc: interactTypeToString(interactivity.interactType),
       response: interactivity.response,
+      effectCode: interactivity.activateIndex,
     })
   );
   messageStore.cardModal.counters = card.counters;
