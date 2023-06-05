@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
+import { cardStore, fetchEsHintMeta } from "@/stores";
 
 export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
   fetchEsHintMeta({
@@ -15,10 +15,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
 
   if (attacker) {
     if (attack.direct_attack) {
-      attacker.directAttack = true;
-
-      // await sleep(500);
-      attacker.directAttack = false;
+      // TODO: 实现直接攻击的动画
     } else {
       const target = cardStore.at(
         attack.target_location.zone,
@@ -27,14 +24,12 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
       );
 
       if (target) {
-        attacker.attackTarget = {
-          opponent: !matStore.isMe(attack.target_location.controller),
-          ...target,
-        };
-
-        // await sleep(500);
-        attacker.attackTarget = undefined;
+        // TODO: 实现攻击`target`的动画
+      } else {
+        console.warn(`<Attack>target from ${attack.target_location} is null`);
       }
     }
+  } else {
+    console.warn(`<Attack>attacker from ${attack.attacker_location} is null`);
   }
 };

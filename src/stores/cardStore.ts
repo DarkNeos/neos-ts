@@ -23,12 +23,9 @@ export interface CardType {
   reload?: boolean; // 这个字段会在收到MSG_RELOAD_FIELD的时候设置成true，在收到MSG_UPDATE_DATE的时候设置成false
   isToken: boolean; // 是否是token
 
-  // 新的字段（从matstore之中搬过来的）
   chaining: boolean; // 是否在连锁中
   chainIndex?: number /*连锁的序号，如果为空表示不在连锁
   TODO: 目前是妥协的设计，因为其实一张卡是可以在同一个连锁链中被连锁多次的，这里为了避免太过复杂只保存最后的连锁序号*/;
-  directAttack: boolean; // 是否正在直接攻击为玩家
-  attackTarget?: CardType & { opponent: boolean }; // 攻击目标。（嵌套结构可行么？）
 }
 
 class CardStore {

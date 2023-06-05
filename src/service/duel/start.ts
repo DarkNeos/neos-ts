@@ -64,7 +64,6 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
           },
           isToken: !((i + 1) % 3),
           chaining: false,
-          directAttack: false,
         })
       )
     )
