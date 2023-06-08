@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { playerStore } from "@/stores";
 
 const READY_STATE = "ready";
 const NO_READY_STATE = "not ready";
@@ -29,22 +29,24 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
         break;
       }
       case ygopro.StocHsPlayerChange.State.READY: {
-        matStore.player[change.pos === 0 ? 0 : 1].state = READY_STATE;
+        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+          READY_STATE;
         break;
       }
       case ygopro.StocHsPlayerChange.State.NO_READY: {
-        matStore.player[change.pos === 0 ? 0 : 1].state = NO_READY_STATE;
+        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+          NO_READY_STATE;
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.LEAVE: {
-        matStore.player[change.pos === 0 ? 0 : 1] = {};
+        playerStore[change.pos == 0 ? "player0" : "player1"] = {};
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-        matStore.player[change.pos === 0 ? 0 : 1] = {}; // todo: 有没有必要？
-        matStore.observerCount += 1;
+        playerStore[change.pos == 0 ? "player0" : "player1"] = {}; // todo: 有没有必要？
+        playerStore.observerCount += 1;
         break;
       }
       default: {

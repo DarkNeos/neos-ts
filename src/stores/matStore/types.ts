@@ -1,5 +1,7 @@
 import type { ygopro } from "@/api";
 
+// >>> play mat state >>>
+
 export interface BothSide<T> {
   me: T;
   op: T;
@@ -8,9 +10,7 @@ export interface BothSide<T> {
 }
 
 export interface MatState {
-  selfType:
-    | ygopro.StocTypeChange.SelfType
-    | ygopro.StocGameMessage.MsgStart.PlayerType; // 为了适配`start.ts`的`PlayerType`
+  selfType: number;
 
   initInfo: BothSide<InitInfo> & {
     set: (controller: number, obj: Partial<InitInfo>) => void;
@@ -33,16 +33,6 @@ export interface MatState {
   waiting: boolean;
 
   unimplemented: number; // 未处理的`Message`
-
-  player: {
-    0: Player;
-    1: Player;
-    me: () => Player;
-    op: () => Player;
-  };
-
-  observerCount: number;
-  isHost: boolean;
 
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
@@ -101,16 +91,4 @@ export interface PhaseState {
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
 }
-
-export interface Player {
-  name?: string;
-  state?: string;
-  isHost?: boolean;
-  deckInfo?: deckInfo;
-}
-
-export interface deckInfo {
-  mainCnt: number;
-  extraCnt: number;
-  sideCnt: number;
-}
+// <<< play mat state <<<

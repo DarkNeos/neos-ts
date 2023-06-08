@@ -3,16 +3,20 @@ import "./index.scss";
 import React from "react";
 import { useSnapshot } from "valtio";
 
-import { matStore } from "@/stores";
+import { matStore, playerStore } from "@/stores";
 
 export const LifeBar: React.FC = () => {
   const snap = useSnapshot(matStore.initInfo);
-  const snapPlayer = useSnapshot(matStore.player);
+  const snapPlayer = useSnapshot(playerStore);
 
   return (
     <div id="life-bar-container">
-      <div id="life-bar">{`${snapPlayer.me().name}: ${snap.me.life}`}</div>
-      <div id="life-bar">{`${snapPlayer.op().name}: ${snap.op.life}`}</div>
+      <div id="life-bar">{`${snapPlayer.getMePlayer().name}: ${
+        snap.me.life
+      }`}</div>
+      <div id="life-bar">{`${snapPlayer.getOpPlayer().name}: ${
+        snap.op.life
+      }`}</div>
     </div>
   );
 };

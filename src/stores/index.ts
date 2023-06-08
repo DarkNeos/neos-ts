@@ -6,6 +6,7 @@ export * from "./messageStore";
 export * from "./methods";
 export * from "./moraStore";
 export * from "./placeStore";
+export * from "./playerStore";
 
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
@@ -17,8 +18,10 @@ import { matStore } from "./matStore";
 import { messageStore } from "./messageStore";
 import { moraStore } from "./moraStore";
 import { placeStore } from "./placeStore";
+import { playerStore } from "./playerStore";
 
 export const store = proxy({
+  playerStore,
   chatStore,
   joinStore,
   moraStore,
