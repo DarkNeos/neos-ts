@@ -94,7 +94,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   useEffect(() => {
     setHighlight(!!snap.idleInteractivities.length);
-  }, [snap.idleInteractivities.length]);
+  }, [snap.idleInteractivities]);
 
   return (
     <animated.div
