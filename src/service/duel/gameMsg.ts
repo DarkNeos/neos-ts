@@ -1,4 +1,5 @@
 import { ygopro } from "@/api";
+import { sleep } from "@/infra";
 import { matStore } from "@/stores";
 
 import onAnnounce from "./announce";
@@ -112,6 +113,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "move": {
       await onMsgMove(msg.move);
+      await sleep(500);
 
       break;
     }
