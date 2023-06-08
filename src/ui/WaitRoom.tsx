@@ -91,9 +91,9 @@ const WaitRoom = () => {
 
   const joined = snap.joinStore.value;
   const chat = snap.chatStore.message;
-  const isHost = snap.playerStore.isHost;
-  const player0 = snap.playerStore.player0;
-  const player1 = snap.playerStore.player1;
+  const isHost = snap.matStore.isHost;
+  const player0 = snap.matStore.player[0];
+  const player1 = snap.matStore.player[1];
   const duelStart = snap.moraStore.duelStart;
 
   // FIXME: 这些数据应该从`store`中获取

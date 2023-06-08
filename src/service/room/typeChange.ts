@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { playerStore } from "@/stores";
+import { matStore } from "@/stores";
 
 const NO_READY_STATE = "not ready";
 
@@ -7,21 +7,21 @@ export default function handleTypeChange(pb: ygopro.YgoStocMsg) {
   const selfType = pb.stoc_type_change.self_type;
   const assertHost = pb.stoc_type_change.is_host;
 
-  playerStore.isHost = assertHost;
-  playerStore.selfType = selfType;
+  matStore.isHost = assertHost;
+  matStore.selfType = selfType;
 
   if (assertHost) {
     switch (selfType) {
       case ygopro.StocTypeChange.SelfType.PLAYER1: {
-        playerStore.player0.isHost = true;
-        playerStore.player1.isHost = false;
-        playerStore.player0.state = NO_READY_STATE;
+        matStore.player[0].isHost = true;
+        matStore.player[1].isHost = false;
+        matStore.player[0].state = NO_READY_STATE;
         break;
       }
       case ygopro.StocTypeChange.SelfType.PLAYER2: {
-        playerStore.player0.isHost = false;
-        playerStore.player1.isHost = true;
-        playerStore.player1.state = NO_READY_STATE;
+        matStore.player[0].isHost = false;
+        matStore.player[1].isHost = true;
+        matStore.player[1].state = NO_READY_STATE;
         break;
       }
       default: {

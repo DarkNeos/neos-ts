@@ -5,6 +5,8 @@ import { ygopro } from "@/api";
 
 import type { InitInfo, MatState } from "./types";
 
+import SelfType = ygopro.StocTypeChange.SelfType;
+
 /**
  * 根据controller判断是自己还是对方。
  * 这个无需export，尽量逻辑收拢在store内部。
@@ -14,7 +16,6 @@ const getWhom = (controller: number): "me" | "op" =>
 
 /**
  * 根据自己的先后手判断是否是自己
- * 原本名字叫judgeSelf
  */
 export const isMe = (controller: number): boolean => {
   switch (matStore.selfType) {
@@ -83,6 +84,23 @@ export const matStore: MatState = proxy<MatState>({
   result: ygopro.StocGameMessage.MsgWin.ActionType.UNKNOWN,
   waiting: false,
   unimplemented: 0,
+
+  // 从playerStore搬过来的
+  player: {
+    0: {},
+    1: {},
+    me: () =>
+      matStore.selfType === SelfType.PLAYER1
+        ? matStore.player[0]
+        : matStore.player[1],
+    op: () =>
+      matStore.selfType === SelfType.PLAYER1
+        ? matStore.player[1]
+        : matStore.player[0],
+  },
+  observerCount: 0,
+  isHost: false,
+
   // methods
   isMe,
 });
