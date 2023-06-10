@@ -29,5 +29,5 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
     console.warn(`<Attack>attacker from ${attack.attacker_location} is null`);
   }
 
-  await sleep(1000);
+  await sleep(2000);
 };
