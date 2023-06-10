@@ -1,4 +1,5 @@
 import { ygopro } from "@/api";
+import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 
 export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
@@ -15,7 +16,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
 
   if (attacker) {
     if (attack.direct_attack) {
-      // TODO: 实现直接攻击的动画
+      await eventbus.call(Task.Attack, attacker.uuid, true);
     } else {
       const target = cardStore.at(
         attack.target_location.zone,
@@ -23,11 +24,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
         attack.target_location.sequence
       );
 
-      if (target) {
-        // TODO: 实现攻击`target`的动画
-      } else {
-        console.warn(`<Attack>target from ${attack.target_location} is null`);
-      }
+      await eventbus.call(Task.Attack, attacker.uuid, false, target);
     }
   } else {
     console.warn(`<Attack>attacker from ${attack.attacker_location} is null`);

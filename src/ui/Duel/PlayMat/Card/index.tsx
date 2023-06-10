@@ -12,6 +12,7 @@ import { cardStore, CardType, messageStore } from "@/stores";
 
 import { interactTypeToString } from "../../utils";
 import {
+  attack,
   focus,
   moveToDeck,
   moveToGround,
@@ -90,6 +91,19 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       await addToAnimation(() => focus({ card: state, api }));
     }
   });
+
+  eventbus.register(
+    Task.Attack,
+    async (
+      uuid: string,
+      directAttack: boolean,
+      target?: ygopro.CardLocation
+    ) => {
+      if (uuid === state.uuid) {
+        await attack({ card: state, api, target, directAttack });
+      }
+    }
+  );
   // <<< 动画 <<<
 
   useEffect(() => {
