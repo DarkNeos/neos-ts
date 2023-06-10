@@ -6,6 +6,7 @@ const eventEmitter = new EventEmitter();
 export enum Task {
   Move = "move",
   Focus = "focus",
+  Attack = "attack",
 }
 
 const getEnd = (task: Task) => `${task}-end`;
