@@ -100,7 +100,9 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       target?: ygopro.CardLocation
     ) => {
       if (uuid === state.uuid) {
-        await attack({ card: state, api, target, directAttack });
+        await addToAnimation(() =>
+          attack({ card: state, api, target, directAttack })
+        );
       }
     }
   );

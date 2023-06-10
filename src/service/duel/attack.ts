@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
+import { eventbus, sleep, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 
 export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
@@ -18,15 +18,16 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
     if (attack.direct_attack) {
       await eventbus.call(Task.Attack, attacker.uuid, true);
     } else {
-      const target = cardStore.at(
-        attack.target_location.zone,
-        attack.target_location.controller,
-        attack.target_location.sequence
+      await eventbus.call(
+        Task.Attack,
+        attacker.uuid,
+        false,
+        attack.target_location
       );
-
-      await eventbus.call(Task.Attack, attacker.uuid, false, target);
     }
   } else {
     console.warn(`<Attack>attacker from ${attack.attacker_location} is null`);
   }
+
+  await sleep(1000);
 };
