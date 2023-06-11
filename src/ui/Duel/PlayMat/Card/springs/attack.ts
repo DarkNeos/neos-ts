@@ -22,6 +22,7 @@ export const attack = async (props: {
 
   let x = current.x;
   let y = current.y;
+  let rz = current.rz;
   if (directAttack) {
     // 直接攻击
     y = BLOCK_HEIGHT_M.value + BLOCK_HEIGHT_S.value;
@@ -41,13 +42,12 @@ export const attack = async (props: {
       y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
     }
 
-    // 往下偏移半个卡位
-    y -= BLOCK_HEIGHT_M.value / 2;
-
     if (!isMe(controller)) {
       x = -x;
       y = -y;
     }
+
+    rz += -Math.atan((x - current.x) / (y - current.y)) / (Math.PI / 180);
   } else {
     console.error(`<Spring/Attack>directAttack is false and target is null.`);
     return;
@@ -57,11 +57,12 @@ export const attack = async (props: {
   await asyncStart(api)({
     z: 200,
   });
-  // 后撤半个卡位
+  // 后撤半个卡位，并调整倾斜角
   await asyncStart(api)({
     y:
       current.y +
       (BLOCK_HEIGHT_M.value / 2) * (isMe(card.location.controller) ? 1 : -1),
+    rz,
   });
   // 加速前冲
   await asyncStart(api)({
@@ -76,6 +77,7 @@ export const attack = async (props: {
     x: current.x,
     y: current.y,
     z: current.z,
+    rz: current.rz,
     config: {
       easing: easings.easeInOutQuad,
     },
