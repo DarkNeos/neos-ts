@@ -225,5 +225,15 @@
             "repeatedType":"CardInfo"
          }
       ]
+   },
+   "83":{
+      "protoType":"become_target",
+      "fields":[
+        {
+          "fieldName":"locations",
+          "fieldType":"repeated",
+          "repeatedType":"CardLocation"
+        }
+      ]
    }
 }
