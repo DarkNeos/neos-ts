@@ -28,7 +28,10 @@ export interface MatState {
 
   phase: PhaseState;
 
-  result: ygopro.StocGameMessage.MsgWin.ActionType;
+  result?: {
+    isWin: boolean;
+    reason: string;
+  };
 
   waiting: boolean;
 
