@@ -4511,7 +4511,7 @@ export namespace ygopro {
         }
     }
     export class StocGameMessage extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]];
         constructor(data?: any[] | ({} & (({
             start?: StocGameMessage.MsgStart;
             draw?: never;
@@ -4558,6 +4558,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: StocGameMessage.MsgDraw;
@@ -4604,6 +4605,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4650,6 +4652,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4696,6 +4699,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4742,6 +4746,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4788,6 +4793,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4834,6 +4840,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4880,6 +4887,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4926,6 +4934,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4972,6 +4981,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5018,6 +5028,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5064,6 +5075,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5110,6 +5122,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5156,6 +5169,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5202,6 +5216,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5248,6 +5263,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5294,6 +5310,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5340,6 +5357,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5386,6 +5404,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5432,6 +5451,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5478,6 +5498,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5524,6 +5545,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5570,6 +5592,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5616,6 +5639,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5662,6 +5686,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5708,6 +5733,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5754,6 +5780,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5800,6 +5827,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5846,6 +5874,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5892,6 +5921,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5938,6 +5968,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5984,6 +6015,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6030,6 +6062,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6076,6 +6109,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6122,6 +6156,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6168,6 +6203,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6214,6 +6250,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6260,6 +6297,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6306,6 +6344,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6352,6 +6391,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6398,6 +6438,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6444,6 +6485,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6490,6 +6532,7 @@ export namespace ygopro {
             announce?: StocGameMessage.MsgAnnounce;
             lp_update?: never;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6536,6 +6579,7 @@ export namespace ygopro {
             announce?: never;
             lp_update?: StocGameMessage.MsgLpUpdate;
             confirm_cards?: never;
+            become_target?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6582,6 +6626,54 @@ export namespace ygopro {
             announce?: never;
             lp_update?: never;
             confirm_cards?: StocGameMessage.MsgConfirmCards;
+            become_target?: never;
+        } | {
+            start?: never;
+            draw?: never;
+            new_turn?: never;
+            new_phase?: never;
+            hint?: never;
+            select_idle_cmd?: never;
+            select_place?: never;
+            move?: never;
+            select_card?: never;
+            select_chain?: never;
+            select_effect_yn?: never;
+            select_position?: never;
+            select_option?: never;
+            shuffle_hand?: never;
+            select_battle_cmd?: never;
+            pos_change?: never;
+            select_unselect_card?: never;
+            select_yes_no?: never;
+            update_hp?: never;
+            win?: never;
+            wait?: never;
+            unimplemented?: never;
+            update_data?: never;
+            reload_field?: never;
+            select_sum?: never;
+            select_tribute?: never;
+            update_counter?: never;
+            select_counter?: never;
+            sort_card?: never;
+            set?: never;
+            swap?: never;
+            summoning?: never;
+            summoned?: never;
+            flip_summoning?: never;
+            flip_summoned?: never;
+            sp_summoning?: never;
+            sp_summoned?: never;
+            chaining?: never;
+            attack?: never;
+            attack_disable?: never;
+            chain_solved?: never;
+            chain_end?: never;
+            announce?: never;
+            lp_update?: never;
+            confirm_cards?: never;
+            become_target?: StocGameMessage.MsgBecomeTarget;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -6720,6 +6812,9 @@ export namespace ygopro {
                 }
                 if ("confirm_cards" in data && data.confirm_cards != undefined) {
                     this.confirm_cards = data.confirm_cards;
+                }
+                if ("become_target" in data && data.become_target != undefined) {
+                    this.become_target = data.become_target;
                 }
             }
         }
@@ -7128,9 +7223,18 @@ export namespace ygopro {
         get has_confirm_cards() {
             return pb_1.Message.getField(this, 45) != null;
         }
+        get become_target() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgBecomeTarget, 46) as StocGameMessage.MsgBecomeTarget;
+        }
+        set become_target(value: StocGameMessage.MsgBecomeTarget) {
+            pb_1.Message.setOneofWrapperField(this, 46, this.#one_of_decls[0], value);
+        }
+        get has_become_target() {
+            return pb_1.Message.getField(this, 46) != null;
+        }
         get gameMsg() {
             const cases: {
-                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards";
+                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target";
             } = {
                 0: "none",
                 1: "start",
@@ -7177,9 +7281,10 @@ export namespace ygopro {
                 42: "chain_end",
                 43: "announce",
                 44: "lp_update",
-                45: "confirm_cards"
+                45: "confirm_cards",
+                46: "become_target"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46])];
         }
         static fromObject(data: {
             start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -7227,6 +7332,7 @@ export namespace ygopro {
             announce?: ReturnType<typeof StocGameMessage.MsgAnnounce.prototype.toObject>;
             lp_update?: ReturnType<typeof StocGameMessage.MsgLpUpdate.prototype.toObject>;
             confirm_cards?: ReturnType<typeof StocGameMessage.MsgConfirmCards.prototype.toObject>;
+            become_target?: ReturnType<typeof StocGameMessage.MsgBecomeTarget.prototype.toObject>;
         }): StocGameMessage {
             const message = new StocGameMessage({});
             if (data.start != null) {
@@ -7364,6 +7470,9 @@ export namespace ygopro {
             if (data.confirm_cards != null) {
                 message.confirm_cards = StocGameMessage.MsgConfirmCards.fromObject(data.confirm_cards);
             }
+            if (data.become_target != null) {
+                message.become_target = StocGameMessage.MsgBecomeTarget.fromObject(data.become_target);
+            }
             return message;
         }
         toObject() {
@@ -7413,6 +7522,7 @@ export namespace ygopro {
                 announce?: ReturnType<typeof StocGameMessage.MsgAnnounce.prototype.toObject>;
                 lp_update?: ReturnType<typeof StocGameMessage.MsgLpUpdate.prototype.toObject>;
                 confirm_cards?: ReturnType<typeof StocGameMessage.MsgConfirmCards.prototype.toObject>;
+                become_target?: ReturnType<typeof StocGameMessage.MsgBecomeTarget.prototype.toObject>;
             } = {};
             if (this.start != null) {
                 data.start = this.start.toObject();
@@ -7549,6 +7659,9 @@ export namespace ygopro {
             if (this.confirm_cards != null) {
                 data.confirm_cards = this.confirm_cards.toObject();
             }
+            if (this.become_target != null) {
+                data.become_target = this.become_target.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -7645,6 +7758,8 @@ export namespace ygopro {
                 writer.writeMessage(44, this.lp_update, () => this.lp_update.serialize(writer));
             if (this.has_confirm_cards)
                 writer.writeMessage(45, this.confirm_cards, () => this.confirm_cards.serialize(writer));
+            if (this.has_become_target)
+                writer.writeMessage(46, this.become_target, () => this.become_target.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -7788,6 +7903,9 @@ export namespace ygopro {
                         break;
                     case 45:
                         reader.readMessage(message.confirm_cards, () => message.confirm_cards = StocGameMessage.MsgConfirmCards.deserialize(reader));
+                        break;
+                    case 46:
+                        reader.readMessage(message.become_target, () => message.become_target = StocGameMessage.MsgBecomeTarget.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -14853,6 +14971,73 @@ export namespace ygopro {
             }
             static deserializeBinary(bytes: Uint8Array): MsgConfirmCards {
                 return MsgConfirmCards.deserialize(bytes);
+            }
+        }
+        export class MsgBecomeTarget extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                locations?: CardLocation[];
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("locations" in data && data.locations != undefined) {
+                        this.locations = data.locations;
+                    }
+                }
+            }
+            get locations() {
+                return pb_1.Message.getRepeatedWrapperField(this, CardLocation, 1) as CardLocation[];
+            }
+            set locations(value: CardLocation[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 1, value);
+            }
+            static fromObject(data: {
+                locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
+            }): MsgBecomeTarget {
+                const message = new MsgBecomeTarget({});
+                if (data.locations != null) {
+                    message.locations = data.locations.map(item => CardLocation.fromObject(item));
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
+                } = {};
+                if (this.locations != null) {
+                    data.locations = this.locations.map((item: CardLocation) => item.toObject());
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.locations.length)
+                    writer.writeRepeatedMessage(1, this.locations, (item: CardLocation) => item.serialize(writer));
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgBecomeTarget {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgBecomeTarget();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            reader.readMessage(message.locations, () => pb_1.Message.addToRepeatedWrapperField(message, 1, CardLocation.deserialize(reader), CardLocation));
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MsgBecomeTarget {
+                return MsgBecomeTarget.deserialize(bytes);
             }
         }
         export class MsgReloadField extends pb_1.Message {
