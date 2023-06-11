@@ -65,7 +65,7 @@ export const HintNotification = () => {
 
   useEffect(() => {
     if (result) {
-      const message = result.isWin ? "胜利" : "失败" + " " + result.reason;
+      const message = result.isWin ? "Win" : "Defeated" + " " + result.reason;
       api.open({
         message,
         placement: "bottom",
