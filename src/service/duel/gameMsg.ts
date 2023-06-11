@@ -5,6 +5,7 @@ import { matStore } from "@/stores";
 import onAnnounce from "./announce";
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
+import onMsgBecomeTarget from "./becomeTarget";
 import onMsgChainEnd from "./chainEnd";
 import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
@@ -294,6 +295,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "confirm_cards": {
       await onConfirmCards(msg.confirm_cards);
+
+      break;
+    }
+    case "become_target": {
+      onMsgBecomeTarget(msg.become_target);
 
       break;
     }
