@@ -80,7 +80,6 @@ export const matStore: MatState = proxy<MatState>({
     enableM2: false, // 允许进入M2阶段
     enableEp: false, // 允许回合结束
   },
-  result: ygopro.StocGameMessage.MsgWin.ActionType.UNKNOWN,
   waiting: false,
   unimplemented: 0,
   // methods

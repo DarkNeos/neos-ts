@@ -12,18 +12,11 @@ import MsgWin = ygopro.StocGameMessage.MsgWin;
 export default (data: Uint8Array) => {
   const reader = new BufferReader(data);
 
-  const player = reader.readUint8();
-  const winType = reader.readUint8();
-
-  const type_ =
-    player == 0 || winType == 4
-      ? MsgWin.ActionType.Win
-      : player == 1
-      ? MsgWin.ActionType.Defeated
-      : MsgWin.ActionType.UNKNOWN;
+  const win_player = reader.readUint8();
+  const reason = reader.readUint8();
 
   return new MsgWin({
-    player,
-    type_,
+    win_player,
+    reason,
   });
 };

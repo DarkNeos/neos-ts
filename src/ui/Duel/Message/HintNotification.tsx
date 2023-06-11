@@ -2,7 +2,7 @@ import { notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
-import { fetchStrings, ygopro } from "@/api";
+import { fetchStrings } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
@@ -12,8 +12,6 @@ const style = {
   borderRadius: "8px",
   backgroundColor: "#303030",
 };
-
-const MsgWin = ygopro.StocGameMessage.MsgWin;
 
 const NeosConfig = useConfig();
 export const HintNotification = () => {
@@ -67,12 +65,7 @@ export const HintNotification = () => {
 
   useEffect(() => {
     if (result) {
-      const message =
-        result == MsgWin.ActionType.Win
-          ? "胜利"
-          : MsgWin.ActionType.Defeated
-          ? "失败"
-          : "未知结果";
+      const message = result.isWin ? "Win" : "Defeated" + " " + result.reason;
       api.open({
         message,
         placement: "bottom",
