@@ -20,7 +20,7 @@ export const CheckCounterModal = () => {
   const counterName = fetchStrings(
     "!counter",
     `0x${snapCheckCounterModal.counterType!}`
-  );
+  ); // FIXME: 这里转十六进制的逻辑有问题
 
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);

@@ -6,6 +6,6 @@ export default (win: MsgWin) => {
   const { win_player, reason } = win;
   matStore.result = {
     isWin: matStore.isMe(win_player),
-    reason: fetchStrings("!victory", reason),
+    reason: fetchStrings("!victory", `0x${reason.toString(16)}`),
   };
 };
