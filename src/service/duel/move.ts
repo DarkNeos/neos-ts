@@ -129,7 +129,10 @@ export default async (move: MsgMove) => {
   const fromCards = cardStore.at(from.zone, from.controller);
   const toCards = cardStore.at(to.zone, to.controller);
 
-  if ([HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone))
+  if (
+    [HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone) &&
+    !from.is_overlay
+  )
     fromCards.forEach(
       (c) => c.location.sequence > from.sequence && c.location.sequence--
     );
