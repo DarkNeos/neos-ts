@@ -109,9 +109,10 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   );
   // <<< 动画 <<<
 
+  const idleInteractivities = snap.idleInteractivities;
   useEffect(() => {
-    setHighlight(!!snap.idleInteractivities.length);
-  }, [snap.idleInteractivities]);
+    setHighlight(!!idleInteractivities.length);
+  }, [idleInteractivities]);
 
   return (
     <animated.div
