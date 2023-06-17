@@ -64,6 +64,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   };
 
+  // 这里后期应该去掉？
   useEffect(() => {
     move(state.location.zone);
   }, []);
@@ -108,9 +109,10 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   );
   // <<< 动画 <<<
 
+  const idleInteractivities = snap.idleInteractivities;
   useEffect(() => {
-    setHighlight(!!snap.idleInteractivities.length);
-  }, [snap.idleInteractivities]);
+    setHighlight(!!idleInteractivities.length);
+  }, [idleInteractivities]);
 
   return (
     <animated.div

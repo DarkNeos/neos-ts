@@ -144,7 +144,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "shuffle_hand": {
-      onMsgShuffleHand(msg.shuffle_hand);
+      await onMsgShuffleHand(msg.shuffle_hand);
 
       break;
     }
