@@ -1,4 +1,5 @@
-import { ygopro } from "@/api";
+import { fetchStrings, ygopro } from "@/api";
+import { matStore } from "@/stores";
 import MsgToss = ygopro.StocGameMessage.MsgToss;
 
 export default (toss: MsgToss) => {
@@ -6,13 +7,10 @@ export default (toss: MsgToss) => {
 
   for (const x of toss.res) {
     if (tossType == MsgToss.TossType.DICE) {
-      console.log(`骰子结果：${x}`);
+      matStore.tossResult = fetchStrings("!system", 1624) + x;
     } else if (tossType == MsgToss.TossType.COIN) {
-      if (x) {
-        console.log(`硬币正面`);
-      } else {
-        console.log(`硬币反面`);
-      }
+      matStore.tossResult =
+        fetchStrings("!system", 1623) + fetchStrings("!system", 60 + x);
     } else {
       console.log(`Unknown tossType = ${tossType}`);
     }

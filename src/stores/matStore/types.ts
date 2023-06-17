@@ -37,6 +37,8 @@ export interface MatState {
 
   unimplemented: number; // 未处理的`Message`
 
+  tossResult?: string; // 骰子/硬币结果
+
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
 }
