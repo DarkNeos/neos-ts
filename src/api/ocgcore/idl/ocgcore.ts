@@ -4511,7 +4511,7 @@ export namespace ygopro {
         }
     }
     export class StocGameMessage extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]];
         constructor(data?: any[] | ({} & (({
             start?: StocGameMessage.MsgStart;
             draw?: never;
@@ -4559,6 +4559,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: StocGameMessage.MsgDraw;
@@ -4606,6 +4607,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4653,6 +4655,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4700,6 +4703,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4747,6 +4751,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4794,6 +4799,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4841,6 +4847,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4888,6 +4895,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4935,6 +4943,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4982,6 +4991,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5029,6 +5039,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5076,6 +5087,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5123,6 +5135,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5170,6 +5183,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5217,6 +5231,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5264,6 +5279,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5311,6 +5327,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5358,6 +5375,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5405,6 +5423,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5452,6 +5471,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5499,6 +5519,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5546,6 +5567,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5593,6 +5615,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5640,6 +5663,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5687,6 +5711,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5734,6 +5759,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5781,6 +5807,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5828,6 +5855,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5875,6 +5903,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5922,6 +5951,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5969,6 +5999,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6016,6 +6047,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6063,6 +6095,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6110,6 +6143,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6157,6 +6191,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6204,6 +6239,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6251,6 +6287,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6298,6 +6335,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6345,6 +6383,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6392,6 +6431,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6439,6 +6479,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6486,6 +6527,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6533,6 +6575,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6580,6 +6623,7 @@ export namespace ygopro {
             lp_update?: StocGameMessage.MsgLpUpdate;
             confirm_cards?: never;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6627,6 +6671,7 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: StocGameMessage.MsgConfirmCards;
             become_target?: never;
+            toss?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6674,6 +6719,55 @@ export namespace ygopro {
             lp_update?: never;
             confirm_cards?: never;
             become_target?: StocGameMessage.MsgBecomeTarget;
+            toss?: never;
+        } | {
+            start?: never;
+            draw?: never;
+            new_turn?: never;
+            new_phase?: never;
+            hint?: never;
+            select_idle_cmd?: never;
+            select_place?: never;
+            move?: never;
+            select_card?: never;
+            select_chain?: never;
+            select_effect_yn?: never;
+            select_position?: never;
+            select_option?: never;
+            shuffle_hand?: never;
+            select_battle_cmd?: never;
+            pos_change?: never;
+            select_unselect_card?: never;
+            select_yes_no?: never;
+            update_hp?: never;
+            win?: never;
+            wait?: never;
+            unimplemented?: never;
+            update_data?: never;
+            reload_field?: never;
+            select_sum?: never;
+            select_tribute?: never;
+            update_counter?: never;
+            select_counter?: never;
+            sort_card?: never;
+            set?: never;
+            swap?: never;
+            summoning?: never;
+            summoned?: never;
+            flip_summoning?: never;
+            flip_summoned?: never;
+            sp_summoning?: never;
+            sp_summoned?: never;
+            chaining?: never;
+            attack?: never;
+            attack_disable?: never;
+            chain_solved?: never;
+            chain_end?: never;
+            announce?: never;
+            lp_update?: never;
+            confirm_cards?: never;
+            become_target?: never;
+            toss?: StocGameMessage.MsgToss;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -6815,6 +6909,9 @@ export namespace ygopro {
                 }
                 if ("become_target" in data && data.become_target != undefined) {
                     this.become_target = data.become_target;
+                }
+                if ("toss" in data && data.toss != undefined) {
+                    this.toss = data.toss;
                 }
             }
         }
@@ -7232,9 +7329,18 @@ export namespace ygopro {
         get has_become_target() {
             return pb_1.Message.getField(this, 46) != null;
         }
+        get toss() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgToss, 47) as StocGameMessage.MsgToss;
+        }
+        set toss(value: StocGameMessage.MsgToss) {
+            pb_1.Message.setOneofWrapperField(this, 47, this.#one_of_decls[0], value);
+        }
+        get has_toss() {
+            return pb_1.Message.getField(this, 47) != null;
+        }
         get gameMsg() {
             const cases: {
-                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target";
+                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss";
             } = {
                 0: "none",
                 1: "start",
@@ -7282,9 +7388,10 @@ export namespace ygopro {
                 43: "announce",
                 44: "lp_update",
                 45: "confirm_cards",
-                46: "become_target"
+                46: "become_target",
+                47: "toss"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47])];
         }
         static fromObject(data: {
             start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -7333,6 +7440,7 @@ export namespace ygopro {
             lp_update?: ReturnType<typeof StocGameMessage.MsgLpUpdate.prototype.toObject>;
             confirm_cards?: ReturnType<typeof StocGameMessage.MsgConfirmCards.prototype.toObject>;
             become_target?: ReturnType<typeof StocGameMessage.MsgBecomeTarget.prototype.toObject>;
+            toss?: ReturnType<typeof StocGameMessage.MsgToss.prototype.toObject>;
         }): StocGameMessage {
             const message = new StocGameMessage({});
             if (data.start != null) {
@@ -7473,6 +7581,9 @@ export namespace ygopro {
             if (data.become_target != null) {
                 message.become_target = StocGameMessage.MsgBecomeTarget.fromObject(data.become_target);
             }
+            if (data.toss != null) {
+                message.toss = StocGameMessage.MsgToss.fromObject(data.toss);
+            }
             return message;
         }
         toObject() {
@@ -7523,6 +7634,7 @@ export namespace ygopro {
                 lp_update?: ReturnType<typeof StocGameMessage.MsgLpUpdate.prototype.toObject>;
                 confirm_cards?: ReturnType<typeof StocGameMessage.MsgConfirmCards.prototype.toObject>;
                 become_target?: ReturnType<typeof StocGameMessage.MsgBecomeTarget.prototype.toObject>;
+                toss?: ReturnType<typeof StocGameMessage.MsgToss.prototype.toObject>;
             } = {};
             if (this.start != null) {
                 data.start = this.start.toObject();
@@ -7662,6 +7774,9 @@ export namespace ygopro {
             if (this.become_target != null) {
                 data.become_target = this.become_target.toObject();
             }
+            if (this.toss != null) {
+                data.toss = this.toss.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -7760,6 +7875,8 @@ export namespace ygopro {
                 writer.writeMessage(45, this.confirm_cards, () => this.confirm_cards.serialize(writer));
             if (this.has_become_target)
                 writer.writeMessage(46, this.become_target, () => this.become_target.serialize(writer));
+            if (this.has_toss)
+                writer.writeMessage(47, this.toss, () => this.toss.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -7906,6 +8023,9 @@ export namespace ygopro {
                         break;
                     case 46:
                         reader.readMessage(message.become_target, () => message.become_target = StocGameMessage.MsgBecomeTarget.deserialize(reader));
+                        break;
+                    case 47:
+                        reader.readMessage(message.toss, () => message.toss = StocGameMessage.MsgToss.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -15038,6 +15158,126 @@ export namespace ygopro {
             }
             static deserializeBinary(bytes: Uint8Array): MsgBecomeTarget {
                 return MsgBecomeTarget.deserialize(bytes);
+            }
+        }
+        export class MsgToss extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                player?: number;
+                toss_type?: StocGameMessage.MsgToss.TossType;
+                res?: number[];
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [3], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("player" in data && data.player != undefined) {
+                        this.player = data.player;
+                    }
+                    if ("toss_type" in data && data.toss_type != undefined) {
+                        this.toss_type = data.toss_type;
+                    }
+                    if ("res" in data && data.res != undefined) {
+                        this.res = data.res;
+                    }
+                }
+            }
+            get player() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set player(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get toss_type() {
+                return pb_1.Message.getFieldWithDefault(this, 2, StocGameMessage.MsgToss.TossType.UNKNOWN) as StocGameMessage.MsgToss.TossType;
+            }
+            set toss_type(value: StocGameMessage.MsgToss.TossType) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get res() {
+                return pb_1.Message.getFieldWithDefault(this, 3, []) as number[];
+            }
+            set res(value: number[]) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            static fromObject(data: {
+                player?: number;
+                toss_type?: StocGameMessage.MsgToss.TossType;
+                res?: number[];
+            }): MsgToss {
+                const message = new MsgToss({});
+                if (data.player != null) {
+                    message.player = data.player;
+                }
+                if (data.toss_type != null) {
+                    message.toss_type = data.toss_type;
+                }
+                if (data.res != null) {
+                    message.res = data.res;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    player?: number;
+                    toss_type?: StocGameMessage.MsgToss.TossType;
+                    res?: number[];
+                } = {};
+                if (this.player != null) {
+                    data.player = this.player;
+                }
+                if (this.toss_type != null) {
+                    data.toss_type = this.toss_type;
+                }
+                if (this.res != null) {
+                    data.res = this.res;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.player != 0)
+                    writer.writeInt32(1, this.player);
+                if (this.toss_type != StocGameMessage.MsgToss.TossType.UNKNOWN)
+                    writer.writeEnum(2, this.toss_type);
+                if (this.res.length)
+                    writer.writePackedInt32(3, this.res);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgToss {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgToss();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.player = reader.readInt32();
+                            break;
+                        case 2:
+                            message.toss_type = reader.readEnum();
+                            break;
+                        case 3:
+                            message.res = reader.readPackedInt32();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MsgToss {
+                return MsgToss.deserialize(bytes);
+            }
+        }
+        export namespace MsgToss {
+            export enum TossType {
+                UNKNOWN = 0,
+                COIN = 1,
+                DICE = 2
             }
         }
         export class MsgReloadField extends pb_1.Message {
