@@ -32,7 +32,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
 
     // 临时办法，这里延迟500ms
     // 长期：需要实现动画序列，一个动画完成后才执行下一个动画
-    await sleep(1000);
+    await sleep(1500);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);
   }

@@ -1,3 +1,5 @@
+import { config } from "@react-spring/web";
+
 import { ygopro } from "@/api";
 import { type CardType, matStore } from "@/stores";
 
@@ -19,7 +21,7 @@ export const focus = async (props: { card: CardType; api: SpringApi }) => {
     });
     await asyncStart(api)({ y: current.y, ry: current.ry, rz: current.rz });
   } else {
-    await asyncStart(api)({ z: 200 });
-    await asyncStart(api)({ z: current.z });
+    await asyncStart(api)({ z: 200, config: config.gentle });
+    await asyncStart(api)({ z: current.z, config: config.default });
   }
 };

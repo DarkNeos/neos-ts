@@ -64,6 +64,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   };
 
+  // 这里后期应该去掉？
   useEffect(() => {
     move(state.location.zone);
   }, []);
