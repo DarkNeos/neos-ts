@@ -17,6 +17,7 @@ const NeosConfig = useConfig();
 export const HintNotification = () => {
   const snap = useSnapshot(matStore);
   const hintState = snap.hint;
+  const toss = snap.tossResult;
 
   const currentPhase = snap.phase.currentPhase;
   const waiting = snap.waiting;
@@ -34,6 +35,16 @@ export const HintNotification = () => {
       });
     }
   }, [hintState.msg]);
+
+  useEffect(() => {
+    if (toss) {
+      api.open({
+        message: `${toss}`,
+        placement: "topLeft",
+        style: style,
+      });
+    }
+  }, [toss]);
 
   useEffect(() => {
     if (currentPhase) {
