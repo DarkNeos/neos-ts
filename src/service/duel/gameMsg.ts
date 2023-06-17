@@ -42,6 +42,7 @@ import onMsgStart from "./start";
 import onMsgSummoned from "./summoned";
 import onMsgSummoning from "./summoning";
 import onMsgSwap from "./swap";
+import onMsgToss from "./toss";
 import onUnimplemented from "./unimplemented";
 import onMsgUpdateCounter from "./updateCounter";
 import onMsgUpdateData from "./updateData";
@@ -300,6 +301,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "become_target": {
       onMsgBecomeTarget(msg.become_target);
+
+      break;
+    }
+    case "toss": {
+      onMsgToss(msg.toss);
 
       break;
     }

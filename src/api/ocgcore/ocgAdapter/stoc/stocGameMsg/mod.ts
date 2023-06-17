@@ -35,6 +35,7 @@ import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
+import MsgTossAdapter from "./toss";
 import MsgUpdateDataAdapter from "./updateData";
 import MsgWaitAdapter from "./wait";
 import MsgWin from "./win";
@@ -217,6 +218,22 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_ANNOUNCE_NUMBER: {
           gameMsg.announce = MsgAnnounceNumber(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_TOSS_COIN: {
+          gameMsg.toss = MsgTossAdapter(
+            gameData,
+            ygopro.StocGameMessage.MsgToss.TossType.COIN
+          );
+
+          break;
+        }
+        case GAME_MSG.MSG_TOSS_DICE: {
+          gameMsg.toss = MsgTossAdapter(
+            gameData,
+            ygopro.StocGameMessage.MsgToss.TossType.DICE
+          );
 
           break;
         }
