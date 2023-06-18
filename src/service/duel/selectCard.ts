@@ -2,11 +2,11 @@ import { ygopro } from "@/api";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 import { fetchCheckCardMeta, messageStore } from "@/stores";
 
-export default (selectCard: MsgSelectCard) => {
-  const cancelable = selectCard.cancelable;
-  const min = selectCard.min;
-  const max = selectCard.max;
-  const cards = selectCard.cards;
+import { displaySelectActionsModal } from "@/ui/Duel/Message/NewSelectActionModal";
+import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
+
+export default async (selectCard: MsgSelectCard) => {
+  const { cancelable, min, max, cards } = selectCard;
 
   // TODO: handle release_param
   messageStore.selectCardActions.min = min;
@@ -22,4 +22,15 @@ export default (selectCard: MsgSelectCard) => {
   }
   messageStore.selectCardActions.isValid = true;
   messageStore.selectCardActions.isOpen = true;
+
+  const { selecteds, mustSelects, selectables } =
+    await FIXME_fetchCheckCardMeta(cards);
+  await displaySelectActionsModal({
+    cancelable,
+    min,
+    max,
+    selecteds,
+    mustSelects,
+    selectables,
+  });
 };

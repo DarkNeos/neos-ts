@@ -52,7 +52,9 @@ const BgExtraRow: FC<{
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
           }}
-        ></div>
+        >
+          {<DecoTriangles />}
+        </div>
       ))}
     </div>
   );
@@ -73,7 +75,9 @@ const BgRow: FC<{
         })}
         style={snap[i].disabled ? (BgDisabledStyle as CSSProperties) : {}}
         onClick={() => onBlockClick(snap[i].interactivity)}
-      ></div>
+      >
+        {<DecoTriangles />}
+      </div>
     ))}
   </div>
 );
@@ -101,3 +105,11 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
     placeStore.clearAllInteractivity();
   }
 };
+
+const DecoTriangles: FC = () => (
+  <>
+    {Array.from({ length: 4 }).map((_, i) => (
+      <div className="triangle" key={i} />
+    ))}
+  </>
+);

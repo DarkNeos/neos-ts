@@ -5,11 +5,13 @@ import {
   fetchSelectHintMeta,
   messageStore,
 } from "@/stores";
+import { displaySelectActionsModal } from "@/ui/Duel/Message/NewSelectActionModal";
+import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
 
 const NeosConfig = useConfig();
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
-export default (selectChain: MsgSelectChain) => {
+export default async (selectChain: MsgSelectChain) => {
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
   const _hint0 = selectChain.hint0;
@@ -83,7 +85,17 @@ export default (selectChain: MsgSelectChain) => {
       });
       messageStore.selectCardActions.isValid = true;
       messageStore.selectCardActions.isOpen = true;
-
+      const { selecteds, mustSelects, selectables } =
+        await FIXME_fetchCheckCardMeta(chains);
+      await displaySelectActionsModal({
+        isChain: true,
+        cancelable: !forced,
+        min: 1,
+        max: 1,
+        selecteds,
+        mustSelects,
+        selectables,
+      });
       break;
     }
     case 4: {
