@@ -95,6 +95,7 @@ export default class GameMsgAdapter implements StocAdapter {
 
           break;
         }
+        case GAME_MSG.MSG_SELECT_DISFIELD:
         case GAME_MSG.MSG_SELECT_PLACE: {
           gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
 
