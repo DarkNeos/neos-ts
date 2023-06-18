@@ -116,7 +116,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className={classnames("mat-card", { highlight })}
+      className="mat-card"
       style={
         {
           transform: to(
@@ -139,7 +139,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       }}
     >
       <div className="card-shadow" />
-      <div className="card-img-wrap">
+      <div className={classnames("card-img-wrap", { highlight })}>
         <img
           className="card-cover"
           onError={() => {
@@ -149,6 +149,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         />
         <img className="card-back" src={getCardImgUrl(0, true)} />
       </div>
+      <div className="card-streamer" />
     </animated.div>
   );
 });

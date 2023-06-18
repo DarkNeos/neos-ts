@@ -10,8 +10,10 @@ section#mat {
     .card-img-wrap {
       transform-style: preserve-3d;
       position: relative;
-      height: 100%;
-      width: 100%;
+      margin: auto auto;
+      top: 2%;
+      height: 96%;
+      width: 96%;
       transform: translateZ(calc(var(--z) * 1px + 0.1px))
         rotateY(calc(var(--ry) * 1deg));
       .card-cover,
@@ -39,6 +41,38 @@ section#mat {
       // height: 100%;
       // background-color: #0000005e;
       // filter: blur(2px);
+    }
+    // ref: https://github.com/Mr-majifu/Animated-Profile-Card02/blob/master/style.css
+    .card-streamer {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      overflow: hidden;
+    }
+    .card-streamer::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400%;
+      height: 80%;
+      background: linear-gradient(transparent, #45f3ff,#45f3ff,#45f3ff,transparent);
+      animation: stream 2s linear infinite;
+    }
+    .card-streamer::after {
+      content: '';
+      position: absolute;
+      /* https://developer.mozilla.org/en-US/docs/Web/CSS/inset */
+      inset: 3px;
+      background: #292929;
+    }
+    @keyframes stream {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
   }
 }
