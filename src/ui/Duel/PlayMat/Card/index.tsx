@@ -149,7 +149,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         />
         <img className="card-back" src={getCardImgUrl(0, true)} />
       </div>
-      <div className="card-streamer" />
+      {snap.selected ? <div className="card-streamer" /> : <></>}
     </animated.div>
   );
 });
