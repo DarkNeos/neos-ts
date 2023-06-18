@@ -48,9 +48,6 @@ export default (updateData: MsgUpdateData) => {
           );
           console.info(field);
         }
-        if (target?.reload) {
-          target.reload = false;
-        }
       }
     });
   }
