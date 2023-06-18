@@ -20,6 +20,8 @@ import {
   moveToOutside,
 } from "./springs";
 
+import { YgoCard } from "@/ui/Shared";
+
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -140,14 +142,11 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     >
       <div className="card-shadow" />
       <div className="card-img-wrap">
-        <img
+        <YgoCard
           className="card-cover"
-          onError={() => {
-            console.log("");
-          }}
-          src={getCardImgUrl(snap.code == 0 ? snap.meta.id : snap.code)}
+          code={snap.code === 0 ? snap.meta.id : snap.code}
         />
-        <img className="card-back" src={getCardImgUrl(0, true)} />
+        <YgoCard className="card-back" isBack />
       </div>
     </animated.div>
   );

@@ -24,16 +24,20 @@ import zhCN from "antd/locale/zh_CN";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { ProConfigProvider } from "@ant-design/pro-provider";
 
 import Neos from "./ui/Neos";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <BrowserRouter>
     <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }} locale={zhCN}>
-      <Neos />
+      <ProConfigProvider dark>
+        <Neos />
+      </ProConfigProvider>
     </ConfigProvider>
   </BrowserRouter>
 );

@@ -1,4 +1,4 @@
-export const groupBy = <K, V>(
+export const groupBy = <K, V extends Record<string, any>>(
   array: readonly V[],
   getKey: (cur: V, idx: number, src: readonly V[]) => K
 ): [K, V[]][] =>
