@@ -185,7 +185,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "update_data": {
-      onMsgUpdateData(msg.update_data);
+      await onMsgUpdateData(msg.update_data);
 
       break;
     }
