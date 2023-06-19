@@ -19,6 +19,7 @@ import {
   moveToHand,
   moveToOutside,
 } from "./springs";
+import type { SpringApiProps } from "./springs/types";
 
 import { YgoCard } from "@/ui/Shared";
 
@@ -31,16 +32,22 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   const state = cardStore.inner[idx];
   const snap = useSnapshot(state);
 
-  const [styles, api] = useSpring(() => ({
-    x: 0,
-    y: 0,
-    z: 0,
-    rx: 0,
-    ry: 0,
-    rz: 0,
-    zIndex: 0,
-    height: 0,
-  }));
+  const [styles, api] = useSpring(
+    () =>
+      ({
+        x: 0,
+        y: 0,
+        z: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        zIndex: 0,
+        height: 0,
+        focusScale: 1,
+        focusDisplay: "none",
+        focusOpacity: 1,
+      } satisfies SpringApiProps)
+  );
 
   const move = async (zone: ygopro.CardZone) => {
     switch (zone) {
@@ -72,6 +79,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   }, []);
 
   const [highlight, setHighlight] = useState(false);
+  const [classFocus, setClassFocus] = useState(false);
   // const [shadowOpacity, setShadowOpacity] = useState(0); // TODO: 透明度
 
   // >>> 动画 >>>
@@ -83,32 +91,39 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       animationQueue = animationQueue.then(p).then(rs);
     });
 
-  eventbus.register(Task.Move, async (uuid: string) => {
-    if (uuid === state.uuid) {
-      await addToAnimation(() => move(state.location.zone));
-    }
-  });
-
-  eventbus.register(Task.Focus, async (uuid: string) => {
-    if (uuid === state.uuid) {
-      await addToAnimation(() => focus({ card: state, api }));
-    }
-  });
-
-  eventbus.register(
-    Task.Attack,
-    async (
-      uuid: string,
-      directAttack: boolean,
-      target?: ygopro.CardLocation
-    ) => {
+  useEffect(() => {
+    eventbus.register(Task.Move, async (uuid: string) => {
       if (uuid === state.uuid) {
-        await addToAnimation(() =>
-          attack({ card: state, api, target, directAttack })
-        );
+        await addToAnimation(() => move(state.location.zone));
       }
-    }
-  );
+    });
+
+    eventbus.register(Task.Focus, async (uuid: string) => {
+      if (uuid === state.uuid) {
+        await addToAnimation(async () => {
+          setClassFocus(true);
+          setTimeout(() => setClassFocus(false), 1000);
+          await focus({ card: state, api });
+        });
+      }
+    });
+
+    eventbus.register(
+      Task.Attack,
+      async (
+        uuid: string,
+        directAttack: boolean,
+        target?: ygopro.CardLocation
+      ) => {
+        if (uuid === state.uuid) {
+          await addToAnimation(() =>
+            attack({ card: state, api, target, directAttack })
+          );
+        }
+      }
+    );
+  }, []);
+
   // <<< 动画 <<<
 
   const idleInteractivities = snap.idleInteractivities;
@@ -130,6 +145,9 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
           "--ry": styles.ry,
           height: styles.height,
           zIndex: styles.zIndex,
+          "--focus-scale": styles.focusScale,
+          "--focus-display": styles.focusDisplay,
+          "--focus-opacity": styles.focusOpacity,
         } as any as CSSProperties
       }
       onClick={() => {
@@ -140,10 +158,11 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         }
       }}
     >
+      <div className="card-focus" />
       <div className="card-shadow" />
-      <div className="card-img-wrap">
+      <div className={classnames("card-img-wrap", { focus: classFocus })}>
         <YgoCard
-          className="card-cover"
+          className={classnames("card-cover")}
           code={snap.code === 0 ? snap.meta.id : snap.code}
         />
         <YgoCard className="card-back" isBack />
@@ -151,17 +170,6 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     </animated.div>
   );
 });
-
-function getCardImgUrl(code: number, back = false) {
-  const ASSETS_BASE =
-    import.meta.env.BASE_URL == "/"
-      ? NeosConfig.assetsPath
-      : import.meta.env.BASE_URL + NeosConfig.assetsPath;
-  if (code === 0 || back) {
-    return ASSETS_BASE + "/card_back.jpg";
-  }
-  return NeosConfig.cardImgUrl + "/" + code + ".jpg";
-}
 
 const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息

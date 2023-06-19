@@ -102,6 +102,10 @@ export const NewSelectActionsModal: FC = () => {
 
   const [selectedZone, setSelectedZone] = useState(zoneOptions[0]?.value);
 
+  useEffect(() => {
+    setSelectedZone(zoneOptions[0]?.value);
+  }, [selectables]);
+
   const onSubmit = () => {
     const values = mustSelects
       .concat(response)
@@ -184,7 +188,7 @@ export const NewSelectActionsModal: FC = () => {
                       <CheckCard
                         cover={<YgoCard code={card.meta.id} />}
                         style={{
-                          width: 80,
+                          width: 100,
                           aspectRatio: 5.9 / 8.6,
                           marginInlineEnd: 0,
                           marginBlockEnd: 0,
