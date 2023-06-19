@@ -311,7 +311,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "shuffle_set_card": {
-      onMsgShuffleSetCard(msg.shuffle_set_card);
+      await onMsgShuffleSetCard(msg.shuffle_set_card);
 
       break;
     }
