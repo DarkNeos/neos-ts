@@ -33,6 +33,7 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectSum from "./selectSum";
 import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgShuffleSetCard from "./shuffle_set_card";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
 import MsgTossAdapter from "./toss";
@@ -235,6 +236,11 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             ygopro.StocGameMessage.MsgToss.TossType.DICE
           );
+
+          break;
+        }
+        case GAME_MSG.MSG_SHUFFLE_SET_CARD: {
+          gameMsg.shuffle_set_card = MsgShuffleSetCard(gameData);
 
           break;
         }
