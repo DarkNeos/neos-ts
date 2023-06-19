@@ -9,6 +9,7 @@ import {
   Segmented,
   Space,
   Typography,
+  Tooltip,
 } from "antd";
 import { type FC, useState, useEffect } from "react";
 import { useSnapshot, proxy } from "valtio";
@@ -33,7 +34,6 @@ const FINISH_RESPONSE = -1;
 
 const defaultProps = {
   isOpen: false,
-  title: "是否要进行连锁", // 模态框标题
   isValid: false, // FIXME 看起来是最小化用的，看情况是否需要删掉
   isChain: false,
   min: 0,
@@ -52,7 +52,6 @@ const localStore = proxy(defaultProps);
 
 export const NewSelectActionsModal: FC = () => {
   const {
-    title,
     isOpen,
     isValid,
     isChain,
@@ -74,6 +73,8 @@ export const NewSelectActionsModal: FC = () => {
   const hint = useSnapshot(matStore.hint);
   const preHintMsg = hint?.esHint || "";
   const selectHintMsg = hint?.esSelectHint || "请选择卡片";
+
+  const minMaxText = min === max ? min : `${min}-${max}`;
 
   // 判断是否可以提交
   useEffect(() => {
@@ -129,7 +130,13 @@ export const NewSelectActionsModal: FC = () => {
 
   return (
     <NewModal
-      title={title}
+      title={
+        <>
+          <span>{preHintMsg}</span>
+          <span>{selectHintMsg}</span>
+          <span>(请选择 {single ? 1 : minMaxText} 张卡)</span>
+        </>
+      } // TODO: 这里可以再细化一些
       width={600}
       okButtonProps={{
         disabled: !submitable,
@@ -172,18 +179,21 @@ export const NewSelectActionsModal: FC = () => {
                 }}
               >
                 {options[1].map((card, j) => (
-                  <CheckCard
-                    cover={<YgoCard code={card.meta.id} />}
-                    style={{
-                      width: 80,
-                      aspectRatio: 5.9 / 8.6,
-                      marginInlineEnd: 0,
-                      marginBlockEnd: 0,
-                      flexShrink: 0,
-                    }}
-                    key={j}
-                    value={card}
-                  />
+                  <Tooltip title={card.effectDesc} placement="bottom" key={j}>
+                    <div>
+                      <CheckCard
+                        cover={<YgoCard code={card.meta.id} />}
+                        style={{
+                          width: 80,
+                          aspectRatio: 5.9 / 8.6,
+                          marginInlineEnd: 0,
+                          marginBlockEnd: 0,
+                          flexShrink: 0,
+                        }}
+                        value={card}
+                      />
+                    </div>
+                  </Tooltip>
                 ))}
               </CheckCard.Group>
             </div>
@@ -231,8 +241,6 @@ const config = useConfig();
 
 let rs: (v?: any) => void = () => {};
 
-type Result = Option[];
-
 export const displaySelectActionsModal = async (
   args: Partial<Omit<typeof defaultProps, "isOpen">>
 ) => {
@@ -242,8 +250,7 @@ export const displaySelectActionsModal = async (
     // @ts-ignore
     localStore[key] = value;
   });
-  await new Promise<Result>((resolve) => (rs = resolve)); // 等待在组件内resolve
-  console.log("here");
+  await new Promise<void>((resolve) => (rs = resolve)); // 等待在组件内resolve
   localStore.isOpen = false;
 };
 

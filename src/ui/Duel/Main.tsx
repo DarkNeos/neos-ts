@@ -19,13 +19,7 @@ import { NewSelectActionsModal } from "./Message/NewSelectActionModal";
 const NeosDuel = () => {
   return (
     <>
-      <NewSelectActionsModal
-        isValid
-        isChain
-        selecteds={[]}
-        selectables={[]}
-        mustSelects={[]}
-      />
+      <NewSelectActionsModal />
       <Alert />
       <Menu />
       <LifeBar />
@@ -33,7 +27,7 @@ const NeosDuel = () => {
       <CardModal />
       <CardListModal />
       <HintNotification />
-      <SelectActionsModal />
+      {/* <SelectActionsModal /> */}
       <YesNoModal />
       <PositionModal />
       <OptionModal />
