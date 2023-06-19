@@ -25,7 +25,7 @@ import { matStore } from "@/stores";
 
 import { groupBy } from "../../utils";
 
-import { NewModal } from "../NewModal";
+import { NeosModal } from "../NewModal";
 import { YgoCard } from "@/ui/Shared";
 import "./index.scss";
 
@@ -133,7 +133,7 @@ export const NewSelectActionsModal: FC = () => {
   );
 
   return (
-    <NewModal
+    <NeosModal
       title={
         <>
           <span>{preHintMsg}</span>
@@ -204,7 +204,7 @@ export const NewSelectActionsModal: FC = () => {
           ))}
         </Space>
       </div>
-    </NewModal>
+    </NeosModal>
   );
 };
 

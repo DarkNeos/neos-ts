@@ -19,7 +19,7 @@ section#mat {
     height: var(--block-height-m);
     width: var(--block-width);
     // background-color: rgba(128, 128, 128, 0.447);
-    background: radial-gradient(#232323, #212121);
+    background: radial-gradient(#262626, #303030);
     // box-shadow: 0 0 0 1px purple;
     position: relative;
     &.extra {
@@ -29,13 +29,17 @@ section#mat {
       height: var(--block-height-s);
     }
     &.highlight {
-      box-shadow: 0 0 0 1px #00b0ff, 0 0 13px 0px #0077ff,
-        0 0 11px 0 skyblue inset;
+      // box-shadow: 0 0 0 1px #00b0ff, 0 0 13px 0px #0077ff,
+      //   0 0 11px 0 skyblue inset;
+      background: #142f47;
+      .triangle {
+        --color: #006eff;
+      }
     }
     .triangle {
       width: 0;
       height: 0;
-      --color: #292929;
+      --color: #444444;
       border-width: 5px;
       border-style: solid;
       position: absolute;
