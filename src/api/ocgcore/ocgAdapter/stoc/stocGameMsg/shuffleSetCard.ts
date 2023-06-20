@@ -27,6 +27,6 @@ export default (data: Uint8Array) => {
   return new MsgShuffleSetCard({
     zone,
     from_locations,
-    overlay_locations
+    overlay_locations,
   });
 };
