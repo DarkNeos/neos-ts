@@ -22,7 +22,7 @@ import {
 import type { SpringApiProps } from "./springs/types";
 
 import { YgoCard } from "@/ui/Shared";
-
+import { showCardModal } from "@/ui/Duel/Message/CardModal";
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -173,20 +173,9 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
 const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息
-  messageStore.cardModal.meta = {
-    id: card.code,
-    text: card.meta.text,
-    data: card.meta.data,
-  };
-  messageStore.cardModal.interactivies = card.idleInteractivities.map(
-    (interactivity) => ({
-      desc: interactTypeToString(interactivity.interactType),
-      response: interactivity.response,
-      effectCode: interactivity.activateIndex,
-    })
-  );
-  messageStore.cardModal.counters = card.counters;
-  messageStore.cardModal.isOpen = true;
+  // TODO: 对方的卡片/未知的卡片，点击应该是没有效果的
+  // TODO: 同一张卡片，是否重复点击会关闭CardModal？
+  showCardModal(card);
 
   // 侧边栏展示超量素材信息
   const overlayMaterials = cardStore.findOverlay(
