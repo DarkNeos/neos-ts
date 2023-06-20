@@ -19,7 +19,7 @@ section#mat {
     height: var(--block-height-m);
     width: var(--block-width);
     // background-color: rgba(128, 128, 128, 0.447);
-    background: radial-gradient(#262626, #303030);
+    background: radial-gradient(#1d1d1d, #222);
     // box-shadow: 0 0 0 1px purple;
     position: relative;
     &.extra {
@@ -39,8 +39,8 @@ section#mat {
     .triangle {
       width: 0;
       height: 0;
-      --color: #444444;
-      border-width: 5px;
+      --color: #333;
+      border-width: 4px;
       border-style: solid;
       position: absolute;
       &:nth-of-type(1) {

@@ -61,7 +61,7 @@ export const matConfig = {
     unit: UNIT.PX,
   },
   HAND_CARD_HEIGHT: {
-    value: 120,
+    value: 140,
     unit: UNIT.PX,
   },
   DECK_OFFSET_X: {

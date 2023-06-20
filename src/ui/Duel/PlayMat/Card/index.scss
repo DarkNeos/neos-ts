@@ -1,9 +1,8 @@
 section#mat {
   .mat-card {
     position: absolute;
-    // left: 50%;
-    // top: 50%;
     --card-height: 100px;
+    width: auto !important;
     height: var(--card-height);
     aspect-ratio: var(--card-ratio);
     transform-style: preserve-3d;
@@ -14,9 +13,14 @@ section#mat {
       width: 100%;
       transform: translateZ(calc(var(--z) * 1px + 0.1px))
         rotateY(calc(var(--ry) * 1deg));
+      transition: 0.2s scale;
+      cursor: pointer;
+      &:hover {
+        scale: 1.05;
+      }
       .card-cover,
       .card-back {
-        width: 100%;
+        width: 100% !important;
         height: 100%;
         position: absolute;
         left: 0;
