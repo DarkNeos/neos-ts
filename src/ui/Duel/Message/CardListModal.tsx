@@ -7,6 +7,8 @@ import { messageStore } from "@/stores";
 
 import { EffectButton } from "./EffectButton";
 
+import { showCardModal } from "./CardModal";
+
 const NeosConfig = useConfig();
 
 const CARD_WIDTH = 100;
@@ -47,10 +49,7 @@ export const CardListModal = () => {
               />
             }
             onClick={() => {
-              messageStore.cardModal.meta = item.meta;
-              messageStore.cardModal.interactivies = item.interactivies;
-              messageStore.cardModal.counters = [];
-              messageStore.cardModal.isOpen = true;
+              showCardModal(item);
             }}
           >
             <List.Item.Meta

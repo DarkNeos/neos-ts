@@ -2,11 +2,11 @@ import "@/styles/card-modal.scss";
 
 import classnames from "classnames";
 import React, { FC } from "react";
-import { useSnapshot } from "valtio";
+import { useSnapshot, proxy } from "valtio";
 
-import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
+import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
 import { useConfig } from "@/config";
-import { cardStore, messageStore } from "@/stores";
+import { cardStore, messageStore, type CardType } from "@/stores";
 
 import {
   Attribute2StringCodeMap,
@@ -25,15 +25,33 @@ import { YgoCard } from "@/ui/Shared";
 import { Desc } from "./Desc";
 
 const { cardModal } = messageStore;
-const NeosConfig = useConfig();
+
 const CARD_WIDTH = 140;
-const { Title, Paragraph, Text, Link } = Typography;
+
+const defaultStore = {
+  isOpen: false,
+  meta: {
+    id: 0,
+    data: {},
+    text: {
+      name: "",
+      desc: "",
+    },
+  } satisfies CardMeta as CardMeta,
+  interactivies: [] as {
+    desc: string;
+    response: number;
+    effectCode?: number;
+  }[],
+  counters: {} as Record<number, number>,
+};
+
+const store = proxy(defaultStore);
 
 export const CardModal = () => {
-  const snap = useSnapshot(cardModal);
+  const snap = useSnapshot(store);
 
-  const isOpen = snap.isOpen;
-  const meta = snap.meta;
+  const { isOpen, meta, counters } = snap;
 
   const name = meta?.text.name;
   const types = meta?.data.type;
@@ -42,7 +60,6 @@ export const CardModal = () => {
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
-  const counters = snap.counters;
 
   const nonEffectInteractivies = snap.interactivies.filter(
     (item) => item.desc != "发动效果"
@@ -56,10 +73,9 @@ export const CardModal = () => {
     <Drawer
       open={isOpen}
       placement="left"
-      onClose={() => (cardModal.isOpen = false)}
+      onClose={() => (store.isOpen = false)}
       rootClassName="card-modal-root"
       className="card-modal-drawer"
-      headerStyle={{}}
       mask={false}
       title={name}
       closeIcon={<LeftOutlined />}
@@ -83,6 +99,7 @@ export const CardModal = () => {
               attribute={attribute}
             />
             {/* TODO: 只有怪兽卡需要展示攻击防御 */}
+            {/* TODO: 展示星级/LINK数 */}
             {/* <CounterLine counters={counters} /> */}
           </Space>
         </Space>
@@ -167,4 +184,16 @@ const CounterLine = (props: { counters: { [type: number]: number } }) => {
       ))}
     </>
   );
+};
+
+export const showCardModal = (
+  card: Partial<Pick<typeof store, "meta" | "counters">>
+) => {
+  store.isOpen = true;
+  store.meta = card?.meta ?? defaultStore.meta;
+  store.counters = card?.counters ?? defaultStore.counters;
+};
+
+export const closeCardModal = () => {
+  store.isOpen = false;
 };

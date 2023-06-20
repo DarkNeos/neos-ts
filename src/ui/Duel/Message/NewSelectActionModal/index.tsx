@@ -28,6 +28,7 @@ import { groupBy } from "../../utils";
 import { NeosModal } from "../NewModal";
 import { YgoCard } from "@/ui/Shared";
 import "./index.scss";
+import { showCardModal } from "../CardModal";
 
 const CANCEL_RESPONSE = -1;
 const FINISH_RESPONSE = -1;
@@ -206,6 +207,9 @@ export const NewSelectActionsModal: FC = () => {
                           flexShrink: 0,
                         }}
                         value={card}
+                        onClick={() => {
+                          showCardModal(card);
+                        }}
                       />
                     </div>
                   </Tooltip>
