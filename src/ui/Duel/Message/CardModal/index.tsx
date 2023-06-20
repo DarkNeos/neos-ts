@@ -1,7 +1,7 @@
 import "@/styles/card-modal.scss";
 
 import classnames from "classnames";
-import React from "react";
+import React, { FC } from "react";
 import { useSnapshot } from "valtio";
 
 import { fetchStrings, sendSelectIdleCmdResponse } from "@/api";
@@ -13,12 +13,21 @@ import {
   extraCardTypes,
   Race2StringCodeMap,
   Type2StringCodeMap,
-} from "../../../common";
-import { EffectButton } from "./EffectButton";
+} from "../../../../common";
+import { EffectButton } from "../EffectButton";
+
+import { Drawer, Space, Tag, Divider, Timeline, Typography } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
+
+import "./index.scss";
+
+import { YgoCard } from "@/ui/Shared";
+import { Desc } from "./Desc";
 
 const { cardModal } = messageStore;
 const NeosConfig = useConfig();
-const CARD_WIDTH = 200;
+const CARD_WIDTH = 140;
+const { Title, Paragraph, Text, Link } = Typography;
 
 export const CardModal = () => {
   const snap = useSnapshot(cardModal);
@@ -35,9 +44,6 @@ export const CardModal = () => {
   const def = meta?.data.def;
   const counters = snap.counters;
 
-  const imgUrl = meta?.id
-    ? `${NeosConfig.cardImgUrl}/${meta.id}.jpg`
-    : undefined;
   const nonEffectInteractivies = snap.interactivies.filter(
     (item) => item.desc != "发动效果"
   );
@@ -46,27 +52,43 @@ export const CardModal = () => {
   );
 
   return (
-    <div
-      className={classnames("card-modal")}
-      style={
-        {
-          "--visibility": isOpen ? "visible" : "hidden",
-          "--opacity": isOpen ? 1 : 0,
-        } as any
-      }
+    // TODO: 宽度要好好设置 根据屏幕宽度
+    <Drawer
+      open={isOpen}
+      placement="left"
+      onClose={() => (cardModal.isOpen = false)}
+      rootClassName="card-modal-root"
+      className="card-modal-drawer"
+      headerStyle={{}}
+      mask={false}
+      title={name}
+      closeIcon={<LeftOutlined />}
     >
       <div className="card-modal-container">
-        <img src={imgUrl} width={CARD_WIDTH} />
-        <div className="card-modal-name">{name}</div>
-        <AttLine
-          types={extraCardTypes(types || 0)}
-          race={race}
-          attribute={attribute}
-        />
-        <AtkLine atk={atk} def={def} />
-        <CounterLine counters={counters} />
-        <div className="card-modal-effect">{desc}</div>
-        {nonEffectInteractivies.map((interactive, idx) => {
+        <Space
+          align="start"
+          size={18}
+          style={{ position: "relative", display: "flex" }}
+        >
+          <YgoCard
+            code={meta?.id}
+            width={CARD_WIDTH}
+            style={{ borderRadius: 4 }}
+          />
+          <Space direction="vertical" className="card-modal-info">
+            <AtkLine atk={atk} def={def} />
+            <AttLine
+              types={extraCardTypes(types || 0)}
+              race={race}
+              attribute={attribute}
+            />
+            {/* TODO: 只有怪兽卡需要展示攻击防御 */}
+            {/* <CounterLine counters={counters} /> */}
+          </Space>
+        </Space>
+        <Divider style={{ margin: "14px 0" }}></Divider>
+        <Desc desc={desc} />
+        {/* {nonEffectInteractivies.map((interactive, idx) => {
           return (
             <button
               key={idx}
@@ -85,9 +107,9 @@ export const CardModal = () => {
             </button>
           );
         })}
-        <EffectButton meta={meta} effectInteractivies={effectInteractivies} />
+        <EffectButton meta={meta} effectInteractivies={effectInteractivies} /> */}
       </div>
-    </div>
+    </Drawer>
   );
 };
 
@@ -98,24 +120,36 @@ const AttLine = (props: {
 }) => {
   const race = props.race
     ? fetchStrings("!system", Race2StringCodeMap.get(props.race) || 0)
-    : "?";
+    : undefined;
   const attribute = props.attribute
     ? fetchStrings("!system", Attribute2StringCodeMap.get(props.attribute) || 0)
-    : "?";
+    : undefined;
   const types = props.types
     .map((t) => fetchStrings("!system", Type2StringCodeMap.get(t) || 0))
-    .join("|");
+    .join("/");
   return (
-    <div className="card-modal-attribute">{`【 ${race} / ${types} 】【 ${attribute} 】`}</div>
+    <div className="attline">
+      {attribute && <Tag>{attribute}</Tag>}
+      {race && <Tag>{race}</Tag>}
+      {types && <Tag>{types}</Tag>}
+    </div>
   );
 };
 
 const AtkLine = (props: { atk?: number; def?: number }) => (
-  <div className="card-modal-atk">{`ATK/${
-    props.atk !== undefined ? props.atk : "?"
-  } DEF/${props.def !== undefined ? props.def : "?"}`}</div>
+  <Space size={10} className="atkLine" direction="vertical">
+    <div>
+      <div className="title">ATK</div>
+      <div className="number">{props.atk ?? "?"}</div>
+    </div>
+    <div>
+      <div className="title">DEF</div>
+      <div className="number">{props.def ?? "?"}</div>
+    </div>
+  </Space>
 );
 
+// TODO: 未完成
 const CounterLine = (props: { counters: { [type: number]: number } }) => {
   const counters = [];
   for (const counterType in props.counters) {

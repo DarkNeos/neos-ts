@@ -10,23 +10,30 @@ interface Props {
   isBack?: boolean;
   code?: number;
   style?: CSSProperties;
+  width?: number;
 }
 
 export const YgoCard: FC<Props> = (props) => {
-  const { className, code: cardCode = 0, isBack = false, style } = props;
+  const {
+    className,
+    code: cardCode = 0,
+    isBack = false,
+    width = 80,
+    style,
+  } = props;
   return useMemo(
     () => (
       <>
         {cardCode === 0 && !isBack ? (
           <div
             className={classNames("ygo-card", "skeleton-cover")}
-            style={style}
+            style={{ width, ...style }}
           />
         ) : (
           <img
             className={classNames("ygo-card", className)}
             src={getCardImgUrl(cardCode, isBack)}
-            style={style}
+            style={{ width, ...style }}
           />
         )}
       </>

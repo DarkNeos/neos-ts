@@ -186,7 +186,18 @@ export const NewSelectActionsModal: FC = () => {
                   <Tooltip title={card.effectDesc} placement="bottom" key={j}>
                     <div>
                       <CheckCard
-                        cover={<YgoCard code={card.meta.id} />}
+                        cover={
+                          <YgoCard
+                            code={card.meta.id}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              position: "absolute",
+                              left: 0,
+                              top: 0,
+                            }}
+                          />
+                        }
                         style={{
                           width: 100,
                           aspectRatio: 5.9 / 8.6,
