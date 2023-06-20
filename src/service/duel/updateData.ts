@@ -1,4 +1,4 @@
-import { ygopro } from "@/api";
+import { fetchCard, ygopro } from "@/api";
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 
 import { eventbus, Task } from "@/infra";
@@ -15,12 +15,14 @@ export default async (updateData: MsgUpdateData) => {
           .filter((card) => card.location.sequence == sequence)
           .at(0);
         if (target) {
-          const meta = target.meta;
           // 目前只更新以下字段
           if (action?.code >= 0) {
-            meta.id = action.code;
-            meta.text.id = action.code;
+            const newMeta = await fetchCard(action.code);
+            target.code = action.code;
+            target.meta = newMeta;
           }
+
+          const meta = target.meta;
           if (action.location !== undefined) {
             if (target.location.position != action.location.position) {
               // Currently only update position
