@@ -35,6 +35,7 @@ import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
 import onMsgSet from "./set";
 import onMsgShuffleHand from "./shuffleHand";
+import onMsgShuffleSetCard from "./shuffleSetCard";
 import onMsgSortCard from "./sortCard";
 import onMsgSpSummoned from "./spSummoned";
 import onMsgSpSummoning from "./spSummoning";
@@ -306,6 +307,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "toss": {
       onMsgToss(msg.toss);
+
+      break;
+    }
+    case "shuffle_set_card": {
+      await onMsgShuffleSetCard(msg.shuffle_set_card);
 
       break;
     }
