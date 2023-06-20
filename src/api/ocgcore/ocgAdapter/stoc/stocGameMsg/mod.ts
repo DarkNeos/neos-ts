@@ -33,7 +33,7 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectSum from "./selectSum";
 import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
-import MsgShuffleSetCard from "./shuffle_set_card";
+import MsgShuffleSetCard from "./shuffleSetCard";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
 import MsgTossAdapter from "./toss";

@@ -16,17 +16,17 @@ export default (data: Uint8Array) => {
   const zone = numberToCardZone(reader.inner.readUint8());
   const count = reader.inner.readUint8();
   const from_locations = [];
-  const to_locations = [];
+  const overlay_locations = []; // TODO: 这个字段是否有用？
   for (let i = 0; i < count; i++) {
     from_locations.push(reader.readCardLocation());
   }
   for (let i = 0; i < count; i++) {
-    to_locations.push(reader.readCardLocation());
+    overlay_locations.push(reader.readCardLocation());
   }
 
   return new MsgShuffleSetCard({
     zone,
     from_locations,
-    to_locations,
+    overlay_locations,
   });
 };

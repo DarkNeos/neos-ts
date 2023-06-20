@@ -10766,7 +10766,7 @@ export namespace ygopro {
             constructor(data?: any[] | {
                 zone?: CardZone;
                 from_locations?: CardLocation[];
-                to_locations?: CardLocation[];
+                overlay_locations?: CardLocation[];
             }) {
                 super();
                 pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2, 3], this.#one_of_decls);
@@ -10777,8 +10777,8 @@ export namespace ygopro {
                     if ("from_locations" in data && data.from_locations != undefined) {
                         this.from_locations = data.from_locations;
                     }
-                    if ("to_locations" in data && data.to_locations != undefined) {
-                        this.to_locations = data.to_locations;
+                    if ("overlay_locations" in data && data.overlay_locations != undefined) {
+                        this.overlay_locations = data.overlay_locations;
                     }
                 }
             }
@@ -10794,16 +10794,16 @@ export namespace ygopro {
             set from_locations(value: CardLocation[]) {
                 pb_1.Message.setRepeatedWrapperField(this, 2, value);
             }
-            get to_locations() {
+            get overlay_locations() {
                 return pb_1.Message.getRepeatedWrapperField(this, CardLocation, 3) as CardLocation[];
             }
-            set to_locations(value: CardLocation[]) {
+            set overlay_locations(value: CardLocation[]) {
                 pb_1.Message.setRepeatedWrapperField(this, 3, value);
             }
             static fromObject(data: {
                 zone?: CardZone;
                 from_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
-                to_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
+                overlay_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
             }): MsgShuffleSetCard {
                 const message = new MsgShuffleSetCard({});
                 if (data.zone != null) {
@@ -10812,8 +10812,8 @@ export namespace ygopro {
                 if (data.from_locations != null) {
                     message.from_locations = data.from_locations.map(item => CardLocation.fromObject(item));
                 }
-                if (data.to_locations != null) {
-                    message.to_locations = data.to_locations.map(item => CardLocation.fromObject(item));
+                if (data.overlay_locations != null) {
+                    message.overlay_locations = data.overlay_locations.map(item => CardLocation.fromObject(item));
                 }
                 return message;
             }
@@ -10821,7 +10821,7 @@ export namespace ygopro {
                 const data: {
                     zone?: CardZone;
                     from_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
-                    to_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
+                    overlay_locations?: ReturnType<typeof CardLocation.prototype.toObject>[];
                 } = {};
                 if (this.zone != null) {
                     data.zone = this.zone;
@@ -10829,8 +10829,8 @@ export namespace ygopro {
                 if (this.from_locations != null) {
                     data.from_locations = this.from_locations.map((item: CardLocation) => item.toObject());
                 }
-                if (this.to_locations != null) {
-                    data.to_locations = this.to_locations.map((item: CardLocation) => item.toObject());
+                if (this.overlay_locations != null) {
+                    data.overlay_locations = this.overlay_locations.map((item: CardLocation) => item.toObject());
                 }
                 return data;
             }
@@ -10842,8 +10842,8 @@ export namespace ygopro {
                     writer.writeEnum(1, this.zone);
                 if (this.from_locations.length)
                     writer.writeRepeatedMessage(2, this.from_locations, (item: CardLocation) => item.serialize(writer));
-                if (this.to_locations.length)
-                    writer.writeRepeatedMessage(3, this.to_locations, (item: CardLocation) => item.serialize(writer));
+                if (this.overlay_locations.length)
+                    writer.writeRepeatedMessage(3, this.overlay_locations, (item: CardLocation) => item.serialize(writer));
                 if (!w)
                     return writer.getResultBuffer();
             }
@@ -10860,7 +10860,7 @@ export namespace ygopro {
                             reader.readMessage(message.from_locations, () => pb_1.Message.addToRepeatedWrapperField(message, 2, CardLocation.deserialize(reader), CardLocation));
                             break;
                         case 3:
-                            reader.readMessage(message.to_locations, () => pb_1.Message.addToRepeatedWrapperField(message, 3, CardLocation.deserialize(reader), CardLocation));
+                            reader.readMessage(message.overlay_locations, () => pb_1.Message.addToRepeatedWrapperField(message, 3, CardLocation.deserialize(reader), CardLocation));
                             break;
                         default: reader.skipField();
                     }
