@@ -1,55 +1,56 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
-import { useSnapshot } from "valtio";
+import { useSnapshot, proxy } from "valtio";
 
 import { sendSelectOptionResponse } from "@/api";
-import { messageStore } from "@/stores";
+import { NeosModal } from "./NeosModal";
 
-import { DragModal } from "./DragModal";
+type Options = { msg: string; response: number }[];
 
-const { optionModal } = messageStore;
+const defaultStore = {
+  isOpen: false,
+  options: [] satisfies Options as Options,
+};
+const store = proxy(defaultStore);
 
 export const OptionModal = () => {
-  const snapOptionModal = useSnapshot(optionModal);
+  const snap = useSnapshot(store);
 
-  const isOpen = snapOptionModal.isOpen;
-  const options = snapOptionModal.options;
+  const { isOpen, options } = snap;
 
   const [selected, setSelected] = useState<number | undefined>(undefined);
 
+  const onClick = () => {
+    if (selected !== undefined) {
+      sendSelectOptionResponse(selected);
+      rs();
+    }
+  };
+
   return (
-    <DragModal
+    <NeosModal
       title="请选择需要发动的效果"
       open={isOpen}
-      closable={false}
       footer={
-        <Button
-          disabled={selected === undefined}
-          onClick={() => {
-            if (selected !== undefined) {
-              sendSelectOptionResponse(selected);
-              optionModal.isOpen = false;
-              optionModal.options = [];
-            }
-          }}
-        >
-          submit
+        <Button disabled={selected === undefined} onClick={onClick}>
+          确定
         </Button>
       }
     >
-      <CheckCard.Group
-        bordered
-        size="small"
-        onChange={(value) => {
-          // @ts-ignore
-          setSelected(value);
-        }}
-      >
+      <CheckCard.Group bordered size="small" onChange={setSelected as any}>
         {options.map((option, idx) => (
           <CheckCard key={idx} title={option.msg} value={option.response} />
         ))}
       </CheckCard.Group>
-    </DragModal>
+    </NeosModal>
   );
+};
+
+let rs: (v?: any) => void = () => {};
+export const displayOptionModal = async (options: Options) => {
+  store.isOpen = true;
+  store.options = options;
+  await new Promise((resolve) => (rs = resolve));
+  store.isOpen = false;
 };

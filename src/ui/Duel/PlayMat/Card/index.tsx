@@ -5,7 +5,7 @@ import classnames from "classnames";
 import React, { type CSSProperties, type FC, useEffect, useState } from "react";
 import { useSnapshot } from "valtio";
 
-import { ygopro } from "@/api";
+import { getCardStr, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, messageStore } from "@/stores";
@@ -31,6 +31,7 @@ import {
   UpOutlined,
 } from "@ant-design/icons";
 import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
+import { displayOptionModal } from "../../Message";
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -182,6 +183,17 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       sendSelectIdleCmdResponse(effectInteractivies[0].response);
     } else {
       // optionsModal
+      const options = effectInteractivies.map((effect) => {
+        const effectMsg =
+          snap.meta && effect.effectCode
+            ? getCardStr(snap.meta, effect.effectCode & 0xf) ?? "[:?]"
+            : "[:?]";
+        return {
+          msg: effectMsg,
+          response: effect.response,
+        };
+      });
+      displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
     }
   };
   // <<< 效果 <<<

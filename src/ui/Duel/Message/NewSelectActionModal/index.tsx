@@ -25,7 +25,7 @@ import { matStore } from "@/stores";
 
 import { groupBy } from "../../utils";
 
-import { NeosModal } from "../NewModal";
+import { NeosModal } from "../NeosModal";
 import { YgoCard } from "@/ui/Shared";
 import "./index.scss";
 import { showCardModal } from "../CardModal";
@@ -191,6 +191,7 @@ export const NewSelectActionsModal: FC = () => {
                         placement="bottom"
                         key={j}
                       >
+                        {/* 这儿必须有一个div，不然tooltip不生效 */}
                         <div>
                           <CheckCard
                             cover={

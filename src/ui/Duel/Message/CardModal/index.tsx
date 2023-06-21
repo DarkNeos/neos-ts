@@ -167,7 +167,7 @@ const AtkLine = (props: { atk?: number; def?: number }) => (
   </Space>
 );
 
-// TODO: 未完成
+// TODO: 未完成，研究一下怎么展示这个信息
 const CounterLine = (props: { counters: { [type: number]: number } }) => {
   const counters = [];
   for (const counterType in props.counters) {
