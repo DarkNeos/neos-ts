@@ -47,16 +47,14 @@ export default async (move: MsgMove) => {
     }
   }
 
-  // log出来看看，后期删掉即可
-  await (async () => {
-    console.color("green")(
-      `${meta.text.name} ${ygopro.CardZone[from.zone]}:${from.sequence}:${
-        from.is_overlay ? from.overlay_sequence : ""
-      } → ${ygopro.CardZone[to.zone]}:${to.sequence}:${
-        to.is_overlay ? to.overlay_sequence : ""
-      }`
-    );
-  })();
+  // log出来看看
+  console.color("green")(
+    `${meta.text.name} ${ygopro.CardZone[from.zone]}:${from.sequence}${
+      from.is_overlay ? ":" + from.overlay_sequence : ""
+    } → ${ygopro.CardZone[to.zone]}:${to.sequence}${
+      to.is_overlay ? ":" + to.overlay_sequence : ""
+    }`
+  );
 
   let target: CardType;
 

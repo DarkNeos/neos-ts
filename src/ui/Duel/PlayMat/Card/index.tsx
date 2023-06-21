@@ -31,7 +31,7 @@ import {
   UpOutlined,
 } from "@ant-design/icons";
 import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
-import { displayOptionModal } from "../../Message";
+import { displayCardListModal, displayOptionModal } from "../../Message";
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -233,6 +233,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         overlayClassName="card-dropdown"
         arrow
         trigger={["click"]}
+        // TODO: 没有交互效果、或者不能点击的卡，不应该显示下拉菜单
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
@@ -274,20 +275,10 @@ const onCardClick = (card: CardType) => {
 };
 
 const onFieldClick = (card: CardType) => {
-  const displayStates = cardStore.at(
-    card.location.zone,
-    card.location.controller
-  );
-  messageStore.cardListModal.list = displayStates.map((item) => ({
-    meta: {
-      id: item.code,
-      text: item.meta.text,
-      data: item.meta.data,
-    },
-    interactivies: item.idleInteractivities.map((interactivy) => ({
-      desc: interactTypeToString(interactivy.interactType),
-      response: interactivy.response,
-    })),
-  }));
   messageStore.cardListModal.isOpen = true;
+  displayCardListModal({
+    isZone: true,
+    zone: card.location.zone,
+    controller: card.location.controller,
+  });
 };
