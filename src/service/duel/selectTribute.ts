@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { fetchCheckCardMeta, messageStore } from "@/stores";
-import { displaySelectActionsModal } from "@/ui/Duel/Message/NewSelectActionModal";
+import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
 type MsgSelectTribute = ygopro.StocGameMessage.MsgSelectTribute;
 

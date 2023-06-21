@@ -2,7 +2,7 @@ import { ygopro } from "@/api";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 import { fetchCheckCardMeta, messageStore } from "@/stores";
 
-import { displaySelectActionsModal } from "@/ui/Duel/Message/NewSelectActionModal";
+import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
 
 export default async (selectCard: MsgSelectCard) => {
