@@ -3,7 +3,13 @@ import { Button } from "antd";
 import React, { useState } from "react";
 import { useSnapshot, proxy } from "valtio";
 
-import { sendSelectOptionResponse } from "@/api";
+import {
+  type CardMeta,
+  sendSelectOptionResponse,
+  ygopro,
+  sendSelectIdleCmdResponse,
+  getCardStr,
+} from "@/api";
 import { NeosModal } from "./NeosModal";
 
 type Options = { msg: string; response: number }[];
@@ -53,4 +59,34 @@ export const displayOptionModal = async (options: Options) => {
   store.options = options;
   await new Promise((resolve) => (rs = resolve));
   store.isOpen = false;
+};
+
+export const handleEffectActivation = async (
+  meta: CardMeta,
+  effectInteractivies: {
+    desc: string;
+    response: number;
+    effectCode: number | undefined;
+  }[]
+) => {
+  if (!effectInteractivies.length) {
+    return;
+  }
+  if (effectInteractivies.length === 1) {
+    // 如果只有一个效果，点击直接触发
+    sendSelectIdleCmdResponse(effectInteractivies[0].response);
+  } else {
+    // optionsModal
+    const options = effectInteractivies.map((effect) => {
+      const effectMsg =
+        meta && effect.effectCode
+          ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
+          : "[:?]";
+      return {
+        msg: effectMsg,
+        response: effect.response,
+      };
+    });
+    await displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
+  }
 };

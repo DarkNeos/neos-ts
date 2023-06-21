@@ -14,7 +14,6 @@ import {
   Race2StringCodeMap,
   Type2StringCodeMap,
 } from "../../../../common";
-import { EffectButton } from "../EffectButton";
 
 import { Drawer, Space, Tag, Divider, Timeline, Typography } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
@@ -60,13 +59,6 @@ export const CardModal = () => {
   const desc = meta?.text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
-
-  const nonEffectInteractivies = snap.interactivies.filter(
-    (item) => item.desc != "发动效果"
-  );
-  const effectInteractivies = snap.interactivies.filter(
-    (item) => item.desc == "发动效果"
-  );
 
   return (
     // TODO: 宽度要好好设置 根据屏幕宽度

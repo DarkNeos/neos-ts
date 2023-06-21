@@ -11,34 +11,38 @@ interface Props {
   code?: number;
   style?: CSSProperties;
   width?: number;
+  onClick?: () => void;
 }
 
 export const YgoCard: FC<Props> = (props) => {
   const {
     className,
-    code: cardCode = 0,
+    code = 0,
     isBack = false,
     width = 80,
     style,
+    onClick = () => {},
   } = props;
   return useMemo(
     () => (
       <>
-        {cardCode === 0 && !isBack ? (
+        {code === 0 && !isBack ? (
           <div
-            className={classNames("ygo-card", "skeleton-cover")}
+            className={classNames("ygo-card", "skeleton-cover", className)}
             style={{ width, ...style }}
+            onClick={onClick}
           />
         ) : (
           <img
             className={classNames("ygo-card", className)}
-            src={getCardImgUrl(cardCode, isBack)}
+            src={getCardImgUrl(code, isBack)}
             style={{ width, ...style }}
+            onClick={onClick}
           />
         )}
       </>
     ),
-    [cardCode]
+    [code]
   );
 };
 

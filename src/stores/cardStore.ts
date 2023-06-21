@@ -50,8 +50,8 @@ class CardStore {
               card.location.zone === zone &&
               card.location.controller === controller &&
               card.location.sequence === sequence &&
-              card.location.is_overlay == true &&
-              card.location.overlay_sequence == overlay_sequence
+              card.location.is_overlay === true &&
+              card.location.overlay_sequence === overlay_sequence
           )
           .at(0);
       } else {
@@ -61,7 +61,7 @@ class CardStore {
               card.location.zone === zone &&
               card.location.controller === controller &&
               card.location.sequence === sequence &&
-              card.location.is_overlay == false
+              card.location.is_overlay === false
           )
           .at(0);
       }
@@ -70,7 +70,7 @@ class CardStore {
         (card) =>
           card.location.zone === zone &&
           card.location.controller === controller &&
-          card.location.is_overlay == false
+          card.location.is_overlay === false
       );
     }
   }
@@ -85,9 +85,9 @@ class CardStore {
   ): CardType[] {
     return this.inner.filter(
       (card) =>
-        card.location.zone == zone &&
-        card.location.controller == controller &&
-        card.location.sequence == sequence &&
+        card.location.zone === zone &&
+        card.location.controller === controller &&
+        card.location.sequence === sequence &&
         card.location.is_overlay
     );
   }

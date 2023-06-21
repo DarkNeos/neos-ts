@@ -35,9 +35,9 @@ const helper = async (
   const effectDesc = effectDescCode
     ? getCardStr(meta, effectDescCode & 0xf)
     : undefined;
-  const newOption = {
+  const newOption: Option = {
     meta,
-    location: location.toObject(),
+    location,
     level1,
     level2,
     effectDesc,

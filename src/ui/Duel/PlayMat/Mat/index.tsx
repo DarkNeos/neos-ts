@@ -17,7 +17,6 @@ export const Mat: FC = () => {
       id="mat"
       style={{
         width: "100%",
-        ...toCssProperties(matConfig),
       }}
     >
       <Plane>
