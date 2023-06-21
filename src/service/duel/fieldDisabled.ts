@@ -9,7 +9,7 @@ export default (fieldDisabled: MsgFieldDisabled) => {
       case ygopro.CardZone.SZONE:
         placeStore.set(action.zone, action.controller, action.sequence, {
           interactivity: undefined,
-          disabled: true,
+          disabled: action.disabled,
         });
         break;
       default:
