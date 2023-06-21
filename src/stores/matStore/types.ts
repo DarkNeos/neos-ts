@@ -33,8 +33,6 @@ export interface MatState {
     reason: string;
   };
 
-  waiting: boolean;
-
   unimplemented: number; // 未处理的`Message`
 
   tossResult?: string; // 骰子/硬币结果

@@ -23,6 +23,14 @@ import type { SpringApiProps } from "./springs/types";
 
 import { YgoCard } from "@/ui/Shared";
 import { showCardModal } from "@/ui/Duel/Message/CardModal";
+
+import { Button, Dropdown } from "antd";
+import {
+  UploadOutlined,
+  DownloadOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
+
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -130,7 +138,20 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   useEffect(() => {
     setHighlight(!!idleInteractivities.length);
   }, [idleInteractivities]);
-
+  const items = [
+    {
+      key: "1",
+      label: "正面攻表召唤",
+    },
+    {
+      key: "2",
+      label: "反面守表召唤",
+    },
+    {
+      key: "3",
+      label: "效果发动",
+    },
+  ];
   return (
     <animated.div
       className="mat-card"
@@ -160,13 +181,21 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     >
       <div className="card-focus" />
       <div className="card-shadow" />
-      <div className={classnames("card-img-wrap", { focus: classFocus })}>
-        <YgoCard
-          className={classnames("card-cover")}
-          code={snap.code === 0 ? snap.meta.id : snap.code}
-        />
-        <YgoCard className="card-back" isBack />
-      </div>
+      <Dropdown
+        menu={{ items }}
+        placement="bottom"
+        overlayClassName="card-dropdown"
+        arrow={{ pointAtCenter: true }}
+        trigger={["click"]}
+      >
+        <div className={classnames("card-img-wrap", { focus: classFocus })}>
+          <YgoCard
+            className={classnames("card-cover")}
+            code={snap.code === 0 ? snap.meta.id : snap.code}
+          />
+          <YgoCard className="card-back" isBack />
+        </div>
+      </Dropdown>
       {snap.selected ? <div className="card-streamer" /> : <></>}
     </animated.div>
   );
