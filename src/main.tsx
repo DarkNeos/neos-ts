@@ -19,12 +19,12 @@
  * 在进行代码开发的时候需要注意这点。
  *
  * */
+import { ProConfigProvider } from "@ant-design/pro-provider";
 import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { ProConfigProvider } from "@ant-design/pro-provider";
 
 import Neos from "./ui/Neos";
 

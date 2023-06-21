@@ -29,31 +29,6 @@ export interface ModalState {
       interactivies: { desc: string; response: number }[];
     }[];
   };
-  // 卡牌选择状态
-  selectCardActions: {
-    // 是否打开
-    isOpen: boolean;
-    // 是否有效，当有`MSG_SELECT_xxx`到前端时为true，用户选择完成后设置为false
-    isValid: boolean;
-    // 如果是连锁，发response给后端的方式稍微有点不同，这里标记下
-    isChain?: boolean;
-    min?: number;
-    max?: number;
-    // 是否只能选择单个
-    single?: boolean;
-    cancelAble: boolean;
-    finishAble: boolean;
-    // 上级/同调/超量/链接召唤的总cost
-    totalLevels?: number;
-    // cost是否可以溢出，比如同调召唤是false，某些链接召唤是true
-    overflow?: boolean;
-    // 已经选择的列表
-    selecteds: Option[];
-    // 可以选择的列表
-    selectables: Option[];
-    // 必须选择的列表
-    mustSelects: Option[];
-  };
   // Yes or No弹窗
   yesNoModal: {
     isOpen: boolean;

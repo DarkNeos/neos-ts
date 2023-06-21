@@ -1,8 +1,9 @@
-import { Button, Modal, type ModalProps } from "antd";
-import { type FC, useRef, useState, type CSSProperties } from "react";
-import { MinusOutlined, UpOutlined } from "@ant-design/icons";
-import classNames from "classnames";
 import "./index.scss";
+
+import { MinusOutlined, UpOutlined } from "@ant-design/icons";
+import { Button, Modal, type ModalProps } from "antd";
+import classNames from "classnames";
+import { type CSSProperties, type FC, useRef, useState } from "react";
 
 interface Props extends ModalProps {
   canBeMinimized?: boolean;

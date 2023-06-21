@@ -1,9 +1,9 @@
-import { type FC, useMemo, CSSProperties } from "react";
-
-import { useConfig } from "@/config";
+import "./index.scss";
 
 import classNames from "classnames";
-import "./index.scss";
+import { CSSProperties, type FC, useMemo } from "react";
+
+import { useConfig } from "@/config";
 
 interface Props {
   className?: string;

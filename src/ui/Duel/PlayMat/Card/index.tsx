@@ -1,15 +1,25 @@
 import "./index.scss";
 
+import {
+  DownloadOutlined,
+  UploadOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { animated, to, useSpring } from "@react-spring/web";
+import { Button, Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
 import React, { type CSSProperties, type FC, useEffect, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import { getCardStr, ygopro } from "@/api";
+import { type CardMeta, fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, messageStore } from "@/stores";
+import { closeCardModal, showCardModal } from "@/ui/Duel/Message/CardModal";
+import { YgoCard } from "@/ui/Shared";
 
+import { displayCardListModal, displayOptionModal } from "../../Message";
 import { interactTypeToString } from "../../utils";
 import {
   attack,
@@ -20,18 +30,6 @@ import {
   moveToOutside,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
-
-import { YgoCard } from "@/ui/Shared";
-import { showCardModal, closeCardModal } from "@/ui/Duel/Message/CardModal";
-
-import { Button, Dropdown, type MenuProps } from "antd";
-import {
-  UploadOutlined,
-  DownloadOutlined,
-  UpOutlined,
-} from "@ant-design/icons";
-import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
-import { displayCardListModal, displayOptionModal } from "../../Message";
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =

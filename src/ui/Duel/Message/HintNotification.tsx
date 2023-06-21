@@ -1,4 +1,4 @@
-import { notification, message } from "antd";
+import { message, notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
