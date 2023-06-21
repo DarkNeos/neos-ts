@@ -1,12 +1,16 @@
 import "@/styles/card-modal.scss";
+import "./index.scss";
 
+import { LeftOutlined } from "@ant-design/icons";
+import { Divider, Drawer, Space, Tag, Timeline, Typography } from "antd";
 import classnames from "classnames";
 import React, { FC } from "react";
-import { useSnapshot, proxy } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
-import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
+import { type CardMeta, fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
-import { cardStore, messageStore, type CardType } from "@/stores";
+import { cardStore, type CardType, messageStore } from "@/stores";
+import { YgoCard } from "@/ui/Shared";
 
 import {
   Attribute2StringCodeMap,
@@ -14,13 +18,6 @@ import {
   Race2StringCodeMap,
   Type2StringCodeMap,
 } from "../../../../common";
-
-import { Drawer, Space, Tag, Divider, Timeline, Typography } from "antd";
-import { LeftOutlined } from "@ant-design/icons";
-
-import "./index.scss";
-
-import { YgoCard } from "@/ui/Shared";
 import { Desc } from "./Desc";
 
 const { cardModal } = messageStore;

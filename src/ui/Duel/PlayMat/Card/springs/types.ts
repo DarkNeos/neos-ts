@@ -1,6 +1,6 @@
 import { type SpringRef } from "@react-spring/web";
 
-export type SpringApiProps = {
+export interface SpringApiProps {
   x: number;
   y: number;
   z: number;
@@ -14,6 +14,6 @@ export type SpringApiProps = {
   focusDisplay: string;
   focusOpacity: number;
   // <<< focus
-};
+}
 
 export type SpringApi = SpringRef<SpringApiProps>;

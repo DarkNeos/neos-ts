@@ -1,3 +1,5 @@
+import "./index.scss";
+
 import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
 import {
   Button,
@@ -5,30 +7,28 @@ import {
   Col,
   Popover,
   Row,
-  Tabs,
   Segmented,
   Space,
-  Typography,
+  Tabs,
   Tooltip,
+  Typography,
 } from "antd";
-import { type FC, useState, useEffect } from "react";
-import { useSnapshot, proxy } from "valtio";
+import { type FC, useEffect, useState } from "react";
+import { proxy, useSnapshot } from "valtio";
 
+import type { CardMeta, ygopro } from "@/api";
 import {
   fetchStrings,
   sendSelectMultiResponse,
   sendSelectSingleResponse,
 } from "@/api";
-import type { CardMeta, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
+import { YgoCard } from "@/ui/Shared";
 
 import { groupBy } from "../../utils";
-
-import { NeosModal } from "../NeosModal";
-import { YgoCard } from "@/ui/Shared";
-import "./index.scss";
 import { showCardModal } from "../CardModal";
+import { NeosModal } from "../NeosModal";
 
 const CANCEL_RESPONSE = -1;
 const FINISH_RESPONSE = -1;

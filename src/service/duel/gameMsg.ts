@@ -1,6 +1,7 @@
 import { ygopro } from "@/api";
 import { sleep } from "@/infra";
 import { matStore } from "@/stores";
+import { showWaiting } from "@/ui/Duel/Message";
 
 import onAnnounce from "./announce";
 import onMsgAttack from "./attack";
@@ -52,8 +53,6 @@ import onMsgUpdateData from "./updateData";
 import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
-
-import { showWaiting } from "@/ui/Duel/Message";
 
 const ActiveList = [
   "select_idle_cmd",

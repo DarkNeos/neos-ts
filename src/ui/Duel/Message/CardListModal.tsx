@@ -2,12 +2,12 @@ import { Drawer, Space } from "antd";
 import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
+import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { CardType, messageStore, cardStore } from "@/stores";
+import { cardStore, CardType, messageStore } from "@/stores";
+import { YgoCard } from "@/ui/Shared";
 
 import { showCardModal } from "./CardModal";
-import { ygopro } from "@/api";
-import { YgoCard } from "@/ui/Shared";
 
 const NeosConfig = useConfig();
 

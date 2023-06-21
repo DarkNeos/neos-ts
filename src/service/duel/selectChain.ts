@@ -1,12 +1,9 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
-import {
-  fetchCheckCardMeta,
-  fetchSelectHintMeta,
-  messageStore,
-} from "@/stores";
+import { fetchSelectHintMeta, messageStore } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
-import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
+
+import { fetchCheckCardMeta } from "../utils";
 
 const NeosConfig = useConfig();
 
@@ -66,27 +63,12 @@ export default async (selectChain: MsgSelectChain) => {
     case 2: // 处理多张
     case 3: {
       // 处理强制发动的卡
-
-      messageStore.selectCardActions.isChain = true;
-      messageStore.selectCardActions.min = 1;
-      messageStore.selectCardActions.max = 1;
-      messageStore.selectCardActions.cancelAble = !forced;
-
-      for (const chain of chains) {
-        fetchCheckCardMeta({
-          code: chain.code,
-          location: chain.location,
-          response: chain.response,
-          effectDescCode: chain.effect_description,
-        });
-      }
       fetchSelectHintMeta({
         selectHintData: 203,
       });
-      messageStore.selectCardActions.isValid = true;
-      messageStore.selectCardActions.isOpen = true;
-      const { selecteds, mustSelects, selectables } =
-        await FIXME_fetchCheckCardMeta(chains);
+      const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
+        chains
+      );
       await displaySelectActionsModal({
         isChain: true,
         cancelable: !forced,

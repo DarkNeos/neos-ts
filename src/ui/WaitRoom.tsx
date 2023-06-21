@@ -30,7 +30,7 @@ import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
 import { useConfig } from "@/config";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
-import { joinStore, chatStore, moraStore, playerStore } from "@/stores";
+import { chatStore, joinStore, moraStore, playerStore } from "@/stores";
 
 const NeosConfig = useConfig();
 

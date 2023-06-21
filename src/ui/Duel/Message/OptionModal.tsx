@@ -1,15 +1,16 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
-import { useSnapshot, proxy } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import {
   type CardMeta,
+  getCardStr,
+  sendSelectIdleCmdResponse,
   sendSelectOptionResponse,
   ygopro,
-  sendSelectIdleCmdResponse,
-  getCardStr,
 } from "@/api";
+
 import { NeosModal } from "./NeosModal";
 
 type Options = { msg: string; response: number }[];
