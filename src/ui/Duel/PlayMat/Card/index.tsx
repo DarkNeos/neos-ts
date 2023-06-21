@@ -22,15 +22,15 @@ import {
 import type { SpringApiProps } from "./springs/types";
 
 import { YgoCard } from "@/ui/Shared";
-import { showCardModal } from "@/ui/Duel/Message/CardModal";
+import { showCardModal, closeCardModal } from "@/ui/Duel/Message/CardModal";
 
-import { Button, Dropdown } from "antd";
+import { Button, Dropdown, type MenuProps } from "antd";
 import {
   UploadOutlined,
   DownloadOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-
+import { fetchStrings, sendSelectIdleCmdResponse, type CardMeta } from "@/api";
 const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
@@ -134,24 +134,58 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   // <<< 动画 <<<
 
+  // >>> 效果 >>>
   const idleInteractivities = snap.idleInteractivities;
   useEffect(() => {
     setHighlight(!!idleInteractivities.length);
   }, [idleInteractivities]);
-  const items = [
-    {
-      key: "1",
-      label: "正面攻表召唤",
-    },
-    {
-      key: "2",
-      label: "反面守表召唤",
-    },
-    {
-      key: "3",
-      label: "效果发动",
-    },
-  ];
+
+  const interactivies = idleInteractivities.map((interactivity) => ({
+    desc: interactTypeToString(interactivity.interactType),
+    response: interactivity.response,
+    effectCode: interactivity.activateIndex,
+  }));
+  const EFFECT_ACTIVATION_DESC = "发动效果";
+  const nonEffectInteractivies = interactivies.filter(
+    (item) => item.desc !== EFFECT_ACTIVATION_DESC
+  );
+  const effectInteractivies = interactivies.filter(
+    (item) => item.desc === EFFECT_ACTIVATION_DESC
+  );
+  const menuItems: MenuProps["items"] = nonEffectInteractivies.map(
+    ({ desc }, key) => ({
+      key,
+      label: desc,
+    })
+  );
+  if (effectInteractivies.length) {
+    menuItems.push({
+      key: menuItems.length,
+      label: EFFECT_ACTIVATION_DESC,
+    });
+  }
+  const onDropdownClick: MenuProps["onClick"] = ({ key }) => {
+    const index = Number(key);
+    if (index >= nonEffectInteractivies.length) {
+      // 是效果发动
+      handleEffectActivation();
+    } else {
+      // 非效果发动
+      sendSelectIdleCmdResponse(nonEffectInteractivies[index].response);
+    }
+    closeCardModal();
+  };
+  const handleEffectActivation = () => {
+    // 不用考虑为0的情况，因为已经判断了不可能为0
+    if (effectInteractivies.length === 1) {
+      // 如果只有一个效果，点击直接触发
+      sendSelectIdleCmdResponse(effectInteractivies[0].response);
+    } else {
+      // optionsModal
+    }
+  };
+  // <<< 效果 <<<
+
   return (
     <animated.div
       className="mat-card"
@@ -182,10 +216,10 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       <div className="card-focus" />
       <div className="card-shadow" />
       <Dropdown
-        menu={{ items }}
+        menu={{ items: menuItems, onClick: onDropdownClick }}
         placement="bottom"
         overlayClassName="card-dropdown"
-        arrow={{ pointAtCenter: true }}
+        arrow
         trigger={["click"]}
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
