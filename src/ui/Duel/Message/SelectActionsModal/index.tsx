@@ -51,7 +51,7 @@ const defaultProps = {
 
 const localStore = proxy(defaultProps);
 
-export const NewSelectActionsModal: FC = () => {
+export const SelectActionsModal: FC = () => {
   const {
     isOpen,
     isValid,

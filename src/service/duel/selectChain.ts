@@ -5,7 +5,7 @@ import {
   fetchSelectHintMeta,
   messageStore,
 } from "@/stores";
-import { displaySelectActionsModal } from "@/ui/Duel/Message/NewSelectActionModal";
+import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 import { fetchCheckCardMeta as FIXME_fetchCheckCardMeta } from "../utils";
 
 const NeosConfig = useConfig();
