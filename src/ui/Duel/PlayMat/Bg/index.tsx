@@ -22,7 +22,7 @@ const BgExtraRow: FC<{
         <div
           key={i}
           className={classnames("block", "extra", {
-            highlight: !!meSnap[i] || !!opSnap[i],
+            highlight: !!meSnap[i].interactivity || !!opSnap[i].interactivity,
           })}
           onClick={() => {
             onBlockClick(meSnap[i].interactivity);
@@ -45,7 +45,7 @@ const BgRow: FC<{
         key={i}
         className={classnames("block", {
           szone: isSzone,
-          highlight: !!snap[i],
+          highlight: !!snap[i].interactivity,
         })}
         onClick={() => onBlockClick(snap[i].interactivity)}
       ></div>
