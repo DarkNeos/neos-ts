@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import classnames from "classnames";
-import { type FC } from "react";
+import { type CSSProperties, type FC } from "react";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
@@ -11,6 +11,25 @@ import {
   type PlaceInteractivity,
   placeStore,
 } from "@/stores";
+
+// Block被禁用的样式
+const BgDisabledStyle = {
+  background: `linear-gradient(
+      to top right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      red 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    ), linear-gradient(
+      to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      red 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    )`,
+};
 
 const BgExtraRow: FC<{
   meSnap: Snapshot<BlockState[]>;
@@ -24,6 +43,11 @@ const BgExtraRow: FC<{
           className={classnames("block", "extra", {
             highlight: !!meSnap[i].interactivity || !!opSnap[i].interactivity,
           })}
+          style={
+            meSnap[i].disabled || opSnap[i].disabled
+              ? (BgDisabledStyle as CSSProperties)
+              : {}
+          }
           onClick={() => {
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
@@ -47,6 +71,7 @@ const BgRow: FC<{
           szone: isSzone,
           highlight: !!snap[i].interactivity,
         })}
+        style={snap[i].disabled ? (BgDisabledStyle as CSSProperties) : {}}
         onClick={() => onBlockClick(snap[i].interactivity)}
       ></div>
     ))}
