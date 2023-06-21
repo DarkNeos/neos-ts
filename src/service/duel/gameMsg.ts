@@ -35,6 +35,7 @@ import onMsgSelectTribute from "./selectTribute";
 import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
 import onMsgSet from "./set";
+import onMsgShuffleDeck from "./shuffleDeck";
 import onMsgShuffleHand from "./shuffleHand";
 import onMsgShuffleSetCard from "./shuffleSetCard";
 import onMsgSortCard from "./sortCard";
@@ -318,6 +319,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "field_disabled": {
       onMsgFieldDisabled(msg.field_disabled);
+
+      break;
+    }
+    case "shuffle_deck": {
+      onMsgShuffleDeck(msg.shuffle_deck);
 
       break;
     }
