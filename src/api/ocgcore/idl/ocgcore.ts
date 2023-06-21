@@ -4511,7 +4511,7 @@ export namespace ygopro {
         }
     }
     export class StocGameMessage extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]];
         constructor(data?: any[] | ({} & (({
             start?: StocGameMessage.MsgStart;
             draw?: never;
@@ -4562,6 +4562,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: StocGameMessage.MsgDraw;
@@ -4612,6 +4613,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4662,6 +4664,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4712,6 +4715,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4762,6 +4766,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4812,6 +4817,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4862,6 +4868,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4912,6 +4919,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4962,6 +4970,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5012,6 +5021,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5062,6 +5072,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5112,6 +5123,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5162,6 +5174,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5212,6 +5225,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5262,6 +5276,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5312,6 +5327,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5362,6 +5378,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5412,6 +5429,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5462,6 +5480,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5512,6 +5531,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5562,6 +5582,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5612,6 +5633,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5662,6 +5684,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5712,6 +5735,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5762,6 +5786,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5812,6 +5837,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5862,6 +5888,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5912,6 +5939,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5962,6 +5990,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6012,6 +6041,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6062,6 +6092,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6112,6 +6143,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6162,6 +6194,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6212,6 +6245,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6262,6 +6296,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6312,6 +6347,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6362,6 +6398,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6412,6 +6449,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6462,6 +6500,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6512,6 +6551,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6562,6 +6602,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6612,6 +6653,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6662,6 +6704,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6712,6 +6755,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6762,6 +6806,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6812,6 +6857,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6862,6 +6908,7 @@ export namespace ygopro {
             toss?: StocGameMessage.MsgToss;
             shuffle_set_card?: never;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6912,6 +6959,7 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: StocGameMessage.MsgShuffleSetCard;
             field_disabled?: never;
+            shuffle_deck?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6962,6 +7010,58 @@ export namespace ygopro {
             toss?: never;
             shuffle_set_card?: never;
             field_disabled?: StocGameMessage.MsgFieldDisabled;
+            shuffle_deck?: never;
+        } | {
+            start?: never;
+            draw?: never;
+            new_turn?: never;
+            new_phase?: never;
+            hint?: never;
+            select_idle_cmd?: never;
+            select_place?: never;
+            move?: never;
+            select_card?: never;
+            select_chain?: never;
+            select_effect_yn?: never;
+            select_position?: never;
+            select_option?: never;
+            shuffle_hand?: never;
+            select_battle_cmd?: never;
+            pos_change?: never;
+            select_unselect_card?: never;
+            select_yes_no?: never;
+            update_hp?: never;
+            win?: never;
+            wait?: never;
+            unimplemented?: never;
+            update_data?: never;
+            reload_field?: never;
+            select_sum?: never;
+            select_tribute?: never;
+            update_counter?: never;
+            select_counter?: never;
+            sort_card?: never;
+            set?: never;
+            swap?: never;
+            summoning?: never;
+            summoned?: never;
+            flip_summoning?: never;
+            flip_summoned?: never;
+            sp_summoning?: never;
+            sp_summoned?: never;
+            chaining?: never;
+            attack?: never;
+            attack_disable?: never;
+            chain_solved?: never;
+            chain_end?: never;
+            announce?: never;
+            lp_update?: never;
+            confirm_cards?: never;
+            become_target?: never;
+            toss?: never;
+            shuffle_set_card?: never;
+            field_disabled?: never;
+            shuffle_deck?: StocGameMessage.MsgShuffleDeck;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -7112,6 +7212,9 @@ export namespace ygopro {
                 }
                 if ("field_disabled" in data && data.field_disabled != undefined) {
                     this.field_disabled = data.field_disabled;
+                }
+                if ("shuffle_deck" in data && data.shuffle_deck != undefined) {
+                    this.shuffle_deck = data.shuffle_deck;
                 }
             }
         }
@@ -7556,9 +7659,18 @@ export namespace ygopro {
         get has_field_disabled() {
             return pb_1.Message.getField(this, 49) != null;
         }
+        get shuffle_deck() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgShuffleDeck, 50) as StocGameMessage.MsgShuffleDeck;
+        }
+        set shuffle_deck(value: StocGameMessage.MsgShuffleDeck) {
+            pb_1.Message.setOneofWrapperField(this, 50, this.#one_of_decls[0], value);
+        }
+        get has_shuffle_deck() {
+            return pb_1.Message.getField(this, 50) != null;
+        }
         get gameMsg() {
             const cases: {
-                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled";
+                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled" | "shuffle_deck";
             } = {
                 0: "none",
                 1: "start",
@@ -7609,9 +7721,10 @@ export namespace ygopro {
                 46: "become_target",
                 47: "toss",
                 48: "shuffle_set_card",
-                49: "field_disabled"
+                49: "field_disabled",
+                50: "shuffle_deck"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50])];
         }
         static fromObject(data: {
             start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -7663,6 +7776,7 @@ export namespace ygopro {
             toss?: ReturnType<typeof StocGameMessage.MsgToss.prototype.toObject>;
             shuffle_set_card?: ReturnType<typeof StocGameMessage.MsgShuffleSetCard.prototype.toObject>;
             field_disabled?: ReturnType<typeof StocGameMessage.MsgFieldDisabled.prototype.toObject>;
+            shuffle_deck?: ReturnType<typeof StocGameMessage.MsgShuffleDeck.prototype.toObject>;
         }): StocGameMessage {
             const message = new StocGameMessage({});
             if (data.start != null) {
@@ -7812,6 +7926,9 @@ export namespace ygopro {
             if (data.field_disabled != null) {
                 message.field_disabled = StocGameMessage.MsgFieldDisabled.fromObject(data.field_disabled);
             }
+            if (data.shuffle_deck != null) {
+                message.shuffle_deck = StocGameMessage.MsgShuffleDeck.fromObject(data.shuffle_deck);
+            }
             return message;
         }
         toObject() {
@@ -7865,6 +7982,7 @@ export namespace ygopro {
                 toss?: ReturnType<typeof StocGameMessage.MsgToss.prototype.toObject>;
                 shuffle_set_card?: ReturnType<typeof StocGameMessage.MsgShuffleSetCard.prototype.toObject>;
                 field_disabled?: ReturnType<typeof StocGameMessage.MsgFieldDisabled.prototype.toObject>;
+                shuffle_deck?: ReturnType<typeof StocGameMessage.MsgShuffleDeck.prototype.toObject>;
             } = {};
             if (this.start != null) {
                 data.start = this.start.toObject();
@@ -8013,6 +8131,9 @@ export namespace ygopro {
             if (this.field_disabled != null) {
                 data.field_disabled = this.field_disabled.toObject();
             }
+            if (this.shuffle_deck != null) {
+                data.shuffle_deck = this.shuffle_deck.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -8117,6 +8238,8 @@ export namespace ygopro {
                 writer.writeMessage(48, this.shuffle_set_card, () => this.shuffle_set_card.serialize(writer));
             if (this.has_field_disabled)
                 writer.writeMessage(49, this.field_disabled, () => this.field_disabled.serialize(writer));
+            if (this.has_shuffle_deck)
+                writer.writeMessage(50, this.shuffle_deck, () => this.shuffle_deck.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -8272,6 +8395,9 @@ export namespace ygopro {
                         break;
                     case 49:
                         reader.readMessage(message.field_disabled, () => message.field_disabled = StocGameMessage.MsgFieldDisabled.deserialize(reader));
+                        break;
+                    case 50:
+                        reader.readMessage(message.shuffle_deck, () => message.shuffle_deck = StocGameMessage.MsgShuffleDeck.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -15842,6 +15968,73 @@ export namespace ygopro {
                 static deserializeBinary(bytes: Uint8Array): Action {
                     return Action.deserialize(bytes);
                 }
+            }
+        }
+        export class MsgShuffleDeck extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                player?: number;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("player" in data && data.player != undefined) {
+                        this.player = data.player;
+                    }
+                }
+            }
+            get player() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set player(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            static fromObject(data: {
+                player?: number;
+            }): MsgShuffleDeck {
+                const message = new MsgShuffleDeck({});
+                if (data.player != null) {
+                    message.player = data.player;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    player?: number;
+                } = {};
+                if (this.player != null) {
+                    data.player = this.player;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.player != 0)
+                    writer.writeInt32(1, this.player);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgShuffleDeck {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgShuffleDeck();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.player = reader.readInt32();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MsgShuffleDeck {
+                return MsgShuffleDeck.deserialize(bytes);
             }
         }
         export class MsgReloadField extends pb_1.Message {
