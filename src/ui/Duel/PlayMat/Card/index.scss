@@ -16,7 +16,6 @@ section#mat {
       transition: 0.2s scale;
       cursor: pointer;
       &:hover {
-        scale: 1.05;
       }
       .card-cover,
       .card-back {
@@ -74,5 +73,11 @@ section#mat {
   }
   100% {
     filter: brightness(1) contrast(1);
+  }
+}
+
+.card-dropdown {
+  .ant-dropdown-menu {
+    background-color: #333;
   }
 }

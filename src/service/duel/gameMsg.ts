@@ -50,6 +50,8 @@ import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
 
+import { showWaiting } from "@/ui/Duel/Message";
+
 const ActiveList = [
   "select_idle_cmd",
   "select_place",
@@ -74,7 +76,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
-    matStore.waiting = false;
+    showWaiting(false);
   }
 
   switch (msg.gameMsg) {

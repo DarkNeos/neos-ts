@@ -79,6 +79,7 @@ export const CardModal = () => {
       mask={false}
       title={name}
       closeIcon={<LeftOutlined />}
+      width={350}
     >
       <div className="card-modal-container">
         <Space
