@@ -38,12 +38,13 @@ section#mat {
       }
     }
     .card-shadow {
-      // position: absolute;
-      // left: 0;
-      // top: 0;
-      // width: 100%;
-      // height: 100%;
-      // background-color: #0000005e;
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
       // filter: blur(2px);
     }
     .card-focus {
@@ -60,8 +61,10 @@ section#mat {
   }
 }
 
-.mat-card .highlight {
-  box-shadow: 0 0 10px 2px #5db7ff;
+.mat-card.highlight .card-shadow {
+  display: block !important;
+  background: linear-gradient(to right, #0079c6, #009cff) !important;
+  filter: blur(8px);
 }
 
 @keyframes focus {
