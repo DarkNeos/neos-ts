@@ -171,52 +171,59 @@ export const NewSelectActionsModal: FC = () => {
             selectedZone={selectedZone}
             onChange={setSelectedZone as any}
           />
-          {grouped.map((options, i) => (
-            <div className="checkcard-container" key={i}>
-              <CheckCard.Group
-                onChange={setResponse as any}
-                // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                multiple
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(6, 1fr)",
-                  gap: 10,
-                }}
-              >
-                {options[1].map((card, j) => (
-                  <Tooltip title={card.effectDesc} placement="bottom" key={j}>
-                    <div>
-                      <CheckCard
-                        cover={
-                          <YgoCard
-                            code={card.meta.id}
+          {grouped.map(
+            (options, i) =>
+              options[0] === selectedZone && (
+                <div className="checkcard-container" key={i}>
+                  <CheckCard.Group
+                    onChange={setResponse as any}
+                    // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
+                    multiple
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(6, 1fr)",
+                      gap: 10,
+                    }}
+                  >
+                    {options[1].map((card, j) => (
+                      <Tooltip
+                        title={card.effectDesc}
+                        placement="bottom"
+                        key={j}
+                      >
+                        <div>
+                          <CheckCard
+                            cover={
+                              <YgoCard
+                                code={card.meta.id}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  position: "absolute",
+                                  left: 0,
+                                  top: 0,
+                                }}
+                              />
+                            }
                             style={{
-                              width: "100%",
-                              height: "100%",
-                              position: "absolute",
-                              left: 0,
-                              top: 0,
+                              width: 100,
+                              aspectRatio: 5.9 / 8.6,
+                              marginInlineEnd: 0,
+                              marginBlockEnd: 0,
+                              flexShrink: 0,
+                            }}
+                            value={card}
+                            onClick={() => {
+                              showCardModal(card);
                             }}
                           />
-                        }
-                        style={{
-                          width: 100,
-                          aspectRatio: 5.9 / 8.6,
-                          marginInlineEnd: 0,
-                          marginBlockEnd: 0,
-                          flexShrink: 0,
-                        }}
-                        value={card}
-                        onClick={() => {
-                          showCardModal(card);
-                        }}
-                      />
-                    </div>
-                  </Tooltip>
-                ))}
-              </CheckCard.Group>
-            </div>
-          ))}
+                        </div>
+                      </Tooltip>
+                    ))}
+                  </CheckCard.Group>
+                </div>
+              )
+          )}
         </Space>
       </div>
     </NeosModal>
