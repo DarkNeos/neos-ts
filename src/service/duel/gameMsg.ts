@@ -11,6 +11,7 @@ import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
 import onConfirmCards from "./confirmCards";
 import onMsgDraw from "./draw";
+import onMsgFieldDisabled from "./fieldDisabled";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
 import onMsgHint from "./hint";
@@ -312,6 +313,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "shuffle_set_card": {
       await onMsgShuffleSetCard(msg.shuffle_set_card);
+
+      break;
+    }
+    case "field_disabled": {
+      onMsgFieldDisabled(msg.field_disabled);
 
       break;
     }

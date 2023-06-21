@@ -65,3 +65,4 @@ export const MSG_ANNOUNCE_NUMBER = 143;
 export const MSG_TOSS_COIN = 130;
 export const MSG_TOSS_DICE = 131;
 export const MSG_SHUFFLE_SET_CARD = 36;
+export const MSG_FIELD_DISABLED = 56;

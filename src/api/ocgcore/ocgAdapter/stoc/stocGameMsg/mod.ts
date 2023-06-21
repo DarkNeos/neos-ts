@@ -14,6 +14,7 @@ import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
+import MsgFieldDisabledAdapter from "./fieldDisabled";
 import MsgHintAdapter from "./hint";
 import MsgNewPhaseAdapter from "./newPhase";
 import MsgNewTurnAdapter from "./newTurn";
@@ -241,6 +242,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SHUFFLE_SET_CARD: {
           gameMsg.shuffle_set_card = MsgShuffleSetCard(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_FIELD_DISABLED: {
+          gameMsg.field_disabled = MsgFieldDisabledAdapter(gameData);
 
           break;
         }
