@@ -16,7 +16,6 @@ export const messageStore = proxy<ModalState>({
   },
   yesNoModal: { isOpen: false },
   positionModal: { isOpen: false, positions: [] },
-  optionModal: { isOpen: false, options: [] },
   checkCounterModal: {
     isOpen: false,
     options: [],

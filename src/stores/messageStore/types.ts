@@ -64,11 +64,6 @@ export interface ModalState {
     isOpen: boolean;
     positions: ygopro.CardPosition[];
   };
-  // 选项选择弹窗
-  optionModal: {
-    isOpen: boolean;
-    options: { msg: string; response: number }[];
-  };
   // 指示器选择弹窗
   checkCounterModal: {
     isOpen: boolean;
