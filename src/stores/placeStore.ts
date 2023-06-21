@@ -17,7 +17,7 @@ const { MZONE, SZONE } = ygopro.CardZone;
 
 export interface BlockState {
   interactivity?: PlaceInteractivity; // 互动性
-  disabled: boolean;
+  disabled: boolean; // 是否被禁用
 }
 
 export const placeStore = proxy({
