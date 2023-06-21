@@ -8,7 +8,6 @@ export * from "./moraStore";
 export * from "./placeStore";
 export * from "./playerStore";
 
-import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
 
 import { cardStore } from "./cardStore";
@@ -20,15 +19,11 @@ import { moraStore } from "./moraStore";
 import { placeStore } from "./placeStore";
 import { playerStore } from "./playerStore";
 
-export const store = proxy({
-  playerStore,
-  chatStore,
-  joinStore,
-  moraStore,
-  matStore, // 决斗盘
-  messageStore, // 决斗的信息，包括模态框
-  cardStore,
-  placeStore,
-});
-
-devtools(store, { name: "valtio store", enabled: true });
+devtools(playerStore, { name: "player", enabled: true });
+devtools(chatStore, { name: "chat", enabled: true });
+devtools(joinStore, { name: "join", enabled: true });
+devtools(moraStore, { name: "mora", enabled: true });
+devtools(matStore, { name: "mat", enabled: true });
+devtools(messageStore, { name: "message", enabled: true });
+devtools(cardStore, { name: "card", enabled: true });
+devtools(placeStore, { name: "place", enabled: true });
