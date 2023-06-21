@@ -5,11 +5,16 @@ import { type FC } from "react";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
-import { cardStore, type PlaceInteractivity, placeStore } from "@/stores";
+import {
+  BlockState,
+  cardStore,
+  type PlaceInteractivity,
+  placeStore,
+} from "@/stores";
 
 const BgExtraRow: FC<{
-  meSnap: Snapshot<PlaceInteractivity[]>;
-  opSnap: Snapshot<PlaceInteractivity[]>;
+  meSnap: Snapshot<BlockState[]>;
+  opSnap: Snapshot<BlockState[]>;
 }> = ({ meSnap, opSnap }) => {
   return (
     <div className={classnames("bg-row")}>
@@ -20,8 +25,8 @@ const BgExtraRow: FC<{
             highlight: !!meSnap[i] || !!opSnap[i],
           })}
           onClick={() => {
-            onBlockClick(meSnap[i]);
-            onBlockClick(opSnap[i]);
+            onBlockClick(meSnap[i].interactivity);
+            onBlockClick(opSnap[i].interactivity);
           }}
         ></div>
       ))}
@@ -32,7 +37,7 @@ const BgExtraRow: FC<{
 const BgRow: FC<{
   isSzone?: boolean;
   opponent?: boolean;
-  snap: Snapshot<PlaceInteractivity[]>;
+  snap: Snapshot<BlockState[]>;
 }> = ({ isSzone = false, opponent = false, snap }) => (
   <div className={classnames("bg-row", { opponent })}>
     {Array.from({ length: 5 }).map((_, i) => (
@@ -42,7 +47,7 @@ const BgRow: FC<{
           szone: isSzone,
           highlight: !!snap[i],
         })}
-        onClick={() => onBlockClick(snap[i])}
+        onClick={() => onBlockClick(snap[i].interactivity)}
       ></div>
     ))}
   </div>
@@ -68,6 +73,6 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
   if (placeInteractivity) {
     sendSelectPlaceResponse(placeInteractivity.response);
     cardStore.inner.forEach((card) => (card.idleInteractivities = []));
-    placeStore.clearAll();
+    placeStore.clearAllInteractivity();
   }
 };

@@ -14,12 +14,15 @@ export default (selectPlace: MsgSelectPlace) => {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
         placeStore.set(place.zone, place.controller, place.sequence, {
-          interactType: InteractType.PLACE_SELECTABLE,
-          response: {
-            controller: place.controller,
-            zone: place.zone,
-            sequence: place.sequence,
+          interactivity: {
+            interactType: InteractType.PLACE_SELECTABLE,
+            response: {
+              controller: place.controller,
+              zone: place.zone,
+              sequence: place.sequence,
+            },
           },
+          disabled: false,
         });
         break;
     }

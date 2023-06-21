@@ -15,31 +15,60 @@ export type PlaceInteractivity =
 
 const { MZONE, SZONE } = ygopro.CardZone;
 
+export interface BlockState {
+  interactivity?: PlaceInteractivity; // 互动性
+  disabled: boolean;
+}
+
 export const placeStore = proxy({
   inner: {
     [MZONE]: {
-      me: Array.from({ length: 7 }).map(() => undefined as PlaceInteractivity),
-      op: Array.from({ length: 7 }).map(() => undefined as PlaceInteractivity),
+      me: Array.from({ length: 7 }).map(
+        () =>
+          ({
+            interactivity: undefined,
+            disabled: false,
+          } as BlockState)
+      ),
+      op: Array.from({ length: 7 }).map(
+        () =>
+          ({
+            interactivity: undefined,
+            disabled: false,
+          } as BlockState)
+      ),
     },
     [SZONE]: {
-      me: Array.from({ length: 6 }).map(() => undefined as PlaceInteractivity),
-      op: Array.from({ length: 6 }).map(() => undefined as PlaceInteractivity),
+      me: Array.from({ length: 6 }).map(
+        () =>
+          ({
+            interactivity: undefined,
+            disabled: false,
+          } as BlockState)
+      ),
+      op: Array.from({ length: 6 }).map(
+        () =>
+          ({
+            interactivity: undefined,
+            disabled: false,
+          } as BlockState)
+      ),
     },
   },
   set(
     zone: ygopro.CardZone.MZONE | ygopro.CardZone.SZONE,
     controller: number,
     sequence: number,
-    placeInteractivity: PlaceInteractivity
+    state: BlockState
   ) {
     placeStore.inner[zone][matStore.isMe(controller) ? "me" : "op"][sequence] =
-      placeInteractivity;
+      state;
   },
-  clearAll() {
+  clearAllInteractivity() {
     (["me", "op"] as const).forEach((who) => {
       ([MZONE, SZONE] as const).forEach((where) => {
-        placeStore.inner[where][who] = placeStore.inner[where][who].map(
-          () => undefined
+        placeStore.inner[where][who].forEach(
+          (block) => (block.interactivity = undefined)
         );
       });
     });
