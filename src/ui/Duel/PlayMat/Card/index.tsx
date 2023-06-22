@@ -259,21 +259,14 @@ const onCardClick = (card: CardType) => {
     card.location.sequence
   );
   if (overlayMaterials.length > 0) {
-    messageStore.cardListModal.list =
-      overlayMaterials.map((overlay) => ({
-        meta: {
-          id: overlay.code,
-          text: overlay.meta.text,
-          data: overlay.meta.data,
-        },
-        interactivies: [],
-      })) || [];
-    messageStore.cardListModal.isOpen = true;
+    displayCardListModal({
+      isZone: false,
+      monster: card,
+    });
   }
 };
 
 const onFieldClick = (card: CardType) => {
-  messageStore.cardListModal.isOpen = true;
   displayCardListModal({
     isZone: true,
     zone: card.location.zone,

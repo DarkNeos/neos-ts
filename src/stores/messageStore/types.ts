@@ -21,14 +21,6 @@ export interface ModalState {
     interactivies: { desc: string; response: number; effectCode?: number }[];
     counters: { [type: number]: number };
   };
-  // 卡牌列表弹窗
-  cardListModal: {
-    isOpen: boolean;
-    list: {
-      meta?: CardMeta;
-      interactivies: { desc: string; response: number }[];
-    }[];
-  };
   // Yes or No弹窗
   yesNoModal: {
     isOpen: boolean;
