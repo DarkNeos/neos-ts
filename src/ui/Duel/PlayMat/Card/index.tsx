@@ -9,14 +9,17 @@ import { animated, to, useSpring } from "@react-spring/web";
 import { Button, Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
 import React, { type CSSProperties, type FC, useEffect, useState } from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import { getCardStr, ygopro } from "@/api";
 import { type CardMeta, fetchStrings, sendSelectIdleCmdResponse } from "@/api";
 import { useConfig } from "@/config";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, messageStore } from "@/stores";
-import { closeCardModal, showCardModal } from "@/ui/Duel/Message/CardModal";
+import {
+  closeCardModal,
+  showCardModal as displayCardModal,
+} from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
 import { displayCardListModal, displayOptionModal } from "../../Message";
@@ -138,62 +141,11 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
   useEffect(() => {
     setHighlight(!!idleInteractivities.length);
   }, [idleInteractivities]);
-
-  const interactivies = idleInteractivities.map((interactivity) => ({
-    desc: interactTypeToString(interactivity.interactType),
-    response: interactivity.response,
-    effectCode: interactivity.activateIndex,
-  }));
-  const EFFECT_ACTIVATION_DESC = "发动效果";
-  const nonEffectInteractivies = interactivies.filter(
-    (item) => item.desc !== EFFECT_ACTIVATION_DESC
-  );
-  const effectInteractivies = interactivies.filter(
-    (item) => item.desc === EFFECT_ACTIVATION_DESC
-  );
-  const menuItems: MenuProps["items"] = nonEffectInteractivies.map(
-    ({ desc }, key) => ({
-      key,
-      label: desc,
-    })
-  );
-  if (effectInteractivies.length) {
-    menuItems.push({
-      key: menuItems.length,
-      label: EFFECT_ACTIVATION_DESC,
-    });
-  }
   const onDropdownClick: MenuProps["onClick"] = ({ key }) => {
     const index = Number(key);
-    if (index >= nonEffectInteractivies.length) {
-      // 是效果发动
-      handleEffectActivation();
-    } else {
-      // 非效果发动
-      sendSelectIdleCmdResponse(nonEffectInteractivies[index].response);
-    }
-    closeCardModal();
+    dropdownMenu.value?.[index]?.onClick();
   };
-  const handleEffectActivation = () => {
-    // 不用考虑为0的情况，因为已经判断了不可能为0
-    if (effectInteractivies.length === 1) {
-      // 如果只有一个效果，点击直接触发
-      sendSelectIdleCmdResponse(effectInteractivies[0].response);
-    } else {
-      // optionsModal
-      const options = effectInteractivies.map((effect) => {
-        const effectMsg =
-          snap.meta && effect.effectCode
-            ? getCardStr(snap.meta, effect.effectCode & 0xf) ?? "[:?]"
-            : "[:?]";
-        return {
-          msg: effectMsg,
-          response: effect.response,
-        };
-      });
-      displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
-    }
-  };
+  const menuItems = useSnapshot(dropdownMenu);
   // <<< 效果 <<<
 
   return (
@@ -226,7 +178,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
       <div className="card-focus" />
       <div className="card-shadow" />
       <Dropdown
-        menu={{ items: menuItems, onClick: onDropdownClick }}
+        menu={{ items: menuItems.value as any, onClick: onDropdownClick }}
         placement="bottom"
         overlayClassName="card-dropdown"
         arrow
@@ -250,7 +202,8 @@ const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息
   // TODO: 对方的卡片/未知的卡片，点击应该是没有效果的
   // TODO: 同一张卡片，是否重复点击会关闭CardModal？
-  showCardModal(card);
+  displayCardModal(card);
+  displaySingleCardDropdown(card);
 
   // 侧边栏展示超量素材信息
   const overlayMaterials = cardStore.findOverlay(
@@ -272,4 +225,74 @@ const onFieldClick = (card: CardType) => {
     zone: card.location.zone,
     controller: card.location.controller,
   });
+  // TODO: 收集这个zone的所有交互，并且在下拉菜单之中显示
+  const cards = cardStore.at(card.location.zone, card.location.controller);
+  // 所有的交互进行聚类
+  // 构建新的dropdownMenu
 };
+
+// >>> 下拉菜单：点击动作 >>>
+type Interactivy = {
+  desc: string;
+  response: number;
+  effectCode: number | undefined;
+};
+
+type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
+  onClick: () => void;
+};
+const dropdownMenu = proxy({ value: [] as DropdownItem[] });
+
+const displaySingleCardDropdown = (card: CardType) => {
+  const interactivies = card.idleInteractivities.map((interactivity) => ({
+    desc: interactTypeToString(interactivity.interactType),
+    response: interactivity.response,
+    effectCode: interactivity.activateIndex,
+  }));
+  const EFFECT_ACTIVATION_DESC = "发动效果";
+  const nonEffectInteractivies = interactivies.filter(
+    (item) => item.desc !== EFFECT_ACTIVATION_DESC
+  );
+  const effectInteractivies = interactivies.filter(
+    (item) => item.desc === EFFECT_ACTIVATION_DESC
+  );
+  dropdownMenu.value = nonEffectInteractivies.map(
+    ({ desc, response }, key) => ({
+      key,
+      label: desc,
+      onClick: () => sendSelectIdleCmdResponse(response),
+    })
+  );
+  if (effectInteractivies.length) {
+    dropdownMenu.value.push({
+      key: dropdownMenu.value.length,
+      label: EFFECT_ACTIVATION_DESC,
+      onClick: () => handleEffectActivation(effectInteractivies, card.meta),
+    });
+  }
+};
+
+const handleEffectActivation = (
+  effectInteractivies: Interactivy[],
+  meta?: any // FIXME: meta的类型
+) => {
+  // 不用考虑为0的情况，因为已经判断了不可能为0
+  if (effectInteractivies.length === 1) {
+    // 如果只有一个效果，点击直接触发
+    sendSelectIdleCmdResponse(effectInteractivies[0].response);
+  } else {
+    // optionsModal
+    const options = effectInteractivies.map((effect) => {
+      const effectMsg =
+        meta && effect.effectCode
+          ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
+          : "[:?]";
+      return {
+        msg: effectMsg,
+        response: effect.response,
+      };
+    });
+    displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
+  }
+};
+// <<< 下拉菜单 <<<

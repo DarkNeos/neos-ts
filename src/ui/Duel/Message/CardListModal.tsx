@@ -4,7 +4,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { cardStore, CardType, messageStore } from "@/stores";
+import { cardStore, CardType } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
 
 import { showCardModal } from "./CardModal";
@@ -12,8 +12,6 @@ import { showCardModal } from "./CardModal";
 const NeosConfig = useConfig();
 
 const CARD_WIDTH = 100;
-
-const { cardListModal } = messageStore;
 
 // TODO: 显示的位置还需要细细斟酌
 
@@ -51,9 +49,10 @@ export const CardListModal = () => {
     <Drawer
       open={isOpen}
       onClose={handleOkOrCancel}
-      headerStyle={{ display: "none" }}
+      // headerStyle={{ display: "none" }}
       width={CARD_WIDTH + 66}
       style={{ maxHeight: "100%" }}
+      mask={false}
     >
       <Space direction="vertical">
         {cardList.map((card) => (
