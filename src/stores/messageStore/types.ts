@@ -14,13 +14,6 @@ interface Option {
 }
 
 export interface ModalState {
-  // 卡牌弹窗
-  cardModal: {
-    isOpen: boolean;
-    meta?: CardMeta;
-    interactivies: { desc: string; response: number; effectCode?: number }[];
-    counters: { [type: number]: number };
-  };
   // Yes or No弹窗
   yesNoModal: {
     isOpen: boolean;

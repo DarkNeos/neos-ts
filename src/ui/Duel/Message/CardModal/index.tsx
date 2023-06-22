@@ -2,14 +2,11 @@ import "@/styles/card-modal.scss";
 import "./index.scss";
 
 import { LeftOutlined } from "@ant-design/icons";
-import { Divider, Drawer, Space, Tag, Timeline, Typography } from "antd";
-import classnames from "classnames";
-import React, { FC } from "react";
+import { Divider, Drawer, Space, Tag } from "antd";
+import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { type CardMeta, fetchStrings, sendSelectIdleCmdResponse } from "@/api";
-import { useConfig } from "@/config";
-import { cardStore, type CardType, messageStore } from "@/stores";
+import { type CardMeta, fetchStrings } from "@/api";
 import { YgoCard } from "@/ui/Shared";
 
 import {
@@ -19,8 +16,6 @@ import {
   Type2StringCodeMap,
 } from "../../../../common";
 import { Desc } from "./Desc";
-
-const { cardModal } = messageStore;
 
 const CARD_WIDTH = 140;
 

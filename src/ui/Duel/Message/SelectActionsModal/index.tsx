@@ -1,18 +1,7 @@
 import "./index.scss";
 
-import { CheckCard, CheckCardProps } from "@ant-design/pro-components";
-import {
-  Button,
-  Card,
-  Col,
-  Popover,
-  Row,
-  Segmented,
-  Space,
-  Tabs,
-  Tooltip,
-  Typography,
-} from "antd";
+import { CheckCard } from "@ant-design/pro-components";
+import { Button, Segmented, Space, Tooltip } from "antd";
 import { type FC, useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
@@ -35,7 +24,6 @@ const FINISH_RESPONSE = -1;
 
 const defaultProps = {
   isOpen: false,
-  isValid: false, // FIXME 看起来是最小化用的，看情况是否需要删掉
   isChain: false,
   min: 0,
   max: 0,
@@ -54,7 +42,6 @@ const localStore = proxy(defaultProps);
 export const SelectActionsModal: FC = () => {
   const {
     isOpen,
-    isValid,
     isChain,
     min,
     max,
