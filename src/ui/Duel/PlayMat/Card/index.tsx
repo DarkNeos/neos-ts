@@ -198,7 +198,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className="mat-card"
+      className={classnames("mat-card", { highlight })}
       style={
         {
           transform: to(
