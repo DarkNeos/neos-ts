@@ -13,7 +13,7 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
   matStore.selfType = start.playerType;
   const opponent =
-    start.playerType == ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+    start.playerType === ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
       ? 1
       : 0;
 

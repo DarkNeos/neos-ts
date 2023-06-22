@@ -8,8 +8,8 @@ export default async (announce: MsgAnnounce) => {
   const type_ = announce.announce_type;
   let min = announce.min;
   if (
-    type_ == MsgAnnounce.AnnounceType.Card ||
-    type_ == MsgAnnounce.AnnounceType.Number
+    type_ === MsgAnnounce.AnnounceType.Card ||
+    type_ === MsgAnnounce.AnnounceType.Number
   ) {
     min = 1;
   }

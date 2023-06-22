@@ -18,9 +18,9 @@ export default async (selectChain: MsgSelectChain) => {
   let handle_flag = 0;
   if (!forced) {
     // 无强制发动的卡
-    if (spCount == 0) {
+    if (spCount === 0) {
       // 无关键卡
-      if (chains.length == 0) {
+      if (chains.length === 0) {
         // 直接回答
         handle_flag = 0;
       } else {
@@ -34,7 +34,7 @@ export default async (selectChain: MsgSelectChain) => {
       }
     } else {
       // 有关键卡
-      if (chains.length == 0) {
+      if (chains.length === 0) {
         // 根本没卡，直接回答
         handle_flag = 0;
       } else {
@@ -44,7 +44,7 @@ export default async (selectChain: MsgSelectChain) => {
     }
   } else {
     // 有强制发动的卡
-    if (chains.length == 1) {
+    if (chains.length === 1) {
       // 只有一个强制发动的连锁项，直接回应
       handle_flag = 4;
     } else {

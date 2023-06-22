@@ -47,7 +47,7 @@ export class WebSocketStream {
 
     reader.read().then(async function process({ done, value }): Promise<void> {
       if (done) {
-        if (ws.readyState == WebSocket.CLOSED) {
+        if (ws.readyState === WebSocket.CLOSED) {
           // websocket connection has been closed
           console.info("WebSocket closed, stream complete.");
 

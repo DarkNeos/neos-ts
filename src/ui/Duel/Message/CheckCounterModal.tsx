@@ -24,7 +24,7 @@ export const CheckCounterModal = () => {
 
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);
-  const finishable = sum == min;
+  const finishable = sum === min;
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);

@@ -19,7 +19,7 @@ export default function handleSocketOpen(
 ) {
   console.log("WebSocket opened.");
 
-  if (ws && ws.readyState == 1) {
+  if (ws && ws.readyState === 1) {
     ws.binaryType = "arraybuffer";
 
     sendPlayerInfo(ws, player);

@@ -8,6 +8,6 @@ export default function handleHsPlayerEnter(pb: ygopro.YgoStocMsg) {
   if (pos > 1) {
     console.log("Currently only supported 2v2 mode.");
   } else {
-    playerStore[pos == 0 ? "player0" : "player1"].name = name;
+    playerStore[pos === 0 ? "player0" : "player1"].name = name;
   }
 }

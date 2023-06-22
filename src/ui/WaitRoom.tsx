@@ -80,7 +80,7 @@ const WaitRoom = () => {
 
         // 初始化wasm
         const url =
-          import.meta.env.BASE_URL == "/"
+          import.meta.env.BASE_URL === "/"
             ? undefined
             : new URL("rust_src_bg.wasm", `${import.meta.env.BASE_URL}assets/`);
         await rustInit(url);
@@ -122,9 +122,9 @@ const WaitRoom = () => {
 
         if (
           !(
-            deck.main.length == 0 &&
-            deck.extra.length == 0 &&
-            deck.side.length == 0
+            deck.main.length === 0 &&
+            deck.extra.length === 0 &&
+            deck.side.length === 0
           )
         ) {
           // YDK解析成功

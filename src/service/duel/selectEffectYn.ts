@@ -11,7 +11,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
   const effect_description = selectEffectYn.effect_description;
 
   const textGenerator =
-    effect_description == 0 || effect_description == 221
+    effect_description === 0 || effect_description === 221
       ? (
           desc: string,
           cardMeta: CardMeta,

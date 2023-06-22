@@ -89,7 +89,7 @@ export const SelectActionsModal: FC = () => {
       : sumLevel1 === totalLevels || sumLevel2 === totalLevels;
     setSubmitable(
       single
-        ? response.length == 1
+        ? response.length === 1
         : response.length >= min && response.length <= max && levelMatched
     );
   }, [response.length]);

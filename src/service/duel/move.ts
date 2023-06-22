@@ -37,11 +37,11 @@ export default async (move: MsgMove) => {
   const meta = await fetchCard(code);
   if (meta.data.type !== undefined && (meta.data.type & TYPE_TOKEN) > 0) {
     // 衍生物
-    if (from.zone == DECK) {
+    if (from.zone === DECK) {
       // 衍生物出场的场景，设置`from.zone`为`TZONE`
       from.zone = TZONE;
     }
-    if (to.zone == DECK) {
+    if (to.zone === DECK) {
       // 衍生物离开场上的场合，设置`to.zone`为`TZONE`
       to.zone = TZONE;
     }
@@ -89,9 +89,9 @@ export default async (move: MsgMove) => {
   }
 
   // 超量
-  if (to.is_overlay && from.zone == MZONE) {
+  if (to.is_overlay && from.zone === MZONE) {
     // 准备超量召唤，超量素材入栈
-    if (reason == REASON_MATERIAL) {
+    if (reason === REASON_MATERIAL) {
       to.zone = MZONE;
       overlayStack.push(to);
     }
@@ -168,7 +168,7 @@ export default async (move: MsgMove) => {
   }
 
   // 超量素材位置跟随超量怪兽移动
-  if (from.zone == MZONE && !from.is_overlay) {
+  if (from.zone === MZONE && !from.is_overlay) {
     for (const overlay of cardStore.findOverlay(
       from.zone,
       from.controller,
