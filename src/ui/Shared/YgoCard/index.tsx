@@ -50,7 +50,7 @@ const NeosConfig = useConfig();
 
 function getCardImgUrl(code: number, back = false) {
   const ASSETS_BASE =
-    import.meta.env.BASE_URL == "/"
+    import.meta.env.BASE_URL === "/"
       ? NeosConfig.assetsPath
       : `${import.meta.env.BASE_URL}${NeosConfig.assetsPath}`;
   if (back) {

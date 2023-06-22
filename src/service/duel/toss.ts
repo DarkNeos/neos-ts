@@ -10,9 +10,9 @@ export default async (toss: MsgToss) => {
   const prefix = fetchStrings("!system", matStore.isMe(player) ? 102 : 103);
 
   for (const x of toss.res) {
-    if (tossType == MsgToss.TossType.DICE) {
+    if (tossType === MsgToss.TossType.DICE) {
       matStore.tossResult = prefix + fetchStrings("!system", 1624) + x;
-    } else if (tossType == MsgToss.TossType.COIN) {
+    } else if (tossType === MsgToss.TossType.COIN) {
       matStore.tossResult =
         prefix +
         fetchStrings("!system", 1623) +
