@@ -12,6 +12,7 @@ import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
 import onConfirmCards from "./confirmCards";
 import onMsgDraw from "./draw";
+import onMsgFieldDisabled from "./fieldDisabled";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
 import onMsgHint from "./hint";
@@ -35,7 +36,9 @@ import onMsgSelectTribute from "./selectTribute";
 import onMsgSelectUnselectCard from "./selectUnselectCard";
 import onMsgSelectYesNo from "./selectYesNo";
 import onMsgSet from "./set";
+import onMsgShuffleDeck from "./shuffleDeck";
 import onMsgShuffleHand from "./shuffleHand";
+import onMsgShuffleSetCard from "./shuffleSetCard";
 import onMsgSortCard from "./sortCard";
 import onMsgSpSummoned from "./spSummoned";
 import onMsgSpSummoning from "./spSummoning";
@@ -186,7 +189,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "update_data": {
-      onMsgUpdateData(msg.update_data);
+      await onMsgUpdateData(msg.update_data);
 
       break;
     }
@@ -307,6 +310,21 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "toss": {
       onMsgToss(msg.toss);
+
+      break;
+    }
+    case "shuffle_set_card": {
+      await onMsgShuffleSetCard(msg.shuffle_set_card);
+
+      break;
+    }
+    case "field_disabled": {
+      onMsgFieldDisabled(msg.field_disabled);
+
+      break;
+    }
+    case "shuffle_deck": {
+      onMsgShuffleDeck(msg.shuffle_deck);
 
       break;
     }

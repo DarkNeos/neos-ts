@@ -1,27 +1,35 @@
-import { ygopro } from "@/api";
+import { fetchCard, ygopro } from "@/api";
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 
+import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
 
-export default (updateData: MsgUpdateData) => {
+export default async (updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
     const field = cardStore.at(zone, controller);
-    actions.forEach((action) => {
+    for (const action of actions) {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {
         const target = field
           .filter((card) => card.location.sequence === sequence)
           .at(0);
         if (target) {
-          const meta = target.meta;
           // 目前只更新以下字段
           if (action?.code >= 0) {
-            meta.id = action.code;
-            meta.text.id = action.code;
+            const newMeta = await fetchCard(action.code);
+            target.code = action.code;
+            target.meta = newMeta;
           }
+
+          const meta = target.meta;
           if (action.location !== undefined) {
-            target.location.position = action.location.position;
+            if (target.location.position != action.location.position) {
+              // Currently only update position
+              target.location.position = action.location.position;
+              // animation
+              await eventbus.call(Task.Move, target.uuid);
+            }
           }
           if (action?.type_ >= 0) {
             meta.data.type = action.type_;
@@ -48,10 +56,7 @@ export default (updateData: MsgUpdateData) => {
           );
           console.info(field);
         }
-        if (target?.reload) {
-          target.reload = false;
-        }
       }
-    });
+    }
   }
 };

@@ -14,6 +14,7 @@ import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
+import MsgFieldDisabledAdapter from "./fieldDisabled";
 import MsgHintAdapter from "./hint";
 import MsgNewPhaseAdapter from "./newPhase";
 import MsgNewTurnAdapter from "./newTurn";
@@ -33,6 +34,7 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectSum from "./selectSum";
 import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgShuffleSetCard from "./shuffleSetCard";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
 import MsgTossAdapter from "./toss";
@@ -95,6 +97,7 @@ export default class GameMsgAdapter implements StocAdapter {
 
           break;
         }
+        case GAME_MSG.MSG_SELECT_DISFIELD:
         case GAME_MSG.MSG_SELECT_PLACE: {
           gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
 
@@ -234,6 +237,16 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             ygopro.StocGameMessage.MsgToss.TossType.DICE
           );
+
+          break;
+        }
+        case GAME_MSG.MSG_SHUFFLE_SET_CARD: {
+          gameMsg.shuffle_set_card = MsgShuffleSetCard(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_FIELD_DISABLED: {
+          gameMsg.field_disabled = MsgFieldDisabledAdapter(gameData);
 
           break;
         }

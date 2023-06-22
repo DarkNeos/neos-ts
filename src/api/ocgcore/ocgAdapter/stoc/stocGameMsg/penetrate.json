@@ -235,5 +235,14 @@
           "repeatedType":"CardLocation"
         }
       ]
+   },
+   "32":{
+     "protoType":"shuffle_deck",
+     "fields":[
+       {
+         "fieldName":"player",
+         "fieldType":"uint8"
+       }
+     ]
    }
 }

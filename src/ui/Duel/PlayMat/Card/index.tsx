@@ -241,6 +241,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
           <YgoCard className="card-back" isBack />
         </div>
       </Dropdown>
+      {snap.selected ? <div className="card-streamer" /> : <></>}
     </animated.div>
   );
 });
