@@ -231,7 +231,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         overlayClassName="card-dropdown"
         arrow
         trigger={["click"]}
-        // TODO: 没有交互效果、或者不能点击的卡，不应该显示下拉菜单
+        disabled={!highlight}
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
