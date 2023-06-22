@@ -6,6 +6,7 @@ import { fetchStrings } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
+import "./index.scss";
 
 const style = {
   borderStyle: "groove",
@@ -99,6 +100,8 @@ export const showWaiting = (open: boolean) => {
         type: "loading",
         content: fetchStrings("!system", 1390),
         key: waitingKey,
+        className: "neos-message",
+        duration: 0,
       });
       clearTimeout(destoryTimer);
       isWaiting = true;
