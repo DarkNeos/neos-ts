@@ -228,7 +228,10 @@ const onFieldClick = (card: CardType) => {
   // TODO: 收集这个zone的所有交互，并且在下拉菜单之中显示
   const cards = cardStore.at(card.location.zone, card.location.controller);
   // 所有的交互进行聚类
+  const interactivities = cards.map((card) => card.idleInteractivities);
   // 构建新的dropdownMenu
+  // 发动效果 -> 发动哪张卡？(卡选择) -> 效果选择
+  // 召唤、特殊召唤同理
 };
 
 // >>> 下拉菜单：点击动作 >>>

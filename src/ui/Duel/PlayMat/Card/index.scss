@@ -26,6 +26,8 @@ section#mat {
         position: absolute;
         left: 0;
         top: 0;
+        border-radius: 2px;
+        overflow: hidden;
       }
       .card-cover {
         z-index: 1;
@@ -59,17 +61,23 @@ section#mat {
       overflow: hidden;
     }
     .card-streamer::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;
       width: 400%;
       height: 80%;
-      background: linear-gradient(transparent, #45f3ff,#45f3ff,#45f3ff,transparent);
+      background: linear-gradient(
+        transparent,
+        #45f3ff,
+        #45f3ff,
+        #45f3ff,
+        transparent
+      );
       animation: stream 2s linear infinite;
     }
     .card-streamer::after {
-      content: '';
+      content: "";
       position: absolute;
       /* https://developer.mozilla.org/en-US/docs/Web/CSS/inset */
       inset: 3px;
