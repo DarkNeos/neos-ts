@@ -3,7 +3,7 @@ import "./index.scss";
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Segmented, Space, Tooltip } from "antd";
 import { type FC, useEffect, useState } from "react";
-import { useSnapshot } from "valtio";
+import { useSnapshot, INTERNAL_Snapshot as Snapshot } from "valtio";
 
 import type { CardMeta, ygopro } from "@/api";
 import { fetchStrings } from "@/api";
@@ -14,20 +14,20 @@ import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
 
-export const SelectActionsModal: FC<{
-  isOpen: false;
-  isChain: false;
+export const SelectCardsModal: FC<{
+  isOpen: boolean;
+  isChain: boolean;
   min: number;
   max: number;
-  single: true;
-  selecteds: Option[]; // 已经选择了的卡
-  selectables: Option[]; // 最多选择多少卡
-  mustSelects: Option[]; // 单选
-  cancelable: false; // 能否取消
-  finishable: false; // 选择足够了之后，能否确认
-  totalLevels: 0; // 需要的总等级数（用于同调/仪式/...）
-  overflow: false; // 选择等级时候，是否可以溢出
-  onSubmit: (options: Option[]) => void;
+  single: boolean;
+  selecteds: Snapshot<Option[]>; // 已经选择了的卡
+  selectables: Snapshot<Option[]>; // 最多选择多少卡
+  mustSelects: Snapshot<Option[]>; // 单选
+  cancelable: boolean; // 能否取消
+  finishable: boolean; // 选择足够了之后，能否确认
+  totalLevels: number; // 需要的总等级数（用于同调/仪式/...）
+  overflow: boolean; // 选择等级时候，是否可以溢出
+  onSubmit: (options: Snapshot<Option[]>) => void;
   onCancel: () => void;
   onFinish: () => void;
 }> = ({
