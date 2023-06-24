@@ -106,12 +106,16 @@ export const SelectCardsModal: FC<{
       open={isOpen}
       footer={
         <>
-          <Button danger disabled={!cancelable} onClick={onCancel}>
-            {cancelText}
-          </Button>
-          <Button type="dashed" disabled={!finishable} onClick={onFinish}>
-            {finishText}
-          </Button>
+          {cancelable && (
+            <Button danger onClick={onCancel}>
+              {cancelText}
+            </Button>
+          )}
+          {finishable && (
+            <Button type="dashed" onClick={onFinish}>
+              {finishText}
+            </Button>
+          )}
           <Button
             type="primary"
             disabled={!submitable}
@@ -139,7 +143,7 @@ export const SelectCardsModal: FC<{
                   <CheckCard.Group
                     onChange={setResult as any}
                     // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                    multiple
+                    multiple={!single}
                     style={{
                       display: "grid",
                       gridTemplateColumns: "repeat(6, 1fr)",
