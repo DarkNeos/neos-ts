@@ -1,15 +1,15 @@
 import "./index.scss";
 
 import { MinusOutlined, UpOutlined } from "@ant-design/icons";
-import { Button, Modal, type ModalProps } from "antd";
+import { Modal, type ModalProps } from "antd";
 import classNames from "classnames";
-import { type CSSProperties, type FC, useRef, useState } from "react";
+import { useState } from "react";
 
 interface Props extends ModalProps {
   canBeMinimized?: boolean;
 }
 
-export const NeosModal: FC<Props> = (props) => {
+export const NeosModal: React.FC<Props> = (props) => {
   const { canBeMinimized = true } = props;
   const [mini, setMini] = useState(false);
   return (

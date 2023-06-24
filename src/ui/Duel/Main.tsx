@@ -10,6 +10,7 @@ import {
   OptionModal,
   PositionModal,
   SelectActionsModal,
+  SimpleSelectCardsModal,
   SortCardModal,
   YesNoModal,
 } from "./Message";
@@ -32,6 +33,7 @@ const NeosDuel = () => {
       <CheckCounterModal />
       <SortCardModal />
       <AnnounceModal />
+      <SimpleSelectCardsModal />
     </>
   );
 };

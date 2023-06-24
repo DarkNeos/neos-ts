@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import classNames from "classnames";
-import { CSSProperties, type FC, useMemo } from "react";
+import { CSSProperties, useMemo } from "react";
 
 import { useConfig } from "@/config";
 
@@ -14,7 +14,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export const YgoCard: FC<Props> = (props) => {
+export const YgoCard: React.FC<Props> = (props) => {
   const {
     className,
     code = 0,

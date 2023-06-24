@@ -1,6 +1,6 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { fetchSelectHintMeta, messageStore } from "@/stores";
+import { fetchSelectHintMeta } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";

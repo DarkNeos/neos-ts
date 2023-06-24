@@ -8,5 +8,6 @@ export * from "./HintNotification";
 export * from "./OptionModal";
 export * from "./PositionModal";
 export * from "./SelectActionsModal";
+export * from "./SimpleSelectCardsModal";
 export * from "./SortCardModal";
 export * from "./YesNoModal";

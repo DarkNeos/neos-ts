@@ -1,17 +1,4 @@
 import type { CardMeta, ygopro } from "@/api";
-type CardLocation = ReturnType<typeof ygopro.CardLocation.prototype.toObject>;
-
-interface Option {
-  // card id
-  meta: CardMeta;
-  location?: CardLocation;
-  // 效果
-  effectDesc?: string;
-  // 作为素材的cost，比如同调召唤的星级
-  level1?: number;
-  level2?: number;
-  response: number;
-}
 
 export interface ModalState {
   // Yes or No弹窗

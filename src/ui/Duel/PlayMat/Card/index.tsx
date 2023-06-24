@@ -1,28 +1,23 @@
 import "./index.scss";
 
-import {
-  DownloadOutlined,
-  UploadOutlined,
-  UpOutlined,
-} from "@ant-design/icons";
 import { animated, to, useSpring } from "@react-spring/web";
-import { Button, Dropdown, type MenuProps } from "antd";
+import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
-import React, { type CSSProperties, type FC, useEffect, useState } from "react";
+import React, { type CSSProperties, useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { getCardStr, ygopro } from "@/api";
-import { type CardMeta, fetchStrings, sendSelectIdleCmdResponse } from "@/api";
+import { getCardStr, sendSelectIdleCmdResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { eventbus, Task } from "@/infra";
-import { cardStore, CardType, messageStore } from "@/stores";
-import {
-  closeCardModal,
-  showCardModal as displayCardModal,
-} from "@/ui/Duel/Message/CardModal";
+import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
+import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
-import { displayCardListModal, displayOptionModal } from "../../Message";
+import {
+  displayCardListModal,
+  displayOptionModal,
+  displaySimpleSelectCardsModal,
+} from "../../Message";
 import { interactTypeToString } from "../../utils";
 import {
   attack,
@@ -38,7 +33,7 @@ const NeosConfig = useConfig();
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
-export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
+export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   const state = cardStore.inner[idx];
   const snap = useSnapshot(state);
 
@@ -83,7 +78,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
     }
   };
 
-  // 这里后期应该去掉？
+  // 每张卡都需要移动到初始位置
   useEffect(() => {
     move(state.location.zone);
   }, []);
@@ -183,7 +178,7 @@ export const Card: FC<{ idx: number }> = React.memo(({ idx }) => {
         overlayClassName="card-dropdown"
         arrow
         trigger={["click"]}
-        disabled={!highlight}
+        // disabled={!highlight}
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
@@ -203,7 +198,7 @@ const onCardClick = (card: CardType) => {
   // TODO: 对方的卡片/未知的卡片，点击应该是没有效果的
   // TODO: 同一张卡片，是否重复点击会关闭CardModal？
   displayCardModal(card);
-  displaySingleCardDropdown(card);
+  handleDropdownMenu([card], false);
 
   // 侧边栏展示超量素材信息
   const overlayMaterials = cardStore.findOverlay(
@@ -225,13 +220,9 @@ const onFieldClick = (card: CardType) => {
     zone: card.location.zone,
     controller: card.location.controller,
   });
-  // TODO: 收集这个zone的所有交互，并且在下拉菜单之中显示
+  // 收集这个zone的所有交互，并且在下拉菜单之中显示
   const cards = cardStore.at(card.location.zone, card.location.controller);
-  // 所有的交互进行聚类
-  const interactivities = cards.map((card) => card.idleInteractivities);
-  // 构建新的dropdownMenu
-  // 发动效果 -> 发动哪张卡？(卡选择) -> 效果选择
-  // 召唤、特殊召唤同理
+  handleDropdownMenu(cards, true);
 };
 
 // >>> 下拉菜单：点击动作 >>>
@@ -245,35 +236,6 @@ type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
   onClick: () => void;
 };
 const dropdownMenu = proxy({ value: [] as DropdownItem[] });
-
-const displaySingleCardDropdown = (card: CardType) => {
-  const interactivies = card.idleInteractivities.map((interactivity) => ({
-    desc: interactTypeToString(interactivity.interactType),
-    response: interactivity.response,
-    effectCode: interactivity.activateIndex,
-  }));
-  const EFFECT_ACTIVATION_DESC = "发动效果";
-  const nonEffectInteractivies = interactivies.filter(
-    (item) => item.desc !== EFFECT_ACTIVATION_DESC
-  );
-  const effectInteractivies = interactivies.filter(
-    (item) => item.desc === EFFECT_ACTIVATION_DESC
-  );
-  dropdownMenu.value = nonEffectInteractivies.map(
-    ({ desc, response }, key) => ({
-      key,
-      label: desc,
-      onClick: () => sendSelectIdleCmdResponse(response),
-    })
-  );
-  if (effectInteractivies.length) {
-    dropdownMenu.value.push({
-      key: dropdownMenu.value.length,
-      label: EFFECT_ACTIVATION_DESC,
-      onClick: () => handleEffectActivation(effectInteractivies, card.meta),
-    });
-  }
-};
 
 const handleEffectActivation = (
   effectInteractivies: Interactivy[],
@@ -297,5 +259,96 @@ const handleEffectActivation = (
     });
     displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
+};
+
+// 发动效果
+// 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
+// 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
+// 3. 如果是效果发动，那么选择哪张卡，然后选择效果
+const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
+  console.log("here");
+  const map = new Map<Interactivity<number>["interactType"], CardType[]>();
+  cards.forEach((card) => {
+    card.idleInteractivities.forEach(({ interactType }) => {
+      if (!map.has(interactType)) {
+        map.set(interactType, []);
+      }
+      map.get(interactType)?.push(card);
+    });
+  });
+  const actions = [...map.entries()];
+  const nonEffectActions = actions.filter(
+    ([action]) => action !== InteractType.ACTIVATE
+  );
+  const getNonEffectResponse = (action: InteractType, card: CardType) =>
+    card.idleInteractivities.find((item) => item.interactType === action)!
+      .response;
+  const nonEffectItem: DropdownItem[] = nonEffectActions.map(
+    ([action, cards], key) => ({
+      key,
+      label: interactTypeToString(action),
+      onClick: async () => {
+        if (!isField) {
+          // 单卡: 直接召唤/特殊召唤/...
+          const card = cards[0];
+          sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
+        } else {
+          // 场地: 选择卡片
+          const option = await displaySimpleSelectCardsModal({
+            selectables: cards.map((card) => ({
+              meta: card.meta,
+              location: card.location,
+              response: getNonEffectResponse(action, card),
+            })),
+          });
+          sendSelectIdleCmdResponse(option[0].response!);
+        }
+      },
+    })
+  );
+  const hasEffect =
+    cards.reduce(
+      (prev, acc) => [
+        ...prev,
+        ...acc.idleInteractivities.filter(
+          ({ interactType }) => interactType === InteractType.ACTIVATE
+        ),
+      ],
+      [] as Interactivity<number>[]
+    ).length > 0;
+  const effectItem: DropdownItem = {
+    key: nonEffectItem.length,
+    label: interactTypeToString(InteractType.ACTIVATE),
+    onClick: async () => {
+      let card: CardType;
+      if (!isField) {
+        // 单卡: 直接发动这个卡的效果
+        card = cards[0];
+      } else {
+        // 场地: 选择卡片
+        const option = await displaySimpleSelectCardsModal({
+          selectables: cards.map((card) => ({
+            meta: card.meta,
+            location: card.location,
+            card,
+          })),
+        });
+        card = option[0].card! as any; // 一定会有的，有输入则定有输出
+      }
+      // 选择发动哪个效果
+      handleEffectActivation(
+        card.idleInteractivities
+          .filter(({ interactType }) => interactType === InteractType.ACTIVATE)
+          .map((x) => ({
+            desc: interactTypeToString(x.interactType),
+            response: x.response,
+            effectCode: x.activateIndex,
+          })),
+        card.meta
+      );
+    },
+  };
+  dropdownMenu.value = nonEffectItem;
+  hasEffect && dropdownMenu.value.push(effectItem);
 };
 // <<< 下拉菜单 <<<

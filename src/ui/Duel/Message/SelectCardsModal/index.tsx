@@ -2,19 +2,19 @@ import "./index.scss";
 
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Segmented, Space, Tooltip } from "antd";
-import { type FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import type { CardMeta, ygopro } from "@/api";
 import { fetchStrings } from "@/api";
-import { matStore } from "@/stores";
+import { CardType, matStore } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
 
 import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
 
-export const SelectCardsModal: FC<{
+export interface SelectCardsModalProps {
   isOpen: boolean;
   isChain: boolean;
   min: number;
@@ -30,7 +30,9 @@ export const SelectCardsModal: FC<{
   onSubmit: (options: Snapshot<Option[]>) => void;
   onCancel: () => void;
   onFinish: () => void;
-}> = ({
+}
+
+export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   isOpen,
   isChain,
   min,
@@ -119,7 +121,7 @@ export const SelectCardsModal: FC<{
           <Button
             type="primary"
             disabled={!submitable}
-            onClick={() => onSubmit(mustSelects)}
+            onClick={() => onSubmit([...mustSelects, ...result])}
           >
             {submitText}
           </Button>
@@ -141,7 +143,10 @@ export const SelectCardsModal: FC<{
               options[0] === selectedZone && (
                 <div className="checkcard-container" key={i}>
                   <CheckCard.Group
-                    onChange={setResult as any}
+                    onChange={(res) => {
+                      console.log("setresult", res);
+                      setResult((single ? [res] : res) as any);
+                    }}
                     // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
                     multiple={!single}
                     style={{
@@ -197,7 +202,7 @@ export const SelectCardsModal: FC<{
 };
 
 /** 选择区域 */
-const Selector: FC<{
+const Selector: React.FC<{
   zoneOptions: {
     value: ygopro.CardZone;
     label: string;
@@ -226,5 +231,7 @@ export interface Option {
   // 作为素材的cost，比如同调召唤的星级
   level1?: number;
   level2?: number;
-  response: number;
+  response?: number;
+  // 便于直接返回这个信息
+  card?: CardType;
 }

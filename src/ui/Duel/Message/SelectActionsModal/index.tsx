@@ -1,16 +1,22 @@
 import "./index.scss";
 
-import { type FC } from "react";
 import { INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 
 import { sendSelectMultiResponse, sendSelectSingleResponse } from "@/api";
 
-import { type Option, SelectCardsModal } from "../SelectCardsModal";
+import {
+  type Option,
+  SelectCardsModal,
+  type SelectCardsModalProps,
+} from "../SelectCardsModal";
 
 const CANCEL_RESPONSE = -1;
 const FINISH_RESPONSE = -1;
 
-const defaultProps = {
+const defaultProps: Omit<
+  SelectCardsModalProps,
+  "onSubmit" | "onCancel" | "onFinish"
+> = {
   isOpen: false,
   isChain: false,
   min: 0,
@@ -27,7 +33,7 @@ const defaultProps = {
 
 const localStore = proxy(defaultProps);
 
-export const SelectActionsModal: FC = () => {
+export const SelectActionsModal: React.FC = () => {
   const {
     isOpen,
     isChain,
@@ -44,12 +50,13 @@ export const SelectActionsModal: FC = () => {
   } = useSnapshot(localStore);
 
   const onSubmit = (options: Snapshot<Option[]>) => {
-    const values = options.map((option) => option.response);
+    const values = options.map((option) => option.response!);
     if (isChain) {
       sendSelectSingleResponse(values[0]);
     } else {
       sendSelectMultiResponse(values);
     }
+    console.log("here");
     rs();
   };
 

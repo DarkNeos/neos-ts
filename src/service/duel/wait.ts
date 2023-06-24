@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { cardStore, matStore } from "@/stores";
+import { cardStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
 export default (_wait: ygopro.StocGameMessage.MsgWait) => {
