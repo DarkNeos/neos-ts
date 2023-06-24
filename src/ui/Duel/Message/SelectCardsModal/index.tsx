@@ -3,7 +3,7 @@ import "./index.scss";
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Segmented, Space, Tooltip } from "antd";
 import { type FC, useEffect, useState } from "react";
-import { useSnapshot, INTERNAL_Snapshot as Snapshot } from "valtio";
+import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import type { CardMeta, ygopro } from "@/api";
 import { fetchStrings } from "@/api";

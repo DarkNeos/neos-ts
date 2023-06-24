@@ -36,6 +36,7 @@ const MsgConstructorMap: Map<string, Constructor> = new Map([
   ["confirm_cards", ygopro.StocGameMessage.MsgConfirmCards],
   ["become_target", ygopro.StocGameMessage.MsgBecomeTarget],
   ["shuffle_deck", ygopro.StocGameMessage.MsgShuffleDeck],
+  ["rock_paper_scissors", ygopro.StocGameMessage.MsgRockPaperScissors],
 ]);
 
 export interface penetrateType {

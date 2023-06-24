@@ -1,6 +1,5 @@
 import { ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { matStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
 import onAnnounce from "./announce";
@@ -15,6 +14,7 @@ import onMsgDraw from "./draw";
 import onMsgFieldDisabled from "./fieldDisabled";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
+import onMsgHandResult from "./handResult";
 import onMsgHint from "./hint";
 import onLpUpdate from "./lpUpdate";
 import onMsgMove from "./move";
@@ -22,6 +22,7 @@ import onMsgNewPhase from "./newPhase";
 import onMsgNewTurn from "./newTurn";
 import onMsgPosChange from "./posChange";
 import onMsgReloadField from "./reloadField";
+import onMsgRockPaperScissors from "./rockPaperScissors";
 import onMsgSelectBattleCmd from "./selectBattleCmd";
 import onMsgSelectCard from "./selectCard";
 import onMsgSelectChain from "./selectChain";
@@ -325,6 +326,16 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "shuffle_deck": {
       onMsgShuffleDeck(msg.shuffle_deck);
+
+      break;
+    }
+    case "rock_paper_scissors": {
+      onMsgRockPaperScissors(msg.rock_paper_scissors);
+
+      break;
+    }
+    case "hand_res": {
+      onMsgHandResult(msg.hand_res);
 
       break;
     }

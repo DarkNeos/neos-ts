@@ -1,3 +1,5 @@
+import "./index.scss";
+
 import { message, notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
@@ -6,7 +8,6 @@ import { fetchStrings } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { matStore } from "@/stores";
-import "./index.scss";
 
 const style = {
   borderStyle: "groove",
