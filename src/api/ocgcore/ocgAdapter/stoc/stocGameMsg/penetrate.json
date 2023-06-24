@@ -244,5 +244,13 @@
          "fieldType":"uint8"
        }
      ]
+   },
+   "132":{
+     "protoType":"rock_paper_scissors",
+     "fields":[
+       {
+         "fieldName":"player",
+         "fieldType":"uint8"
+       }
    }
 }

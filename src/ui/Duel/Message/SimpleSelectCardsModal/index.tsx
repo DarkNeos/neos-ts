@@ -1,9 +1,9 @@
 // import "./index.scss";
 
 import { type FC } from "react";
-import { proxy, useSnapshot, INTERNAL_Snapshot as Snapshot } from "valtio";
+import { INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 
-import { SelectCardsModal, type Option } from "../SelectCardsModal";
+import { type Option, SelectCardsModal } from "../SelectCardsModal";
 
 const defaultProps = {
   isOpen: false,

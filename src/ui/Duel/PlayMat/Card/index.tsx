@@ -235,11 +235,11 @@ const onFieldClick = (card: CardType) => {
 };
 
 // >>> 下拉菜单：点击动作 >>>
-type Interactivy = {
+interface Interactivy {
   desc: string;
   response: number;
   effectCode: number | undefined;
-};
+}
 
 type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
   onClick: () => void;
