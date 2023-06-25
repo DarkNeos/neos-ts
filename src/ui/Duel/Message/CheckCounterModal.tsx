@@ -1,18 +1,33 @@
+// 指示器选择弹窗
+import { Omit } from "@react-spring/web";
 import { Button, Card, Col, InputNumber, Row } from "antd";
 import React, { useState } from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, sendSelectCounterResponse } from "@/api";
 import { useConfig } from "@/config";
-import { messageStore } from "@/stores";
 
-import { DragModal } from "./DragModal";
+import { NeosModal } from "./NeosModal";
 
-const { checkCounterModal } = messageStore;
+interface CheckCounterModalProps {
+  isOpen: boolean;
+  counterType?: number;
+  min?: number;
+  options: {
+    code: number;
+    max: number;
+  }[];
+}
+const defaultProps = {
+  isOpen: false,
+  options: [],
+};
+
+const localStore = proxy<CheckCounterModalProps>(defaultProps);
 
 const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
-  const snapCheckCounterModal = useSnapshot(checkCounterModal);
+  const snapCheckCounterModal = useSnapshot(localStore);
 
   const isOpen = snapCheckCounterModal.isOpen;
   const min = snapCheckCounterModal.min || 0;
@@ -28,14 +43,11 @@ export const CheckCounterModal = () => {
 
   const onFinish = () => {
     sendSelectCounterResponse(selected);
-    messageStore.checkCounterModal.isOpen = false;
-    messageStore.checkCounterModal.min = undefined;
-    messageStore.checkCounterModal.counterType = undefined;
-    messageStore.checkCounterModal.options = [];
+    rs();
   };
 
   return (
-    <DragModal
+    <NeosModal
       title={`请移除${min}个${counterName}`}
       open={isOpen}
       closable={false}
@@ -75,6 +87,23 @@ export const CheckCounterModal = () => {
           );
         })}
       </Row>
-    </DragModal>
+    </NeosModal>
   );
+};
+
+let rs: (arg?: any) => void = () => {};
+
+export const displayCheckCounterModal = async (
+  args: Omit<CheckCounterModalProps, "isOpen">
+) => {
+  Object.entries(args).forEach(([key, value]) => {
+    // @ts-ignore
+    localStore[key] = value;
+  });
+  localStore.isOpen = true;
+  await new Promise<void>((resolve) => (rs = resolve)); // 等待在组件内resolve
+  localStore.isOpen = false;
+  localStore.options = [];
+  localStore.min = undefined;
+  localStore.counterType = undefined;
 };

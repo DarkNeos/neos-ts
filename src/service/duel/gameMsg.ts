@@ -215,7 +215,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_counter": {
-      onMsgSelectCounter(msg.select_counter);
+      await onMsgSelectCounter(msg.select_counter);
 
       break;
     }

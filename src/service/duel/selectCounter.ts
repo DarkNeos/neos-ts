@@ -1,12 +1,13 @@
 import { ygopro } from "@/api";
-import { cardStore, messageStore } from "@/stores";
+import { cardStore } from "@/stores";
+import { displayCheckCounterModal } from "@/ui/Duel/Message";
 type MsgSelectCounter = ygopro.StocGameMessage.MsgSelectCounter;
 
-export default (selectCounter: MsgSelectCounter) => {
-  messageStore.checkCounterModal.counterType = selectCounter.counter_type;
-  messageStore.checkCounterModal.min = selectCounter.min;
-  messageStore.checkCounterModal.options = selectCounter.options!.map(
-    ({ location, code, counter_count }) => {
+export default async (selectCounter: MsgSelectCounter) => {
+  await displayCheckCounterModal({
+    counterType: selectCounter.counter_type,
+    min: selectCounter.min,
+    options: selectCounter.options!.map(({ location, code, counter_count }) => {
       const id = cardStore.find(location)?.code;
       const newCode = code ? code : id || 0;
 
@@ -14,7 +15,6 @@ export default (selectCounter: MsgSelectCounter) => {
         code: newCode,
         max: counter_count!,
       };
-    }
-  );
-  messageStore.checkCounterModal.isOpen = true;
+    }),
+  });
 };
