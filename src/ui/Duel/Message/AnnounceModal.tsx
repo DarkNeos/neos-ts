@@ -5,7 +5,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectOptionResponse } from "@/api";
 
-import { DragModal } from "./DragModal";
+import { NeosModal } from "./NeosModal";
 
 interface AnnounceModalProps {
   isOpen: boolean;
@@ -30,7 +30,7 @@ export const AnnounceModal = () => {
   const [selected, setSelected] = useState<number[]>([]);
 
   return (
-    <DragModal
+    <NeosModal
       title={title}
       open={isOpen}
       closable={false}
@@ -59,7 +59,7 @@ export const AnnounceModal = () => {
           <CheckCard key={idx} title={option.info} value={option.response} />
         ))}
       </CheckCard.Group>
-    </DragModal>
+    </NeosModal>
   );
 };
 
