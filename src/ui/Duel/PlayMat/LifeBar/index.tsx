@@ -12,12 +12,12 @@ export const LifeBar: React.FC = () => {
   return (
     <div id="life-bar-container">
       <div className="life-bar">
-        <div className="name">{snapPlayer.getMePlayer().name}</div>
-        <div className="life">{snap.me.life}</div>
-      </div>
-      <div className="life-bar">
         <div className="name">{snapPlayer.getOpPlayer().name}</div>
         <div className="life">{snap.op.life}</div>
+      </div>
+      <div className="life-bar">
+        <div className="name">{snapPlayer.getMePlayer().name}</div>
+        <div className="life">{snap.me.life}</div>
       </div>
     </div>
   );

@@ -13,12 +13,11 @@ import {
   Dropdown,
   type DropdownProps,
   type MenuProps,
-  Popconfirm,
   Space,
   theme,
   Tooltip,
 } from "antd";
-import { cloneElement, useState } from "react";
+import { cloneElement } from "react";
 import { useSnapshot } from "valtio";
 
 import {
@@ -37,7 +36,7 @@ export const Menu = () => {
   const { currentPlayer } = useSnapshot(matStore);
   const currentPhase = snapPhase.currentPhase;
 
-  const response = [
+  const endResponse = [
     PhaseType.BATTLE_START,
     PhaseType.BATTLE_STEP,
     PhaseType.DAMAGE,
@@ -63,7 +62,7 @@ export const Menu = () => {
     // [PhaseType.DAMAGE, "伤害步骤", 3],
     // [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3],
     [PhaseType.MAIN2, "主要阶段 2", 2],
-    [PhaseType.END, "结束阶段", response],
+    [PhaseType.END, "结束阶段", endResponse],
     // [PhaseType.UNKNOWN, "未知阶段", response],
   ];
 
@@ -126,6 +125,7 @@ export const Menu = () => {
         >
           <Button icon={<CloseCircleFilled />} type="text"></Button>
         </DropdownWithTitle>
+        {/* <div className="floodlight floodlight-run" /> */}
       </div>
     </>
   );

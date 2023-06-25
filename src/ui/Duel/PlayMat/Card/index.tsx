@@ -136,10 +136,6 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   useEffect(() => {
     setHighlight(!!idleInteractivities.length);
   }, [idleInteractivities]);
-  const onDropdownClick: MenuProps["onClick"] = ({ key }) => {
-    const index = Number(key);
-    dropdownMenu.value?.[index]?.onClick();
-  };
   const menuItems = useSnapshot(dropdownMenu);
   // <<< 效果 <<<
 
@@ -195,10 +191,9 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
 const onCardClick = (card: CardType) => {
   // 中央弹窗展示选中卡牌信息
-  // TODO: 对方的卡片/未知的卡片，点击应该是没有效果的
   // TODO: 同一张卡片，是否重复点击会关闭CardModal？
   displayCardModal(card);
-  handleDropdownMenu([card], false);
+  if (card.idleInteractivities) handleDropdownMenu([card], false);
 
   // 侧边栏展示超量素材信息
   const overlayMaterials = cardStore.findOverlay(
@@ -241,8 +236,8 @@ const handleEffectActivation = (
   effectInteractivies: Interactivy[],
   meta?: any // FIXME: meta的类型
 ) => {
-  // 不用考虑为0的情况，因为已经判断了不可能为0
-  if (effectInteractivies.length === 1) {
+  if (!effectInteractivies.length) return;
+  else if (effectInteractivies.length === 1) {
     // 如果只有一个效果，点击直接触发
     sendSelectIdleCmdResponse(effectInteractivies[0].response);
   } else {

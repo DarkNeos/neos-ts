@@ -9,4 +9,27 @@
   background-color: #323232;
   padding: 8px;
   border-radius: 6px;
+  overflow: hidden;
+  .floodlight {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    background-color: white;
+    top: 0;
+    right: 0;
+    filter: blur(30px);
+    transform: skewX(-20deg);
+  }
+  .floodlight-run {
+    animation: floodlight 1s linear infinite;
+  }
+}
+
+@keyframes floodlight {
+  0% {
+    right: -80px;
+  }
+  100% {
+    right: calc(100% + 80px);
+  }
 }
