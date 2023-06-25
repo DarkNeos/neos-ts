@@ -3,7 +3,6 @@ export * from "./AnnounceModal";
 export * from "./CardListModal";
 export * from "./CardModal";
 export * from "./CheckCounterModal";
-export * from "./DragModal";
 export * from "./HintNotification";
 export * from "./OptionModal";
 export * from "./PositionModal";
