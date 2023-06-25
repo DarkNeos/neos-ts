@@ -16,6 +16,8 @@ import {
   StepForwardFilled,
   MessageFilled,
   CloseCircleFilled,
+  ArrowRightOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
 import {
   sendSelectBattleCmdResponse,
@@ -32,16 +34,15 @@ export const Menu = () => {
   const snapPhase = useSnapshot(phase);
   const currentPhase = snapPhase.currentPhase;
 
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const response =
-    currentPhase === PhaseType.BATTLE_START ||
-    currentPhase === PhaseType.BATTLE_STEP ||
-    currentPhase === PhaseType.DAMAGE ||
-    currentPhase === PhaseType.DAMAGE_GAL ||
-    currentPhase === PhaseType.BATTLE
-      ? 3
-      : 7;
+  const response = [
+    PhaseType.BATTLE_START,
+    PhaseType.BATTLE_STEP,
+    PhaseType.DAMAGE,
+    PhaseType.DAMAGE_GAL,
+    PhaseType.BATTLE,
+  ].includes(currentPhase)
+    ? 3
+    : 7;
 
   const clearAllIdleInteractivities = () => {
     for (const card of cardStore.inner) {
@@ -54,24 +55,27 @@ export const Menu = () => {
     [PhaseType.STANDBY, "准备阶段", -1],
     [PhaseType.MAIN1, "主要阶段 1", -1],
     [PhaseType.BATTLE, "战斗阶段", 6],
-    [PhaseType.BATTLE_START, "战斗开始", 3],
-    [PhaseType.BATTLE_STEP, "战斗步骤", 3],
-    [PhaseType.DAMAGE, "伤害步骤", 3],
-    [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3],
+    // [PhaseType.BATTLE_START, "战斗开始", 3],
+    // [PhaseType.BATTLE_STEP, "战斗步骤", 3],
+    // [PhaseType.DAMAGE, "伤害步骤", 3],
+    // [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3],
     [PhaseType.MAIN2, "主要阶段 2", 2],
     [PhaseType.END, "结束阶段", response],
-    [PhaseType.UNKNOWN, "未知阶段", response],
+    // [PhaseType.UNKNOWN, "未知阶段", response],
   ];
 
   const items: MenuProps["items"] = phaseBind.map(
-    ([key, value, response], i) => ({
+    ([phase, str, response], i) => ({
       key: i,
-      label: value,
-      disabled: currentPhase >= Number(key),
+      label: str,
+      disabled: currentPhase >= phase,
       onClick: () => {
-        sendSelectIdleCmdResponse(response);
+        if (response === 2) sendSelectIdleCmdResponse(response);
+        else sendSelectBattleCmdResponse(response);
         clearAllIdleInteractivities();
       },
+      icon: currentPhase >= phase ? <CheckOutlined /> : <ArrowRightOutlined />,
+      danger: phase === PhaseType.END,
     })
   );
 
@@ -86,6 +90,10 @@ export const Menu = () => {
   const menuStyle = {
     boxShadow: "none",
   };
+
+  const [showRendererTooltips, setShowRendererTooltips] = useState<
+    boolean | undefined
+  >(undefined);
   return (
     <>
       <div className="menu-container">
@@ -112,7 +120,7 @@ export const Menu = () => {
         <Tooltip title="聊天室">
           <Button icon={<MessageFilled />} type="text"></Button>
         </Tooltip>
-        <Tooltip title="投降" color="red">
+        <Tooltip title="投降" color="red" open={showRendererTooltips}>
           <Popconfirm
             title="投降"
             description="您确认要投降？"
@@ -121,6 +129,9 @@ export const Menu = () => {
             cancelText="取消"
             placement="topRight"
             arrow
+            onOpenChange={(open) =>
+              setShowRendererTooltips(!open ? undefined : !open)
+            }
           >
             <Button icon={<CloseCircleFilled />} type="text"></Button>
           </Popconfirm>
