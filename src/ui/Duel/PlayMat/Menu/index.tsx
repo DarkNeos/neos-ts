@@ -32,6 +32,7 @@ const { phase } = matStore;
 const { useToken } = theme;
 export const Menu = () => {
   const snapPhase = useSnapshot(phase);
+  const { currentPlayer } = useSnapshot(matStore);
   const currentPhase = snapPhase.currentPhase;
 
   const response = [
@@ -94,6 +95,8 @@ export const Menu = () => {
   const [showRendererTooltips, setShowRendererTooltips] = useState<
     boolean | undefined
   >(undefined);
+
+  const globalDisable = !matStore.isMe(currentPlayer);
   return (
     <>
       <div className="menu-container">
@@ -109,16 +112,22 @@ export const Menu = () => {
             </div>
           )}
           arrow
+          disabled={globalDisable}
         >
           <Button
             icon={<StepForwardFilled style={{ transform: "scale(1.5)" }} />}
             type="text"
+            disabled={globalDisable}
           >
             {phaseBind.find(([key]) => key === currentPhase)?.[1]}
           </Button>
         </Dropdown>
         <Tooltip title="聊天室">
-          <Button icon={<MessageFilled />} type="text"></Button>
+          <Button
+            icon={<MessageFilled />}
+            type="text"
+            disabled={globalDisable}
+          ></Button>
         </Tooltip>
         <Tooltip title="投降" color="red" open={showRendererTooltips}>
           <Popconfirm
