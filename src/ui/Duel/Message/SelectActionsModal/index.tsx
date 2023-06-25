@@ -99,11 +99,11 @@ export const displaySelectActionsModal = async (
   args: Partial<Omit<typeof defaultProps, "isOpen">>
 ) => {
   resetSelectActionsModal(); // 先重置为初始状态
-  localStore.isOpen = true;
   Object.entries(args).forEach(([key, value]) => {
     // @ts-ignore
     localStore[key] = value;
   });
+  localStore.isOpen = true;
   await new Promise<void>((resolve) => (rs = resolve)); // 等待在组件内resolve
   localStore.isOpen = false;
 };
