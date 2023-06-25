@@ -36,6 +36,12 @@ export const Menu = () => {
   const { currentPlayer } = useSnapshot(matStore);
   const currentPhase = snapPhase.currentPhase;
 
+  const clearAllIdleInteractivities = () => {
+    for (const card of cardStore.inner) {
+      card.idleInteractivities = [];
+    }
+  };
+
   const endResponse = [
     PhaseType.BATTLE_START,
     PhaseType.BATTLE_STEP,
@@ -46,28 +52,24 @@ export const Menu = () => {
     ? 3
     : 7;
 
-  const clearAllIdleInteractivities = () => {
-    for (const card of cardStore.inner) {
-      card.idleInteractivities = [];
-    }
-  };
-
-  const phaseBind: [PhaseType, string, number][] = [
-    [PhaseType.DRAW, "抽卡阶段", -1],
-    [PhaseType.STANDBY, "准备阶段", -1],
-    [PhaseType.MAIN1, "主要阶段 1", -1],
-    [PhaseType.BATTLE, "战斗阶段", 6],
-    // [PhaseType.BATTLE_START, "战斗开始", 3],
-    // [PhaseType.BATTLE_STEP, "战斗步骤", 3],
-    // [PhaseType.DAMAGE, "伤害步骤", 3],
-    // [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3],
-    [PhaseType.MAIN2, "主要阶段 2", 2],
-    [PhaseType.END, "结束阶段", endResponse],
-    // [PhaseType.UNKNOWN, "未知阶段", response],
+  // PhaseType, 中文, response, 是否显示
+  const phaseBind: [PhaseType, string, number, boolean][] = [
+    [PhaseType.DRAW, "抽卡阶段", -1, true],
+    [PhaseType.STANDBY, "准备阶段", -1, true],
+    [PhaseType.MAIN1, "主要阶段 1", -1, true],
+    [PhaseType.BATTLE, "战斗阶段", 6, true],
+    [PhaseType.BATTLE_START, "战斗开始", 3, false],
+    [PhaseType.BATTLE_STEP, "战斗步骤", 3, false],
+    [PhaseType.DAMAGE, "伤害步骤", 3, false],
+    [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false],
+    [PhaseType.MAIN2, "主要阶段 2", 2, true],
+    [PhaseType.END, "结束阶段", endResponse, true],
+    [PhaseType.UNKNOWN, "未知阶段", -1, false],
   ];
 
-  const phaseSwitchItems: MenuProps["items"] = phaseBind.map(
-    ([phase, str, response], i) => ({
+  const phaseSwitchItems: MenuProps["items"] = phaseBind
+    .filter(([, , , show]) => show)
+    .map(([phase, str, response], i) => ({
       key: i,
       label: str,
       disabled: currentPhase >= phase,
@@ -78,21 +80,18 @@ export const Menu = () => {
       },
       icon: currentPhase >= phase ? <CheckOutlined /> : <ArrowRightOutlined />,
       danger: phase === PhaseType.END,
-    })
-  );
+    }));
 
   const surrenderMenuItems: MenuProps["items"] = [
     {
-      key: 0,
       label: "取消",
     },
     {
-      key: 1,
       label: "确定",
       danger: true,
       onClick: sendSurrender,
     },
-  ];
+  ].map((item, i) => ({ key: i, ...item }));
 
   const globalDisable = !matStore.isMe(currentPlayer);
   return (
