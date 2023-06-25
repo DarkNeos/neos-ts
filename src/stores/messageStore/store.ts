@@ -7,10 +7,6 @@ export const messageStore = proxy<ModalState>({
     isOpen: false,
     options: [],
   },
-  sortCardModal: {
-    isOpen: false,
-    options: [],
-  },
   announceModal: {
     isOpen: false,
     min: 1,

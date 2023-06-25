@@ -220,7 +220,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "sort_card": {
-      onMsgSortCard(msg.sort_card);
+      await onMsgSortCard(msg.sort_card);
 
       break;
     }
