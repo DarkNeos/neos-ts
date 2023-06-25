@@ -50,7 +50,6 @@ export const CheckCounterModal = () => {
     <NeosModal
       title={`请移除${min}个${counterName}`}
       open={isOpen}
-      closable={false}
       footer={
         <Button disabled={!finishable} onClick={onFinish}>
           finish

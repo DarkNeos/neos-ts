@@ -25,7 +25,6 @@ export const YesNoModal: React.FC = () => {
     <NeosModal
       title={`${preHintMsg} ${msg}`}
       open={isOpen}
-      closable={false}
       footer={
         <>
           <Button

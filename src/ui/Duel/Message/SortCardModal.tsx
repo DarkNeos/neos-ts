@@ -78,7 +78,6 @@ export const SortCardModal = () => {
     <NeosModal
       title="请为下列卡牌排序"
       open={isOpen}
-      closable={false}
       footer={<Button onClick={onFinish}>finish</Button>}
     >
       <DndContext

@@ -26,7 +26,6 @@ export const PositionModal = () => {
     <NeosModal
       title="请选择表示形式"
       open={isOpen}
-      closable={false}
       footer={
         <Button
           disabled={selected === undefined}

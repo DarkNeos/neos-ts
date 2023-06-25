@@ -33,7 +33,6 @@ export const AnnounceModal = () => {
     <NeosModal
       title={title}
       open={isOpen}
-      closable={false}
       footer={
         <Button
           disabled={selected.length != min}
