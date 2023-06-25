@@ -1,5 +1,5 @@
 import { getStrings, ygopro } from "@/api";
-import { messageStore } from "@/stores";
+import { displayYesNoModal } from "@/ui/Duel/Message";
 
 type MsgSelectYesNo = ygopro.StocGameMessage.MsgSelectYesNo;
 
@@ -7,6 +7,6 @@ export default async (selectYesNo: MsgSelectYesNo) => {
   const _player = selectYesNo.player;
   const effect_description = selectYesNo.effect_description;
 
-  messageStore.yesNoModal.msg = await getStrings(effect_description);
-  messageStore.yesNoModal.isOpen = true;
+  const msg = await getStrings(effect_description);
+  await displayYesNoModal(msg);
 };

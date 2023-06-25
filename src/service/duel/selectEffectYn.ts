@@ -1,6 +1,6 @@
 import { fetchStrings, ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
-import { messageStore } from "@/stores";
+import { displayYesNoModal } from "@/ui/Duel/Message";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
 
@@ -33,6 +33,5 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
 
   const desc = fetchStrings("!system", effect_description);
   const meta = await fetchCard(code);
-  messageStore.yesNoModal.msg = textGenerator(desc, meta, location);
-  messageStore.yesNoModal.isOpen = true;
+  await displayYesNoModal(textGenerator(desc, meta, location));
 };
