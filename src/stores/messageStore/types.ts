@@ -1,11 +1,6 @@
 import type { CardMeta, ygopro } from "@/api";
 
 export interface ModalState {
-  // 表示形式选择弹窗
-  positionModal: {
-    isOpen: boolean;
-    positions: ygopro.CardPosition[];
-  };
   // 指示器选择弹窗
   checkCounterModal: {
     isOpen: boolean;

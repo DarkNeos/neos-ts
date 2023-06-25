@@ -1,29 +1,31 @@
 import "./index.scss";
 
 import {
+  ArrowRightOutlined,
+  CheckOutlined,
+  CloseCircleFilled,
+  MessageFilled,
+  StepForwardFilled,
+} from "@ant-design/icons";
+import {
   Button,
-  Tooltip,
+  Divider,
   Dropdown,
   type MenuProps,
-  theme,
-  Divider,
-  Space,
   type DropdownProps,
+  Popconfirm,
+  Space,
+  theme,
+  Tooltip,
 } from "antd";
 import { useState, cloneElement } from "react";
 import { useSnapshot } from "valtio";
-import {
-  StepForwardFilled,
-  MessageFilled,
-  CloseCircleFilled,
-  ArrowRightOutlined,
-  CheckOutlined,
-} from "@ant-design/icons";
+
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
-  ygopro,
   sendSurrender,
+  ygopro,
 } from "@/api";
 import { cardStore, matStore } from "@/stores";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;

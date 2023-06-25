@@ -1,14 +1,12 @@
 import { ygopro } from "@/api";
-import { messageStore } from "@/stores";
+import { displayPositionModal } from "@/ui/Duel/Message";
 
 type MsgSelectPosition = ygopro.StocGameMessage.MsgSelectPosition;
 
-export default (selectPosition: MsgSelectPosition) => {
+export default async (selectPosition: MsgSelectPosition) => {
   const _player = selectPosition.player;
-  const positions = selectPosition.positions;
-
-  messageStore.positionModal.positions = positions.map(
+  const positions = selectPosition.positions.map(
     (position) => position.position
   );
-  messageStore.positionModal.isOpen = true;
+  await displayPositionModal(positions);
 };

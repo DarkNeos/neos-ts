@@ -3,7 +3,6 @@ import { proxy } from "valtio";
 import type { ModalState } from "./types";
 
 export const messageStore = proxy<ModalState>({
-  positionModal: { isOpen: false, positions: [] },
   checkCounterModal: {
     isOpen: false,
     options: [],

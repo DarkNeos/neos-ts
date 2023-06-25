@@ -140,7 +140,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_position": {
-      onMsgSelectPosition(msg.select_position);
+      await onMsgSelectPosition(msg.select_position);
 
       break;
     }
