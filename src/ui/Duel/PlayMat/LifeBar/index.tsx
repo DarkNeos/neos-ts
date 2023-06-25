@@ -11,12 +11,14 @@ export const LifeBar: React.FC = () => {
 
   return (
     <div id="life-bar-container">
-      <div id="life-bar">{`${snapPlayer.getMePlayer().name}: ${
-        snap.me.life
-      }`}</div>
-      <div id="life-bar">{`${snapPlayer.getOpPlayer().name}: ${
-        snap.op.life
-      }`}</div>
+      <div className="life-bar">
+        <div className="name">{snapPlayer.getMePlayer().name}</div>
+        <div className="life">{snap.me.life}</div>
+      </div>
+      <div className="life-bar">
+        <div className="name">{snapPlayer.getOpPlayer().name}</div>
+        <div className="life">{snap.op.life}</div>
+      </div>
     </div>
   );
 };
