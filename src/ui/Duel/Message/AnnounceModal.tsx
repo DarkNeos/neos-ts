@@ -1,22 +1,32 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectOptionResponse } from "@/api";
-import { messageStore } from "@/stores";
 
 import { DragModal } from "./DragModal";
 
-const { announceModal } = messageStore;
+interface AnnounceModalProps {
+  isOpen: boolean;
+  title?: string;
+  min: number;
+  options: {
+    info: string;
+    response: number;
+  }[];
+}
+const defaultProps = {
+  isOpen: false,
+  min: 1,
+  options: [],
+};
+
+const localStore = proxy<AnnounceModalProps>(defaultProps);
 
 export const AnnounceModal = () => {
-  const snap = useSnapshot(announceModal);
+  const { isOpen, title, min, options } = useSnapshot(localStore);
 
-  const isOpen = snap.isOpen;
-  const title = snap.title;
-  const min = snap.min;
-  const options = snap.options;
   const [selected, setSelected] = useState<number[]>([]);
 
   return (
@@ -30,9 +40,7 @@ export const AnnounceModal = () => {
           onClick={() => {
             let response = selected.reduce((res, current) => res | current, 0); // 多个选择求或
             sendSelectOptionResponse(response);
-            announceModal.isOpen = false;
-            announceModal.title = undefined;
-            announceModal.options = [];
+            rs();
           }}
         >
           submit
@@ -53,4 +61,21 @@ export const AnnounceModal = () => {
       </CheckCard.Group>
     </DragModal>
   );
+};
+
+let rs: (arg?: any) => void = () => {};
+
+export const displayAnnounceModal = async (
+  args: Omit<AnnounceModalProps, "isOpen">
+) => {
+  Object.entries(args).forEach(([key, value]) => {
+    // @ts-ignore
+    localStore[key] = value;
+  });
+  localStore.isOpen = true;
+  await new Promise<void>((resolve) => (rs = resolve)); // 等待在组件内resolve
+  localStore.isOpen = false;
+  localStore.min = 1;
+  localStore.options = [];
+  localStore.title = undefined;
 };
