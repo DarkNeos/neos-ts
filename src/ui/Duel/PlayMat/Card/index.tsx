@@ -173,7 +173,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       <div className="card-focus" />
       <div className="card-shadow" />
       <Dropdown
-        menu={{ items: menuItems.value as any, onClick: onDropdownClick }}
+        menu={{ items: menuItems.value as any }}
         placement="bottom"
         overlayClassName="card-dropdown"
         arrow
@@ -266,7 +266,6 @@ const handleEffectActivation = (
 // 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
 // 3. 如果是效果发动，那么选择哪张卡，然后选择效果
 const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
-  console.log("here");
   const map = new Map<Interactivity<number>["interactType"], CardType[]>();
   cards.forEach((card) => {
     card.idleInteractivities.forEach(({ interactType }) => {

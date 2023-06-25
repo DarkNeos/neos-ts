@@ -8,9 +8,9 @@ import {
   theme,
   Divider,
   Space,
-  Popconfirm,
+  type DropdownProps,
 } from "antd";
-import React, { useState } from "react";
+import { useState, cloneElement } from "react";
 import { useSnapshot } from "valtio";
 import {
   StepForwardFilled,
@@ -65,7 +65,7 @@ export const Menu = () => {
     // [PhaseType.UNKNOWN, "未知阶段", response],
   ];
 
-  const items: MenuProps["items"] = phaseBind.map(
+  const phaseSwitchItems: MenuProps["items"] = phaseBind.map(
     ([phase, str, response], i) => ({
       key: i,
       label: str,
@@ -80,38 +80,26 @@ export const Menu = () => {
     })
   );
 
-  const { token } = useToken();
-
-  const contentStyle = {
-    backgroundColor: token.colorBgElevated,
-    borderRadius: token.borderRadiusLG,
-    boxShadow: token.boxShadowSecondary,
-  };
-
-  const menuStyle = {
-    boxShadow: "none",
-  };
-
-  const [showRendererTooltips, setShowRendererTooltips] = useState<
-    boolean | undefined
-  >(undefined);
+  const surrenderMenuItems: MenuProps["items"] = [
+    {
+      key: 0,
+      label: "取消",
+    },
+    {
+      key: 1,
+      label: "确定",
+      danger: true,
+      onClick: sendSurrender,
+    },
+  ];
 
   const globalDisable = !matStore.isMe(currentPlayer);
   return (
     <>
       <div className="menu-container">
-        <Dropdown
-          menu={{ items }}
-          dropdownRender={(menu) => (
-            <div style={contentStyle}>
-              {React.cloneElement(menu as React.ReactElement, {
-                style: menuStyle,
-              })}
-              <Divider style={{ margin: 0 }} />
-              <Space style={{ padding: 16 }}>请选择要进入的阶段</Space>
-            </div>
-          )}
-          arrow
+        <DropdownWithTitle
+          title="请选择要进入的阶段"
+          menu={{ items: phaseSwitchItems }}
           disabled={globalDisable}
         >
           <Button
@@ -121,7 +109,7 @@ export const Menu = () => {
           >
             {phaseBind.find(([key]) => key === currentPhase)?.[1]}
           </Button>
-        </Dropdown>
+        </DropdownWithTitle>
         <Tooltip title="聊天室">
           <Button
             icon={<MessageFilled />}
@@ -129,23 +117,46 @@ export const Menu = () => {
             disabled={globalDisable}
           ></Button>
         </Tooltip>
-        <Tooltip title="投降" color="red" open={showRendererTooltips}>
-          <Popconfirm
-            title="投降"
-            description="您确认要投降？"
-            onConfirm={sendSurrender}
-            okText="确认"
-            cancelText="取消"
-            placement="topRight"
-            arrow
-            onOpenChange={(open) =>
-              setShowRendererTooltips(!open ? undefined : !open)
-            }
-          >
-            <Button icon={<CloseCircleFilled />} type="text"></Button>
-          </Popconfirm>
-        </Tooltip>
+        <DropdownWithTitle
+          title="是否投降？"
+          menu={{ items: surrenderMenuItems }}
+          disabled={globalDisable}
+        >
+          <Button icon={<CloseCircleFilled />} type="text"></Button>
+        </DropdownWithTitle>
       </div>
     </>
+  );
+};
+
+const DropdownWithTitle: React.FC<DropdownProps & { title: string }> = (
+  props
+) => {
+  const { token } = useToken();
+  const contentStyle = {
+    backgroundColor: token.colorBgElevated,
+    borderRadius: token.borderRadiusLG,
+    boxShadow: token.boxShadowSecondary,
+  };
+  const menuStyle = {
+    boxShadow: "none",
+  };
+  return (
+    <Dropdown
+      {...props}
+      dropdownRender={(menu) => (
+        <div style={contentStyle}>
+          <Space style={{ padding: "12px 16px" }}>{props.title}</Space>
+          <Divider style={{ margin: 0 }} />
+          {cloneElement(menu as React.ReactElement, {
+            style: menuStyle,
+          })}
+        </div>
+      )}
+      arrow
+      trigger={["click", "hover"]}
+    >
+      {props.children}
+    </Dropdown>
   );
 };
