@@ -1,7 +1,7 @@
 import type { ygopro } from "@/api";
 import { fetchCard, getCardStr } from "@/api/cards";
 import { cardStore } from "@/stores";
-import type { Option } from "@/ui/Duel/Message/SelectActionsModal";
+import type { Option } from "@/ui/Duel/Message";
 
 const helper = async (
   {

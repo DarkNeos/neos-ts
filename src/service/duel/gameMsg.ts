@@ -135,7 +135,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_effect_yn": {
-      onMsgSelectEffectYn(msg.select_effect_yn);
+      await onMsgSelectEffectYn(msg.select_effect_yn);
 
       break;
     }
@@ -170,7 +170,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_yes_no": {
-      onMsgSelectYesNo(msg.select_yes_no);
+      await onMsgSelectYesNo(msg.select_yes_no);
 
       break;
     }

@@ -1,11 +1,6 @@
 import type { CardMeta, ygopro } from "@/api";
 
 export interface ModalState {
-  // Yes or No弹窗
-  yesNoModal: {
-    isOpen: boolean;
-    msg?: string;
-  };
   // 表示形式选择弹窗
   positionModal: {
     isOpen: boolean;
