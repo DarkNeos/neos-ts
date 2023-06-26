@@ -14,8 +14,23 @@
   top: 100% !important;
   bottom: 0 !important;
   transform: translateY(calc(50% - 66px));
+  .ant-modal-body {
+    animation: fadeout 0.3s forwards;
+  }
 }
 
 .neos-modal-wrap {
   pointer-events: none;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

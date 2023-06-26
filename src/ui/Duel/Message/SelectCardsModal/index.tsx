@@ -107,13 +107,9 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
       open={isOpen}
       footer={
         <>
-          {cancelable && (
-            <Button danger onClick={onCancel}>
-              {cancelText}
-            </Button>
-          )}
+          {cancelable && <Button onClick={onCancel}>{cancelText}</Button>}
           {finishable && (
-            <Button type="dashed" onClick={onFinish}>
+            <Button type="primary" onClick={onFinish}>
               {finishText}
             </Button>
           )}
