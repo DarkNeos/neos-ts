@@ -16,12 +16,12 @@ export const NeosModal: React.FC<Props> = (props) => {
     <Modal
       className={classNames("neos-modal", { "neos-modal-mini": mini })}
       centered
-      maskClosable={false}
+      maskClosable={true}
       onCancel={() => setMini(!mini)}
       closeIcon={mini ? <UpOutlined /> : <MinusOutlined />}
       bodyStyle={{ padding: "10px 0" }}
       mask={!mini}
-      wrapClassName="neos-modal-wrap"
+      wrapClassName={classNames({ "neos-modal-wrap": mini })}
       closable={canBeMinimized}
       {...props}
     />
