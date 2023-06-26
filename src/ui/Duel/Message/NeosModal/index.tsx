@@ -21,6 +21,7 @@ export const NeosModal: React.FC<Props> = (props) => {
       closeIcon={mini ? <UpOutlined /> : <MinusOutlined />}
       bodyStyle={{ padding: "10px 0" }}
       mask={!mini}
+      wrapClassName="neos-modal-wrap"
       closable={canBeMinimized}
       {...props}
     />

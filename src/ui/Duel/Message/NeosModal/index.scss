@@ -15,3 +15,7 @@
   bottom: 0 !important;
   transform: translateY(calc(50% - 66px));
 }
+
+.neos-modal-wrap {
+  pointer-events: none;
+}

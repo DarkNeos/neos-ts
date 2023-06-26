@@ -1,12 +1,11 @@
 import "./index.scss";
 
+import classNames from "classnames";
 import React, { useEffect } from "react";
+import AnimatedNumbers from "react-animated-numbers";
 import { useSnapshot } from "valtio";
 
 import { matStore, playerStore } from "@/stores";
-import classNames from "classnames";
-
-import AnimatedNumbers from "react-animated-numbers";
 
 // 三个候选方案
 // https://snack.expo.dev/?platform=web
