@@ -21,7 +21,6 @@ const defaultProps: Omit<
   isChain: false,
   min: 0,
   max: 0,
-  single: true,
   selecteds: [] as Option[], // 最少选择多少卡
   selectables: [] as Option[], // 最多选择多少卡
   mustSelects: [] as Option[], // 单选
@@ -39,7 +38,6 @@ export const SelectActionsModal: React.FC = () => {
     isChain,
     min,
     max,
-    single,
     selecteds,
     selectables,
     mustSelects,
@@ -77,7 +75,6 @@ export const SelectActionsModal: React.FC = () => {
         isChain,
         min,
         max,
-        single,
         selecteds,
         selectables,
         mustSelects,

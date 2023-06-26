@@ -18,7 +18,6 @@ export const SimpleSelectCardsModal: React.FC = () => {
       isChain={false}
       min={1}
       max={1}
-      single
       selecteds={[]}
       mustSelects={[]}
       selectables={selectables}

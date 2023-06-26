@@ -19,7 +19,6 @@ export interface SelectCardsModalProps {
   isChain: boolean;
   min: number;
   max: number;
-  single: boolean;
   selecteds: Snapshot<Option[]>; // 已经选择了的卡
   selectables: Snapshot<Option[]>; // 最多选择多少卡
   mustSelects: Snapshot<Option[]>; // 单选
@@ -37,7 +36,6 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   isChain,
   min,
   max,
-  single,
   selecteds,
   selectables,
   mustSelects,
@@ -51,6 +49,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
 }) => {
   const [result, setResult] = useState<Option[]>([]);
   const [submitable, setSubmitable] = useState(false);
+  const single = min === 1 && max === 1; // 是否是单选
 
   const hint = useSnapshot(matStore.hint);
   const preHintMsg = hint?.esHint || "";
@@ -144,7 +143,6 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                 <div className="checkcard-container" key={i}>
                   <CheckCard.Group
                     onChange={(res) => {
-                      console.log("setresult", res);
                       setResult((single ? [res] : res) as any);
                     }}
                     // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
