@@ -31,9 +31,18 @@ section#mat {
     &.highlight {
       // box-shadow: 0 0 0 1px #00b0ff, 0 0 13px 0px #0077ff,
       //   0 0 11px 0 skyblue inset;
-      background: #142f47;
+      background: #102639;
+      cursor: pointer;
+      // animation: blink 1s linear infinite alternate;
       .triangle {
         --color: #006eff;
+        transform: scale(1.5);
+      }
+      &:hover {
+        opacity: 0.7;
+        .triangle {
+          transform: scale(1.2);
+        }
       }
     }
     .triangle {
@@ -43,6 +52,7 @@ section#mat {
       border-width: 4px;
       border-style: solid;
       position: absolute;
+      transition: 0.3s;
       &:nth-of-type(1) {
         border-color: var(--color) transparent transparent var(--color);
       }

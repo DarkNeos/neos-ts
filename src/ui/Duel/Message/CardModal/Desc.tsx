@@ -17,6 +17,7 @@ export const Desc: React.FC<{ desc?: string }> = ({ desc = "" }) => {
   );
 };
 
+/** 使用re去提取文本，并且将提取到的文本用Wrapper进行环绕 */
 const RegexWrapper: React.FC<{
   text: string;
   re: RegExp;
