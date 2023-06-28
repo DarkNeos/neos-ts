@@ -54,7 +54,6 @@ export const SelectActionsModal: React.FC = () => {
     } else {
       sendSelectMultiResponse(values);
     }
-    console.log("here");
     rs();
   };
 
