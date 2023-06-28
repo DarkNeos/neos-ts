@@ -197,7 +197,11 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           )}
           <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
           {selecteds.map((card, i) => (
-            <Tooltip title={card.effectDesc} placement="bottom" key={i}>
+            <Tooltip
+              title={card.effectDesc}
+              placement="bottom"
+              key={grouped.length + i}
+            >
               <div>
                 <CheckCard
                   cover={
