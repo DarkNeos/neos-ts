@@ -15,7 +15,6 @@ export const SimpleSelectCardsModal: React.FC = () => {
   return (
     <SelectCardsModal
       isOpen={isOpen}
-      isChain={false}
       min={1}
       max={1}
       selecteds={[]}

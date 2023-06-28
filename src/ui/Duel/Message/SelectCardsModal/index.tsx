@@ -16,7 +16,6 @@ import { NeosModal } from "../NeosModal";
 
 export interface SelectCardsModalProps {
   isOpen: boolean;
-  isChain: boolean;
   min: number;
   max: number;
   selecteds: Snapshot<Option[]>; // 已经选择了的卡
@@ -33,7 +32,6 @@ export interface SelectCardsModalProps {
 
 export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   isOpen,
-  isChain: _isChain,
   min,
   max,
   selecteds: _selecteds,
@@ -47,7 +45,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   onCancel,
   onFinish,
 }) => {
-  // FIXME: handle `isChain` and `selecteds`
+  // FIXME: handle `selecteds`
   const [result, setResult] = useState<Option[]>([]);
   const [submitable, setSubmitable] = useState(false);
   const single = min === 1 && max === 1; // 是否是单选

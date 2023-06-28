@@ -16,7 +16,7 @@ const FINISH_RESPONSE = -1;
 const defaultProps: Omit<
   SelectCardsModalProps,
   "onSubmit" | "onCancel" | "onFinish"
-> = {
+> & { isChain: boolean } = {
   isOpen: false,
   isChain: false,
   min: 0,
@@ -72,7 +72,6 @@ export const SelectActionsModal: React.FC = () => {
     <SelectCardsModal
       {...{
         isOpen,
-        isChain,
         min,
         max,
         selecteds,

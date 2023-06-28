@@ -42,7 +42,7 @@ const store = proxy(defaultStore);
 export const CardModal = () => {
   const snap = useSnapshot(store);
 
-  const { isOpen, meta, _counters } = snap;
+  const { isOpen, meta, counters: _counters } = snap;
 
   const name = meta?.text.name;
   const types = meta?.data.type;
