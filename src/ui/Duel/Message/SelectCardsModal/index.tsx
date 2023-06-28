@@ -36,7 +36,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   min,
   max,
   single,
-  selecteds: _selecteds,
+  selecteds,
   selectables,
   mustSelects,
   cancelable,
@@ -131,6 +131,9 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           direction="vertical"
           style={{ width: "100%", overflow: "hidden" }}
         >
+          {selecteds.map((card, i) => (
+            <OptionCard key={i} {...card as Option} />
+          ))}
           <Selector
             zoneOptions={zoneOptions}
             selectedZone={selectedZone}
@@ -153,40 +156,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                     }}
                   >
                     {options[1].map((card, j) => (
-                      <Tooltip
-                        title={card.effectDesc}
-                        placement="bottom"
-                        key={j}
-                      >
-                        {/* 这儿必须有一个div，不然tooltip不生效 */}
-                        <div>
-                          <CheckCard
-                            cover={
-                              <YgoCard
-                                code={card.meta.id}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  position: "absolute",
-                                  left: 0,
-                                  top: 0,
-                                }}
-                              />
-                            }
-                            style={{
-                              width: 100,
-                              aspectRatio: 5.9 / 8.6,
-                              marginInlineEnd: 0,
-                              marginBlockEnd: 0,
-                              flexShrink: 0,
-                            }}
-                            value={card}
-                            onClick={() => {
-                              showCardModal(card);
-                            }}
-                          />
-                        </div>
-                      </Tooltip>
+                      <OptionCard key={j} {...(card as Option)} />
                     ))}
                   </CheckCard.Group>
                 </div>
@@ -218,6 +188,42 @@ const Selector: React.FC<{
   ) : (
     <></>
   );
+
+const OptionCard: React.FC<Option> = (props) => {
+  const { effectDesc, meta } = props;
+  return (
+    <Tooltip title={effectDesc} placement="bottom">
+      {/* 这儿必须有一个div，不然tooltip不生效 */}
+      <div>
+        <CheckCard
+          cover={
+            <YgoCard
+              code={meta.id}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                left: 0,
+                top: 0,
+              }}
+            />
+          }
+          style={{
+            width: 100,
+            aspectRatio: 5.9 / 8.6,
+            marginInlineEnd: 0,
+            marginBlockEnd: 0,
+            flexShrink: 0,
+          }}
+          value={props}
+          onClick={() => {
+            showCardModal(props);
+          }}
+        />
+      </div>
+    </Tooltip>
+  );
+};
 
 export interface Option {
   // card id
