@@ -7,7 +7,6 @@ import React, { type CSSProperties, useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { getCardStr, sendSelectIdleCmdResponse, ygopro } from "@/api";
-import { useConfig } from "@/config";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
@@ -28,7 +27,6 @@ import {
   moveToOutside,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
-const NeosConfig = useConfig();
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;

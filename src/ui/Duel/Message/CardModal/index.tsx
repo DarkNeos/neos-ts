@@ -42,7 +42,7 @@ const store = proxy(defaultStore);
 export const CardModal = () => {
   const snap = useSnapshot(store);
 
-  const { isOpen, meta, counters } = snap;
+  const { isOpen, meta, _counters } = snap;
 
   const name = meta?.text.name;
   const types = meta?.data.type;
@@ -152,7 +152,7 @@ const AtkLine = (props: { atk?: number; def?: number }) => (
 );
 
 // TODO: 未完成，研究一下怎么展示这个信息
-const CounterLine = (props: { counters: { [type: number]: number } }) => {
+const _CounterLine = (props: { counters: { [type: number]: number } }) => {
   const counters = [];
   for (const counterType in props.counters) {
     const count = props.counters[counterType];

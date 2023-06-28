@@ -8,7 +8,6 @@ import {
   getCardStr,
   sendSelectIdleCmdResponse,
   sendSelectOptionResponse,
-  ygopro,
 } from "@/api";
 
 import { NeosModal } from "./NeosModal";

@@ -33,10 +33,10 @@ export interface SelectCardsModalProps {
 
 export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   isOpen,
-  isChain,
+  isChain: _isChain,
   min,
   max,
-  selecteds,
+  selecteds: _selecteds,
   selectables,
   mustSelects,
   cancelable,
@@ -47,6 +47,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   onCancel,
   onFinish,
 }) => {
+  // FIXME: handle `isChain` and `selecteds`
   const [result, setResult] = useState<Option[]>([]);
   const [submitable, setSubmitable] = useState(false);
   const single = min === 1 && max === 1; // 是否是单选

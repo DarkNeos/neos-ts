@@ -3,13 +3,10 @@ import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { ygopro } from "@/api";
-import { useConfig } from "@/config";
 import { cardStore, CardType } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
 
 import { showCardModal } from "./CardModal";
-
-const NeosConfig = useConfig();
 
 const CARD_WIDTH = 100;
 
