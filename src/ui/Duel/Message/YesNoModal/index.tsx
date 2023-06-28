@@ -25,23 +25,25 @@ export const YesNoModal: React.FC = () => {
     <NeosModal
       title={`${preHintMsg} ${msg}`}
       open={isOpen}
+      width={400}
       footer={
         <>
-          <Button
-            onClick={() => {
-              sendSelectEffectYnResponse(true);
-              rs();
-            }}
-          >
-            Yes
-          </Button>
           <Button
             onClick={() => {
               sendSelectEffectYnResponse(false);
               rs();
             }}
           >
-            No
+            取消
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              sendSelectEffectYnResponse(true);
+              rs();
+            }}
+          >
+            确认
           </Button>
         </>
       }
