@@ -2,7 +2,7 @@ import "./index.scss";
 
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Segmented, Space, Tooltip } from "antd";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import type { CardMeta, ygopro } from "@/api";
@@ -13,6 +13,21 @@ import { YgoCard } from "@/ui/Shared";
 import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
+
+const YgoCardStyle = {
+  width: "100%",
+  height: "100%",
+  position: "absolute",
+  left: 0,
+  top: 0,
+};
+const CheckCardStyle = {
+  width: 100,
+  aspectRatio: 5.9 / 8.6,
+  marginInlineEnd: 0,
+  marginBlockEnd: 0,
+  flexShrink: 0,
+};
 
 export interface SelectCardsModalProps {
   isOpen: boolean;
@@ -36,7 +51,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   min,
   max,
   single,
-  selecteds: _selecteds,
+  selecteds,
   selectables,
   mustSelects,
   cancelable,
@@ -164,22 +179,10 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                             cover={
                               <YgoCard
                                 code={card.meta.id}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  position: "absolute",
-                                  left: 0,
-                                  top: 0,
-                                }}
+                                style={YgoCardStyle as CSSProperties}
                               />
                             }
-                            style={{
-                              width: 100,
-                              aspectRatio: 5.9 / 8.6,
-                              marginInlineEnd: 0,
-                              marginBlockEnd: 0,
-                              flexShrink: 0,
-                            }}
+                            style={CheckCardStyle}
                             value={card}
                             onClick={() => {
                               showCardModal(card);
@@ -192,6 +195,25 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                 </div>
               )
           )}
+          <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
+          {selecteds.map((card, i) => (
+            <Tooltip title={card.effectDesc} placement="bottom" key={i}>
+              <div>
+                <CheckCard
+                  cover={
+                    <YgoCard
+                      code={card.meta.id}
+                      style={YgoCardStyle as CSSProperties}
+                    />
+                  }
+                  style={CheckCardStyle}
+                  onClick={() => {
+                    showCardModal(card);
+                  }}
+                />
+              </div>
+            </Tooltip>
+          ))}
         </Space>
       </div>
     </NeosModal>
