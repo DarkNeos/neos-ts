@@ -19,11 +19,12 @@ const defaultProps: Omit<
 > & { isChain: boolean } = {
   isOpen: false,
   isChain: false,
-  min: 0,
-  max: 0,
-  selecteds: [] as Option[], // 最少选择多少卡
-  selectables: [] as Option[], // 最多选择多少卡
-  mustSelects: [] as Option[], // 单选
+  min: 0, // 最少选择多少卡
+  max: 0, // 最多选择多少卡
+  single: false, // 是否只能单选
+  selecteds: [] as Option[],
+  selectables: [] as Option[],
+  mustSelects: [] as Option[],
   cancelable: false, // 能否取消
   finishable: false, // 选择足够了之后，能否确认
   totalLevels: 0, // 需要的总等级数（用于同调/仪式/...）
@@ -38,6 +39,7 @@ export const SelectActionsModal: React.FC = () => {
     isChain,
     min,
     max,
+    single,
     selecteds,
     selectables,
     mustSelects,
@@ -73,6 +75,7 @@ export const SelectActionsModal: React.FC = () => {
         isOpen,
         min,
         max,
+        single,
         selecteds,
         selectables,
         mustSelects,

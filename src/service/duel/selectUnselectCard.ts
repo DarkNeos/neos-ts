@@ -27,6 +27,7 @@ export default async ({
     cancelable,
     min: min,
     max: max,
+    single: true,
     selecteds: [...selecteds1, ...selecteds2],
     mustSelects: [...mustSelect1, ...mustSelect2],
     selectables: [...selectable1, ...selectable2],

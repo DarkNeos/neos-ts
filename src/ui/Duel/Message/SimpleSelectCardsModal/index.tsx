@@ -17,12 +17,13 @@ export const SimpleSelectCardsModal: React.FC = () => {
       isOpen={isOpen}
       min={1}
       max={1}
+      single={false}
       selecteds={[]}
       mustSelects={[]}
       selectables={selectables}
       cancelable
       finishable={false}
-      totalLevels={1}
+      totalLevels={0}
       overflow
       onSubmit={rs}
       onFinish={() => rs([])}

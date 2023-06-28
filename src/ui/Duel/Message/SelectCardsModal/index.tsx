@@ -18,6 +18,7 @@ export interface SelectCardsModalProps {
   isOpen: boolean;
   min: number;
   max: number;
+  single: boolean;
   selecteds: Snapshot<Option[]>; // 已经选择了的卡
   selectables: Snapshot<Option[]>; // 最多选择多少卡
   mustSelects: Snapshot<Option[]>; // 单选
@@ -34,6 +35,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   isOpen,
   min,
   max,
+  single,
   selecteds: _selecteds,
   selectables,
   mustSelects,
@@ -48,13 +50,14 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   // FIXME: handle `selecteds`
   const [result, setResult] = useState<Option[]>([]);
   const [submitable, setSubmitable] = useState(false);
-  const single = min === 1 && max === 1; // 是否是单选
 
   const hint = useSnapshot(matStore.hint);
   const preHintMsg = hint?.esHint || "";
   const selectHintMsg = hint?.esSelectHint || "请选择卡片";
 
   const minMaxText = min === max ? min : `${min}-${max}`;
+
+  const isMultiple = !single && min > 1;
 
   // 判断是否可以提交
   useEffect(() => {
@@ -96,7 +99,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         <>
           <span>{preHintMsg}</span>
           <span>{selectHintMsg}</span>
-          <span>(请选择 {single ? 1 : minMaxText} 张卡)</span>
+          <span>(请选择 {minMaxText} 张卡)</span>
+          <span>{single ? "每次选择一张" : ""}</span>
         </>
       } // TODO: 这里可以再细化一些
       width={600}
@@ -138,10 +142,10 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                 <div className="checkcard-container" key={i}>
                   <CheckCard.Group
                     onChange={(res) => {
-                      setResult((single ? [res] : res) as any);
+                      setResult((isMultiple ? res : [res]) as any);
                     }}
                     // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                    multiple={!single}
+                    multiple={isMultiple}
                     style={{
                       display: "grid",
                       gridTemplateColumns: "repeat(6, 1fr)",
