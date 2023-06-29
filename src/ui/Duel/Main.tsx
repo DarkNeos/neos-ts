@@ -10,6 +10,7 @@ import {
   OptionModal,
   PositionModal,
   SelectActionsModal,
+  SimpleSelectCardsModal,
   SortCardModal,
   YesNoModal,
 } from "./Message";
@@ -18,6 +19,7 @@ import { LifeBar, Mat, Menu } from "./PlayMat";
 const NeosDuel = () => {
   return (
     <>
+      <SelectActionsModal />
       <Alert />
       <Menu />
       <LifeBar />
@@ -25,13 +27,13 @@ const NeosDuel = () => {
       <CardModal />
       <CardListModal />
       <HintNotification />
-      <SelectActionsModal />
       <YesNoModal />
       <PositionModal />
       <OptionModal />
       <CheckCounterModal />
       <SortCardModal />
       <AnnounceModal />
+      <SimpleSelectCardsModal />
     </>
   );
 };

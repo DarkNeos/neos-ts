@@ -1,21 +1,35 @@
 #life-bar-container {
   position: fixed;
   display: flex;
-  gap: 20px;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: inherit;
+  top: 0;
+  left: 0;
+  height: 100vh; // FIXME: 100% on safari
+  display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 35px;
+  pointer-events: none;
+  z-index: 100;
 }
 
-#life-bar {
-  padding: 0.8em 1.6em;
-  background-color: #a9a9a9;
+.life-bar {
+  width: 160px;
+  color: white;
+  background-color: #323232;
+  font-family: var(--theme-font);
+  border: 1px solid #222;
+  padding: 1rem;
+  padding-bottom: 0.6rem;
   border-radius: 8px;
   text-align: left;
-  border: 1px solid transparent;
-  color: black;
-  opacity: 0.4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  .name {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .life {
+    font-size: 1.8rem;
+  }
 }

@@ -1,6 +1,7 @@
 // ref: https://github.com/jvcjunior/login-react-redux
 // thanks!
 @charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Electrolize&display=swap");
 
 ol,
 ul {
@@ -33,8 +34,9 @@ table {
 body {
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font: 87.5%/1.5em "Open Sans", sans-serif;
+  background-color: #141414;
+  // font: 87.5%/1.5em "Open Sans", sans-serif;
+  font-size: 14px;
   display: flex;
   margin: 0;
   place-items: center;
@@ -88,4 +90,22 @@ p {
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+div,
+p,
+section,
+span,
+image,
+img {
+  box-sizing: border-box;
+}
+
+body {
+  --theme-font: "Electrolize", sans-serif;
 }

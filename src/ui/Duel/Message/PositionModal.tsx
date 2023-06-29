@@ -1,37 +1,38 @@
+// 表示形式选择弹窗
 import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
 import React, { useState } from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectPositionResponse, ygopro } from "@/api";
-import { messageStore } from "@/stores";
 
-import { DragModal } from "./DragModal";
+import { NeosModal } from "./NeosModal";
 
-const { positionModal } = messageStore;
+interface PositionModalProps {
+  isOpen: boolean;
+  positions: ygopro.CardPosition[];
+}
+const defaultProps = { isOpen: false, positions: [] };
+
+const localStore = proxy<PositionModalProps>(defaultProps);
 
 export const PositionModal = () => {
-  const snapPositionModal = useSnapshot(positionModal);
-  const isOpen = snapPositionModal.isOpen;
-  const positions = snapPositionModal.positions;
-
+  const { isOpen, positions } = useSnapshot(localStore);
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined
   );
 
   return (
-    <DragModal
+    <NeosModal
       title="请选择表示形式"
       open={isOpen}
-      closable={false}
       footer={
         <Button
           disabled={selected === undefined}
           onClick={() => {
             if (selected !== undefined) {
               sendSelectPositionResponse(selected);
-              positionModal.isOpen = false;
-              positionModal.positions = [];
+              rs();
             }
           }}
         >
@@ -55,12 +56,13 @@ export const PositionModal = () => {
           />
         ))}
       </CheckCard.Group>
-    </DragModal>
+    </NeosModal>
   );
 };
 
 function cardPositionToChinese(position: ygopro.CardPosition): string {
   switch (position) {
+    // TODO: i18n
     case ygopro.CardPosition.FACEUP_ATTACK: {
       return "正面攻击形式";
     }
@@ -78,3 +80,15 @@ function cardPositionToChinese(position: ygopro.CardPosition): string {
     }
   }
 }
+
+let rs: (arg?: any) => void = () => {};
+
+export const displayPositionModal = async (
+  positions: ygopro.CardPosition[]
+) => {
+  localStore.positions = positions;
+  localStore.isOpen = true;
+  await new Promise<void>((resolve) => (rs = resolve));
+  localStore.isOpen = false;
+  localStore.positions = [];
+};

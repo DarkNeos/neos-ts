@@ -44,7 +44,7 @@ export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
   const negativeX = Math.sin(angle) * r;
   const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT.value / 2;
   const x = hand_circle_center_x + negativeX * (isMe(controller) ? 1 : -1);
-  const y = hand_circle_center_y - negativeY + 130; // 常量 是手动调的 这里肯定有问题 有空来修
+  const y = hand_circle_center_y - negativeY + 140; // 常量 是手动调的 这里肯定有问题 有空来修
 
   const _rz = (angle * 180) / Math.PI;
 

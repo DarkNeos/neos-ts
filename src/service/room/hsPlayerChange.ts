@@ -29,23 +29,23 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
         break;
       }
       case ygopro.StocHsPlayerChange.State.READY: {
-        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+        playerStore[change.pos === 0 ? "player0" : "player1"].state =
           READY_STATE;
         break;
       }
       case ygopro.StocHsPlayerChange.State.NO_READY: {
-        playerStore[change.pos == 0 ? "player0" : "player1"].state =
+        playerStore[change.pos === 0 ? "player0" : "player1"].state =
           NO_READY_STATE;
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.LEAVE: {
-        playerStore[change.pos == 0 ? "player0" : "player1"] = {};
+        playerStore[change.pos === 0 ? "player0" : "player1"] = {};
 
         break;
       }
       case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-        playerStore[change.pos == 0 ? "player0" : "player1"] = {}; // todo: 有没有必要？
+        playerStore[change.pos === 0 ? "player0" : "player1"] = {}; // TODO: 有没有必要？
         playerStore.observerCount += 1;
         break;
       }

@@ -30,7 +30,7 @@ import { DeckManager, fetchDeck, type IDeck } from "@/api/deck";
 import { useConfig } from "@/config";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
-import { store } from "@/stores";
+import { chatStore, joinStore, moraStore, playerStore } from "@/stores";
 
 const NeosConfig = useConfig();
 
@@ -42,8 +42,11 @@ const {
 } = useConfig();
 
 const WaitRoom = () => {
-  const state = store;
-  const snap = useSnapshot(state);
+  const snapJoin = useSnapshot(joinStore);
+  const snapChat = useSnapshot(chatStore);
+  const snapMora = useSnapshot(moraStore);
+  const snapPlayer = useSnapshot(playerStore);
+
   const params = useParams<{
     player?: string;
     passWd?: string;
@@ -77,7 +80,7 @@ const WaitRoom = () => {
 
         // 初始化wasm
         const url =
-          import.meta.env.BASE_URL == "/"
+          import.meta.env.BASE_URL === "/"
             ? undefined
             : new URL("rust_src_bg.wasm", `${import.meta.env.BASE_URL}assets/`);
         await rustInit(url);
@@ -89,12 +92,12 @@ const WaitRoom = () => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const joined = snap.joinStore.value;
-  const chat = snap.chatStore.message;
-  const isHost = snap.playerStore.isHost;
-  const player0 = snap.playerStore.player0;
-  const player1 = snap.playerStore.player1;
-  const duelStart = snap.moraStore.duelStart;
+  const joined = snapJoin.value;
+  const chat = snapChat.message;
+  const isHost = snapPlayer.isHost;
+  const player0 = snapPlayer.player0;
+  const player1 = snapPlayer.player1;
+  const duelStart = snapMora.duelStart;
 
   // FIXME: 这些数据应该从`store`中获取
   // TODO: 云卡组
@@ -119,9 +122,9 @@ const WaitRoom = () => {
 
         if (
           !(
-            deck.main.length == 0 &&
-            deck.extra.length == 0 &&
-            deck.side.length == 0
+            deck.main.length === 0 &&
+            deck.extra.length === 0 &&
+            deck.side.length === 0
           )
         ) {
           // YDK解析成功

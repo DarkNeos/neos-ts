@@ -1,15 +1,14 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
 import { useConfig } from "@/config";
-import {
-  fetchCheckCardMeta,
-  fetchSelectHintMeta,
-  messageStore,
-} from "@/stores";
+import { fetchSelectHintMeta } from "@/stores";
+import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
+
+import { fetchCheckCardMeta } from "../utils";
 
 const NeosConfig = useConfig();
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
-export default (selectChain: MsgSelectChain) => {
+export default async (selectChain: MsgSelectChain) => {
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
   const _hint0 = selectChain.hint0;
@@ -19,9 +18,9 @@ export default (selectChain: MsgSelectChain) => {
   let handle_flag = 0;
   if (!forced) {
     // 无强制发动的卡
-    if (spCount == 0) {
+    if (spCount === 0) {
       // 无关键卡
-      if (chains.length == 0) {
+      if (chains.length === 0) {
         // 直接回答
         handle_flag = 0;
       } else {
@@ -35,7 +34,7 @@ export default (selectChain: MsgSelectChain) => {
       }
     } else {
       // 有关键卡
-      if (chains.length == 0) {
+      if (chains.length === 0) {
         // 根本没卡，直接回答
         handle_flag = 0;
       } else {
@@ -45,7 +44,7 @@ export default (selectChain: MsgSelectChain) => {
     }
   } else {
     // 有强制发动的卡
-    if (chains.length == 1) {
+    if (chains.length === 1) {
       // 只有一个强制发动的连锁项，直接回应
       handle_flag = 4;
     } else {
@@ -64,26 +63,21 @@ export default (selectChain: MsgSelectChain) => {
     case 2: // 处理多张
     case 3: {
       // 处理强制发动的卡
-
-      messageStore.selectCardActions.isChain = true;
-      messageStore.selectCardActions.min = 1;
-      messageStore.selectCardActions.max = 1;
-      messageStore.selectCardActions.cancelAble = !forced;
-
-      for (const chain of chains) {
-        fetchCheckCardMeta({
-          code: chain.code,
-          location: chain.location,
-          response: chain.response,
-          effectDescCode: chain.effect_description,
-        });
-      }
-      fetchSelectHintMeta({
+      await fetchSelectHintMeta({
         selectHintData: 203,
       });
-      messageStore.selectCardActions.isValid = true;
-      messageStore.selectCardActions.isOpen = true;
-
+      const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
+        chains
+      );
+      await displaySelectActionsModal({
+        isChain: true,
+        cancelable: !forced,
+        min: 1,
+        max: 1,
+        selecteds,
+        mustSelects,
+        selectables,
+      });
       break;
     }
     case 4: {

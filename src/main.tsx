@@ -19,6 +19,7 @@
  * 在进行代码开发的时候需要注意这点。
  *
  * */
+import { ProConfigProvider } from "@ant-design/pro-provider";
 import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
@@ -30,10 +31,13 @@ import Neos from "./ui/Neos";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <BrowserRouter>
     <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }} locale={zhCN}>
-      <Neos />
+      <ProConfigProvider dark>
+        <Neos />
+      </ProConfigProvider>
     </ConfigProvider>
   </BrowserRouter>
 );

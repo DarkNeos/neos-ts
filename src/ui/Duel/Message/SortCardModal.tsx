@@ -1,3 +1,4 @@
+// 卡牌排序弹窗
 import {
   closestCenter,
   DndContext,
@@ -15,23 +16,35 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Button, Card, Modal } from "antd";
+import { Button, Card } from "antd";
 import React, { useEffect, useState } from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
 import { sendSortCardResponse } from "@/api";
 import { CardMeta } from "@/api/cards";
 import { useConfig } from "@/config";
-import { messageStore } from "@/stores";
+
+import { NeosModal } from "./NeosModal";
 
 const NeosConfig = useConfig();
 
-const { sortCardModal } = messageStore;
+interface SortOption {
+  meta: CardMeta;
+  response: number;
+}
+interface SortCardModalProps {
+  isOpen: boolean;
+  options: SortOption[];
+}
+const defaultProps = {
+  isOpen: false,
+  options: [],
+};
+
+const localStore = proxy<SortCardModalProps>(defaultProps);
 
 export const SortCardModal = () => {
-  const snapSortCardModal = useSnapshot(sortCardModal);
-  const isOpen = snapSortCardModal.isOpen;
-  const options = snapSortCardModal.options;
+  const { isOpen, options } = useSnapshot(localStore);
   const [items, setItems] = useState(options);
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -42,15 +55,14 @@ export const SortCardModal = () => {
 
   const onFinish = () => {
     sendSortCardResponse(items.map((item) => item.response));
-    sortCardModal.isOpen = false;
-    sortCardModal.options = [];
+    rs();
   };
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
       setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.response == active.id);
+        const oldIndex = items.findIndex((item) => item.response === active.id);
         const newIndex = items.findIndex((item) => item.response === over?.id);
         // @ts-ignore
         return arrayMove(items, oldIndex, newIndex);
@@ -63,10 +75,9 @@ export const SortCardModal = () => {
   }, [options]);
 
   return (
-    <Modal
+    <NeosModal
       title="请为下列卡牌排序"
       open={isOpen}
-      closable={false}
       footer={<Button onClick={onFinish}>finish</Button>}
     >
       <DndContext
@@ -87,7 +98,7 @@ export const SortCardModal = () => {
           ))}
         </SortableContext>
       </DndContext>
-    </Modal>
+    </NeosModal>
   );
 };
 
@@ -113,4 +124,14 @@ const SortableItem = (props: { id: number; meta: CardMeta }) => {
       />
     </div>
   );
+};
+
+let rs: (arg?: any) => void = () => {};
+
+export const displaySortCardModal = async (options: SortOption[]) => {
+  localStore.options = options;
+  localStore.isOpen = true;
+  await new Promise<void>((resolve) => (rs = resolve));
+  localStore.isOpen = false;
+  localStore.options = [];
 };

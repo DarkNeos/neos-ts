@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import classnames from "classnames";
-import { type CSSProperties, type FC } from "react";
+import { type CSSProperties } from "react";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
@@ -31,7 +31,7 @@ const BgDisabledStyle = {
     )`,
 };
 
-const BgExtraRow: FC<{
+const BgExtraRow: React.FC<{
   meSnap: Snapshot<BlockState[]>;
   opSnap: Snapshot<BlockState[]>;
 }> = ({ meSnap, opSnap }) => {
@@ -52,13 +52,15 @@ const BgExtraRow: FC<{
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
           }}
-        ></div>
+        >
+          {<DecoTriangles />}
+        </div>
       ))}
     </div>
   );
 };
 
-const BgRow: FC<{
+const BgRow: React.FC<{
   isSzone?: boolean;
   opponent?: boolean;
   snap: Snapshot<BlockState[]>;
@@ -73,12 +75,14 @@ const BgRow: FC<{
         })}
         style={snap[i].disabled ? (BgDisabledStyle as CSSProperties) : {}}
         onClick={() => onBlockClick(snap[i].interactivity)}
-      ></div>
+      >
+        {<DecoTriangles />}
+      </div>
     ))}
   </div>
 );
 
-export const Bg: FC = () => {
+export const Bg: React.FC = () => {
   const snap = useSnapshot(placeStore.inner);
   return (
     <div className="mat-bg">
@@ -101,3 +105,11 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
     placeStore.clearAllInteractivity();
   }
 };
+
+const DecoTriangles: React.FC = () => (
+  <>
+    {Array.from({ length: 4 }).map((_, i) => (
+      <div className="triangle" key={i} />
+    ))}
+  </>
+);

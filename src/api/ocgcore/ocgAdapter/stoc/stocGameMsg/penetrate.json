@@ -1,248 +1,243 @@
 {
-   "50":{
-      "protoType":"move",
-      "fields":[
-         {
-            "fieldName":"code",
-            "fieldType":"uint32"
-         },
-         {
-            "fieldName":"from",
-            "fieldType":"CardLocation"
-         },
-         {
-            "fieldName":"to",
-            "fieldType":"CardLocation"
-         },
-         {
-            "fieldName":"reason",
-            "fieldType":"uint8"
-         }
-      ]
-   },
-   "33":{
-      "protoType":"shuffle_hand",
-      "fields":[
-         {
-            "fieldName":"player",
-            "fieldType":"uint8"
-         },
-         {
-            "fieldName":"hands",
-            "fieldType":"repeated",
-            "repeatedType":"uint32"
-         }
-      ]
-   },
-   "53":{
-      "protoType":"pos_change",
-      "fields":[
-         {
-            "fieldName":"card_info",
-            "fieldType":"CardInfo"
-         },
-         {
-            "fieldName":"pre_position",
-            "fieldType":"CardPosition"
-         },
-         {
-            "fieldName":"cur_position",
-            "fieldType":"CardPosition"
-         }
-      ]
-   },
-   "13":{
-      "protoType":"select_yes_no",
-      "fields":[
-         {
-            "fieldName":"player",
-            "fieldType":"uint8"
-         },
-         {
-            "fieldName":"effect_description",
-            "fieldType":"uint32"
-         }
-      ]
-   },
-   "54":{
-      "protoType":"set",
-      "fields":[
-         
-      ]
-   },
-   "55":{
-      "protoType":"swap",
-      "fields":[
-         
-      ]
-   },
-   "60":{
-      "protoType":"summoning",
-      "fields":[
-         {
-            "fieldName":"code",
-            "fieldType":"uint32"
-         },
-         {
-            "fieldName":"location",
-            "fieldType":"CardLocation"
-         }
-      ]
-   },
-   "61":{
-      "protoType":"summoned",
-      "fields":[
-         
-      ]
-   },
-   "62":{
-      "protoType":"sp_summoning",
-      "fields":[
-         {
-            "fieldName":"code",
-            "fieldType":"uint32"
-         },
-         {
-            "fieldName":"location",
-            "fieldType":"CardLocation"
-         }
-      ]
-   },
-   "63":{
-      "protoType":"sp_summoned",
-      "fields":[
-         
-      ]
-   },
-   "64":{
-      "protoType":"flip_summoning",
-      "fields":[
-         {
-            "fieldName":"code",
-            "fieldType":"uint32"
-         },
-         {
-            "fieldName":"location",
-            "fieldType":"CardLocation"
-         }
-      ]
-   },
-   "65":{
-      "protoType":"flip_summoned",
-      "fields":[
-         
-      ]
-   },
-   "70":{
-      "protoType":"chaining",
-      "fields":[
-         {
-            "fieldName":"code",
-            "fieldType":"uint32"
-         },
-         {
-            "fieldName":"location",
-            "fieldType":"CardLocation"
-         }
-      ]
-   },
-   "112":{
-      "protoType":"attack_disable",
-      "fields":[
-         
-      ]
-   },
-   "73":{
-      "protoType":"chain_solved",
-      "fields":[
-         {
-            "fieldName":"solved_index",
-            "fieldType":"uint8"
-         }
-      ]
-   },
-   "74":{
-      "protoType":"chain_end",
-      "fields":[
-         
-      ]
-   },
-   "75":{
-      "protoType":"chain_solved",
-      "fields":[
-         {
-            "fieldName":"solved_index",
-            "fieldType":"uint8"
-         }
-      ]
-   },
-   "76":{
-      "protoType":"chain_solved",
-      "fields":[
-         {
-            "fieldName":"solved_index",
-            "fieldType":"uint8"
-         }
-      ]
-   },
-   "94":{
-      "protoType":"lp_update",
-      "fields":[
-         {
-            "fieldName":"player",
-            "fieldType":"uint8"
-         },
-         {
-            "fieldName":"new_lp",
-            "fieldType":"uint32"
-         }
-      ]
-   },
-   "30":{
-      "protoType":"confirm_cards",
-      "fields":[
-         {
-            "fieldName":"player",
-            "fieldType":"uint8"
-         },
-         {
-            "fieldName":"cards",
-            "fieldType":"repeated",
-            "repeatedType":"CardInfo"
-         }
-      ]
-   },
-   "31":{
-      "protoType":"confirm_cards",
-      "fields":[
-         {
-            "fieldName":"player",
-            "fieldType":"uint8"
-         },
-         {
-            "fieldName":"cards",
-            "fieldType":"repeated",
-            "repeatedType":"CardInfo"
-         }
-      ]
-   },
-   "83":{
-      "protoType":"become_target",
-      "fields":[
-        {
-          "fieldName":"locations",
-          "fieldType":"repeated",
-          "repeatedType":"CardLocation"
-        }
-      ]
-   },
-   "32":{
-     "protoType":"shuffle_deck",
-     "fields":[
-       {
-         "fieldName":"player",
-         "fieldType":"uint8"
-       }
-     ]
-   }
+  "50": {
+    "protoType": "move",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "from",
+        "fieldType": "CardLocation"
+      },
+      {
+        "fieldName": "to",
+        "fieldType": "CardLocation"
+      },
+      {
+        "fieldName": "reason",
+        "fieldType": "uint8"
+      }
+    ]
+  },
+  "33": {
+    "protoType": "shuffle_hand",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "hands",
+        "fieldType": "repeated",
+        "repeatedType": "uint32"
+      }
+    ]
+  },
+  "53": {
+    "protoType": "pos_change",
+    "fields": [
+      {
+        "fieldName": "card_info",
+        "fieldType": "CardInfo"
+      },
+      {
+        "fieldName": "pre_position",
+        "fieldType": "CardPosition"
+      },
+      {
+        "fieldName": "cur_position",
+        "fieldType": "CardPosition"
+      }
+    ]
+  },
+  "13": {
+    "protoType": "select_yes_no",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "effect_description",
+        "fieldType": "uint32"
+      }
+    ]
+  },
+  "54": {
+    "protoType": "set",
+    "fields": []
+  },
+  "55": {
+    "protoType": "swap",
+    "fields": []
+  },
+  "60": {
+    "protoType": "summoning",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "location",
+        "fieldType": "CardLocation"
+      }
+    ]
+  },
+  "61": {
+    "protoType": "summoned",
+    "fields": []
+  },
+  "62": {
+    "protoType": "sp_summoning",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "location",
+        "fieldType": "CardLocation"
+      }
+    ]
+  },
+  "63": {
+    "protoType": "sp_summoned",
+    "fields": []
+  },
+  "64": {
+    "protoType": "flip_summoning",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "location",
+        "fieldType": "CardLocation"
+      }
+    ]
+  },
+  "65": {
+    "protoType": "flip_summoned",
+    "fields": []
+  },
+  "70": {
+    "protoType": "chaining",
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "location",
+        "fieldType": "CardLocation"
+      }
+    ]
+  },
+  "112": {
+    "protoType": "attack_disable",
+    "fields": []
+  },
+  "73": {
+    "protoType": "chain_solved",
+    "fields": [
+      {
+        "fieldName": "solved_index",
+        "fieldType": "uint8"
+      }
+    ]
+  },
+  "74": {
+    "protoType": "chain_end",
+    "fields": []
+  },
+  "75": {
+    "protoType": "chain_solved",
+    "fields": [
+      {
+        "fieldName": "solved_index",
+        "fieldType": "uint8"
+      }
+    ]
+  },
+  "76": {
+    "protoType": "chain_solved",
+    "fields": [
+      {
+        "fieldName": "solved_index",
+        "fieldType": "uint8"
+      }
+    ]
+  },
+  "94": {
+    "protoType": "lp_update",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "new_lp",
+        "fieldType": "uint32"
+      }
+    ]
+  },
+  "30": {
+    "protoType": "confirm_cards",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "cards",
+        "fieldType": "repeated",
+        "repeatedType": "CardInfo"
+      }
+    ]
+  },
+  "31": {
+    "protoType": "confirm_cards",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      },
+      {
+        "fieldName": "cards",
+        "fieldType": "repeated",
+        "repeatedType": "CardInfo"
+      }
+    ]
+  },
+  "83": {
+    "protoType": "become_target",
+    "fields": [
+      {
+        "fieldName": "locations",
+        "fieldType": "repeated",
+        "repeatedType": "CardLocation"
+      }
+    ]
+  },
+  "32": {
+    "protoType": "shuffle_deck",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      }
+    ]
+  },
+  "132": {
+    "protoType": "rock_paper_scissors",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      }
+    ]
+  }
 }

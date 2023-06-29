@@ -5,13 +5,17 @@ export type CSSConfig = Record<string, { value: number; unit: UNIT }>;
 /** 转为CSS变量: BOARD_ROTATE_Z -> --board-rotate-z */
 export const toCssProperties = (config: CSSConfig) =>
   Object.entries(config)
-    .map(([k, v]) => ({
-      [`--${k
-        .split("_")
-        .map((s) => s.toLowerCase())
-        .join("-")}`]: `${v.value}${v.unit}`,
-    }))
-    .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+    .map(
+      ([k, v]) =>
+        [
+          `--${k
+            .split("_")
+            .map((s) => s.toLowerCase())
+            .join("-")}`,
+          `${v.value}${v.unit}`,
+        ] as [string, string]
+    )
+    .reduce((acc, cur) => [...acc, cur], [] as [string, string][]);
 
 enum UNIT {
   PX = "px",
@@ -61,7 +65,7 @@ export const matConfig = {
     unit: UNIT.PX,
   },
   HAND_CARD_HEIGHT: {
-    value: 120,
+    value: 140,
     unit: UNIT.PX,
   },
   DECK_OFFSET_X: {
@@ -81,3 +85,7 @@ export const matConfig = {
     unit: UNIT.PX,
   },
 };
+
+toCssProperties(matConfig).forEach(([k, v]) => {
+  document.body.style.setProperty(k, v);
+});

@@ -12,7 +12,7 @@ export default async (updateData: MsgUpdateData) => {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {
         const target = field
-          .filter((card) => card.location.sequence == sequence)
+          .filter((card) => card.location.sequence === sequence)
           .at(0);
         if (target) {
           // 目前只更新以下字段

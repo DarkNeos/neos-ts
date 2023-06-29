@@ -1,0 +1,36 @@
+.neos-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0 !important;
+  bottom: 0 !important;
+  top: -webkit-fill-available;
+  margin: auto;
+  height: fit-content;
+  transition: 0.3s;
+}
+
+.neos-modal-mini {
+  top: 100% !important;
+  bottom: 0 !important;
+  transform: translateY(calc(50% - 66px));
+  .ant-modal-body {
+    animation: fadeout 0.3s forwards;
+  }
+}
+
+.neos-modal-wrap {
+  pointer-events: none;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

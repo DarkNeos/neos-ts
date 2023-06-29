@@ -1,65 +1,78 @@
-import { Drawer, List } from "antd";
+import { Drawer, Space } from "antd";
 import React from "react";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 
-import { useConfig } from "@/config";
-import { messageStore } from "@/stores";
+import { ygopro } from "@/api";
+import { cardStore, CardType } from "@/stores";
+import { YgoCard } from "@/ui/Shared";
 
-import { EffectButton } from "./EffectButton";
-
-const NeosConfig = useConfig();
+import { showCardModal } from "./CardModal";
 
 const CARD_WIDTH = 100;
 
-const { cardListModal } = messageStore;
+// TODO: 显示的位置还需要细细斟酌
+
+const defaultStore = {
+  zone: ygopro.CardZone.HAND,
+  controller: 0,
+  monster: {} as CardType,
+  isOpen: false,
+  isZone: true,
+};
+
+const store = proxy(defaultStore);
 
 export const CardListModal = () => {
-  const snap = useSnapshot(cardListModal);
-  const isOpen = snap.isOpen;
-  const list = snap.list as typeof cardListModal.list;
+  const { zone, monster, isOpen, isZone, controller } = useSnapshot(store);
+  let cardList: CardType[] = [];
+
+  if (isZone) {
+    cardList = cardStore.at(zone, controller);
+  } else {
+    // 看超量素材
+    cardList = cardStore.findOverlay(
+      monster.location.zone,
+      monster.location.controller,
+      monster.location.sequence
+    );
+  }
 
   const handleOkOrCancel = () => {
-    cardListModal.isOpen = false;
+    store.isOpen = false;
   };
 
   return (
-    <Drawer open={isOpen} onClose={handleOkOrCancel}>
-      <List
-        itemLayout="horizontal"
-        dataSource={list}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <EffectButton
-                effectInteractivies={item.interactivies}
-                meta={item.meta}
-              />,
-            ]}
-            extra={
-              <img
-                alt={item.meta?.text.name}
-                src={
-                  item.meta?.id
-                    ? `${NeosConfig.cardImgUrl}/${item.meta.id}.jpg`
-                    : `${NeosConfig.assetsPath}/card_back.jpg`
-                }
-                style={{ width: CARD_WIDTH }}
-              />
-            }
-            onClick={() => {
-              messageStore.cardModal.meta = item.meta;
-              messageStore.cardModal.interactivies = item.interactivies;
-              messageStore.cardModal.counters = [];
-              messageStore.cardModal.isOpen = true;
-            }}
-          >
-            <List.Item.Meta
-              title={item.meta?.text.name}
-              description={item.meta?.text.desc}
-            />
-          </List.Item>
-        )}
-      ></List>
+    <Drawer
+      open={isOpen}
+      onClose={handleOkOrCancel}
+      // headerStyle={{ display: "none" }}
+      width={CARD_WIDTH + 66}
+      style={{ maxHeight: "100%" }}
+      mask={false}
+    >
+      <Space direction="vertical">
+        {cardList.map((card) => (
+          <YgoCard
+            code={card.code}
+            key={card.uuid}
+            width={CARD_WIDTH}
+            onClick={() => showCardModal(card)}
+          />
+        ))}
+      </Space>
     </Drawer>
   );
+};
+
+export const displayCardListModal = ({
+  isZone,
+  monster,
+  zone,
+  controller,
+}: Partial<Omit<typeof defaultStore, "isOpen">>) => {
+  store.isOpen = true;
+  isZone && (store.isZone = isZone);
+  monster && (store.monster = monster);
+  zone && (store.zone = zone);
+  controller && (store.controller = controller);
 };

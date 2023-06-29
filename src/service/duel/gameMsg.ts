@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { matStore } from "@/stores";
+import { showWaiting } from "@/ui/Duel/Message";
 
 import onAnnounce from "./announce";
 import onMsgAttack from "./attack";
@@ -14,6 +14,7 @@ import onMsgDraw from "./draw";
 import onMsgFieldDisabled from "./fieldDisabled";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
+import onMsgHandResult from "./handResult";
 import onMsgHint from "./hint";
 import onLpUpdate from "./lpUpdate";
 import onMsgMove from "./move";
@@ -21,6 +22,7 @@ import onMsgNewPhase from "./newPhase";
 import onMsgNewTurn from "./newTurn";
 import onMsgPosChange from "./posChange";
 import onMsgReloadField from "./reloadField";
+import onMsgRockPaperScissors from "./rockPaperScissors";
 import onMsgSelectBattleCmd from "./selectBattleCmd";
 import onMsgSelectCard from "./selectCard";
 import onMsgSelectChain from "./selectChain";
@@ -77,7 +79,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
-    matStore.waiting = false;
+    showWaiting(false);
   }
 
   switch (msg.gameMsg) {
@@ -102,7 +104,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "hint": {
-      onMsgHint(msg.hint);
+      await onMsgHint(msg.hint);
 
       break;
     }
@@ -133,12 +135,12 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_effect_yn": {
-      onMsgSelectEffectYn(msg.select_effect_yn);
+      await onMsgSelectEffectYn(msg.select_effect_yn);
 
       break;
     }
     case "select_position": {
-      onMsgSelectPosition(msg.select_position);
+      await onMsgSelectPosition(msg.select_position);
 
       break;
     }
@@ -168,7 +170,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_yes_no": {
-      onMsgSelectYesNo(msg.select_yes_no);
+      await onMsgSelectYesNo(msg.select_yes_no);
 
       break;
     }
@@ -213,12 +215,12 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "select_counter": {
-      onMsgSelectCounter(msg.select_counter);
+      await onMsgSelectCounter(msg.select_counter);
 
       break;
     }
     case "sort_card": {
-      onMsgSortCard(msg.sort_card);
+      await onMsgSortCard(msg.sort_card);
 
       break;
     }
@@ -324,6 +326,16 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "shuffle_deck": {
       onMsgShuffleDeck(msg.shuffle_deck);
+
+      break;
+    }
+    case "rock_paper_scissors": {
+      onMsgRockPaperScissors(msg.rock_paper_scissors);
+
+      break;
+    }
+    case "hand_res": {
+      onMsgHandResult(msg.hand_res);
 
       break;
     }

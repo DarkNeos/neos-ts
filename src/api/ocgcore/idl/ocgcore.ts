@@ -4511,7 +4511,7 @@ export namespace ygopro {
         }
     }
     export class StocGameMessage extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]];
         constructor(data?: any[] | ({} & (({
             start?: StocGameMessage.MsgStart;
             draw?: never;
@@ -4563,6 +4563,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: StocGameMessage.MsgDraw;
@@ -4614,6 +4616,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4665,6 +4669,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4716,6 +4722,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4767,6 +4775,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4818,6 +4828,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4869,6 +4881,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4920,6 +4934,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -4971,6 +4987,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5022,6 +5040,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5073,6 +5093,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5124,6 +5146,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5175,6 +5199,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5226,6 +5252,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5277,6 +5305,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5328,6 +5358,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5379,6 +5411,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5430,6 +5464,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5481,6 +5517,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5532,6 +5570,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5583,6 +5623,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5634,6 +5676,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5685,6 +5729,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5736,6 +5782,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5787,6 +5835,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5838,6 +5888,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5889,6 +5941,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5940,6 +5994,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -5991,6 +6047,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6042,6 +6100,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6093,6 +6153,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6144,6 +6206,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6195,6 +6259,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6246,6 +6312,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6297,6 +6365,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6348,6 +6418,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6399,6 +6471,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6450,6 +6524,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6501,6 +6577,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6552,6 +6630,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6603,6 +6683,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6654,6 +6736,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6705,6 +6789,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6756,6 +6842,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6807,6 +6895,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6858,6 +6948,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6909,6 +7001,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -6960,6 +7054,8 @@ export namespace ygopro {
             shuffle_set_card?: StocGameMessage.MsgShuffleSetCard;
             field_disabled?: never;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -7011,6 +7107,8 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: StocGameMessage.MsgFieldDisabled;
             shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: never;
         } | {
             start?: never;
             draw?: never;
@@ -7062,6 +7160,114 @@ export namespace ygopro {
             shuffle_set_card?: never;
             field_disabled?: never;
             shuffle_deck?: StocGameMessage.MsgShuffleDeck;
+            rock_paper_scissors?: never;
+            hand_res?: never;
+        } | {
+            start?: never;
+            draw?: never;
+            new_turn?: never;
+            new_phase?: never;
+            hint?: never;
+            select_idle_cmd?: never;
+            select_place?: never;
+            move?: never;
+            select_card?: never;
+            select_chain?: never;
+            select_effect_yn?: never;
+            select_position?: never;
+            select_option?: never;
+            shuffle_hand?: never;
+            select_battle_cmd?: never;
+            pos_change?: never;
+            select_unselect_card?: never;
+            select_yes_no?: never;
+            update_hp?: never;
+            win?: never;
+            wait?: never;
+            unimplemented?: never;
+            update_data?: never;
+            reload_field?: never;
+            select_sum?: never;
+            select_tribute?: never;
+            update_counter?: never;
+            select_counter?: never;
+            sort_card?: never;
+            set?: never;
+            swap?: never;
+            summoning?: never;
+            summoned?: never;
+            flip_summoning?: never;
+            flip_summoned?: never;
+            sp_summoning?: never;
+            sp_summoned?: never;
+            chaining?: never;
+            attack?: never;
+            attack_disable?: never;
+            chain_solved?: never;
+            chain_end?: never;
+            announce?: never;
+            lp_update?: never;
+            confirm_cards?: never;
+            become_target?: never;
+            toss?: never;
+            shuffle_set_card?: never;
+            field_disabled?: never;
+            shuffle_deck?: never;
+            rock_paper_scissors?: StocGameMessage.MsgRockPaperScissors;
+            hand_res?: never;
+        } | {
+            start?: never;
+            draw?: never;
+            new_turn?: never;
+            new_phase?: never;
+            hint?: never;
+            select_idle_cmd?: never;
+            select_place?: never;
+            move?: never;
+            select_card?: never;
+            select_chain?: never;
+            select_effect_yn?: never;
+            select_position?: never;
+            select_option?: never;
+            shuffle_hand?: never;
+            select_battle_cmd?: never;
+            pos_change?: never;
+            select_unselect_card?: never;
+            select_yes_no?: never;
+            update_hp?: never;
+            win?: never;
+            wait?: never;
+            unimplemented?: never;
+            update_data?: never;
+            reload_field?: never;
+            select_sum?: never;
+            select_tribute?: never;
+            update_counter?: never;
+            select_counter?: never;
+            sort_card?: never;
+            set?: never;
+            swap?: never;
+            summoning?: never;
+            summoned?: never;
+            flip_summoning?: never;
+            flip_summoned?: never;
+            sp_summoning?: never;
+            sp_summoned?: never;
+            chaining?: never;
+            attack?: never;
+            attack_disable?: never;
+            chain_solved?: never;
+            chain_end?: never;
+            announce?: never;
+            lp_update?: never;
+            confirm_cards?: never;
+            become_target?: never;
+            toss?: never;
+            shuffle_set_card?: never;
+            field_disabled?: never;
+            shuffle_deck?: never;
+            rock_paper_scissors?: never;
+            hand_res?: StocGameMessage.MsgHandResult;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -7215,6 +7421,12 @@ export namespace ygopro {
                 }
                 if ("shuffle_deck" in data && data.shuffle_deck != undefined) {
                     this.shuffle_deck = data.shuffle_deck;
+                }
+                if ("rock_paper_scissors" in data && data.rock_paper_scissors != undefined) {
+                    this.rock_paper_scissors = data.rock_paper_scissors;
+                }
+                if ("hand_res" in data && data.hand_res != undefined) {
+                    this.hand_res = data.hand_res;
                 }
             }
         }
@@ -7668,9 +7880,27 @@ export namespace ygopro {
         get has_shuffle_deck() {
             return pb_1.Message.getField(this, 50) != null;
         }
+        get rock_paper_scissors() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgRockPaperScissors, 51) as StocGameMessage.MsgRockPaperScissors;
+        }
+        set rock_paper_scissors(value: StocGameMessage.MsgRockPaperScissors) {
+            pb_1.Message.setOneofWrapperField(this, 51, this.#one_of_decls[0], value);
+        }
+        get has_rock_paper_scissors() {
+            return pb_1.Message.getField(this, 51) != null;
+        }
+        get hand_res() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgHandResult, 52) as StocGameMessage.MsgHandResult;
+        }
+        set hand_res(value: StocGameMessage.MsgHandResult) {
+            pb_1.Message.setOneofWrapperField(this, 52, this.#one_of_decls[0], value);
+        }
+        get has_hand_res() {
+            return pb_1.Message.getField(this, 52) != null;
+        }
         get gameMsg() {
             const cases: {
-                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled" | "shuffle_deck";
+                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled" | "shuffle_deck" | "rock_paper_scissors" | "hand_res";
             } = {
                 0: "none",
                 1: "start",
@@ -7722,9 +7952,11 @@ export namespace ygopro {
                 47: "toss",
                 48: "shuffle_set_card",
                 49: "field_disabled",
-                50: "shuffle_deck"
+                50: "shuffle_deck",
+                51: "rock_paper_scissors",
+                52: "hand_res"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52])];
         }
         static fromObject(data: {
             start?: ReturnType<typeof StocGameMessage.MsgStart.prototype.toObject>;
@@ -7777,6 +8009,8 @@ export namespace ygopro {
             shuffle_set_card?: ReturnType<typeof StocGameMessage.MsgShuffleSetCard.prototype.toObject>;
             field_disabled?: ReturnType<typeof StocGameMessage.MsgFieldDisabled.prototype.toObject>;
             shuffle_deck?: ReturnType<typeof StocGameMessage.MsgShuffleDeck.prototype.toObject>;
+            rock_paper_scissors?: ReturnType<typeof StocGameMessage.MsgRockPaperScissors.prototype.toObject>;
+            hand_res?: ReturnType<typeof StocGameMessage.MsgHandResult.prototype.toObject>;
         }): StocGameMessage {
             const message = new StocGameMessage({});
             if (data.start != null) {
@@ -7929,6 +8163,12 @@ export namespace ygopro {
             if (data.shuffle_deck != null) {
                 message.shuffle_deck = StocGameMessage.MsgShuffleDeck.fromObject(data.shuffle_deck);
             }
+            if (data.rock_paper_scissors != null) {
+                message.rock_paper_scissors = StocGameMessage.MsgRockPaperScissors.fromObject(data.rock_paper_scissors);
+            }
+            if (data.hand_res != null) {
+                message.hand_res = StocGameMessage.MsgHandResult.fromObject(data.hand_res);
+            }
             return message;
         }
         toObject() {
@@ -7983,6 +8223,8 @@ export namespace ygopro {
                 shuffle_set_card?: ReturnType<typeof StocGameMessage.MsgShuffleSetCard.prototype.toObject>;
                 field_disabled?: ReturnType<typeof StocGameMessage.MsgFieldDisabled.prototype.toObject>;
                 shuffle_deck?: ReturnType<typeof StocGameMessage.MsgShuffleDeck.prototype.toObject>;
+                rock_paper_scissors?: ReturnType<typeof StocGameMessage.MsgRockPaperScissors.prototype.toObject>;
+                hand_res?: ReturnType<typeof StocGameMessage.MsgHandResult.prototype.toObject>;
             } = {};
             if (this.start != null) {
                 data.start = this.start.toObject();
@@ -8134,6 +8376,12 @@ export namespace ygopro {
             if (this.shuffle_deck != null) {
                 data.shuffle_deck = this.shuffle_deck.toObject();
             }
+            if (this.rock_paper_scissors != null) {
+                data.rock_paper_scissors = this.rock_paper_scissors.toObject();
+            }
+            if (this.hand_res != null) {
+                data.hand_res = this.hand_res.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -8240,6 +8488,10 @@ export namespace ygopro {
                 writer.writeMessage(49, this.field_disabled, () => this.field_disabled.serialize(writer));
             if (this.has_shuffle_deck)
                 writer.writeMessage(50, this.shuffle_deck, () => this.shuffle_deck.serialize(writer));
+            if (this.has_rock_paper_scissors)
+                writer.writeMessage(51, this.rock_paper_scissors, () => this.rock_paper_scissors.serialize(writer));
+            if (this.has_hand_res)
+                writer.writeMessage(52, this.hand_res, () => this.hand_res.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -8398,6 +8650,12 @@ export namespace ygopro {
                         break;
                     case 50:
                         reader.readMessage(message.shuffle_deck, () => message.shuffle_deck = StocGameMessage.MsgShuffleDeck.deserialize(reader));
+                        break;
+                    case 51:
+                        reader.readMessage(message.rock_paper_scissors, () => message.rock_paper_scissors = StocGameMessage.MsgRockPaperScissors.deserialize(reader));
+                        break;
+                    case 52:
+                        reader.readMessage(message.hand_res, () => message.hand_res = StocGameMessage.MsgHandResult.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -16035,6 +16293,163 @@ export namespace ygopro {
             }
             static deserializeBinary(bytes: Uint8Array): MsgShuffleDeck {
                 return MsgShuffleDeck.deserialize(bytes);
+            }
+        }
+        export class MsgRockPaperScissors extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                player?: number;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("player" in data && data.player != undefined) {
+                        this.player = data.player;
+                    }
+                }
+            }
+            get player() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set player(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            static fromObject(data: {
+                player?: number;
+            }): MsgRockPaperScissors {
+                const message = new MsgRockPaperScissors({});
+                if (data.player != null) {
+                    message.player = data.player;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    player?: number;
+                } = {};
+                if (this.player != null) {
+                    data.player = this.player;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.player != 0)
+                    writer.writeInt32(1, this.player);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgRockPaperScissors {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgRockPaperScissors();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.player = reader.readInt32();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MsgRockPaperScissors {
+                return MsgRockPaperScissors.deserialize(bytes);
+            }
+        }
+        export class MsgHandResult extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                result1?: number;
+                result2?: number;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("result1" in data && data.result1 != undefined) {
+                        this.result1 = data.result1;
+                    }
+                    if ("result2" in data && data.result2 != undefined) {
+                        this.result2 = data.result2;
+                    }
+                }
+            }
+            get result1() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set result1(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get result2() {
+                return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+            }
+            set result2(value: number) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            static fromObject(data: {
+                result1?: number;
+                result2?: number;
+            }): MsgHandResult {
+                const message = new MsgHandResult({});
+                if (data.result1 != null) {
+                    message.result1 = data.result1;
+                }
+                if (data.result2 != null) {
+                    message.result2 = data.result2;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    result1?: number;
+                    result2?: number;
+                } = {};
+                if (this.result1 != null) {
+                    data.result1 = this.result1;
+                }
+                if (this.result2 != null) {
+                    data.result2 = this.result2;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.result1 != 0)
+                    writer.writeInt32(1, this.result1);
+                if (this.result2 != 0)
+                    writer.writeInt32(2, this.result2);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgHandResult {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgHandResult();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.result1 = reader.readInt32();
+                            break;
+                        case 2:
+                            message.result2 = reader.readInt32();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MsgHandResult {
+                return MsgHandResult.deserialize(bytes);
             }
         }
         export class MsgReloadField extends pb_1.Message {

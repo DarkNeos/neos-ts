@@ -75,12 +75,11 @@ export const matStore: MatState = proxy<MatState>({
   hint: { code: -1 },
   currentPlayer: -1,
   phase: {
-    currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN, // TODO 当前的阶段 应该改成enum
+    currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN,
     enableBp: false, // 允许进入战斗阶段
     enableM2: false, // 允许进入M2阶段
     enableEp: false, // 允许回合结束
   },
-  waiting: false,
   unimplemented: 0,
   // methods
   isMe,

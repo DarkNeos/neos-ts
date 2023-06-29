@@ -34,11 +34,11 @@ export const playerStore = proxy<PlayerState>({
   isHost: false,
   selfType: SelfType.UNKNOWN,
   getMePlayer() {
-    if (this.selfType == SelfType.PLAYER1) return this.player0;
+    if (this.selfType === SelfType.PLAYER1) return this.player0;
     return this.player1;
   },
   getOpPlayer() {
-    if (this.selfType == SelfType.PLAYER1) return this.player1;
+    if (this.selfType === SelfType.PLAYER1) return this.player1;
     return this.player0;
   },
 });

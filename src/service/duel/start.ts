@@ -6,15 +6,14 @@ import { subscribeKey } from "valtio/utils";
 import { fetchCard, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
-import { cardStore, CardType, store } from "@/stores";
-const { matStore } = store;
+import { cardStore, CardType, matStore } from "@/stores";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
 export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
   matStore.selfType = start.playerType;
   const opponent =
-    start.playerType == ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+    start.playerType === ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
       ? 1
       : 0;
 
