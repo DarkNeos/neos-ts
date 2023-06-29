@@ -1,4 +1,3 @@
-import "@/styles/card-modal.scss";
 import "./index.scss";
 
 import { LeftOutlined } from "@ant-design/icons";
