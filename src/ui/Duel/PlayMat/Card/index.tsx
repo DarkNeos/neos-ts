@@ -319,11 +319,19 @@ const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
       } else {
         // 场地: 选择卡片
         const option = await displaySimpleSelectCardsModal({
-          selectables: cards.map((card) => ({
-            meta: card.meta,
-            location: card.location,
-            card,
-          })),
+          selectables: cards
+            // 过滤掉不能发效果的卡
+            .filter(
+              (card) =>
+                card.idleInteractivities.find(
+                  ({ interactType }) => interactType === InteractType.ACTIVATE
+                ) !== undefined
+            )
+            .map((card) => ({
+              meta: card.meta,
+              location: card.location,
+              card,
+            })),
         });
         card = option[0].card! as any; // 一定会有的，有输入则定有输出
       }
