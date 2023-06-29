@@ -48,7 +48,7 @@ export class YgoProPacket {
         );
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
 
     const dataView = new DataView(array);
