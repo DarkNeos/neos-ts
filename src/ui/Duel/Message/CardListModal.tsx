@@ -28,7 +28,6 @@ export const CardListModal = () => {
 
   if (isZone) {
     cardList = cardStore.at(zone, controller);
-    console.log({ cardList });
   } else {
     // 看超量素材
     cardList = cardStore.findOverlay(
