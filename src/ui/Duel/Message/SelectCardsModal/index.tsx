@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import { CheckCard } from "@ant-design/pro-components";
-import { Button, Segmented, Space, Tooltip } from "antd";
+import { Button, Card, Segmented, Space, Tooltip } from "antd";
 import { CSSProperties, useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
@@ -210,7 +210,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                 key={grouped.length + i}
               >
                 <div>
-                  <CheckCard
+                  <Card
                     cover={
                       <YgoCard
                         code={card.meta.id}
