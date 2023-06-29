@@ -25,22 +25,12 @@ export const YgoCard: React.FC<Props> = (props) => {
   } = props;
   return useMemo(
     () => (
-      <>
-        {code === 0 && !isBack ? (
-          <div
-            className={classNames("ygo-card", "skeleton-cover", className)}
-            style={{ width, ...style }}
-            onClick={onClick}
-          />
-        ) : (
-          <img
-            className={classNames("ygo-card", className)}
-            src={getCardImgUrl(code, isBack)}
-            style={{ width, ...style }}
-            onClick={onClick}
-          />
-        )}
-      </>
+      <img
+        className={classNames("ygo-card", className)}
+        src={getCardImgUrl(code, isBack)}
+        style={{ width, ...style }}
+        onClick={onClick}
+      />
     ),
     [code]
   );
@@ -53,7 +43,7 @@ function getCardImgUrl(code: number, back = false) {
     import.meta.env.BASE_URL === "/"
       ? NeosConfig.assetsPath
       : `${import.meta.env.BASE_URL}${NeosConfig.assetsPath}`;
-  if (back) {
+  if (back || code === 0) {
     return `${ASSETS_BASE}/card_back.jpg`;
   }
   return `${NeosConfig.cardImgUrl}/${code}.jpg`;
