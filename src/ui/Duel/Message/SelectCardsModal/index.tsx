@@ -198,6 +198,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           )}
           <p>
             <span>
+              {/* TODO: 这里的字体可以调整下 */}
               {selecteds.length > 0 ? fetchStrings("!system", 212) : ""}
             </span>
           </p>
