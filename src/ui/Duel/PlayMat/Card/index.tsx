@@ -6,9 +6,20 @@ import classnames from "classnames";
 import React, { type CSSProperties, useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { getCardStr, sendSelectIdleCmdResponse, ygopro } from "@/api";
+import {
+  fetchStrings,
+  getCardStr,
+  sendSelectIdleCmdResponse,
+  ygopro,
+} from "@/api";
 import { eventbus, Task } from "@/infra";
-import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
+import {
+  cardStore,
+  CardType,
+  Interactivity,
+  InteractType,
+  matStore,
+} from "@/stores";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
@@ -286,6 +297,12 @@ const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
           sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
         } else {
           // 场地: 选择卡片
+
+          // 更新hint
+          matStore.hint = {
+            code: 0,
+            esSelectHint: fetchStrings("!system", 509),
+          };
           const option = await displaySimpleSelectCardsModal({
             selectables: cards.map((card) => ({
               meta: card.meta,
@@ -318,6 +335,11 @@ const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
         card = cards[0];
       } else {
         // 场地: 选择卡片
+        // 更新hint
+        matStore.hint = {
+          code: 0,
+          esSelectHint: fetchStrings("!system", 566),
+        };
         const option = await displaySimpleSelectCardsModal({
           selectables: cards
             // 过滤掉不能发效果的卡
