@@ -28,6 +28,11 @@ const CheckCardStyle = {
   marginBlockEnd: 0,
   flexShrink: 0,
 };
+const CheckGroupStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(6, 1fr)",
+  gap: 10,
+};
 
 export interface SelectCardsModalProps {
   isOpen: boolean;
@@ -161,11 +166,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                     }}
                     // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
                     multiple={isMultiple}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(6, 1fr)",
-                      gap: 10,
-                    }}
+                    style={CheckGroupStyle}
                   >
                     {options[1].map((card, j) => (
                       <Tooltip
@@ -195,29 +196,35 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                 </div>
               )
           )}
-          <p>{selecteds.length > 0 ? fetchStrings("!system", 212) : ""}</p>
-          {selecteds.map((card, i) => (
-            <Tooltip
-              title={card.effectDesc}
-              placement="bottom"
-              key={grouped.length + i}
-            >
-              <div>
-                <CheckCard
-                  cover={
-                    <YgoCard
-                      code={card.meta.id}
-                      style={YgoCardStyle as CSSProperties}
-                    />
-                  }
-                  style={CheckCardStyle}
-                  onClick={() => {
-                    showCardModal(card);
-                  }}
-                />
-              </div>
-            </Tooltip>
-          ))}
+          <p>
+            <span>
+              {selecteds.length > 0 ? fetchStrings("!system", 212) : ""}
+            </span>
+          </p>
+          <div style={CheckGroupStyle}>
+            {selecteds.map((card, i) => (
+              <Tooltip
+                title={card.effectDesc}
+                placement="bottom"
+                key={grouped.length + i}
+              >
+                <div>
+                  <CheckCard
+                    cover={
+                      <YgoCard
+                        code={card.meta.id}
+                        style={YgoCardStyle as CSSProperties}
+                      />
+                    }
+                    style={CheckCardStyle}
+                    onClick={() => {
+                      showCardModal(card);
+                    }}
+                  />
+                </div>
+              </Tooltip>
+            ))}
+          </div>
         </Space>
       </div>
     </NeosModal>
