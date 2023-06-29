@@ -10,14 +10,14 @@ const helper = async (
     level1,
     level2,
     response,
-    effectDescCode,
+    effect_description,
   }: {
     code: number;
     location: ygopro.CardLocation;
     level1?: number;
     level2?: number;
     response: number;
-    effectDescCode?: number;
+    effect_description?: number;
   },
   selecteds: Option[],
   mustSelects: Option[],
@@ -32,8 +32,8 @@ const helper = async (
       : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
   const meta = await fetchCard(newID);
 
-  const effectDesc = effectDescCode
-    ? getCardStr(meta, effectDescCode & 0xf)
+  const effectDesc = effect_description
+    ? getCardStr(meta, effect_description & 0xf)
     : undefined;
   const newOption: Option = {
     meta,
@@ -60,7 +60,7 @@ export const fetchCheckCardMeta = async (
     level1?: number;
     level2?: number;
     response: number;
-    effectDescCode?: number;
+    effect_description?: number;
   }[],
   selected?: boolean,
   mustSelect?: boolean
