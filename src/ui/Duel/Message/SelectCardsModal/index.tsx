@@ -72,7 +72,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
 
   const minMaxText = min === max ? min : `${min}-${max}`;
 
-  const isMultiple = !single && min > 1;
+  const isMultiple = !single && max > 1;
 
   // 判断是否可以提交
   useEffect(() => {
