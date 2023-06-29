@@ -104,7 +104,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "hint": {
-      onMsgHint(msg.hint);
+      await onMsgHint(msg.hint);
 
       break;
     }

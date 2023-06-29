@@ -72,8 +72,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   const [submitable, setSubmitable] = useState(false);
 
   const hint = useSnapshot(matStore.hint);
-  const preHintMsg = hint?.esHint || "";
-  const selectHintMsg = hint?.esSelectHint || "请选择卡片";
+  const preHintMsg = hint.esHint || "";
+  const selectHintMsg = hint.esSelectHint || "请选择卡片";
 
   const minMaxText = min === max ? min : `${min}-${max}`;
 

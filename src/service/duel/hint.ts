@@ -7,10 +7,10 @@ import {
 
 import MsgHint = ygopro.StocGameMessage.MsgHint;
 
-export default (hint: MsgHint) => {
+export default async (hint: MsgHint) => {
   switch (hint.hint_type) {
     case MsgHint.HintType.HINT_EVENT: {
-      fetchEsHintMeta({ originMsg: hint.hint_data });
+      await fetchEsHintMeta({ originMsg: hint.hint_data });
       break;
     }
     case MsgHint.HintType.HINT_MESSAGE: {
@@ -18,7 +18,7 @@ export default (hint: MsgHint) => {
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      fetchSelectHintMeta({
+      await fetchSelectHintMeta({
         selectHintData: hint.hint_data,
         esHint: "",
       });
