@@ -35,6 +35,7 @@ import MsgSelectPositionAdapter from "./selectPosition";
 import MsgSelectSum from "./selectSum";
 import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
+import MsgShuffleHandExtraAdapter from "./shuffleHandExtra";
 import MsgShuffleSetCard from "./shuffleSetCard";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
@@ -253,6 +254,22 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_HAND_RES: {
           gameMsg.hand_res = MsgHandResultAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_SHUFFLE_HAND: {
+          gameMsg.shuffle_hand_extra = MsgShuffleHandExtraAdapter(
+            gameData,
+            false
+          );
+
+          break;
+        }
+        case GAME_MSG.MSG_SHUFFLE_EXTRA: {
+          gameMsg.shuffle_hand_extra = MsgShuffleHandExtraAdapter(
+            gameData,
+            true
+          );
 
           break;
         }
