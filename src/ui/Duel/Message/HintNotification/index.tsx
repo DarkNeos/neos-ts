@@ -7,7 +7,7 @@ import { useSnapshot } from "valtio";
 import { fetchStrings } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
-import { matStore } from "@/stores";
+import { HandResult, matStore } from "@/stores";
 
 const style = {
   borderStyle: "groove",
@@ -22,9 +22,8 @@ export const HintNotification = () => {
   const snap = useSnapshot(matStore);
   const hintState = snap.hint;
   const toss = snap.tossResult;
-
+  const handResults = snap.handResults;
   const currentPhase = snap.phase.currentPhase;
-  // const waiting = snap.waiting;
   const result = snap.result;
 
   const [notify, notifyContextHolder] = notification.useNotification({
@@ -53,6 +52,21 @@ export const HintNotification = () => {
       });
     }
   }, [toss]);
+
+  // TODO: I18n
+  useEffect(() => {
+    const meHand = handResults.me;
+    const opHand = handResults.op;
+    if (meHand !== HandResult.UNKNOWN && opHand !== HandResult.UNKNOWN) {
+      notify.open({
+        message: `{我方出示${getHandResultText(
+          meHand
+        )}，对方出示${getHandResultText(opHand)}}`,
+        placement: "topLeft",
+        style: style,
+      });
+    }
+  }, [handResults]);
 
   useEffect(() => {
     if (currentPhase) {
@@ -117,3 +131,17 @@ export const showWaiting = (open: boolean) => {
     }
   }
 };
+
+// TODO: I18n
+function getHandResultText(res: HandResult): string {
+  switch (res) {
+    case HandResult.UNKNOWN:
+      return "[?]";
+    case HandResult.ROCK:
+      return "拳头";
+    case HandResult.PAPER:
+      return "布";
+    case HandResult.SCISSOR:
+      return "剪刀";
+  }
+}
