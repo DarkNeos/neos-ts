@@ -67,3 +67,5 @@ export const MSG_TOSS_DICE = 131;
 export const MSG_SHUFFLE_SET_CARD = 36;
 export const MSG_FIELD_DISABLED = 56;
 export const MSG_HAND_RES = 133;
+export const MSG_SHUFFLE_HAND = 33;
+export const MSG_SHUFFLE_EXTRA = 39;

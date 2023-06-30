@@ -4526,7 +4526,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4579,7 +4579,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4632,7 +4632,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4685,7 +4685,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4738,7 +4738,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4791,7 +4791,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4844,7 +4844,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4897,7 +4897,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -4950,7 +4950,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5003,7 +5003,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5056,7 +5056,7 @@ export namespace ygopro {
             select_effect_yn?: StocGameMessage.MsgSelectEffectYn;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5109,7 +5109,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: StocGameMessage.MsgSelectPosition;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5162,7 +5162,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: StocGameMessage.MsgSelectOption;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5215,7 +5215,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: StocGameMessage.MsgShuffleHand;
+            shuffle_hand_extra?: StocGameMessage.MsgShuffleHandExtra;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5268,7 +5268,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: StocGameMessage.MsgSelectBattleCmd;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5321,7 +5321,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: StocGameMessage.MsgPosChange;
             select_unselect_card?: never;
@@ -5374,7 +5374,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: StocGameMessage.MsgSelectUnselectCard;
@@ -5427,7 +5427,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5480,7 +5480,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5533,7 +5533,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5586,7 +5586,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5639,7 +5639,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5692,7 +5692,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5745,7 +5745,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5798,7 +5798,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5851,7 +5851,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5904,7 +5904,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -5957,7 +5957,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6010,7 +6010,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6063,7 +6063,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6116,7 +6116,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6169,7 +6169,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6222,7 +6222,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6275,7 +6275,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6328,7 +6328,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6381,7 +6381,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6434,7 +6434,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6487,7 +6487,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6540,7 +6540,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6593,7 +6593,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6646,7 +6646,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6699,7 +6699,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6752,7 +6752,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6805,7 +6805,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6858,7 +6858,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6911,7 +6911,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -6964,7 +6964,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7017,7 +7017,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7070,7 +7070,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7123,7 +7123,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7176,7 +7176,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7229,7 +7229,7 @@ export namespace ygopro {
             select_effect_yn?: never;
             select_position?: never;
             select_option?: never;
-            shuffle_hand?: never;
+            shuffle_hand_extra?: never;
             select_battle_cmd?: never;
             pos_change?: never;
             select_unselect_card?: never;
@@ -7311,8 +7311,8 @@ export namespace ygopro {
                 if ("select_option" in data && data.select_option != undefined) {
                     this.select_option = data.select_option;
                 }
-                if ("shuffle_hand" in data && data.shuffle_hand != undefined) {
-                    this.shuffle_hand = data.shuffle_hand;
+                if ("shuffle_hand_extra" in data && data.shuffle_hand_extra != undefined) {
+                    this.shuffle_hand_extra = data.shuffle_hand_extra;
                 }
                 if ("select_battle_cmd" in data && data.select_battle_cmd != undefined) {
                     this.select_battle_cmd = data.select_battle_cmd;
@@ -7547,13 +7547,13 @@ export namespace ygopro {
         get has_select_option() {
             return pb_1.Message.getField(this, 13) != null;
         }
-        get shuffle_hand() {
-            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgShuffleHand, 14) as StocGameMessage.MsgShuffleHand;
+        get shuffle_hand_extra() {
+            return pb_1.Message.getWrapperField(this, StocGameMessage.MsgShuffleHandExtra, 14) as StocGameMessage.MsgShuffleHandExtra;
         }
-        set shuffle_hand(value: StocGameMessage.MsgShuffleHand) {
+        set shuffle_hand_extra(value: StocGameMessage.MsgShuffleHandExtra) {
             pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
         }
-        get has_shuffle_hand() {
+        get has_shuffle_hand_extra() {
             return pb_1.Message.getField(this, 14) != null;
         }
         get select_battle_cmd() {
@@ -7900,7 +7900,7 @@ export namespace ygopro {
         }
         get gameMsg() {
             const cases: {
-                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled" | "shuffle_deck" | "rock_paper_scissors" | "hand_res";
+                [index: number]: "none" | "start" | "draw" | "new_turn" | "new_phase" | "hint" | "select_idle_cmd" | "select_place" | "move" | "select_card" | "select_chain" | "select_effect_yn" | "select_position" | "select_option" | "shuffle_hand_extra" | "select_battle_cmd" | "pos_change" | "select_unselect_card" | "select_yes_no" | "update_hp" | "win" | "wait" | "unimplemented" | "update_data" | "reload_field" | "select_sum" | "select_tribute" | "update_counter" | "select_counter" | "sort_card" | "set" | "swap" | "summoning" | "summoned" | "flip_summoning" | "flip_summoned" | "sp_summoning" | "sp_summoned" | "chaining" | "attack" | "attack_disable" | "chain_solved" | "chain_end" | "announce" | "lp_update" | "confirm_cards" | "become_target" | "toss" | "shuffle_set_card" | "field_disabled" | "shuffle_deck" | "rock_paper_scissors" | "hand_res";
             } = {
                 0: "none",
                 1: "start",
@@ -7916,7 +7916,7 @@ export namespace ygopro {
                 11: "select_effect_yn",
                 12: "select_position",
                 13: "select_option",
-                14: "shuffle_hand",
+                14: "shuffle_hand_extra",
                 15: "select_battle_cmd",
                 16: "pos_change",
                 17: "select_unselect_card",
@@ -7972,7 +7972,7 @@ export namespace ygopro {
             select_effect_yn?: ReturnType<typeof StocGameMessage.MsgSelectEffectYn.prototype.toObject>;
             select_position?: ReturnType<typeof StocGameMessage.MsgSelectPosition.prototype.toObject>;
             select_option?: ReturnType<typeof StocGameMessage.MsgSelectOption.prototype.toObject>;
-            shuffle_hand?: ReturnType<typeof StocGameMessage.MsgShuffleHand.prototype.toObject>;
+            shuffle_hand_extra?: ReturnType<typeof StocGameMessage.MsgShuffleHandExtra.prototype.toObject>;
             select_battle_cmd?: ReturnType<typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject>;
             pos_change?: ReturnType<typeof StocGameMessage.MsgPosChange.prototype.toObject>;
             select_unselect_card?: ReturnType<typeof StocGameMessage.MsgSelectUnselectCard.prototype.toObject>;
@@ -8052,8 +8052,8 @@ export namespace ygopro {
             if (data.select_option != null) {
                 message.select_option = StocGameMessage.MsgSelectOption.fromObject(data.select_option);
             }
-            if (data.shuffle_hand != null) {
-                message.shuffle_hand = StocGameMessage.MsgShuffleHand.fromObject(data.shuffle_hand);
+            if (data.shuffle_hand_extra != null) {
+                message.shuffle_hand_extra = StocGameMessage.MsgShuffleHandExtra.fromObject(data.shuffle_hand_extra);
             }
             if (data.select_battle_cmd != null) {
                 message.select_battle_cmd = StocGameMessage.MsgSelectBattleCmd.fromObject(data.select_battle_cmd);
@@ -8186,7 +8186,7 @@ export namespace ygopro {
                 select_effect_yn?: ReturnType<typeof StocGameMessage.MsgSelectEffectYn.prototype.toObject>;
                 select_position?: ReturnType<typeof StocGameMessage.MsgSelectPosition.prototype.toObject>;
                 select_option?: ReturnType<typeof StocGameMessage.MsgSelectOption.prototype.toObject>;
-                shuffle_hand?: ReturnType<typeof StocGameMessage.MsgShuffleHand.prototype.toObject>;
+                shuffle_hand_extra?: ReturnType<typeof StocGameMessage.MsgShuffleHandExtra.prototype.toObject>;
                 select_battle_cmd?: ReturnType<typeof StocGameMessage.MsgSelectBattleCmd.prototype.toObject>;
                 pos_change?: ReturnType<typeof StocGameMessage.MsgPosChange.prototype.toObject>;
                 select_unselect_card?: ReturnType<typeof StocGameMessage.MsgSelectUnselectCard.prototype.toObject>;
@@ -8265,8 +8265,8 @@ export namespace ygopro {
             if (this.select_option != null) {
                 data.select_option = this.select_option.toObject();
             }
-            if (this.shuffle_hand != null) {
-                data.shuffle_hand = this.shuffle_hand.toObject();
+            if (this.shuffle_hand_extra != null) {
+                data.shuffle_hand_extra = this.shuffle_hand_extra.toObject();
             }
             if (this.select_battle_cmd != null) {
                 data.select_battle_cmd = this.select_battle_cmd.toObject();
@@ -8414,8 +8414,8 @@ export namespace ygopro {
                 writer.writeMessage(12, this.select_position, () => this.select_position.serialize(writer));
             if (this.has_select_option)
                 writer.writeMessage(13, this.select_option, () => this.select_option.serialize(writer));
-            if (this.has_shuffle_hand)
-                writer.writeMessage(14, this.shuffle_hand, () => this.shuffle_hand.serialize(writer));
+            if (this.has_shuffle_hand_extra)
+                writer.writeMessage(14, this.shuffle_hand_extra, () => this.shuffle_hand_extra.serialize(writer));
             if (this.has_select_battle_cmd)
                 writer.writeMessage(15, this.select_battle_cmd, () => this.select_battle_cmd.serialize(writer));
             if (this.has_pos_change)
@@ -8541,7 +8541,7 @@ export namespace ygopro {
                         reader.readMessage(message.select_option, () => message.select_option = StocGameMessage.MsgSelectOption.deserialize(reader));
                         break;
                     case 14:
-                        reader.readMessage(message.shuffle_hand, () => message.shuffle_hand = StocGameMessage.MsgShuffleHand.deserialize(reader));
+                        reader.readMessage(message.shuffle_hand_extra, () => message.shuffle_hand_extra = StocGameMessage.MsgShuffleHandExtra.deserialize(reader));
                         break;
                     case 15:
                         reader.readMessage(message.select_battle_cmd, () => message.select_battle_cmd = StocGameMessage.MsgSelectBattleCmd.deserialize(reader));
@@ -11179,20 +11179,24 @@ export namespace ygopro {
                 }
             }
         }
-        export class MsgShuffleHand extends pb_1.Message {
+        export class MsgShuffleHandExtra extends pb_1.Message {
             #one_of_decls: number[][] = [];
             constructor(data?: any[] | {
                 player?: number;
-                hands?: number[];
+                zone?: CardZone;
+                cards?: number[];
             }) {
                 super();
-                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2], this.#one_of_decls);
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [3], this.#one_of_decls);
                 if (!Array.isArray(data) && typeof data == "object") {
                     if ("player" in data && data.player != undefined) {
                         this.player = data.player;
                     }
-                    if ("hands" in data && data.hands != undefined) {
-                        this.hands = data.hands;
+                    if ("zone" in data && data.zone != undefined) {
+                        this.zone = data.zone;
+                    }
+                    if ("cards" in data && data.cards != undefined) {
+                        this.cards = data.cards;
                     }
                 }
             }
@@ -11202,35 +11206,49 @@ export namespace ygopro {
             set player(value: number) {
                 pb_1.Message.setField(this, 1, value);
             }
-            get hands() {
-                return pb_1.Message.getFieldWithDefault(this, 2, []) as number[];
+            get zone() {
+                return pb_1.Message.getFieldWithDefault(this, 2, CardZone.DECK) as CardZone;
             }
-            set hands(value: number[]) {
+            set zone(value: CardZone) {
                 pb_1.Message.setField(this, 2, value);
+            }
+            get cards() {
+                return pb_1.Message.getFieldWithDefault(this, 3, []) as number[];
+            }
+            set cards(value: number[]) {
+                pb_1.Message.setField(this, 3, value);
             }
             static fromObject(data: {
                 player?: number;
-                hands?: number[];
-            }): MsgShuffleHand {
-                const message = new MsgShuffleHand({});
+                zone?: CardZone;
+                cards?: number[];
+            }): MsgShuffleHandExtra {
+                const message = new MsgShuffleHandExtra({});
                 if (data.player != null) {
                     message.player = data.player;
                 }
-                if (data.hands != null) {
-                    message.hands = data.hands;
+                if (data.zone != null) {
+                    message.zone = data.zone;
+                }
+                if (data.cards != null) {
+                    message.cards = data.cards;
                 }
                 return message;
             }
             toObject() {
                 const data: {
                     player?: number;
-                    hands?: number[];
+                    zone?: CardZone;
+                    cards?: number[];
                 } = {};
                 if (this.player != null) {
                     data.player = this.player;
                 }
-                if (this.hands != null) {
-                    data.hands = this.hands;
+                if (this.zone != null) {
+                    data.zone = this.zone;
+                }
+                if (this.cards != null) {
+                    data.cards = this.cards;
                 }
                 return data;
             }
@@ -11240,13 +11258,15 @@ export namespace ygopro {
                 const writer = w || new pb_1.BinaryWriter();
                 if (this.player != 0)
                     writer.writeInt32(1, this.player);
-                if (this.hands.length)
-                    writer.writePackedInt32(2, this.hands);
+                if (this.zone != CardZone.DECK)
+                    writer.writeEnum(2, this.zone);
+                if (this.cards.length)
+                    writer.writePackedInt32(3, this.cards);
                 if (!w)
                     return writer.getResultBuffer();
             }
-            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgShuffleHand {
-                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgShuffleHand();
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MsgShuffleHandExtra {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MsgShuffleHandExtra();
                 while (reader.nextField()) {
                     if (reader.isEndGroup())
                         break;
@@ -11255,7 +11275,10 @@ export namespace ygopro {
                             message.player = reader.readInt32();
                             break;
                         case 2:
-                            message.hands = reader.readPackedInt32();
+                            message.zone = reader.readEnum();
+                            break;
+                        case 3:
+                            message.cards = reader.readPackedInt32();
                             break;
                         default: reader.skipField();
                     }
@@ -11265,8 +11288,8 @@ export namespace ygopro {
             serializeBinary(): Uint8Array {
                 return this.serialize();
             }
-            static deserializeBinary(bytes: Uint8Array): MsgShuffleHand {
-                return MsgShuffleHand.deserialize(bytes);
+            static deserializeBinary(bytes: Uint8Array): MsgShuffleHandExtra {
+                return MsgShuffleHandExtra.deserialize(bytes);
             }
         }
         export class MsgShuffleSetCard extends pb_1.Message {
