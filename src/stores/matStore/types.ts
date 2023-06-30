@@ -37,6 +37,10 @@ export interface MatState {
 
   tossResult?: string; // 骰子/硬币结果
 
+  handResults: BothSide<HandResult> & {
+    set: (controller: number, result: HandResult) => void;
+  }; // 猜拳结果
+
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
 }
@@ -93,5 +97,12 @@ export interface PhaseState {
   enableBp: boolean; // 允许进入战斗阶段
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
+}
+
+export enum HandResult {
+  UNKNOWN = 0,
+  SCISSOR = 1,
+  ROCK = 2,
+  PAPER = 3,
 }
 // <<< play mat state <<<

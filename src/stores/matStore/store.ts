@@ -81,6 +81,14 @@ export const matStore: MatState = proxy<MatState>({
     enableEp: false, // 允许回合结束
   },
   unimplemented: 0,
+  handResults: {
+    me: 0,
+    op: 0,
+    of: (controller: number) => matStore.handResults[getWhom(controller)],
+    set(controller, result) {
+      matStore.handResults[getWhom(controller)] = result;
+    },
+  },
   // methods
   isMe,
 });

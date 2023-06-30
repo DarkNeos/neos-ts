@@ -15,6 +15,7 @@ import MsgAttack from "./attack";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
 import MsgFieldDisabledAdapter from "./fieldDisabled";
+import MsgHandResultAdapter from "./handResult";
 import MsgHintAdapter from "./hint";
 import MsgNewPhaseAdapter from "./newPhase";
 import MsgNewTurnAdapter from "./newTurn";
@@ -247,6 +248,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_FIELD_DISABLED: {
           gameMsg.field_disabled = MsgFieldDisabledAdapter(gameData);
+
+          break;
+        }
+        case GAME_MSG.MSG_HAND_RES: {
+          gameMsg.hand_res = MsgHandResultAdapter(gameData);
 
           break;
         }

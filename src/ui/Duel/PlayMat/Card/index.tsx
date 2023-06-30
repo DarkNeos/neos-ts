@@ -6,7 +6,12 @@ import classnames from "classnames";
 import React, { type CSSProperties, useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { getCardStr, sendSelectIdleCmdResponse, ygopro } from "@/api";
+import {
+  fetchStrings,
+  getCardStr,
+  sendSelectIdleCmdResponse,
+  ygopro,
+} from "@/api";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
@@ -250,7 +255,7 @@ const handleEffectActivation = (
         response: effect.response,
       };
     });
-    displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
+    displayOptionModal(fetchStrings("!system", 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
 };
 

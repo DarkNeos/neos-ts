@@ -330,7 +330,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "rock_paper_scissors": {
-      onMsgRockPaperScissors(msg.rock_paper_scissors);
+      await onMsgRockPaperScissors(msg.rock_paper_scissors);
 
       break;
     }

@@ -5,6 +5,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import {
   type CardMeta,
+  fetchStrings,
   getCardStr,
   sendSelectIdleCmdResponse,
   sendSelectOptionResponse,
@@ -15,6 +16,7 @@ import { NeosModal } from "./NeosModal";
 type Options = { msg: string; response: number }[];
 
 const defaultStore = {
+  title: "",
   isOpen: false,
   options: [] satisfies Options as Options,
 };
@@ -23,7 +25,7 @@ const store = proxy(defaultStore);
 export const OptionModal = () => {
   const snap = useSnapshot(store);
 
-  const { isOpen, options } = snap;
+  const { title, isOpen, options } = snap;
 
   const [selected, setSelected] = useState<number | undefined>(undefined);
 
@@ -36,7 +38,7 @@ export const OptionModal = () => {
 
   return (
     <NeosModal
-      title="请选择需要发动的效果"
+      title={title}
       open={isOpen}
       footer={
         <Button disabled={selected === undefined} onClick={onClick}>
@@ -54,9 +56,10 @@ export const OptionModal = () => {
 };
 
 let rs: (v?: any) => void = () => {};
-export const displayOptionModal = async (options: Options) => {
-  store.isOpen = true;
+export const displayOptionModal = async (title: string, options: Options) => {
+  store.title = title;
   store.options = options;
+  store.isOpen = true;
   await new Promise((resolve) => (rs = resolve));
   store.isOpen = false;
 };
@@ -87,6 +90,6 @@ export const handleEffectActivation = async (
         response: effect.response,
       };
     });
-    await displayOptionModal(options); // 主动发动效果，所以不需要await，但是以后可能要留心
+    await displayOptionModal(fetchStrings("!system", 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
 };
