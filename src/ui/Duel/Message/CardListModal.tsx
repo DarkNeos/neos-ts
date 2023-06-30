@@ -74,5 +74,5 @@ export const displayCardListModal = ({
   isZone && (store.isZone = isZone);
   monster && (store.monster = monster);
   zone && (store.zone = zone);
-  controller && (store.controller = controller);
+  controller !== undefined && (store.controller = controller);
 };
