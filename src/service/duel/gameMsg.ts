@@ -54,6 +54,7 @@ import onMsgUpdateData from "./updateData";
 import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
+import onMsgSwapGraveDeck from "./swapGraveDeck";
 
 const ActiveList = [
   "select_idle_cmd",
@@ -336,6 +337,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "hand_res": {
       onMsgHandResult(msg.hand_res);
+
+      break;
+    }
+    case "swap_grave_deck": {
+      await onMsgSwapGraveDeck(msg.swap_grave_deck);
 
       break;
     }
