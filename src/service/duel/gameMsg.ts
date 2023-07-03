@@ -47,6 +47,7 @@ import onMsgStart from "./start";
 import onMsgSummoned from "./summoned";
 import onMsgSummoning from "./summoning";
 import onMsgSwap from "./swap";
+import onMsgSwapGraveDeck from "./swapGraveDeck";
 import onMsgToss from "./toss";
 import onUnimplemented from "./unimplemented";
 import onMsgUpdateCounter from "./updateCounter";
@@ -54,7 +55,6 @@ import onMsgUpdateData from "./updateData";
 import onMsgUpdateHp from "./updateHp";
 import onMsgWait from "./wait";
 import onMsgWin from "./win";
-import onMsgSwapGraveDeck from "./swapGraveDeck";
 
 const ActiveList = [
   "select_idle_cmd",

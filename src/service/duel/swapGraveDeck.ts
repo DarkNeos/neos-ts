@@ -2,11 +2,11 @@ import { ygopro } from "@/api";
 import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
 import MsgSwapGraveDeck = ygopro.StocGameMessage.MsgSwapGraveDeck;
-const {DECK, GRAVE} = ygopro.CardZone;
+const { DECK, GRAVE } = ygopro.CardZone;
 
 export default async (swapGraveDeck: MsgSwapGraveDeck) => {
   const player = swapGraveDeck.player;
-  
+
   const deck = cardStore.at(DECK, player);
   const grave = cardStore.at(GRAVE, player);
 
