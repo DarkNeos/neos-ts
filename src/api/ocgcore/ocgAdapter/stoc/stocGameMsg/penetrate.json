@@ -225,5 +225,14 @@
         "fieldType": "uint8"
       }
     ]
+  },
+  "35": {
+    "protoType": "swap_grave_deck",
+    "fields": [
+      {
+        "fieldName": "player",
+        "fieldType": "uint8"
+      }
+    ]
   }
 }

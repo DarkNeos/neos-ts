@@ -47,6 +47,7 @@ import onMsgStart from "./start";
 import onMsgSummoned from "./summoned";
 import onMsgSummoning from "./summoning";
 import onMsgSwap from "./swap";
+import onMsgSwapGraveDeck from "./swapGraveDeck";
 import onMsgToss from "./toss";
 import onUnimplemented from "./unimplemented";
 import onMsgUpdateCounter from "./updateCounter";
@@ -336,6 +337,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "hand_res": {
       onMsgHandResult(msg.hand_res);
+
+      break;
+    }
+    case "swap_grave_deck": {
+      await onMsgSwapGraveDeck(msg.swap_grave_deck);
 
       break;
     }
