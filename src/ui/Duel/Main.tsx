@@ -23,8 +23,8 @@ const NeosDuel = () => {
       <Alert />
       <Menu />
       <LifeBar />
-      <Mat />
       <Timer />
+      <Mat />
       <CardModal />
       <CardListModal />
       <HintNotification />

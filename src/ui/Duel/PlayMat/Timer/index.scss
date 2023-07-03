@@ -1,0 +1,25 @@
+#timer-container {
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  padding: 20px 35px;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.timer {
+  width: 100px;
+  color: white;
+  background-color: #323232;
+  font-family: var(--theme-font);
+  border: 1px solid #222;
+  padding: 1rem;
+  padding-bottom: 0.6rem;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+}

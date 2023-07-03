@@ -27,5 +27,9 @@ export const Timer: React.FC = () => {
     setTime(snap.timeLimits.op);
   }, [snap.timeLimits.op]);
 
-  return <div>{<AnimatedNumbers animateToNumber={time} />}</div>;
+  return (
+    <div id="timer-container">
+      <div className="timer">{<AnimatedNumbers animateToNumber={time} />}</div>
+    </div>
+  );
 };
