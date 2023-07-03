@@ -17,7 +17,7 @@ export const Timer: React.FC = () => {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [time]);
 
   useEffect(() => {
     setTime(snap.timeLimits.me);
