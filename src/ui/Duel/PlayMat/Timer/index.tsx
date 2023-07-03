@@ -1,0 +1,34 @@
+import "./index.scss";
+
+import React, { useEffect, useState } from "react";
+import { useSnapshot } from "valtio";
+
+import { matStore } from "@/stores";
+
+export const Timer: React.FC = () => {
+  const [time, setTime] = useState(0);
+  const snap = useSnapshot(matStore);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (time > 0) {
+        setTime((time) => time - 1);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [time]);
+
+  useEffect(() => {
+    setTime(snap.timeLimits.me);
+  }, [snap.timeLimits.me]);
+
+  useEffect(() => {
+    setTime(snap.timeLimits.op);
+  }, [snap.timeLimits.op]);
+
+  return (
+    <div id="timer-container">
+      <div className="timer">{time}</div>
+    </div>
+  );
+};

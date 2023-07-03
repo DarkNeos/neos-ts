@@ -14,7 +14,7 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import { LifeBar, Mat, Menu } from "./PlayMat";
+import { LifeBar, Mat, Menu, Timer } from "./PlayMat";
 
 const NeosDuel = () => {
   return (
@@ -23,6 +23,7 @@ const NeosDuel = () => {
       <Alert />
       <Menu />
       <LifeBar />
+      <Timer />
       <Mat />
       <CardModal />
       <CardListModal />

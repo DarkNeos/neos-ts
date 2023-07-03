@@ -20,6 +20,7 @@ export default class TimeLimit implements StocAdapter {
     const reader = new BufferReader(this.packet.exData);
 
     const player = reader.readInt8();
+    const _ = reader.readUint8(); // padding byte
     const leftTime = reader.readUint16();
 
     return new ygopro.YgoStocMsg({
