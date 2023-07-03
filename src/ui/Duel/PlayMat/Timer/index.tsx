@@ -1,7 +1,6 @@
 import "./index.scss";
 
 import React, { useEffect, useState } from "react";
-import AnimatedNumbers from "react-animated-numbers";
 import { useSnapshot } from "valtio";
 
 import { matStore } from "@/stores";
@@ -29,7 +28,7 @@ export const Timer: React.FC = () => {
 
   return (
     <div id="timer-container">
-      <div className="timer">{<AnimatedNumbers animateToNumber={time} />}</div>
+      <div className="timer">{time}</div>
     </div>
   );
 };
