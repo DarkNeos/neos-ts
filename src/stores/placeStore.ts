@@ -20,39 +20,21 @@ export interface BlockState {
   disabled: boolean; // 是否被禁用
 }
 
+const genPLaces = (n: number): BlockState[] =>
+  Array.from({ length: n }).map(() => ({
+    interactivity: undefined,
+    disabled: false,
+  }));
+
 export const placeStore = proxy({
   inner: {
     [MZONE]: {
-      me: Array.from({ length: 7 }).map(
-        () =>
-          ({
-            interactivity: undefined,
-            disabled: false,
-          } as BlockState)
-      ),
-      op: Array.from({ length: 7 }).map(
-        () =>
-          ({
-            interactivity: undefined,
-            disabled: false,
-          } as BlockState)
-      ),
+      me: genPLaces(7),
+      op: genPLaces(7),
     },
     [SZONE]: {
-      me: Array.from({ length: 6 }).map(
-        () =>
-          ({
-            interactivity: undefined,
-            disabled: false,
-          } as BlockState)
-      ),
-      op: Array.from({ length: 6 }).map(
-        () =>
-          ({
-            interactivity: undefined,
-            disabled: false,
-          } as BlockState)
-      ),
+      me: genPLaces(6),
+      op: genPLaces(6),
     },
   },
   set(
