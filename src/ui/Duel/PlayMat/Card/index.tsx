@@ -55,6 +55,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusScale: 1,
         focusDisplay: "none",
         focusOpacity: 1,
+        subZ: 0,
       } satisfies SpringApiProps)
   );
 
@@ -299,6 +300,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
               `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`
           ),
           "--z": styles.z,
+          "--sub-z": styles.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
           "--ry": styles.ry,
           height: styles.height,
           zIndex: styles.zIndex,

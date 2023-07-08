@@ -3,6 +3,7 @@ import { type CardType, isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
 import { SpringApi } from "./types";
+import { asyncStart } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -41,7 +42,8 @@ export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
   let rz = zone === EXTRA ? DECK_ROTATE_Z.value : -DECK_ROTATE_Z.value;
   rz += isMe(controller) ? 0 : 180;
   const z = sequence;
-  api.start({
+
+  await asyncStart(api)({
     x,
     y,
     z,

@@ -13,7 +13,7 @@ section#mat {
       top: 2%;
       height: 96%;
       width: 96%;
-      transform: translateZ(calc(var(--z) * 1px + 0.1px))
+      transform: translateZ(calc((var(--z) + var(--sub-z)) * 1px + 0.1px))
         rotateY(calc(var(--ry) * 1deg));
       transition: 0.2s scale;
       cursor: pointer;
