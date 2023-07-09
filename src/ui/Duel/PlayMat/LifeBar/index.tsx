@@ -89,12 +89,14 @@ const LifeBarItem: React.FC<{
       ? "00:00"
       : `${mm < 10 ? "0" + mm : mm}:${ss < 10 ? "0" + ss : ss}`;
   return (
-    <Space
-      direction="vertical"
+    <div
       style={{
         flexDirection: isMe ? "column-reverse" : "column",
+        overflow: "hidden",
+        display: "flex",
+        gap: "0.5rem",
+        position: "relative",
       }}
-      size={12}
     >
       <div
         className={classNames("life-bar", {
@@ -113,8 +115,9 @@ const LifeBarItem: React.FC<{
             size={14}
           />
           <div className="timer-text">{timeText}</div>
+          <div className="floodlight floodlight-run" />
         </div>
       )}
-    </Space>
+    </div>
   );
 };
