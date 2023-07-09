@@ -3,7 +3,7 @@ import "./index.scss";
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
-import React, { type CSSProperties, useEffect, useState } from "react";
+import React, { type CSSProperties, useEffect, useState, useRef } from "react";
 import { useSnapshot } from "valtio";
 
 import type { CardMeta } from "@/api";
@@ -94,11 +94,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   // >>> 动画 >>>
   /** 动画序列的promise */
-  let animationQueue: Promise<unknown> = new Promise<void>((rs) => rs());
+  const animationQueue = useRef(new Promise<void>((rs) => rs()));
 
   const addToAnimation = (p: () => Promise<void>) =>
     new Promise((rs) => {
-      animationQueue = animationQueue.then(p).then(rs);
+      animationQueue.current = animationQueue.current.then(p).then(rs);
     });
 
   useEffect(() => {
