@@ -28,7 +28,6 @@ import {
 } from "@/api";
 import { cardStore, matStore } from "@/stores";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
-import { Timer } from "../Timer";
 
 const { phase } = matStore;
 const { useToken } = theme;

@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { type CardType, matStore } from "@/stores";
 
-import { SpringApi } from "./types";
+import type { SpringApi } from "./types";
 import { asyncStart } from "./utils";
 
 /** 发动效果的动画 */

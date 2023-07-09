@@ -31,6 +31,7 @@ import {
   moveToGround,
   moveToHand,
   moveToOutside,
+  moveToToken,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 
@@ -59,26 +60,27 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       } satisfies SpringApiProps)
   );
 
-  const move = async (zone: ygopro.CardZone) => {
-    switch (zone) {
+  // FIXME: move不应该只根据目的地判断，还要根据先前的位置判断。例子是Token。
+  const move = async (toZone: ygopro.CardZone, fromZone?: ygopro.CardZone) => {
+    switch (toZone) {
       case MZONE:
       case SZONE:
-        await moveToGround({ card: state, api });
+        await moveToGround({ card: state, api, fromZone });
         break;
       case HAND:
-        await moveToHand({ card: state, api });
+        await moveToHand({ card: state, api, fromZone });
         break;
       case DECK:
       case EXTRA:
-        await moveToDeck({ card: state, api });
+        await moveToDeck({ card: state, api, fromZone });
         break;
       case GRAVE:
       case REMOVED:
-        await moveToOutside({ card: state, api });
+        await moveToOutside({ card: state, api, fromZone });
         break;
       case TZONE:
         // FIXME: 这里应该实现一个衍生物消散的动画，现在暂时让它在动画在展示上回到卡组
-        await moveToDeck({ card: state, api });
+        await moveToToken({ card: state, api, fromZone });
         break;
     }
   };
@@ -102,11 +104,14 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     });
 
   useEffect(() => {
-    eventbus.register(Task.Move, async (uuid: string) => {
-      if (uuid === state.uuid) {
-        await addToAnimation(() => move(state.location.zone));
+    eventbus.register(
+      Task.Move,
+      async (uuid: string, fromZone?: ygopro.CardZone) => {
+        if (uuid === state.uuid) {
+          await addToAnimation(() => move(state.location.zone, fromZone));
+        }
       }
-    });
+    );
 
     eventbus.register(Task.Focus, async (uuid: string) => {
       if (uuid === state.uuid) {

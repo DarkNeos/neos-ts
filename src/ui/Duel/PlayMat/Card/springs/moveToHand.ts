@@ -1,9 +1,8 @@
 import { ygopro } from "@/api";
-import { cardStore, type CardType, isMe } from "@/stores";
+import { cardStore, isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
-import { SpringApi } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, type MoveFunc } from "./utils";
 
 const {
   BLOCK_HEIGHT_M,
@@ -17,7 +16,7 @@ const {
 
 const { HAND } = ygopro.CardZone;
 
-export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
+export const moveToHand: MoveFunc = async (props) => {
   const { card, api } = props;
   const { sequence, controller } = card.location;
   // 手卡会有很复杂的计算...
