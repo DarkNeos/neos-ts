@@ -14,7 +14,7 @@ import { matStore, playerStore } from "@/stores";
 // https://www.npmjs.com/package/react-countup?activeTab=dependents
 
 export const LifeBar: React.FC = () => {
-  const snap = useSnapshot(matStore.initInfo);
+  const snapInitInfo = useSnapshot(matStore.initInfo);
   const snapPlayer = useSnapshot(playerStore);
   const { currentPlayer } = useSnapshot(matStore);
 
@@ -22,12 +22,12 @@ export const LifeBar: React.FC = () => {
   const [opLife, setOpLife] = React.useState(0);
 
   useEffect(() => {
-    setMeLife(snap.me.life);
-  }, [snap.me.life]);
+    setMeLife(snapInitInfo.me.life);
+  }, [snapInitInfo.me.life]);
 
   useEffect(() => {
-    setOpLife(snap.op.life);
-  }, [snap.op.life]);
+    setOpLife(snapInitInfo.op.life);
+  }, [snapInitInfo.op.life]);
 
   const snapTimeLimit = useSnapshot(matStore.timeLimits);
   const [myTimeLimit, setMyTimeLimit] = useState(snapTimeLimit.me);
@@ -105,7 +105,7 @@ const LifeBarItem: React.FC<{
         <div className="timer-container">
           <Progress
             type="circle"
-            percent={(timeLimit / 240) * 100}
+            percent={Math.floor((timeLimit / 240) * 100)}
             strokeWidth={20}
             size={14}
           />

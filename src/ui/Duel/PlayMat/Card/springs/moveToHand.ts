@@ -51,7 +51,7 @@ export const moveToHand: MoveFunc = async (props) => {
   await asyncStart(api)({
     x: isMe(controller) ? x : -x,
     y: isMe(controller) ? y : -y,
-    z: sequence,
+    z: sequence + 5,
     rz: isMe(controller) ? _rz : 180 - _rz,
     ry: isMe(controller) ? 0 : 180,
     height: HAND_CARD_HEIGHT.value,
