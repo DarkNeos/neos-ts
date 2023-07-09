@@ -1,8 +1,8 @@
 import { ygopro } from "@/api";
-import { type CardType, isMe } from "@/stores";
+import { isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
-import { SpringApi } from "./types";
+import { asyncStart, type MoveFunc } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -18,7 +18,7 @@ const {
 
 const { DECK, EXTRA } = ygopro.CardZone;
 
-export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
+export const moveToDeck: MoveFunc = async (props) => {
   const { card, api } = props;
   // report
   const { location } = card;
@@ -41,7 +41,8 @@ export const moveToDeck = async (props: { card: CardType; api: SpringApi }) => {
   let rz = zone === EXTRA ? DECK_ROTATE_Z.value : -DECK_ROTATE_Z.value;
   rz += isMe(controller) ? 0 : 180;
   const z = sequence;
-  api.start({
+
+  await asyncStart(api)({
     x,
     y,
     z,

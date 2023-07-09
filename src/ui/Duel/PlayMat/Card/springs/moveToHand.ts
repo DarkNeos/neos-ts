@@ -1,8 +1,8 @@
 import { ygopro } from "@/api";
-import { cardStore, type CardType, isMe } from "@/stores";
+import { cardStore, isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
-import { SpringApi } from "./types";
+import { asyncStart, type MoveFunc } from "./utils";
 
 const {
   BLOCK_HEIGHT_M,
@@ -16,7 +16,7 @@ const {
 
 const { HAND } = ygopro.CardZone;
 
-export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
+export const moveToHand: MoveFunc = async (props) => {
   const { card, api } = props;
   const { sequence, controller } = card.location;
   // 手卡会有很复杂的计算...
@@ -44,14 +44,14 @@ export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
   const negativeX = Math.sin(angle) * r;
   const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT.value / 2;
   const x = hand_circle_center_x + negativeX * (isMe(controller) ? 1 : -1);
-  const y = hand_circle_center_y - negativeY + 140; // 常量 是手动调的 这里肯定有问题 有空来修
+  const y = hand_circle_center_y - negativeY + 140; // FIXME: 常量 是手动调的 这里肯定有问题 有空来修
 
   const _rz = (angle * 180) / Math.PI;
 
-  api.start({
+  await asyncStart(api)({
     x: isMe(controller) ? x : -x,
     y: isMe(controller) ? y : -y,
-    z: 0,
+    z: sequence + 5,
     rz: isMe(controller) ? _rz : 180 - _rz,
     ry: isMe(controller) ? 0 : 180,
     height: HAND_CARD_HEIGHT.value,

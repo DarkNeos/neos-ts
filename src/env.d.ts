@@ -22,6 +22,6 @@ declare global {
     color: (
       color: string,
       backgroundColor?: string
-    ) => (...args: any[]) => void;
+    ) => (...args: Parameters<console.log>) => void;
   }
 }

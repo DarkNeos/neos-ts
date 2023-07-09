@@ -124,7 +124,6 @@ export const Menu = () => {
         >
           <Button icon={<CloseCircleFilled />} type="text"></Button>
         </DropdownWithTitle>
-        {/* <div className="floodlight floodlight-run" /> */}
       </div>
     </>
   );

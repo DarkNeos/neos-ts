@@ -3,9 +3,10 @@ import "./index.scss";
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
-import React, { type CSSProperties, useEffect, useState } from "react";
-import { proxy, useSnapshot } from "valtio";
+import React, { type CSSProperties, useEffect, useRef, useState } from "react";
+import { useSnapshot } from "valtio";
 
+import type { CardMeta } from "@/api";
 import {
   fetchStrings,
   getCardStr,
@@ -30,6 +31,7 @@ import {
   moveToGround,
   moveToHand,
   moveToOutside,
+  moveToToken,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 
@@ -54,29 +56,31 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusScale: 1,
         focusDisplay: "none",
         focusOpacity: 1,
+        subZ: 0,
       } satisfies SpringApiProps)
   );
 
-  const move = async (zone: ygopro.CardZone) => {
-    switch (zone) {
+  // FIXME: move不应该只根据目的地判断，还要根据先前的位置判断。例子是Token。
+  const move = async (toZone: ygopro.CardZone, fromZone?: ygopro.CardZone) => {
+    switch (toZone) {
       case MZONE:
       case SZONE:
-        await moveToGround({ card: state, api });
+        await moveToGround({ card: state, api, fromZone });
         break;
       case HAND:
-        await moveToHand({ card: state, api });
+        await moveToHand({ card: state, api, fromZone });
         break;
       case DECK:
       case EXTRA:
-        await moveToDeck({ card: state, api });
+        await moveToDeck({ card: state, api, fromZone });
         break;
       case GRAVE:
       case REMOVED:
-        await moveToOutside({ card: state, api });
+        await moveToOutside({ card: state, api, fromZone });
         break;
       case TZONE:
         // FIXME: 这里应该实现一个衍生物消散的动画，现在暂时让它在动画在展示上回到卡组
-        await moveToDeck({ card: state, api });
+        await moveToToken({ card: state, api, fromZone });
         break;
     }
   };
@@ -92,19 +96,22 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   // >>> 动画 >>>
   /** 动画序列的promise */
-  let animationQueue: Promise<unknown> = new Promise<void>((rs) => rs());
+  const animationQueue = useRef(new Promise<void>((rs) => rs()));
 
   const addToAnimation = (p: () => Promise<void>) =>
     new Promise((rs) => {
-      animationQueue = animationQueue.then(p).then(rs);
+      animationQueue.current = animationQueue.current.then(p).then(rs);
     });
 
   useEffect(() => {
-    eventbus.register(Task.Move, async (uuid: string) => {
-      if (uuid === state.uuid) {
-        await addToAnimation(() => move(state.location.zone));
+    eventbus.register(
+      Task.Move,
+      async (uuid: string, fromZone?: ygopro.CardZone) => {
+        if (uuid === state.uuid) {
+          await addToAnimation(() => move(state.location.zone, fromZone));
+        }
       }
-    });
+    );
 
     eventbus.register(Task.Focus, async (uuid: string) => {
       if (uuid === state.uuid) {
@@ -139,7 +146,152 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   useEffect(() => {
     setHighlight(!!idleInteractivities.length);
   }, [idleInteractivities]);
-  const menuItems = useSnapshot(dropdownMenu);
+
+  const [dropdownMenu, setDropdownMenu] = useState({
+    items: [] as DropdownItem[],
+  });
+
+  // 发动效果
+  // 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
+  // 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
+  // 3. 如果是效果发动，那么选择哪张卡，然后选择效果
+  const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
+    const map = new Map<Interactivity<number>["interactType"], CardType[]>();
+    cards.forEach((card) => {
+      card.idleInteractivities.forEach(({ interactType }) => {
+        if (!map.has(interactType)) {
+          map.set(interactType, []);
+        }
+        map.get(interactType)?.push(card);
+      });
+    });
+    const actions = [...map.entries()];
+    const nonEffectActions = actions.filter(
+      ([action]) => action !== InteractType.ACTIVATE
+    );
+    const getNonEffectResponse = (action: InteractType, card: CardType) =>
+      card.idleInteractivities.find((item) => item.interactType === action)!
+        .response;
+    const nonEffectItem: DropdownItem[] = nonEffectActions.map(
+      ([action, cards], key) => ({
+        key,
+        label: interactTypeToString(action),
+        onClick: async () => {
+          if (!isField) {
+            // 单卡: 直接召唤/特殊召唤/...
+            const card = cards[0];
+            sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
+          } else {
+            // 场地: 选择卡片
+            // TODO: hint
+            const option = await displaySimpleSelectCardsModal({
+              selectables: cards.map((card) => ({
+                meta: card.meta,
+                location: card.location,
+                response: getNonEffectResponse(action, card),
+              })),
+            });
+            sendSelectIdleCmdResponse(option[0].response!);
+          }
+        },
+      })
+    );
+    const hasEffect =
+      cards.reduce(
+        (prev, acc) => [
+          ...prev,
+          ...acc.idleInteractivities.filter(
+            ({ interactType }) => interactType === InteractType.ACTIVATE
+          ),
+        ],
+        [] as Interactivity<number>[]
+      ).length > 0;
+    const effectItem: DropdownItem = {
+      key: nonEffectItem.length,
+      label: interactTypeToString(InteractType.ACTIVATE),
+      onClick: async () => {
+        let card: CardType;
+        if (!isField) {
+          // 单卡: 直接发动这个卡的效果
+          card = cards[0];
+        } else {
+          // 场地: 选择卡片
+          // TODO: hint
+          const option = await displaySimpleSelectCardsModal({
+            selectables: cards
+              // 过滤掉不能发效果的卡
+              .filter(
+                (card) =>
+                  card.idleInteractivities.find(
+                    ({ interactType }) => interactType === InteractType.ACTIVATE
+                  ) !== undefined
+              )
+              .map((card) => ({
+                meta: card.meta,
+                location: card.location,
+                card,
+              })),
+          });
+          card = option[0].card! as any; // 一定会有的，有输入则定有输出
+        }
+        // 选择发动哪个效果
+        handleEffectActivation(
+          card.idleInteractivities
+            .filter(
+              ({ interactType }) => interactType === InteractType.ACTIVATE
+            )
+            .map((x) => ({
+              desc: interactTypeToString(x.interactType),
+              response: x.response,
+              effectCode: x.activateIndex,
+            })),
+          card.meta
+        );
+      },
+    };
+    const items = [...nonEffectItem];
+    hasEffect && items.push(effectItem);
+    setDropdownMenu({ items });
+  };
+
+  const onClick = () => {
+    const onCardClick = (card: CardType) => {
+      // 中央弹窗展示选中卡牌信息
+      // TODO: 同一张卡片，是否重复点击会关闭CardModal？
+      displayCardModal(card);
+      if (card.idleInteractivities.length) handleDropdownMenu([card], false);
+
+      // 侧边栏展示超量素材信息
+      const overlayMaterials = cardStore.findOverlay(
+        card.location.zone,
+        card.location.controller,
+        card.location.sequence
+      );
+      if (overlayMaterials.length > 0) {
+        displayCardListModal({
+          isZone: false,
+          monster: card,
+        });
+      }
+    };
+
+    const onFieldClick = (card: CardType) => {
+      displayCardListModal({
+        isZone: true,
+        zone: card.location.zone,
+        controller: card.location.controller,
+      });
+      // 收集这个zone的所有交互，并且在下拉菜单之中显示
+      const cards = cardStore.at(card.location.zone, card.location.controller);
+      handleDropdownMenu(cards, true);
+    };
+
+    if ([MZONE, SZONE, HAND].includes(state.location.zone)) {
+      onCardClick(state);
+    } else if ([EXTRA, GRAVE, REMOVED].includes(state.location.zone)) {
+      onFieldClick(state);
+    }
+  };
   // <<< 效果 <<<
 
   return (
@@ -153,6 +305,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
               `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`
           ),
           "--z": styles.z,
+          "--sub-z": styles.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
           "--ry": styles.ry,
           height: styles.height,
           zIndex: styles.zIndex,
@@ -161,23 +314,17 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           "--focus-opacity": styles.focusOpacity,
         } as any as CSSProperties
       }
-      onClick={() => {
-        if ([MZONE, SZONE, HAND].includes(state.location.zone)) {
-          onCardClick(state);
-        } else if ([EXTRA, GRAVE, REMOVED].includes(state.location.zone)) {
-          onFieldClick(state);
-        }
-      }}
+      onClick={onClick}
     >
       <div className="card-focus" />
       <div className="card-shadow" />
       <Dropdown
-        menu={{ items: menuItems.value as any }}
-        placement="bottom"
+        menu={dropdownMenu}
+        placement="top"
         overlayClassName="card-dropdown"
         arrow
         trigger={["click"]}
-        // disabled={!highlight}
+        // disabled={!highlight} // TODO: 这里的disable要考虑到field的情况，比如额外卡组
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
@@ -192,37 +339,6 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   );
 });
 
-const onCardClick = (card: CardType) => {
-  // 中央弹窗展示选中卡牌信息
-  // TODO: 同一张卡片，是否重复点击会关闭CardModal？
-  displayCardModal(card);
-  if (card.idleInteractivities) handleDropdownMenu([card], false);
-
-  // 侧边栏展示超量素材信息
-  const overlayMaterials = cardStore.findOverlay(
-    card.location.zone,
-    card.location.controller,
-    card.location.sequence
-  );
-  if (overlayMaterials.length > 0) {
-    displayCardListModal({
-      isZone: false,
-      monster: card,
-    });
-  }
-};
-
-const onFieldClick = (card: CardType) => {
-  displayCardListModal({
-    isZone: true,
-    zone: card.location.zone,
-    controller: card.location.controller,
-  });
-  // 收集这个zone的所有交互，并且在下拉菜单之中显示
-  const cards = cardStore.at(card.location.zone, card.location.controller);
-  handleDropdownMenu(cards, true);
-};
-
 // >>> 下拉菜单：点击动作 >>>
 interface Interactivy {
   desc: string;
@@ -233,11 +349,10 @@ interface Interactivy {
 type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
   onClick: () => void;
 };
-const dropdownMenu = proxy({ value: [] as DropdownItem[] });
 
 const handleEffectActivation = (
   effectInteractivies: Interactivy[],
-  meta?: any // FIXME: meta的类型
+  meta?: CardMeta
 ) => {
   if (!effectInteractivies.length) return;
   else if (effectInteractivies.length === 1) {
@@ -259,103 +374,4 @@ const handleEffectActivation = (
   }
 };
 
-// 发动效果
-// 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
-// 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
-// 3. 如果是效果发动，那么选择哪张卡，然后选择效果
-const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
-  const map = new Map<Interactivity<number>["interactType"], CardType[]>();
-  cards.forEach((card) => {
-    card.idleInteractivities.forEach(({ interactType }) => {
-      if (!map.has(interactType)) {
-        map.set(interactType, []);
-      }
-      map.get(interactType)?.push(card);
-    });
-  });
-  const actions = [...map.entries()];
-  const nonEffectActions = actions.filter(
-    ([action]) => action !== InteractType.ACTIVATE
-  );
-  const getNonEffectResponse = (action: InteractType, card: CardType) =>
-    card.idleInteractivities.find((item) => item.interactType === action)!
-      .response;
-  const nonEffectItem: DropdownItem[] = nonEffectActions.map(
-    ([action, cards], key) => ({
-      key,
-      label: interactTypeToString(action),
-      onClick: async () => {
-        if (!isField) {
-          // 单卡: 直接召唤/特殊召唤/...
-          const card = cards[0];
-          sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
-        } else {
-          // 场地: 选择卡片
-          // TODO: hint
-          const option = await displaySimpleSelectCardsModal({
-            selectables: cards.map((card) => ({
-              meta: card.meta,
-              location: card.location,
-              response: getNonEffectResponse(action, card),
-            })),
-          });
-          sendSelectIdleCmdResponse(option[0].response!);
-        }
-      },
-    })
-  );
-  const hasEffect =
-    cards.reduce(
-      (prev, acc) => [
-        ...prev,
-        ...acc.idleInteractivities.filter(
-          ({ interactType }) => interactType === InteractType.ACTIVATE
-        ),
-      ],
-      [] as Interactivity<number>[]
-    ).length > 0;
-  const effectItem: DropdownItem = {
-    key: nonEffectItem.length,
-    label: interactTypeToString(InteractType.ACTIVATE),
-    onClick: async () => {
-      let card: CardType;
-      if (!isField) {
-        // 单卡: 直接发动这个卡的效果
-        card = cards[0];
-      } else {
-        // 场地: 选择卡片
-        // TODO: hint
-        const option = await displaySimpleSelectCardsModal({
-          selectables: cards
-            // 过滤掉不能发效果的卡
-            .filter(
-              (card) =>
-                card.idleInteractivities.find(
-                  ({ interactType }) => interactType === InteractType.ACTIVATE
-                ) !== undefined
-            )
-            .map((card) => ({
-              meta: card.meta,
-              location: card.location,
-              card,
-            })),
-        });
-        card = option[0].card! as any; // 一定会有的，有输入则定有输出
-      }
-      // 选择发动哪个效果
-      handleEffectActivation(
-        card.idleInteractivities
-          .filter(({ interactType }) => interactType === InteractType.ACTIVATE)
-          .map((x) => ({
-            desc: interactTypeToString(x.interactType),
-            response: x.response,
-            effectCode: x.activateIndex,
-          })),
-        card.meta
-      );
-    },
-  };
-  dropdownMenu.value = nonEffectItem;
-  hasEffect && dropdownMenu.value.push(effectItem);
-};
 // <<< 下拉菜单 <<<

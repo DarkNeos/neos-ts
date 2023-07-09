@@ -10,9 +10,9 @@ import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
 
 const style = {
-  borderStyle: "groove",
-  borderRadius: "8px",
-  backgroundColor: "#303030",
+  // borderStyle: "groove",
+  // borderRadius: "8px",
+  backgroundColor: "#444",
 };
 
 const NeosConfig = useConfig();

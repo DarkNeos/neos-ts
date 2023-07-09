@@ -13,7 +13,7 @@ section#mat {
       top: 2%;
       height: 96%;
       width: 96%;
-      transform: translateZ(calc(var(--z) * 1px + 0.1px))
+      transform: translateZ(calc((var(--z) + var(--sub-z)) * 1px + 0.1px))
         rotateY(calc(var(--ry) * 1deg));
       transition: 0.2s scale;
       cursor: pointer;
@@ -107,9 +107,12 @@ section#mat {
 }
 
 .mat-card.highlight .card-shadow {
+  --card-shadow-color: #0099ff;
   display: block !important;
-  background: linear-gradient(to right, #0079c6, #009cff) !important;
-  filter: blur(8px);
+  background: var(--card-shadow-color) !important;
+  border-radius: 5px;
+  box-shadow: 0 0 4px 0 var(--card-shadow-color), 0 0 25px 2px #0099ff87;
+  transform: translateZ(calc((var(--z)) * 1px + 0.1px));
 }
 
 @keyframes focus {

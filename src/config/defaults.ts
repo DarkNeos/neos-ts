@@ -19,7 +19,7 @@ const defaultConfig: DefaultsConfig = {
 const aiModeConfig: DefaultsConfig = {
   ...defaultConfig,
   defaultDeck: VITE_AI_MODE_DEFAULT_DECK || "Hero",
-  defaultPlayer: `AiKiller${Math.random().toString(36).slice(2)}}`,
+  defaultPlayer: `AiKiller-${Math.random().toString(36).slice(2, 6)}}`,
   defaultPassword: "AI",
 };
 

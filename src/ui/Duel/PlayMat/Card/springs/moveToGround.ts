@@ -1,11 +1,10 @@
 import { easings } from "@react-spring/web";
 
 import { ygopro } from "@/api";
-import { type CardType, isMe } from "@/stores";
+import { isMe } from "@/stores";
 
 import { matConfig } from "../../utils";
-import { SpringApi } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, type MoveFunc } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -16,13 +15,10 @@ const {
   ROW_GAP,
 } = matConfig;
 
-const { MZONE, SZONE } = ygopro.CardZone;
+const { MZONE, SZONE, TZONE } = ygopro.CardZone;
 
-export const moveToGround = async (props: {
-  card: CardType;
-  api: SpringApi;
-}) => {
-  const { card, api } = props;
+export const moveToGround: MoveFunc = async (props) => {
+  const { card, api, fromZone } = props;
 
   const { location } = card;
 
@@ -84,26 +80,41 @@ export const moveToGround = async (props: {
   let rz = isMe(controller) ? 0 : 180;
   rz += defence ? 90 : 0;
 
+  const ry = [
+    ygopro.CardPosition.FACEDOWN,
+    ygopro.CardPosition.FACEDOWN_ATTACK,
+    ygopro.CardPosition.FACEDOWN_DEFENSE,
+  ].includes(position ?? 5)
+    ? 180
+    : 0;
+
   // 动画
+  if (fromZone === TZONE) {
+    // 如果是Token，直接先移动到那个位置，然后再放大
+    api.set({
+      x,
+      y,
+      ry,
+      rz,
+      height: 0,
+    });
+  } else {
+    await asyncStart(api)({
+      x,
+      y,
+      height,
+      z: is_overlay ? 120 : 200,
+      ry,
+      rz,
+      config: {
+        // mass: 0.5,
+        easing: easings.easeInOutSine,
+      },
+    });
+  }
+
   await asyncStart(api)({
-    x,
-    y,
     height,
-    z: is_overlay ? 120 : 200,
-    ry: [
-      ygopro.CardPosition.FACEDOWN,
-      ygopro.CardPosition.FACEDOWN_ATTACK,
-      ygopro.CardPosition.FACEDOWN_DEFENSE,
-    ].includes(position ?? 5)
-      ? 180
-      : 0,
-    rz,
-    config: {
-      // mass: 0.5,
-      easing: easings.easeInOutSine,
-    },
-  });
-  await asyncStart(api)({
     z: 0,
     zIndex: is_overlay ? 1 : 3,
     config: {

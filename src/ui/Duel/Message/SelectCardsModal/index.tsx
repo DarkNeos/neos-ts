@@ -30,7 +30,7 @@ const CheckCardStyle = {
 };
 const CheckGroupStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(6, 1fr)",
+  gridTemplateColumns: "repeat(5, 1fr)",
   gap: 10,
 };
 
