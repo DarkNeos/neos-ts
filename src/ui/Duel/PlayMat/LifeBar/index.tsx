@@ -84,7 +84,10 @@ const LifeBarItem: React.FC<{
 }> = ({ active, name, life, timeLimit, isMe }) => {
   const mm = Math.floor(timeLimit / 60);
   const ss = timeLimit % 60;
-  const timeText = `${mm < 10 ? "0" + mm : mm}:${ss < 10 ? "0" + ss : ss}`;
+  const timeText =
+    timeLimit < 0
+      ? "00:00"
+      : `${mm < 10 ? "0" + mm : mm}:${ss < 10 ? "0" + ss : ss}`;
   return (
     <Space
       direction="vertical"
