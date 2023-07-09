@@ -17,7 +17,12 @@ export const focus = async (props: { card: CardType; api: SpringApi }) => {
       ry: 0,
       rz: 0,
     });
-    await asyncStart(api)({ y: current.y, ry: current.ry, rz: current.rz });
+    await asyncStart(api)({
+      y: current.y,
+      ry: current.ry,
+      rz: current.rz,
+      z: current.z,
+    });
   } else {
     await asyncStart(api)({
       focusScale: 1.5,

@@ -49,8 +49,7 @@ export const moveToHand = async (props: { card: CardType; api: SpringApi }) => {
 
   const _rz = (angle * 180) / Math.PI;
 
-  // FIXME: 这里加上await会导致有些手卡会卡住不动，为什么呢？
-  asyncStart(api)({
+  await asyncStart(api)({
     x: isMe(controller) ? x : -x,
     y: isMe(controller) ? y : -y,
     z: 15,
