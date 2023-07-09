@@ -5,7 +5,7 @@ export const asyncStart = <T extends {}>(api: SpringRef<T>) => {
     new Promise((resolve) => {
       api.start({
         ...p,
-        onRest: resolve,
+        onResolve: resolve,
       });
     });
 };
