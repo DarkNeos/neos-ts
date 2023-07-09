@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { Progress, Space } from "antd";
+import { Progress } from "antd";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import AnimatedNumbers from "react-animated-numbers";
