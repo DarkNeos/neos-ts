@@ -178,6 +178,7 @@ export default async (move: MsgMove) => {
       overlay.location.zone = to.zone;
       overlay.location.controller = to.controller;
       overlay.location.sequence = to.sequence;
+      overlay.location.position = to.position;
 
       await eventbus.call(Task.Move, overlay.uuid);
     }
