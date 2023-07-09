@@ -3,7 +3,7 @@ import "./index.scss";
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
-import React, { type CSSProperties, useEffect, useState, useRef } from "react";
+import React, { type CSSProperties, useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import type { CardMeta } from "@/api";

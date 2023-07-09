@@ -3,20 +3,23 @@
   display: flex;
   top: 0;
   left: 0;
-  height: 100vh; // FIXME: 100% on safari
+  bottom: 0;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px 35px;
+  padding: 20px;
+  margin-left: 10px;
   pointer-events: none;
   z-index: 100;
+  --bg-color: #323232;
+  width: 200px;
 }
 
 .life-bar {
-  width: 160px;
+  position: relative;
+  width: 100%;
   color: white;
-  background-color: #323232;
+  background-color: var(--bg-color);
   font-family: var(--theme-font);
-  border: 1px solid #222;
   padding: 1rem;
   padding-bottom: 0.6rem;
   border-radius: 8px;
@@ -31,4 +34,17 @@
   .life {
     font-size: 1.8rem;
   }
+}
+.timer-container {
+  background-color: var(--bg-color);
+  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: var(--theme-font);
+  width: fit-content;
+  color: white;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

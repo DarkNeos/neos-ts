@@ -1,12 +1,13 @@
 import "./index.scss";
 
+import { Progress, Space } from "antd";
 import classNames from "classnames";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AnimatedNumbers from "react-animated-numbers";
 import { useSnapshot } from "valtio";
 
+import { useEnv } from "@/hook";
 import { matStore, playerStore } from "@/stores";
-
 // 三个候选方案
 // https://snack.expo.dev/?platform=web
 // https://github.com/heyman333/react-animated-numbers
@@ -28,28 +29,89 @@ export const LifeBar: React.FC = () => {
     setOpLife(snap.op.life);
   }, [snap.op.life]);
 
+  const snapTimeLimit = useSnapshot(matStore.timeLimits);
+  const [myTimeLimit, setMyTimeLimit] = useState(snapTimeLimit.me);
+  const [opTimeLimit, setOpTimeLimit] = useState(snapTimeLimit.op);
+  useEffect(() => {
+    setMyTimeLimit(snapTimeLimit.me);
+  }, [snapTimeLimit.me]);
+  useEffect(() => {
+    setOpTimeLimit(snapTimeLimit.op);
+  }, [snapTimeLimit.op]);
+
+  useEffect(() => {
+    setInterval(() => {
+      setMyTimeLimit((time) => time - 1);
+      setOpTimeLimit((time) => time - 1);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    if (useEnv().VITE_IS_AI_MODE) {
+      // 如果是AI模式
+      // FIXME: 探索一个优雅的、判断当前是不是AI模式的方法，用户手动输入AI也是AI模式
+      setMyTimeLimit(240);
+      setOpTimeLimit(240);
+    }
+  }, [currentPlayer]);
+
   return (
     <div id="life-bar-container">
-      <div
-        className={classNames("life-bar", {
-          "life-bar-activated": matStore.isMe(currentPlayer),
-        })}
-      >
-        <div className="name">{snapPlayer.getOpPlayer().name}</div>
-        <div className="life">
-          {<AnimatedNumbers animateToNumber={opLife} />}
-        </div>
-      </div>
-      <div
-        className={classNames("life-bar", {
-          "life-bar-activated": matStore.isMe(currentPlayer),
-        })}
-      >
-        <div className="name">{snapPlayer.getMePlayer().name}</div>
-        <div className="life">
-          <AnimatedNumbers animateToNumber={meLife} />
-        </div>
-      </div>
+      <LifeBarItem
+        active={!matStore.isMe(currentPlayer)}
+        name={snapPlayer.getOpPlayer().name ?? "?"}
+        life={opLife}
+        timeLimit={opTimeLimit}
+        isMe={false}
+      />
+      <LifeBarItem
+        active={matStore.isMe(currentPlayer)}
+        name={snapPlayer.getMePlayer().name ?? "?"}
+        life={meLife}
+        timeLimit={myTimeLimit}
+        isMe={true}
+      />
     </div>
+  );
+};
+
+const LifeBarItem: React.FC<{
+  active: boolean;
+  name: string;
+  life: number;
+  timeLimit: number;
+  isMe: boolean;
+}> = ({ active, name, life, timeLimit, isMe }) => {
+  const mm = Math.floor(timeLimit / 60);
+  const ss = timeLimit % 60;
+  const timeText = `${mm < 10 ? "0" + mm : mm}:${ss < 10 ? "0" + ss : ss}`;
+  return (
+    <Space
+      direction="vertical"
+      style={{
+        flexDirection: isMe ? "column-reverse" : "column",
+      }}
+      size={12}
+    >
+      <div
+        className={classNames("life-bar", {
+          "life-bar-activated": active,
+        })}
+      >
+        <div className="name">{name}</div>
+        <div className="life">{<AnimatedNumbers animateToNumber={life} />}</div>
+      </div>
+      {active && (
+        <div className="timer-container">
+          <Progress
+            type="circle"
+            percent={(timeLimit / 240) * 100}
+            strokeWidth={20}
+            size={14}
+          />
+          <div className="timer-text">{timeText}</div>
+        </div>
+      )}
+    </Space>
   );
 };
