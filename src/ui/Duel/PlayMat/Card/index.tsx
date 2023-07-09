@@ -320,7 +320,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       <div className="card-shadow" />
       <Dropdown
         menu={dropdownMenu}
-        placement="bottom"
+        placement="top"
         overlayClassName="card-dropdown"
         arrow
         trigger={["click"]}
