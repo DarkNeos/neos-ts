@@ -26,6 +26,11 @@ export interface socketAction {
     player: string;
     passWd: string;
   };
+  isReplay?: boolean; // 是否是回放模式
+  replayInfo?: {
+    Url: string; // 提供回放服务的地址
+    data: ArrayBuffer; // 回放数据
+  };
   // 通过长连接发送的数据
   payload?: Uint8Array;
 }
@@ -36,11 +41,19 @@ let ws: WebSocketStream | null = null;
 export default async function (action: socketAction) {
   switch (action.cmd) {
     case socketCmd.CONNECT: {
-      const info = action.initInfo;
+      const { initInfo: info, isReplay, replayInfo } = action;
       if (info) {
         ws = new WebSocketStream(info.ip, (conn, _event) =>
           handleSocketOpen(conn, info.ip, info.player, info.passWd)
         );
+
+        await ws.execute(handleSocketMessage);
+      } else if (isReplay && replayInfo) {
+        ws = new WebSocketStream(replayInfo.Url, (conn, _event) => {
+          console.info("replay websocket open.");
+          conn.binaryType = "arraybuffer";
+          conn.send(replayInfo.data);
+        });
 
         await ws.execute(handleSocketMessage);
       }

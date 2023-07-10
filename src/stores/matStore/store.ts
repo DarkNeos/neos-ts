@@ -80,6 +80,7 @@ export const matStore: MatState = proxy<MatState>({
     enableM2: false, // 允许进入M2阶段
     enableEp: false, // 允许回合结束
   },
+  isReplay: false,
   unimplemented: 0,
   handResults: {
     me: 0,

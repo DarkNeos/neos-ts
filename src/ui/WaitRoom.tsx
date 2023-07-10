@@ -59,15 +59,12 @@ const WaitRoom = () => {
   useEffect(() => {
     if (ip && player && player.length != 0 && passWd && passWd.length != 0) {
       const init = async () => {
-        // 页面第一次渲染时，通过socket中间件向ygopro服务端请求建立长连接
-        socketMiddleWare({
-          cmd: socketCmd.CONNECT,
-          initInfo: {
-            ip,
-            player,
-            passWd,
-          },
-        });
+        // 初始化wasm
+        const url =
+          import.meta.env.BASE_URL === "/"
+            ? undefined
+            : new URL("rust_src_bg.wasm", `${import.meta.env.BASE_URL}assets/`);
+        await rustInit(url);
 
         // 初始化sqlite
         await sqliteMiddleWare({
@@ -78,12 +75,15 @@ const WaitRoom = () => {
         // 初始化文案
         await initStrings();
 
-        // 初始化wasm
-        const url =
-          import.meta.env.BASE_URL === "/"
-            ? undefined
-            : new URL("rust_src_bg.wasm", `${import.meta.env.BASE_URL}assets/`);
-        await rustInit(url);
+        // 页面第一次渲染时，通过socket中间件向ygopro服务端请求建立长连接
+        socketMiddleWare({
+          cmd: socketCmd.CONNECT,
+          initInfo: {
+            ip,
+            player,
+            passWd,
+          },
+        });
       };
 
       init();

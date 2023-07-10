@@ -10,6 +10,7 @@
    "cardImgUrl":"https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
    "cardsDbUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
    "stringsUrl":"https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
+   "replayUrl":"replay.neos.moe",
    "chainALL":false,
    "streamInterval":20,
    "startDelay":1000,
@@ -68,6 +69,9 @@
       164,
       165,
       170,
-      180
+      180,
+      230,
+      231,
+      236
    ]
 }

@@ -1,5 +1,6 @@
 import { ygopro } from "@/api";
 import { sleep } from "@/infra";
+import { matStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
 import onAnnounce from "./announce";
@@ -40,6 +41,7 @@ import onMsgSet from "./set";
 import onMsgShuffleDeck from "./shuffleDeck";
 import onMsgShuffleHandExtra from "./shuffleHandExtra";
 import onMsgShuffleSetCard from "./shuffleSetCard";
+import onMsgSibylName from "./sibylName";
 import onMsgSortCard from "./sortCard";
 import onMsgSpSummoned from "./spSummoned";
 import onMsgSpSummoning from "./spSummoning";
@@ -69,6 +71,24 @@ const ActiveList = [
   "select_yes_no",
 ];
 
+const ReplayIgnoreMsg = [
+  "select_idle_cmd",
+  "select_place",
+  "select_card",
+  "select_chain",
+  "select_effect_yn",
+  "select_position",
+  "select_option",
+  "select_battle_cmd",
+  "select_unselect_card",
+  "select_yes_no",
+  "select_tribute",
+  "select_counter",
+  "rock_paper_scissors",
+  "sort_card",
+  "announce",
+];
+
 let animation: Promise<unknown> = new Promise<void>((rs) => rs());
 
 export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
@@ -82,6 +102,8 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
   if (ActiveList.includes(msg.gameMsg)) {
     showWaiting(false);
   }
+
+  if (matStore.isReplay && ReplayIgnoreMsg.includes(msg.gameMsg)) return;
 
   switch (msg.gameMsg) {
     case "start": {
@@ -342,6 +364,11 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "swap_grave_deck": {
       await onMsgSwapGraveDeck(msg.swap_grave_deck);
+
+      break;
+    }
+    case "sibyl_name": {
+      onMsgSibylName(msg.sibyl_name);
 
       break;
     }
