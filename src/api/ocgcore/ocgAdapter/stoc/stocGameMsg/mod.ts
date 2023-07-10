@@ -37,6 +37,7 @@ import MsgSelectTributeAdapter from "./selectTribute";
 import MsgSelectUnselectCardAdapter from "./selectUnselectCard";
 import MsgShuffleHandExtraAdapter from "./shuffleHandExtra";
 import MsgShuffleSetCard from "./shuffleSetCard";
+import MsgSibylNameAdapter from "./sibylName";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
 import MsgTossAdapter from "./toss";
@@ -270,6 +271,11 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             true
           );
+
+          break;
+        }
+        case GAME_MSG.MSG_SIBYL_NAME: {
+          gameMsg.sibyl_name = MsgSibylNameAdapter(gameData);
 
           break;
         }

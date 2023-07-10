@@ -9,6 +9,7 @@
 import "../styles/core.scss";
 
 import { Input } from "antd";
+import Link from "antd/es/typography/Link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -87,6 +88,9 @@ export default function Login() {
           Don't know how to play?{" "}
           <a href="https://doc.neos.moe">Player Guide</a>
           <span className="fa fa-arrow-right"></span>
+        </p>
+        <p>
+          <Link href="replay">Clik here to play ygo replay</Link>
         </p>
       </div>
       <div className="sign-in__actions clearfix">

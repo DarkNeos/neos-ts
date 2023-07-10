@@ -7,6 +7,7 @@ const Login = React.lazy(() => import("./Login"));
 const WaitRoom = React.lazy(() => import("./WaitRoom"));
 const Mora = React.lazy(() => import("./Mora"));
 const NeosDuel = React.lazy(() => import("./Duel/Main"));
+const Replay = React.lazy(() => import("./Replay"));
 
 export default function () {
   return (
@@ -25,6 +26,14 @@ export default function () {
         element={
           <Suspense fallback={<Loading />}>
             <Mora />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/replay"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Replay />
           </Suspense>
         }
       />

@@ -28,6 +28,8 @@ export interface MatState {
 
   phase: PhaseState;
 
+  isReplay: boolean; // 是否是回放模式
+
   result?: {
     isWin: boolean;
     reason: string;
