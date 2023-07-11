@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { cardStore, isMe } from "@/stores";
 
-import { matConfig } from "../../utils";
+import { matConfig } from "@/ui/Shared";
 import { asyncStart, type MoveFunc } from "./utils";
 
 const {
@@ -22,27 +22,23 @@ export const moveToHand: MoveFunc = async (props) => {
   // 手卡会有很复杂的计算...
   const hand_circle_center_x = 0;
   const hand_circle_center_y =
-    1 * BLOCK_HEIGHT_M.value +
-    1 * BLOCK_HEIGHT_S.value +
-    2 * ROW_GAP.value +
-    (HAND_MARGIN_TOP.value +
-      HAND_CARD_HEIGHT.value +
-      HAND_CIRCLE_CENTER_OFFSET_Y.value);
-  const hand_card_width = CARD_RATIO.value * HAND_CARD_HEIGHT.value;
+    1 * BLOCK_HEIGHT_M +
+    1 * BLOCK_HEIGHT_S +
+    2 * ROW_GAP +
+    (HAND_MARGIN_TOP + HAND_CARD_HEIGHT + HAND_CIRCLE_CENTER_OFFSET_Y);
+  const hand_card_width = CARD_RATIO * HAND_CARD_HEIGHT;
   const THETA =
     2 *
     Math.atan(
-      hand_card_width /
-        2 /
-        (HAND_CIRCLE_CENTER_OFFSET_Y.value + HAND_CARD_HEIGHT.value)
+      hand_card_width / 2 / (HAND_CIRCLE_CENTER_OFFSET_Y + HAND_CARD_HEIGHT)
     ) *
     0.9;
   // 接下来计算每一张手卡
   const hands_length = cardStore.at(HAND, controller).length;
   const angle = (sequence - (hands_length - 1) / 2) * THETA;
-  const r = HAND_CIRCLE_CENTER_OFFSET_Y.value + HAND_CARD_HEIGHT.value / 2;
+  const r = HAND_CIRCLE_CENTER_OFFSET_Y + HAND_CARD_HEIGHT / 2;
   const negativeX = Math.sin(angle) * r;
-  const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT.value / 2;
+  const negativeY = Math.cos(angle) * r + HAND_CARD_HEIGHT / 2;
   const x = hand_circle_center_x + negativeX * (isMe(controller) ? 1 : -1);
   const y = hand_circle_center_y - negativeY + 140; // FIXME: 常量 是手动调的 这里肯定有问题 有空来修
 
@@ -54,8 +50,8 @@ export const moveToHand: MoveFunc = async (props) => {
     z: sequence + 5,
     rz: isMe(controller) ? _rz : 180 - _rz,
     ry: isMe(controller) ? 0 : 180,
-    height: HAND_CARD_HEIGHT.value,
+    height: HAND_CARD_HEIGHT,
     zIndex: sequence,
-    // rx: -PLANE_ROTATE_X.value,
+    // rx: -PLANE_ROTATE_X,
   });
 };

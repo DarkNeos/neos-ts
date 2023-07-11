@@ -3,7 +3,7 @@ import { easings } from "@react-spring/web";
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
 
-import { matConfig } from "../../utils";
+import { matConfig } from "@/ui/Shared";
 import { asyncStart, type MoveFunc } from "./utils";
 
 const {
@@ -26,11 +26,9 @@ export const moveToGround: MoveFunc = async (props) => {
 
   // 根据zone计算卡片的宽度
   const cardWidth =
-    zone === SZONE
-      ? BLOCK_HEIGHT_S.value * CARD_RATIO.value
-      : BLOCK_HEIGHT_M.value * CARD_RATIO.value;
+    zone === SZONE ? BLOCK_HEIGHT_S * CARD_RATIO : BLOCK_HEIGHT_M * CARD_RATIO;
 
-  let height = zone === SZONE ? BLOCK_HEIGHT_S.value : BLOCK_HEIGHT_M.value;
+  let height = zone === SZONE ? BLOCK_HEIGHT_S : BLOCK_HEIGHT_M;
 
   // 首先计算 x 和 y
   let x = 0,
@@ -39,27 +37,24 @@ export const moveToGround: MoveFunc = async (props) => {
     case SZONE: {
       if (sequence === 5) {
         // 场地魔法
-        x = -(
-          3 * (BLOCK_WIDTH.value + COL_GAP.value) -
-          (BLOCK_WIDTH.value - cardWidth) / 2
-        );
-        y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
+        x = -(3 * (BLOCK_WIDTH + COL_GAP) - (BLOCK_WIDTH - cardWidth) / 2);
+        y = BLOCK_HEIGHT_M + ROW_GAP;
       } else {
-        x = (sequence - 2) * (BLOCK_WIDTH.value + COL_GAP.value);
+        x = (sequence - 2) * (BLOCK_WIDTH + COL_GAP);
         y =
-          2 * (BLOCK_HEIGHT_M.value + ROW_GAP.value) -
-          (BLOCK_HEIGHT_M.value - BLOCK_HEIGHT_S.value) / 2;
+          2 * (BLOCK_HEIGHT_M + ROW_GAP) -
+          (BLOCK_HEIGHT_M - BLOCK_HEIGHT_S) / 2;
       }
       break;
     }
     case MZONE: {
       if (sequence > 4) {
         // 额外怪兽区
-        x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH.value + COL_GAP.value);
+        x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH + COL_GAP);
         y = 0;
       } else {
-        x = (sequence - 2) * (BLOCK_WIDTH.value + COL_GAP.value);
-        y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
+        x = (sequence - 2) * (BLOCK_WIDTH + COL_GAP);
+        y = BLOCK_HEIGHT_M + ROW_GAP;
       }
       break;
     }
@@ -76,9 +71,8 @@ export const moveToGround: MoveFunc = async (props) => {
     ygopro.CardPosition.FACEDOWN_DEFENSE,
     ygopro.CardPosition.FACEUP_DEFENSE,
   ].includes(position ?? 5);
-  height = defence ? BLOCK_WIDTH.value : height;
-  let rz = isMe(controller) ? 0 : 180;
-  rz += defence ? 90 : 0;
+  height = defence ? BLOCK_WIDTH : height;
+  const rz = (isMe(controller) ? 0 : 180) + (defence ? 90 : 0);
 
   const ry = [
     ygopro.CardPosition.FACEDOWN,

@@ -4,7 +4,7 @@ import { easings } from "@react-spring/web";
 import { ygopro } from "@/api";
 import { CardType, isMe } from "@/stores";
 
-import { matConfig } from "../../utils";
+import { matConfig } from "@/ui/Shared";
 import type { SpringApi } from "./types";
 import { asyncStart } from "./utils";
 
@@ -25,7 +25,7 @@ export const attack = async (props: {
   let rz = current.rz;
   if (directAttack) {
     // 直接攻击
-    y = BLOCK_HEIGHT_M.value + BLOCK_HEIGHT_S.value;
+    y = BLOCK_HEIGHT_M + BLOCK_HEIGHT_S;
 
     if (isMe(card.location.controller)) {
       y = -y;
@@ -35,11 +35,11 @@ export const attack = async (props: {
     const { controller, sequence } = target;
     if (sequence > 4) {
       // 额外怪兽区
-      x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH.value + COL_GAP.value);
+      x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH + COL_GAP);
       y = 0;
     } else {
-      x = (sequence - 2) * (BLOCK_WIDTH.value + COL_GAP.value);
-      y = BLOCK_HEIGHT_M.value + ROW_GAP.value;
+      x = (sequence - 2) * (BLOCK_WIDTH + COL_GAP);
+      y = BLOCK_HEIGHT_M + ROW_GAP;
     }
 
     if (!isMe(controller)) {
@@ -61,7 +61,7 @@ export const attack = async (props: {
   await asyncStart(api)({
     y:
       current.y +
-      (BLOCK_HEIGHT_M.value / 2) * (isMe(card.location.controller) ? 1 : -1),
+      (BLOCK_HEIGHT_M / 2) * (isMe(card.location.controller) ? 1 : -1),
     rz,
   });
   // 加速前冲
