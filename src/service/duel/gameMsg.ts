@@ -93,7 +93,6 @@ let animation: Promise<unknown> = new Promise<void>((rs) => rs());
 
 export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
   animation = animation.then(() => _handleGameMsg(pb));
-  // _handleGameMsg(pb);
 }
 
 async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
@@ -324,7 +323,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "confirm_cards": {
       await onConfirmCards(msg.confirm_cards);
-
       break;
     }
     case "become_target": {
