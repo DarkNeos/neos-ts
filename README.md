@@ -20,25 +20,17 @@
 
 English | [简体中文](./README-zh_CN.md)
 
-Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [WASM](https://webassembly.org/).
+Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [WebAssembly](https://webassembly.org/).
 
 ## ✨ Features
 
-- 🎮 [Play online](https://neos.moecube.com) with the [ygopro](https://ygopro.org/) client or neos itself
-- 🌍Play with LAN connection
-- 🤖️Duel with AI
+- 🎮 [Play online](https://neos.moecube.com) with the [ygopro](https://mycard.moe) client or neos itself
+- 🌍 Play with LAN connection
+- 🤖️ Duel with AI
+- 📹 Replay play the duel from [ygopro2](https://mycard.moe)
 
 ## 📦Quick Start
-1. Open the [neos page](https://neos.moecube.com) and input the player name(e.g., "ccc") and password(use "AI" if you want to duel with computer), then click `ENTER ROOM` button
-2. After entering in the waiting room, there're two ways to choose your deck:
-  - Using the recommended deck by clicking the drop-down menu
-  - Uploading your favorite deck with `YDK` file
-3. With the deck being chosen, click the `Ready` and `Start` button and enjoy the duel!
-
-<center class="half">
-  <img alt="" src="./screenshots/quick_start-login.jpeg" width="250" />
-  <img alt="" src="./screenshots/quick_start-room.jpeg" width="350" />
-</center>
+See the [player guide](https://doc.neos.moe/docs/category/%E7%8E%A9%E5%AE%B6%E6%8C%87%E5%8D%97) for details.
 
 ## Screenshot
 <p align="center">
@@ -61,9 +53,6 @@ Neos is developed in [mycard](https://mycard.moe/) community, join the [QQ Chat]
 ## Why we develop Neos?
 - [Document](./docs/release-2023_02_19_CN.md) by the author
 - [Post](https://ygobbs.com/t/ygopro%E7%BD%91%E9%A1%B5%E7%89%88%E5%BC%80%E5%8F%91%E8%BF%9B%E5%B1%95/403397) in [ygobbs](https://ygobbs.com/) forum
-
-## Updates
-Update every weekend if the author is free.
 
 ## Authors
 - Chunchi Che ([@SKTT1Ryze](https://github.com/SKTT1Ryze))
