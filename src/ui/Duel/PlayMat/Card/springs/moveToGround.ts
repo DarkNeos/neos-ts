@@ -107,8 +107,9 @@ export const moveToGround: MoveFunc = async (props) => {
       ry,
       rz,
       config: {
-        // mass: 0.5,
-        easing: easings.easeInOutSine,
+        tension: 250,
+        clamp: true,
+        easing: easings.easeOutSine,
       },
     });
   }
@@ -118,10 +119,7 @@ export const moveToGround: MoveFunc = async (props) => {
     z: 0,
     zIndex: is_overlay ? 1 : 3,
     config: {
-      easing: easings.easeInOutQuad,
-      mass: 5,
-      tension: 300, // 170
-      friction: 12, // 26
+      easing: easings.easeInQuad,
       clamp: true,
     },
   });

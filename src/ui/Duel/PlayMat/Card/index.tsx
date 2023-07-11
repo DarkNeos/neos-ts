@@ -39,8 +39,8 @@ const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 
 export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
-  const state = cardStore.inner[idx];
-  const snap = useSnapshot(state);
+  const card = cardStore.inner[idx];
+  const snap = useSnapshot(card);
 
   const [styles, api] = useSpring(
     () =>
@@ -60,34 +60,32 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       } satisfies SpringApiProps)
   );
 
-  // FIXME: move不应该只根据目的地判断，还要根据先前的位置判断。例子是Token。
   const move = async (toZone: ygopro.CardZone, fromZone?: ygopro.CardZone) => {
     switch (toZone) {
       case MZONE:
       case SZONE:
-        await moveToGround({ card: state, api, fromZone });
+        await moveToGround({ card, api, fromZone });
         break;
       case HAND:
-        await moveToHand({ card: state, api, fromZone });
+        await moveToHand({ card, api, fromZone });
         break;
       case DECK:
       case EXTRA:
-        await moveToDeck({ card: state, api, fromZone });
+        await moveToDeck({ card, api, fromZone });
         break;
       case GRAVE:
       case REMOVED:
-        await moveToOutside({ card: state, api, fromZone });
+        await moveToOutside({ card, api, fromZone });
         break;
       case TZONE:
-        // FIXME: 这里应该实现一个衍生物消散的动画，现在暂时让它在动画在展示上回到卡组
-        await moveToToken({ card: state, api, fromZone });
+        await moveToToken({ card, api, fromZone });
         break;
     }
   };
 
   // 每张卡都需要移动到初始位置
   useEffect(() => {
-    move(state.location.zone);
+    move(card.location.zone);
   }, []);
 
   const [highlight, setHighlight] = useState(false);
@@ -107,18 +105,18 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     eventbus.register(
       Task.Move,
       async (uuid: string, fromZone?: ygopro.CardZone) => {
-        if (uuid === state.uuid) {
-          await addToAnimation(() => move(state.location.zone, fromZone));
+        if (uuid === card.uuid) {
+          await addToAnimation(() => move(card.location.zone, fromZone));
         }
       }
     );
 
     eventbus.register(Task.Focus, async (uuid: string) => {
-      if (uuid === state.uuid) {
+      if (uuid === card.uuid) {
         await addToAnimation(async () => {
           setClassFocus(true);
           setTimeout(() => setClassFocus(false), 1000);
-          await focus({ card: state, api });
+          await focus({ card, api });
         });
       }
     });
@@ -130,9 +128,9 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         directAttack: boolean,
         target?: ygopro.CardLocation
       ) => {
-        if (uuid === state.uuid) {
+        if (uuid === card.uuid) {
           await addToAnimation(() =>
-            attack({ card: state, api, target, directAttack })
+            attack({ card, api, target, directAttack })
           );
         }
       }
@@ -286,10 +284,10 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       handleDropdownMenu(cards, true);
     };
 
-    if ([MZONE, SZONE, HAND].includes(state.location.zone)) {
-      onCardClick(state);
-    } else if ([EXTRA, GRAVE, REMOVED].includes(state.location.zone)) {
-      onFieldClick(state);
+    if ([MZONE, SZONE, HAND].includes(card.location.zone)) {
+      onCardClick(card);
+    } else if ([EXTRA, GRAVE, REMOVED].includes(card.location.zone)) {
+      onFieldClick(card);
     }
   };
   // <<< 效果 <<<
