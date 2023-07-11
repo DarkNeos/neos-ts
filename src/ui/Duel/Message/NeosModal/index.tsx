@@ -3,7 +3,7 @@ import "./index.scss";
 import { MinusOutlined, UpOutlined } from "@ant-design/icons";
 import { Modal, type ModalProps } from "antd";
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props extends ModalProps {
   canBeMinimized?: boolean;
@@ -12,6 +12,12 @@ interface Props extends ModalProps {
 export const NeosModal: React.FC<Props> = (props) => {
   const { canBeMinimized = true } = props;
   const [mini, setMini] = useState(false);
+
+  // 为了修antd的bug，先让isOpen发生变化，再让它变回来
+  const [realOpen, setRealOpen] = useState(true);
+  useEffect(() => setRealOpen(false), []);
+  useEffect(() => setRealOpen(!!props.open), [props.open]);
+
   return (
     <Modal
       className={classNames("neos-modal", { "neos-modal-mini": mini })}
@@ -24,6 +30,7 @@ export const NeosModal: React.FC<Props> = (props) => {
       wrapClassName={classNames({ "neos-modal-wrap": mini })}
       closable={canBeMinimized}
       {...props}
+      open={realOpen}
     />
   );
 };
