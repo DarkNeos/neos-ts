@@ -1,7 +1,6 @@
 import "./index.scss";
 
 import classnames from "classnames";
-import { type CSSProperties } from "react";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
@@ -11,25 +10,6 @@ import {
   type PlaceInteractivity,
   placeStore,
 } from "@/stores";
-
-// Block被禁用的样式
-const BgDisabledStyle = {
-  background: `linear-gradient(
-      to top right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) calc(50% - 1.5px),
-      red 50%,
-      rgba(0, 0, 0, 0) calc(50% + 1.5px),
-      rgba(0, 0, 0, 0) 100%
-    ), linear-gradient(
-      to bottom right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) calc(50% - 1.5px),
-      red 50%,
-      rgba(0, 0, 0, 0) calc(50% + 1.5px),
-      rgba(0, 0, 0, 0) 100%
-    )`,
-};
 
 const BgExtraRow: React.FC<{
   meSnap: Snapshot<BlockState[]>;
@@ -42,18 +22,15 @@ const BgExtraRow: React.FC<{
           key={i}
           className={classnames("block", "extra", {
             highlight: !!meSnap[i].interactivity || !!opSnap[i].interactivity,
+            disabled: meSnap[i].disabled || opSnap[i].disabled,
           })}
-          style={
-            meSnap[i].disabled || opSnap[i].disabled
-              ? (BgDisabledStyle as CSSProperties)
-              : {}
-          }
           onClick={() => {
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
           }}
         >
           {<DecoTriangles />}
+          {<DisabledCross />}
         </div>
       ))}
     </div>
@@ -72,11 +49,12 @@ const BgRow: React.FC<{
         className={classnames("block", {
           szone: isSzone,
           highlight: !!snap[i].interactivity,
+          disabled: snap[i].disabled,
         })}
-        style={snap[i].disabled ? (BgDisabledStyle as CSSProperties) : {}}
         onClick={() => onBlockClick(snap[i].interactivity)}
       >
         {<DecoTriangles />}
+        {<DisabledCross />}
       </div>
     ))}
   </div>
@@ -113,3 +91,5 @@ const DecoTriangles: React.FC = () => (
     ))}
   </>
 );
+
+const DisabledCross: React.FC = () => <div className="disabled-cross"></div>;
