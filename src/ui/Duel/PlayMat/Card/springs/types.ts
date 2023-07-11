@@ -9,6 +9,7 @@ export interface SpringApiProps {
   rz: number;
   zIndex: number;
   height: number;
+  opacity: number;
   // >>> focus
   focusScale: number;
   focusDisplay: string;

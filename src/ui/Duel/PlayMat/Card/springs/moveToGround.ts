@@ -13,6 +13,8 @@ const {
   CARD_RATIO,
   COL_GAP,
   ROW_GAP,
+  BLOCK_OUTSIDE_OFFSET_X,
+  CARD_HEIGHT_O,
 } = matConfig;
 
 const { MZONE, SZONE, TZONE } = ygopro.CardZone;
@@ -36,9 +38,15 @@ export const moveToGround: MoveFunc = async (props) => {
   switch (zone) {
     case SZONE: {
       if (sequence === 5) {
+        height = CARD_HEIGHT_O;
         // 场地魔法
-        x = -(3 * (BLOCK_WIDTH + COL_GAP) - (BLOCK_WIDTH - cardWidth) / 2);
-        y = BLOCK_HEIGHT_M + ROW_GAP;
+        x = -(
+          BLOCK_WIDTH * 2.5 +
+          COL_GAP * 2 +
+          BLOCK_OUTSIDE_OFFSET_X +
+          CARD_HEIGHT_O * CARD_RATIO * 0.5
+        );
+        y = ROW_GAP + BLOCK_HEIGHT_M + (BLOCK_HEIGHT_M - CARD_HEIGHT_O) / 2;
       } else {
         x = (sequence - 2) * (BLOCK_WIDTH + COL_GAP);
         y =

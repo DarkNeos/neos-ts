@@ -22,7 +22,7 @@ enum UNIT {
   NONE = "",
 }
 
-const matConfigWithUnit: CSSConfig = {
+const matConfigWithUnit = {
   PERSPECTIVE: [1500, UNIT.PX],
   PLANE_ROTATE_X: [0, UNIT.DEG],
   BLOCK_WIDTH: [120, UNIT.PX],
@@ -38,12 +38,18 @@ const matConfigWithUnit: CSSConfig = {
   DECK_OFFSET_Y: [80, UNIT.PX],
   DECK_ROTATE_Z: [30, UNIT.DEG],
   DECK_CARD_HEIGHT: [120, UNIT.PX],
-};
+  CARD_HEIGHT_O: [100, UNIT.PX], // 场地魔法/墓地/除外的卡片高度
+  BLOCK_OUTSIDE_OFFSET_X: [15, UNIT.PX],
+} satisfies CSSConfig;
 
 export const matConfig = Object.keys(matConfigWithUnit).reduce(
-  (prev, key) => ({ ...prev, [key]: matConfigWithUnit[key][0] }),
+  (prev, key) => ({
+    ...prev,
+    // @ts-ignore
+    [key]: matConfigWithUnit[key][0],
+  }),
   {} as Record<string, number>
-);
+) as Record<keyof typeof matConfigWithUnit, number>;
 
 toCssProperties(matConfigWithUnit).forEach(([k, v]) => {
   document.body.style.setProperty(k, v);

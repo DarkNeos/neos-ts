@@ -57,6 +57,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusDisplay: "none",
         focusOpacity: 1,
         subZ: 0,
+        opacity: 1,
       } satisfies SpringApiProps)
   );
 
@@ -310,6 +311,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           "--focus-scale": styles.focusScale,
           "--focus-display": styles.focusDisplay,
           "--focus-opacity": styles.focusOpacity,
+          opacity: styles.opacity,
         } as any as CSSProperties
       }
       onClick={onClick}

@@ -5,11 +5,18 @@ import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
 import {
-  BlockState,
+  type BlockState,
   cardStore,
   type PlaceInteractivity,
   placeStore,
 } from "@/stores";
+
+const BgBlock: React.FC<React.HTMLProps<HTMLDivElement>> = (props) => (
+  <div {...props} className={classnames("block", props.className)}>
+    {<DecoTriangles />}
+    {<DisabledCross />}
+  </div>
+);
 
 const BgExtraRow: React.FC<{
   meSnap: Snapshot<BlockState[]>;
@@ -18,9 +25,9 @@ const BgExtraRow: React.FC<{
   return (
     <div className={classnames("bg-row")}>
       {Array.from({ length: 2 }).map((_, i) => (
-        <div
+        <BgBlock
           key={i}
-          className={classnames("block", "extra", {
+          className={classnames("extra", {
             highlight: !!meSnap[i].interactivity || !!opSnap[i].interactivity,
             disabled: meSnap[i].disabled || opSnap[i].disabled,
           })}
@@ -28,10 +35,7 @@ const BgExtraRow: React.FC<{
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
           }}
-        >
-          {<DecoTriangles />}
-          {<DisabledCross />}
-        </div>
+        />
       ))}
     </div>
   );
@@ -44,19 +48,24 @@ const BgRow: React.FC<{
 }> = ({ isSzone = false, opponent = false, snap }) => (
   <div className={classnames("bg-row", { opponent })}>
     {Array.from({ length: 5 }).map((_, i) => (
-      <div
+      <BgBlock
         key={i}
-        className={classnames("block", {
+        className={classnames({
           szone: isSzone,
           highlight: !!snap[i].interactivity,
           disabled: snap[i].disabled,
         })}
         onClick={() => onBlockClick(snap[i].interactivity)}
-      >
-        {<DecoTriangles />}
-        {<DisabledCross />}
-      </div>
+      />
     ))}
+  </div>
+);
+
+const BgOtherBlocks: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={classnames("bg-other-blocks", className)}>
+    <BgBlock className="banish" />
+    <BgBlock className="graveyard" />
+    <BgBlock className="field" />
   </div>
 );
 
@@ -72,6 +81,8 @@ export const Bg: React.FC = () => {
       />
       <BgRow snap={snap[ygopro.CardZone.MZONE].me} />
       <BgRow snap={snap[ygopro.CardZone.SZONE].me} isSzone />
+      <BgOtherBlocks className="me" />
+      <BgOtherBlocks className="op" />
     </div>
   );
 };
