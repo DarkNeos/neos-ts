@@ -34,19 +34,7 @@ const defaultProps: Omit<
 const localStore = proxy(defaultProps);
 
 export const SelectActionsModal: React.FC = () => {
-  const {
-    isOpen,
-    min,
-    max,
-    single,
-    selecteds,
-    selectables,
-    mustSelects,
-    cancelable,
-    finishable,
-    totalLevels,
-    overflow,
-  } = useSnapshot(localStore);
+  const snap = useSnapshot(localStore);
 
   const onSubmit = (options: Snapshot<Option[]>) => {
     const values = options.map((option) => option.response!);
@@ -71,17 +59,7 @@ export const SelectActionsModal: React.FC = () => {
   return (
     <SelectCardsModal
       {...{
-        isOpen,
-        min,
-        max,
-        single,
-        selecteds,
-        selectables,
-        mustSelects,
-        cancelable,
-        finishable,
-        totalLevels,
-        overflow,
+        ...snap,
         onSubmit,
         onFinish,
         onCancel,
