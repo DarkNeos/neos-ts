@@ -1,13 +1,12 @@
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
-
 import { matConfig } from "@/ui/Shared";
+
 import { asyncStart, type MoveFunc } from "./utils";
 
 const {
   BLOCK_WIDTH,
   BLOCK_HEIGHT_M,
-  BLOCK_HEIGHT_S,
   COL_GAP,
   ROW_GAP,
   DECK_OFFSET_X,

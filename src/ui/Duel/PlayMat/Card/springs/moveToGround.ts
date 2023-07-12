@@ -2,8 +2,8 @@ import { easings } from "@react-spring/web";
 
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
-
 import { matConfig } from "@/ui/Shared";
+
 import { asyncStart, type MoveFunc } from "./utils";
 
 const {
@@ -25,10 +25,6 @@ export const moveToGround: MoveFunc = async (props) => {
   const { location } = card;
 
   const { controller, zone, sequence, position, is_overlay } = location;
-
-  // 根据zone计算卡片的宽度
-  const cardWidth =
-    zone === SZONE ? BLOCK_HEIGHT_S * CARD_RATIO : BLOCK_HEIGHT_M * CARD_RATIO;
 
   let height = zone === SZONE ? BLOCK_HEIGHT_S : BLOCK_HEIGHT_M;
 
