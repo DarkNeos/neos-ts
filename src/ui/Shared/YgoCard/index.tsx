@@ -38,7 +38,7 @@ export const YgoCard: React.FC<Props> = (props) => {
 
 const NeosConfig = useConfig();
 
-function getCardImgUrl(code: number, back = false) {
+export function getCardImgUrl(code: number, back = false) {
   const ASSETS_BASE =
     import.meta.env.BASE_URL === "/"
       ? NeosConfig.assetsPath

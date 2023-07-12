@@ -34,6 +34,7 @@ import {
   moveToToken,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
+import { preloadCardImage } from "./springs/utils";
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
@@ -106,7 +107,10 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       Task.Move,
       async (uuid: string, fromZone?: ygopro.CardZone) => {
         if (uuid === card.uuid) {
-          await addToAnimation(() => move(card.location.zone, fromZone));
+          await addToAnimation(async () => {
+            await preloadCardImage(card.code);
+            await move(card.location.zone, fromZone);
+          });
         }
       }
     );
@@ -114,6 +118,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     eventbus.register(Task.Focus, async (uuid: string) => {
       if (uuid === card.uuid) {
         await addToAnimation(async () => {
+          await preloadCardImage(card.code);
           setClassFocus(true);
           setTimeout(() => setClassFocus(false), 1000);
           await focus({ card, api });
