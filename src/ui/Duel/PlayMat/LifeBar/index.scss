@@ -54,25 +54,3 @@
     min-width: 3.25em;
   }
 }
-
-.floodlight {
-  position: absolute;
-  height: 100%;
-  width: 40px;
-  background-color: #aaa;
-  top: 0;
-  right: 0;
-  filter: blur(30px);
-  transform: skewX(-20deg);
-}
-.floodlight-run {
-  animation: floodlight 4s linear infinite;
-}
-@keyframes floodlight {
-  0% {
-    right: -80px;
-  }
-  100% {
-    right: calc(100% + 80px);
-  }
-}
