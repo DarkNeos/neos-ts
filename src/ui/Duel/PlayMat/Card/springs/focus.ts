@@ -15,7 +15,7 @@ export const focus = async (props: { card: CardType; api: SpringApi }) => {
     await asyncStart(api)({
       y: current.y + (matStore.isMe(card.location.controller) ? -1 : 1) * 120, // TODO: 放到config之中
       ry: 0,
-      rz: 0,
+      // rz: 0,
       z: current.z + 50,
     });
     await asyncStart(api)({
