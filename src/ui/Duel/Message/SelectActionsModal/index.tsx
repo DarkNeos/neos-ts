@@ -36,7 +36,6 @@ const localStore = proxy(defaultProps);
 export const SelectActionsModal: React.FC = () => {
   const {
     isOpen,
-    isChain,
     min,
     max,
     single,
@@ -51,7 +50,7 @@ export const SelectActionsModal: React.FC = () => {
 
   const onSubmit = (options: Snapshot<Option[]>) => {
     const values = options.map((option) => option.response!);
-    if (isChain) {
+    if (localStore.isChain) {
       sendSelectSingleResponse(values[0]);
     } else {
       sendSelectMultiResponse(values);

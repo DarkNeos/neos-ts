@@ -7,9 +7,9 @@ import { sendSelectPlaceResponse, ygopro } from "@/api";
 import {
   type BlockState,
   cardStore,
+  isMe,
   type PlaceInteractivity,
   placeStore,
-  isMe,
 } from "@/stores";
 
 const BgBlock: React.FC<
@@ -78,10 +78,10 @@ const BgRow: React.FC<{
 );
 
 const BgOtherBlocks: React.FC<{ me?: boolean }> = ({ me }) => {
-  const snapCards = useSnapshot(cardStore);
+  useSnapshot(cardStore);
   const meController = isMe(0) ? 0 : 1;
   const judgeGlowing = (zone: ygopro.CardZone) =>
-    !!snapCards
+    !!cardStore
       .at(zone, meController)
       .reduce((sum, c) => (sum += c.idleInteractivities.length), 0);
   const glowingExtra = judgeGlowing(ygopro.CardZone.EXTRA);
