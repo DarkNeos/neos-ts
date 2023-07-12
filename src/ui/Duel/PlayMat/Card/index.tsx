@@ -89,9 +89,8 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     move(card.location.zone);
   }, []);
 
-  const [highlight, setHighlight] = useState(false);
+  const [glowing, setGrowing] = useState(false);
   const [classFocus, setClassFocus] = useState(false);
-  // const [shadowOpacity, setShadowOpacity] = useState(0); // TODO: 透明度
 
   // >>> 动画 >>>
   /** 动画序列的promise */
@@ -143,7 +142,10 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   // >>> 效果 >>>
   const idleInteractivities = snap.idleInteractivities;
   useEffect(() => {
-    setHighlight(!!idleInteractivities.length);
+    setGrowing(
+      !!idleInteractivities.length &&
+        [MZONE, SZONE, HAND, TZONE].includes(card.location.zone)
+    );
   }, [idleInteractivities]);
 
   const [dropdownMenu, setDropdownMenu] = useState({
@@ -295,7 +297,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className={classnames("mat-card", { highlight })}
+      className={classnames("mat-card", { glowing })}
       style={
         {
           transform: to(

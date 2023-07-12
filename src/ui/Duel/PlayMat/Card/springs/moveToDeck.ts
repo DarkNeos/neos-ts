@@ -26,12 +26,7 @@ export const moveToDeck: MoveFunc = async (props) => {
 
   const rightX = DECK_OFFSET_X + 2 * (BLOCK_WIDTH + COL_GAP);
   const leftX = -rightX;
-  const bottomY =
-    DECK_OFFSET_Y +
-    2 * BLOCK_HEIGHT_M +
-    BLOCK_HEIGHT_S +
-    2 * ROW_GAP -
-    BLOCK_HEIGHT_S;
+  const bottomY = DECK_OFFSET_Y + 2 * BLOCK_HEIGHT_M + 2 * ROW_GAP;
   const topY = -bottomY;
   let x = isMe(controller) ? rightX : leftX;
   let y = isMe(controller) ? bottomY : topY;
