@@ -157,15 +157,16 @@ export default async (move: MsgMove) => {
   target.location = to;
 
   // 维护完了之后，开始动画
-  await eventbus.call(Task.Move, target.uuid, from.zone);
+  const p = eventbus.call(Task.Move, target.uuid, from.zone);
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
-    await Promise.all(
-      cardStore
-        .at(HAND, target.location.controller)
-        .filter((c) => c.uuid !== target.uuid)
-        .map(async (c) => await eventbus.call(Task.Move, c.uuid))
-    );
+    const pHands = cardStore
+      .at(HAND, target.location.controller)
+      .filter((c) => c.uuid !== target.uuid)
+      .map(async (c) => await eventbus.call(Task.Move, c.uuid));
+    await Promise.all([p, ...pHands]);
+  } else {
+    await p;
   }
 
   // 超量素材位置跟随超量怪兽移动
