@@ -4,8 +4,8 @@ import { ygopro } from "@/api";
 import { isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
 
-import { asyncStart } from "./utils";
 import type { MoveFunc } from "./types";
+import { asyncStart } from "./utils";
 
 const {
   BLOCK_WIDTH,

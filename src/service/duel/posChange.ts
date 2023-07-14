@@ -1,7 +1,6 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
 import { cardStore, fetchEsHintMeta } from "@/stores";
-
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 export default async (posChange: MsgPosChange) => {

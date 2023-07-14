@@ -1,10 +1,11 @@
 import { ygopro } from "@/api";
-import type { MoveFunc } from "./types";
+
+import { moveToDeck } from "./moveToDeck";
 import { moveToGround } from "./moveToGround";
 import { moveToHand } from "./moveToHand";
-import { moveToDeck } from "./moveToDeck";
 import { moveToOutside } from "./moveToOutside";
 import { moveToToken } from "./moveToToken";
+import type { MoveFunc } from "./types";
 
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;

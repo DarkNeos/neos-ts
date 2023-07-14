@@ -1,11 +1,10 @@
 // 暂时先简单实现攻击动画，后面有时间再慢慢优化
 import { easings } from "@react-spring/web";
 
-import { ygopro } from "@/api";
-import { CardType, isMe } from "@/stores";
+import { isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
 
-import type { SpringApi, AttackFunc } from "./types";
+import type { AttackFunc } from "./types";
 import { asyncStart } from "./utils";
 
 const { BLOCK_WIDTH, BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, COL_GAP, ROW_GAP } =

@@ -26,16 +26,15 @@ import {
 import { interactTypeToString } from "../../utils";
 import {
   attack,
+  type AttackOptions,
   focus,
   move,
   type MoveOptions,
-  type AttackOptions,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 import { preloadCardImage } from "./springs/utils";
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
-  ygopro.CardZone;
+const { HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } = ygopro.CardZone;
 
 export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   const card = cardStore.inner[idx];

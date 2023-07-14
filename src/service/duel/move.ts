@@ -1,8 +1,8 @@
 import { fetchCard, ygopro } from "@/api";
 import { cardStore, CardType } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import { REASON_MATERIAL, TYPE_TOKEN } from "../../common";
-import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 type MsgMove = ygopro.StocGameMessage.MsgMove;
 const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;

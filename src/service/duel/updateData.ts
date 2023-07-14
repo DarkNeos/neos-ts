@@ -1,7 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { callCardMove } from "@/ui/Duel/PlayMat/Card";
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 export default async (updateData: MsgUpdateData) => {

@@ -1,6 +1,7 @@
+import type { SpringRef } from "@react-spring/web";
+
 import type { ygopro } from "@/api";
 import type { CardType } from "@/stores";
-import type { SpringRef } from "@react-spring/web";
 
 export interface SpringApiProps {
   x: number;
@@ -29,7 +30,9 @@ type OptionsToFunc<Options> = (props: {
   options?: Options;
 }) => Promise<void>;
 
-export type MoveOptions = { fromZone?: ygopro.CardZone };
+export interface MoveOptions {
+  fromZone?: ygopro.CardZone;
+}
 export type MoveFunc = OptionsToFunc<MoveOptions>;
 
 export type AttackOptions =
