@@ -48,8 +48,8 @@ export const matConfig = Object.keys(matConfigWithUnit).reduce(
     // @ts-ignore
     [key]: matConfigWithUnit[key][0],
   }),
-  {} as Record<string, number>
-) as Record<keyof typeof matConfigWithUnit, number>;
+  {} as Record<keyof typeof matConfigWithUnit, number>
+);
 
 toCssProperties(matConfigWithUnit).forEach(([k, v]) => {
   document.body.style.setProperty(k, v);

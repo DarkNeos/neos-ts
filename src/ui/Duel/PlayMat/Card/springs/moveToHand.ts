@@ -23,8 +23,8 @@ export const moveToHand: MoveFunc = async (props) => {
   // 手卡会有很复杂的计算...
   const hand_circle_center_x = 0;
   const hand_circle_center_y =
-    1 * BLOCK_HEIGHT_M +
-    1 * BLOCK_HEIGHT_S +
+    BLOCK_HEIGHT_M +
+    BLOCK_HEIGHT_S +
     2 * ROW_GAP +
     (HAND_MARGIN_TOP + HAND_CARD_HEIGHT + HAND_CIRCLE_CENTER_OFFSET_Y);
   const hand_card_width = CARD_RATIO * HAND_CARD_HEIGHT;
