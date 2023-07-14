@@ -23,18 +23,21 @@ const localStore = proxy(defaultProps);
 
 export const EndModal: React.FC = () => {
   const { isOpen, isWin, reason } = useSnapshot(localStore);
+  const { isReplay } = useSnapshot(matStore);
 
   return (
     <NeosModal
       title={fetchStrings("!system", 1500)}
       open={isOpen}
       onOk={() => {
-        const replayBuffers = replayStore.encode();
-        const blob = new Blob(replayBuffers, {
-          type: "application/octet-stream",
-        });
-        // download the replay file
-        window.open(URL.createObjectURL(blob));
+        if (!isReplay) {
+          const replayBuffers = replayStore.encode();
+          const blob = new Blob(replayBuffers, {
+            type: "application/octet-stream",
+          });
+          // download the replay file
+          window.open(URL.createObjectURL(blob));
+        }
         rs();
       }}
       onCancel={() => {
@@ -44,7 +47,7 @@ export const EndModal: React.FC = () => {
     >
       <p>{isWin ? "Win" : "Defeated"}</p>
       <p>{reason}</p>
-      {matStore.isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
+      {isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
     </NeosModal>
   );
 };
