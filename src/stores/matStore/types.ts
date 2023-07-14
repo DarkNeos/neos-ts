@@ -30,11 +30,6 @@ export interface MatState {
 
   isReplay: boolean; // 是否是回放模式
 
-  result?: {
-    isWin: boolean;
-    reason: string;
-  };
-
   unimplemented: number; // 未处理的`Message`
 
   tossResult?: string; // 骰子/硬币结果

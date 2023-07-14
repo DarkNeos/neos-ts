@@ -4,7 +4,7 @@ import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings } from "@/api";
-import { replayStore } from "@/stores";
+import { matStore, replayStore } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
 
@@ -44,7 +44,7 @@ export const EndModal: React.FC = () => {
     >
       <p>{isWin ? "Win" : "Defeated"}</p>
       <p>{reason}</p>
-      <p>{fetchStrings("!system", 1340)}</p>
+      {matStore.isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
     </NeosModal>
   );
 };
