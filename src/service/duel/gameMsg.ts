@@ -1,5 +1,4 @@
 import { ygopro } from "@/api";
-import { sleep } from "@/infra";
 import { matStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
@@ -142,8 +141,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "move": {
       await onMsgMove(msg.move);
-      await sleep(500);
-
       break;
     }
     case "select_card": {
@@ -268,7 +265,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "chaining": {
       await onMsgChaining(msg.chaining);
-
       break;
     }
     case "chain_solved": {

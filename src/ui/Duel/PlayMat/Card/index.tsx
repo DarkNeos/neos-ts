@@ -82,7 +82,8 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     eventbus.register(task, async (uuid, ...rest: T) => {
       if (uuid === card.uuid) {
         await fn(...rest);
-      }
+        return true;
+      } else return false;
     });
   };
 
@@ -93,7 +94,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
     register(Task.Focus, async () => {
       setClassFocus(true);
-      setTimeout(() => setClassFocus(false), 1000);
+      setTimeout(() => setClassFocus(false), 1000); // TODO: 这儿为啥要这么写呢
       await focus({ card, api });
     });
 
@@ -345,9 +346,8 @@ const handleEffectActivation = (
 
 const call =
   <Options,>(task: Task) =>
-  async (uuid: string, options?: Options extends {} ? Options : never) => {
+  (uuid: string, options?: Options extends {} ? Options : never) =>
     eventbus.call(task, uuid, options);
-  };
 
 export const callCardMove = call<MoveOptions>(Task.Move);
 export const callCardFocus = call(Task.Focus);
