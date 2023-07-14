@@ -4,6 +4,7 @@
  * */
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
+import { matStore, replayStore } from "@/stores";
 
 import handleGameMsg from "./duel/gameMsg";
 import handleTimeLimit from "./duel/timeLimit";
@@ -86,6 +87,11 @@ export default async function handleSocketMessage(e: MessageEvent) {
     }
     case "stoc_game_msg": {
       await handleGameMsg(pb);
+
+      if (!matStore.isReplay) {
+        // 如果不是回放模式，则记录回放数据
+        replayStore.record(packet);
+      }
 
       break;
     }

@@ -4,7 +4,6 @@ import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 
 // 对局中每一次状态改变的记录
 interface ReplaySpot {
-  msg: string; // 人类能理解的语音，后续考虑用来在对局中展示
   packet: ReplayPacket; // 将会保存在回放文件中的数据
 }
 
@@ -14,11 +13,11 @@ interface ReplayPacket {
   extraData: ArrayBuffer;
 }
 
+// 保存对局回放数据的`Store`
 class ReplayStore {
   inner: ReplaySpot[] = [];
-  record(ygoPacket: YgoProPacket, msg?: string) {
+  record(ygoPacket: YgoProPacket) {
     this.inner.push({
-      msg: msg ?? "",
       packet: ygoPacket2replayPacket(ygoPacket),
     });
   }
