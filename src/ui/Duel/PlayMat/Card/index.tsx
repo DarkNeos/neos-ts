@@ -32,7 +32,6 @@ import {
   type MoveOptions,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
-import { preloadCardImage } from "./springs/utils";
 
 const { HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } = ygopro.CardZone;
 
@@ -93,7 +92,6 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     });
 
     register(Task.Focus, async () => {
-      await preloadCardImage(card.code);
       setClassFocus(true);
       setTimeout(() => setClassFocus(false), 1000);
       await focus({ card, api });
