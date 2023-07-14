@@ -1,6 +1,7 @@
 import { ygopro } from "@/api";
-import { eventbus, sleep, Task } from "@/infra";
+import { sleep } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
+import { callCardAttack } from "@/ui/Duel/PlayMat/Card";
 
 export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
   fetchEsHintMeta({
@@ -16,14 +17,14 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
 
   if (attacker) {
     if (attack.direct_attack) {
-      await eventbus.call(Task.Attack, attacker.uuid, true);
+      await callCardAttack(attacker.uuid, {
+        directAttack: true,
+      });
     } else {
-      await eventbus.call(
-        Task.Attack,
-        attacker.uuid,
-        false,
-        attack.target_location
-      );
+      await callCardAttack(attacker.uuid, {
+        directAttack: false,
+        target: attack.target_location,
+      });
     }
   } else {
     console.warn(`<Attack>attacker from ${attack.attacker_location} is null`);

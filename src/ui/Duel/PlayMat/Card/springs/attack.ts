@@ -5,34 +5,29 @@ import { ygopro } from "@/api";
 import { CardType, isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
 
-import type { SpringApi } from "./types";
+import type { SpringApi, AttackFunc } from "./types";
 import { asyncStart } from "./utils";
 
 const { BLOCK_WIDTH, BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, COL_GAP, ROW_GAP } =
   matConfig;
 
-export const attack = async (props: {
-  card: CardType;
-  api: SpringApi;
-  directAttack: boolean;
-  target?: ygopro.CardLocation;
-}) => {
-  const { card, api, directAttack, target } = props;
+export const attack: AttackFunc = async (props) => {
+  const { card, api, options } = props;
   const current = api.current[0].get();
 
   let x = current.x;
   let y = current.y;
   let rz = current.rz;
-  if (directAttack) {
+  if (options?.directAttack) {
     // 直接攻击
     y = BLOCK_HEIGHT_M + BLOCK_HEIGHT_S;
 
     if (isMe(card.location.controller)) {
       y = -y;
     }
-  } else if (target) {
+  } else if (options?.target) {
     // 攻击`target`
-    const { controller, sequence } = target;
+    const { controller, sequence } = options.target;
     if (sequence > 4) {
       // 额外怪兽区
       x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH + COL_GAP);

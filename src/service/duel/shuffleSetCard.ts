@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 import MsgShuffleSetCard = ygopro.StocGameMessage.MsgShuffleSetCard;
 
 // 后端传过来的`from_locations`的列表是切洗前场上卡的location，它们在列表里面按照切洗后的顺序排列
@@ -42,7 +42,7 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
         // 更新sequence
         overlay.location.sequence = overlay_location.sequence;
         // 渲染动画
-        await eventbus.call(Task.Move, overlay.uuid);
+        await callCardMove(overlay.uuid);
         // 这里其实有个疑惑，如果超量素材也跟着洗切的话，洗切的意义好像就没有了，感觉算是个k社没想好的设计？
       }
     }

@@ -27,11 +27,9 @@ import { interactTypeToString } from "../../utils";
 import {
   attack,
   focus,
-  moveToDeck,
-  moveToGround,
-  moveToHand,
-  moveToOutside,
-  moveToToken,
+  move,
+  type MoveOptions,
+  type AttackOptions,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 import { preloadCardImage } from "./springs/utils";
@@ -62,32 +60,9 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       } satisfies SpringApiProps)
   );
 
-  const move = async (toZone: ygopro.CardZone, fromZone?: ygopro.CardZone) => {
-    switch (toZone) {
-      case MZONE:
-      case SZONE:
-        await moveToGround({ card, api, fromZone });
-        break;
-      case HAND:
-        await moveToHand({ card, api, fromZone });
-        break;
-      case DECK:
-      case EXTRA:
-        await moveToDeck({ card, api, fromZone });
-        break;
-      case GRAVE:
-      case REMOVED:
-        await moveToOutside({ card, api, fromZone });
-        break;
-      case TZONE:
-        await moveToToken({ card, api, fromZone });
-        break;
-    }
-  };
-
   // 每张卡都需要移动到初始位置
   useEffect(() => {
-    move(card.location.zone);
+    addToAnimation(() => move({ card, api }));
   }, []);
 
   const [glowing, setGrowing] = useState(false);
@@ -102,44 +77,32 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       animationQueue.current = animationQueue.current.then(p).then(rs);
     });
 
-  useEffect(() => {
-    eventbus.register(
-      Task.Move,
-      async (uuid: string, fromZone?: ygopro.CardZone) => {
-        if (uuid === card.uuid) {
-          await addToAnimation(async () => {
-            await preloadCardImage(card.code);
-            await move(card.location.zone, fromZone);
-          });
-        }
-      }
-    );
-
-    eventbus.register(Task.Focus, async (uuid: string) => {
+  const register = <T extends any[]>(
+    task: Task,
+    fn: (...args: T) => Promise<unknown>
+  ) => {
+    eventbus.register(task, async (uuid, ...rest: T) => {
       if (uuid === card.uuid) {
-        await addToAnimation(async () => {
-          await preloadCardImage(card.code);
-          setClassFocus(true);
-          setTimeout(() => setClassFocus(false), 1000);
-          await focus({ card, api });
-        });
+        await fn(...rest);
       }
     });
+  };
 
-    eventbus.register(
-      Task.Attack,
-      async (
-        uuid: string,
-        directAttack: boolean,
-        target?: ygopro.CardLocation
-      ) => {
-        if (uuid === card.uuid) {
-          await addToAnimation(() =>
-            attack({ card, api, target, directAttack })
-          );
-        }
-      }
-    );
+  useEffect(() => {
+    register(Task.Move, async (options?: MoveOptions) => {
+      await addToAnimation(() => move({ card, api, options }));
+    });
+
+    register(Task.Focus, async () => {
+      await preloadCardImage(card.code);
+      setClassFocus(true);
+      setTimeout(() => setClassFocus(false), 1000);
+      await focus({ card, api });
+    });
+
+    register(Task.Attack, async (options: AttackOptions) => {
+      await addToAnimation(() => attack({ card, api, options }));
+    });
   }, []);
 
   // <<< 动画 <<<
@@ -382,3 +345,13 @@ const handleEffectActivation = (
 };
 
 // <<< 下拉菜单 <<<
+
+const call =
+  <Options,>(task: Task) =>
+  async (uuid: string, options?: Options extends {} ? Options : never) => {
+    eventbus.call(task, uuid, options);
+  };
+
+export const callCardMove = call<MoveOptions>(Task.Move);
+export const callCardFocus = call(Task.Focus);
+export const callCardAttack = call<AttackOptions>(Task.Attack);

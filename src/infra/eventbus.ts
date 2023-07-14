@@ -12,10 +12,13 @@ export enum Task {
 const getEnd = (task: Task) => `${task}-end`;
 
 /** 在组件之中注册方法 */
-const register = (task: Task, fn: (...args: any[]) => Promise<any>) => {
+const register = <T extends unknown[]>(
+  task: Task,
+  fn: (...args: T) => Promise<void>
+) => {
   eventEmitter.on(
     task,
-    async ({ taskId, args }: { taskId: string; args: any[] }) => {
+    async ({ taskId, args }: { taskId: string; args: T }) => {
       await fn(...args);
       eventEmitter.emit(getEnd(task), taskId);
     }

@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   fetchEsHintMeta({ originMsg: "玩家抽卡时" });
@@ -27,6 +27,6 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   await Promise.all(
     cardStore
       .at(ygopro.CardZone.HAND, draw.player)
-      .map((card) => eventbus.call(Task.Move, card.uuid))
+      .map((card) => callCardMove(card.uuid))
   );
 };

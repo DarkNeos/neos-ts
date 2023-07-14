@@ -1,4 +1,5 @@
-import { asyncStart, type MoveFunc } from "./utils";
+import { asyncStart } from "./utils";
+import type { MoveFunc } from "./types";
 
 export const moveToToken: MoveFunc = async (props) => {
   const { api } = props;

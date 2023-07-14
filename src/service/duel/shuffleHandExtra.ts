@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 type MsgShuffleHandExtra = ygopro.StocGameMessage.MsgShuffleHandExtra;
 
@@ -23,7 +23,7 @@ export default async (shuffleHandExtra: MsgShuffleHandExtra) => {
         hash.set(card.code, sequences);
 
         // 触发动画
-        await eventbus.call(Task.Move, card.uuid);
+        await callCardMove(card.uuid);
       } else {
         console.warn(
           `<ShuffleHandExtra>sequence poped is none, controller=${controller}, code=${card.code}, sequence=${sequence}`

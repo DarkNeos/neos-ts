@@ -1,6 +1,7 @@
 import { ygopro } from "@/api";
 import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 import MsgSwapGraveDeck = ygopro.StocGameMessage.MsgSwapGraveDeck;
 const { DECK, GRAVE } = ygopro.CardZone;
 
@@ -12,11 +13,11 @@ export default async (swapGraveDeck: MsgSwapGraveDeck) => {
 
   for (const card of deck) {
     card.location.zone = GRAVE;
-    await eventbus.call(Task.Move, card.uuid);
+    await callCardMove(card.uuid);
   }
 
   for (const card of grave) {
     card.location.zone = DECK;
-    await eventbus.call(Task.Move, card.uuid);
+    await callCardMove(card.uuid);
   }
 };

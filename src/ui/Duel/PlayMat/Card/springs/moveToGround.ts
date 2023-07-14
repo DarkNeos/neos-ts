@@ -4,7 +4,8 @@ import { ygopro } from "@/api";
 import { isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
 
-import { asyncStart, type MoveFunc } from "./utils";
+import { asyncStart } from "./utils";
+import type { MoveFunc } from "./types";
 
 const {
   BLOCK_WIDTH,
@@ -20,7 +21,7 @@ const {
 const { MZONE, SZONE, TZONE } = ygopro.CardZone;
 
 export const moveToGround: MoveFunc = async (props) => {
-  const { card, api, fromZone } = props;
+  const { card, api, options } = props;
 
   const { location } = card;
 
@@ -87,7 +88,8 @@ export const moveToGround: MoveFunc = async (props) => {
     : 0;
 
   // 动画
-  if (fromZone === TZONE) {
+  const isToken = options?.fromZone === TZONE;
+  if (isToken) {
     // 如果是Token，直接先移动到那个位置，然后再放大
     api.set({
       x,
@@ -115,10 +117,12 @@ export const moveToGround: MoveFunc = async (props) => {
   await asyncStart(api)({
     height,
     z: 0,
+    subZ: isToken ? 100 : 0,
     zIndex: is_overlay ? 1 : 3,
     config: {
       easing: easings.easeInQuad,
       clamp: true,
     },
   });
+  if (isToken) api.set({ subZ: 0 });
 };
