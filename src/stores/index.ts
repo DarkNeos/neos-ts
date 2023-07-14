@@ -5,6 +5,7 @@ export * from "./matStore";
 export * from "./moraStore";
 export * from "./placeStore";
 export * from "./playerStore";
+export * from "./replayStore";
 
 import { devtools } from "valtio/utils";
 
@@ -15,6 +16,7 @@ import { matStore } from "./matStore";
 import { moraStore } from "./moraStore";
 import { placeStore } from "./placeStore";
 import { playerStore } from "./playerStore";
+import { replayStore } from "./replayStore";
 
 devtools(playerStore, { name: "player", enabled: true });
 devtools(chatStore, { name: "chat", enabled: true });
@@ -23,3 +25,4 @@ devtools(moraStore, { name: "mora", enabled: true });
 devtools(matStore, { name: "mat", enabled: true });
 devtools(cardStore, { name: "card", enabled: true });
 devtools(placeStore, { name: "place", enabled: true });
+devtools(replayStore, { name: "replay", enabled: true });
