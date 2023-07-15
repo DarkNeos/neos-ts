@@ -39,7 +39,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   const card = cardStore.inner[idx];
   const snap = useSnapshot(card);
 
-  const [styles, api] = useSpring(
+  const [styles, api] = useSpring<SpringApiProps>(
     () =>
       ({
         x: 0,
