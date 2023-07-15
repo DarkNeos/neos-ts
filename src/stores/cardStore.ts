@@ -3,6 +3,7 @@ import { proxy } from "valtio";
 import { CardMeta, ygopro } from "@/api";
 
 import type { Interactivity } from "./matStore/types";
+import { NeosStore } from "./shared";
 
 /**
  * 场上某位置的状态
@@ -26,7 +27,7 @@ export interface CardType {
   selected: boolean; // 当前卡是否被选择成为效果的对象
 }
 
-class CardStore {
+class CardStore implements NeosStore {
   inner: CardType[] = [];
   at(zone: ygopro.CardZone, controller: number): CardType[];
   at(
@@ -89,6 +90,9 @@ class CardStore {
         card.location.sequence === sequence &&
         card.location.is_overlay
     );
+  }
+  reset(): void {
+    this.inner = [];
   }
 }
 

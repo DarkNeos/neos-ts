@@ -1,5 +1,7 @@
 import type { ygopro } from "@/api";
 
+import { NeosStore } from "../shared";
+
 // >>> play mat state >>>
 
 export interface BothSide<T> {
@@ -9,7 +11,7 @@ export interface BothSide<T> {
   of: (controller: number) => T;
 }
 
-export interface MatState {
+export interface MatState extends NeosStore {
   selfType: number;
 
   initInfo: BothSide<InitInfo> & {

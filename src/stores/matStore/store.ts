@@ -1,4 +1,5 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
+import { Omit } from "@react-spring/web";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
@@ -52,11 +53,7 @@ const initInfo: MatState["initInfo"] = (() => {
   });
 })();
 
-/**
- * 💡 决斗盘状态仓库，本文件核心，
- * 具体介绍可以点进`MatState`去看
- */
-export const matStore: MatState = proxy<MatState>({
+const initialState: Omit<MatState, "reset"> = {
   chains: [],
 
   timeLimits: {
@@ -92,6 +89,20 @@ export const matStore: MatState = proxy<MatState>({
   },
   // methods
   isMe,
+};
+
+/**
+ * 💡 决斗盘状态仓库，本文件核心，
+ * 具体介绍可以点进`MatState`去看
+ */
+export const matStore: MatState = proxy<MatState>({
+  ...initialState,
+  reset() {
+    Object.entries(initialState).forEach((key) => {
+      // @ts-ignore
+      matStore[key] = initialState[key];
+    });
+  },
 });
 
 // @ts-ignore 挂到全局，便于调试

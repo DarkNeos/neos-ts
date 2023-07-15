@@ -2,6 +2,8 @@ import { proxy } from "valtio";
 
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 
+import { NeosStore } from "./shared";
+
 // 对局中每一次状态改变的记录
 interface ReplaySpot {
   packet: ReplayPacket; // 将会保存在回放文件中的数据
@@ -14,7 +16,7 @@ interface ReplayPacket {
 }
 
 // 保存对局回放数据的`Store`
-class ReplayStore {
+class ReplayStore implements NeosStore {
   inner: ReplaySpot[] = [];
   record(ygoPacket: YgoProPacket) {
     this.inner.push({
@@ -24,7 +26,7 @@ class ReplayStore {
   encode(): ArrayBuffer[] {
     return this.inner.map((spot) => spot.packet).map(replayPacket2arrayBuffer);
   }
-  clear() {
+  reset() {
     this.inner = [];
   }
 }

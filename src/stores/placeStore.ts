@@ -4,6 +4,7 @@ import { ygopro } from "@/api";
 import { matStore } from "@/stores";
 
 import type { Interactivity } from "./matStore/types";
+import { NeosStore } from "./shared";
 
 export type PlaceInteractivity =
   | Interactivity<{
@@ -26,17 +27,28 @@ const genPLaces = (n: number): BlockState[] =>
     disabled: false,
   }));
 
-export const placeStore = proxy({
+const initialState = {
+  [MZONE]: {
+    me: genPLaces(7),
+    op: genPLaces(7),
+  },
+  [SZONE]: {
+    me: genPLaces(6),
+    op: genPLaces(6),
+  },
+};
+
+class PlaceStore implements NeosStore {
   inner: {
     [MZONE]: {
-      me: genPLaces(7),
-      op: genPLaces(7),
-    },
+      me: BlockState[];
+      op: BlockState[];
+    };
     [SZONE]: {
-      me: genPLaces(6),
-      op: genPLaces(6),
-    },
-  },
+      me: BlockState[];
+      op: BlockState[];
+    };
+  } = initialState;
   set(
     zone: ygopro.CardZone.MZONE | ygopro.CardZone.SZONE,
     controller: number,
@@ -45,7 +57,7 @@ export const placeStore = proxy({
   ) {
     placeStore.inner[zone][matStore.isMe(controller) ? "me" : "op"][sequence] =
       state;
-  },
+  }
   clearAllInteractivity() {
     (["me", "op"] as const).forEach((who) => {
       ([MZONE, SZONE] as const).forEach((where) => {
@@ -54,5 +66,10 @@ export const placeStore = proxy({
         );
       });
     });
-  },
-});
+  }
+  reset(): void {
+    placeStore.inner = initialState;
+  }
+}
+
+export const placeStore = proxy(new PlaceStore());

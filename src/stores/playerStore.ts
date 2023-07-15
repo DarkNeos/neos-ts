@@ -3,6 +3,7 @@ import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
 import SelfType = ygopro.StocTypeChange.SelfType;
+import { NeosStore } from "./shared";
 
 export interface Player {
   name?: string;
@@ -17,7 +18,7 @@ export interface deckInfo {
   sideCnt: number;
 }
 
-export interface PlayerState {
+export interface PlayerState extends NeosStore {
   player0: Player;
   player1: Player;
   observerCount: number;
@@ -27,12 +28,16 @@ export interface PlayerState {
   getOpPlayer: () => Player;
 }
 
-export const playerStore = proxy<PlayerState>({
+const initialState = {
   player0: {},
   player1: {},
   observerCount: 0,
   isHost: false,
   selfType: SelfType.UNKNOWN,
+};
+
+export const playerStore = proxy<PlayerState>({
+  ...initialState,
   getMePlayer() {
     if (this.selfType === SelfType.PLAYER1) return this.player0;
     return this.player1;
@@ -40,5 +45,11 @@ export const playerStore = proxy<PlayerState>({
   getOpPlayer() {
     if (this.selfType === SelfType.PLAYER1) return this.player1;
     return this.player0;
+  },
+  reset() {
+    Object.entries(initialState).forEach((key) => {
+      // @ts-ignore
+      playerStore[key] = initialState[key];
+    });
   },
 });

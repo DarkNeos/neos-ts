@@ -1,9 +1,14 @@
 import { proxy } from "valtio";
 
-export interface ChatState {
+import { NeosStore } from "./shared";
+
+export interface ChatState extends NeosStore {
   message: string;
 }
 
 export const chatStore = proxy<ChatState>({
   message: "",
+  reset() {
+    chatStore.message = "";
+  },
 });
