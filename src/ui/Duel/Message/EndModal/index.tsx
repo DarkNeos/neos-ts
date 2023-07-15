@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import React from "react";
+import React, { CSSProperties } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings } from "@/api";
@@ -45,9 +45,16 @@ export const EndModal: React.FC = () => {
         rs();
       }}
     >
-      <p>{isWin ? "Win" : "Defeated"}</p>
-      <p>{reason}</p>
-      {isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
+      <div className="end-container">
+        <p
+          className="result"
+          style={{ "--text-color": isWin ? "blue" : "red" } as CSSProperties}
+        >
+          {isWin ? "Win" : "Defeated"}
+        </p>
+        <p className="reason">{reason}</p>
+        {isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
+      </div>
     </NeosModal>
   );
 };
