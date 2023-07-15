@@ -34,7 +34,7 @@ export const resetUniverse = () => {
   joinStore.reset();
   matStore.reset();
   moraStore.reset();
-  playerStore.reset();
+  placeStore.reset();
   playerStore.reset();
   replayStore.reset();
 };

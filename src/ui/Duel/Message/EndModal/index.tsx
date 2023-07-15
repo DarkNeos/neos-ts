@@ -28,8 +28,8 @@ export const EndModal: React.FC = () => {
 
   const navigate = useNavigate();
   const onReturn = () => {
-    rs();
     resetUniverse();
+    rs();
     navigate("/");
   };
 

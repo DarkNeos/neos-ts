@@ -98,7 +98,7 @@ const initialState: Omit<MatState, "reset"> = {
 export const matStore: MatState = proxy<MatState>({
   ...initialState,
   reset() {
-    Object.entries(initialState).forEach((key) => {
+    Object.keys(initialState).forEach((key) => {
       // @ts-ignore
       matStore[key] = initialState[key];
     });

@@ -17,7 +17,7 @@ const initialState = {
 export const moraStore = proxy<MoraState>({
   ...initialState,
   reset() {
-    Object.entries(initialState).forEach((key) => {
+    Object.keys(initialState).forEach((key) => {
       // @ts-ignore
       moraStore[key] = initialState[key];
     });

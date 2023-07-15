@@ -47,7 +47,7 @@ export const playerStore = proxy<PlayerState>({
     return this.player0;
   },
   reset() {
-    Object.entries(initialState).forEach((key) => {
+    Object.keys(initialState).forEach((key) => {
       // @ts-ignore
       playerStore[key] = initialState[key];
     });
