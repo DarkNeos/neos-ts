@@ -47,9 +47,15 @@ export const playerStore = proxy<PlayerState>({
     return this.player0;
   },
   reset() {
-    Object.keys(initialState).forEach((key) => {
-      // @ts-ignore
-      playerStore[key] = initialState[key];
-    });
+    // Object.keys(initialState).forEach((key) => {
+    //   // @ts-ignore
+    //   playerStore[key] = initialState[key];
+    // });
+    // 不知道为啥上面这样写状态不能更新，暂时采用比较笨的方法
+    this.player0 = {};
+    this.player1 = {};
+    this.observerCount = 0;
+    this.isHost = false;
+    this.selfType = SelfType.UNKNOWN;
   },
 });

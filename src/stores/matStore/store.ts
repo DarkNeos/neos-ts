@@ -32,14 +32,15 @@ export const isMe = (controller: number): boolean => {
   }
 };
 
+const defaultInitInfo = {
+  masterRule: "UNKNOWN",
+  name: "?",
+  life: -1, // 特地设置一个不可能的值
+  deckSize: 0,
+  extraSize: 0,
+};
+
 const initInfo: MatState["initInfo"] = (() => {
-  const defaultInitInfo = {
-    masterRule: "UNKNOWN",
-    name: "?",
-    life: -1, // 特地设置一个不可能的值
-    deckSize: 0,
-    extraSize: 0,
-  };
   return proxy({
     me: { ...defaultInitInfo },
     op: { ...defaultInitInfo },
@@ -98,10 +99,29 @@ const initialState: Omit<MatState, "reset"> = {
 export const matStore: MatState = proxy<MatState>({
   ...initialState,
   reset() {
-    Object.keys(initialState).forEach((key) => {
-      // @ts-ignore
-      matStore[key] = initialState[key];
-    });
+    // Object.keys(initialState).forEach((key) => {
+    //   // @ts-ignore
+    //   matStore[key] = initialState[key];
+    // });
+    // 同`PlayerStore`，不知道为啥这样写状态不能更新，暂时采用比较笨的方法
+    this.chains = [];
+    this.timeLimits.me = -1;
+    this.timeLimits.op = -1;
+    this.initInfo.me = defaultInitInfo;
+    this.initInfo.op = defaultInitInfo;
+    this.selfType = ygopro.StocTypeChange.SelfType.UNKNOWN;
+    this.hint = { code: -1 };
+    this.currentPlayer = -1;
+    this.phase = {
+      currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN,
+      enableBp: false, // 允许进入战斗阶段
+      enableM2: false, // 允许进入M2阶段
+      enableEp: false, // 允许回合结束
+    };
+    this.isReplay = false;
+    this.unimplemented = 0;
+    this.handResults.me = 0;
+    this.handResults.op = 0;
   },
 });
 

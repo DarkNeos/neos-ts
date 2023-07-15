@@ -68,7 +68,17 @@ class PlaceStore implements NeosStore {
     });
   }
   reset(): void {
-    placeStore.inner = initialState;
+    // this.inner = initialState;
+    this.inner = {
+      [MZONE]: {
+        me: genPLaces(7),
+        op: genPLaces(7),
+      },
+      [SZONE]: {
+        me: genPLaces(6),
+        op: genPLaces(6),
+      },
+    };
   }
 }
 
