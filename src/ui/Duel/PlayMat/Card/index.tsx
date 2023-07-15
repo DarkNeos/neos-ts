@@ -118,6 +118,9 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     items: [] as DropdownItem[],
   });
 
+  // 是否禁用下拉菜单
+  const [dropdownMenuDisabled, setDropdownMenuDisabled] = useState(false);
+
   // 发动效果
   // 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
   // 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
@@ -132,6 +135,13 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         map.get(interactType)?.push(card);
       });
     });
+
+    if (!map.size) {
+      setDropdownMenuDisabled(true);
+      return;
+    } else {
+      setDropdownMenuDisabled(false);
+    }
     const actions = [...map.entries()];
     const nonEffectActions = actions.filter(
       ([action]) => action !== InteractType.ACTIVATE
@@ -226,7 +236,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       // 中央弹窗展示选中卡牌信息
       // TODO: 同一张卡片，是否重复点击会关闭CardModal？
       displayCardModal(card);
-      if (card.idleInteractivities.length) handleDropdownMenu([card], false);
+      handleDropdownMenu([card], false);
 
       // 侧边栏展示超量素材信息
       const overlayMaterials = cardStore.findOverlay(
@@ -289,10 +299,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       <Dropdown
         menu={dropdownMenu}
         placement="top"
-        overlayClassName="card-dropdown"
+        overlayClassName={classnames("card-dropdown", {
+          "card-dropdown-disabled": dropdownMenuDisabled,
+        })}
         arrow
         trigger={["click"]}
-        // disabled={!highlight} // TODO: 这里的disable要考虑到field的情况，比如额外卡组
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
