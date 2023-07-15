@@ -1,7 +1,8 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
 import { Omit } from "@react-spring/web";
-import { proxy } from "valtio";
 import _ from "lodash";
+import { proxy } from "valtio";
+
 import { ygopro } from "@/api";
 
 import type { InitInfo, MatState } from "./types";
