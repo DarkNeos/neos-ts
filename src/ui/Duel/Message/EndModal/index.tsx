@@ -43,8 +43,19 @@ export const EndModal: React.FC = () => {
           const blob = new Blob(replayBuffers, {
             type: "application/octet-stream",
           });
+          const url = URL.createObjectURL(blob);
+
+          const anchorElement = document.createElement("a");
+          document.body.appendChild(anchorElement);
+          anchorElement.style.display = "none";
+
+          anchorElement.href = url;
+          anchorElement.download =
+            new Date().toLocaleString() + ".neos" + ".yrp3d";
+          anchorElement.click();
+
           // download the replay file
-          window.open(URL.createObjectURL(blob));
+          window.URL.revokeObjectURL(url);
         }
         onReturn();
       }}
