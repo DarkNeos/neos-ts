@@ -1,10 +1,11 @@
 import "./index.scss";
 
 import React, { CSSProperties } from "react";
+import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings } from "@/api";
-import { matStore, replayStore } from "@/stores";
+import { matStore, replayStore, resetUniverse } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
 
@@ -25,6 +26,13 @@ export const EndModal: React.FC = () => {
   const { isOpen, isWin, reason } = useSnapshot(localStore);
   const { isReplay } = useSnapshot(matStore);
 
+  const navigate = useNavigate();
+  const onReturn = () => {
+    rs();
+    resetUniverse();
+    navigate("/");
+  };
+
   return (
     <NeosModal
       title={fetchStrings("!system", 1500)}
@@ -38,12 +46,9 @@ export const EndModal: React.FC = () => {
           // download the replay file
           window.open(URL.createObjectURL(blob));
         }
-        rs();
+        onReturn();
       }}
-      onCancel={() => {
-        // TODO: reset all stores, and navigate to home
-        rs();
-      }}
+      onCancel={onReturn}
     >
       <div className="end-container">
         <p

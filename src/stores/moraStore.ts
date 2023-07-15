@@ -1,13 +1,25 @@
 import { proxy } from "valtio";
 
-export interface MoraState {
+import { NeosStore } from "./shared";
+
+export interface MoraState extends NeosStore {
   duelStart: boolean;
   selectHandAble: boolean;
   selectTpAble: boolean;
 }
 
-export const moraStore = proxy<MoraState>({
+const initialState = {
   duelStart: false,
   selectHandAble: false,
   selectTpAble: false,
+};
+
+export const moraStore = proxy<MoraState>({
+  ...initialState,
+  reset() {
+    Object.entries(initialState).forEach((key) => {
+      // @ts-ignore
+      moraStore[key] = initialState[key];
+    });
+  },
 });

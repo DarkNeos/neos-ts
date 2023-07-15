@@ -26,3 +26,15 @@ devtools(matStore, { name: "mat", enabled: true });
 devtools(cardStore, { name: "card", enabled: true });
 devtools(placeStore, { name: "place", enabled: true });
 devtools(replayStore, { name: "replay", enabled: true });
+
+// 重置所有`Store`
+export const resetUniverse = () => {
+  cardStore.reset();
+  chatStore.reset();
+  joinStore.reset();
+  matStore.reset();
+  moraStore.reset();
+  playerStore.reset();
+  playerStore.reset();
+  replayStore.reset();
+};
