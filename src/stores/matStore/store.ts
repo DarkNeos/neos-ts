@@ -1,7 +1,7 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
 import { Omit } from "@react-spring/web";
 import { proxy } from "valtio";
-
+import _ from "lodash";
 import { ygopro } from "@/api";
 
 import type { InitInfo, MatState } from "./types";
@@ -99,11 +99,11 @@ const initialState: Omit<MatState, "reset"> = {
 export const matStore: MatState = proxy<MatState>({
   ...initialState,
   reset() {
-    // Object.keys(initialState).forEach((key) => {
+    // const resetObj = _.cloneDeep(initialState);
+    // Object.keys(resetObj).forEach((key) => {
     //   // @ts-ignore
     //   matStore[key] = initialState[key];
     // });
-    // 同`PlayerStore`，不知道为啥这样写状态不能更新，暂时采用比较笨的方法
     this.chains = [];
     this.timeLimits.me = -1;
     this.timeLimits.op = -1;
