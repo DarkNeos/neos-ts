@@ -19,7 +19,6 @@ import {
   Space,
   Upload,
 } from "antd";
-import { clone } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import rustInit from "rust-src";
@@ -143,7 +142,7 @@ const WaitRoom = () => {
     sendUpdateDeck(deck);
     setChoseDeck(true);
 
-    window.myExtraDeckCodes = clone(deck.extra);
+    window.myExtraDeckCodes = [...deck.extra];
   };
 
   const handleChoseDeck = async (deckName: string) => {
