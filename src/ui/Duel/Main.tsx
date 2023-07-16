@@ -6,6 +6,7 @@ import {
   CardListModal,
   CardModal,
   CheckCounterModal,
+  EndModal,
   HintNotification,
   OptionModal,
   PositionModal,
@@ -34,6 +35,7 @@ const NeosDuel = () => {
       <SortCardModal />
       <AnnounceModal />
       <SimpleSelectCardsModal />
+      <EndModal />
     </>
   );
 };

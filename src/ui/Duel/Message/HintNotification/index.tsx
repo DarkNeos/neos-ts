@@ -24,7 +24,6 @@ export const HintNotification = () => {
   const toss = snap.tossResult;
   const handResults = snap.handResults;
   const currentPhase = snap.phase.currentPhase;
-  const result = snap.result;
 
   const [notify, notifyContextHolder] = notification.useNotification({
     maxCount: NeosConfig.ui.hint.maxCount,
@@ -84,17 +83,6 @@ export const HintNotification = () => {
       );
     }
   }, [currentPhase]);
-
-  useEffect(() => {
-    if (result) {
-      const message = result.isWin ? "Win" : "Defeated" + " " + result.reason;
-      notify.open({
-        message,
-        placement: "bottom",
-        style: style,
-      });
-    }
-  }, [result]);
 
   return (
     <>

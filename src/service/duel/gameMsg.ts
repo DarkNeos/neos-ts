@@ -203,7 +203,7 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
       break;
     }
     case "win": {
-      onMsgWin(msg.win);
+      await onMsgWin(msg.win);
 
       break;
     }

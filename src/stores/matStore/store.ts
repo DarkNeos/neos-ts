@@ -31,32 +31,27 @@ export const isMe = (controller: number): boolean => {
   }
 };
 
-const initInfo: MatState["initInfo"] = (() => {
-  const defaultInitInfo = {
-    masterRule: "UNKNOWN",
-    name: "?",
-    life: -1, // 特地设置一个不可能的值
-    deckSize: 0,
-    extraSize: 0,
-  };
-  return proxy({
-    me: { ...defaultInitInfo },
-    op: { ...defaultInitInfo },
-    of: (controller: number) => initInfo[getWhom(controller)],
-    set: (controller: number, obj: Partial<InitInfo>) => {
-      initInfo[getWhom(controller)] = {
-        ...initInfo[getWhom(controller)],
-        ...obj,
-      };
-    },
-  });
-})();
+const defaultInitInfo = {
+  masterRule: "UNKNOWN",
+  name: "?",
+  life: -1, // 特地设置一个不可能的值
+  deckSize: 0,
+  extraSize: 0,
+};
 
-/**
- * 💡 决斗盘状态仓库，本文件核心，
- * 具体介绍可以点进`MatState`去看
- */
-export const matStore: MatState = proxy<MatState>({
+const initInfo: MatState["initInfo"] = proxy({
+  me: { ...defaultInitInfo },
+  op: { ...defaultInitInfo },
+  of: (controller: number) => initInfo[getWhom(controller)],
+  set: (controller: number, obj: Partial<InitInfo>) => {
+    initInfo[getWhom(controller)] = {
+      ...initInfo[getWhom(controller)],
+      ...obj,
+    };
+  },
+});
+
+const initialState: Omit<MatState, "reset"> = {
   chains: [],
 
   timeLimits: {
@@ -92,6 +87,39 @@ export const matStore: MatState = proxy<MatState>({
   },
   // methods
   isMe,
+};
+
+/**
+ * 💡 决斗盘状态仓库，本文件核心，
+ * 具体介绍可以点进`MatState`去看
+ */
+export const matStore: MatState = proxy<MatState>({
+  ...initialState,
+  reset() {
+    // const resetObj = _.cloneDeep(initialState);
+    // Object.keys(resetObj).forEach((key) => {
+    //   // @ts-ignore
+    //   matStore[key] = initialState[key];
+    // });
+    this.chains = [];
+    this.timeLimits.me = -1;
+    this.timeLimits.op = -1;
+    this.initInfo.me = defaultInitInfo;
+    this.initInfo.op = defaultInitInfo;
+    this.selfType = ygopro.StocTypeChange.SelfType.UNKNOWN;
+    this.hint = { code: -1 };
+    this.currentPlayer = -1;
+    this.phase = {
+      currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType.UNKNOWN,
+      enableBp: false, // 允许进入战斗阶段
+      enableM2: false, // 允许进入M2阶段
+      enableEp: false, // 允许回合结束
+    };
+    this.isReplay = false;
+    this.unimplemented = 0;
+    this.handResults.me = 0;
+    this.handResults.op = 0;
+  },
 });
 
 // @ts-ignore 挂到全局，便于调试

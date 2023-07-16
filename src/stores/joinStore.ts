@@ -1,9 +1,14 @@
 import { proxy } from "valtio";
 
-export interface JoinState {
+import { NeosStore } from "./shared";
+
+export interface JoinState extends NeosStore {
   value: boolean;
 }
 
 export const joinStore = proxy<JoinState>({
   value: false,
+  reset() {
+    joinStore.value = false;
+  },
 });

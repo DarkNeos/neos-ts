@@ -1,5 +1,7 @@
 import type { ygopro } from "@/api";
 
+import { NeosStore } from "../shared";
+
 // >>> play mat state >>>
 
 export interface BothSide<T> {
@@ -9,7 +11,7 @@ export interface BothSide<T> {
   of: (controller: number) => T;
 }
 
-export interface MatState {
+export interface MatState extends NeosStore {
   selfType: number;
 
   initInfo: BothSide<InitInfo> & {
@@ -29,11 +31,6 @@ export interface MatState {
   phase: PhaseState;
 
   isReplay: boolean; // 是否是回放模式
-
-  result?: {
-    isWin: boolean;
-    reason: string;
-  };
 
   unimplemented: number; // 未处理的`Message`
 

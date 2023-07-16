@@ -1,11 +1,13 @@
 import { fetchStrings, ygopro } from "@/api";
 import { matStore } from "@/stores";
+import { displayEndModal } from "@/ui/Duel/Message";
 import MsgWin = ygopro.StocGameMessage.MsgWin;
 
-export default (win: MsgWin) => {
+export default async (win: MsgWin) => {
   const { win_player, reason } = win;
-  matStore.result = {
-    isWin: matStore.isMe(win_player),
-    reason: fetchStrings("!victory", `0x${reason.toString(16)}`),
-  };
+
+  await displayEndModal(
+    matStore.isMe(win_player),
+    fetchStrings("!victory", `0x${reason.toString(16)}`)
+  );
 };

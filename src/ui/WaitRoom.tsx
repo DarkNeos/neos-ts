@@ -142,7 +142,7 @@ const WaitRoom = () => {
     sendUpdateDeck(deck);
     setChoseDeck(true);
 
-    window.myExtraDeckCodes = deck.extra;
+    window.myExtraDeckCodes = [...deck.extra];
   };
 
   const handleChoseDeck = async (deckName: string) => {
