@@ -34,24 +34,11 @@ const defaultProps: Omit<
 const localStore = proxy(defaultProps);
 
 export const SelectActionsModal: React.FC = () => {
-  const {
-    isOpen,
-    isChain,
-    min,
-    max,
-    single,
-    selecteds,
-    selectables,
-    mustSelects,
-    cancelable,
-    finishable,
-    totalLevels,
-    overflow,
-  } = useSnapshot(localStore);
+  const snap = useSnapshot(localStore);
 
   const onSubmit = (options: Snapshot<Option[]>) => {
     const values = options.map((option) => option.response!);
-    if (isChain) {
+    if (localStore.isChain) {
       sendSelectSingleResponse(values[0]);
     } else {
       sendSelectMultiResponse(values);
@@ -72,17 +59,7 @@ export const SelectActionsModal: React.FC = () => {
   return (
     <SelectCardsModal
       {...{
-        isOpen,
-        min,
-        max,
-        single,
-        selecteds,
-        selectables,
-        mustSelects,
-        cancelable,
-        finishable,
-        totalLevels,
-        overflow,
+        ...snap,
         onSubmit,
         onFinish,
         onCancel,

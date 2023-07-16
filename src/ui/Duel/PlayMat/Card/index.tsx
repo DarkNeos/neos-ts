@@ -26,23 +26,20 @@ import {
 import { interactTypeToString } from "../../utils";
 import {
   attack,
+  type AttackOptions,
   focus,
-  moveToDeck,
-  moveToGround,
-  moveToHand,
-  moveToOutside,
-  moveToToken,
+  move,
+  type MoveOptions,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
-  ygopro.CardZone;
+const { HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } = ygopro.CardZone;
 
 export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
-  const state = cardStore.inner[idx];
-  const snap = useSnapshot(state);
+  const card = cardStore.inner[idx];
+  const snap = useSnapshot(card);
 
-  const [styles, api] = useSpring(
+  const [styles, api] = useSpring<SpringApiProps>(
     () =>
       ({
         x: 0,
@@ -57,42 +54,17 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusDisplay: "none",
         focusOpacity: 1,
         subZ: 0,
+        opacity: 1,
       } satisfies SpringApiProps)
   );
 
-  // FIXME: move不应该只根据目的地判断，还要根据先前的位置判断。例子是Token。
-  const move = async (toZone: ygopro.CardZone, fromZone?: ygopro.CardZone) => {
-    switch (toZone) {
-      case MZONE:
-      case SZONE:
-        await moveToGround({ card: state, api, fromZone });
-        break;
-      case HAND:
-        await moveToHand({ card: state, api, fromZone });
-        break;
-      case DECK:
-      case EXTRA:
-        await moveToDeck({ card: state, api, fromZone });
-        break;
-      case GRAVE:
-      case REMOVED:
-        await moveToOutside({ card: state, api, fromZone });
-        break;
-      case TZONE:
-        // FIXME: 这里应该实现一个衍生物消散的动画，现在暂时让它在动画在展示上回到卡组
-        await moveToToken({ card: state, api, fromZone });
-        break;
-    }
-  };
-
   // 每张卡都需要移动到初始位置
   useEffect(() => {
-    move(state.location.zone);
+    addToAnimation(() => move({ card, api }));
   }, []);
 
-  const [highlight, setHighlight] = useState(false);
+  const [glowing, setGrowing] = useState(false);
   const [classFocus, setClassFocus] = useState(false);
-  // const [shadowOpacity, setShadowOpacity] = useState(0); // TODO: 透明度
 
   // >>> 动画 >>>
   /** 动画序列的promise */
@@ -103,40 +75,32 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       animationQueue.current = animationQueue.current.then(p).then(rs);
     });
 
-  useEffect(() => {
-    eventbus.register(
-      Task.Move,
-      async (uuid: string, fromZone?: ygopro.CardZone) => {
-        if (uuid === state.uuid) {
-          await addToAnimation(() => move(state.location.zone, fromZone));
-        }
-      }
-    );
+  const register = <T extends any[]>(
+    task: Task,
+    fn: (...args: T) => Promise<unknown>
+  ) => {
+    eventbus.register(task, async (uuid, ...rest: T) => {
+      if (uuid === card.uuid) {
+        await fn(...rest);
+        return true;
+      } else return false;
+    });
+  };
 
-    eventbus.register(Task.Focus, async (uuid: string) => {
-      if (uuid === state.uuid) {
-        await addToAnimation(async () => {
-          setClassFocus(true);
-          setTimeout(() => setClassFocus(false), 1000);
-          await focus({ card: state, api });
-        });
-      }
+  useEffect(() => {
+    register(Task.Move, async (options?: MoveOptions) => {
+      await addToAnimation(() => move({ card, api, options }));
     });
 
-    eventbus.register(
-      Task.Attack,
-      async (
-        uuid: string,
-        directAttack: boolean,
-        target?: ygopro.CardLocation
-      ) => {
-        if (uuid === state.uuid) {
-          await addToAnimation(() =>
-            attack({ card: state, api, target, directAttack })
-          );
-        }
-      }
-    );
+    register(Task.Focus, async () => {
+      setClassFocus(true);
+      setTimeout(() => setClassFocus(false), 1000); // TODO: 这儿为啥要这么写呢
+      await focus({ card, api });
+    });
+
+    register(Task.Attack, async (options: AttackOptions) => {
+      await addToAnimation(() => attack({ card, api, options }));
+    });
   }, []);
 
   // <<< 动画 <<<
@@ -144,12 +108,18 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   // >>> 效果 >>>
   const idleInteractivities = snap.idleInteractivities;
   useEffect(() => {
-    setHighlight(!!idleInteractivities.length);
+    setGrowing(
+      !!idleInteractivities.length &&
+        [MZONE, SZONE, HAND, TZONE].includes(card.location.zone)
+    );
   }, [idleInteractivities]);
 
   const [dropdownMenu, setDropdownMenu] = useState({
     items: [] as DropdownItem[],
   });
+
+  // 是否禁用下拉菜单
+  const [dropdownMenuDisabled, setDropdownMenuDisabled] = useState(false);
 
   // 发动效果
   // 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
@@ -165,6 +135,13 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         map.get(interactType)?.push(card);
       });
     });
+
+    if (!map.size) {
+      setDropdownMenuDisabled(true);
+      return;
+    } else {
+      setDropdownMenuDisabled(false);
+    }
     const actions = [...map.entries()];
     const nonEffectActions = actions.filter(
       ([action]) => action !== InteractType.ACTIVATE
@@ -259,7 +236,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       // 中央弹窗展示选中卡牌信息
       // TODO: 同一张卡片，是否重复点击会关闭CardModal？
       displayCardModal(card);
-      if (card.idleInteractivities.length) handleDropdownMenu([card], false);
+      handleDropdownMenu([card], false);
 
       // 侧边栏展示超量素材信息
       const overlayMaterials = cardStore.findOverlay(
@@ -286,17 +263,17 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       handleDropdownMenu(cards, true);
     };
 
-    if ([MZONE, SZONE, HAND].includes(state.location.zone)) {
-      onCardClick(state);
-    } else if ([EXTRA, GRAVE, REMOVED].includes(state.location.zone)) {
-      onFieldClick(state);
+    if ([MZONE, SZONE, HAND].includes(card.location.zone)) {
+      onCardClick(card);
+    } else if ([EXTRA, GRAVE, REMOVED].includes(card.location.zone)) {
+      onFieldClick(card);
     }
   };
   // <<< 效果 <<<
 
   return (
     <animated.div
-      className={classnames("mat-card", { highlight })}
+      className={classnames("mat-card", { glowing })}
       style={
         {
           transform: to(
@@ -312,6 +289,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           "--focus-scale": styles.focusScale,
           "--focus-display": styles.focusDisplay,
           "--focus-opacity": styles.focusOpacity,
+          opacity: styles.opacity,
         } as any as CSSProperties
       }
       onClick={onClick}
@@ -321,10 +299,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       <Dropdown
         menu={dropdownMenu}
         placement="top"
-        overlayClassName="card-dropdown"
+        overlayClassName={classnames("card-dropdown", {
+          "card-dropdown-disabled": dropdownMenuDisabled,
+        })}
         arrow
         trigger={["click"]}
-        // disabled={!highlight} // TODO: 这里的disable要考虑到field的情况，比如额外卡组
       >
         <div className={classnames("card-img-wrap", { focus: classFocus })}>
           <YgoCard
@@ -375,3 +354,12 @@ const handleEffectActivation = (
 };
 
 // <<< 下拉菜单 <<<
+
+const call =
+  <Options,>(task: Task) =>
+  (uuid: string, options?: Options extends {} ? Options : never) =>
+    eventbus.call(task, uuid, options);
+
+export const callCardMove = call<MoveOptions>(Task.Move);
+export const callCardFocus = call(Task.Focus);
+export const callCardAttack = call<AttackOptions>(Task.Attack);

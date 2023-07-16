@@ -1,5 +1,4 @@
 import { ygopro } from "@/api";
-import { sleep } from "@/infra";
 import { matStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
@@ -93,7 +92,6 @@ let animation: Promise<unknown> = new Promise<void>((rs) => rs());
 
 export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
   animation = animation.then(() => _handleGameMsg(pb));
-  // _handleGameMsg(pb);
 }
 
 async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
@@ -143,8 +141,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "move": {
       await onMsgMove(msg.move);
-      await sleep(500);
-
       break;
     }
     case "select_card": {
@@ -269,7 +265,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "chaining": {
       await onMsgChaining(msg.chaining);
-
       break;
     }
     case "chain_solved": {
@@ -324,7 +319,6 @@ async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
     }
     case "confirm_cards": {
       await onConfirmCards(msg.confirm_cards);
-
       break;
     }
     case "become_target": {

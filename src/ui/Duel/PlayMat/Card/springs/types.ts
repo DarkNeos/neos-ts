@@ -1,4 +1,7 @@
-import { type SpringRef } from "@react-spring/web";
+import type { SpringRef } from "@react-spring/web";
+
+import type { ygopro } from "@/api";
+import type { CardType } from "@/stores";
 
 export interface SpringApiProps {
   x: number;
@@ -9,6 +12,7 @@ export interface SpringApiProps {
   rz: number;
   zIndex: number;
   height: number;
+  opacity: number;
   // >>> focus
   focusScale: number;
   focusDisplay: string;
@@ -19,3 +23,21 @@ export interface SpringApiProps {
 }
 
 export type SpringApi = SpringRef<SpringApiProps>;
+
+type OptionsToFunc<Options> = (props: {
+  card: CardType;
+  api: SpringApi;
+  options?: Options;
+}) => Promise<void>;
+
+export interface MoveOptions {
+  fromZone?: ygopro.CardZone;
+}
+export type MoveFunc = OptionsToFunc<MoveOptions>;
+
+export type AttackOptions =
+  | {
+      directAttack: true;
+    }
+  | { directAttack: false; target: ygopro.CardLocation };
+export type AttackFunc = OptionsToFunc<AttackOptions>;

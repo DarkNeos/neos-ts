@@ -115,7 +115,6 @@ const LifeBarItem: React.FC<{
             size={14}
           />
           <div className="timer-text">{timeText}</div>
-          <div className="floodlight floodlight-run" />
         </div>
       )}
     </div>

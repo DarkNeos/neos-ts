@@ -67,6 +67,54 @@ section#mat {
       }
     }
   }
+
+  // 下面应该和moveToOutside、moveToGround对应
+  .bg-other-blocks {
+    &.op {
+      transform: rotate(180deg);
+    }
+    position: absolute;
+    --height: var(--card-height-o);
+    --width: calc(var(--height) * var(--card-ratio));
+    --left: calc(
+      var(--col-gap) * 2 + var(--block-width) * 2.5 +
+        var(--block-outside-offset-x) + var(--width) / 2
+    );
+    --top: calc(
+      var(--row-gap) + var(--block-height-m) +
+        (var(--block-height-m) - var(--height)) / 2
+    );
+    .block {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      height: var(--height);
+      width: var(--width);
+      top: var(--top);
+      left: var(--left);
+    }
+    .field {
+      left: calc(-1 * var(--left));
+    }
+    .banish {
+      top: calc(var(--top) - var(--row-gap) - var(--height));
+    }
+    .deck {
+      --left: calc(
+        var(--deck-offset-x) + 2 * (var(--block-width) + var(--col-gap))
+      );
+      left: var(--left);
+      top: calc(
+        var(--deck-offset-y) + 2 * var(--block-height-m) + 2 * var(--row-gap)
+      );
+      transform: translate(-50%, -50%) rotate(calc(-1 * var(--deck-rotate-z)));
+      height: var(--deck-card-height);
+      width: calc(var(--deck-card-height) * var(--card-ratio));
+      &.extra-deck {
+        left: calc(-1 * var(--left));
+        transform: translate(-50%, -50%) rotate(var(--deck-rotate-z));
+      }
+    }
+  }
 }
 
 // 被禁用的样式
@@ -92,8 +140,19 @@ section#mat {
     );
   display: none;
 }
-.block.disabled {
-  .disabled-cross {
-    display: block;
+
+.disabled-cross.show {
+  display: block;
+}
+
+section#mat {
+  .block.glowing {
+    --card-shadow-color: #13a1ff;
+    box-shadow: 0 0 3px 3px var(--card-shadow-color), 0 0 25px 2px #0099ff87;
+    background: var(--card-shadow-color);
+    border-radius: 2px;
+    .triangle {
+      display: none;
+    }
   }
 }

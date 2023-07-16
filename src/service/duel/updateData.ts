@@ -1,9 +1,8 @@
 import { fetchCard, ygopro } from "@/api";
-import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
-
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
+import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 export default async (updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
@@ -28,7 +27,7 @@ export default async (updateData: MsgUpdateData) => {
               // Currently only update position
               target.location.position = action.location.position;
               // animation
-              await eventbus.call(Task.Move, target.uuid);
+              await callCardMove(target.uuid);
             }
           }
           if (action?.type_ >= 0) {

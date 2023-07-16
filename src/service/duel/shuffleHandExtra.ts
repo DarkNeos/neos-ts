@@ -1,6 +1,6 @@
 import { ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 type MsgShuffleHandExtra = ygopro.StocGameMessage.MsgShuffleHandExtra;
 
@@ -14,27 +14,29 @@ export default async (shuffleHandExtra: MsgShuffleHandExtra) => {
     hash.get(code)?.push(sequence);
   });
 
-  for (const card of cards) {
-    const sequences = hash.get(card.code);
-    if (sequences !== undefined) {
-      const sequence = sequences.pop();
-      if (sequence !== undefined) {
-        card.location.sequence = sequence;
-        hash.set(card.code, sequences);
+  Promise.all(
+    cards.map(async (card) => {
+      const sequences = hash.get(card.code);
+      if (sequences !== undefined) {
+        const sequence = sequences.pop();
+        if (sequence !== undefined) {
+          card.location.sequence = sequence;
+          hash.set(card.code, sequences);
 
-        // 触发动画
-        await eventbus.call(Task.Move, card.uuid);
+          // 触发动画
+          await callCardMove(card.uuid);
+        } else {
+          console.warn(
+            `<ShuffleHandExtra>sequence poped is none, controller=${controller}, code=${card.code}, sequence=${sequence}`
+          );
+        }
       } else {
         console.warn(
-          `<ShuffleHandExtra>sequence poped is none, controller=${controller}, code=${card.code}, sequence=${sequence}`
+          `<ShuffleHandExtra>target from records is null, controller=${controller}, cards=${cards.map(
+            (card) => card.code
+          )}, codes=${codes}`
         );
       }
-    } else {
-      console.warn(
-        `<ShuffleHandExtra>target from records is null, controller=${controller}, cards=${cards.map(
-          (card) => card.code
-        )}, codes=${codes}`
-      );
-    }
-  }
+    })
+  );
 };

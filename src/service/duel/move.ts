@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore, CardType } from "@/stores";
+import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import { REASON_MATERIAL, TYPE_TOKEN } from "../../common";
 
@@ -114,7 +114,7 @@ export default async (move: MsgMove) => {
         overlayMaterial.location.zone = to.zone;
         overlayMaterial.location.sequence = to.sequence;
 
-        await eventbus.call(Task.Move, overlayMaterial.uuid);
+        await callCardMove(overlayMaterial.uuid);
       } else {
         console.warn(
           `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
@@ -157,15 +157,16 @@ export default async (move: MsgMove) => {
   target.location = to;
 
   // 维护完了之后，开始动画
-  await eventbus.call(Task.Move, target.uuid, from.zone);
+  const p = callCardMove(target.uuid, { fromZone: from.zone });
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
-    await Promise.all(
-      cardStore
-        .at(HAND, target.location.controller)
-        .filter((c) => c.uuid !== target.uuid)
-        .map(async (c) => await eventbus.call(Task.Move, c.uuid))
-    );
+    const pHands = cardStore
+      .at(HAND, target.location.controller)
+      .filter((c) => c.uuid !== target.uuid)
+      .map(async (c) => await callCardMove(c.uuid));
+    await Promise.all([p, ...pHands]);
+  } else {
+    await p;
   }
 
   // 超量素材位置跟随超量怪兽移动
@@ -180,7 +181,7 @@ export default async (move: MsgMove) => {
       overlay.location.sequence = to.sequence;
       overlay.location.position = to.position;
 
-      await eventbus.call(Task.Move, overlay.uuid);
+      await callCardMove(overlay.uuid);
     }
   }
 };

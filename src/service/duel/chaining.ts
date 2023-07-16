@@ -1,5 +1,5 @@
 import { fetchCard, ygopro } from "@/api";
-import { eventbus, sleep, Task } from "@/infra";
+import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
@@ -29,10 +29,6 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
     // 发动效果动画
     await eventbus.call(Task.Focus, target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);
-
-    // 临时办法，这里延迟800ms
-    // 长期：需要实现动画序列，一个动画完成后才执行下一个动画
-    await sleep(800);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);
   }
