@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash-es";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
@@ -68,17 +69,11 @@ class PlaceStore implements NeosStore {
     });
   }
   reset(): void {
-    // this.inner = initialState;
-    this.inner = {
-      [MZONE]: {
-        me: genPLaces(7),
-        op: genPLaces(7),
-      },
-      [SZONE]: {
-        me: genPLaces(6),
-        op: genPLaces(6),
-      },
-    };
+    const resetObj = cloneDeep(initialState);
+    Object.keys(resetObj).forEach((key) => {
+      // @ts-ignore
+      placeStore.inner[key] = resetObj[key];
+    });
   }
 }
 

@@ -1,6 +1,4 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
-import { Omit } from "@react-spring/web";
-import _ from "lodash";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
@@ -41,19 +39,17 @@ const defaultInitInfo = {
   extraSize: 0,
 };
 
-const initInfo: MatState["initInfo"] = (() => {
-  return proxy({
-    me: { ...defaultInitInfo },
-    op: { ...defaultInitInfo },
-    of: (controller: number) => initInfo[getWhom(controller)],
-    set: (controller: number, obj: Partial<InitInfo>) => {
-      initInfo[getWhom(controller)] = {
-        ...initInfo[getWhom(controller)],
-        ...obj,
-      };
-    },
-  });
-})();
+const initInfo: MatState["initInfo"] = proxy({
+  me: { ...defaultInitInfo },
+  op: { ...defaultInitInfo },
+  of: (controller: number) => initInfo[getWhom(controller)],
+  set: (controller: number, obj: Partial<InitInfo>) => {
+    initInfo[getWhom(controller)] = {
+      ...initInfo[getWhom(controller)],
+      ...obj,
+    };
+  },
+});
 
 const initialState: Omit<MatState, "reset"> = {
   chains: [],

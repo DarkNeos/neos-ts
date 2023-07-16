@@ -1,5 +1,5 @@
 /* eslint valtio/avoid-this-in-proxy: 0 */
-import _ from "lodash";
+import { cloneDeep } from "lodash-es";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
@@ -48,7 +48,7 @@ export const playerStore = proxy<PlayerState>({
     return this.player0;
   },
   reset() {
-    const resetObj = _.cloneDeep(initialState);
+    const resetObj = cloneDeep(initialState);
     Object.keys(resetObj).forEach((key) => {
       // @ts-ignore
       playerStore[key] = resetObj[key];

@@ -56,6 +56,8 @@ export const EndModal: React.FC = () => {
 
           // download the replay file
           window.URL.revokeObjectURL(url);
+
+          document.body.removeChild(anchorElement);
         }
         onReturn();
       }}
