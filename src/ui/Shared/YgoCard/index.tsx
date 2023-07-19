@@ -19,7 +19,7 @@ export const YgoCard: React.FC<Props> = (props) => {
     className,
     code = 0,
     isBack = false,
-    width = 80,
+    width,
     style,
     onClick = () => {},
   } = props;
