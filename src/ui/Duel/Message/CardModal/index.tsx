@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { LeftOutlined } from "@ant-design/icons";
 import { Divider, Drawer, Space, Tag } from "antd";
@@ -57,14 +57,14 @@ export const CardModal = () => {
       open={isOpen}
       placement="left"
       onClose={() => (store.isOpen = false)}
-      rootClassName="card-modal-root"
-      className="card-modal-drawer"
+      rootClassName={styles.root}
+      className={styles.drawer}
       mask={false}
       title={name}
       closeIcon={<LeftOutlined />}
       width={350}
     >
-      <div className="card-modal-container">
+      <div className={styles.container}>
         <Space
           align="start"
           size={18}

@@ -1,0 +1,97 @@
+.mat-bg {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--row-gap);
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  .bg-row {
+    display: flex;
+    column-gap: var(--col-gap);
+    &.opponent {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+.block {
+  height: var(--block-height-m);
+  width: var(--block-width);
+  background: radial-gradient(#1d1d1d, #222);
+  position: relative;
+  &.extra {
+    margin-inline: calc(var(--block-width) / 2 + var(--col-gap) / 2);
+  }
+  &.szone {
+    height: var(--block-height-s);
+  }
+  &.highlight {
+    background: #102639;
+    cursor: pointer;
+    // animation: blink 1s linear infinite alternate;
+    .triangle {
+      --color: #006eff;
+      transform: scale(1.5);
+    }
+    &:hover {
+      opacity: 0.7;
+      .triangle {
+        transform: scale(1.2);
+      }
+    }
+  }
+  .triangle {
+    width: 0;
+    height: 0;
+    --color: #333;
+    border-width: 4px;
+    border-style: solid;
+    position: absolute;
+    transition: 0.3s;
+    &:nth-of-type(1) {
+      border-color: var(--color) transparent transparent var(--color);
+    }
+    &:nth-of-type(2) {
+      border-color: var(--color) var(--color) transparent transparent;
+      right: 0;
+    }
+    &:nth-of-type(3) {
+      border-color: transparent var(--color) var(--color) transparent;
+      right: 0;
+      bottom: 0;
+    }
+    &:nth-of-type(4) {
+      border-color: transparent transparent var(--color) var(--color);
+      bottom: 0;
+    }
+  }
+}
+
+// 被禁用的样式
+.disabled-cross {
+  width: 100%;
+  height: 100%;
+  cursor: not-allowed;
+  background: linear-gradient(
+      to top right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      red 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      red 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    );
+  display: none;
+}
+.block.disabled {
+  .disabled-cross {
+    display: block;
+  }
+}

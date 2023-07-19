@@ -1,4 +1,4 @@
-.neos-modal {
+.modal {
   position: fixed;
   left: 0;
   right: 0;
@@ -10,7 +10,7 @@
   transition: 0.3s;
 }
 
-.neos-modal-mini {
+.mini {
   top: 100% !important;
   bottom: 0 !important;
   transform: translateY(calc(50% - 66px));
@@ -19,7 +19,7 @@
   }
 }
 
-.neos-modal-wrap {
+.wrap {
   pointer-events: none;
 }
 

@@ -136,7 +136,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         {grouped.map(
           (options, i) =>
             options[0] === selectedZone && (
-              <div className={styles["checkcard-container"]} key={i}>
+              <div className={styles["container"]} key={i}>
                 <CheckCard.Group
                   onChange={(res) => {
                     setResult((isMultiple ? res : [res]) as any);

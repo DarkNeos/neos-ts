@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { MinusOutlined, UpOutlined } from "@ant-design/icons";
 import { Modal, type ModalProps } from "antd";
@@ -20,14 +20,14 @@ export const NeosModal: React.FC<Props> = (props) => {
 
   return (
     <Modal
-      className={classNames("neos-modal", { "neos-modal-mini": mini })}
+      className={classNames(styles.modal, { [styles["mini"]]: mini })}
       centered
       maskClosable={true}
       onCancel={() => setMini(!mini)}
       closeIcon={mini ? <UpOutlined /> : <MinusOutlined />}
       bodyStyle={{ padding: "10px 0" }}
       mask={!mini}
-      wrapClassName={classNames({ "neos-modal-wrap": mini })}
+      wrapClassName={classNames({ [styles.wrap]: mini })}
       closable={canBeMinimized}
       {...props}
       open={realOpen}
