@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { useSnapshot } from "valtio";
 
@@ -12,7 +12,7 @@ export const Mat: React.FC = () => {
   const snap = useSnapshot(cardStore.inner);
   return (
     <section
-      id="mat"
+      className="mat"
       style={{
         width: "100%",
       }}
@@ -30,11 +30,11 @@ export const Mat: React.FC = () => {
 };
 
 const Plane: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div id="camera">
-    <div id="plane">{children}</div>
+  <div className={styles.camera}>
+    <div className={styles.plane}>{children}</div>
   </div>
 );
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className="mat-card-container">{children}</div>
+  <div className={styles.container}>{children}</div>
 );

@@ -1,8 +1,6 @@
-section#mat {
-  // margin-top: 200px;
-  // padding-top: 50px; // 先不管 后面调整
+section.mat {
   position: relative;
-  #camera {
+  .camera {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -10,7 +8,7 @@ section#mat {
     align-items: center;
     // perspective: var(--perspective);
   }
-  #plane {
+  .plane {
     transform: translateX(0) translateY(0) translateZ(0)
       rotateX(var(--plane-rotate-x));
     width: fit-content;
@@ -19,7 +17,7 @@ section#mat {
   }
 }
 
-.mat-card-container {
+.container {
   position: absolute;
   top: 50%;
   left: 50%;
