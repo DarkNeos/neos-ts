@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
@@ -39,7 +39,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   const card = cardStore.inner[idx];
   const snap = useSnapshot(card);
 
-  const [styles, api] = useSpring<SpringApiProps>(
+  const [spring, api] = useSpring<SpringApiProps>(
     () =>
       ({
         x: 0,
@@ -273,47 +273,51 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className={classnames("mat-card", { glowing })}
+      className={classnames(styles["mat-card"], { [styles.glowing]: glowing })}
       style={
         {
           transform: to(
-            [styles.x, styles.y, styles.z, styles.rx, styles.ry, styles.rz],
+            [spring.x, spring.y, spring.z, spring.rx, spring.ry, spring.rz],
             (x, y, z, rx, ry, rz) =>
               `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`
           ),
-          "--z": styles.z,
-          "--sub-z": styles.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
-          "--ry": styles.ry,
-          height: styles.height,
-          zIndex: styles.zIndex,
-          "--focus-scale": styles.focusScale,
-          "--focus-display": styles.focusDisplay,
-          "--focus-opacity": styles.focusOpacity,
-          opacity: styles.opacity,
+          "--z": spring.z,
+          "--sub-z": spring.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
+          "--ry": spring.ry,
+          height: spring.height,
+          zIndex: spring.zIndex,
+          "--focus-scale": spring.focusScale,
+          "--focus-display": spring.focusDisplay,
+          "--focus-opacity": spring.focusOpacity,
+          opacity: spring.opacity,
         } as any as CSSProperties
       }
       onClick={onClick}
     >
-      <div className="card-focus" />
-      <div className="card-shadow" />
+      <div className={styles.focus} />
+      <div className={styles.shadow} />
       <Dropdown
         menu={dropdownMenu}
         placement="top"
-        overlayClassName={classnames("card-dropdown", {
-          "card-dropdown-disabled": dropdownMenuDisabled,
+        overlayClassName={classnames(styles.dropdown, {
+          [styles["dropdown-disabled"]]: dropdownMenuDisabled,
         })}
         arrow
         trigger={["click"]}
       >
-        <div className={classnames("card-img-wrap", { focus: classFocus })}>
+        <div
+          className={classnames(styles["img-wrap"], {
+            [styles.focus]: classFocus,
+          })}
+        >
           <YgoCard
-            className={classnames("card-cover")}
+            className={styles.cover}
             code={snap.code === 0 ? snap.meta.id : snap.code}
           />
-          <YgoCard className="card-back" isBack />
+          <YgoCard className={styles.back} isBack />
         </div>
       </Dropdown>
-      {snap.selected ? <div className="card-streamer" /> : <></>}
+      {snap.selected ? <div className={styles.streamer} /> : <></>}
     </animated.div>
   );
 });
