@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import React, { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
@@ -63,14 +63,14 @@ export const EndModal: React.FC = () => {
       }}
       onCancel={onReturn}
     >
-      <div className="end-container">
+      <div className={styles["end-container"]}>
         <p
-          className="result"
+          className={styles.result}
           style={{ "--text-color": isWin ? "blue" : "red" } as CSSProperties}
         >
           {isWin ? "Win" : "Defeated"}
         </p>
-        <p className="reason">{reason}</p>
+        <p className={styles.reason}>{reason}</p>
         {isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
       </div>
     </NeosModal>
