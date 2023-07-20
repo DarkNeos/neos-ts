@@ -27,9 +27,9 @@ const BgBlock: React.FC<
 }) => (
   <div
     {...rest}
-    className={classnames("block", className, {
-      highlight,
-      glowing,
+    className={classnames(styles.block, className, {
+      [styles.highlight]: highlight,
+      [styles.glowing]: glowing,
     })}
   >
     {<DecoTriangles />}
@@ -42,11 +42,11 @@ const BgExtraRow: React.FC<{
   opSnap: Snapshot<BlockState[]>;
 }> = ({ meSnap, opSnap }) => {
   return (
-    <div className={classnames("bg-row")}>
+    <div className={classnames(styles.row)}>
       {Array.from({ length: 2 }).map((_, i) => (
         <BgBlock
           key={i}
-          className="extra"
+          className={styles.extra}
           onClick={() => {
             onBlockClick(meSnap[i].interactivity);
             onBlockClick(opSnap[i].interactivity);
@@ -64,11 +64,11 @@ const BgRow: React.FC<{
   opponent?: boolean;
   snap: Snapshot<BlockState[]>;
 }> = ({ szone = false, opponent = false, snap }) => (
-  <div className={classnames("bg-row", { opponent })}>
+  <div className={classnames(styles.row, { [styles.opponent]: opponent })}>
     {Array.from({ length: 5 }).map((_, i) => (
       <BgBlock
         key={i}
-        className={classnames({ szone })}
+        className={classnames({ [styles.szone]: szone })}
         onClick={() => onBlockClick(snap[i].interactivity)}
         disabled={snap[i].disabled}
         highlight={!!snap[i].interactivity}
@@ -77,7 +77,7 @@ const BgRow: React.FC<{
   </div>
 );
 
-const BgOtherBlocks: React.FC<{ me?: boolean }> = ({ me }) => {
+const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
   useSnapshot(cardStore);
   const meController = isMe(0) ? 0 : 1;
   const judgeGlowing = (zone: ygopro.CardZone) =>
@@ -88,12 +88,15 @@ const BgOtherBlocks: React.FC<{ me?: boolean }> = ({ me }) => {
   const glowingGraveyard = judgeGlowing(ygopro.CardZone.GRAVE);
   const glowingBanish = judgeGlowing(ygopro.CardZone.REMOVED);
   return (
-    <div className={classnames("bg-other-blocks", { me, op: !me })}>
-      <BgBlock className="banish" glowing={me && glowingBanish} />
-      <BgBlock className="graveyard" glowing={me && glowingGraveyard} />
-      <BgBlock className="field" />
-      <BgBlock className="deck" />
-      <BgBlock className="deck extra-deck" glowing={me && glowingExtra} />
+    <div className={classnames(styles["other-blocks"], { [styles.op]: op })}>
+      <BgBlock className={styles.banish} glowing={!op && glowingBanish} />
+      <BgBlock className={styles.graveyard} glowing={!op && glowingGraveyard} />
+      <BgBlock className={styles.field} />
+      <BgBlock className={styles.deck} />
+      <BgBlock
+        className={classnames(styles.deck, styles["extra-deck"])}
+        glowing={!op && glowingExtra}
+      />
     </div>
   );
 };
@@ -101,7 +104,7 @@ const BgOtherBlocks: React.FC<{ me?: boolean }> = ({ me }) => {
 export const Bg: React.FC = () => {
   const snap = useSnapshot(placeStore.inner);
   return (
-    <div className="mat-bg">
+    <div className={styles["mat-bg"]}>
       <BgRow snap={snap[ygopro.CardZone.SZONE].op} szone opponent />
       <BgRow snap={snap[ygopro.CardZone.MZONE].op} opponent />
       <BgExtraRow
@@ -110,8 +113,8 @@ export const Bg: React.FC = () => {
       />
       <BgRow snap={snap[ygopro.CardZone.MZONE].me} />
       <BgRow snap={snap[ygopro.CardZone.SZONE].me} szone />
-      <BgOtherBlocks me />
       <BgOtherBlocks />
+      <BgOtherBlocks op />
     </div>
   );
 };
@@ -127,11 +130,15 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
 const DecoTriangles: React.FC = () => (
   <>
     {Array.from({ length: 4 }).map((_, i) => (
-      <div className="triangle" key={i} />
+      <div className={styles.triangle} key={i} />
     ))}
   </>
 );
 
 const DisabledCross: React.FC<{ disabled: boolean }> = ({ disabled }) => (
-  <div className={classnames("disabled-cross", { show: disabled })}></div>
+  <div
+    className={classnames(styles["disabled-cross"], {
+      [styles.show]: disabled,
+    })}
+  ></div>
 );
