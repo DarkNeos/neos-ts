@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import {
   ArrowRightOutlined,
@@ -53,7 +53,12 @@ export const Menu = () => {
     : 7;
 
   // PhaseType, 中文, response, 是否显示
-  const phaseBind: [PhaseType, string, number, boolean][] = [
+  const phaseBind: [
+    phase: PhaseType,
+    label: string,
+    response: number,
+    show: boolean
+  ][] = [
     [PhaseType.DRAW, "抽卡阶段", -1, true],
     [PhaseType.STANDBY, "准备阶段", -1, true],
     [PhaseType.MAIN1, "主要阶段 1", -1, true],
@@ -69,9 +74,9 @@ export const Menu = () => {
 
   const phaseSwitchItems: MenuProps["items"] = phaseBind
     .filter(([, , , show]) => show)
-    .map(([phase, str, response], i) => ({
-      key: i,
-      label: str,
+    .map(([phase, label, response], key) => ({
+      key,
+      label,
       disabled: currentPhase >= phase,
       onClick: () => {
         if (response === 2) sendSelectIdleCmdResponse(response);
@@ -95,37 +100,35 @@ export const Menu = () => {
 
   const globalDisable = !matStore.isMe(currentPlayer);
   return (
-    <>
-      <div className="menu-container">
-        <DropdownWithTitle
-          title="请选择要进入的阶段"
-          menu={{ items: phaseSwitchItems }}
+    <div className={styles["menu-container"]}>
+      <DropdownWithTitle
+        title="请选择要进入的阶段"
+        menu={{ items: phaseSwitchItems }}
+        disabled={globalDisable}
+      >
+        <Button
+          icon={<StepForwardFilled style={{ transform: "scale(1.5)" }} />}
+          type="text"
           disabled={globalDisable}
         >
-          <Button
-            icon={<StepForwardFilled style={{ transform: "scale(1.5)" }} />}
-            type="text"
-            disabled={globalDisable}
-          >
-            {phaseBind.find(([key]) => key === currentPhase)?.[1]}
-          </Button>
-        </DropdownWithTitle>
-        <Tooltip title="聊天室">
-          <Button
-            icon={<MessageFilled />}
-            type="text"
-            disabled={globalDisable}
-          ></Button>
-        </Tooltip>
-        <DropdownWithTitle
-          title="是否投降？"
-          menu={{ items: surrenderMenuItems }}
+          {phaseBind.find(([key]) => key === currentPhase)?.[1]}
+        </Button>
+      </DropdownWithTitle>
+      <Tooltip title="聊天室">
+        <Button
+          icon={<MessageFilled />}
+          type="text"
           disabled={globalDisable}
-        >
-          <Button icon={<CloseCircleFilled />} type="text"></Button>
-        </DropdownWithTitle>
-      </div>
-    </>
+        ></Button>
+      </Tooltip>
+      <DropdownWithTitle
+        title="是否投降？"
+        menu={{ items: surrenderMenuItems }}
+        disabled={globalDisable}
+      >
+        <Button icon={<CloseCircleFilled />} type="text"></Button>
+      </DropdownWithTitle>
+    </div>
   );
 };
 
