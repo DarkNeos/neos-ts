@@ -11,6 +11,7 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   const handsLength = cardStore.at(ygopro.CardZone.HAND, draw.player).length;
   const newHands = cardStore
     .at(ygopro.CardZone.DECK, draw.player)
+    .sort((a, b) => a.location.sequence - b.location.sequence)
     .slice(-drawLength);
 
   for (const idx in newHands) {
