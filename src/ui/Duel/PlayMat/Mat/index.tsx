@@ -24,10 +24,10 @@ export const Mat: React.FC = () => {
 };
 
 const Cards: React.FC = () => {
-  const snap = useSnapshot(cardStore.inner);
+  const length = cardStore.inner.length;
   return (
     <>
-      {snap.map((_cardSnap, i) => (
+      {Array.from({ length }).map((_, i) => (
         <Card key={i} idx={i} />
       ))}
     </>
