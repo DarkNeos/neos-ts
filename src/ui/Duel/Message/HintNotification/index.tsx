@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import { message, notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
@@ -8,6 +6,8 @@ import { fetchStrings } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
+
+import styles from "./index.module.scss";
 
 const style = {
   // borderStyle: "groove",

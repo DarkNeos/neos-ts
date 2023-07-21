@@ -1,6 +1,6 @@
-import styles from "./Desc.module.scss";
-
 import { Fragment } from "react";
+
+import styles from "./Desc.module.scss";
 
 export const Desc: React.FC<{ desc?: string }> = ({ desc = "" }) => {
   if (!desc) return <></>;

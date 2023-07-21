@@ -1,9 +1,9 @@
-import styles from "./index.module.scss";
-
 import { MinusOutlined, UpOutlined } from "@ant-design/icons";
 import { Modal, type ModalProps } from "antd";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+
+import styles from "./index.module.scss";
 
 interface Props extends ModalProps {
   canBeMinimized?: boolean;

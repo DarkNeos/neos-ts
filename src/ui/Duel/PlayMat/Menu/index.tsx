@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import {
   ArrowRightOutlined,
   CheckOutlined,
@@ -27,6 +25,8 @@ import {
   ygopro,
 } from "@/api";
 import { cardStore, matStore } from "@/stores";
+
+import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase } = matStore;

@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
@@ -24,6 +22,7 @@ import {
   displaySimpleSelectCardsModal,
 } from "../../Message";
 import { interactTypeToString } from "../../utils";
+import styles from "./index.module.scss";
 import {
   attack,
   type AttackOptions,

@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import React, { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
@@ -8,6 +6,7 @@ import { fetchStrings } from "@/api";
 import { matStore, replayStore, resetUniverse } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 interface EndProps {
   isOpen: boolean;

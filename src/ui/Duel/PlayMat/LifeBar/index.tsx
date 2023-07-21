@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import { Progress } from "antd";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
@@ -8,6 +6,8 @@ import { useSnapshot } from "valtio";
 
 import { useEnv } from "@/hook";
 import { matStore, playerStore } from "@/stores";
+
+import styles from "./index.module.scss";
 // 三个候选方案
 // https://snack.expo.dev/?platform=web
 // https://github.com/heyman333/react-animated-numbers

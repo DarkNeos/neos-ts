@@ -1,9 +1,9 @@
-import styles from "./index.module.scss";
-
 import classNames from "classnames";
 import { CSSProperties, useMemo } from "react";
 
 import { useConfig } from "@/config";
+
+import styles from "./index.module.scss";
 
 interface Props {
   className?: string;

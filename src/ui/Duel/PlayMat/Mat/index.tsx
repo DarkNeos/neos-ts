@@ -1,11 +1,8 @@
-import styles from "./index.module.scss";
-
-import { useSnapshot } from "valtio";
-
 import { cardStore } from "@/stores";
 
 import { Bg } from "../Bg";
 import { Card } from "../Card";
+import styles from "./index.module.scss";
 
 // 后面再改名
 export const Mat: React.FC = () => {

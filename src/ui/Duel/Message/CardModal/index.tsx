@@ -1,5 +1,3 @@
-import styles from "./index.module.scss";
-
 import { LeftOutlined } from "@ant-design/icons";
 import { Divider, Drawer, Space, Tag } from "antd";
 import React from "react";
@@ -15,6 +13,7 @@ import {
   Type2StringCodeMap,
 } from "../../../../common";
 import { Desc } from "./Desc";
+import styles from "./index.module.scss";
 
 const CARD_WIDTH = 140;
 
