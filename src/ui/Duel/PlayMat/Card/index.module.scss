@@ -30,7 +30,7 @@
       z-index: 1;
       transform: translateZ(0.5px);
     }
-    &.focus .cover {
+    &.focusing .cover {
       animation: focus 0.6s ease-in-out;
     }
     .back {

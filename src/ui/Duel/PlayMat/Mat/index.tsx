@@ -9,32 +9,27 @@ import { Card } from "../Card";
 
 // 后面再改名
 export const Mat: React.FC = () => {
-  const snap = useSnapshot(cardStore.inner);
   return (
-    <section
-      className="mat"
-      style={{
-        width: "100%",
-      }}
-    >
-      <Plane>
-        <Bg />
-        <CardContainer>
-          {snap.map((_cardSnap, i) => (
-            <Card key={i} idx={i} />
-          ))}
-        </CardContainer>
-      </Plane>
+    <section className={styles.mat}>
+      <div className={styles.camera}>
+        <div className={styles.plane}>
+          <Bg />
+          <div className={styles.container}>
+            <Cards />
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
 
-const Plane: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className={styles.camera}>
-    <div className={styles.plane}>{children}</div>
-  </div>
-);
-
-const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className={styles.container}>{children}</div>
-);
+const Cards: React.FC = () => {
+  const snap = useSnapshot(cardStore.inner);
+  return (
+    <>
+      {snap.map((_cardSnap, i) => (
+        <Card key={i} idx={i} />
+      ))}
+    </>
+  );
+};

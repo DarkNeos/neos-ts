@@ -307,7 +307,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       >
         <div
           className={classnames(styles["img-wrap"], {
-            [styles.focus]: classFocus,
+            [styles.focusing]: classFocus,
           })}
         >
           <YgoCard
