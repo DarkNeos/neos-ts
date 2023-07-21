@@ -12,12 +12,12 @@
       transform: translateY(-50%);
     }
   }
-  .ant-pro-checkcard {
+  :global(.ant-pro-checkcard) {
     border-radius: 4px;
     overflow: hidden;
   }
   // 多选卡片的样式
-  .ant-pro-checkcard-checked {
+  :global(.ant-pro-checkcard-checked) {
     &::before {
       position: absolute;
       width: 100%;

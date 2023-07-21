@@ -124,7 +124,7 @@
 }
 
 .dropdown {
-  .ant-dropdown-menu {
+  :global(.ant-dropdown-menu) {
     background-color: #333;
   }
   text-align: center;

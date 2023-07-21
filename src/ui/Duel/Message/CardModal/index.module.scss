@@ -1,21 +1,21 @@
 .root {
-  .ant-drawer-content-wrapper {
+  :global(.ant-drawer-content-wrapper) {
     box-shadow: none;
   }
 }
 
 .drawer {
-  width: 90%;
+  width: 90% !important;
   left: 10%;
   --height: 640px;
   top: calc((100% - var(--height)) / 2);
-  height: var(--height);
+  height: var(--height) !important;
   position: relative;
   border-radius: 6px;
   background: #242424;
-  .ant-drawer-header {
+  :global(.ant-drawer-header) {
     padding: 15px 0;
-    .ant-drawer-header-title {
+    :global(.ant-drawer-header-title) {
       flex-direction: row-reverse;
       padding-left: 24px;
     }
