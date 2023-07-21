@@ -1,8 +1,6 @@
-import "./index.scss";
-
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Segmented, Space, Tooltip } from "antd";
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import type { CardMeta, ygopro } from "@/api";
@@ -13,26 +11,7 @@ import { YgoCard } from "@/ui/Shared";
 import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
-
-const YgoCardStyle = {
-  width: "100%",
-  height: "100%",
-  position: "absolute",
-  left: 0,
-  top: 0,
-};
-const CheckCardStyle = {
-  width: 100,
-  aspectRatio: 5.9 / 8.6,
-  marginInlineEnd: 0,
-  marginBlockEnd: 0,
-  flexShrink: 0,
-};
-const CheckGroupStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(5, 1fr)",
-  gap: 10,
-};
+import styles from "./index.module.scss";
 
 export interface SelectCardsModalProps {
   isOpen: boolean;
@@ -148,88 +127,76 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         </>
       }
     >
-      <div className="check-container">
-        <Space
-          direction="vertical"
-          style={{ width: "100%", overflow: "hidden" }}
-        >
-          <Selector
-            zoneOptions={zoneOptions}
-            selectedZone={selectedZone}
-            onChange={setSelectedZone as any}
-          />
-          {grouped.map(
-            (options, i) =>
-              options[0] === selectedZone && (
-                <div className="checkcard-container" key={i}>
-                  <CheckCard.Group
-                    onChange={(res) => {
-                      setResult((isMultiple ? res : [res]) as any);
-                    }}
-                    // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                    multiple={isMultiple}
-                    style={CheckGroupStyle}
-                  >
-                    {options[1].map((card, j) => (
-                      <Tooltip
-                        title={card.effectDesc}
-                        placement="bottom"
-                        key={j}
-                      >
-                        {/* 这儿必须有一个div，不然tooltip不生效 */}
-                        <div>
-                          <CheckCard
-                            cover={
-                              <YgoCard
-                                code={card.meta.id}
-                                style={YgoCardStyle as CSSProperties}
-                              />
-                            }
-                            style={CheckCardStyle}
-                            value={card}
-                            onClick={() => {
-                              showCardModal(card);
-                            }}
-                          />
-                        </div>
-                      </Tooltip>
-                    ))}
-                  </CheckCard.Group>
-                </div>
-              )
-          )}
-          <p>
-            <span>
-              {/* TODO: 这里的字体可以调整下 */}
-              {selecteds.length > 0 ? fetchStrings("!system", 212) : ""}
-            </span>
-          </p>
-          <div style={CheckGroupStyle}>
-            {selecteds.map((card, i) => (
-              <Tooltip
-                title={card.effectDesc}
-                placement="bottom"
-                key={grouped.length + i}
-              >
-                <div>
-                  <Card
-                    cover={
-                      <YgoCard
-                        code={card.meta.id}
-                        style={YgoCardStyle as CSSProperties}
-                      />
-                    }
-                    style={CheckCardStyle}
-                    onClick={() => {
-                      showCardModal(card);
-                    }}
-                  />
-                </div>
-              </Tooltip>
-            ))}
-          </div>
-        </Space>
-      </div>
+      <Space direction="vertical" style={{ width: "100%", overflow: "hidden" }}>
+        <Selector
+          zoneOptions={zoneOptions}
+          selectedZone={selectedZone}
+          onChange={setSelectedZone as any}
+        />
+        {grouped.map(
+          (options, i) =>
+            options[0] === selectedZone && (
+              <div className={styles["container"]} key={i}>
+                <CheckCard.Group
+                  onChange={(res) => {
+                    setResult((isMultiple ? res : [res]) as any);
+                  }}
+                  // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
+                  multiple={isMultiple}
+                  className={styles["check-group"]}
+                >
+                  {options[1].map((card, j) => (
+                    <Tooltip title={card.effectDesc} placement="bottom" key={j}>
+                      {/* 这儿必须有一个div，不然tooltip不生效 */}
+                      <div>
+                        <CheckCard
+                          cover={
+                            <YgoCard
+                              code={card.meta.id}
+                              className={styles.card}
+                            />
+                          }
+                          className={styles["check-card"]}
+                          value={card}
+                          onClick={() => {
+                            showCardModal(card);
+                          }}
+                        />
+                      </div>
+                    </Tooltip>
+                  ))}
+                </CheckCard.Group>
+              </div>
+            )
+        )}
+        <p>
+          <span>
+            {/* TODO: 这里的字体可以调整下 */}
+            {selecteds.length > 0 ? fetchStrings("!system", 212) : ""}
+          </span>
+        </p>
+        <div className={styles["check-group"]}>
+          {selecteds.map((card, i) => (
+            <Tooltip
+              title={card.effectDesc}
+              placement="bottom"
+              key={grouped.length + i}
+            >
+              <div>
+                <Card
+                  cover={
+                    <YgoCard code={card.meta.id} className={styles.card} />
+                  }
+                  className={styles["check-card"]}
+                  onClick={() => {
+                    showCardModal(card);
+                  }}
+                />
+              </div>
+            </Tooltip>
+          ))}
+        </div>
+      </Space>
     </NeosModal>
   );
 };

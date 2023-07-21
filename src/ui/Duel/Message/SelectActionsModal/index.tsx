@@ -1,5 +1,3 @@
-import "./index.scss";
-
 import { INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 
 import { sendSelectMultiResponse, sendSelectSingleResponse } from "@/api";

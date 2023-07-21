@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import classNames from "classnames";
 import { CSSProperties, useMemo } from "react";
@@ -19,14 +19,14 @@ export const YgoCard: React.FC<Props> = (props) => {
     className,
     code = 0,
     isBack = false,
-    width = 80,
+    width,
     style,
     onClick = () => {},
   } = props;
   return useMemo(
     () => (
       <img
-        className={classNames("ygo-card", className)}
+        className={classNames(styles["ygo-card"], className)}
         src={getCardImgUrl(code, isBack)}
         style={{ width, ...style }}
         onClick={onClick}

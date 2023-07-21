@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { LeftOutlined } from "@ant-design/icons";
 import { Divider, Drawer, Space, Tag } from "antd";
@@ -57,14 +57,14 @@ export const CardModal = () => {
       open={isOpen}
       placement="left"
       onClose={() => (store.isOpen = false)}
-      rootClassName="card-modal-root"
-      className="card-modal-drawer"
+      rootClassName={styles.root}
+      className={styles.drawer}
       mask={false}
       title={name}
       closeIcon={<LeftOutlined />}
       width={350}
     >
-      <div className="card-modal-container">
+      <div className={styles.container}>
         <Space
           align="start"
           size={18}
@@ -75,7 +75,7 @@ export const CardModal = () => {
             width={CARD_WIDTH}
             style={{ borderRadius: 4 }}
           />
-          <Space direction="vertical" className="card-modal-info">
+          <Space direction="vertical" className={styles.info}>
             <AtkLine atk={atk} def={def} />
             <AttLine
               types={extraCardTypes(types || 0)}
@@ -89,26 +89,6 @@ export const CardModal = () => {
         </Space>
         <Divider style={{ margin: "14px 0" }}></Divider>
         <Desc desc={desc} />
-        {/* {nonEffectInteractivies.map((interactive, idx) => {
-          return (
-            <button
-              key={idx}
-              className="card-modal-btn"
-              onClick={() => {
-                sendSelectIdleCmdResponse(interactive.response);
-                cardModal.isOpen = false;
-
-                // 清空互动性
-                for (const card of cardStore.inner) {
-                  card.idleInteractivities = [];
-                }
-              }}
-            >
-              {interactive.desc}
-            </button>
-          );
-        })}
-        <EffectButton meta={meta} effectInteractivies={effectInteractivies} /> */}
       </div>
     </Drawer>
   );
@@ -129,7 +109,7 @@ const AttLine = (props: {
     .map((t) => fetchStrings("!system", Type2StringCodeMap.get(t) || 0))
     .join("/");
   return (
-    <div className="attline">
+    <div className={styles.attline}>
       {attribute && <Tag>{attribute}</Tag>}
       {race && <Tag>{race}</Tag>}
       {types && <Tag>{types}</Tag>}
@@ -138,14 +118,14 @@ const AttLine = (props: {
 };
 
 const AtkLine = (props: { atk?: number; def?: number }) => (
-  <Space size={10} className="atkLine" direction="vertical">
+  <Space size={10} className={styles.atkLine} direction="vertical">
     <div>
-      <div className="title">ATK</div>
-      <div className="number">{props.atk ?? "?"}</div>
+      <div className={styles.title}>ATK</div>
+      <div className={styles.number}>{props.atk ?? "?"}</div>
     </div>
     <div>
-      <div className="title">DEF</div>
-      <div className="number">{props.def ?? "?"}</div>
+      <div className={styles.title}>DEF</div>
+      <div className={styles.number}>{props.def ?? "?"}</div>
     </div>
   </Space>
 );
@@ -164,7 +144,7 @@ const _CounterLine = (props: { counters: { [type: number]: number } }) => {
   return (
     <>
       {counters.map((counter) => (
-        <div className="card-modal-counter">{counter}</div>
+        <div>{counter}</div>
       ))}
     </>
   );

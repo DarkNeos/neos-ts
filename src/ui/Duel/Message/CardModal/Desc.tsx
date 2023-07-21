@@ -1,13 +1,11 @@
-import "./Desc.scss";
+import styles from "./Desc.module.scss";
 
 import { Fragment } from "react";
 
 export const Desc: React.FC<{ desc?: string }> = ({ desc = "" }) => {
   if (!desc) return <></>;
   return (
-    <div className="card-modal-desc">
-      {/* https://125naroom.com/web/2877 */}
-      {/* 牛逼的丸文字css教程 */}
+    <div className={styles.desc}>
       <RegexWrapper
         text={addSpaces(desc)}
         re={/(①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩)：.+?(?=((①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩)：|$))/gs}
@@ -43,7 +41,7 @@ const RegexWrapper: React.FC<{
 
 const MaroListItem: React.FC<{ children: string }> = ({ children }) => {
   return (
-    <div className="maro-item">
+    <div className={styles["maro-item"]}>
       <span>{children[0]}</span>
       <span>
         <RegexWrapper
@@ -58,7 +56,7 @@ const MaroListItem: React.FC<{ children: string }> = ({ children }) => {
 
 const CircleListItem: React.FC<{ children: string }> = ({ children }) => {
   return children ? (
-    <div className="maro-item">
+    <div className={styles["maro-item"]}>
       <span>{children[0]}</span>
       <span>{children.slice(1)}</span>
     </div>

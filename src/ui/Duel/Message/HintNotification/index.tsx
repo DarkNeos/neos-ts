@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { message, notification } from "antd";
 import React, { useEffect } from "react";
@@ -103,7 +103,7 @@ export const showWaiting = (open: boolean) => {
         type: "loading",
         content: fetchStrings("!system", 1390),
         key: waitingKey,
-        className: "neos-message",
+        className: styles["message"],
         duration: 0,
       });
       clearTimeout(destoryTimer);

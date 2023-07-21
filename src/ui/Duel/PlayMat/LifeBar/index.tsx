@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 
 import { Progress } from "antd";
 import classNames from "classnames";
@@ -56,7 +56,7 @@ export const LifeBar: React.FC = () => {
   }, [currentPlayer]);
 
   return (
-    <div id="life-bar-container">
+    <div className={styles.container}>
       <LifeBarItem
         active={!matStore.isMe(currentPlayer)}
         name={snapPlayer.getOpPlayer().name ?? "?"}
@@ -99,22 +99,24 @@ const LifeBarItem: React.FC<{
       }}
     >
       <div
-        className={classNames("life-bar", {
+        className={classNames(styles["life-bar"], {
           "life-bar-activated": active,
         })}
       >
-        <div className="name">{name}</div>
-        <div className="life">{<AnimatedNumbers animateToNumber={life} />}</div>
+        <div className={styles.name}>{name}</div>
+        <div className={styles.life}>
+          {<AnimatedNumbers animateToNumber={life} />}
+        </div>
       </div>
       {active && (
-        <div className="timer-container">
+        <div className={styles["timer-container"]}>
           <Progress
             type="circle"
             percent={Math.floor((timeLimit / 240) * 100)}
             strokeWidth={20}
             size={14}
           />
-          <div className="timer-text">{timeText}</div>
+          <div className={styles["timer-text"]}>{timeText}</div>
         </div>
       )}
     </div>
