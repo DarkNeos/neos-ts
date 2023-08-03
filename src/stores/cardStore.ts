@@ -22,8 +22,6 @@ export interface CardType {
   }>; // 选择位置状态下的互动信息
   counters: { [type: number]: number }; // 指示器
   isToken: boolean; // 是否是token
-  chainIndex?: number /*连锁的序号，如果为空表示不在连锁
-  TODO: 目前是妥协的设计，因为其实一张卡是可以在同一个连锁链中被连锁多次的，这里为了避免太过复杂只保存最后的连锁序号*/;
   selected: boolean; // 当前卡是否被选择成为效果的对象
 }
 

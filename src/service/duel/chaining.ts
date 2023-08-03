@@ -16,7 +16,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const target = cardStore.find(location);
   if (target) {
     // 设置连锁序号
-    target.chainIndex = matStore.chains.length;
+    // target.chainIndex = matStore.chains.length;
 
     const meta = fetchCard(chaining.code);
     // 这里不能设置`code`，因为存在一个场景：

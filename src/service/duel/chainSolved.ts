@@ -17,7 +17,7 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     // 设置被连锁状态为空，解除连锁
     const target = cardStore.find(location);
     if (target) {
-      target.chainIndex = undefined;
+      // target.chainIndex = undefined;
     } else {
       console.warn(`<ChainSolved>target from ${location} is null`);
     }
