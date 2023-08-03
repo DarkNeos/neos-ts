@@ -1,5 +1,5 @@
 import { fetchCard, ygopro } from "@/api";
-import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
+import { cardStore, fetchEsHintMeta, matStore, placeStore } from "@/stores";
 import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
@@ -16,7 +16,12 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const target = cardStore.find(location);
   if (target) {
     // 设置连锁序号
-    // target.chainIndex = matStore.chains.length;
+    const block = placeStore.of(location);
+    if (block) {
+      block.chainIndex.push(matStore.chains.length);
+    } else {
+      console.warn(`<Chaining>block from ${location} is null`);
+    }
 
     const meta = fetchCard(chaining.code);
     // 这里不能设置`code`，因为存在一个场景：
