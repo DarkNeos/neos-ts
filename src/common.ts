@@ -113,6 +113,25 @@ export function tellCardBasicType(typeCode: number): number {
   return basicTypes.reduce((acc, cur) => (acc | cur) & typeCode, 0);
 }
 
+/** 获取更加细分的分类 */
+export function tellCardSecondaryType(typeCode: number): number {
+  const secondaryType = [
+    TYPE_NORMAL,
+    TYPE_FUSION,
+    TYPE_RITUAL,
+    TYPE_SYNCHRO,
+    TYPE_XYZ,
+    TYPE_PENDULUM,
+    TYPE_LINK,
+    TYPE_QUICKPLAY,
+    TYPE_CONTINUOUS,
+    TYPE_EQUIP,
+    TYPE_FIELD,
+    TYPE_COUNTER,
+  ];
+  return secondaryType.reduce((acc, cur) => (acc | cur) & typeCode, 0);
+}
+
 /** 是不是衍生物 */
 export function isToken(typeCode: number): boolean {
   return (typeCode & TYPE_TOKEN) > 0;
