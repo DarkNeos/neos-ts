@@ -25,8 +25,14 @@
 
 .ant-modal-confirm-content {
   max-width: 100% !important;
+  width: 100%;
 }
 
 .ant-select-dropdown {
   backdrop-filter: blur(10px);
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: end;
 }

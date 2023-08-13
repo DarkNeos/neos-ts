@@ -104,11 +104,8 @@ export const Component: React.FC = () => {
               onDelete={async (name) => await deckStore.delete(name)}
               onDownload={(name) => {
                 const deck = deckStore.get(name);
-                if (deck) {
-                  downloadDeckAsYDK(deck);
-                }
+                if (deck) downloadDeckAsYDK(deck);
               }}
-              onAdd={() => console.log("add")}
             />
           </ScrollableArea>
           <HigherCardDetail />
