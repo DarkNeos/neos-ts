@@ -1,10 +1,10 @@
 import {
+  CopyOutlined,
   DeleteOutlined,
   DownloadOutlined,
   FileAddOutlined,
   InboxOutlined,
   PlusOutlined,
-  CopyOutlined,
 } from "@ant-design/icons";
 import { App, Button, Dropdown, MenuProps, Upload, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
@@ -20,7 +20,8 @@ export const DeckSelect: React.FC<{
   onSelect: (deckName: string) => any;
   onDelete: (deckName: string) => Promise<any>;
   onDownload: (deckName: string) => any;
-}> = ({ decks, selected, onSelect, onDelete, onDownload }) => {
+  onCopy: (deckName: string) => Promise<any>;
+}> = ({ decks, selected, onSelect, onDelete, onDownload, onCopy }) => {
   const newDeck = useRef<IDeck[]>([]);
   const { modal, message } = App.useApp();
 
@@ -131,6 +132,17 @@ export const DeckSelect: React.FC<{
             <span>{deckName}</span>
             <div className={styles.btns}>
               <Button
+                icon={<CopyOutlined />}
+                type="text"
+                size="small"
+                onClick={cancelBubble(async () => {
+                  const result = await onCopy(deckName);
+                  result
+                    ? message.success("复制成功")
+                    : message.error("复制失败");
+                })}
+              />
+              <Button
                 icon={<DeleteOutlined />}
                 type="text"
                 size="small"
@@ -139,6 +151,7 @@ export const DeckSelect: React.FC<{
                   onSelect(decks[0].deckName);
                 })}
               />
+
               <Button
                 icon={<DownloadOutlined />}
                 type="text"
