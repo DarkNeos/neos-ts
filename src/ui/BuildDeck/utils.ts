@@ -36,8 +36,8 @@ export const compareCards = (a: CardMeta, b: CardMeta): number => {
   return a.id - b.id;
 };
 
-/** 下载卡组YDK文件 **/
-export function downloadDeckAsYDK(deck: IDeck) {
+/** 生成ydk格式的卡组文本 */
+function genYdkText(deck: IDeck): string {
   const lines: string[] = [];
   lines.push("#created by neos");
   lines.push("#main");
@@ -46,7 +46,12 @@ export function downloadDeckAsYDK(deck: IDeck) {
   lines.push(...deck.extra.map((cardId) => cardId.toString()));
   lines.push("!side");
   lines.push(...deck.side.map((cardId) => cardId.toString()));
-  const text = lines.join("\n");
+  return lines.join("\n");
+}
+
+/** 下载卡组YDK文件 **/
+export function downloadDeckAsYDK(deck: IDeck) {
+  const text = genYdkText(deck);
 
   const blob = new Blob([text], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
@@ -57,4 +62,15 @@ export function downloadDeckAsYDK(deck: IDeck) {
   a.click();
 
   URL.revokeObjectURL(url);
+}
+
+/** 将卡组复制到剪贴板 */
+export async function copyDeckToClipboard(deck: IDeck): Promise<boolean> {
+  const text = genYdkText(deck);
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }

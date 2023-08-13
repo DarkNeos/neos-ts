@@ -44,6 +44,7 @@ import { Filter } from "./Filter";
 import styles from "./index.module.scss";
 import { editDeckStore } from "./store";
 import {
+  copyDeckToClipboard,
   downloadDeckAsYDK,
   editingDeckToIDeck,
   iDeckToEditingDeck,
@@ -105,6 +106,11 @@ export const Component: React.FC = () => {
               onDownload={(name) => {
                 const deck = deckStore.get(name);
                 if (deck) downloadDeckAsYDK(deck);
+              }}
+              onCopy={async (name) => {
+                const deck = deckStore.get(name);
+                if (deck) return await copyDeckToClipboard(deck);
+                else return false;
               }}
             />
           </ScrollableArea>
