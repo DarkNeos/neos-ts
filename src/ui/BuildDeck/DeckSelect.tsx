@@ -2,18 +2,11 @@ import {
   DeleteOutlined,
   DownloadOutlined,
   FileAddOutlined,
+  InboxOutlined,
   PlusOutlined,
-  UploadOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
-import {
-  App,
-  Button,
-  Dropdown,
-  Input,
-  MenuProps,
-  Upload,
-  UploadProps,
-} from "antd";
+import { App, Button, Dropdown, MenuProps, Upload, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
 import YGOProDeck from "ygopro-deck-encode";
 
@@ -24,75 +17,105 @@ import styles from "./DeckSelect.module.scss";
 export const DeckSelect: React.FC<{
   decks: readonly { deckName: string }[];
   selected: string;
-  onSelect: (deckName: string) => void;
-  onDelete: (deckName: string) => void;
-  onDownload: (deckName: string) => void;
-  onAdd: () => void;
-}> = ({ decks, selected, onSelect, onDelete, onDownload, onAdd }) => {
-  const newDeck = useRef<IDeck | null>(null);
-  const newDeckName = useRef<string | null>(null);
-  const { modal } = App.useApp();
-  const modalProps = { width: 500, centered: true, icon: null };
-  const showCreateModal = () => {
-    const { destroy } = modal.info({
-      ...modalProps,
-      title: "请输入新卡组名称",
-      content: (
-        <Input
-          onChange={(e) => {
-            newDeckName.current = e.target.value;
-          }}
-        />
-      ),
-      okText: "新建",
-      onCancel: () => destroy(),
-      onOk: async () => {
-        if (newDeckName.current && newDeckName.current !== "") {
-          await deckStore.add({
-            deckName: newDeckName.current,
-            main: [],
-            extra: [],
-            side: [],
-          });
-        }
-      },
+  onSelect: (deckName: string) => any;
+  onDelete: (deckName: string) => Promise<any>;
+  onDownload: (deckName: string) => any;
+}> = ({ decks, selected, onSelect, onDelete, onDownload }) => {
+  const newDeck = useRef<IDeck[]>([]);
+  const { modal, message } = App.useApp();
+
+  /** 创建卡组，直接给一个命名，用户可以手动修改，无需modal打断流程 */
+  const createNewDeck = async () => {
+    const deckName = new Date().toLocaleString();
+    await deckStore.add({
+      deckName,
+      main: [],
+      extra: [],
+      side: [],
     });
+    onSelect(deckName);
   };
-  const showUploadModal = () => {
-    const { destroy } = modal.info({
-      ...modalProps,
-      title: "请上传YDK文件",
+
+  const showUploadModal = () =>
+    modal.info({
+      width: 600,
+      centered: true,
+      icon: null,
       content: (
         <DeckUploader
           onLoaded={(deck) => {
-            newDeck.current = deck;
+            newDeck.current.push(deck);
           }}
         />
       ),
       okText: "上传",
-      onCancel: () => destroy(),
+      maskClosable: true,
       onOk: async () => {
-        if (newDeck.current) {
-          await deckStore.add(newDeck.current);
-        }
+        const newDecks = await Promise.all(
+          newDeck.current.map((deck) => deckStore.add(deck))
+        );
+        newDecks.every(Boolean)
+          ? message.success("上传成功")
+          : message.error("部分文件上传失败");
       },
     });
+
+  /** 从剪贴板导入。为什么错误处理这么丑陋... */
+  const importFromClipboard = () => {
+    // 检查浏览器是否支持 Clipboard API
+    if (navigator.clipboard) {
+      // 获取剪贴板内容
+      navigator.clipboard
+        .readText()
+        .then((text) => {
+          const deck = YGOProDeck.fromYdkString(text);
+          if (
+            !(deck.main.length + deck.extra.length + deck.side.length === 0)
+          ) {
+            // YDK解析成功
+            const deckName = new Date().toLocaleString();
+            deckStore
+              .add({
+                deckName,
+                ...deck,
+              })
+              .then((result) => {
+                if (result) {
+                  message.success(`导入成功，卡组名为：${deckName}`);
+                  onSelect(deckName);
+                } else {
+                  message.error(`解析失败，请检查格式是否正确。`);
+                }
+              });
+          } else {
+            message.error(`解析失败，请检查格式是否正确。`);
+          }
+        })
+        .catch((err) => {
+          message.error("无法读取剪贴板内容:", err);
+        });
+    } else {
+      message.error("浏览器不支持 Clipboard API");
+    }
   };
 
   const items: MenuProps["items"] = [
     {
-      key: "1",
       label: "新建卡组",
       icon: <PlusOutlined />,
-      onClick: showCreateModal,
+      onClick: createNewDeck,
     },
     {
-      key: "2",
-      label: "导入卡组",
+      label: "从本地文件导入",
       icon: <FileAddOutlined />,
       onClick: showUploadModal,
     },
-  ];
+    {
+      label: "从剪贴板导入",
+      icon: <CopyOutlined />,
+      onClick: importFromClipboard,
+    },
+  ].map((_, key) => ({ ..._, key }));
 
   return (
     <>
@@ -111,7 +134,10 @@ export const DeckSelect: React.FC<{
                 icon={<DeleteOutlined />}
                 type="text"
                 size="small"
-                onClick={cancelBubble(() => onDelete(deckName))}
+                onClick={cancelBubble(async () => {
+                  await onDelete(deckName);
+                  onSelect(decks[0].deckName);
+                })}
               />
               <Button
                 icon={<DownloadOutlined />}
@@ -129,7 +155,6 @@ export const DeckSelect: React.FC<{
           icon={<PlusOutlined />}
           shape="circle"
           type="text"
-          onClick={onAdd}
           size="large"
         />
       </Dropdown>
@@ -141,31 +166,29 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
   onLoaded,
 }) => {
   const [uploadState, setUploadState] = useState("");
+  const { message } = App.useApp();
   const uploadProps: UploadProps = {
     name: "file",
+    multiple: true,
     onChange(info) {
       if (uploadState != "ERROR") {
         info.file.status = "done";
       }
     },
+    accept: ".ydk",
     beforeUpload(file, _) {
+      console.log({ file });
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = (e) => {
         const ydk = e.target?.result as string;
         const deck = YGOProDeck.fromYdkString(ydk);
 
-        if (
-          !(
-            deck.main.length === 0 &&
-            deck.extra.length === 0 &&
-            deck.side.length === 0
-          )
-        ) {
+        if (!(deck.main.length + deck.extra.length + deck.side.length === 0)) {
           // YDK解析成功
           onLoaded({ deckName: file.name.replace(/\.ydk/g, ""), ...deck });
         } else {
-          alert(`${file.name}解析失败，请检查格式是否正确。`);
+          message.error(`${file.name}解析失败，请检查格式是否正确。`);
           setUploadState("ERROR");
         }
       };
@@ -173,9 +196,18 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
   };
 
   return (
-    <Upload {...uploadProps}>
-      <Button icon={<UploadOutlined />}>点击上传</Button>
-    </Upload>
+    <div>
+      <Upload.Dragger
+        {...uploadProps}
+        style={{ width: "100%", margin: "20px 0 10px" }}
+      >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">单击或拖动文件到此区域进行上传</p>
+        <p className="ant-upload-hint">仅支持后缀名为ydk的卡组文件。</p>
+      </Upload.Dragger>
+    </div>
   );
 };
 

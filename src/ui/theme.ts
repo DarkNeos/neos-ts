@@ -14,7 +14,7 @@ export const theme: ThemeConfig = {
     Modal: {
       colorBgElevated: "#1f2531",
       paddingMD: 24,
-      paddingContentHorizontalLG: 48,
+      paddingContentHorizontalLG: 36,
     },
     Select: {
       colorBgElevated: "hsla(0, 0%, 20%, 0.3)",
