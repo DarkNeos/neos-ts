@@ -1,5 +1,5 @@
 import { type CardMeta, fetchCard } from "@/api";
-import { tellCardBasicType } from "@/common";
+import { tellCardBasicType, tellCardSecondaryType } from "@/common";
 import { type IDeck } from "@/stores";
 
 export type Type = "main" | "extra" | "side";
@@ -33,6 +33,9 @@ export const compareCards = (a: CardMeta, b: CardMeta): number => {
   const aType = tellCardBasicType(a.data.type ?? 0);
   const bType = tellCardBasicType(b.data.type ?? 0);
   if (aType !== bType) return aType - bType;
+  const aSecondaryType = tellCardSecondaryType(a.data.type ?? 0);
+  const bSecondaryType = tellCardSecondaryType(b.data.type ?? 0);
+  if (aSecondaryType !== bSecondaryType) return aSecondaryType - bSecondaryType;
   return a.id - b.id;
 };
 
