@@ -52,12 +52,14 @@ export const DeckSelect: React.FC<{
       okText: "上传",
       maskClosable: true,
       onOk: async () => {
-        const newDecks = await Promise.all(
+        const results = await Promise.all(
           newDeck.current.map((deck) => deckStore.add(deck))
         );
-        newDecks.every(Boolean)
-          ? message.success("上传成功")
-          : message.error("部分文件上传失败");
+        newDeck.current = [];
+        if (results.length)
+          results.every(Boolean)
+            ? message.success("上传成功")
+            : message.error("部分文件上传失败");
       },
     });
 

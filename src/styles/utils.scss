@@ -30,5 +30,6 @@
     width: 100%;
     background-image: url("/neos-assets/noise-light.webp");
     opacity: $opacity;
+    pointer-events: none;
   }
 }
