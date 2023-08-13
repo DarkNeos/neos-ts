@@ -1,40 +1,46 @@
+export * from "./accountStore";
 export * from "./cardStore";
 export * from "./chatStore";
-export * from "./joinStore";
+export * from "./deckStore";
+export * from "./initStore";
 export * from "./matStore";
-export * from "./moraStore";
 export * from "./placeStore";
-export * from "./playerStore";
 export * from "./replayStore";
+export * from "./roomStore";
 
 import { devtools } from "valtio/utils";
 
+import { useEnv } from "@/hook";
+
+import { accountStore } from "./accountStore";
 import { cardStore } from "./cardStore";
 import { chatStore } from "./chatStore";
-import { joinStore } from "./joinStore";
+import { deckStore } from "./deckStore";
+import { initStore } from "./initStore";
 import { matStore } from "./matStore";
-import { moraStore } from "./moraStore";
 import { placeStore } from "./placeStore";
-import { playerStore } from "./playerStore";
 import { replayStore } from "./replayStore";
+import { roomStore } from "./roomStore";
 
-devtools(playerStore, { name: "player", enabled: true });
-devtools(chatStore, { name: "chat", enabled: true });
-devtools(joinStore, { name: "join", enabled: true });
-devtools(moraStore, { name: "mora", enabled: true });
-devtools(matStore, { name: "mat", enabled: true });
-devtools(cardStore, { name: "card", enabled: true });
-devtools(placeStore, { name: "place", enabled: true });
-devtools(replayStore, { name: "replay", enabled: true });
+const { DEV } = useEnv();
 
-// 重置所有`Store`
+devtools(chatStore, { name: "chat", enabled: DEV });
+devtools(matStore, { name: "mat", enabled: DEV });
+devtools(cardStore, { name: "card", enabled: DEV });
+devtools(placeStore, { name: "place", enabled: DEV });
+devtools(replayStore, { name: "replay", enabled: DEV });
+devtools(accountStore, { name: "account", enabled: DEV });
+devtools(roomStore, { name: "room", enabled: DEV });
+devtools(deckStore, { name: "deck", enabled: DEV });
+devtools(initStore, { name: "init", enabled: DEV });
+
+// 重置`Store`
 export const resetUniverse = () => {
+  roomStore.reset();
   cardStore.reset();
   chatStore.reset();
-  joinStore.reset();
   matStore.reset();
-  moraStore.reset();
   placeStore.reset();
-  playerStore.reset();
   replayStore.reset();
+  roomStore.reset();
 };

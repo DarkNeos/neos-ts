@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://www.neos.moe">
-     <img src="https://avatars.githubusercontent.com/u/110732697?s=400&u=d33638f1e89dfb41395a47004fe211fcf219444d&v=4" height="128">
+  <a href="https://neos.moecube.com">
+     <img src="./neos-assets/neos-logo.svg" height="128">
     <h1 align="center">Neos</h1>
   </a>
 </p>
@@ -27,10 +27,18 @@ Neos是一个基于[TypeScript](https://www.typescriptlang.org/)，[React.js](ht
 
 ## ✨ 功能
 
-- 🎮 和[ygopro](https://mycard.moe)客户端或者Neos本身进行[联机对战](https://neos.moecube.com)
-- 🌍 在局域网下进行对战
-- 🤖️ 和游戏AI进行对战
-- 📹 回放[ygopro2](https://mycard.moe)上进行的决斗对局
+- **[WIP]竞技匹配**
+  - 与世界上其他玩家在线匹配，您的排名将实时显示在排行榜上。
+- **[WIP]娱乐匹配**
+  - 使用任意卡组进行对战，将胜负暂且搁置，尽情享受决斗的乐趣。
+- **单人模式**
+  - 开启与AI的决斗，验证自己的卡组，或者只是打发时间。
+- **自定义房间**
+  - 创建一个自定义的对战房间，便捷地与好友进行对战，甚至是举办一场竞技比赛。
+- **录像回放**
+  - 自由查看进行过的决斗，回味那些精彩的逆转瞬间。
+- **卡组编辑**
+  - 创建和编辑卡组，在上万种卡片中选择，组建独一无二的构筑。
 
 ## 📦快速开始
 请移步[玩家向导](https://doc.neos.moe/docs/category/%E7%8E%A9%E5%AE%B6%E6%8C%87%E5%8D%97)

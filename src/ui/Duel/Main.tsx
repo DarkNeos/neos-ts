@@ -15,11 +15,12 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import { LifeBar, Mat, Menu } from "./PlayMat";
+import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 
-const NeosDuel = () => {
+export const Component: React.FC = () => {
   return (
     <>
+      <Underlying />
       <SelectActionsModal />
       <Alert />
       <Menu />
@@ -39,5 +40,4 @@ const NeosDuel = () => {
     </>
   );
 };
-
-export default NeosDuel;
+Component.displayName = "NeosDuel";

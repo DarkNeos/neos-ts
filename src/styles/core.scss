@@ -1,115 +1,35 @@
-// ref: https://github.com/jvcjunior/login-react-redux
-// thanks!
 @charset "utf-8";
-@import url("https://fonts.googleapis.com/css2?family=Electrolize&display=swap");
-
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-#root {
-  margin: 0 auto;
-  text-align: center;
-}
-
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"),
-  "commom", "header", "login-form", "sign-in";
+@import url("https://fonts.font.im/css2?family=Electrolize&display=swap");
 
 body {
-  color-scheme: light dark;
+  color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #141414;
-  // font: 87.5%/1.5em "Open Sans", sans-serif;
+  background: #0f131e;
   font-size: 14px;
   display: flex;
   margin: 0;
-  place-items: center;
   min-width: 320px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-input {
-  border: none;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5em;
-  padding: 0;
-  -webkit-appearance: none;
-}
-
-p {
-  line-height: 1.5em;
-}
-
-.clearfix {
-  *zoom: 1;
-
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
+  font-family: var(--theme-font);
+  --theme-font: "Electrolize", sans-serif;
+  --header-height: 56px;
+  #root {
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
   }
-
-  &:after {
-    clear: both;
-  }
-}
-
-.container {
-  // left: 50%;
-  // position: fixed;
-  // top: 50%;
-  // transform: translate(-50%, -50%);
-  margin: 0 auto;
-  width: 100%;
-  max-width: 300px;
-  margin-top: 200px;
-}
-
-.g-row {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1000px;
 }
 
 img {
   user-select: none;
   -webkit-user-drag: none;
+  display: block; // 取消默认的4px下边距
 }
 
-div,
-p,
-section,
-span,
-image,
-img {
+* {
   box-sizing: border-box;
-}
-
-body {
-  --theme-font: "Electrolize", sans-serif;
 }

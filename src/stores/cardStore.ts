@@ -3,7 +3,7 @@ import { proxy } from "valtio";
 import { CardMeta, ygopro } from "@/api";
 
 import type { Interactivity } from "./matStore/types";
-import { NeosStore } from "./shared";
+import { type NeosStore } from "./shared";
 
 /**
  * 场上某位置的状态

@@ -1,6 +1,15 @@
+body {
+  // background-image: url(/neos-assets/play-mat.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 section.mat {
-  position: relative;
-  width: "100%";
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  height: 100%;
   .camera {
     height: 100%;
     display: flex;

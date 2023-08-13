@@ -25,7 +25,7 @@ export const Alert = () => {
           afterClose={() => {
             // 发送投降信号
             sendSurrender();
-            navigate("/");
+            navigate("/match");
           }}
         />
       ) : (

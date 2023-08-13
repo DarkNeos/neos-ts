@@ -2,7 +2,7 @@ import { message, notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
-import { fetchStrings } from "@/api";
+import { fetchStrings, Region } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
@@ -70,7 +70,7 @@ export const HintNotification = () => {
   useEffect(() => {
     if (currentPhase) {
       const message = fetchStrings(
-        "!system",
+        Region.System,
         Phase2StringCodeMap.get(currentPhase) ?? 0
       );
       notify.open({
@@ -101,7 +101,7 @@ export const showWaiting = (open: boolean) => {
     if (!isWaiting) {
       globalMsgApi?.open({
         type: "loading",
-        content: fetchStrings("!system", 1390),
+        content: fetchStrings(Region.System, 1390),
         key: waitingKey,
         className: styles["message"],
         duration: 0,

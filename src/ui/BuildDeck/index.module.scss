@@ -1,0 +1,165 @@
+@use "/src/styles/utils.scss";
+
+.layout {
+  position: fixed;
+  left: 0;
+  top: var(--header-height);
+  height: calc(100% - var(--header-height));
+  display: flex;
+}
+
+.sider {
+  --sider-width: 300px;
+  width: var(--sider-width);
+  flex: 0 0 var(--sider-width);
+  background: transparent !important;
+  position: relative;
+  .deck-select-container {
+    max-height: 100%;
+    min-height: 100%;
+    padding-bottom: 1rem;
+  }
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  padding-bottom: 0;
+  padding-right: 1rem;
+  .deck {
+    width: 660px;
+  }
+  .select {
+    flex: 1;
+    .select-btns {
+      padding: 5px 10px;
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+.container {
+  height: calc(100% - 20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  & > *:not(:last-of-type) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .title {
+    height: 44px;
+    flex: 0 0 44px;
+    justify-content: space-between;
+  }
+  .deck-zone {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .main,
+  .extra,
+  .side {
+    transition: 0.2s;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    &.over {
+      background-color: hsla(0, 0%, 100%, 0.05);
+    }
+    &.not-allow-to-drop {
+      background-color: rgba(255, 0, 0, 0.15);
+      cursor: not-allowed;
+    }
+  }
+  .main {
+    flex: 3;
+  }
+  .extra,
+  .side {
+    flex: 1;
+  }
+  .card-continer {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+  }
+  background-color: hsla(0, 0%, 100%, 0.05);
+  backdrop-filter: blur(5px);
+}
+
+.deck .container {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.select .container {
+  border-left: none;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.card {
+  cursor: move;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  aspect-ratio: var(--card-ratio);
+  position: relative;
+  background-size: contain;
+  content-visibility: auto;
+  .cardname {
+    font-size: 12px;
+    position: absolute;
+    padding: 5px;
+    top: 0;
+    bottom: 0;
+    max-height: 100%;
+    margin: auto;
+    left: 0;
+    height: fit-content;
+    width: 100%;
+    text-align: center;
+    line-height: 1.75em;
+    overflow: hidden; //超出的文本隐藏
+    text-overflow: ellipsis; //溢出用省略号显示
+  }
+  .cardcover {
+    position: relative;
+    // z-index: 1;
+  }
+}
+
+.search-cards-container {
+  height: 100%;
+  .search-cards {
+    --card-width: 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+    padding: 0.75rem;
+    gap: 10px;
+  }
+}
+
+.search-count {
+  font-size: 11px;
+}
+
+.empty {
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.editing-zone-name {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #212332;
+  color: hsla(0, 0%, 100%, 0.3);
+  font-size: 12px;
+  padding: 2px 6px;
+  font-family: var(--theme-font);
+  user-select: none;
+}

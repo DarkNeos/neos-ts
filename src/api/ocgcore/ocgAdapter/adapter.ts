@@ -19,6 +19,7 @@ import StocChat from "./stoc/stocChat";
 import StocDeckCount from "./stoc/stocDeckCount";
 import StocDuelStart from "./stoc/stocDuelStart";
 import StocGameMsg from "./stoc/stocGameMsg/mod";
+import StocHandResult from "./stoc/stocHandResult";
 import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
 import StocHsPlayerEnter from "./stoc/stocHsPlayerEnter";
 import StocHsWatchChange from "./stoc/stocHsWatchChange";
@@ -78,7 +79,7 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
       break;
     }
     case STOC_HAND_RESULT: {
-      // TODO
+      pb = new StocHandResult(packet).upcast();
 
       break;
     }

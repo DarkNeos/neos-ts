@@ -1,8 +1,5 @@
 import { ygopro } from "@/api";
-import { playerStore } from "@/stores";
-
-const READY_STATE = "ready";
-const NO_READY_STATE = "not ready";
+import { roomStore } from "@/stores";
 
 export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
   const change = pb.stoc_hs_player_change;
@@ -17,36 +14,32 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
         break;
       }
       case ygopro.StocHsPlayerChange.State.MOVE: {
-        console.log("Player " + change.pos + " moved to " + change.moved_pos);
-
-        let _src = change.pos;
-        let _dst = change.moved_pos;
-
-        console.log("Currently unsupport Move type of StocHsPlayerChange.");
-
-        // TODO
-
+        // TODO: 这个分支可能有BUG，后面注意一下
+        console.info(
+          "<HsPlayerChange>Player " +
+            change.pos +
+            " moved to " +
+            change.moved_pos
+        );
+        roomStore.players[change.moved_pos] = roomStore.players[change.pos];
+        roomStore.players[change.pos] = undefined;
         break;
       }
-      case ygopro.StocHsPlayerChange.State.READY: {
-        playerStore[change.pos === 0 ? "player0" : "player1"].state =
-          READY_STATE;
-        break;
-      }
+      case ygopro.StocHsPlayerChange.State.READY:
       case ygopro.StocHsPlayerChange.State.NO_READY: {
-        playerStore[change.pos === 0 ? "player0" : "player1"].state =
-          NO_READY_STATE;
-
+        const player = roomStore.players[change.pos];
+        if (player) {
+          player.state = change.state;
+        }
         break;
       }
       case ygopro.StocHsPlayerChange.State.LEAVE: {
-        playerStore[change.pos === 0 ? "player0" : "player1"] = {};
-
+        roomStore.players[change.pos] = undefined;
         break;
       }
       case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-        playerStore[change.pos === 0 ? "player0" : "player1"] = {}; // TODO: 有没有必要？
-        playerStore.observerCount += 1;
+        roomStore.players[change.pos] = undefined;
+        roomStore.observerCount += 1;
         break;
       }
       default: {

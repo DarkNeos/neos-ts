@@ -2,7 +2,7 @@ import { proxy, ref } from "valtio";
 
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 
-import { NeosStore } from "./shared";
+import { type NeosStore } from "./shared";
 
 // 对局中每一次状态改变的记录
 interface ReplaySpot {

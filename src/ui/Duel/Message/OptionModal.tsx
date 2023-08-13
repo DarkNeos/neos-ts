@@ -7,6 +7,7 @@ import {
   type CardMeta,
   fetchStrings,
   getCardStr,
+  Region,
   sendSelectIdleCmdResponse,
   sendSelectOptionResponse,
 } from "@/api";
@@ -90,6 +91,6 @@ export const handleEffectActivation = async (
         response: effect.response,
       };
     });
-    await displayOptionModal(fetchStrings("!system", 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
+    await displayOptionModal(fetchStrings(Region.System, 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
 };

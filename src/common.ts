@@ -95,6 +95,37 @@ export function extraCardTypes(typeCode: number): number[] {
   ].filter((target) => (target & typeCode) > 0);
 }
 
+/** 这张卡能不能放入额外卡组 */
+export function isExtraDeckCard(typeCode: number): boolean {
+  const extraTypes = [
+    TYPE_PENDULUM,
+    TYPE_LINK,
+    TYPE_SYNCHRO,
+    TYPE_XYZ,
+    TYPE_FUSION,
+  ];
+  return extraTypes.reduce((acc, cur) => (acc | cur) & typeCode, 0) > 0;
+}
+
+/** 这张卡是怪兽、魔法、陷阱 */
+export function tellCardBasicType(typeCode: number): number {
+  const basicTypes = [TYPE_MONSTER, TYPE_SPELL, TYPE_TRAP];
+  return basicTypes.reduce((acc, cur) => (acc | cur) & typeCode, 0);
+}
+
+/** 是不是衍生物 */
+export function isToken(typeCode: number): boolean {
+  return (typeCode & TYPE_TOKEN) > 0;
+}
+
+export function isMonster(typeCode: number): boolean {
+  return (typeCode & TYPE_MONSTER) > 0;
+}
+
+export function isLinkMonster(typeCode: number): boolean {
+  return (typeCode & TYPE_LINK) > 0;
+}
+
 // 属性
 // const ATTRIBUTE_ALL = 0x7f; //
 const ATTRIBUTE_EARTH = 0x01; //

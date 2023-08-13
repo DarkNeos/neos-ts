@@ -24,7 +24,8 @@ import {
   sendSurrender,
   ygopro,
 } from "@/api";
-import { cardStore, matStore } from "@/stores";
+import { cardStore, ChainSetting, matStore } from "@/stores";
+import { IconFont } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
@@ -33,8 +34,11 @@ const { phase } = matStore;
 const { useToken } = theme;
 export const Menu = () => {
   const snapPhase = useSnapshot(phase);
-  const { currentPlayer } = useSnapshot(matStore);
   const currentPhase = snapPhase.currentPhase;
+  const enableBp = snapPhase.enableBp;
+  const enableM2 = snapPhase.enableM2;
+  const enableEp = snapPhase.enableEp;
+  const { currentPlayer, chainSetting } = useSnapshot(matStore);
 
   const clearAllIdleInteractivities = () => {
     for (const card of cardStore.inner) {
@@ -72,20 +76,54 @@ export const Menu = () => {
     [PhaseType.UNKNOWN, "未知阶段", -1, false],
   ];
 
+  const checkPhaseEnabled = (phase: PhaseType) => {
+    switch (phase) {
+      case PhaseType.BATTLE:
+        return enableBp;
+      case PhaseType.MAIN2:
+        return enableM2;
+      case PhaseType.END:
+        return enableEp;
+      default:
+        return true;
+    }
+  };
+
   const phaseSwitchItems: MenuProps["items"] = phaseBind
     .filter(([, , , show]) => show)
     .map(([phase, label, response], key) => ({
       key,
       label,
-      disabled: currentPhase >= phase,
+      disabled: currentPhase >= phase || !checkPhaseEnabled(phase),
       onClick: () => {
         if (response === 2) sendSelectIdleCmdResponse(response);
         else sendSelectBattleCmdResponse(response);
         clearAllIdleInteractivities();
       },
-      icon: currentPhase >= phase ? <CheckOutlined /> : <ArrowRightOutlined />,
+      icon:
+        currentPhase >= phase || !checkPhaseEnabled(phase) ? (
+          <CheckOutlined />
+        ) : (
+          <ArrowRightOutlined />
+        ),
       danger: phase === PhaseType.END,
     }));
+
+  const chainSettingTexts = [
+    [ChainSetting.CHAIN_ALL, "全部连锁"],
+    [ChainSetting.CHAIN_IGNORE, "忽略连锁"],
+    [ChainSetting.CHAIN_SMART, "智能连锁"],
+  ] as const;
+  const chainSettingItems: MenuProps["items"] = chainSettingTexts.map(
+    ([key, text]) => ({
+      label: text,
+      icon: <ChainIcon chainSetting={key} />,
+      key,
+      onClick: () => {
+        matStore.chainSetting = key;
+      },
+    })
+  );
 
   const surrenderMenuItems: MenuProps["items"] = [
     {
@@ -114,17 +152,22 @@ export const Menu = () => {
           {phaseBind.find(([key]) => key === currentPhase)?.[1]}
         </Button>
       </DropdownWithTitle>
-      <Tooltip title="聊天室">
+      <DropdownWithTitle
+        menu={{
+          items: chainSettingItems,
+        }}
+      >
         <Button
-          icon={<MessageFilled />}
+          icon={<ChainIcon chainSetting={chainSetting} />}
           type="text"
-          disabled={globalDisable}
         ></Button>
+      </DropdownWithTitle>
+      <Tooltip title="聊天室">
+        <Button icon={<MessageFilled />} type="text"></Button>
       </Tooltip>
       <DropdownWithTitle
         title="是否投降？"
         menu={{ items: surrenderMenuItems }}
-        disabled={globalDisable}
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>
       </DropdownWithTitle>
@@ -132,7 +175,7 @@ export const Menu = () => {
   );
 };
 
-const DropdownWithTitle: React.FC<DropdownProps & { title: string }> = (
+const DropdownWithTitle: React.FC<DropdownProps & { title?: string }> = (
   props
 ) => {
   const { token } = useToken();
@@ -149,17 +192,37 @@ const DropdownWithTitle: React.FC<DropdownProps & { title: string }> = (
       {...props}
       dropdownRender={(menu) => (
         <div style={contentStyle}>
-          <Space style={{ padding: "12px 16px" }}>{props.title}</Space>
-          <Divider style={{ margin: 0 }} />
+          {props.title && (
+            <>
+              <Space style={{ padding: "12px 16px", fontSize: 12 }}>
+                {props.title}
+              </Space>
+              <Divider style={{ margin: 0 }} />
+            </>
+          )}
           {cloneElement(menu as React.ReactElement, {
             style: menuStyle,
           })}
         </div>
       )}
       arrow
-      trigger={["click", "hover"]}
+      trigger={["click"]}
     >
       {props.children}
     </Dropdown>
   );
+};
+
+const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
+  chainSetting,
+}) => {
+  switch (chainSetting) {
+    case ChainSetting.CHAIN_ALL:
+      return <IconFont type="icon-chain-all" />;
+    case ChainSetting.CHAIN_SMART:
+      return <IconFont type="icon-chain" />;
+    case ChainSetting.CHAIN_IGNORE:
+    default:
+      return <IconFont type="icon-chain-broken" />;
+  }
 };

@@ -1,32 +1,37 @@
 import { ygopro } from "@/api";
-import { playerStore } from "@/stores";
-
-const NO_READY_STATE = "not ready";
+import { roomStore } from "@/stores";
+import SelfType = ygopro.StocTypeChange.SelfType;
 
 export default function handleTypeChange(pb: ygopro.YgoStocMsg) {
   const selfType = pb.stoc_type_change.self_type;
   const assertHost = pb.stoc_type_change.is_host;
 
-  playerStore.isHost = assertHost;
-  playerStore.selfType = selfType;
+  roomStore.isHost = assertHost;
+  roomStore.selfType = selfType;
 
-  if (assertHost) {
-    switch (selfType) {
-      case ygopro.StocTypeChange.SelfType.PLAYER1: {
-        playerStore.player0.isHost = true;
-        playerStore.player1.isHost = false;
-        playerStore.player0.state = NO_READY_STATE;
-        break;
+  switch (selfType) {
+    case SelfType.UNKNOWN: {
+      console.warn("<HandleTypeChange>selfType is UNKNOWN");
+      break;
+    }
+    case SelfType.OBSERVER: {
+      roomStore.players.forEach((player) => {
+        if (player) {
+          player.isMe = false;
+        }
+      });
+      break;
+    }
+    default: {
+      const player = roomStore.players[selfType - 1];
+      const state = ygopro.StocHsPlayerChange.State.NO_READY;
+      if (player) {
+        player.state = state;
+        player.isMe = true;
+      } else {
+        roomStore.players[selfType - 1] = { name: "?", state, isMe: true };
       }
-      case ygopro.StocTypeChange.SelfType.PLAYER2: {
-        playerStore.player0.isHost = false;
-        playerStore.player1.isHost = true;
-        playerStore.player1.state = NO_READY_STATE;
-        break;
-      }
-      default: {
-        break;
-      }
+      break;
     }
   }
 }

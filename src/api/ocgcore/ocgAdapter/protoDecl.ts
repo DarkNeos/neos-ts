@@ -5,7 +5,10 @@
 export const CTOS_PLAYER_INFO = 16;
 export const CTOS_JOIN_GAME = 18;
 export const CTOS_UPDATE_DECK = 2;
+export const CTOS_HS_TO_DUEL_LIST = 32;
+export const CTOS_HS_TO_OBSERVER = 33;
 export const CTOS_HS_READY = 34;
+export const CTOS_HS_NOT_READY = 35;
 export const CTOS_HS_START = 37;
 export const CTOS_HAND_RESULT = 3;
 export const CTOS_TP_RESULT = 4;

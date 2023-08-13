@@ -1,4 +1,5 @@
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
+import { FtsParams } from "@/middleware/sqlite/fts";
 
 export interface CardMeta {
   id: number;
@@ -15,6 +16,8 @@ export interface CardData {
   level?: number;
   race?: number;
   attribute?: number;
+  lscale?: number;
+  rscale?: number;
 }
 
 export interface CardText {
@@ -55,8 +58,25 @@ export async function fetchCard(id: number): Promise<CardMeta> {
   return res.selectResult ? res.selectResult : { id, data: {}, text: {} };
 }
 
+/*
+ * 返回卡片元数据
+ *
+ * @param id - 卡片id
+ * @returns 卡片数据
+ *
+ * */
+export async function searchCards(params: FtsParams): Promise<CardMeta[]> {
+  const res = await sqliteMiddleWare({
+    cmd: sqliteCmd.FTS,
+    payload: { ftsParams: params },
+  });
+  return res.ftsResult ?? [];
+}
+
 // @ts-ignore
 window.fetchCard = fetchCard;
+// @ts-ignore
+window.searchCard = searchCards;
 
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   switch (idx) {

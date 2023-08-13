@@ -353,7 +353,7 @@ export namespace ygopro {
         }
     }
     export class YgoCtosMsg extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]];
         constructor(data?: any[] | ({} & (({
             ctos_player_info?: CtosPlayerInfo;
             ctos_join_game?: never;
@@ -367,6 +367,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: CtosJoinGame;
@@ -380,6 +382,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -393,6 +397,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -406,6 +412,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -419,6 +427,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -432,6 +442,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -445,6 +457,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -458,6 +472,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -471,6 +487,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -484,6 +502,8 @@ export namespace ygopro {
             ctos_response?: CtosGameMsgResponse;
             ctos_chat?: never;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -497,6 +517,8 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: CtosChat;
             ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
         } | {
             ctos_player_info?: never;
             ctos_join_game?: never;
@@ -510,6 +532,38 @@ export namespace ygopro {
             ctos_response?: never;
             ctos_chat?: never;
             ctos_surrender?: CtosSurrender;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: never;
+        } | {
+            ctos_player_info?: never;
+            ctos_join_game?: never;
+            ctos_update_deck?: never;
+            ctos_hs_ready?: never;
+            ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
+            ctos_hand_result?: never;
+            ctos_tp_result?: never;
+            ctos_time_confirm?: never;
+            ctos_response?: never;
+            ctos_chat?: never;
+            ctos_surrender?: never;
+            ctos_hs_to_observer?: CtosHsToObserver;
+            ctos_hs_to_duel_list?: never;
+        } | {
+            ctos_player_info?: never;
+            ctos_join_game?: never;
+            ctos_update_deck?: never;
+            ctos_hs_ready?: never;
+            ctos_hs_start?: never;
+            ctos_hs_not_ready?: never;
+            ctos_hand_result?: never;
+            ctos_tp_result?: never;
+            ctos_time_confirm?: never;
+            ctos_response?: never;
+            ctos_chat?: never;
+            ctos_surrender?: never;
+            ctos_hs_to_observer?: never;
+            ctos_hs_to_duel_list?: CtosHsToDuelList;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -549,6 +603,12 @@ export namespace ygopro {
                 }
                 if ("ctos_surrender" in data && data.ctos_surrender != undefined) {
                     this.ctos_surrender = data.ctos_surrender;
+                }
+                if ("ctos_hs_to_observer" in data && data.ctos_hs_to_observer != undefined) {
+                    this.ctos_hs_to_observer = data.ctos_hs_to_observer;
+                }
+                if ("ctos_hs_to_duel_list" in data && data.ctos_hs_to_duel_list != undefined) {
+                    this.ctos_hs_to_duel_list = data.ctos_hs_to_duel_list;
                 }
             }
         }
@@ -660,9 +720,27 @@ export namespace ygopro {
         get has_ctos_surrender() {
             return pb_1.Message.getField(this, 12) != null;
         }
+        get ctos_hs_to_observer() {
+            return pb_1.Message.getWrapperField(this, CtosHsToObserver, 13) as CtosHsToObserver;
+        }
+        set ctos_hs_to_observer(value: CtosHsToObserver) {
+            pb_1.Message.setOneofWrapperField(this, 13, this.#one_of_decls[0], value);
+        }
+        get has_ctos_hs_to_observer() {
+            return pb_1.Message.getField(this, 13) != null;
+        }
+        get ctos_hs_to_duel_list() {
+            return pb_1.Message.getWrapperField(this, CtosHsToDuelList, 14) as CtosHsToDuelList;
+        }
+        set ctos_hs_to_duel_list(value: CtosHsToDuelList) {
+            pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
+        }
+        get has_ctos_hs_to_duel_list() {
+            return pb_1.Message.getField(this, 14) != null;
+        }
         get msg() {
             const cases: {
-                [index: number]: "none" | "ctos_player_info" | "ctos_join_game" | "ctos_update_deck" | "ctos_hs_ready" | "ctos_hs_start" | "ctos_hs_not_ready" | "ctos_hand_result" | "ctos_tp_result" | "ctos_time_confirm" | "ctos_response" | "ctos_chat" | "ctos_surrender";
+                [index: number]: "none" | "ctos_player_info" | "ctos_join_game" | "ctos_update_deck" | "ctos_hs_ready" | "ctos_hs_start" | "ctos_hs_not_ready" | "ctos_hand_result" | "ctos_tp_result" | "ctos_time_confirm" | "ctos_response" | "ctos_chat" | "ctos_surrender" | "ctos_hs_to_observer" | "ctos_hs_to_duel_list";
             } = {
                 0: "none",
                 1: "ctos_player_info",
@@ -676,9 +754,11 @@ export namespace ygopro {
                 9: "ctos_time_confirm",
                 10: "ctos_response",
                 11: "ctos_chat",
-                12: "ctos_surrender"
+                12: "ctos_surrender",
+                13: "ctos_hs_to_observer",
+                14: "ctos_hs_to_duel_list"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])];
         }
         static fromObject(data: {
             ctos_player_info?: ReturnType<typeof CtosPlayerInfo.prototype.toObject>;
@@ -693,6 +773,8 @@ export namespace ygopro {
             ctos_response?: ReturnType<typeof CtosGameMsgResponse.prototype.toObject>;
             ctos_chat?: ReturnType<typeof CtosChat.prototype.toObject>;
             ctos_surrender?: ReturnType<typeof CtosSurrender.prototype.toObject>;
+            ctos_hs_to_observer?: ReturnType<typeof CtosHsToObserver.prototype.toObject>;
+            ctos_hs_to_duel_list?: ReturnType<typeof CtosHsToDuelList.prototype.toObject>;
         }): YgoCtosMsg {
             const message = new YgoCtosMsg({});
             if (data.ctos_player_info != null) {
@@ -731,6 +813,12 @@ export namespace ygopro {
             if (data.ctos_surrender != null) {
                 message.ctos_surrender = CtosSurrender.fromObject(data.ctos_surrender);
             }
+            if (data.ctos_hs_to_observer != null) {
+                message.ctos_hs_to_observer = CtosHsToObserver.fromObject(data.ctos_hs_to_observer);
+            }
+            if (data.ctos_hs_to_duel_list != null) {
+                message.ctos_hs_to_duel_list = CtosHsToDuelList.fromObject(data.ctos_hs_to_duel_list);
+            }
             return message;
         }
         toObject() {
@@ -747,6 +835,8 @@ export namespace ygopro {
                 ctos_response?: ReturnType<typeof CtosGameMsgResponse.prototype.toObject>;
                 ctos_chat?: ReturnType<typeof CtosChat.prototype.toObject>;
                 ctos_surrender?: ReturnType<typeof CtosSurrender.prototype.toObject>;
+                ctos_hs_to_observer?: ReturnType<typeof CtosHsToObserver.prototype.toObject>;
+                ctos_hs_to_duel_list?: ReturnType<typeof CtosHsToDuelList.prototype.toObject>;
             } = {};
             if (this.ctos_player_info != null) {
                 data.ctos_player_info = this.ctos_player_info.toObject();
@@ -784,6 +874,12 @@ export namespace ygopro {
             if (this.ctos_surrender != null) {
                 data.ctos_surrender = this.ctos_surrender.toObject();
             }
+            if (this.ctos_hs_to_observer != null) {
+                data.ctos_hs_to_observer = this.ctos_hs_to_observer.toObject();
+            }
+            if (this.ctos_hs_to_duel_list != null) {
+                data.ctos_hs_to_duel_list = this.ctos_hs_to_duel_list.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -814,6 +910,10 @@ export namespace ygopro {
                 writer.writeMessage(11, this.ctos_chat, () => this.ctos_chat.serialize(writer));
             if (this.has_ctos_surrender)
                 writer.writeMessage(12, this.ctos_surrender, () => this.ctos_surrender.serialize(writer));
+            if (this.has_ctos_hs_to_observer)
+                writer.writeMessage(13, this.ctos_hs_to_observer, () => this.ctos_hs_to_observer.serialize(writer));
+            if (this.has_ctos_hs_to_duel_list)
+                writer.writeMessage(14, this.ctos_hs_to_duel_list, () => this.ctos_hs_to_duel_list.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -858,6 +958,12 @@ export namespace ygopro {
                         break;
                     case 12:
                         reader.readMessage(message.ctos_surrender, () => message.ctos_surrender = CtosSurrender.deserialize(reader));
+                        break;
+                    case 13:
+                        reader.readMessage(message.ctos_hs_to_observer, () => message.ctos_hs_to_observer = CtosHsToObserver.deserialize(reader));
+                        break;
+                    case 14:
+                        reader.readMessage(message.ctos_hs_to_duel_list, () => message.ctos_hs_to_duel_list = CtosHsToDuelList.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -1813,6 +1919,86 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): CtosHsNotReady {
             return CtosHsNotReady.deserialize(bytes);
+        }
+    }
+    export class CtosHsToObserver extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {}) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") { }
+        }
+        static fromObject(data: {}): CtosHsToObserver {
+            const message = new CtosHsToObserver({});
+            return message;
+        }
+        toObject() {
+            const data: {} = {};
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosHsToObserver {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CtosHsToObserver();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CtosHsToObserver {
+            return CtosHsToObserver.deserialize(bytes);
+        }
+    }
+    export class CtosHsToDuelList extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {}) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") { }
+        }
+        static fromObject(data: {}): CtosHsToDuelList {
+            const message = new CtosHsToDuelList({});
+            return message;
+        }
+        toObject() {
+            const data: {} = {};
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CtosHsToDuelList {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CtosHsToDuelList();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CtosHsToDuelList {
+            return CtosHsToDuelList.deserialize(bytes);
         }
     }
     export class CtosHsStart extends pb_1.Message {

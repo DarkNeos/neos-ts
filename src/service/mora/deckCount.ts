@@ -1,19 +1,26 @@
 import { ygopro } from "@/api";
-import { playerStore } from "@/stores";
+import { roomStore } from "@/stores";
 
-// FIXME: player0 不一定是当前玩家
+// TODO: 这里设置的player可能顺序会反
 export default function handleDeckCount(pb: ygopro.YgoStocMsg) {
   const deckCount = pb.stoc_deck_count;
 
-  playerStore.player0.deckInfo = {
-    mainCnt: deckCount.meMain,
-    extraCnt: deckCount.meExtra,
-    sideCnt: deckCount.meSide,
-  };
+  const me = roomStore.getMePlayer();
+  const op = roomStore.getOpPlayer();
 
-  playerStore.player1.deckInfo = {
-    mainCnt: deckCount.opMain,
-    extraCnt: deckCount.opExtra,
-    sideCnt: deckCount.opSide,
-  };
+  if (me) {
+    me.deckInfo = {
+      mainSize: deckCount.meMain,
+      extraSize: deckCount.meExtra,
+      sideSize: deckCount.meSide,
+    };
+  }
+
+  if (op) {
+    op.deckInfo = {
+      mainSize: deckCount.opMain,
+      extraSize: deckCount.opExtra,
+      sideSize: deckCount.opSide,
+    };
+  }
 }

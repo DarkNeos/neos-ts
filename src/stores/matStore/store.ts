@@ -3,7 +3,8 @@ import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
 
-import type { InitInfo, MatState } from "./types";
+import { type NeosStore } from "../shared";
+import { ChainSetting, InitInfo, MatState } from "./types";
 
 /**
  * 根据controller判断是自己还是对方。
@@ -25,9 +26,9 @@ export const isMe = (controller: number): boolean => {
       // 自己是后攻
       return controller === 1;
     default:
-      // 目前不可能出现这种情况
-      console.error("judgeSelf error", controller, matStore.selfType);
-      return false;
+      // 自己是观战者
+      // 这里假设偶数方的玩家是自己
+      return controller % 2 == 0;
   }
 };
 
@@ -53,7 +54,6 @@ const initInfo: MatState["initInfo"] = proxy({
 
 const initialState: Omit<MatState, "reset"> = {
   chains: [],
-
   timeLimits: {
     // 时间限制
     me: -1,
@@ -63,9 +63,7 @@ const initialState: Omit<MatState, "reset"> = {
       matStore.timeLimits[getWhom(controller)] = time;
     },
   },
-
   initInfo,
-
   selfType: ygopro.StocTypeChange.SelfType.UNKNOWN,
   hint: { code: -1 },
   currentPlayer: -1,
@@ -85,22 +83,28 @@ const initialState: Omit<MatState, "reset"> = {
       matStore.handResults[getWhom(controller)] = result;
     },
   },
+  tossResult: undefined,
+  chainSetting: ChainSetting.CHAIN_SMART,
   // methods
   isMe,
 };
 
-/**
- * 💡 决斗盘状态仓库，本文件核心，
- * 具体介绍可以点进`MatState`去看
- */
-export const matStore: MatState = proxy<MatState>({
-  ...initialState,
-  reset() {
-    // const resetObj = _.cloneDeep(initialState);
-    // Object.keys(resetObj).forEach((key) => {
-    //   // @ts-ignore
-    //   matStore[key] = initialState[key];
-    // });
+class MatStore implements MatState, NeosStore {
+  chains = initialState.chains;
+  chainSetting = initialState.chainSetting;
+  timeLimits = initialState.timeLimits;
+  initInfo = initialState.initInfo;
+  selfType = initialState.selfType;
+  hint = initialState.hint;
+  currentPlayer = initialState.currentPlayer;
+  phase = initialState.phase;
+  isReplay = initialState.isReplay;
+  unimplemented = initialState.unimplemented;
+  handResults = initialState.handResults;
+  tossResult = initialState.tossResult;
+  // methods
+  isMe = initialState.isMe;
+  reset(): void {
     this.chains = [];
     this.timeLimits.me = -1;
     this.timeLimits.op = -1;
@@ -119,8 +123,14 @@ export const matStore: MatState = proxy<MatState>({
     this.unimplemented = 0;
     this.handResults.me = 0;
     this.handResults.op = 0;
-  },
-});
+  }
+}
+
+/**
+ * 💡 决斗盘状态仓库，本文件核心，
+ * 具体介绍可以点进`MatState`去看
+ */
+export const matStore = proxy<MatStore>(new MatStore());
 
 // @ts-ignore 挂到全局，便于调试
 window.matStore = matStore;

@@ -5,7 +5,7 @@ import AnimatedNumbers from "react-animated-numbers";
 import { useSnapshot } from "valtio";
 
 import { useEnv } from "@/hook";
-import { matStore, playerStore } from "@/stores";
+import { matStore, roomStore } from "@/stores";
 
 import styles from "./index.module.scss";
 // 三个候选方案
@@ -15,7 +15,7 @@ import styles from "./index.module.scss";
 
 export const LifeBar: React.FC = () => {
   const snapInitInfo = useSnapshot(matStore.initInfo);
-  const snapPlayer = useSnapshot(playerStore);
+  const snapPlayer = useSnapshot(roomStore);
   const { currentPlayer } = useSnapshot(matStore);
 
   const [meLife, setMeLife] = React.useState(0);
@@ -59,14 +59,14 @@ export const LifeBar: React.FC = () => {
     <div className={styles.container}>
       <LifeBarItem
         active={!matStore.isMe(currentPlayer)}
-        name={snapPlayer.getOpPlayer().name ?? "?"}
+        name={snapPlayer.getOpPlayer()?.name ?? "?"}
         life={opLife}
         timeLimit={opTimeLimit}
         isMe={false}
       />
       <LifeBarItem
         active={matStore.isMe(currentPlayer)}
-        name={snapPlayer.getMePlayer().name ?? "?"}
+        name={snapPlayer.getMePlayer()?.name ?? "?"}
         life={meLife}
         timeLimit={myTimeLimit}
         isMe={true}

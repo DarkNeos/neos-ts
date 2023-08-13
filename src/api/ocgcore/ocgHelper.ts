@@ -3,14 +3,17 @@
  *
  * */
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
+import { IDeck } from "@/stores";
 
-import { IDeck } from "../deck";
 import { ygopro } from "./idl/ocgcore";
 import Chat from "./ocgAdapter/ctos/ctosChat";
 import GameMsgResponse from "./ocgAdapter/ctos/ctosGameMsgResponse/mod";
 import HandResult from "./ocgAdapter/ctos/ctosHandResult";
+import HsNotReadyAdapter from "./ocgAdapter/ctos/ctosHsNotReady";
 import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
 import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
+import HsToDuelListAdapter from "./ocgAdapter/ctos/ctosHsToDuelList";
+import HsToObserverAdapter from "./ocgAdapter/ctos/ctosHsToObserver";
 import JoinGameAdapter from "./ocgAdapter/ctos/ctosJoinGame";
 import PlayerInfoAdapter from "./ocgAdapter/ctos/ctosPlayerInfo";
 import Surrender from "./ocgAdapter/ctos/ctosSurrender";
@@ -38,6 +41,33 @@ export function sendHsReady() {
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
   const payload = new HsReadyAdapter(hasReady).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendHsNotReady() {
+  const hasNotReady = new ygopro.YgoCtosMsg({
+    ctos_hs_not_ready: new ygopro.CtosHsNotReady({}),
+  });
+  const payload = new HsNotReadyAdapter(hasNotReady).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendHsToObserver() {
+  const hasToObserver = new ygopro.YgoCtosMsg({
+    ctos_hs_to_observer: new ygopro.CtosHsToObserver({}),
+  });
+  const payload = new HsToObserverAdapter(hasToObserver).serialize();
+
+  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+}
+
+export function sendHsToDuelList() {
+  const hasToDuelList = new ygopro.YgoCtosMsg({
+    ctos_hs_to_duel_list: new ygopro.CtosHsToDuelList({}),
+  });
+  const payload = new HsToDuelListAdapter(hasToDuelList).serialize();
 
   socketMiddleWare({ cmd: socketCmd.SEND, payload });
 }

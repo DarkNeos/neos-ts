@@ -1,6 +1,8 @@
 import { ygopro } from "@/api";
-import { moraStore } from "@/stores";
+import { eventbus, Task } from "@/infra";
+import { RoomStage, roomStore } from "@/stores";
 
 export default function handleSelectHand(_: ygopro.YgoStocMsg) {
-  moraStore.selectHandAble = true;
+  roomStore.stage = RoomStage.HAND_SELECTING;
+  eventbus.emit(Task.Mora);
 }

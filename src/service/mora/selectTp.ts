@@ -1,6 +1,8 @@
 import { ygopro } from "@/api";
-import { moraStore } from "@/stores";
+import { eventbus, Task } from "@/infra";
+import { RoomStage, roomStore } from "@/stores";
 
 export default function handleSelectTp(_: ygopro.YgoStocMsg) {
-  moraStore.selectTpAble = true;
+  roomStore.stage = RoomStage.TP_SELECTING;
+  eventbus.emit(Task.Tp);
 }

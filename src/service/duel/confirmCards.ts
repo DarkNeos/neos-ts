@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore } from "@/stores";
+import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
   const cards = confirmCards.cards;
@@ -14,7 +14,7 @@ export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
       const meta = await fetchCard(card.code);
       target.meta = meta;
       // 动画
-      await eventbus.call(Task.Focus, target.uuid);
+      await callCardFocus(target.uuid);
     } else {
       console.warn(`card of ${card} is null`);
     }

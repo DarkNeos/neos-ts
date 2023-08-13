@@ -1,4 +1,4 @@
-import { fetchCard, fetchStrings, ygopro } from "@/api";
+import { fetchCard, fetchStrings, Region, ygopro } from "@/api";
 import { displayAnnounceModal } from "@/ui/Duel/Message";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
 
@@ -16,9 +16,9 @@ export default async (announce: MsgAnnounce) => {
     case MsgAnnounce.AnnounceType.RACE: {
       await displayAnnounceModal({
         min,
-        title: fetchStrings("!system", 563),
+        title: fetchStrings(Region.System, 563),
         options: announce.options.map((option) => ({
-          info: fetchStrings("!system", 1200 + option.code),
+          info: fetchStrings(Region.System, 1200 + option.code),
           response: option.response,
         })),
       });
@@ -28,9 +28,9 @@ export default async (announce: MsgAnnounce) => {
     case MsgAnnounce.AnnounceType.Attribute: {
       await displayAnnounceModal({
         min,
-        title: fetchStrings("!system", 562),
+        title: fetchStrings(Region.System, 562),
         options: announce.options.map((option) => ({
-          info: fetchStrings("!system", 1010 + option.code),
+          info: fetchStrings(Region.System, 1010 + option.code),
           response: option.response,
         })),
       });
@@ -50,7 +50,7 @@ export default async (announce: MsgAnnounce) => {
       }
       await displayAnnounceModal({
         min,
-        title: fetchStrings("!system", 564),
+        title: fetchStrings(Region.System, 564),
         options,
       });
 
@@ -59,7 +59,7 @@ export default async (announce: MsgAnnounce) => {
     case MsgAnnounce.AnnounceType.Number: {
       await displayAnnounceModal({
         min,
-        title: fetchStrings("!system", 565),
+        title: fetchStrings(Region.System, 565),
         options: announce.options.map((option) => ({
           info: option.code.toString(),
           response: option.response,

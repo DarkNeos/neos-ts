@@ -12,6 +12,7 @@ interface Props {
   style?: CSSProperties;
   width?: number;
   onClick?: () => void;
+  onLoad?: () => void;
 }
 
 export const YgoCard: React.FC<Props> = (props) => {
@@ -21,7 +22,8 @@ export const YgoCard: React.FC<Props> = (props) => {
     isBack = false,
     width,
     style,
-    onClick = () => {},
+    onClick,
+    onLoad,
   } = props;
   return useMemo(
     () => (
@@ -30,6 +32,8 @@ export const YgoCard: React.FC<Props> = (props) => {
         src={getCardImgUrl(code, isBack)}
         style={{ width, ...style }}
         onClick={onClick}
+        // 加载完成
+        onLoad={onLoad}
       />
     ),
     [code]

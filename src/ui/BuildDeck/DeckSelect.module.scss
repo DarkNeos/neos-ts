@@ -1,0 +1,61 @@
+.deck-select {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  .item {
+    height: 40px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    .hover,
+    .selected {
+      position: absolute;
+      width: auto;
+      height: auto;
+      top: 0;
+      bottom: 0;
+      --padding-x: 5px;
+      left: var(--padding-x);
+      right: var(--padding-x);
+      border-radius: 4px;
+      transition: 0.2s;
+    }
+    .hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      opacity: 0;
+    }
+    .selected {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .btns {
+      transition: 0.2s;
+      opacity: 0;
+      display: flex;
+      gap: 4px;
+    }
+    &:hover {
+      .hover,
+      .btns {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.btn-add {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: rgba(0, 168, 202, 0.451);
+  box-shadow: 0 0 20px 0 rgba(0, 221, 255, 0.5);
+  &:hover {
+    background-color: rgba(0, 168, 202, 0.451) !important;
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
