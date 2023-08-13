@@ -11,3 +11,7 @@
   border-radius: 6px;
   overflow: hidden;
 }
+
+:global(.ant-dropdown-menu-item) {
+  gap: 8px;
+}

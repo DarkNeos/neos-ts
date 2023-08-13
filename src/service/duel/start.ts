@@ -2,21 +2,26 @@ import { flatten } from "lodash-es";
 import { v4 as v4uuid } from "uuid";
 import { proxy } from "valtio";
 import { subscribeKey } from "valtio/utils";
-
+import PlayerType = ygopro.StocGameMessage.MsgStart.PlayerType;
 import { fetchCard, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
-import { cardStore, CardType, matStore } from "@/stores";
-import { replayStart } from "@/ui/Replay";
+import { cardStore, CardType, matStore, RoomStage, roomStore } from "@/stores";
+import { replayStart } from "@/ui/Match/ReplayModal";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
 export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
   matStore.selfType = start.playerType;
   const opponent =
-    start.playerType === ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+    start.playerType === PlayerType.FirstStrike ||
+    start.playerType === PlayerType.Observer
       ? 1
       : 0;
+
+  // 通知房间页面决斗开始
+  // 这行在该函数中的位置不能随便放，否则可能会block住
+  roomStore.stage = RoomStage.DUEL_START;
 
   matStore.initInfo.set(0, {
     life: start.life1,
@@ -73,7 +78,7 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 设置自己的额外卡组，信息是在waitroom之中拿到的
   cardStore
     .at(ygopro.CardZone.EXTRA, 1 - opponent)
-    .forEach((card) => (card.code = myExtraDeckCodes.pop() ?? 0));
+    .forEach((card) => (card.code = window.myExtraDeckCodes?.pop() ?? 0));
 
   if (matStore.isReplay) {
     replayStart();

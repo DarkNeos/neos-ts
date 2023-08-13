@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
-import { fetchStrings } from "@/api";
+import { fetchStrings, Region } from "@/api";
 import { matStore, replayStore, resetUniverse } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
@@ -29,12 +29,12 @@ export const EndModal: React.FC = () => {
   const onReturn = () => {
     resetUniverse();
     rs();
-    navigate("/");
+    navigate("/match");
   };
 
   return (
     <NeosModal
-      title={fetchStrings("!system", 1500)}
+      title={fetchStrings(Region.System, 1500)}
       open={isOpen}
       onOk={() => {
         if (!isReplay) {
@@ -70,7 +70,7 @@ export const EndModal: React.FC = () => {
           {isWin ? "Win" : "Defeated"}
         </p>
         <p className={styles.reason}>{reason}</p>
-        {isReplay ? <></> : <p>{fetchStrings("!system", 1340)}</p>}
+        {isReplay ? <></> : <p>{fetchStrings(Region.System, 1340)}</p>}
       </div>
     </NeosModal>
   );

@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React, { type CSSProperties, useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 
-import type { CardMeta } from "@/api";
+import { type CardMeta, Region } from "@/api";
 import {
   fetchStrings,
   getCardStr,
@@ -21,7 +21,7 @@ import {
   displayOptionModal,
   displaySimpleSelectCardsModal,
 } from "../../Message";
-import { interactTypeToString } from "../../utils";
+import { interactTypeToIcon, interactTypeToString } from "../../utils";
 import styles from "./index.module.scss";
 import {
   attack,
@@ -93,7 +93,6 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
     register(Task.Focus, async () => {
       setClassFocus(true);
-      setTimeout(() => setClassFocus(false), 1000); // TODO: 这儿为啥要这么写呢
       await focus({ card, api });
     });
 
@@ -152,6 +151,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       ([action, cards], key) => ({
         key,
         label: interactTypeToString(action),
+        icon: interactTypeToIcon(action),
         onClick: async () => {
           if (!isField) {
             // 单卡: 直接召唤/特殊召唤/...
@@ -185,11 +185,12 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     const effectItem: DropdownItem = {
       key: nonEffectItem.length,
       label: interactTypeToString(InteractType.ACTIVATE),
+      icon: interactTypeToIcon(InteractType.ACTIVATE),
       onClick: async () => {
-        let card: CardType;
+        let tmpCard: CardType;
         if (!isField) {
           // 单卡: 直接发动这个卡的效果
-          card = cards[0];
+          tmpCard = cards[0];
         } else {
           // 场地: 选择卡片
           // TODO: hint
@@ -208,11 +209,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
                 card,
               })),
           });
-          card = option[0].card! as any; // 一定会有的，有输入则定有输出
+          tmpCard = option[0].card! as any; // 一定会有的，有输入则定有输出
         }
         // 选择发动哪个效果
         handleEffectActivation(
-          card.idleInteractivities
+          tmpCard.idleInteractivities
             .filter(
               ({ interactType }) => interactType === InteractType.ACTIVATE
             )
@@ -221,13 +222,13 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
               response: x.response,
               effectCode: x.activateIndex,
             })),
-          card.meta
+          tmpCard.meta
         );
       },
     };
-    const items = [...nonEffectItem];
-    hasEffect && items.push(effectItem);
-    setDropdownMenu({ items });
+    setDropdownMenu({
+      items: [...nonEffectItem, ...(hasEffect ? [effectItem] : [])],
+    });
   };
 
   const onClick = () => {
@@ -352,7 +353,7 @@ const handleEffectActivation = (
         response: effect.response,
       };
     });
-    displayOptionModal(fetchStrings("!system", 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
+    displayOptionModal(fetchStrings(Region.System, 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
 };
 
@@ -360,7 +361,7 @@ const handleEffectActivation = (
 
 const call =
   <Options,>(task: Task) =>
-  (uuid: string, options?: Options extends {} ? Options : never) =>
+  (uuid: string, options?: Options extends undefined ? never : Options) =>
     eventbus.call(task, uuid, options);
 
 export const callCardMove = call<MoveOptions>(Task.Move);

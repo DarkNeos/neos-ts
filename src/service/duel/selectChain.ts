@@ -1,11 +1,8 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
-import { useConfig } from "@/config";
-import { fetchSelectHintMeta } from "@/stores";
+import { ChainSetting, fetchSelectHintMeta, matStore } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";
-
-const NeosConfig = useConfig();
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default async (selectChain: MsgSelectChain) => {
@@ -14,6 +11,13 @@ export default async (selectChain: MsgSelectChain) => {
   const _hint0 = selectChain.hint0;
   const _hint1 = selectChain.hint1;
   const chains = selectChain.chains;
+  const chainSetting = matStore.chainSetting;
+
+  if (chainSetting == ChainSetting.CHAIN_IGNORE) {
+    // 如果玩家配置了忽略连锁，直接回应后端并返回
+    sendSelectSingleResponse(-1);
+    return;
+  }
 
   let handle_flag = 0;
   if (!forced) {
@@ -24,7 +28,7 @@ export default async (selectChain: MsgSelectChain) => {
         // 直接回答
         handle_flag = 0;
       } else {
-        if (NeosConfig.chainALL) {
+        if (chainSetting == ChainSetting.CHAIN_ALL) {
           // 配置了全部连锁，则处理多张
           handle_flag = 2;
         } else {

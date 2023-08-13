@@ -1,3 +1,3 @@
 export * from "./groupBy";
-export * from "./interactTypeToString";
+export * from "./interactTypeToStringIcon";
 export * from "./zip";

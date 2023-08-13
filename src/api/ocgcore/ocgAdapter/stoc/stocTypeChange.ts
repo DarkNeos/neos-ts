@@ -51,6 +51,11 @@ export default class TypeChangeAdapter implements StocAdapter {
 
         break;
       }
+      case 7: {
+        selfType = ygopro.StocTypeChange.SelfType.OBSERVER;
+
+        break;
+      }
     }
 
     return new ygopro.YgoStocMsg({

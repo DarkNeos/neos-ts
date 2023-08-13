@@ -13,6 +13,7 @@ import handleSelectHand from "./mora/selectHand";
 import handleSelectTp from "./mora/selectTp";
 import handleChat from "./room/chat";
 import handleDuelStart from "./room/duelStart";
+import handleHandResult from "./room/handResult";
 import handleHsPlayerChange from "./room/hsPlayerChange";
 import handleHsPlayerEnter from "./room/hsPlayerEnter";
 import handleHsWatchChange from "./room/hsWatchChange";
@@ -65,8 +66,7 @@ export default async function handleSocketMessage(e: MessageEvent) {
       break;
     }
     case "stoc_hand_result": {
-      // TODO
-      console.log("TODO: handle STOC HandResult.");
+      handleHandResult(pb);
 
       break;
     }

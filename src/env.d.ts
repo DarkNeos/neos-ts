@@ -17,11 +17,15 @@ import { EventEmitter } from "eventemitter3";
 
 /* eslint no-var: 0 */
 declare global {
-  var myExtraDeckCodes: number[];
+  var myExtraDeckCodes: number[] = [];
   interface Console {
     color: (
       color: string,
       backgroundColor?: string
     ) => (...args: Parameters<console.log>) => void;
   }
+}
+
+declare module "react-router-dom" {
+  export declare function useLoaderData<T>(): T;
 }

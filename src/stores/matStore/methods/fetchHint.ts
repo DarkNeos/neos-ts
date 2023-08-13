@@ -1,4 +1,4 @@
-import type { ygopro } from "@/api";
+import { Region, type ygopro } from "@/api";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api";
 import { fetchCard } from "@/api/cards";
 import { cardStore } from "@/stores/cardStore";
@@ -9,7 +9,7 @@ const { hint } = matStore;
 
 export const fetchCommonHintMeta = (code: number) => {
   hint.code = code;
-  hint.msg = fetchStrings("!system", code);
+  hint.msg = fetchStrings(Region.System, code);
 };
 
 export const fetchSelectHintMeta = async ({
@@ -23,7 +23,7 @@ export const fetchSelectHintMeta = async ({
   if (selectHintData > DESCRIPTION_LIMIT) {
     // 针对`MSG_SELECT_PLACE`的特化逻辑
     const cardMeta = await fetchCard(selectHintData);
-    selectHintMeta = fetchStrings("!system", 569).replace(
+    selectHintMeta = fetchStrings(Region.System, 569).replace(
       "[%ls]",
       cardMeta.text.name || "[?]"
     );
@@ -53,7 +53,7 @@ export const fetchEsHintMeta = async ({
   const newOriginMsg =
     typeof originMsg === "string"
       ? originMsg
-      : fetchStrings("!system", originMsg);
+      : fetchStrings(Region.System, originMsg);
 
   const cardMeta = cardID ? await fetchCard(cardID) : undefined;
 

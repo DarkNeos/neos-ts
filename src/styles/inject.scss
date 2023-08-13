@@ -1,0 +1,32 @@
+// 全局修改模块内的样式，如 antd 样式、OverlayScrollbars 样式
+.ant-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 点击按钮产生的波浪扩散效果
+.ant-wave {
+  color: hsla(0, 0%, 100%, 0.3);
+}
+
+// OverlayScrollbars 样式
+.os-theme-light {
+  --os-handle-bg: rgba(255, 255, 255, 0.22);
+  --os-handle-bg-hover: rgba(255, 255, 255, 0.44);
+  --os-handle-bg-active: rgba(255, 255, 255, 0.66);
+}
+
+.ant-app {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.ant-modal-confirm-content {
+  max-width: 100% !important;
+}
+
+.ant-select-dropdown {
+  backdrop-filter: blur(10px);
+}

@@ -1,7 +1,5 @@
 import type { ygopro } from "@/api";
 
-import { NeosStore } from "../shared";
-
 // >>> play mat state >>>
 
 export interface BothSide<T> {
@@ -11,7 +9,7 @@ export interface BothSide<T> {
   of: (controller: number) => T;
 }
 
-export interface MatState extends NeosStore {
+export interface MatState {
   selfType: number;
 
   initInfo: BothSide<InitInfo> & {
@@ -19,6 +17,8 @@ export interface MatState extends NeosStore {
   }; // 双方的初始化信息
 
   chains: ygopro.CardLocation[]; // 连锁的卡片位置
+
+  chainSetting: ChainSetting; // 连锁类型
 
   timeLimits: BothSide<number> & {
     set: (controller: number, time: number) => void;
@@ -103,5 +103,11 @@ export enum HandResult {
   SCISSOR = 1,
   ROCK = 2,
   PAPER = 3,
+}
+
+export enum ChainSetting {
+  CHAIN_ALL = 0, // 打开全部时点
+  CHAIN_IGNORE = 1, // 关闭连锁时点
+  CHAIN_SMART = 2, // 只打开关键时点
 }
 // <<< play mat state <<<

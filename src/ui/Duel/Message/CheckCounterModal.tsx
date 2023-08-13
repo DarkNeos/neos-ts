@@ -4,7 +4,7 @@ import { Button, Card, Col, InputNumber, Row } from "antd";
 import React, { useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { fetchStrings, sendSelectCounterResponse } from "@/api";
+import { fetchStrings, Region, sendSelectCounterResponse } from "@/api";
 import { useConfig } from "@/config";
 
 import { NeosModal } from "./NeosModal";
@@ -33,7 +33,7 @@ export const CheckCounterModal = () => {
   const min = snapCheckCounterModal.min || 0;
   const options = snapCheckCounterModal.options;
   const counterName = fetchStrings(
-    "!counter",
+    Region.Counter,
     `0x${snapCheckCounterModal.counterType!}`
   ); // FIXME: 这里转十六进制的逻辑有问题
 

@@ -23,7 +23,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      border-radius: 2px;
+      // border-radius: 2px; // 这里好像会导致卡片分辨率降低
       overflow: hidden;
     }
     .cover {

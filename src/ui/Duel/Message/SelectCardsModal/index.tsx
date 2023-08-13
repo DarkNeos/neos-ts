@@ -3,7 +3,7 @@ import { Button, Card, Segmented, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
-import type { CardMeta, ygopro } from "@/api";
+import { type CardMeta, Region, type ygopro } from "@/api";
 import { fetchStrings } from "@/api";
 import { CardType, matStore } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
@@ -81,7 +81,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
 
   const zoneOptions = grouped.map((x) => ({
     value: x[0],
-    label: fetchStrings("!system", x[0] + 1000),
+    label: fetchStrings(Region.System, x[0] + 1000),
   }));
 
   const [selectedZone, setSelectedZone] = useState(zoneOptions[0]?.value);
@@ -91,7 +91,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   }, [selectables]);
 
   const [submitText, finishText, cancelText] = [1211, 1296, 1295].map((n) =>
-    fetchStrings("!system", n)
+    fetchStrings(Region.System, n)
   );
 
   return (
@@ -172,7 +172,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         <p>
           <span>
             {/* TODO: 这里的字体可以调整下 */}
-            {selecteds.length > 0 ? fetchStrings("!system", 212) : ""}
+            {selecteds.length > 0 ? fetchStrings(Region.System, 212) : ""}
           </span>
         </p>
         <div className={styles["check-group"]}>

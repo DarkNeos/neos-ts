@@ -4,14 +4,16 @@ import { v4 as v4uuid } from "uuid";
 const eventEmitter = new EventEmitter();
 
 export enum Task {
-  Move = "move",
-  Focus = "focus",
-  Attack = "attack",
+  Move = "move", // 卡片移动
+  Focus = "focus", // 卡片聚焦
+  Attack = "attack", // 卡片攻击
+  Mora = "mora", // 猜拳
+  Tp = "tp", // 选边
 }
 
 const getEnd = (task: Task) => `${task}-end`;
 
-/** 在组件之中注册方法 */
+/** 在组件之中注册方法，注意注册的方法一旦执行成功，必须返回一个true */
 const register = <T extends unknown[]>(
   task: Task,
   fn: (...args: T) => Promise<boolean>
@@ -42,4 +44,8 @@ const call = (task: Task, ...args: any[]) =>
 export const eventbus = {
   call,
   register,
+  on: eventEmitter.on.bind(eventEmitter),
+  off: eventEmitter.off.bind(eventEmitter),
+  once: eventEmitter.once.bind(eventEmitter),
+  emit: eventEmitter.emit.bind(eventEmitter),
 };

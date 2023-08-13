@@ -1,0 +1,50 @@
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 12px 0 32px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  .item-name {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    flex-basis: 80px;
+    vertical-align: middle;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding: 50px 0 10px;
+  & > button {
+    width: 220px;
+    border-radius: 3px;
+  }
+}
+
+.number {
+  width: 100%;
+  display: flex;
+  & > * {
+    flex: 1;
+  }
+  .divider {
+    flex: 0;
+    flex-basis: 32px;
+    text-align: center;
+    line-height: 30px;
+  }
+}

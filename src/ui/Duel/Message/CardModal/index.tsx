@@ -3,7 +3,7 @@ import { Divider, Drawer, Space, Tag } from "antd";
 import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { type CardMeta, fetchStrings } from "@/api";
+import { type CardMeta, fetchStrings, Region } from "@/api";
 import { YgoCard } from "@/ui/Shared";
 
 import {
@@ -99,13 +99,16 @@ const AttLine = (props: {
   attribute?: number;
 }) => {
   const race = props.race
-    ? fetchStrings("!system", Race2StringCodeMap.get(props.race) || 0)
+    ? fetchStrings(Region.System, Race2StringCodeMap.get(props.race) || 0)
     : undefined;
   const attribute = props.attribute
-    ? fetchStrings("!system", Attribute2StringCodeMap.get(props.attribute) || 0)
+    ? fetchStrings(
+        Region.System,
+        Attribute2StringCodeMap.get(props.attribute) || 0
+      )
     : undefined;
   const types = props.types
-    .map((t) => fetchStrings("!system", Type2StringCodeMap.get(t) || 0))
+    .map((t) => fetchStrings(Region.System, Type2StringCodeMap.get(t) || 0))
     .join("/");
   return (
     <div className={styles.attline}>
@@ -135,7 +138,7 @@ const _CounterLine = (props: { counters: { [type: number]: number } }) => {
   for (const counterType in props.counters) {
     const count = props.counters[counterType];
     if (count > 0) {
-      const counterStr = fetchStrings("!counter", `0x${counterType}`);
+      const counterStr = fetchStrings(Region.Counter, `0x${counterType}`);
       counters.push(`${counterStr}: ${count}`);
     }
   }

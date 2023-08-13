@@ -5,7 +5,7 @@ import { ygopro } from "@/api";
 import { matStore } from "@/stores";
 
 import type { Interactivity } from "./matStore/types";
-import { NeosStore } from "./shared";
+import { type NeosStore } from "./shared";
 
 export type PlaceInteractivity =
   | Interactivity<{

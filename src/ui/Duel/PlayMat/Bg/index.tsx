@@ -129,8 +129,11 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
 
 const DecoTriangles: React.FC = () => (
   <>
-    {Array.from({ length: 4 }).map((_, i) => (
-      <div className={styles.triangle} key={i} />
+    {Array.from({ length: 2 }).map((_, i) => (
+      <div className={styles.triangle} key={i}>
+        <div className={styles["triangle-atom"]} />
+        <div className={styles["triangle-atom"]} />
+      </div>
     ))}
   </>
 );

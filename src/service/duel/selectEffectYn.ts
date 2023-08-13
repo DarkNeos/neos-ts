@@ -1,4 +1,4 @@
-import { fetchStrings, ygopro } from "@/api";
+import { fetchStrings, Region, type ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
 import { displayYesNoModal } from "@/ui/Duel/Message";
 
@@ -19,7 +19,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
         ) => {
           const desc1 = desc.replace(
             `[%ls]`,
-            fetchStrings("!system", cardLocation.zone + 1000)
+            fetchStrings(Region.System, cardLocation.zone + 1000)
           );
           const desc2 = desc1.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc2;
@@ -31,7 +31,7 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
 
   // TODO: 国际化文案
 
-  const desc = fetchStrings("!system", effect_description);
+  const desc = fetchStrings(Region.System, effect_description);
   const meta = await fetchCard(code);
   await displayYesNoModal(textGenerator(desc, meta, location));
 };

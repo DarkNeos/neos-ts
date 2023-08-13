@@ -1,0 +1,14 @@
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .input {
+    font-size: 18px;
+    font-family: var(--theme-font);
+    color: #2885fff2;
+    height: 50px;
+    margin: 4px;
+  }
+}

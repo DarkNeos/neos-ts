@@ -1,6 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
-import { eventbus, Task } from "@/infra";
 import { cardStore, fetchEsHintMeta, matStore } from "@/stores";
+import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   fetchEsHintMeta({
@@ -27,7 +27,7 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
     target.meta = meta;
 
     // 发动效果动画
-    await eventbus.call(Task.Focus, target.uuid);
+    await callCardFocus(target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);
   } else {
     console.warn(`<Chaining>target from ${location} is null`);

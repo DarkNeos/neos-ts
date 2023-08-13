@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://www.neos.moe">
-     <img src="https://avatars.githubusercontent.com/u/110732697?s=400&u=d33638f1e89dfb41395a47004fe211fcf219444d&v=4" height="128">
+  <a href="https://neos.moecube.com">
+     <img src="./neos-assets/neos-logo.svg" height="128">
     <h1 align="center">Neos</h1>
   </a>
 </p>
@@ -24,10 +24,18 @@ Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written
 
 ## ✨ Features
 
-- 🎮 [Play online](https://neos.moecube.com) with the [ygopro](https://mycard.moe) client or neos itself
-- 🌍 Play with LAN connection
-- 🤖️ Duel with AI
-- 📹 Replay play the duel from [ygopro2](https://mycard.moe)
+- **[WIP]Competitive Match**
+  - Match online with players from around the world, and your ranking will be displayed in real-time on the leaderboard.
+- **[WIP]Entertainment Match**
+  - Battle with any deck, set aside victory or defeat for now, and fully enjoy the pleasure of the duel.
+- **Single Mode**
+  - Engage in duels with AI, validate your deck, or simply pass the time.
+- **Custom Room**
+  - Create a custom duel room to easily battle with friends, or even host a competitive tournament.
+- **Replay**
+  - Freely review past duels and savor those thrilling moments of reversal.
+- **Deck Editing**
+  - Create and edit decks, choose from tens of thousands of cards, and assemble a unique build.
 
 ## 📦Quick Start
 See the [player guide](https://doc.neos.moe/docs/category/%E7%8E%A9%E5%AE%B6%E6%8C%87%E5%8D%97) for details.
