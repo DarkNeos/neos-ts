@@ -3,15 +3,15 @@ import {
   DeleteOutlined,
   DownloadOutlined,
   FileAddOutlined,
-  InboxOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import { App, Button, Dropdown, MenuProps, Upload, UploadProps } from "antd";
+import { App, Button, Dropdown, MenuProps, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
 import YGOProDeck from "ygopro-deck-encode";
 
 import { deckStore, IDeck } from "@/stores";
 
+import { Uploader } from "../Shared";
 import styles from "./DeckSelect.module.scss";
 
 export const DeckSelect: React.FC<{
@@ -211,18 +211,11 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
   };
 
   return (
-    <div>
-      <Upload.Dragger
-        {...uploadProps}
-        style={{ width: "100%", margin: "20px 0 10px" }}
-      >
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">单击或拖动文件到此区域进行上传</p>
-        <p className="ant-upload-hint">仅支持后缀名为ydk的卡组文件。</p>
-      </Upload.Dragger>
-    </div>
+    <Uploader
+      {...uploadProps}
+      text="单击或拖动文件到此区域进行上传"
+      hint="仅支持后缀名为ydk的卡组文件。"
+    />
   );
 };
 
