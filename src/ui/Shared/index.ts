@@ -6,4 +6,5 @@ export * from "./Loading";
 export * from "./Scrollbar";
 export * from "./Select";
 export * from "./SpecialButton";
+export * from "./Uploader";
 export * from "./YgoCard";

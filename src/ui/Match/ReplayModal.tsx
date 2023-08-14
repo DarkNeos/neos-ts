@@ -1,11 +1,11 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Upload, UploadProps } from "antd";
+import { Button, message, Modal, UploadProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { matStore } from "@/stores";
 
+import { Uploader } from "../Shared";
 import { init } from "./util";
 
 const localStore = proxy({
@@ -22,6 +22,7 @@ export const ReplayModal: React.FC = () => {
     onChange(info) {
       info.file.status = "done";
     },
+    accept: ".yrp3d",
     beforeUpload(file, _) {
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
@@ -78,9 +79,11 @@ export const ReplayModal: React.FC = () => {
       }
       onCancel={() => (localStore.open = false)}
     >
-      <Upload {...uploadProps}>
-        <Button icon={<UploadOutlined />}>点击上传录像文件</Button>
-      </Upload>
+      <Uploader
+        {...uploadProps}
+        text="单击或拖动文件到此区域进行上传"
+        hint="仅支持后缀名为yrp3d的录像文件。"
+      />
     </Modal>
   );
 };
