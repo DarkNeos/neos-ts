@@ -17,9 +17,9 @@ export default (data: Uint8Array) => {
   const target_location = reader.readCardLocation();
 
   if (
-    target_location.controller == 0 &&
-    target_location.zone == 0 &&
-    target_location.sequence == 0
+    target_location.controller === 0 &&
+    target_location.zone === 0 &&
+    target_location.sequence === 0
   ) {
     // 全零表示直接攻击玩家
     return new MsgAttack({

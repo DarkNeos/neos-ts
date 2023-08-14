@@ -218,7 +218,7 @@ const chunkItems = <T>(items: T[]) =>
 export function _cutoff_name(data: Uint8Array): Uint8Array {
   let res: number[] = [];
   for (const char of chunkItems(Array.from(data))) {
-    if (!char.every((item) => item == 0)) {
+    if (!char.every((item) => item === 0)) {
       res = res.concat(char);
     } else {
       break;

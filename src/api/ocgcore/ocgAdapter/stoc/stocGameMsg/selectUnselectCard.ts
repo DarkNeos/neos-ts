@@ -13,8 +13,8 @@ export default (data: Uint8Array) => {
   const reader = new BufferReaderExt(data);
 
   const player = reader.inner.readUint8();
-  const finishable = reader.inner.readUint8() != 0;
-  const cancelable = reader.inner.readUint8() != 0;
+  const finishable = reader.inner.readUint8() !== 0;
+  const cancelable = reader.inner.readUint8() !== 0;
   const min = reader.inner.readUint8();
   const max = reader.inner.readUint8();
 

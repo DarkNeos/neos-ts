@@ -186,7 +186,7 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
     name: "file",
     multiple: true,
     onChange(info) {
-      if (uploadState != "ERROR") {
+      if (uploadState !== "ERROR") {
         info.file.status = "done";
       }
     },

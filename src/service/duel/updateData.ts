@@ -23,7 +23,7 @@ export default async (updateData: MsgUpdateData) => {
 
           const meta = target.meta;
           if (action.location !== undefined) {
-            if (target.location.position != action.location.position) {
+            if (target.location.position !== action.location.position) {
               // Currently only update position
               target.location.position = action.location.position;
               // animation

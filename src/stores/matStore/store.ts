@@ -28,7 +28,7 @@ export const isMe = (controller: number): boolean => {
     default:
       // 自己是观战者
       // 这里假设偶数方的玩家是自己
-      return controller % 2 == 0;
+      return controller % 2 === 0;
   }
 };
 

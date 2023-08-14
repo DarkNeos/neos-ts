@@ -4,7 +4,7 @@ import { InteractType, placeStore } from "@/stores";
 type MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 
 export default (selectPlace: MsgSelectPlace) => {
-  if (selectPlace.count != 1) {
+  if (selectPlace.count !== 1) {
     console.warn(`Unhandled case: ${selectPlace}`);
     return;
   }

@@ -8,8 +8,8 @@ import { asyncStart } from "./utils";
 export const focus = async (props: { card: CardType; api: SpringApi }) => {
   const { card, api } = props;
   if (
-    card.location.zone == ygopro.CardZone.HAND ||
-    card.location.zone == ygopro.CardZone.DECK
+    card.location.zone === ygopro.CardZone.HAND ||
+    card.location.zone === ygopro.CardZone.DECK
   ) {
     const current = { ...api.current[0].get() };
     await asyncStart(api)({

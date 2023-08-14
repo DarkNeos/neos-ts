@@ -7,11 +7,11 @@ import MsgShuffleSetCard = ygopro.StocGameMessage.MsgShuffleSetCard;
 export default async (shuffleSetCard: MsgShuffleSetCard) => {
   const from_locations = shuffleSetCard.from_locations;
   const overlay_locations = shuffleSetCard.overlay_locations;
-  if (from_locations.length == 0) {
+  if (from_locations.length === 0) {
     console.error("<ShuffleSetCard>from_locations is empty");
     return;
   }
-  if (from_locations.length != overlay_locations.length) {
+  if (from_locations.length !== overlay_locations.length) {
     console.error(
       "<ShuffleSetCard>length of from_locations and overlay_locations not matched",
     );

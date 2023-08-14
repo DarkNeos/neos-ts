@@ -27,7 +27,7 @@ const helper = async (
 ) => {
   const controller = location.controller;
   const newID =
-    code != 0
+    code !== 0
       ? code
       : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
   const meta = await fetchCard(newID);
