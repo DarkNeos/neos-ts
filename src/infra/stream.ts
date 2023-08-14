@@ -27,7 +27,8 @@ export class WebSocketStream {
         };
         ws.onclose = () => {
           console.info("Websocket closed.");
-          controller.close();
+          // 下面这行注释掉，因为虽然websocket关掉了，但是已经收到的数据可能还在处理中
+          // controller.close();
         };
       },
       pull(_) {
