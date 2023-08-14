@@ -4,12 +4,12 @@
 
   .result {
     font-size: 30px;
-    font-family: cursive;
+    font-family: var(--theme-font);
     color: var(--text-color);
   }
 
   .reason {
     font-size: 20px;
-    font-family: "Gill Sans", sans-serif;
+    font-family: var(--theme-font);
   }
 }
