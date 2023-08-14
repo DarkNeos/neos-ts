@@ -15,7 +15,7 @@ export default function handleSocketOpen(
   ws: WebSocket | undefined,
   _ip: string,
   player: string,
-  passWd: string
+  passWd: string,
 ) {
   console.log("WebSocket opened.");
 

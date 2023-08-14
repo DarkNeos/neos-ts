@@ -28,6 +28,6 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   await Promise.all(
     cardStore
       .at(ygopro.CardZone.HAND, draw.player)
-      .map((card) => callCardMove(card.uuid))
+      .map((card) => callCardMove(card.uuid)),
   );
 };

@@ -71,7 +71,7 @@ export default async (selectChain: MsgSelectChain) => {
         selectHintData: 203,
       });
       const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
-        chains
+        chains,
       );
       await displaySelectActionsModal({
         isChain: true,

@@ -72,7 +72,7 @@ class PenetrateManager {
 
   private readRepeatedField(
     reader: BufferReaderExt,
-    repeatedType: string
+    repeatedType: string,
   ): any {
     const handler = this.readFieldHandlerMap.get(repeatedType);
 

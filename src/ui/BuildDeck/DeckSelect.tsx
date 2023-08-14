@@ -53,7 +53,7 @@ export const DeckSelect: React.FC<{
       maskClosable: true,
       onOk: async () => {
         const results = await Promise.all(
-          newDeck.current.map((deck) => deckStore.add(deck))
+          newDeck.current.map((deck) => deckStore.add(deck)),
         );
         newDeck.current = [];
         if (results.length)

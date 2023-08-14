@@ -29,7 +29,7 @@ export default (data: Uint8Array) => {
         code,
         location,
         response: i,
-      })
+      }),
     );
   }
 

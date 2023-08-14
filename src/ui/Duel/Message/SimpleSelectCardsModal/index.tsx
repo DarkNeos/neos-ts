@@ -35,12 +35,12 @@ export const SimpleSelectCardsModal: React.FC = () => {
 let rs: (options: Snapshot<Option[]>) => void = () => {};
 
 export const displaySimpleSelectCardsModal = async (
-  args: Omit<typeof defaultProps, "isOpen">
+  args: Omit<typeof defaultProps, "isOpen">,
 ) => {
   localStore.selectables = args.selectables;
   localStore.isOpen = true;
   const res = await new Promise<Snapshot<Option[]>>(
-    (resolve) => (rs = resolve)
+    (resolve) => (rs = resolve),
   ); // 等待在组件内resolve
   localStore.isOpen = false;
   return res;

@@ -33,7 +33,7 @@ export default (data: Uint8Array) => {
         code,
         location,
         counter_count: counterCount,
-      })
+      }),
     );
   }
 

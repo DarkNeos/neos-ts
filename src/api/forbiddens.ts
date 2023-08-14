@@ -28,14 +28,14 @@ export async function initForbiddens(): Promise<void> {
 
 // 获取禁限信息
 export async function getForbiddenInfo(
-  id: number
+  id: number,
 ): Promise<number | undefined> {
   return await get(id, idb);
 }
 
 // 解析函数，提取卡片编号和限制张数
 function parseCardInfo(
-  input: string
+  input: string,
 ): { cardId: number; limitCount: number } | null {
   const match = input.match(/^(\d+)\s+(\d+)\s+--/);
   if (match) {

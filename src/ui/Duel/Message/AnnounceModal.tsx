@@ -65,7 +65,7 @@ export const AnnounceModal = () => {
 let rs: (arg?: any) => void = () => {};
 
 export const displayAnnounceModal = async (
-  args: Omit<AnnounceModalProps, "isOpen">
+  args: Omit<AnnounceModalProps, "isOpen">,
 ) => {
   Object.entries(args).forEach(([key, value]) => {
     // @ts-ignore

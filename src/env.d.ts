@@ -21,7 +21,7 @@ declare global {
   interface Console {
     color: (
       color: string,
-      backgroundColor?: string
+      backgroundColor?: string,
     ) => (...args: Parameters<console.log>) => void;
   }
 }

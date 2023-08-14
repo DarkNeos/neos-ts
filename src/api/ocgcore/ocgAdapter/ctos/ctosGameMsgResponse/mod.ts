@@ -68,7 +68,7 @@ export default class CtosResponsePacket extends YgoProPacket {
       }
       case "select_counter_response": {
         extraData = adaptSelectCounterResponse(
-          response.select_counter_response
+          response.select_counter_response,
         );
 
         break;

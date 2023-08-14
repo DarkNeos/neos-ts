@@ -45,7 +45,7 @@ export default (data: Uint8Array) => {
               controller,
               zone,
               sequence: sequence,
-            })
+            }),
           );
         }
       }
@@ -63,7 +63,7 @@ export default (data: Uint8Array) => {
               controller,
               zone,
               sequence,
-            })
+            }),
           );
         }
       }
@@ -80,7 +80,7 @@ export default (data: Uint8Array) => {
             controller,
             zone,
             sequence: 6,
-          })
+          }),
         );
       }
 
@@ -90,7 +90,7 @@ export default (data: Uint8Array) => {
             controller,
             zone,
             sequence: 7,
-          })
+          }),
         );
       }
     }

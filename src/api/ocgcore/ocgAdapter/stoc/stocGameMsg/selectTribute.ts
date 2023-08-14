@@ -37,7 +37,7 @@ export default (data: Uint8Array) => {
         location,
         level,
         response: i,
-      })
+      }),
     );
   }
 

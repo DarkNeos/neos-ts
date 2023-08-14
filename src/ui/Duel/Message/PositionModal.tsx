@@ -19,7 +19,7 @@ const localStore = proxy<PositionModalProps>(defaultProps);
 export const PositionModal = () => {
   const { isOpen, positions } = useSnapshot(localStore);
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
-    undefined
+    undefined,
   );
 
   return (
@@ -84,7 +84,7 @@ function cardPositionToChinese(position: ygopro.CardPosition): string {
 let rs: (arg?: any) => void = () => {};
 
 export const displayPositionModal = async (
-  positions: ygopro.CardPosition[]
+  positions: ygopro.CardPosition[],
 ) => {
   localStore.positions = positions;
   localStore.isOpen = true;

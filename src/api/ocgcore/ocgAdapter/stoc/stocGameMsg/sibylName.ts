@@ -16,7 +16,7 @@ export default (data: Uint8Array) => {
   const name_0 = cutString(decoder.decode(data.slice(offset, offset + LEN)));
   offset += LEN;
   const name_0_tag = cutString(
-    decoder.decode(data.slice(offset, offset + LEN))
+    decoder.decode(data.slice(offset, offset + LEN)),
   );
   offset += LEN;
   const name_0_c = cutString(decoder.decode(data.slice(offset, offset + LEN)));
@@ -24,7 +24,7 @@ export default (data: Uint8Array) => {
   const name_1 = cutString(decoder.decode(data.slice(offset, offset + LEN)));
   offset += LEN;
   const name_1_tag = cutString(
-    decoder.decode(data.slice(offset, offset + LEN))
+    decoder.decode(data.slice(offset, offset + LEN)),
   );
   offset += LEN;
   const name_1_c = cutString(decoder.decode(data.slice(offset, offset + LEN)));

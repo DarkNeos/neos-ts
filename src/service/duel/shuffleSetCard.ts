@@ -13,7 +13,7 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
   }
   if (from_locations.length != overlay_locations.length) {
     console.error(
-      "<ShuffleSetCard>length of from_locations and overlay_locations not matched"
+      "<ShuffleSetCard>length of from_locations and overlay_locations not matched",
     );
   }
 
@@ -39,7 +39,7 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
         for (const overlay of cardStore.findOverlay(
           from.zone,
           from.controller,
-          from.sequence
+          from.sequence,
         )) {
           // 更新sequence
           overlay.location.sequence = overlay_location.sequence;
@@ -48,6 +48,6 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
           // 这里其实有个疑惑，如果超量素材也跟着洗切的话，洗切的意义好像就没有了，感觉算是个k社没想好的设计？
         }
       }
-    })
+    }),
   );
 };

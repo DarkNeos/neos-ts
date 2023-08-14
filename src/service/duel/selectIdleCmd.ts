@@ -40,7 +40,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
           });
         } else {
           console.warn(
-            `target from zone=${location}, controller=${player}, sequence=${sequence} is null`
+            `target from zone=${location}, controller=${player}, sequence=${sequence} is null`,
           );
         }
       } else {
@@ -54,7 +54,7 @@ export default (selectIdleCmd: MsgSelectIdleCmd) => {
 };
 
 function idleTypeToInteractType(
-  idleType: MsgSelectIdleCmd.IdleCmd.IdleType
+  idleType: MsgSelectIdleCmd.IdleCmd.IdleType,
 ): InteractType | undefined {
   switch (idleType) {
     case MsgSelectIdleCmd.IdleCmd.IdleType.SUMMON: {

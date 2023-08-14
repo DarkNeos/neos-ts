@@ -11,7 +11,7 @@ export default async (sortCard: MsgSortCard) => {
         meta,
         response: response!,
       };
-    })
+    }),
   );
   await displaySortCardModal(options);
 };

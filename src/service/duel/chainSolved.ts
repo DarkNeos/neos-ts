@@ -23,7 +23,7 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     }
   } else {
     console.warn(
-      `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`
+      `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`,
     );
   }
 };

@@ -29,7 +29,7 @@ export const CardDetail: React.FC<{
       extraCardTypes(card?.data.type ?? 0)
         .map((t) => fetchStrings(Region.System, Type2StringCodeMap.get(t) || 0))
         .join(" / "),
-    [card?.data.type]
+    [card?.data.type],
   );
   return (
     <div className={classNames(styles.detail, { [styles.open]: open })}>
@@ -59,7 +59,7 @@ export const CardDetail: React.FC<{
               <Descriptions.Item label="属性">
                 {fetchStrings(
                   Region.System,
-                  Attribute2StringCodeMap.get(card?.data.attribute ?? 0) || 0
+                  Attribute2StringCodeMap.get(card?.data.attribute ?? 0) || 0,
                 )}
               </Descriptions.Item>
             )}
@@ -67,7 +67,7 @@ export const CardDetail: React.FC<{
               <Descriptions.Item label="种族" span={2}>
                 {fetchStrings(
                   Region.System,
-                  Race2StringCodeMap.get(card?.data.race ?? 0) || 0
+                  Race2StringCodeMap.get(card?.data.race ?? 0) || 0,
                 )}
               </Descriptions.Item>
             )}

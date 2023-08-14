@@ -23,7 +23,7 @@ const helper = async (
   mustSelects: Option[],
   selectables: Option[],
   selected?: boolean,
-  mustSelect?: boolean
+  mustSelect?: boolean,
 ) => {
   const controller = location.controller;
   const newID =
@@ -63,7 +63,7 @@ export const fetchCheckCardMeta = async (
     effect_description?: number;
   }[],
   selected?: boolean,
-  mustSelect?: boolean
+  mustSelect?: boolean,
 ) => {
   const selecteds: Option[] = [];
   const mustSelects: Option[] = [];
@@ -75,7 +75,7 @@ export const fetchCheckCardMeta = async (
       mustSelects,
       selectables,
       selected,
-      mustSelect
+      mustSelect,
     ); // TODO: 研究下改成并行
   }
   return { selecteds, mustSelects, selectables };

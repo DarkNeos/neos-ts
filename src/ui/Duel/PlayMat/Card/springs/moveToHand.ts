@@ -31,7 +31,7 @@ export const moveToHand: MoveFunc = async (props) => {
   const THETA =
     2 *
     Math.atan(
-      hand_card_width / 2 / (HAND_CIRCLE_CENTER_OFFSET_Y + HAND_CARD_HEIGHT)
+      hand_card_width / 2 / (HAND_CIRCLE_CENTER_OFFSET_Y + HAND_CARD_HEIGHT),
     ) *
     0.9;
   // 接下来计算每一张手卡

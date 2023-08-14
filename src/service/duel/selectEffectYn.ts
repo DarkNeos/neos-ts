@@ -15,11 +15,11 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
       ? (
           desc: string,
           cardMeta: CardMeta,
-          cardLocation: ygopro.CardLocation
+          cardLocation: ygopro.CardLocation,
         ) => {
           const desc1 = desc.replace(
             `[%ls]`,
-            fetchStrings(Region.System, cardLocation.zone + 1000)
+            fetchStrings(Region.System, cardLocation.zone + 1000),
           );
           const desc2 = desc1.replace(`[%ls]`, cardMeta.text.name || "[?]");
           return desc2;

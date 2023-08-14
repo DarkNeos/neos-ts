@@ -66,7 +66,7 @@ export default (data: Uint8Array) => {
 };
 
 function _readUpdateAction(
-  reader: BufferReaderExt
+  reader: BufferReaderExt,
 ): MsgUpdateData.Action | undefined {
   const flag = reader.inner.readInt32();
   if (flag == 0) return undefined;

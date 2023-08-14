@@ -43,7 +43,7 @@ export default (data: Uint8Array) => {
         location,
         effect_description: effect_desc,
         response: i,
-      })
+      }),
     );
   }
 

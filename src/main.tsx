@@ -30,7 +30,7 @@ import { theme } from "@/ui/theme";
 import { NeosRouter } from "./ui/NeosRouter";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 root.render(
@@ -40,5 +40,5 @@ root.render(
         <NeosRouter />
       </ProConfigProvider>
     </App>
-  </ConfigProvider>
+  </ConfigProvider>,
 );

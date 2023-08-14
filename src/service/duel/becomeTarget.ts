@@ -6,7 +6,7 @@ export default (becomeTarget: ygopro.StocGameMessage.MsgBecomeTarget) => {
     const target = cardStore.at(
       location.zone,
       location.controller,
-      location.sequence
+      location.sequence,
     );
     if (target) {
       console.info(`${target.meta.text.name} become target`);

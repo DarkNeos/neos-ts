@@ -54,7 +54,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusOpacity: 1,
         subZ: 0,
         opacity: 1,
-      } satisfies SpringApiProps)
+      }) satisfies SpringApiProps,
   );
 
   // 每张卡都需要移动到初始位置
@@ -76,7 +76,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   const register = <T extends any[]>(
     task: Task,
-    fn: (...args: T) => Promise<unknown>
+    fn: (...args: T) => Promise<unknown>,
   ) => {
     eventbus.register(task, async (uuid, ...rest: T) => {
       if (uuid === card.uuid) {
@@ -108,7 +108,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   useEffect(() => {
     setGrowing(
       !!idleInteractivities.length &&
-        [MZONE, SZONE, HAND, TZONE].includes(card.location.zone)
+        [MZONE, SZONE, HAND, TZONE].includes(card.location.zone),
     );
   }, [idleInteractivities]);
 
@@ -142,7 +142,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
     }
     const actions = [...map.entries()];
     const nonEffectActions = actions.filter(
-      ([action]) => action !== InteractType.ACTIVATE
+      ([action]) => action !== InteractType.ACTIVATE,
     );
     const getNonEffectResponse = (action: InteractType, card: CardType) =>
       card.idleInteractivities.find((item) => item.interactType === action)!
@@ -170,17 +170,17 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
             sendSelectIdleCmdResponse(option[0].response!);
           }
         },
-      })
+      }),
     );
     const hasEffect =
       cards.reduce(
         (prev, acc) => [
           ...prev,
           ...acc.idleInteractivities.filter(
-            ({ interactType }) => interactType === InteractType.ACTIVATE
+            ({ interactType }) => interactType === InteractType.ACTIVATE,
           ),
         ],
-        [] as Interactivity<number>[]
+        [] as Interactivity<number>[],
       ).length > 0;
     const effectItem: DropdownItem = {
       key: nonEffectItem.length,
@@ -200,8 +200,9 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
               .filter(
                 (card) =>
                   card.idleInteractivities.find(
-                    ({ interactType }) => interactType === InteractType.ACTIVATE
-                  ) !== undefined
+                    ({ interactType }) =>
+                      interactType === InteractType.ACTIVATE,
+                  ) !== undefined,
               )
               .map((card) => ({
                 meta: card.meta,
@@ -215,14 +216,14 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         handleEffectActivation(
           tmpCard.idleInteractivities
             .filter(
-              ({ interactType }) => interactType === InteractType.ACTIVATE
+              ({ interactType }) => interactType === InteractType.ACTIVATE,
             )
             .map((x) => ({
               desc: interactTypeToString(x.interactType),
               response: x.response,
               effectCode: x.activateIndex,
             })),
-          tmpCard.meta
+          tmpCard.meta,
         );
       },
     };
@@ -242,7 +243,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       const overlayMaterials = cardStore.findOverlay(
         card.location.zone,
         card.location.controller,
-        card.location.sequence
+        card.location.sequence,
       );
       if (overlayMaterials.length > 0) {
         displayCardListModal({
@@ -279,7 +280,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           transform: to(
             [spring.x, spring.y, spring.z, spring.rx, spring.ry, spring.rz],
             (x, y, z, rx, ry, rz) =>
-              `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`
+              `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`,
           ),
           "--z": spring.z,
           "--sub-z": spring.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
@@ -335,7 +336,7 @@ type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
 
 const handleEffectActivation = (
   effectInteractivies: Interactivy[],
-  meta?: CardMeta
+  meta?: CardMeta,
 ) => {
   if (!effectInteractivies.length) return;
   else if (effectInteractivies.length === 1) {

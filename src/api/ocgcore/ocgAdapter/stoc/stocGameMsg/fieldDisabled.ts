@@ -24,7 +24,7 @@ export default (data: Uint8Array) => {
         zone: CardZone.MZONE,
         sequence: i,
         disabled,
-      })
+      }),
     );
   }
 
@@ -37,7 +37,7 @@ export default (data: Uint8Array) => {
         zone: CardZone.SZONE,
         sequence: i,
         disabled,
-      })
+      }),
     );
   }
 
@@ -50,7 +50,7 @@ export default (data: Uint8Array) => {
         zone: CardZone.MZONE,
         sequence: i,
         disabled,
-      })
+      }),
     );
   }
 
@@ -63,7 +63,7 @@ export default (data: Uint8Array) => {
         zone: CardZone.SZONE,
         sequence: i,
         disabled,
-      })
+      }),
     );
   }
 

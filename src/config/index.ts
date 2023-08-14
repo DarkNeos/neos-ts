@@ -7,4 +7,4 @@ export const useConfig = () =>
     automation: automationConfig,
     defaults: defaultsConfig,
     ...envConfig,
-  } satisfies Record<string, unknown>);
+  }) satisfies Record<string, unknown>;

@@ -59,13 +59,13 @@ function getFtsCondtions(conditions: FtsConditions): string {
   const atkCondition = atk
     ? `atk BETWEEN ${handleFinite(atk.min, "min")} AND ${handleFinite(
         atk.max,
-        "max"
+        "max",
       )} AND ${assertMonster}`
     : undefined;
   const defCondition = def
     ? `def BETWEEN ${handleFinite(def.min, "min")} AND ${handleFinite(
         def.max,
-        "max"
+        "max",
       )} AND ${assertMonster}`
     : undefined;
   const raceCondition = races?.map((race) => `race = ${race}`).join(" OR ");

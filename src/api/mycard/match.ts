@@ -9,7 +9,7 @@ export interface MatchInfo {
 export async function match(
   username: string,
   extraId: number,
-  arena: string = "entertain"
+  arena: string = "entertain",
 ): Promise<MatchInfo | undefined> {
   const headers = { Authorization: "Basic " + btoa(username + ":" + extraId) };
   let response: Response | undefined = undefined;

@@ -27,16 +27,16 @@ export default async (shuffleHandExtra: MsgShuffleHandExtra) => {
           await callCardMove(card.uuid);
         } else {
           console.warn(
-            `<ShuffleHandExtra>sequence poped is none, controller=${controller}, code=${card.code}, sequence=${sequence}`
+            `<ShuffleHandExtra>sequence poped is none, controller=${controller}, code=${card.code}, sequence=${sequence}`,
           );
         }
       } else {
         console.warn(
           `<ShuffleHandExtra>target from records is null, controller=${controller}, cards=${cards.map(
-            (card) => card.code
-          )}, codes=${codes}`
+            (card) => card.code,
+          )}, codes=${codes}`,
         );
       }
-    })
+    }),
   );
 };

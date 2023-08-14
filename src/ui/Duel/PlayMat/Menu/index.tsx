@@ -61,7 +61,7 @@ export const Menu = () => {
     phase: PhaseType,
     label: string,
     response: number,
-    show: boolean
+    show: boolean,
   ][] = [
     [PhaseType.DRAW, "抽卡阶段", -1, true],
     [PhaseType.STANDBY, "准备阶段", -1, true],
@@ -122,7 +122,7 @@ export const Menu = () => {
       onClick: () => {
         matStore.chainSetting = key;
       },
-    })
+    }),
   );
 
   const surrenderMenuItems: MenuProps["items"] = [
@@ -176,7 +176,7 @@ export const Menu = () => {
 };
 
 const DropdownWithTitle: React.FC<DropdownProps & { title?: string }> = (
-  props
+  props,
 ) => {
   const { token } = useToken();
   const contentStyle = {

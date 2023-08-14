@@ -54,7 +54,7 @@ class PlaceStore implements NeosStore {
     zone: ygopro.CardZone.MZONE | ygopro.CardZone.SZONE,
     controller: number,
     sequence: number,
-    state: BlockState
+    state: BlockState,
   ) {
     placeStore.inner[zone][matStore.isMe(controller) ? "me" : "op"][sequence] =
       state;
@@ -63,7 +63,7 @@ class PlaceStore implements NeosStore {
     (["me", "op"] as const).forEach((who) => {
       ([MZONE, SZONE] as const).forEach((where) => {
         placeStore.inner[where][who].forEach(
-          (block) => (block.interactivity = undefined)
+          (block) => (block.interactivity = undefined),
         );
       });
     });

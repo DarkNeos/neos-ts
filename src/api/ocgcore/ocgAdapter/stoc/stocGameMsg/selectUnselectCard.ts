@@ -32,7 +32,7 @@ export default (data: Uint8Array) => {
     const location = reader.readCardLocation();
 
     msg.selectable_cards.push(
-      new MsgSelectUnselectCard.Info({ code, location, response: i })
+      new MsgSelectUnselectCard.Info({ code, location, response: i }),
     );
   }
 
@@ -42,7 +42,7 @@ export default (data: Uint8Array) => {
     const location = reader.readCardLocation();
 
     msg.selected_cards.push(
-      new MsgSelectUnselectCard.Info({ code, location, response: i })
+      new MsgSelectUnselectCard.Info({ code, location, response: i }),
     );
   }
 

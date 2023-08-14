@@ -24,7 +24,7 @@ const RegexWrapper: React.FC<{
   const matches = text.match(re);
   if (!matches) return <>{text}</>;
   const sepRe = new RegExp(
-    matches?.reduce((acc, cur) => `${acc}|${cur}`) ?? ""
+    matches?.reduce((acc, cur) => `${acc}|${cur}`) ?? "",
   );
   const parts = text.split(sepRe);
   return (

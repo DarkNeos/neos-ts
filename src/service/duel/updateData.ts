@@ -51,7 +51,7 @@ export default async (updateData: MsgUpdateData) => {
           // TODO: counters
         } else {
           console.warn(
-            `<UpdateData>target from zone=${zone}, controller=${controller}, sequence=${sequence} is null`
+            `<UpdateData>target from zone=${zone}, controller=${controller}, sequence=${sequence} is null`,
           );
           console.info(field);
         }

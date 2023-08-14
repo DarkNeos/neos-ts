@@ -3,7 +3,7 @@ import { BufferWriter } from "rust-src";
 import { ygopro } from "../../../idl/ocgcore";
 
 export default (
-  response: ygopro.CtosGameMsgResponse.SelectBattleCmdResponse
+  response: ygopro.CtosGameMsgResponse.SelectBattleCmdResponse,
 ) => {
   const writer = new BufferWriter();
 

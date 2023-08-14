@@ -18,7 +18,7 @@ const NeosConfig = useConfig();
 export const Component: React.FC = () => {
   const serverList = NeosConfig.servers;
   const [server, setServer] = useState(
-    `${serverList[0].ip}:${serverList[0].port}`
+    `${serverList[0].ip}:${serverList[0].port}`,
   );
   const { decks } = useSnapshot(deckStore);
   const [deck, setDeck] = useState<IDeck>(JSON.parse(JSON.stringify(decks[0])));

@@ -8,6 +8,6 @@ export default async (win: MsgWin) => {
 
   await displayEndModal(
     matStore.isMe(win_player),
-    fetchStrings(Region.Victory, `0x${reason.toString(16)}`)
+    fetchStrings(Region.Victory, `0x${reason.toString(16)}`),
   );
 };

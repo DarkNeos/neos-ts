@@ -59,7 +59,7 @@ export const HintNotification = () => {
     if (meHand !== HandResult.UNKNOWN && opHand !== HandResult.UNKNOWN) {
       notify.open({
         message: `{我方出示${getHandResultText(
-          meHand
+          meHand,
         )}，对方出示${getHandResultText(opHand)}}`,
         placement: "topLeft",
         style: style,
@@ -71,7 +71,7 @@ export const HintNotification = () => {
     if (currentPhase) {
       const message = fetchStrings(
         Region.System,
-        Phase2StringCodeMap.get(currentPhase) ?? 0
+        Phase2StringCodeMap.get(currentPhase) ?? 0,
       );
       notify.open({
         message,
@@ -79,7 +79,7 @@ export const HintNotification = () => {
         style: style,
       });
       console.color("DeepPink")(
-        `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`
+        `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`,
       );
     }
   }, [currentPhase]);

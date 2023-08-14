@@ -3,7 +3,7 @@ console.color =
   (...args: any[]) => {
     console.log(
       `%c${args.join(" ")}`,
-      `color: ${color}; backgroundColor: ${backgroundColor ?? "none"}`
+      `color: ${color}; backgroundColor: ${backgroundColor ?? "none"}`,
     );
   };
 

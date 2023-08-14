@@ -230,7 +230,7 @@ export default class GameMsgAdapter implements StocAdapter {
         case GAME_MSG.MSG_TOSS_COIN: {
           gameMsg.toss = MsgTossAdapter(
             gameData,
-            ygopro.StocGameMessage.MsgToss.TossType.COIN
+            ygopro.StocGameMessage.MsgToss.TossType.COIN,
           );
 
           break;
@@ -238,7 +238,7 @@ export default class GameMsgAdapter implements StocAdapter {
         case GAME_MSG.MSG_TOSS_DICE: {
           gameMsg.toss = MsgTossAdapter(
             gameData,
-            ygopro.StocGameMessage.MsgToss.TossType.DICE
+            ygopro.StocGameMessage.MsgToss.TossType.DICE,
           );
 
           break;
@@ -261,7 +261,7 @@ export default class GameMsgAdapter implements StocAdapter {
         case GAME_MSG.MSG_SHUFFLE_HAND: {
           gameMsg.shuffle_hand_extra = MsgShuffleHandExtraAdapter(
             gameData,
-            false
+            false,
           );
 
           break;
@@ -269,7 +269,7 @@ export default class GameMsgAdapter implements StocAdapter {
         case GAME_MSG.MSG_SHUFFLE_EXTRA: {
           gameMsg.shuffle_hand_extra = MsgShuffleHandExtraAdapter(
             gameData,
-            true
+            true,
           );
 
           break;

@@ -104,7 +104,7 @@ const AttLine = (props: {
   const attribute = props.attribute
     ? fetchStrings(
         Region.System,
-        Attribute2StringCodeMap.get(props.attribute) || 0
+        Attribute2StringCodeMap.get(props.attribute) || 0,
       )
     : undefined;
   const types = props.types
@@ -153,7 +153,7 @@ const _CounterLine = (props: { counters: { [type: number]: number } }) => {
 };
 
 export const showCardModal = (
-  card: Partial<Pick<typeof store, "meta" | "counters">>
+  card: Partial<Pick<typeof store, "meta" | "counters">>,
 ) => {
   store.isOpen = true;
   store.meta = card?.meta ?? defaultStore.meta;

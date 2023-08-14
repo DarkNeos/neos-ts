@@ -25,7 +25,7 @@ export default (data: Uint8Array) => {
     const location = reader.readCardLocation();
 
     msg.cards.push(
-      new MsgSelectCard.SelectAbleCard({ code, location, response: i })
+      new MsgSelectCard.SelectAbleCard({ code, location, response: i }),
     );
   }
 
