@@ -41,14 +41,17 @@ export const compareCards = (a: CardMeta, b: CardMeta): number => {
 
 /** 生成ydk格式的卡组文本 */
 function genYdkText(deck: IDeck): string {
-  const lines: string[] = [];
-  lines.push("#created by neos");
-  lines.push("#main");
-  lines.push(...deck.main.map((cardId) => cardId.toString()));
-  lines.push("#extra");
-  lines.push(...deck.extra.map((cardId) => cardId.toString()));
-  lines.push("!side");
-  lines.push(...deck.side.map((cardId) => cardId.toString()));
+  const { main, extra, side } = deck;
+
+  const lines = [
+    "#created by neos",
+    "#main",
+    ...main.map((cardId) => cardId.toString()),
+    "#extra",
+    ...extra.map((cardId) => cardId.toString()),
+    "!side",
+    ...side.map((cardId) => cardId.toString()),
+  ];
   return lines.join("\n");
 }
 

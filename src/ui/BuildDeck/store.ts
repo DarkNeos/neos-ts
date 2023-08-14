@@ -42,35 +42,38 @@ export const editDeckStore = proxy({
   },
   /** 一张卡能不能放入某个区 */
   canAdd(card: CardMeta, type: Type): { result: boolean; reason: string } {
+    const deckType = editDeckStore[type];
+    const cardType = card.data.type ?? 0;
+
     let result = true,
       reason = "";
-    const initialCards = editDeckStore[type];
-    // 如果是衍生物，则不能添加
-    if (isToken(card.data.type ?? 0)) {
+
+    if (isToken(cardType)) {
       result = false;
       reason = "不能添加衍生物";
     }
-    // 超出数量，则不能添加
+
     const countLimit = type === "main" ? 60 : 15;
-    if (initialCards.length >= countLimit) {
+    if (deckType.length >= countLimit) {
       result = false;
       reason = `超过 ${countLimit} 张的上限`;
     }
-    // 接着需要检查卡的种类
+
     if (
-      (type === "extra" && !isExtraDeckCard(card.data.type ?? 0)) ||
-      (type === "main" && isExtraDeckCard(card.data.type ?? 0))
+      (type === "extra" && !isExtraDeckCard(cardType)) ||
+      (type === "main" && isExtraDeckCard(cardType))
     ) {
       result = false;
       reason = "卡片种类不符合";
     }
-    // 同名卡不超过三张
+
     const maxSameCard = 3; // TODO: 禁卡表
-    const sameCardCount = initialCards.filter((c) => c.id === card.id).length;
+    const sameCardCount = deckType.filter((c) => c.id === card.id).length;
     if (sameCardCount >= maxSameCard) {
       result = false;
       reason = `超过同名卡 ${maxSameCard} 张的上限`;
     }
+
     return { result, reason };
   },
 }) satisfies EditingDeck;
