@@ -1,5 +1,7 @@
 // 此文件目的是在js和CSS之间共享一些变量，并且这些变量是0运行时的。
-type CSSConfig = Record<string, [number, UNIT]>;
+interface CSSConfig {
+  readonly [key: string]: [number, UNIT];
+}
 
 /** 转为CSS变量: BOARD_ROTATE_Z -> --board-rotate-z */
 const toCssProperties = (config: CSSConfig) =>
