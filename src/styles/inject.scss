@@ -1,5 +1,9 @@
 // 全局修改模块内的样式，如 antd 样式、OverlayScrollbars 样式
-.ant-btn {
+/*
+* FIXME: 由于修改后modal里面的footer按钮位置会很奇怪，
+* 因此这里先全局修改非`ant-modal-footer`下面的按钮样式，后面回来改
+ */
+.ant-btn:not(.ant-modal-footer .ant-btn) {
   display: flex;
   align-items: center;
   justify-content: center;
