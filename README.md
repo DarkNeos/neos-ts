@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://neos.moecube.com">
      <img src="./neos-assets/neos-logo.svg" height="128">
-    <h1 align="center">Neos</h1>
+    <h1 align="center">NEOS</h1>
   </a>
 </p>
 
