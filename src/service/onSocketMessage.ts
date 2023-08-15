@@ -90,7 +90,7 @@ export default async function handleSocketMessage(e: MessageEvent) {
       break;
     }
     case "stoc_error_msg": {
-      handleErrorMsg(pb.stoc_error_msg);
+      await handleErrorMsg(pb.stoc_error_msg);
       break;
     }
     default: {
