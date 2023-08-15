@@ -105,6 +105,10 @@
   position: relative;
   background-size: contain;
   content-visibility: auto;
+  transition: 0.1s;
+  &:hover {
+    filter: brightness(0.9);
+  }
   .cardname {
     font-size: 12px;
     position: absolute;
@@ -123,7 +127,6 @@
   }
   .cardcover {
     position: relative;
-    // z-index: 1;
   }
 }
 

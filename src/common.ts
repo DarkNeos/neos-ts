@@ -145,6 +145,11 @@ export function isLinkMonster(typeCode: number): boolean {
   return (typeCode & TYPE_LINK) > 0;
 }
 
+/** 判断是灵摆怪兽 */
+export function isPendulumMonster(typeCode: number): boolean {
+  return (typeCode & TYPE_PENDULUM) > 0;
+}
+
 // 属性
 // const ATTRIBUTE_ALL = 0x7f; //
 const ATTRIBUTE_EARTH = 0x01; //

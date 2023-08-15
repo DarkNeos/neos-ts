@@ -3,10 +3,10 @@
   font-size: 14px;
   max-height: calc(100% - 237px);
   font-family: var(--theme-font);
+  white-space: pre-wrap;
 
   .maro-item {
     display: flex;
-    margin-top: 8px;
-    gap: 6px;
+    gap: 8px;
   }
 }

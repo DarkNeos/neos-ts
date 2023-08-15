@@ -72,5 +72,3 @@ function addSpaces(str: string): string {
   const regex = /\d+/g;
   return str.replace(regex, (match) => ` ${match} `);
 }
-
-// function removePendulumPrefix(str: string): string {}
