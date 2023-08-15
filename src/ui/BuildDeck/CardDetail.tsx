@@ -10,6 +10,7 @@ import {
   isMonster,
   Race2StringCodeMap,
   Type2StringCodeMap,
+  isPendulumMonster,
 } from "@/common";
 import { CardEffectText, IconFont, ScrollableArea, YgoCard } from "@/ui/Shared";
 
@@ -31,6 +32,14 @@ export const CardDetail: React.FC<{
         .join(" / "),
     [card?.data.type],
   );
+  const desc = useMemo(
+    () =>
+      isPendulumMonster(card?.data.type ?? 0)
+        ? processPendulumString(card?.text.desc ?? "")
+        : [card?.text.desc],
+    [card?.text.desc],
+  );
+
   return (
     <div className={classNames(styles.detail, { [styles.open]: open })}>
       <div className={styles.container}>
@@ -40,7 +49,9 @@ export const CardDetail: React.FC<{
           type="text"
           onClick={onClose}
         />
-        <YgoCard className={styles.card} code={code} />
+        <a href={`https://ygocdb.com/card/${code}`} target="_blank">
+          <YgoCard className={styles.card} code={code} />
+        </a>
         <div className={styles.title}>
           <span>{card?.text.name}</span>
           {/* <Avatar size={22}>光</Avatar> */}
@@ -87,12 +98,31 @@ export const CardDetail: React.FC<{
             )}
           </Descriptions>
           <Descriptions layout="vertical" size="small">
-            <Descriptions.Item label="卡片效果" span={3}>
-              <CardEffectText desc={card?.text.desc} />
-            </Descriptions.Item>
+            {desc.filter(Boolean).map((d, i) => (
+              <Descriptions.Item
+                label={
+                  desc.length > 1 ? (i ? "怪兽效果" : "灵摆效果") : "卡片效果"
+                }
+                span={3}
+                key={i}
+              >
+                <CardEffectText desc={d} />
+              </Descriptions.Item>
+            ))}
           </Descriptions>
         </ScrollableArea>
       </div>
     </div>
   );
 };
+
+function processPendulumString(input: string): string[] {
+  // 删除形如“← ... →”的结构
+  const withoutArrows = input.replace(/←.*?→/g, "");
+
+  // 以 "【怪兽效果】" 作为分隔符切割字符串
+  const splitStrings = withoutArrows.split("【怪兽效果】");
+
+  // 返回切割后的字符串列表
+  return splitStrings.map((s) => s.trim());
+}

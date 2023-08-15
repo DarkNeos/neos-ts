@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url("https://fonts.font.im/css2?family=Electrolize&display=swap");
+@import url("https://fonts.font.im/css2?family=Electrolize&family=Noto+Serif+SC:wght@700&display=swap");
 
 body {
   color-scheme: dark;
@@ -16,6 +16,7 @@ body {
   right: 0;
   font-family: var(--theme-font);
   --theme-font: "Electrolize", sans-serif;
+  --nato-serif-font: "Noto Serif SC", serif;
   --header-height: 56px;
   #root {
     height: 100%;
