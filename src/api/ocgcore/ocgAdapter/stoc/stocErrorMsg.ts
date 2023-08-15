@@ -20,13 +20,10 @@ export default class ErrorMsg implements StocAdapter {
     const reader = new BufferReader(this.packet.exData);
 
     const errorType = reader.readUint8();
-    let errorCode = 0;
-    if (errorType != 3) {
-      reader.readUint8();
-      reader.readUint8();
-      reader.readUint8();
-      errorCode = reader.readInt32();
-    }
+    reader.readUint8();
+    reader.readUint8();
+    reader.readUint8();
+    const errorCode = reader.readInt32();
 
     return new ygopro.YgoStocMsg({
       stoc_error_msg: new ygopro.StocErrorMsg({
