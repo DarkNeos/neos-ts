@@ -29,7 +29,7 @@ export const matchStore = proxy<Props>(defaultProps);
 export const MatchModal: React.FC = ({}) => {
   const { open } = useSnapshot(matchStore);
   const { user } = useSnapshot(accountStore);
-  const { joined } = useSnapshot(roomStore);
+  const { joined, errorMsg } = useSnapshot(roomStore);
   const [player, setPlayer] = useState(user?.name ?? defaultPlayer);
   const [passwd, setPasswd] = useState(defaultPassword);
   const [server, setServer] = useState(
@@ -66,6 +66,15 @@ export const MatchModal: React.FC = ({}) => {
       navigate(`/waitroom`);
     }
   }, [joined]);
+
+  useEffect(() => {
+    // 出现错误
+    if (errorMsg !== undefined && errorMsg !== "") {
+      alert(errorMsg);
+      setConfirmLoading(false);
+      roomStore.errorMsg = undefined;
+    }
+  }, [errorMsg]);
 
   return (
     <Modal
