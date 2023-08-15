@@ -4,6 +4,7 @@ import {
   STOC_CHAT,
   STOC_DECK_COUNT,
   STOC_DUEL_START,
+  STOC_ERROR_MSG,
   STOC_GAME_MSG,
   STOC_HAND_RESULT,
   STOC_HS_PLAYER_CHANGE,
@@ -18,6 +19,7 @@ import {
 import StocChat from "./stoc/stocChat";
 import StocDeckCount from "./stoc/stocDeckCount";
 import StocDuelStart from "./stoc/stocDuelStart";
+import StocErrorMsg from "./stoc/stocErrorMsg";
 import StocGameMsg from "./stoc/stocGameMsg/mod";
 import StocHandResult from "./stoc/stocHandResult";
 import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
@@ -41,37 +43,30 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
   switch (packet.proto) {
     case STOC_JOIN_GAME: {
       pb = new StocJoinGame(packet).upcast();
-
       break;
     }
     case STOC_CHAT: {
       pb = new StocChat(packet).upcast();
-
       break;
     }
     case STOC_HS_PLAYER_ENTER: {
       pb = new StocHsPlayerEnter(packet).upcast();
-
       break;
     }
     case STOC_HS_PLAYER_CHANGE: {
       pb = new StocHsPlayerChange(packet).upcast();
-
       break;
     }
     case STOC_HS_WATCH_CHANGE: {
       pb = new StocHsWatchChange(packet).upcast();
-
       break;
     }
     case STOC_TYPE_CHANGE: {
       pb = new StocTypeChange(packet).upcast();
-
       break;
     }
     case STOC_SELECT_HAND: {
       pb = new StocSelectHand(packet).upcast();
-
       break;
     }
     case STOC_SELECT_TP: {
@@ -80,27 +75,26 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_HAND_RESULT: {
       pb = new StocHandResult(packet).upcast();
-
       break;
     }
     case STOC_DECK_COUNT: {
       pb = new StocDeckCount(packet).upcast();
-
       break;
     }
     case STOC_DUEL_START: {
       pb = new StocDuelStart(packet).upcast();
-
       break;
     }
     case STOC_GAME_MSG: {
       pb = new StocGameMsg(packet).upcast();
-
       break;
     }
     case STOC_TIME_LIMIT: {
       pb = new StocTimeLimit(packet).upcast();
-
+      break;
+    }
+    case STOC_ERROR_MSG: {
+      pb = new StocErrorMsg(packet).upcast();
       break;
     }
     default: {

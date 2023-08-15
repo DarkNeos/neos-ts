@@ -13,6 +13,7 @@ import handleSelectHand from "./mora/selectHand";
 import handleSelectTp from "./mora/selectTp";
 import handleChat from "./room/chat";
 import handleDuelStart from "./room/duelStart";
+import handleErrorMsg from "./room/errorMsg";
 import handleHandResult from "./room/handResult";
 import handleHsPlayerChange from "./room/hsPlayerChange";
 import handleHsPlayerEnter from "./room/hsPlayerEnter";
@@ -32,57 +33,46 @@ export default async function handleSocketMessage(e: MessageEvent) {
   switch (pb.msg) {
     case "stoc_join_game": {
       handleJoinGame(pb);
-
       break;
     }
     case "stoc_chat": {
       handleChat(pb);
-
       break;
     }
     case "stoc_hs_player_change": {
       handleHsPlayerChange(pb);
-
       break;
     }
     case "stoc_hs_watch_change": {
       handleHsWatchChange(pb);
-
       break;
     }
     case "stoc_hs_player_enter": {
       handleHsPlayerEnter(pb);
-
       break;
     }
     case "stoc_type_change": {
       handleTypeChange(pb);
-
       break;
     }
     case "stoc_select_hand": {
       handleSelectHand(pb);
-
       break;
     }
     case "stoc_hand_result": {
       handleHandResult(pb);
-
       break;
     }
     case "stoc_select_tp": {
       handleSelectTp(pb);
-
       break;
     }
     case "stoc_deck_count": {
       handleDeckCount(pb);
-
       break;
     }
     case "stoc_duel_start": {
       handleDuelStart(pb);
-
       break;
     }
     case "stoc_game_msg": {
@@ -97,7 +87,10 @@ export default async function handleSocketMessage(e: MessageEvent) {
     }
     case "stoc_time_limit": {
       handleTimeLimit(pb.stoc_time_limit);
-
+      break;
+    }
+    case "stoc_error_msg": {
+      handleErrorMsg(pb.stoc_error_msg);
       break;
     }
     default: {
