@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://neos.moecube.com">
      <img src="./neos-assets/neos-logo.svg" height="128">
-    <h1 align="center">Neos</h1>
+    <h1 align="center">NEOS</h1>
   </a>
 </p>
 
@@ -12,9 +12,6 @@
   </a>
   <a aria-label="React" href="https://reactjs.org/">
     <img alt="" src="https://img.shields.io/badge/react.js-%5E18.2.0-yellow?style=for-the-badge&logo=react">
-  </a>
-  <a aria-label="Babylon.js" href="https://github.com/BabylonJS/Babylon.js">
-    <img alt="" src="https://img.shields.io/badge/babylon.js-%5E5.29.0-red?style=for-the-badge&logo=github">
   </a>
   <a aria-label="License" href="https://github.com/DarkNeos/neos-ts/blob/main/LICENSE">
     <img alt="" src="https://img.shields.io/github/license/DarkNeos/neos-ts?color=&style=for-the-badge">
