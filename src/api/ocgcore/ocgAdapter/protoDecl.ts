@@ -30,6 +30,7 @@ export const STOC_DECK_COUNT = 9;
 export const STOC_DUEL_START = 21;
 export const STOC_GAME_MSG = 1;
 export const STOC_TIME_LIMIT = 24;
+export const STOC_ERROR_MSG = 2;
 
 export const MSG_START = 4;
 export const MSG_DRAW = 90;
