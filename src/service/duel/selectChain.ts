@@ -13,7 +13,7 @@ export default async (selectChain: MsgSelectChain) => {
   const chains = selectChain.chains;
   const chainSetting = matStore.chainSetting;
 
-  if (chainSetting == ChainSetting.CHAIN_IGNORE) {
+  if (chainSetting === ChainSetting.CHAIN_IGNORE) {
     // 如果玩家配置了忽略连锁，直接回应后端并返回
     sendSelectSingleResponse(-1);
     return;
@@ -28,7 +28,7 @@ export default async (selectChain: MsgSelectChain) => {
         // 直接回答
         handle_flag = 0;
       } else {
-        if (chainSetting == ChainSetting.CHAIN_ALL) {
+        if (chainSetting === ChainSetting.CHAIN_ALL) {
           // 配置了全部连锁，则处理多张
           handle_flag = 2;
         } else {
@@ -71,7 +71,7 @@ export default async (selectChain: MsgSelectChain) => {
         selectHintData: 203,
       });
       const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
-        chains
+        chains,
       );
       await displaySelectActionsModal({
         isChain: true,

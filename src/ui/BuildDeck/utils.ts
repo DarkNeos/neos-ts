@@ -13,7 +13,7 @@ export interface EditingDeck {
 }
 
 export const iDeckToEditingDeck = async (
-  ideck: IDeck
+  ideck: IDeck,
 ): Promise<EditingDeck> => ({
   deckName: ideck.deckName,
   main: await Promise.all(ideck.main.map(fetchCard)),

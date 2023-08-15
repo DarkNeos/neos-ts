@@ -4,7 +4,7 @@ export async function pfetch(
   options?: {
     init?: RequestInit;
     progressCallback?: (progress: number) => void;
-  }
+  },
 ): Promise<Response> {
   const response = await fetch(input, options?.init);
   const clonedResponse = response.clone(); // Clone the response to create a new body stream
@@ -12,7 +12,7 @@ export async function pfetch(
   if (typeof options?.progressCallback === "function") {
     const contentLength = parseInt(
       response.headers.get("content-length") || "0",
-      10
+      10,
     );
     let bytesRead = 0;
 

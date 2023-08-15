@@ -218,7 +218,7 @@ const Search: React.FC = () => {
     types: [],
   };
   const [searchConditions, setSearchConditions] = useState<FtsConditions>(
-    emptySearchConditions
+    emptySearchConditions,
   );
   const [searchResult, setSearchResult] = useState<CardMeta[]>([]);
 
@@ -236,7 +236,7 @@ const Search: React.FC = () => {
     return () =>
       setSortRef(
         (a: CardMeta, b: CardMeta) =>
-          ((a.data?.[key] ?? 0) - (b.data?.[key] ?? 0)) * scale
+          ((a.data?.[key] ?? 0) - (b.data?.[key] ?? 0)) * scale,
       );
   };
 
@@ -409,7 +409,7 @@ const DeckZone: React.FC<{
     },
     hover: ({ value, source }) => {
       setAllowToDrop(
-        type !== source ? editDeckStore.canAdd(value, type).result : true
+        type !== source ? editDeckStore.canAdd(value, type).result : true,
       );
     },
     collect: (monitor) => ({

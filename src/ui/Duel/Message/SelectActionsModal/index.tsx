@@ -69,7 +69,7 @@ export const SelectActionsModal: React.FC = () => {
 let rs: (v?: any) => void = () => {};
 
 export const displaySelectActionsModal = async (
-  args: Partial<Omit<typeof defaultProps, "isOpen">>
+  args: Partial<Omit<typeof defaultProps, "isOpen">>,
 ) => {
   resetSelectActionsModal(); // 先重置为初始状态
   Object.entries(args).forEach(([key, value]) => {

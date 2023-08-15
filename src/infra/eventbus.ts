@@ -16,14 +16,14 @@ const getEnd = (task: Task) => `${task}-end`;
 /** 在组件之中注册方法，注意注册的方法一旦执行成功，必须返回一个true */
 const register = <T extends unknown[]>(
   task: Task,
-  fn: (...args: T) => Promise<boolean>
+  fn: (...args: T) => Promise<boolean>,
 ) => {
   eventEmitter.on(
     task,
     async ({ taskId, args }: { taskId: string; args: T }) => {
       const result = await fn(...args);
       if (result) eventEmitter.emit(getEnd(task), taskId);
-    }
+    },
   );
 };
 

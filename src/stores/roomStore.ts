@@ -36,7 +36,7 @@ export enum RoomStage {
 class RoomStore implements NeosStore {
   joined: boolean = false; // 是否已经加入房间
   players: (Player | undefined)[] = Array.from({ length: 4 }).map(
-    (_) => undefined
+    (_) => undefined,
   ); // 进入房间的玩家列表
   observerCount: number = 0; // 观战者数量
   isHost: boolean = false; // 当前玩家是否是房主

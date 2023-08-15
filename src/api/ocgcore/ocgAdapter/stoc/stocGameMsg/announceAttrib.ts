@@ -24,7 +24,7 @@ export default (data: Uint8Array) => {
         new MsgAnnounce.Option({
           code: i,
           response: 1 << i,
-        })
+        }),
       );
     }
   }

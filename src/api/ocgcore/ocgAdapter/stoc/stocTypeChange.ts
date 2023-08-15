@@ -17,7 +17,7 @@ export default class TypeChangeAdapter implements StocAdapter {
 
   upcast(): ygopro.YgoStocMsg {
     const type_ = new DataView(this.packet.exData.buffer).getUint8(0);
-    const isHost = ((type_ >> 4) & 0xf) != 0;
+    const isHost = ((type_ >> 4) & 0xf) !== 0;
 
     let selfType = ygopro.StocTypeChange.SelfType.UNKNOWN;
     switch (type_ & 0xf) {

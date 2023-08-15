@@ -34,7 +34,7 @@ export const CheckCounterModal = () => {
   const options = snapCheckCounterModal.options;
   const counterName = fetchStrings(
     Region.Counter,
-    `0x${snapCheckCounterModal.counterType!}`
+    `0x${snapCheckCounterModal.counterType!}`,
   ); // FIXME: 这里转十六进制的逻辑有问题
 
   const [selected, setSelected] = useState(new Array(options.length));
@@ -93,7 +93,7 @@ export const CheckCounterModal = () => {
 let rs: (arg?: any) => void = () => {};
 
 export const displayCheckCounterModal = async (
-  args: Omit<CheckCounterModalProps, "isOpen">
+  args: Omit<CheckCounterModalProps, "isOpen">,
 ) => {
   Object.entries(args).forEach(([key, value]) => {
     // @ts-ignore

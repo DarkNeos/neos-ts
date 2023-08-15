@@ -43,7 +43,7 @@ const Icon: React.FC<{ type: string; size?: number }> = ({
 
 export function interactTypeToIcon(
   t: InteractType,
-  position?: CardPosition
+  position?: CardPosition,
 ): JSX.Element {
   switch (t) {
     case InteractType.POS_CHANGE:

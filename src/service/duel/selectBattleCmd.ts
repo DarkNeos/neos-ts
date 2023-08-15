@@ -41,7 +41,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
           });
         } else {
           console.warn(
-            `<selectBattleCmd>target from zone=${location}, player=${player}, sequence=${sequence} is null`
+            `<selectBattleCmd>target from zone=${location}, player=${player}, sequence=${sequence} is null`,
           );
         }
       } else {
@@ -54,7 +54,7 @@ export default (selectBattleCmd: MsgSelectBattleCmd) => {
 };
 
 function battleTypeToInteracType(
-  battleType: MsgSelectBattleCmd.BattleCmd.BattleType
+  battleType: MsgSelectBattleCmd.BattleCmd.BattleType,
 ): InteractType | undefined {
   switch (battleType) {
     case MsgSelectBattleCmd.BattleCmd.BattleType.ATTACK: {

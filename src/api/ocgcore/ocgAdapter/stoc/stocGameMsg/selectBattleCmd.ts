@@ -44,7 +44,7 @@ export default (data: Uint8Array) => {
     const directAttackAble = reader.inner.readUint8();
     const attackData = new MsgSelectBattleCmd.BattleCmd.BattleData({
       card_info: cardInfo,
-      direct_attackable: directAttackAble == 1,
+      direct_attackable: directAttackAble === 1,
       response: (i << 16) + 1,
     });
     attackCmd.battle_datas.push(attackData);
@@ -53,9 +53,9 @@ export default (data: Uint8Array) => {
   msg.battle_cmds = [activateCmd, attackCmd];
 
   // 是否可进入M2阶段
-  msg.enable_m2 = reader.inner.readUint8() == 1;
+  msg.enable_m2 = reader.inner.readUint8() === 1;
   //时是否可结束回合
-  msg.enable_ep = reader.inner.readUint8() == 1;
+  msg.enable_ep = reader.inner.readUint8() === 1;
 
   return msg;
 };

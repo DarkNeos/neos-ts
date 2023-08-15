@@ -2,8 +2,6 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "plugin:prettier/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
     "plugin:valtio/recommended"
   ],
   "plugins": [
@@ -11,17 +9,20 @@
     "simple-import-sort"
   ],
   "rules": {
-    "eqeqeq": 0,
-    "no-var": "error",
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn",
+    "eqeqeq": "warn",
     "@typescript-eslint/consistent-type-definitions": [
       "error",
       "interface"
     ],
-    "simple-import-sort/imports": "warn",
-    "simple-import-sort/exports": "warn",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
-      "error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
     ]
   },
   "settings": {
@@ -30,5 +31,7 @@
       "typescript": true
     }
   },
-  "ignorePatterns": ["src/api/ocgcore/idl/ocgcore.ts"]
+  "ignorePatterns": [
+    "src/api/ocgcore/idl/ocgcore.ts"
+  ]
 }

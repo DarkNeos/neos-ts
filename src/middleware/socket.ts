@@ -44,7 +44,7 @@ export default async function (action: socketAction) {
       const { initInfo: info, isReplay, replayInfo } = action;
       if (info) {
         ws = new WebSocketStream(info.ip, (conn, _event) =>
-          handleSocketOpen(conn, info.ip, info.player, info.passWd)
+          handleSocketOpen(conn, info.ip, info.player, info.passWd),
         );
 
         await ws.execute(handleSocketMessage);

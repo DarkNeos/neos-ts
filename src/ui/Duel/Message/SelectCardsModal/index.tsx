@@ -65,7 +65,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
     const [sumLevel1, sumLevel2] = (["level1", "level2"] as const).map((key) =>
       [...mustSelects, ...result]
         .map((option) => option[key] || 0)
-        .reduce((sum, current) => sum + current, 0)
+        .reduce((sum, current) => sum + current, 0),
     );
     const levelMatched = overflow
       ? sumLevel1 >= totalLevels || sumLevel2 >= totalLevels
@@ -73,7 +73,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
     setSubmitable(
       single
         ? result.length === 1
-        : result.length >= min && result.length <= max && levelMatched
+        : result.length >= min && result.length <= max && levelMatched,
     );
   }, [result.length]);
 
@@ -91,7 +91,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   }, [selectables]);
 
   const [submitText, finishText, cancelText] = [1211, 1296, 1295].map((n) =>
-    fetchStrings(Region.System, n)
+    fetchStrings(Region.System, n),
   );
 
   return (
@@ -167,7 +167,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                   ))}
                 </CheckCard.Group>
               </div>
-            )
+            ),
         )}
         <p>
           <span>

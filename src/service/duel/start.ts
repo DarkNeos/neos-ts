@@ -69,9 +69,9 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
           },
           isToken: !((i + 1) % 3),
           selected: false,
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   cardStore.inner.push(...cards);

@@ -11,7 +11,7 @@ export default async (selectCard: MsgSelectCard) => {
   // TODO: handle release_param
 
   const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
-    cards
+    cards,
   );
   await displaySelectActionsModal({
     cancelable,

@@ -36,7 +36,7 @@ export const YgoCard: React.FC<Props> = (props) => {
         onLoad={onLoad}
       />
     ),
-    [code]
+    [code],
   );
 };
 

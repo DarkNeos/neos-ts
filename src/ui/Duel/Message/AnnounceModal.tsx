@@ -35,7 +35,7 @@ export const AnnounceModal = () => {
       open={isOpen}
       footer={
         <Button
-          disabled={selected.length != min}
+          disabled={selected.length !== min}
           onClick={() => {
             let response = selected.reduce((res, current) => res | current, 0); // 多个选择求或
             sendSelectOptionResponse(response);
@@ -65,7 +65,7 @@ export const AnnounceModal = () => {
 let rs: (arg?: any) => void = () => {};
 
 export const displayAnnounceModal = async (
-  args: Omit<AnnounceModalProps, "isOpen">
+  args: Omit<AnnounceModalProps, "isOpen">,
 ) => {
   Object.entries(args).forEach(([key, value]) => {
     // @ts-ignore

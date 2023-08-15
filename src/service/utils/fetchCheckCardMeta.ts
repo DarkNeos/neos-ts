@@ -23,11 +23,11 @@ const helper = async (
   mustSelects: Option[],
   selectables: Option[],
   selected?: boolean,
-  mustSelect?: boolean
+  mustSelect?: boolean,
 ) => {
   const controller = location.controller;
   const newID =
-    code != 0
+    code !== 0
       ? code
       : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
   const meta = await fetchCard(newID);
@@ -63,7 +63,7 @@ export const fetchCheckCardMeta = async (
     effect_description?: number;
   }[],
   selected?: boolean,
-  mustSelect?: boolean
+  mustSelect?: boolean,
 ) => {
   const selecteds: Option[] = [];
   const mustSelects: Option[] = [];
@@ -75,7 +75,7 @@ export const fetchCheckCardMeta = async (
       mustSelects,
       selectables,
       selected,
-      mustSelect
+      mustSelect,
     ); // TODO: 研究下改成并行
   }
   return { selecteds, mustSelects, selectables };

@@ -50,7 +50,7 @@ export default (data: Uint8Array) => {
   try {
     while (true) {
       const len = reader.inner.readInt32();
-      if (len == 4) continue;
+      if (len === 4) continue;
       const pos = reader.inner.offset();
       const action = _readUpdateAction(reader);
       if (action) {
@@ -66,10 +66,10 @@ export default (data: Uint8Array) => {
 };
 
 function _readUpdateAction(
-  reader: BufferReaderExt
+  reader: BufferReaderExt,
 ): MsgUpdateData.Action | undefined {
   const flag = reader.inner.readInt32();
-  if (flag == 0) return undefined;
+  if (flag === 0) return undefined;
 
   const mask = -1;
   let code = mask;

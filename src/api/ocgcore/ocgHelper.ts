@@ -273,7 +273,7 @@ export function sendSelectBattleCmdResponse(value: number) {
       select_battle_cmd: new ygopro.CtosGameMsgResponse.SelectBattleCmdResponse(
         {
           selected_cmd: value,
-        }
+        },
       ),
     }),
   });

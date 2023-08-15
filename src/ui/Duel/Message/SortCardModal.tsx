@@ -50,7 +50,7 @@ export const SortCardModal = () => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const onFinish = () => {

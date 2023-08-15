@@ -19,7 +19,7 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
           "<HsPlayerChange>Player " +
             change.pos +
             " moved to " +
-            change.moved_pos
+            change.moved_pos,
         );
         roomStore.players[change.moved_pos] = roomStore.players[change.pos];
         roomStore.players[change.pos] = undefined;

@@ -44,7 +44,7 @@ export class YgoProPacket {
     try {
       if (array.byteLength < PACKET_MIN_LEN) {
         throw new Error(
-          "Packet length too short, length = " + array.byteLength
+          "Packet length too short, length = " + array.byteLength,
         );
       }
     } catch (e) {

@@ -11,7 +11,7 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
   const attacker = cardStore.at(
     attack.attacker_location.zone,
     attack.attacker_location.controller,
-    attack.attacker_location.sequence
+    attack.attacker_location.sequence,
   );
 
   if (attacker) {

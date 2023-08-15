@@ -19,7 +19,7 @@ export default (data: Uint8Array) => {
   const _field = ~reader.readUint32();
 
   // TODO: 暂时和`ygopro2`一样不支持取消操作，后续需要再考虑加上
-  if (count == 0) {
+  if (count === 0) {
     count = 1;
   }
 
@@ -30,67 +30,67 @@ export default (data: Uint8Array) => {
   });
 
   for (let i = 0; i < 2; i++) {
-    const controller = i == 0 ? player : 1 - player;
-    const field = i == 0 ? _field & 0xffff : _field >> 16;
+    const controller = i === 0 ? player : 1 - player;
+    const field = i === 0 ? _field & 0xffff : _field >> 16;
 
-    if ((field & 0x7f) != 0) {
+    if ((field & 0x7f) !== 0) {
       // 怪兽区
       const zone = ygopro.CardZone.MZONE;
       const filter = field & 0x7f;
 
       for (let sequence = 0; sequence < 7; sequence++) {
-        if ((filter & (1 << sequence)) != 0) {
+        if ((filter & (1 << sequence)) !== 0) {
           msg.places.push(
             new MsgSelectPlace.SelectAblePlace({
               controller,
               zone,
               sequence: sequence,
-            })
+            }),
           );
         }
       }
     }
 
-    if ((field & 0x1f00) != 0) {
+    if ((field & 0x1f00) !== 0) {
       // 魔法陷阱区
       const zone = ygopro.CardZone.SZONE;
       const filter = (field >> 8) & 0x1f;
 
       for (let sequence = 0; sequence < 5; sequence++) {
-        if ((filter & (1 << sequence)) != 0) {
+        if ((filter & (1 << sequence)) !== 0) {
           msg.places.push(
             new MsgSelectPlace.SelectAblePlace({
               controller,
               zone,
               sequence,
-            })
+            }),
           );
         }
       }
     }
 
-    if ((field & 0xc000) != 0) {
+    if ((field & 0xc000) !== 0) {
       // 灵摆区?
       const zone = ygopro.CardZone.SZONE;
       const filter = (field >> 14) & 0x3;
 
-      if ((filter & 0x1) != 0) {
+      if ((filter & 0x1) !== 0) {
         msg.places.push(
           new MsgSelectPlace.SelectAblePlace({
             controller,
             zone,
             sequence: 6,
-          })
+          }),
         );
       }
 
-      if ((filter & 0x2) != 0) {
+      if ((filter & 0x2) !== 0) {
         msg.places.push(
           new MsgSelectPlace.SelectAblePlace({
             controller,
             zone,
             sequence: 7,
-          })
+          }),
         );
       }
     }

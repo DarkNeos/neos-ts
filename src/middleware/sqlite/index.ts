@@ -110,7 +110,7 @@ export default async function (action: sqliteAction): Promise<sqliteResult> {
 export function constructCardMeta(
   id: number,
   data: CardData,
-  text: CardText
+  text: CardText,
 ): CardMeta {
   const level = data.level ?? 0;
   data.level = level & 0xff;

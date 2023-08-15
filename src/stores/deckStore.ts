@@ -22,7 +22,7 @@ export const deckStore = proxy({
 
   async update(deckName: string, deck: IDeck): Promise<boolean> {
     const index = deckStore.decks.findIndex(
-      (deck) => deck.deckName === deckName
+      (deck) => deck.deckName === deckName,
     );
     if (index === -1) return false;
     deckStore.decks[index] = deck;
@@ -40,7 +40,7 @@ export const deckStore = proxy({
 
   async delete(deckName: string): Promise<boolean> {
     const index = deckStore.decks.findIndex(
-      (deck) => deck.deckName === deckName
+      (deck) => deck.deckName === deckName,
     );
     if (index === -1) return false;
     deckStore.decks.splice(index, 1);

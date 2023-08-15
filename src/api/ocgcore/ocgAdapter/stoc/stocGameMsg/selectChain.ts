@@ -17,7 +17,7 @@ export default (data: Uint8Array) => {
   const player = reader.inner.readUint8();
   const count = reader.inner.readUint8();
   const spCount = reader.inner.readUint8();
-  const forced = reader.inner.readUint8() != 0;
+  const forced = reader.inner.readUint8() !== 0;
   const hint0 = reader.inner.readUint32();
   const hint1 = reader.inner.readUint32();
 
@@ -43,7 +43,7 @@ export default (data: Uint8Array) => {
         location,
         effect_description: effect_desc,
         response: i,
-      })
+      }),
     );
   }
 

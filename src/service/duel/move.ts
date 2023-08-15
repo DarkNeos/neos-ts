@@ -53,7 +53,7 @@ export default async (move: MsgMove) => {
       from.is_overlay ? ":" + from.overlay_sequence : ""
     } → ${ygopro.CardZone[to.zone]}:${to.sequence}${
       to.is_overlay ? ":" + to.overlay_sequence : ""
-    }`
+    }`,
   );
 
   let target: CardType;
@@ -64,14 +64,14 @@ export default async (move: MsgMove) => {
       from.zone,
       from.controller,
       from.sequence,
-      from.overlay_sequence
+      from.overlay_sequence,
     );
     if (overlayMaterial) {
       target = overlayMaterial;
     } else {
       console.warn(
         `<Move>overlayMaterial from zone=${from.zone}, controller=${from.controller},
-          sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`
+          sequence=${from.sequence}, overlay_sequence=${from.overlay_sequence} is null`,
       );
       return;
     }
@@ -81,7 +81,7 @@ export default async (move: MsgMove) => {
       target = card;
     } else {
       console.warn(
-        `<Move>card from zone=${from.zone}, controller=${from.controller} sequence=${from.sequence} is null`
+        `<Move>card from zone=${from.zone}, controller=${from.controller} sequence=${from.sequence} is null`,
       );
       console.info(cardStore.at(from.zone, from.controller));
       return;
@@ -106,7 +106,7 @@ export default async (move: MsgMove) => {
         location.zone,
         location.controller,
         location.sequence,
-        location.overlay_sequence
+        location.overlay_sequence,
       );
       if (overlayMaterial) {
         // 超量素材的位置应该和超量怪兽保持一致
@@ -117,7 +117,7 @@ export default async (move: MsgMove) => {
         await callCardMove(overlayMaterial.uuid);
       } else {
         console.warn(
-          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`
+          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`,
         );
       }
     }
@@ -132,11 +132,11 @@ export default async (move: MsgMove) => {
     !from.is_overlay
   )
     fromCards.forEach(
-      (c) => c.location.sequence > from.sequence && c.location.sequence--
+      (c) => c.location.sequence > from.sequence && c.location.sequence--,
     );
   if ([HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(to.zone))
     toCards.forEach(
-      (c) => c.location.sequence >= to.sequence && c.location.sequence++
+      (c) => c.location.sequence >= to.sequence && c.location.sequence++,
     );
   if (from.is_overlay) {
     // 超量素材的序号也需要维护
@@ -144,7 +144,7 @@ export default async (move: MsgMove) => {
     for (const overlay of cardStore.findOverlay(
       from.zone,
       from.controller,
-      from.sequence
+      from.sequence,
     )) {
       if (overlay.location.overlay_sequence > overlay_sequence) {
         overlay.location.overlay_sequence--;
@@ -174,7 +174,7 @@ export default async (move: MsgMove) => {
     for (const overlay of cardStore.findOverlay(
       from.zone,
       from.controller,
-      from.sequence
+      from.sequence,
     )) {
       overlay.location.zone = to.zone;
       overlay.location.controller = to.controller;

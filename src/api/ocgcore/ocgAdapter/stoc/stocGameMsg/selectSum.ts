@@ -41,7 +41,7 @@ export default (data: Uint8Array) => {
         level1: para & 0xffff,
         level2: para >> 16,
         response: i,
-      })
+      }),
     );
   }
 
@@ -60,7 +60,7 @@ export default (data: Uint8Array) => {
         level1,
         level2,
         response: i,
-      })
+      }),
     );
   }
 

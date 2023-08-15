@@ -25,7 +25,7 @@ export const fetchSelectHintMeta = async ({
     const cardMeta = await fetchCard(selectHintData);
     selectHintMeta = fetchStrings(Region.System, 569).replace(
       "[%ls]",
-      cardMeta.text.name || "[?]"
+      cardMeta.text.name || "[?]",
     );
   } else {
     selectHintMeta = await getStrings(selectHintData);
@@ -67,7 +67,7 @@ export const fetchEsHintMeta = async ({
     const fieldMeta = cardStore.at(
       location.zone,
       location.controller,
-      location.sequence
+      location.sequence,
     );
     if (fieldMeta?.meta.text.name) {
       esHint = esHint.replace("[?]", fieldMeta.meta.text.name);

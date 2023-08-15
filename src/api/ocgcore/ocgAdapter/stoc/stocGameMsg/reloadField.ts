@@ -26,7 +26,7 @@ export default (data: Uint8Array) => {
             sequence,
             position: numberToCardPosition(position),
             overlay_count,
-          })
+          }),
         );
       } else {
         zone_actions.push(
@@ -34,7 +34,7 @@ export default (data: Uint8Array) => {
             zone: ygopro.CardZone.MZONE,
             sequence,
             position: ygopro.CardPosition.FACEDOWN,
-          })
+          }),
         );
       }
     }
@@ -50,7 +50,7 @@ export default (data: Uint8Array) => {
             zone: ygopro.CardZone.SZONE,
             sequence,
             position: numberToCardPosition(position),
-          })
+          }),
         );
       } else {
         zone_actions.push(
@@ -58,7 +58,7 @@ export default (data: Uint8Array) => {
             zone: ygopro.CardZone.SZONE,
             sequence,
             position: ygopro.CardPosition.FACEDOWN,
-          })
+          }),
         );
       }
     }
@@ -70,7 +70,7 @@ export default (data: Uint8Array) => {
           zone: ygopro.CardZone.DECK,
           sequence,
           position: ygopro.CardPosition.FACEDOWN_ATTACK,
-        })
+        }),
       );
     }
 
@@ -80,7 +80,7 @@ export default (data: Uint8Array) => {
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.HAND,
           sequence,
-        })
+        }),
       );
     }
 
@@ -90,7 +90,7 @@ export default (data: Uint8Array) => {
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.GRAVE,
           sequence,
-        })
+        }),
       );
     }
 
@@ -100,7 +100,7 @@ export default (data: Uint8Array) => {
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.REMOVED,
           sequence,
-        })
+        }),
       );
     }
 
@@ -111,7 +111,7 @@ export default (data: Uint8Array) => {
           zone: ygopro.CardZone.EXTRA,
           sequence,
           position: ygopro.CardPosition.FACEDOWN_ATTACK,
-        })
+        }),
       );
     }
 
@@ -145,7 +145,7 @@ export default (data: Uint8Array) => {
         lp,
         zone_actions,
         // chain_actions,
-      })
+      }),
     );
   }
 

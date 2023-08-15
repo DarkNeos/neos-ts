@@ -23,7 +23,7 @@ export default async (updateData: MsgUpdateData) => {
 
           const meta = target.meta;
           if (action.location !== undefined) {
-            if (target.location.position != action.location.position) {
+            if (target.location.position !== action.location.position) {
               // Currently only update position
               target.location.position = action.location.position;
               // animation
@@ -51,7 +51,7 @@ export default async (updateData: MsgUpdateData) => {
           // TODO: counters
         } else {
           console.warn(
-            `<UpdateData>target from zone=${zone}, controller=${controller}, sequence=${sequence} is null`
+            `<UpdateData>target from zone=${zone}, controller=${controller}, sequence=${sequence} is null`,
           );
           console.info(field);
         }

@@ -67,7 +67,7 @@ export function utf8ArrayToStr(array: Uint8Array) {
         char2 = array[i++];
         char3 = array[i++];
         out += String.fromCharCode(
-          ((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0)
+          ((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0),
         );
         break;
     }
@@ -115,7 +115,7 @@ export function cardZoneToNumber(zone: ygopro.CardZone): number {
 }
 
 export function numberToCardZone(
-  location: number
+  location: number,
 ): ygopro.CardZone | undefined {
   switch (location) {
     case 0x01: {
@@ -156,7 +156,7 @@ export function numberToCardZone(
 
 // TODO: 需要考虑超量叠加情况下的位运算
 export function numberToCardPosition(
-  position: number
+  position: number,
 ): ygopro.CardPosition | undefined {
   switch (position) {
     case 0x1: {
@@ -190,7 +190,7 @@ export function numberToCardPosition(
 }
 
 export function numberToChainFlag(
-  flag: number
+  flag: number,
 ): ygopro.StocGameMessage.MsgSelectChain.ChainFlag | undefined {
   switch (flag) {
     case 0: {
@@ -218,7 +218,7 @@ const chunkItems = <T>(items: T[]) =>
 export function _cutoff_name(data: Uint8Array): Uint8Array {
   let res: number[] = [];
   for (const char of chunkItems(Array.from(data))) {
-    if (!char.every((item) => item == 0)) {
+    if (!char.every((item) => item === 0)) {
       res = res.concat(char);
     } else {
       break;

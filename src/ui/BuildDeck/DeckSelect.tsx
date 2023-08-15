@@ -53,7 +53,7 @@ export const DeckSelect: React.FC<{
       maskClosable: true,
       onOk: async () => {
         const results = await Promise.all(
-          newDeck.current.map((deck) => deckStore.add(deck))
+          newDeck.current.map((deck) => deckStore.add(deck)),
         );
         newDeck.current = [];
         if (results.length)
@@ -186,7 +186,7 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
     name: "file",
     multiple: true,
     onChange(info) {
-      if (uploadState != "ERROR") {
+      if (uploadState !== "ERROR") {
         info.file.status = "done";
       }
     },

@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 
 /** HOC: 将组件发射到body下 */
 export const withPortalToBody = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P>,
 ) => {
   return (props: P) => {
     useEffect(() => {

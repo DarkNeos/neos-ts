@@ -71,7 +71,7 @@ export const handleEffectActivation = async (
     desc: string;
     response: number;
     effectCode: number | undefined;
-  }[]
+  }[],
 ) => {
   if (!effectInteractivies.length) {
     return;

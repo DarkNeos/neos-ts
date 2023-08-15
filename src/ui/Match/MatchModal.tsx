@@ -33,7 +33,7 @@ export const MatchModal: React.FC = ({}) => {
   const [player, setPlayer] = useState(user?.name ?? defaultPlayer);
   const [passwd, setPasswd] = useState(defaultPassword);
   const [server, setServer] = useState(
-    `${serverConfig[0].ip}:${serverConfig[0].port}`
+    `${serverConfig[0].ip}:${serverConfig[0].port}`,
   );
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();

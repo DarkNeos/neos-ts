@@ -14,7 +14,7 @@ const toCssProperties = (config: CSSConfig) =>
             .map((s) => s.toLowerCase())
             .join("-")}`,
           `${v[0]}${v[1]}`,
-        ] as [string, string]
+        ] as [string, string],
     )
     .reduce((acc, cur) => [...acc, cur], [] as [string, string][]);
 
@@ -50,7 +50,7 @@ export const matConfig = Object.keys(matConfigWithUnit).reduce(
     // @ts-ignore
     [key]: matConfigWithUnit[key][0],
   }),
-  {} as Record<keyof typeof matConfigWithUnit, number>
+  {} as Record<keyof typeof matConfigWithUnit, number>,
 );
 
 toCssProperties(matConfigWithUnit).forEach(([k, v]) => {

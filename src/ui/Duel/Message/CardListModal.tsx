@@ -33,7 +33,7 @@ export const CardListModal = () => {
     cardList = cardStore.findOverlay(
       monster.location.zone,
       monster.location.controller,
-      monster.location.sequence
+      monster.location.sequence,
     );
   }
 
