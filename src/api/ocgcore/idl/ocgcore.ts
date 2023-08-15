@@ -978,7 +978,7 @@ export namespace ygopro {
         }
     }
     export class YgoStocMsg extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]];
         constructor(data?: any[] | ({} & (({
             stoc_join_game?: StocJoinGame;
             stoc_chat?: never;
@@ -993,6 +993,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: StocChat;
@@ -1007,6 +1008,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1021,6 +1023,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1035,6 +1038,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1049,6 +1053,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1063,6 +1068,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1077,6 +1083,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1091,6 +1098,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1105,6 +1113,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1119,6 +1128,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1133,6 +1143,7 @@ export namespace ygopro {
             stoc_duel_start?: StocDuelStart;
             stoc_game_msg?: never;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1147,6 +1158,7 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: StocGameMessage;
             stoc_time_limit?: never;
+            stoc_error_msg?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1161,6 +1173,22 @@ export namespace ygopro {
             stoc_duel_start?: never;
             stoc_game_msg?: never;
             stoc_time_limit?: StocTimeLimit;
+            stoc_error_msg?: never;
+        } | {
+            stoc_join_game?: never;
+            stoc_chat?: never;
+            stoc_hs_player_enter?: never;
+            stoc_type_change?: never;
+            stoc_hs_player_change?: never;
+            stoc_hs_watch_change?: never;
+            stoc_select_hand?: never;
+            stoc_hand_result?: never;
+            stoc_select_tp?: never;
+            stoc_deck_count?: never;
+            stoc_duel_start?: never;
+            stoc_game_msg?: never;
+            stoc_time_limit?: never;
+            stoc_error_msg?: StocErrorMsg;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -1203,6 +1231,9 @@ export namespace ygopro {
                 }
                 if ("stoc_time_limit" in data && data.stoc_time_limit != undefined) {
                     this.stoc_time_limit = data.stoc_time_limit;
+                }
+                if ("stoc_error_msg" in data && data.stoc_error_msg != undefined) {
+                    this.stoc_error_msg = data.stoc_error_msg;
                 }
             }
         }
@@ -1323,9 +1354,18 @@ export namespace ygopro {
         get has_stoc_time_limit() {
             return pb_1.Message.getField(this, 13) != null;
         }
+        get stoc_error_msg() {
+            return pb_1.Message.getWrapperField(this, StocErrorMsg, 14) as StocErrorMsg;
+        }
+        set stoc_error_msg(value: StocErrorMsg) {
+            pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
+        }
+        get has_stoc_error_msg() {
+            return pb_1.Message.getField(this, 14) != null;
+        }
         get msg() {
             const cases: {
-                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change" | "stoc_hs_player_change" | "stoc_hs_watch_change" | "stoc_select_hand" | "stoc_hand_result" | "stoc_select_tp" | "stoc_deck_count" | "stoc_duel_start" | "stoc_game_msg" | "stoc_time_limit";
+                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change" | "stoc_hs_player_change" | "stoc_hs_watch_change" | "stoc_select_hand" | "stoc_hand_result" | "stoc_select_tp" | "stoc_deck_count" | "stoc_duel_start" | "stoc_game_msg" | "stoc_time_limit" | "stoc_error_msg";
             } = {
                 0: "none",
                 1: "stoc_join_game",
@@ -1340,9 +1380,10 @@ export namespace ygopro {
                 10: "stoc_deck_count",
                 11: "stoc_duel_start",
                 12: "stoc_game_msg",
-                13: "stoc_time_limit"
+                13: "stoc_time_limit",
+                14: "stoc_error_msg"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])];
         }
         static fromObject(data: {
             stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
@@ -1358,6 +1399,7 @@ export namespace ygopro {
             stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
             stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
             stoc_time_limit?: ReturnType<typeof StocTimeLimit.prototype.toObject>;
+            stoc_error_msg?: ReturnType<typeof StocErrorMsg.prototype.toObject>;
         }): YgoStocMsg {
             const message = new YgoStocMsg({});
             if (data.stoc_join_game != null) {
@@ -1399,6 +1441,9 @@ export namespace ygopro {
             if (data.stoc_time_limit != null) {
                 message.stoc_time_limit = StocTimeLimit.fromObject(data.stoc_time_limit);
             }
+            if (data.stoc_error_msg != null) {
+                message.stoc_error_msg = StocErrorMsg.fromObject(data.stoc_error_msg);
+            }
             return message;
         }
         toObject() {
@@ -1416,6 +1461,7 @@ export namespace ygopro {
                 stoc_duel_start?: ReturnType<typeof StocDuelStart.prototype.toObject>;
                 stoc_game_msg?: ReturnType<typeof StocGameMessage.prototype.toObject>;
                 stoc_time_limit?: ReturnType<typeof StocTimeLimit.prototype.toObject>;
+                stoc_error_msg?: ReturnType<typeof StocErrorMsg.prototype.toObject>;
             } = {};
             if (this.stoc_join_game != null) {
                 data.stoc_join_game = this.stoc_join_game.toObject();
@@ -1456,6 +1502,9 @@ export namespace ygopro {
             if (this.stoc_time_limit != null) {
                 data.stoc_time_limit = this.stoc_time_limit.toObject();
             }
+            if (this.stoc_error_msg != null) {
+                data.stoc_error_msg = this.stoc_error_msg.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -1488,6 +1537,8 @@ export namespace ygopro {
                 writer.writeMessage(12, this.stoc_game_msg, () => this.stoc_game_msg.serialize(writer));
             if (this.has_stoc_time_limit)
                 writer.writeMessage(13, this.stoc_time_limit, () => this.stoc_time_limit.serialize(writer));
+            if (this.has_stoc_error_msg)
+                writer.writeMessage(14, this.stoc_error_msg, () => this.stoc_error_msg.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1535,6 +1586,9 @@ export namespace ygopro {
                         break;
                     case 13:
                         reader.readMessage(message.stoc_time_limit, () => message.stoc_time_limit = StocTimeLimit.deserialize(reader));
+                        break;
+                    case 14:
+                        reader.readMessage(message.stoc_error_msg, () => message.stoc_error_msg = StocErrorMsg.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -3830,6 +3884,105 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): StocChat {
             return StocChat.deserialize(bytes);
+        }
+    }
+    export class StocErrorMsg extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            error_type?: StocErrorMsg.ErrorType;
+            error_code?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("error_type" in data && data.error_type != undefined) {
+                    this.error_type = data.error_type;
+                }
+                if ("error_code" in data && data.error_code != undefined) {
+                    this.error_code = data.error_code;
+                }
+            }
+        }
+        get error_type() {
+            return pb_1.Message.getFieldWithDefault(this, 1, StocErrorMsg.ErrorType.UNKNOWN) as StocErrorMsg.ErrorType;
+        }
+        set error_type(value: StocErrorMsg.ErrorType) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get error_code() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set error_code(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            error_type?: StocErrorMsg.ErrorType;
+            error_code?: number;
+        }): StocErrorMsg {
+            const message = new StocErrorMsg({});
+            if (data.error_type != null) {
+                message.error_type = data.error_type;
+            }
+            if (data.error_code != null) {
+                message.error_code = data.error_code;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                error_type?: StocErrorMsg.ErrorType;
+                error_code?: number;
+            } = {};
+            if (this.error_type != null) {
+                data.error_type = this.error_type;
+            }
+            if (this.error_code != null) {
+                data.error_code = this.error_code;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.error_type != StocErrorMsg.ErrorType.UNKNOWN)
+                writer.writeEnum(1, this.error_type);
+            if (this.error_code != 0)
+                writer.writeInt32(2, this.error_code);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocErrorMsg {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new StocErrorMsg();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.error_type = reader.readEnum();
+                        break;
+                    case 2:
+                        message.error_code = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): StocErrorMsg {
+            return StocErrorMsg.deserialize(bytes);
+        }
+    }
+    export namespace StocErrorMsg {
+        export enum ErrorType {
+            UNKNOWN = 0,
+            JOINERROR = 1,
+            DECKERROR = 2,
+            SIDEERROR = 3,
+            VERSIONERROR = 4
         }
     }
     export class StocHsPlayerEnter extends pb_1.Message {
