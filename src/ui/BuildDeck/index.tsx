@@ -26,7 +26,7 @@ import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { type CardMeta, initForbiddens, searchCards } from "@/api";
+import { type CardMeta, searchCards } from "@/api";
 import { isToken } from "@/common";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, type IDeck, initStore } from "@/stores";
@@ -59,8 +59,13 @@ export const loader: LoaderFunction = async () => {
     });
   }
 
-  // 更新禁限卡表
-  await initForbiddens();
+  // 同时，等待禁卡表的加载
+  if (!initStore.forbidden) {
+    await new Promise<void>((rs) => {
+      subscribeKey(initStore, "forbidden", (done) => done && rs());
+    });
+  }
+
   return null;
 };
 

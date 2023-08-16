@@ -8,9 +8,9 @@ import {
   extraCardTypes,
   isLinkMonster,
   isMonster,
+  isPendulumMonster,
   Race2StringCodeMap,
   Type2StringCodeMap,
-  isPendulumMonster,
 } from "@/common";
 import { CardEffectText, IconFont, ScrollableArea, YgoCard } from "@/ui/Shared";
 

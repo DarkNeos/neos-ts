@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
+import { forbidden } from "@/api";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
@@ -28,6 +29,7 @@ export const loader: LoaderFunction = async () => {
   initDeck();
   initSqlite();
   initWASM();
+  forbidden.init();
   return null;
 };
 
