@@ -313,6 +313,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         >
           <YgoCard
             className={styles.cover}
+            // cardName={snap.meta.text.name}
             code={snap.code === 0 ? snap.meta.id : snap.code}
           />
           <YgoCard className={styles.back} isBack />
