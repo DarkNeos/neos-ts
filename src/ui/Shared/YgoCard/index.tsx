@@ -9,7 +9,7 @@ interface Props {
   className?: string;
   isBack?: boolean;
   code?: number;
-  cardName?: string;
+  // cardName?: string;
   style?: CSSProperties;
   width?: number;
   onClick?: () => void;
@@ -20,7 +20,7 @@ export const YgoCard: React.FC<Props> = (props) => {
   const {
     className,
     code = 0,
-    cardName,
+    // cardName,
     isBack = false,
     width,
     style,
