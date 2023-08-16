@@ -1,70 +1,82 @@
 import { useConfig } from "@/config";
+import { initStore } from "@/stores";
 
 const { lflistUrl } = useConfig();
 
-type Forbiddens = Map<number, number>;
+class Forbidden {
+  private data: Map<number, number> = new Map<number, number>();
+  public time: string = "?";
 
-export let forbiddenTime = "?";
-
-export async function initForbiddens(): Promise<void> {
-  const text = await (await fetch(lflistUrl)).text();
-  const { time, forbiddens } = extractForbiddensFromText(text);
-  forbiddenTime = time;
-  setForbiddens(forbiddens);
-}
-
-const forbiddensMap: Forbiddens = new Map<number, number>();
-
-function setForbiddens(forbiddens: Forbiddens): void {
-  forbiddensMap.clear();
-  for (const [cardId, limitCount] of forbiddens) {
-    forbiddensMap.set(cardId, limitCount);
+  public async init(): Promise<void> {
+    const text = await (await fetch(lflistUrl)).text();
+    const { time, forbiddens } = this.extractForbiddensFromText(text);
+    this.time = time;
+    this.setForbiddens(forbiddens);
+    initStore.forbidden = true;
   }
-}
 
-export function getForbiddenInfo(id: number): number | undefined {
-  return forbiddensMap.get(id);
-}
+  public set(cardId: number, limitCount: number): void {
+    this.data.set(cardId, limitCount);
+  }
 
-function extractForbiddensFromText(text: string): {
-  time: string;
-  forbiddens: Forbiddens;
-} {
-  function parseCardInfo(
-    input: string,
-  ): { cardId: number; limitCount: number } | null {
-    const match = input.match(/^(\d+)\s+(\d+)\s+--/);
-    if (match) {
-      const cardId = parseInt(match[1]);
-      const limitCount = parseInt(match[2]);
-      return { cardId, limitCount };
+  public get(id: number): number | undefined {
+    return this.data.get(id);
+  }
+
+  private setForbiddens(forbiddens: Map<number, number>): void {
+    this.data.clear();
+    for (const [cardId, limitCount] of forbiddens) {
+      this.data.set(cardId, limitCount);
     }
-    return null;
   }
-  const lines = text.split("\n");
-  const forbiddens = new Map<number, number>();
 
-  lines.shift(); // remove first line
+  private extractForbiddensFromText(text: string): {
+    time: string;
+    forbiddens: Map<number, number>;
+  } {
+    // 解析文本行中的卡片信息
+    function parseCardInfo(
+      input: string,
+    ): { cardId: number; limitCount: number } | null {
+      const match = input.match(/^(\d+)\s+(\d+)\s+--/);
+      if (match) {
+        const cardId = parseInt(match[1]);
+        const limitCount = parseInt(match[2]);
+        return { cardId, limitCount };
+      }
+      return null;
+    }
 
-  let time = "?";
+    const lines = text.split("\n");
+    const forbiddens = new Map<number, number>();
+    let time = "?";
 
-  for (const line of lines) {
-    if (line.startsWith("#")) {
-      // do nothing
-    } else if (line.startsWith("!")) {
-      if (time !== "?") {
-        // 已经读取完第一个禁限表的信息了，退出循环
-        break;
+    // 移除第一行标题
+    lines.shift();
+
+    for (const line of lines) {
+      if (line.startsWith("#")) {
+        // 忽略注释行
+      } else if (line.startsWith("!")) {
+        // 如果时间已经设置，退出循环
+        if (time !== "?") {
+          break;
+        } else {
+          // 提取时间信息
+          time = line.substring(1).trim();
+        }
       } else {
-        time = line.substring(1).trim();
-      }
-    } else {
-      const cardInfo = parseCardInfo(line);
-      if (cardInfo) {
-        forbiddens.set(cardInfo.cardId, cardInfo.limitCount);
+        const cardInfo = parseCardInfo(line);
+        if (cardInfo) {
+          // 将卡片信息添加到禁限表
+          forbiddens.set(cardInfo.cardId, cardInfo.limitCount);
+        }
       }
     }
-  }
 
-  return { time, forbiddens };
+    // 返回时间和禁限表
+    return { time, forbiddens };
+  }
 }
+
+export const forbidden = new Forbidden();
