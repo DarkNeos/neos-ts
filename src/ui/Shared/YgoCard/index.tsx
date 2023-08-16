@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   isBack?: boolean;
   code?: number;
+  cardName?: string;
   style?: CSSProperties;
   width?: number;
   onClick?: () => void;
@@ -19,6 +20,7 @@ export const YgoCard: React.FC<Props> = (props) => {
   const {
     className,
     code = 0,
+    cardName,
     isBack = false,
     width,
     style,
@@ -27,14 +29,22 @@ export const YgoCard: React.FC<Props> = (props) => {
   } = props;
   return useMemo(
     () => (
-      <img
+      <div
         className={classNames(styles["ygo-card"], className)}
-        src={getCardImgUrl(code, isBack)}
-        style={{ width, ...style }}
+        style={
+          {
+            width,
+            "--src": `url(${getCardImgUrl(code, isBack)})`,
+            ...style,
+          } as any
+        }
         onClick={onClick}
         // 加载完成
         onLoad={onLoad}
-      />
+      >
+        {/* 暂时不能这么写...但如果用onload的话来判断可能又很消耗性能，再看看吧 */}
+        {/* {cardName} */}
+      </div>
     ),
     [code],
   );
