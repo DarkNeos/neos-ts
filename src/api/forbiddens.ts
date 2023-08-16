@@ -1,6 +1,4 @@
 import { useConfig } from "@/config";
-import { initStore } from "@/stores";
-
 const { lflistUrl } = useConfig();
 
 class Forbidden {
@@ -12,7 +10,6 @@ class Forbidden {
     const { time, forbiddens } = this.extractForbiddensFromText(text);
     this.time = time;
     this.setForbiddens(forbiddens);
-    initStore.forbidden = true;
   }
 
   public set(cardId: number, limitCount: number): void {

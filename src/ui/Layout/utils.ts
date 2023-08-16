@@ -1,6 +1,6 @@
 import rustInit from "rust-src";
 
-import { CookieKeys, getCookie, setCookie } from "@/api";
+import { CookieKeys, forbidden, getCookie, setCookie } from "@/api";
 import { useConfig } from "@/config";
 import { useEnv } from "@/hook";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
@@ -39,6 +39,14 @@ export const initWASM = async () => {
       : new URL("rust_src_bg.wasm", `${BASE_URL}assets/`);
   await rustInit(url);
   initStore.wasm = true;
+};
+
+/** 加载禁限卡表 */
+export const initForbidden = async () => {
+  if (!initStore.forbidden) {
+    await forbidden.init();
+    initStore.forbidden = true;
+  }
 };
 
 /** sso登录跳转回来 */
