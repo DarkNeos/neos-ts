@@ -1,61 +1,50 @@
-//! 禁限卡表
-
-import { clear, createStore, get, setMany } from "idb-keyval";
-
 import { useConfig } from "@/config";
 
 const { lflistUrl } = useConfig();
 
 type Forbiddens = Map<number, number>;
 
-const IDB_NAME = "forbiddens";
-
-// 禁限卡表的时间，比如 [2023.4] - 2023年4月表
 export let forbiddenTime = "?";
-
-const idb = createStore(IDB_NAME, IDB_NAME);
 
 export async function initForbiddens(): Promise<void> {
   const text = await (await fetch(lflistUrl)).text();
   const { time, forbiddens } = extractForbiddensFromText(text);
   forbiddenTime = time;
-
-  // 先清掉之前的记录
-  clear(idb);
-  // 设置新记录
-  await setMany(Array.from(forbiddens));
+  setForbiddens(forbiddens);
 }
 
-// 获取禁限信息
-export async function getForbiddenInfo(
-  id: number,
-): Promise<number | undefined> {
-  return await get(id, idb);
-}
+const forbiddensMap: Forbiddens = new Map<number, number>();
 
-// 解析函数，提取卡片编号和限制张数
-function parseCardInfo(
-  input: string,
-): { cardId: number; limitCount: number } | null {
-  const match = input.match(/^(\d+)\s+(\d+)\s+--/);
-  if (match) {
-    const cardId = parseInt(match[1]);
-    const limitCount = parseInt(match[2]);
-    return { cardId, limitCount };
+function setForbiddens(forbiddens: Forbiddens): void {
+  forbiddensMap.clear();
+  for (const [cardId, limitCount] of forbiddens) {
+    forbiddensMap.set(cardId, limitCount);
   }
-  return null;
 }
 
-// 分割文本为行，并提取每行的限制信息
+export function getForbiddenInfo(id: number): number | undefined {
+  return forbiddensMap.get(id);
+}
+
 function extractForbiddensFromText(text: string): {
   time: string;
   forbiddens: Forbiddens;
 } {
+  function parseCardInfo(
+    input: string,
+  ): { cardId: number; limitCount: number } | null {
+    const match = input.match(/^(\d+)\s+(\d+)\s+--/);
+    if (match) {
+      const cardId = parseInt(match[1]);
+      const limitCount = parseInt(match[2]);
+      return { cardId, limitCount };
+    }
+    return null;
+  }
   const lines = text.split("\n");
-  const forbiddens = new Map<number, number>([]);
+  const forbiddens = new Map<number, number>();
 
-  // remove first line
-  lines.shift();
+  lines.shift(); // remove first line
 
   let time = "?";
 
