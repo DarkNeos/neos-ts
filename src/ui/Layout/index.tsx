@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { forbidden } from "@/api";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
@@ -18,6 +17,7 @@ import {
   getLoginStatus,
   handleSSOLogin,
   initDeck,
+  initForbidden,
   initSqlite,
   initWASM,
 } from "./utils";
@@ -29,7 +29,7 @@ export const loader: LoaderFunction = async () => {
   initDeck();
   initSqlite();
   initWASM();
-  forbidden.init();
+  initForbidden();
   return null;
 };
 

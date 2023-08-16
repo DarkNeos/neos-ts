@@ -1,4 +1,4 @@
-import { Button, Descriptions } from "antd";
+import { Button, Descriptions, type DescriptionsProps } from "antd";
 import classNames from "classnames";
 import { useEffect, useMemo, useState } from "react";
 
@@ -40,6 +40,69 @@ export const CardDetail: React.FC<{
     [card?.text.desc],
   );
 
+  const items = useMemo(() => {
+    const result: DescriptionsProps["items"] = [];
+    if (card?.data.level) {
+      result.push({
+        label: "等级",
+        children: card?.data.level,
+      });
+    }
+
+    result.push({
+      label: "类型",
+      children: cardType,
+      span: 2,
+    });
+
+    if (card?.data.attribute) {
+      result.push({
+        label: "属性",
+        children: fetchStrings(
+          Region.System,
+          Attribute2StringCodeMap.get(card?.data.attribute ?? 0) || 0,
+        ),
+      });
+    }
+
+    if (card?.data.race) {
+      result.push({
+        label: "种族",
+        children: fetchStrings(
+          Region.System,
+          Race2StringCodeMap.get(card?.data.race ?? 0) || 0,
+        ),
+        span: 2,
+      });
+    }
+
+    if (isMonster(card?.data.type ?? 0)) {
+      result.push({
+        label: "攻击力",
+        children: card?.data.atk,
+      });
+
+      if (!isLinkMonster(card?.data.type ?? 0)) {
+        result.push({
+          label: "守备力",
+          children: card?.data.def,
+        });
+      }
+
+      if (card?.data.lscale) {
+        result.push({
+          label: "灵摆刻度",
+          children: (
+            <>
+              ← {card.data.lscale} - {card.data.rscale} →
+            </>
+          ),
+        });
+      }
+    }
+    return result;
+  }, [code]);
+
   return (
     <div className={classNames(styles.detail, { [styles.open]: open })}>
       <div className={styles.container}>
@@ -57,59 +120,17 @@ export const CardDetail: React.FC<{
           {/* <Avatar size={22}>光</Avatar> */}
         </div>
         <ScrollableArea>
-          <Descriptions layout="vertical" size="small">
-            {card?.data.level && (
-              <Descriptions.Item label="等级">
-                {card?.data.level}
-              </Descriptions.Item>
-            )}
-            <Descriptions.Item label="类型" span={2}>
-              {cardType}
-            </Descriptions.Item>
-            {card?.data.attribute && (
-              <Descriptions.Item label="属性">
-                {fetchStrings(
-                  Region.System,
-                  Attribute2StringCodeMap.get(card?.data.attribute ?? 0) || 0,
-                )}
-              </Descriptions.Item>
-            )}
-            {card?.data.race && (
-              <Descriptions.Item label="种族" span={2}>
-                {fetchStrings(
-                  Region.System,
-                  Race2StringCodeMap.get(card?.data.race ?? 0) || 0,
-                )}
-              </Descriptions.Item>
-            )}
-
-            {isMonster(card?.data.type ?? 0) && (
-              <>
-                <Descriptions.Item label="攻击力">2000</Descriptions.Item>
-                {!isLinkMonster(card?.data.type ?? 0) && (
-                  <Descriptions.Item label="守备力">0</Descriptions.Item>
-                )}
-                {card?.data.lscale && (
-                  <Descriptions.Item label="灵摆刻度">
-                    ← {card.data.lscale} - {card.data.rscale} →
-                  </Descriptions.Item>
-                )}
-              </>
-            )}
-          </Descriptions>
-          <Descriptions layout="vertical" size="small">
-            {desc.filter(Boolean).map((d, i) => (
-              <Descriptions.Item
-                label={
-                  desc.length > 1 ? (i ? "怪兽效果" : "灵摆效果") : "卡片效果"
-                }
-                span={3}
-                key={i}
-              >
-                <CardEffectText desc={d} />
-              </Descriptions.Item>
-            ))}
-          </Descriptions>
+          <Descriptions layout="vertical" size="small" items={items} />
+          <Descriptions
+            layout="vertical"
+            size="small"
+            items={desc.filter(Boolean).map((d, i) => ({
+              label:
+                desc.length > 1 ? (i ? "怪兽效果" : "灵摆效果") : "卡片效果",
+              span: 3,
+              children: <CardEffectText desc={d} />,
+            }))}
+          ></Descriptions>
         </ScrollableArea>
       </div>
     </div>
