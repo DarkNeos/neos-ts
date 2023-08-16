@@ -1,4 +1,4 @@
-import { Avatar } from "antd";
+import { Avatar, Dropdown } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
 import {
@@ -82,15 +82,41 @@ export const Component = () => {
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
           <span className={styles.profile}>
-            <NeosAvatar />
-            {/*暂时跳转到萌卡的profile页面*/}
-            <HeaderBtn to={NeosConfig.profileUrl} disabled={!logined}>
-              个人中心
-            </HeaderBtn>
-            <HeaderBtn to="https://ygobbs.com">萌卡社区</HeaderBtn>
-            <HeaderBtn to="https://mycard.moe/ygopro/arena/#/">
-              决斗数据库
-            </HeaderBtn>
+            <Dropdown
+              arrow
+              menu={{
+                items: [
+                  {
+                    label: (
+                      <a href={NeosConfig.profileUrl} target="_blank">
+                        个人中心
+                      </a>
+                    ),
+                  },
+                  {
+                    label: (
+                      <a href="https://ygobbs.com" target="_blank">
+                        萌卡社区
+                      </a>
+                    ),
+                  },
+                  {
+                    label: (
+                      <a
+                        href="https://mycard.moe/ygopro/arena/#/"
+                        target="_blank"
+                      >
+                        决斗数据库
+                      </a>
+                    ),
+                  },
+                ].map((x, key) => ({ ...x, key })),
+              }}
+            >
+              <div>
+                <NeosAvatar />
+              </div>
+            </Dropdown>
           </span>
         </nav>
       )}
@@ -103,5 +129,7 @@ export const Component = () => {
 
 const NeosAvatar = () => {
   const { user } = useSnapshot(accountStore);
-  return <Avatar size="small" src={user?.avatar_url} />;
+  return (
+    <Avatar size="small" src={user?.avatar_url} style={{ cursor: "pointer" }} />
+  );
 };
