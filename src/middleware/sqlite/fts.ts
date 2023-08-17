@@ -51,26 +51,28 @@ function getFtsCondtions(conditions: FtsConditions): string {
   const assertMonster = `(type & ${TYPE_MONSTER}) > 0`;
 
   const typesCondition = types
-    ?.map((type) => `(type & ${type}) > 0`)
+    .map((type) => `(type & ${type}) > 0`)
     .join(" OR ");
   const levelsCondition = levels
-    ?.map((level) => `level = ${level}`)
+    .map((level) => `level = ${level}`)
     .join(" OR ");
-  const atkCondition = atk
-    ? `atk BETWEEN ${handleFinite(atk.min, "min")} AND ${handleFinite(
-        atk.max,
-        "max",
-      )} AND ${assertMonster}`
-    : undefined;
-  const defCondition = def
-    ? `def BETWEEN ${handleFinite(def.min, "min")} AND ${handleFinite(
-        def.max,
-        "max",
-      )} AND ${assertMonster}`
-    : undefined;
-  const raceCondition = races?.map((race) => `race = ${race}`).join(" OR ");
+  const atkCondition =
+    atk.min !== null || atk.max !== null
+      ? `atk BETWEEN ${handleFinite(atk.min, "min")} AND ${handleFinite(
+          atk.max,
+          "max",
+        )} AND ${assertMonster}`
+      : undefined;
+  const defCondition =
+    def.min !== null || def.max !== null
+      ? `def BETWEEN ${handleFinite(def.min, "min")} AND ${handleFinite(
+          def.max,
+          "max",
+        )} AND ${assertMonster}`
+      : undefined;
+  const raceCondition = races.map((race) => `race = ${race}`).join(" OR ");
   const attributeCondition = attributes
-    ?.map((attribute) => `attribute = ${attribute}`)
+    .map((attribute) => `attribute = ${attribute}`)
     .join(" OR ");
 
   const merged = [
