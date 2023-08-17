@@ -1,5 +1,9 @@
-import { EditFilled, SettingFilled } from "@ant-design/icons";
-import { Space } from "antd";
+import {
+  EditOutlined,
+  PlayCircleOutlined,
+  SettingFilled,
+} from "@ant-design/icons";
+import { Button, Space } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
@@ -72,17 +76,24 @@ export const Component: React.FC = () => {
                 label: deck.deckName,
               }))}
             />
+            <Button
+              style={{ width: 150, fontSize: "14px" }}
+              icon={<EditOutlined />}
+              onClick={() => navigate("/build")}
+            >
+              卡组编辑
+            </Button>
           </Space>
           <div className={styles["mode-select"]}>
             <Mode
               title="竞技匹配"
-              desc="与世界上其他玩家在线匹配，您的排名将实时显示在排行榜上。"
+              desc="与天梯其他数万名玩家激战，追求胜利登顶最强。每月最后一天晚上10点结算成绩，获取奖励与公布排名。"
               icon={<IconFont type="icon-battle" size={32} />}
               onClick={() => alert("开发中，敬请期待")}
             />
             <Mode
-              title="休闲匹配"
-              desc="使用任意卡组进行对战，将胜负暂且搁置，尽情享受决斗的乐趣。"
+              title="娱乐匹配"
+              desc="过去一周竞技匹配使用数最靠前的20个卡组被禁止使用。将胜负暂且搁置，尽情享受决斗的乐趣。"
               icon={<IconFont type="icon-coffee" size={28} />}
               onClick={() => alert("开发中，敬请期待")}
             />
@@ -103,7 +114,7 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="自定义房间"
-              desc="创建一个自定义的对战房间，便捷地与好友进行对战，甚至是举办一场竞技比赛。"
+              desc="创建双打TAG或自定义规则的房间，或与好友约战，甚至举办竞技比赛。"
               icon={<SettingFilled />}
               onClick={() => (matchStore.open = true)}
             />
@@ -114,10 +125,10 @@ export const Component: React.FC = () => {
               onClick={replayOpen}
             />
             <Mode
-              title="卡组编辑"
-              desc="创建和编辑卡组，在上万种卡片中选择，组建独一无二的构筑。"
-              icon={<EditFilled />}
-              onClick={() => navigate("/build")}
+              title="观战列表"
+              desc="观看MyCard上正在进行的决斗"
+              icon={<PlayCircleOutlined />}
+              onClick={() => alert("开发中，敬请期待")}
             />
           </div>
         </div>
