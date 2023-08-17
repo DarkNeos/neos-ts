@@ -41,5 +41,16 @@ export const theme: ThemeConfig = {
     Layout: {
       colorBgBody: "transparent",
     },
+    Button: {
+      lineWidth: 0,
+      fontSizeLG: 14,
+      fontSize: 12,
+      colorBgContainer: "hsla(0, 0%, 100%, 0.05)",
+      colorPrimaryHover: "#ccc",
+      colorPrimaryActive: "#aaa",
+    },
+    Popover: {
+      colorBgElevated: "hsla(0, 0%, 100%, 0.1)",
+    },
   },
 };

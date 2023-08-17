@@ -14,7 +14,7 @@ import {
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import PlayerState = ygopro.StocHsPlayerChange.State;
 import SelfType = ygopro.StocTypeChange.SelfType;
-import { Avatar, Button, ConfigProvider, Skeleton, Space } from "antd";
+import { Avatar, Button, Skeleton, Space } from "antd";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -38,22 +38,6 @@ import { Mora, MoraPopover, Tp, TpPopover } from "./Popover";
 
 const NeosConfig = useConfig();
 
-const theme = {
-  components: {
-    Button: {
-      lineWidth: 0,
-      fontSizeLG: 14,
-      fontSize: 12,
-      colorBgContainer: "hsla(0, 0%, 100%, 0.05)",
-      colorPrimaryHover: "#ccc",
-      colorPrimaryActive: "#aaa",
-    },
-    Popover: {
-      colorBgElevated: "hsla(0, 0%, 100%, 0.1)",
-    },
-  },
-};
-
 export const Component: React.FC = () => {
   const { user } = useSnapshot(accountStore);
   const [collapsed, setCollapsed] = useState(false);
@@ -73,105 +57,103 @@ export const Component: React.FC = () => {
   }, [room.stage]);
 
   return (
-    <ConfigProvider theme={theme}>
-      <div
-        className={classNames(styles.container, {
-          [styles.collapsed]: collapsed,
-        })}
-      >
-        <Background />
-        <div className={styles.sider}>
-          <Chat />
-        </div>
-        <div className={styles.content}>
-          <SideButtons
-            collapsed={collapsed}
-            switchCollapse={() => setCollapsed(!collapsed)}
+    <div
+      className={classNames(styles.container, {
+        [styles.collapsed]: collapsed,
+      })}
+    >
+      <Background />
+      <div className={styles.sider}>
+        <Chat />
+      </div>
+      <div className={styles.content}>
+        <SideButtons
+          collapsed={collapsed}
+          switchCollapse={() => setCollapsed(!collapsed)}
+        />
+        <div className={styles.wrap}>
+          <Controller
+            onDeckChange={(deckName: string) => {
+              const deck = deckStore.get(deckName);
+              // 同步后端
+              if (deck) {
+                setDeck(deck);
+              } else {
+                alert(`Deck ${deckName} not found`);
+              }
+            }}
           />
-          <div className={styles.wrap}>
-            <Controller
-              onDeckChange={(deckName: string) => {
-                const deck = deckStore.get(deckName);
-                // 同步后端
-                if (deck) {
-                  setDeck(deck);
-                } else {
-                  alert(`Deck ${deckName} not found`);
-                }
-              }}
-            />
-            <div className={styles["both-side-container"]}>
-              <PlayerZone
-                who={Who.Me}
-                player={me}
-                avatar={user?.avatar_url}
-                btn={
-                  room.stage === RoomStage.WAITING ? (
-                    <Button
-                      size="large"
-                      className={styles["btn-join"]}
-                      onClick={() => {
-                        if (me?.state === PlayerState.NO_READY) {
-                          sendUpdateDeck(deck);
-                          window.myExtraDeckCodes = [...deck.extra];
-                          sendHsReady();
-                        } else {
-                          sendHsNotReady();
-                        }
-                      }}
-                    >
-                      {me?.state === PlayerState.NO_READY
-                        ? "决斗准备"
-                        : "取消准备"}
-                    </Button>
-                  ) : (
-                    <MoraAvatar
-                      mora={
-                        me?.moraResult !== undefined &&
-                        me.moraResult !== HandType.UNKNOWN
-                          ? Object.values(Mora)[me.moraResult - 1]
-                          : undefined
+          <div className={styles["both-side-container"]}>
+            <PlayerZone
+              who={Who.Me}
+              player={me}
+              avatar={user?.avatar_url}
+              btn={
+                room.stage === RoomStage.WAITING ? (
+                  <Button
+                    size="large"
+                    className={styles["btn-join"]}
+                    onClick={() => {
+                      if (me?.state === PlayerState.NO_READY) {
+                        sendUpdateDeck(deck);
+                        window.myExtraDeckCodes = [...deck.extra];
+                        sendHsReady();
+                      } else {
+                        sendHsNotReady();
                       }
-                    />
-                  )
-                }
-              />
-              {room.players
-                .filter((player) => player !== undefined && !player.isMe)
-                .map((player, idx) => (
-                  <PlayerZone
-                    key={idx}
-                    who={Who.Op}
-                    player={player}
-                    btn={
-                      room.stage === RoomStage.WAITING ? null : (
-                        <MoraAvatar
-                          mora={
-                            op?.moraResult !== undefined &&
-                            op.moraResult !== HandType.UNKNOWN
-                              ? Object.values(Mora)[op.moraResult - 1]
-                              : undefined
-                          }
-                        />
-                      )
+                    }}
+                  >
+                    {me?.state === PlayerState.NO_READY
+                      ? "决斗准备"
+                      : "取消准备"}
+                  </Button>
+                ) : (
+                  <MoraAvatar
+                    mora={
+                      me?.moraResult !== undefined &&
+                      me.moraResult !== HandType.UNKNOWN
+                        ? Object.values(Mora)[me.moraResult - 1]
+                        : undefined
                     }
                   />
-                ))}
-            </div>
-            <ActionButton
-              onMoraSelect={(mora) => {
-                sendHandResult(mora);
-                roomStore.stage = RoomStage.HAND_SELECTED;
-              }}
-              onTpSelect={(tp) => {
-                sendTpResult(tp === Tp.First);
-                roomStore.stage = RoomStage.TP_SELECTED;
-              }}
+                )
+              }
             />
+            {room.players
+              .filter((player) => player !== undefined && !player.isMe)
+              .map((player, idx) => (
+                <PlayerZone
+                  key={idx}
+                  who={Who.Op}
+                  player={player}
+                  btn={
+                    room.stage === RoomStage.WAITING ? null : (
+                      <MoraAvatar
+                        mora={
+                          op?.moraResult !== undefined &&
+                          op.moraResult !== HandType.UNKNOWN
+                            ? Object.values(Mora)[op.moraResult - 1]
+                            : undefined
+                        }
+                      />
+                    )
+                  }
+                />
+              ))}
           </div>
+          <ActionButton
+            onMoraSelect={(mora) => {
+              sendHandResult(mora);
+              roomStore.stage = RoomStage.HAND_SELECTED;
+            }}
+            onTpSelect={(tp) => {
+              sendTpResult(tp === Tp.First);
+              roomStore.stage = RoomStage.TP_SELECTED;
+            }}
+          />
         </div>
       </div>
-    </ConfigProvider>
+    </div>
   );
 };
 
