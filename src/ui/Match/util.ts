@@ -7,8 +7,8 @@ import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 
 const NeosConfig = useConfig();
 
-// 进行进入房间/回放前的一些初始化操作
-export const init = async (params: {
+// 连接SRVPRO服务
+export const connectSrvpro = async (params: {
   ip: string;
   player: string;
   passWd: string;

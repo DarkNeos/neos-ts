@@ -6,7 +6,7 @@ import { proxy, useSnapshot } from "valtio";
 import { matStore } from "@/stores";
 
 import { Uploader } from "../Shared";
-import { init } from "./util";
+import { connectSrvpro } from "./util";
 
 const localStore = proxy({
   open: false,
@@ -45,7 +45,7 @@ export const ReplayModal: React.FC = () => {
       // FIXME: 这样写应该不对，有空来修
       window.myExtraDeckCodes = [];
 
-      await init({
+      await connectSrvpro({
         ip: "",
         player: "",
         passWd: "",

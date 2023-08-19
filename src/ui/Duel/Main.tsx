@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { resetUniverse } from "@/stores";
+
+import { ChangeSideModal, TpModal } from "../Side";
 import {
   Alert,
   AnnounceModal,
@@ -18,6 +21,13 @@ import {
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 
 export const Component: React.FC = () => {
+  useEffect(() => {
+    return () => {
+      // Duel组件卸载的时候初始化一些store
+      resetUniverse();
+    };
+  }, []);
+
   return (
     <>
       <Underlying />
@@ -37,6 +47,8 @@ export const Component: React.FC = () => {
       <AnnounceModal />
       <SimpleSelectCardsModal />
       <EndModal />
+      <ChangeSideModal />
+      <TpModal />
     </>
   );
 };

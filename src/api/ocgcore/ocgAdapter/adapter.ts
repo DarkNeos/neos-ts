@@ -1,6 +1,7 @@
 import { ygopro } from "../idl/ocgcore";
 import { YgoProPacket } from "./packet";
 import {
+  STOC_CHANGE_SIDE,
   STOC_CHAT,
   STOC_DECK_COUNT,
   STOC_DUEL_START,
@@ -15,7 +16,9 @@ import {
   STOC_SELECT_TP,
   STOC_TIME_LIMIT,
   STOC_TYPE_CHANGE,
+  STOC_WAITING_SIDE,
 } from "./protoDecl";
+import StocChangeSide from "./stoc/stocChangeSide";
 import StocChat from "./stoc/stocChat";
 import StocDeckCount from "./stoc/stocDeckCount";
 import StocDuelStart from "./stoc/stocDuelStart";
@@ -30,6 +33,7 @@ import StocSelectHand from "./stoc/stocSelectHand";
 import StocSelectTp from "./stoc/stocSelectTp";
 import StocTimeLimit from "./stoc/stocTimeLimit";
 import StocTypeChange from "./stoc/stocTypeChange";
+import StocWaitingSide from "./stoc/stocWaitingSide";
 
 /*
  * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
@@ -95,6 +99,14 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_ERROR_MSG: {
       pb = new StocErrorMsg(packet).upcast();
+      break;
+    }
+    case STOC_CHANGE_SIDE: {
+      pb = new StocChangeSide(packet).upcast();
+      break;
+    }
+    case STOC_WAITING_SIDE: {
+      pb = new StocWaitingSide(packet).upcast();
       break;
     }
     default: {

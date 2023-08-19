@@ -14,7 +14,7 @@ import {
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import PlayerState = ygopro.StocHsPlayerChange.State;
 import SelfType = ygopro.StocTypeChange.SelfType;
-import { Avatar, Button, Skeleton, Space } from "antd";
+import { App, Avatar, Button, Skeleton, Space } from "antd";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,7 @@ import {
   resetUniverse,
   RoomStage,
   roomStore,
+  sideStore,
 } from "@/stores";
 import { Background, IconFont, Select, SpecialButton } from "@/ui/Shared";
 
@@ -39,11 +40,13 @@ import { Mora, MoraPopover, Tp, TpPopover } from "./Popover";
 const NeosConfig = useConfig();
 
 export const Component: React.FC = () => {
+  const { message } = App.useApp();
   const { user } = useSnapshot(accountStore);
   const [collapsed, setCollapsed] = useState(false);
   const { decks } = useSnapshot(deckStore);
   const [deck, setDeck] = useState<IDeck>(JSON.parse(JSON.stringify(decks[0])));
   const room = useSnapshot(roomStore);
+  const { errorMsg } = room;
   const me = room.getMePlayer();
   const op = room.getOpPlayer();
   const navigate = useNavigate();
@@ -55,6 +58,13 @@ export const Component: React.FC = () => {
       // TODO: 重置房间状态(也可能是在这个页面的loader之中重置，就看是进房间重置还是离开时重置，可能需要考虑意外离开的情况)
     }
   }, [room.stage]);
+  useEffect(() => {
+    // 出现错误
+    if (errorMsg !== undefined && errorMsg !== "") {
+      message.error(errorMsg);
+      roomStore.errorMsg = undefined;
+    }
+  }, [errorMsg]);
 
   return (
     <div
@@ -75,7 +85,6 @@ export const Component: React.FC = () => {
           <Controller
             onDeckChange={(deckName: string) => {
               const deck = deckStore.get(deckName);
-              // 同步后端
               if (deck) {
                 setDeck(deck);
               } else {
@@ -96,6 +105,9 @@ export const Component: React.FC = () => {
                     onClick={() => {
                       if (me?.state === PlayerState.NO_READY) {
                         sendUpdateDeck(deck);
+                        // 设置side里面的卡组
+                        sideStore.deck = deck;
+                        // 设置额外卡组数据
                         window.myExtraDeckCodes = [...deck.extra];
                         sendHsReady();
                       } else {

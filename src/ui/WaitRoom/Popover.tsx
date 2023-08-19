@@ -68,7 +68,9 @@ export const MoraPopover: React.FC<
 };
 
 export const TpPopover: React.FC<
-  React.PropsWithChildren<{ onSelect?: (result: Tp) => void }>
+  React.PropsWithChildren<{
+    onSelect?: (result: Tp) => void;
+  }>
 > = ({ children, onSelect }) => {
   const [open, setOpen] = useState(false);
 

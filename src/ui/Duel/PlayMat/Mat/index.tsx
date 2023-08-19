@@ -1,3 +1,5 @@
+import { useSnapshot } from "valtio";
+
 import { cardStore } from "@/stores";
 
 import { Bg } from "../Bg";
@@ -21,7 +23,8 @@ export const Mat: React.FC = () => {
 };
 
 const Cards: React.FC = () => {
-  const length = cardStore.inner.length;
+  const { inner } = useSnapshot(cardStore);
+  const length = inner.length;
   return (
     <>
       {Array.from({ length }).map((_, i) => (

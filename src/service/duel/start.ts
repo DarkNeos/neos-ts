@@ -6,7 +6,15 @@ import PlayerType = ygopro.StocGameMessage.MsgStart.PlayerType;
 import { fetchCard, ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
-import { cardStore, CardType, matStore, RoomStage, roomStore } from "@/stores";
+import {
+  cardStore,
+  CardType,
+  matStore,
+  RoomStage,
+  roomStore,
+  SideStage,
+  sideStore,
+} from "@/stores";
 import { replayStart } from "@/ui/Match/ReplayModal";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
@@ -19,9 +27,14 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
       ? 1
       : 0;
 
-  // 通知房间页面决斗开始
-  // 这行在该函数中的位置不能随便放，否则可能会block住
-  roomStore.stage = RoomStage.DUEL_START;
+  if (sideStore.stage !== SideStage.NONE) {
+    // 更新Side状态
+    sideStore.stage = SideStage.DUEL_START;
+  } else {
+    // 通知房间页面决斗开始
+    // 这行在该函数中的位置不能随便放，否则可能会block住
+    roomStore.stage = RoomStage.DUEL_START;
+  }
 
   matStore.initInfo.set(0, {
     life: start.life1,

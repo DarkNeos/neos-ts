@@ -147,7 +147,7 @@ export const Component: React.FC = () => {
 Component.displayName = "Build";
 
 /** 正在编辑的卡组 */
-const DeckEditor: React.FC<{
+export const DeckEditor: React.FC<{
   deck: IDeck;
   onClear: () => void;
   onReset: () => void;
