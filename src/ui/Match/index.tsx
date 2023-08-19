@@ -1,7 +1,7 @@
 import {
   EditOutlined,
   LoadingOutlined,
-  PlayCircleOutlined,
+  PlayCircleFilled,
   SettingFilled,
 } from "@ant-design/icons";
 import { App, Button, Space } from "antd";
@@ -135,13 +135,13 @@ export const Component: React.FC = () => {
           <div className={styles["mode-select"]}>
             <Mode
               title="竞技匹配"
-              desc="与天梯其他数万名玩家激战，追求胜利登顶最强。每月最后一天晚上10点结算成绩，获取奖励与公布排名。"
+              desc="与天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。"
               icon={<IconFont type="icon-battle" size={32} />}
               onClick={onCompetitiveMatch}
             />
             <Mode
               title="娱乐匹配"
-              desc="过去一周竞技匹配使用数最靠前的20个卡组被禁止使用。将胜负暂且搁置，尽情享受决斗的乐趣。"
+              desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被。"
               icon={
                 matchLoading ? (
                   <LoadingOutlined />
@@ -153,7 +153,7 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="单人模式"
-              desc="开启与AI的决斗，验证自己的卡组，或者只是打发时间。"
+              desc="开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。"
               icon={
                 singleLoading ? (
                   <LoadingOutlined />
@@ -165,7 +165,7 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="自定义房间"
-              desc="创建双打TAG或自定义规则的房间，或与好友约战，甚至举办竞技比赛。"
+              desc="创建双打TAG或自定义规则的房间，与好友约战。"
               icon={<SettingFilled />}
               onClick={onCustomRoom}
             />
@@ -177,8 +177,8 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="观战列表"
-              desc="观看MyCard上正在进行的决斗"
-              icon={<PlayCircleOutlined />}
+              desc="观看萌卡MyCard上正在进行的决斗。"
+              icon={<PlayCircleFilled />}
               onClick={onWatchList}
             />
           </div>

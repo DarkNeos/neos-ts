@@ -17,12 +17,13 @@ export const theme: ThemeConfig = {
       paddingContentHorizontalLG: 36,
     },
     Select: {
-      colorBgElevated: "hsla(0, 0%, 20%, 0.3)",
-      controlItemBgActive: "#79797955",
+      colorBgElevated: "hsla(0, 0%, 20%, 0.1)",
+      controlItemBgActive: "#3a4e69",
       colorBorder: "transparent",
       colorBgContainer: "hsla(0, 0%, 100%, 0.05)",
       colorPrimaryHover: "#3400d1",
       lineWidth: 0,
+      fontSizeLG: 14,
     },
     InputNumber: {
       colorBorder: "transparent",
