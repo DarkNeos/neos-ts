@@ -46,7 +46,7 @@ export const theme: ThemeConfig = {
       fontSizeLG: 14,
       fontSize: 12,
       colorBgContainer: "hsla(0, 0%, 100%, 0.05)",
-      colorPrimaryHover: "#ccc",
+      // colorPrimaryHover: "#ccc",
       colorPrimaryActive: "#aaa",
     },
     Popover: {
