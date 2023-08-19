@@ -35,7 +35,7 @@
     "build:prod": "vite build --base=https://cdn02.moecube.com:444/neos/",
     "preview": "vite preview",
     "lint": "eslint --ext .ts --ext .tsx src",
-    "fmt": "eslint --ext .ts --ext .tsx src --fix && cd rust-src && cargo fmt"
+    "fmt": "npx tsc && eslint --ext .ts --ext .tsx src --fix && cd rust-src && cargo fmt"
   },
   "eslintConfig": {
     "extends": [
