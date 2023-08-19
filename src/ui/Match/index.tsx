@@ -77,9 +77,10 @@ export const Component: React.FC = () => {
               }))}
             />
             <Button
-              style={{ width: 150, fontSize: "14px" }}
+              style={{ width: 150 }}
               icon={<EditOutlined />}
               onClick={() => navigate("/build")}
+              size="large"
             >
               卡组编辑
             </Button>
