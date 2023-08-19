@@ -141,7 +141,7 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="娱乐匹配"
-              desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被。"
+              desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被禁用。"
               icon={
                 matchLoading ? (
                   <LoadingOutlined />
