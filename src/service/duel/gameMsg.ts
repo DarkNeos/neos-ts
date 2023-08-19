@@ -88,13 +88,9 @@ const ReplayIgnoreMsg = [
   "announce",
 ];
 
-let animation: Promise<unknown> = new Promise<void>((rs) => rs());
-
-export default async function handleGameMsg(pb: ygopro.YgoStocMsg) {
-  animation = animation.then(() => _handleGameMsg(pb));
-}
-
-async function _handleGameMsg(pb: ygopro.YgoStocMsg) {
+export default async function handleGameMsg(
+  pb: ygopro.YgoStocMsg,
+): Promise<void> {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {

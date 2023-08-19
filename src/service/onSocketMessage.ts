@@ -20,13 +20,23 @@ import handleHsPlayerEnter from "./room/hsPlayerEnter";
 import handleHsWatchChange from "./room/hsWatchChange";
 import handleJoinGame from "./room/joinGame";
 import handleTypeChange from "./room/typeChange";
+import { handleChangeSide } from "./side/changeSide";
+import { handleWaitingSide } from "./side/waitingSide";
 
 /*
  * 先将从长连接中读取到的二进制数据通过Adapter转成protobuf结构体，
  * 然后再分发到各个处理函数中去处理。
  *
  * */
+
+let animation: Promise<void> = Promise.resolve();
+
 export default async function handleSocketMessage(e: MessageEvent) {
+  // 确保按序执行
+  animation = animation.then(() => _handle(e));
+}
+
+async function _handle(e: MessageEvent) {
   const packet = YgoProPacket.deserialize(e.data);
   const pb = adaptStoc(packet);
 
@@ -91,6 +101,14 @@ export default async function handleSocketMessage(e: MessageEvent) {
     }
     case "stoc_error_msg": {
       await handleErrorMsg(pb.stoc_error_msg);
+      break;
+    }
+    case "stoc_change_side": {
+      handleChangeSide(pb.stoc_change_side);
+      break;
+    }
+    case "stoc_waiting_side": {
+      handleWaitingSide(pb.stoc_waiting_side);
       break;
     }
     default: {

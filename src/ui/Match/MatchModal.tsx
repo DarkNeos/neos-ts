@@ -1,4 +1,4 @@
-import { Button, Input, Modal } from "antd";
+import { App, Button, Input, Modal } from "antd";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
@@ -7,7 +7,7 @@ import { useConfig } from "@/config";
 import { accountStore, roomStore } from "@/stores";
 
 import styles from "./MatchModal.module.scss";
-import { init } from "./util";
+import { connectSrvpro } from "./util";
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;
 
@@ -27,6 +27,7 @@ const defaultProps: Props = {
 export const matchStore = proxy<Props>(defaultProps);
 
 export const MatchModal: React.FC = ({}) => {
+  const { message } = App.useApp();
   const { open } = useSnapshot(matchStore);
   const { user } = useSnapshot(accountStore);
   const { joined, errorMsg } = useSnapshot(roomStore);
@@ -50,7 +51,7 @@ export const MatchModal: React.FC = ({}) => {
 
   const handleSubmit = async () => {
     setConfirmLoading(true);
-    await init({ player, ip: server, passWd: passwd });
+    await connectSrvpro({ player, ip: server, passWd: passwd });
   };
 
   useEffect(() => {
@@ -70,7 +71,7 @@ export const MatchModal: React.FC = ({}) => {
   useEffect(() => {
     // 出现错误
     if (errorMsg !== undefined && errorMsg !== "") {
-      alert(errorMsg);
+      message.error(errorMsg);
       setConfirmLoading(false);
       roomStore.errorMsg = undefined;
     }

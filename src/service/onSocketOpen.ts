@@ -23,6 +23,6 @@ export default function handleSocketOpen(
     ws.binaryType = "arraybuffer";
 
     sendPlayerInfo(ws, player);
-    sendJoinGame(ws, NeosConfig.version, passWd); // todo: version use config
+    sendJoinGame(ws, NeosConfig.version, passWd);
   }
 }

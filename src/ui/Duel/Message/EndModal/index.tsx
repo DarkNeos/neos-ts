@@ -1,9 +1,8 @@
 import React, { CSSProperties } from "react";
-import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
-import { matStore, replayStore, resetUniverse } from "@/stores";
+import { matStore, replayStore, resetDuel } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
@@ -25,11 +24,10 @@ export const EndModal: React.FC = () => {
   const { isOpen, isWin, reason } = useSnapshot(localStore);
   const { isReplay } = useSnapshot(matStore);
 
-  const navigate = useNavigate();
   const onReturn = () => {
-    resetUniverse();
+    resetDuel();
     rs();
-    navigate("/match");
+    // TODO: 这里暂时不自动跳转，决斗结束后让玩家自己手动选择回到主页
   };
 
   return (

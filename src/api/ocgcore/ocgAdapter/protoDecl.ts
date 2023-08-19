@@ -31,6 +31,8 @@ export const STOC_DUEL_START = 21;
 export const STOC_GAME_MSG = 1;
 export const STOC_TIME_LIMIT = 24;
 export const STOC_ERROR_MSG = 2;
+export const STOC_CHANGE_SIDE = 7;
+export const STOC_WAITING_SIDE = 8;
 
 export const MSG_START = 4;
 export const MSG_DRAW = 90;
