@@ -11,7 +11,7 @@ import { useSnapshot } from "valtio";
 
 import { match } from "@/api";
 import { useConfig } from "@/config";
-import { accountStore, deckStore, IDeck, roomStore } from "@/stores";
+import { accountStore, deckStore, roomStore } from "@/stores";
 import { Background, IconFont, Select } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
@@ -27,12 +27,12 @@ export const Component: React.FC = () => {
   const [server, setServer] = useState(
     `${serverList[0].ip}:${serverList[0].port}`,
   );
-  const { decks } = useSnapshot(deckStore);
-  const [deck, setDeck] = useState<IDeck>(JSON.parse(JSON.stringify(decks[0])));
+  const { decks } = deckStore;
+  const [deckName, setDeckName] = useState(decks.at(0)?.deckName ?? "");
   const user = accountStore.user;
   const { joined } = useSnapshot(roomStore);
   const [singleLoading, setSingleLoading] = useState(false); // 单人模式的loading状态
-  const [matchLoading, setMatchLoading] = useState(false);
+  const [matchLoading, setMatchLoading] = useState(false); // 匹配模式的loading状态
   const navigate = useNavigate();
 
   // 竞技匹配
@@ -107,13 +107,13 @@ export const Component: React.FC = () => {
             <Select
               title="卡组"
               showSearch
-              value={deck.deckName}
+              value={deckName}
               style={{ width: 200 }}
               onChange={(value) => {
                 // @ts-ignore
                 const item = deckStore.get(value);
                 if (item) {
-                  setDeck(item);
+                  setDeckName(item.deckName);
                 } else {
                   message.error(`Deck ${value} not found`);
                 }

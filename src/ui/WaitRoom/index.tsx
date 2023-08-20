@@ -43,8 +43,10 @@ export const Component: React.FC = () => {
   const { message } = App.useApp();
   const { user } = useSnapshot(accountStore);
   const [collapsed, setCollapsed] = useState(false);
-  const { decks } = useSnapshot(deckStore);
-  const [deck, setDeck] = useState<IDeck>(JSON.parse(JSON.stringify(decks[0])));
+  const { decks } = deckStore;
+  const defaultDeck =
+    decks.length > 0 ? JSON.parse(JSON.stringify(decks[0])) : undefined;
+  const [deck, setDeck] = useState<IDeck | undefined>(defaultDeck);
   const room = useSnapshot(roomStore);
   const { errorMsg } = room;
   const me = room.getMePlayer();
@@ -104,12 +106,16 @@ export const Component: React.FC = () => {
                     className={styles["btn-join"]}
                     onClick={() => {
                       if (me?.state === PlayerState.NO_READY) {
-                        sendUpdateDeck(deck);
-                        // 设置side里面的卡组
-                        sideStore.deck = deck;
-                        // 设置额外卡组数据
-                        window.myExtraDeckCodes = [...deck.extra];
-                        sendHsReady();
+                        if (deck) {
+                          sendUpdateDeck(deck);
+                          // 设置side里面的卡组
+                          sideStore.deck = deck;
+                          // 设置额外卡组数据
+                          window.myExtraDeckCodes = [...deck.extra];
+                          sendHsReady();
+                        } else {
+                          message.error("请先选择卡组");
+                        }
                       } else {
                         sendHsNotReady();
                       }

@@ -2,6 +2,7 @@ import { RightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
+import { getSSOSignInUrl } from "@/api";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 import { Background, SpecialButton } from "@/ui/Shared";
@@ -49,7 +50,7 @@ const LoginBtn: React.FC<{ logined: boolean }> = ({ logined }) => {
 
   const loginViaSSO = () =>
     // 跳转回match页
-    location.replace(getSSOUrl(`${location.origin}/match/}`));
+    location.replace(getSSOSignInUrl(`${location.origin}/match/`));
 
   const goToMatch = () => navigate("/match");
 
@@ -60,15 +61,3 @@ const LoginBtn: React.FC<{ logined: boolean }> = ({ logined }) => {
     </SpecialButton>
   );
 };
-
-/** 构建一个单点登录（Single Sign-On，简称SSO）的URL */
-function getSSOUrl(callbackUrl: string): string {
-  const params = new URLSearchParams({
-    sso: btoa(new URLSearchParams({ return_sso_url: callbackUrl }).toString()),
-  });
-
-  const url = new URL(NeosConfig.accountUrl);
-  url.search = params.toString();
-
-  return url.toString();
-}
