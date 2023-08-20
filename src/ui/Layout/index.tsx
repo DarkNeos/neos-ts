@@ -9,6 +9,12 @@ import {
 } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
+import {
+  CookieKeys,
+  getSSOSignInUrl,
+  getSSOSignOutUrl,
+  removeCookie,
+} from "@/api";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
@@ -49,16 +55,26 @@ const HeaderBtn: React.FC<
 
 export const Component = () => {
   // 捕获SSO登录
-  const location = useLocation();
+  const routerLocation = useLocation();
   useEffect(() => {
-    location.search && handleSSOLogin(location.search);
-  }, [location.search]);
+    routerLocation.search && handleSSOLogin(routerLocation.search);
+  }, [routerLocation.search]);
 
   // 根据是否登录，显示内容
   const logined = Boolean(useSnapshot(accountStore).user);
 
-  const { pathname } = useLocation();
+  const { pathname } = routerLocation;
   const pathnamesHideHeader = ["/waitroom", "/duel"];
+
+  const callbackUrl = `${location.origin}/match/`;
+  const onLogin = () => location.replace(getSSOSignInUrl(callbackUrl));
+  const onLogout = () => {
+    removeCookie(CookieKeys.USER);
+    accountStore.logout();
+    // 跳转SSO登出
+    location.replace(getSSOSignOutUrl(callbackUrl));
+  };
+
   return (
     <>
       {!pathnamesHideHeader.includes(pathname) && (
@@ -111,6 +127,10 @@ export const Component = () => {
                         决斗数据库
                       </a>
                     ),
+                  },
+                  {
+                    label: logined ? "退出登录" : "登录萌卡",
+                    onClick: logined ? onLogout : onLogin,
                   },
                 ].map((x, key) => ({ ...x, key })),
               }}
