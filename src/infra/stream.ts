@@ -17,6 +17,13 @@ export class WebSocketStream {
     if (onWsOpen) {
       this.ws.onopen = (e) => onWsOpen(this.ws, e);
     }
+    this.ws.onerror = (e) => {
+      if (e instanceof ErrorEvent) {
+        alert(`websocket error: ${e.message}`);
+      } else {
+        alert(`websocket connect to ${ip} error`);
+      }
+    };
 
     const ws = this.ws;
     this.stream = new ReadableStream({
