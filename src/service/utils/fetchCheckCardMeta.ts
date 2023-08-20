@@ -30,7 +30,7 @@ const helper = async (
     code !== 0
       ? code
       : cardStore.at(location.zone, controller, location.sequence)?.code || 0;
-  const meta = await fetchCard(newID);
+  const meta = fetchCard(newID);
 
   const effectDesc = effect_description
     ? getCardStr(meta, effect_description & 0xf)

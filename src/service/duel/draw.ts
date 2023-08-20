@@ -17,7 +17,7 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
   for (const idx in newHands) {
     const card = newHands[Number(idx)];
     const code = draw.cards[idx];
-    const meta = await fetchCard(code);
+    const meta = fetchCard(code);
     card.code = code;
     card.meta = meta;
     card.location.zone = ygopro.CardZone.HAND;

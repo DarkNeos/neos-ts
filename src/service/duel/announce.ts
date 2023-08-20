@@ -40,7 +40,7 @@ export default async (announce: MsgAnnounce) => {
     case MsgAnnounce.AnnounceType.Card: {
       const options = [];
       for (const option of announce.options) {
-        const meta = await fetchCard(option.code);
+        const meta = fetchCard(option.code);
         if (meta.text.name) {
           options.push({
             info: meta.text.name,

@@ -16,7 +16,7 @@ export default async (updateData: MsgUpdateData) => {
         if (target) {
           // 目前只更新以下字段
           if (action?.code >= 0) {
-            const newMeta = await fetchCard(action.code);
+            const newMeta = fetchCard(action.code);
             target.code = action.code;
             target.meta = newMeta;
           }

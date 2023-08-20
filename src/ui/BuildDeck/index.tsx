@@ -260,8 +260,8 @@ const Search: React.FC = () => {
     ] as const
   ).map(([label, onClick], key) => ({ key, label, onClick }));
 
-  const handleSearch = async (conditions: FtsConditions = searchConditions) => {
-    const result = (await searchCards({ query: searchWord, conditions }))
+  const handleSearch = (conditions: FtsConditions = searchConditions) => {
+    const result = searchCards({ query: searchWord, conditions })
       .filter((card) => !isToken(card.data.type ?? 0))
       .sort(sortRef.current); // 衍生物不显示
     setSearchResult(() => result);

@@ -32,6 +32,6 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
   // TODO: 国际化文案
 
   const desc = fetchStrings(Region.System, effect_description);
-  const meta = await fetchCard(code);
+  const meta = fetchCard(code);
   await displayYesNoModal(textGenerator(desc, meta, location));
 };
