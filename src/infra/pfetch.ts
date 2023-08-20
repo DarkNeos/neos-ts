@@ -26,7 +26,7 @@ export async function pfetch(
       }
 
       bytesRead += value.length;
-      const progress = (bytesRead / contentLength) * 100;
+      const progress = bytesRead / contentLength;
       options?.progressCallback(progress);
     }
   }
