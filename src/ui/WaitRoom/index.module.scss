@@ -54,9 +54,15 @@
     .inner {
       position: absolute;
       left: 0;
+      width: 150px;
+      height: 70px;
+      filter: blur(120px);
+      transition: 0.3s;
+    }
+    &.ready .inner {
       width: 250px;
       height: 100px;
-      filter: blur(120px);
+      filter: blur(100px) brightness(1.2) saturate(1.2);
     }
     &.me {
       box-shadow: -5px 0 20px 0 rgba(0, 115, 255, 0.15);
