@@ -11,7 +11,7 @@ export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
 
     if (target) {
       // 设置`occupant`
-      const meta = await fetchCard(card.code);
+      const meta = fetchCard(card.code);
       target.meta = meta;
       // 动画
       await callCardFocus(target.uuid);

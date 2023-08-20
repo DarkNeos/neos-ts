@@ -34,7 +34,7 @@ export default async (move: MsgMove) => {
   const to = move.to;
   const reason = move.reason;
 
-  const meta = await fetchCard(code);
+  const meta = fetchCard(code);
   if (meta.data.type !== undefined && (meta.data.type & TYPE_TOKEN) > 0) {
     // 衍生物
     if (from.zone === DECK) {

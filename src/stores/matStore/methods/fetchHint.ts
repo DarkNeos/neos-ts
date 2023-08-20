@@ -22,7 +22,7 @@ export const fetchSelectHintMeta = async ({
   let selectHintMeta = "";
   if (selectHintData > DESCRIPTION_LIMIT) {
     // 针对`MSG_SELECT_PLACE`的特化逻辑
-    const cardMeta = await fetchCard(selectHintData);
+    const cardMeta = fetchCard(selectHintData);
     selectHintMeta = fetchStrings(Region.System, 569).replace(
       "[%ls]",
       cardMeta.text.name || "[?]",
@@ -55,7 +55,7 @@ export const fetchEsHintMeta = async ({
       ? originMsg
       : fetchStrings(Region.System, originMsg);
 
-  const cardMeta = cardID ? await fetchCard(cardID) : undefined;
+  const cardMeta = cardID ? fetchCard(cardID) : undefined;
 
   let esHint = newOriginMsg;
 

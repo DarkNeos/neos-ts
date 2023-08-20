@@ -99,6 +99,7 @@ export const Component: React.FC = () => {
               who={Who.Me}
               player={me}
               avatar={user?.avatar_url}
+              ready={me?.state === PlayerState.READY}
               btn={
                 room.stage === RoomStage.WAITING ? (
                   <Button
@@ -144,6 +145,7 @@ export const Component: React.FC = () => {
                   key={idx}
                   who={Who.Op}
                   player={player}
+                  ready={op?.state === PlayerState.READY}
                   btn={
                     room.stage === RoomStage.WAITING ? null : (
                       <MoraAvatar
@@ -183,12 +185,17 @@ enum Who {
 // 玩家区域: 双方各有一个
 const PlayerZone: React.FC<{
   btn?: React.ReactNode; // 在内部右侧可以放一个按钮
-  who?: Who;
+  who: Who;
   player?: Player;
   avatar?: string; // 因为对手的头像目前不清楚如何获取，因此暂时这里作为一个参数传入
-}> = ({ btn, who, player, avatar }) => {
+  ready: boolean;
+}> = ({ btn, who, player, avatar, ready }) => {
   return (
-    <div className={classNames(styles["side-box"], who && styles[who])}>
+    <div
+      className={classNames(styles["side-box"], styles[who], {
+        [styles.ready]: ready,
+      })}
+    >
       <div className={styles.inner}></div>
       <div style={{ position: "relative" }}>
         <Avatar
@@ -364,7 +371,10 @@ const ActionButton: React.FC<{
               <span>等待游戏开始</span>
             </>
           ) : (
-            <></>
+            <>
+              <LoadingOutlined />
+              <span>等待游戏开始</span>
+            </>
           )}
         </SpecialButton>
       </TpPopover>

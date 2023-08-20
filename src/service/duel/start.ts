@@ -106,7 +106,7 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
 const genCard = (o: CardType) => {
   const t = proxy(o);
   subscribeKey(t, "code", async (code) => {
-    const meta = await fetchCard(code ?? 0);
+    const meta = fetchCard(code ?? 0);
     t.meta = meta;
   });
   return t;

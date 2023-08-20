@@ -50,8 +50,8 @@ export interface CardText {
  * @returns 卡片数据
  *
  * */
-export async function fetchCard(id: number): Promise<CardMeta> {
-  const res = await sqliteMiddleWare({
+export function fetchCard(id: number): CardMeta {
+  const res = sqliteMiddleWare({
     cmd: sqliteCmd.SELECT,
     payload: { id },
   });
@@ -65,8 +65,8 @@ export async function fetchCard(id: number): Promise<CardMeta> {
  * @returns 卡片数据
  *
  * */
-export async function searchCards(params: FtsParams): Promise<CardMeta[]> {
-  const res = await sqliteMiddleWare({
+export function searchCards(params: FtsParams): CardMeta[] {
+  const res = sqliteMiddleWare({
     cmd: sqliteCmd.FTS,
     payload: { ftsParams: params },
   });
