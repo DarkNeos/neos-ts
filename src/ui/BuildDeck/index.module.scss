@@ -40,6 +40,7 @@
 }
 
 .container {
+  width: -webkit-fill-available;
   height: calc(100% - 20px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;

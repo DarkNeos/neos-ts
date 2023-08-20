@@ -71,7 +71,7 @@ export const loader: LoaderFunction = async () => {
 
 export const Component: React.FC = () => {
   const snapDecks = useSnapshot(deckStore);
-  const { sqlite } = useSnapshot(initStore);
+  const { progress } = useSnapshot(initStore.sqlite);
   const [selectedDeck, setSelectedDeck] = useState<IDeck>(deckStore.decks[0]);
 
   const { message } = App.useApp();
@@ -122,23 +122,25 @@ export const Component: React.FC = () => {
           <HigherCardDetail />
         </div>
         <div className={styles.content}>
-          <div className={styles.deck}>
-            <DeckEditor
-              deck={selectedDeck}
-              onClear={editDeckStore.clear}
-              onReset={handleDeckEditorReset}
-              onSave={handleDeckEditorSave}
-            />
-          </div>
-          <div className={styles.select}>
-            {sqlite.progress === 1 ? (
-              <Search />
-            ) : (
-              <div className={styles.container}>
-                <Loading />
+          {progress === 1 ? (
+            <>
+              <div className={styles.deck}>
+                <DeckEditor
+                  deck={selectedDeck}
+                  onClear={editDeckStore.clear}
+                  onReset={handleDeckEditorReset}
+                  onSave={handleDeckEditorSave}
+                />
               </div>
-            )}
-          </div>
+              <div className={styles.select}>
+                <Search />
+              </div>
+            </>
+          ) : (
+            <div className={styles.container}>
+              <Loading progress={progress * 100} />
+            </div>
+          )}
         </div>
       </div>
     </DndProvider>
