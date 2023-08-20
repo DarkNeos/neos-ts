@@ -3,7 +3,7 @@
    "servers":[
       {
          "name":"koishi",
-         "ip":"koishi-r.momobako.com",
+         "ip":"koishi.momobako.com",
          "port":"7211"
       }
    ],
