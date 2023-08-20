@@ -23,7 +23,7 @@ export const CardDetail: React.FC<{
 }> = ({ code, open, onClose }) => {
   const [card, setCard] = useState<CardMeta>();
   useEffect(() => {
-    fetchCard(code).then(setCard);
+    setCard(fetchCard(code));
   }, [code]);
   const cardType = useMemo(
     () =>

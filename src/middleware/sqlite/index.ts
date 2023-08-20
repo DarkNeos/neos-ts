@@ -24,8 +24,8 @@ export enum sqliteCmd {
   FTS,
 }
 
-export interface sqliteAction {
-  cmd: sqliteCmd;
+export interface sqliteAction<T extends sqliteCmd> {
+  cmd: T;
   // 初始化DB需要业务方传入的数据
   initInfo?: {
     dbUrl: string;
@@ -47,8 +47,14 @@ const sqlPromise = initSqlJs({
   locateFile: (file) => `${NeosConfig.assetsPath}/${file}`,
 });
 
+export default function <T extends sqliteCmd>(
+  action: sqliteAction<T>,
+): T extends sqliteCmd.INIT ? Promise<void> : sqliteResult {
+  return helper(action) as any;
+}
+
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果，比如初始化DB失败
-export default async function (action: sqliteAction): Promise<sqliteResult> {
+function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
   switch (action.cmd) {
     case sqliteCmd.INIT: {
       const info = action.initInfo;
@@ -56,16 +62,14 @@ export default async function (action: sqliteAction): Promise<sqliteResult> {
         const dataPromise = pfetch(info.dbUrl, {
           progressCallback: action.initInfo?.progressCallback,
         }).then((res) => res.arrayBuffer()); // TODO: i18n
-
-        const [SQL, buffer] = await Promise.all([sqlPromise, dataPromise]);
-        YGODB = new SQL.Database(new Uint8Array(buffer));
-
-        console.info("YGODB inited!");
+        return Promise.all([sqlPromise, dataPromise]).then(([SQL, buffer]) => {
+          YGODB = new SQL.Database(new Uint8Array(buffer));
+          console.log("YGODB inited!");
+        });
       } else {
         console.warn("init YGODB action without initInfo");
+        return {};
       }
-
-      return {};
     }
     case sqliteCmd.SELECT: {
       if (YGODB && action.payload && action.payload.id) {
