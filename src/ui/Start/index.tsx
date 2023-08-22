@@ -24,10 +24,10 @@ export const Component: React.FC = () => {
               src={`${NeosConfig.assetsPath}/neos-logo.svg`}
               alt="YGO NEOS"
             />
-            <div className={styles.title}>游戏王网页对战模拟器</div>
+            <div className={styles.title}>游戏王网页端对战平台</div>
             <div className={styles.keywords}>开源、免费、轻量级</div>
             <div className={styles.details}>
-              这是有关Neos的详细介绍。观夫明堂之宏壮也，则突兀瞳曨，乍明乍蒙，若大古元气之结空。巃嵸颓沓，若嵬若嶪，似天阃地门之开阖。尔乃划岝峉以岳立，郁穹崇而鸿纷。冠百王而垂勋，烛万象而腾文。
+              Neos是一个开源的游戏王网页端对战平台。在Neos中，你可以组建卡组，创建房间，邀请好友进行对战。目前，Neos已经实现了与来自YGOpro、YGOpro2、YGOmobile和KoishiPro等平台的玩家进行对战的功能，而今后更多客户端也将得到支持。
             </div>
             <LoginBtn logined={Boolean(user)} />
           </div>

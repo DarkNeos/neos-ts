@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 
-import { type CardMeta } from "@/api";
+import { type CardMeta, forbidden } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
 
 import { compareCards, type EditingDeck, type Type } from "./utils";
@@ -40,6 +40,13 @@ export const editDeckStore = proxy({
     editDeckStore.side = [];
     editDeckStore.edited = true;
   },
+  getAll() {
+    return [
+      ...editDeckStore.main,
+      ...editDeckStore.extra,
+      ...editDeckStore.side,
+    ];
+  },
   /** 一张卡能不能放入某个区 */
   canAdd(card: CardMeta, type: Type): { result: boolean; reason: string } {
     const deckType = editDeckStore[type];
@@ -67,13 +74,14 @@ export const editDeckStore = proxy({
       reason = "卡片种类不符合";
     }
 
-    const maxSameCard = 3; // TODO: 禁卡表
-    const sameCardCount = deckType.filter((c) => c.id === card.id).length;
+    const maxSameCard = forbidden.get(card.id) ?? 3; // TODO: 禁卡表
+    const sameCardCount = editDeckStore
+      .getAll()
+      .filter((c) => c.id === card.id).length;
     if (sameCardCount >= maxSameCard) {
       result = false;
       reason = `超过同名卡 ${maxSameCard} 张的上限`;
     }
-
     return { result, reason };
   },
 }) satisfies EditingDeck;

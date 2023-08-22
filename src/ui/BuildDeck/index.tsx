@@ -26,7 +26,7 @@ import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { type CardMeta, searchCards } from "@/api";
+import { type CardMeta, searchCards, forbidden } from "@/api";
 import { isToken } from "@/common";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, type IDeck, initStore } from "@/stores";
@@ -50,6 +50,9 @@ import {
   iDeckToEditingDeck,
   type Type,
 } from "./utils";
+import { useConfig } from "@/config";
+
+const { assetsPath } = useConfig();
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -440,7 +443,9 @@ const DeckZone: React.FC<{
             onRightClick={() => editDeckStore.remove(type, card)}
           />
         ))}
-        <div className={styles["editing-zone-name"]}>{type.toUpperCase()}</div>
+        <div className={styles["editing-zone-name"]}>
+          {`${type.toUpperCase()}: ${cards.length}`}
+        </div>
       </div>
     </div>
   );
@@ -505,6 +510,7 @@ const Card: React.FC<{
   });
   drag(ref);
   const [showText, setShowText] = useState(true);
+  const limitCnt = forbidden.get(value.id);
   return (
     <div
       className={styles.card}
@@ -525,6 +531,12 @@ const Card: React.FC<{
         code={value.id}
         onLoad={() => setShowText(false)}
       />
+      {limitCnt !== undefined && (
+        <img
+          className={styles.cardlimit}
+          src={`${assetsPath}/Limit0${limitCnt}.png`}
+        />
+      )}
     </div>
   );
 });
