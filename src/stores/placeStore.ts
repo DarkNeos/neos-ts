@@ -15,7 +15,7 @@ export type PlaceInteractivity =
     }>
   | undefined;
 
-const { MZONE, SZONE, HAND, GRAVE, EXTRA } = ygopro.CardZone;
+const { MZONE, SZONE, HAND, GRAVE, REMOVED } = ygopro.CardZone;
 
 export interface BlockState {
   interactivity?: PlaceInteractivity; // 互动性
@@ -40,16 +40,16 @@ const initialState = {
     op: genPLaces(6),
   },
   [HAND]: {
-    me: [],
-    op: [],
+    me: genPLaces(100), // 给100个占位
+    op: genPLaces(100),
   },
   [GRAVE]: {
-    me: [],
-    op: [],
+    me: genPLaces(100),
+    op: genPLaces(100),
   },
-  [EXTRA]: {
-    me: [],
-    op: [],
+  [REMOVED]: {
+    me: genPLaces(100),
+    op: genPLaces(100),
   },
 };
 
