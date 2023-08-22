@@ -1,4 +1,4 @@
-import { message, notification } from "antd";
+import { message } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
@@ -8,12 +8,6 @@ import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
 
 import styles from "./index.module.scss";
-
-const style = {
-  // borderStyle: "groove",
-  // borderRadius: "8px",
-  backgroundColor: "#444",
-};
 
 const NeosConfig = useConfig();
 
@@ -25,30 +19,19 @@ export const HintNotification = () => {
   const handResults = snap.handResults;
   const currentPhase = snap.phase.currentPhase;
 
-  const [notify, notifyContextHolder] = notification.useNotification({
-    maxCount: NeosConfig.ui.hint.maxCount,
-  });
   const [msgApi, msgContextHolder] = message.useMessage({
     maxCount: NeosConfig.ui.hint.maxCount,
   });
   globalMsgApi = msgApi;
   useEffect(() => {
     if (hintState && hintState.msg) {
-      notify.open({
-        message: `${hintState.msg}`,
-        placement: "topLeft",
-        style: style,
-      });
+      msgApi.info(`${hintState.msg}`);
     }
   }, [hintState.msg]);
 
   useEffect(() => {
     if (toss) {
-      notify.open({
-        message: `${toss}`,
-        placement: "topLeft",
-        style: style,
-      });
+      msgApi.info(`${toss}`);
     }
   }, [toss]);
 
@@ -57,13 +40,11 @@ export const HintNotification = () => {
     const meHand = handResults.me;
     const opHand = handResults.op;
     if (meHand !== HandResult.UNKNOWN && opHand !== HandResult.UNKNOWN) {
-      notify.open({
-        message: `{我方出示${getHandResultText(
-          meHand,
-        )}，对方出示${getHandResultText(opHand)}}`,
-        placement: "topLeft",
-        style: style,
-      });
+      msgApi.info(
+        `{我方出示${getHandResultText(meHand)}，对方出示${getHandResultText(
+          opHand,
+        )}}`,
+      );
     }
   }, [handResults]);
 
@@ -73,23 +54,14 @@ export const HintNotification = () => {
         Region.System,
         Phase2StringCodeMap.get(currentPhase) ?? 0,
       );
-      notify.open({
-        message,
-        placement: "topRight",
-        style: style,
-      });
+      msgApi.info(message);
       console.color("DeepPink")(
         `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`,
       );
     }
   }, [currentPhase]);
 
-  return (
-    <>
-      {notifyContextHolder}
-      {msgContextHolder}
-    </>
-  );
+  return <>{msgContextHolder}</>;
 };
 
 // 防抖的waiting msg
