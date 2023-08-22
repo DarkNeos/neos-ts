@@ -26,6 +26,7 @@ export const YesNoModal: React.FC = () => {
       title={`${preHintMsg} ${msg}`}
       open={isOpen}
       width={400}
+      afterClose={() => (matStore.hint.esHint = undefined)}
       footer={
         <>
           <Button
