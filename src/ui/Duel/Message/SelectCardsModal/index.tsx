@@ -109,6 +109,12 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         disabled: !submitable,
       }}
       open={isOpen}
+      afterClose={() => {
+        // Modal每次展示时都会消费`esHint`和`esSelectHint`，
+        // 否则这些提示会保留到下一次Modal展示，可能会疑惑玩家
+        matStore.hint.esHint = undefined;
+        matStore.hint.esSelectHint = undefined;
+      }}
       footer={
         <>
           {cancelable && <Button onClick={onCancel}>{cancelText}</Button>}
