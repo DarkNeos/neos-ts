@@ -48,7 +48,11 @@ export const editDeckStore = proxy({
     ];
   },
   /** 一张卡能不能放入某个区 */
-  canAdd(card: CardMeta, type: Type): { result: boolean; reason: string } {
+  canAdd(
+    card: CardMeta,
+    type: Type,
+    source: Type | "search",
+  ): { result: boolean; reason: string } {
     const deckType = editDeckStore[type];
     const cardType = card.data.type ?? 0;
 
@@ -74,13 +78,14 @@ export const editDeckStore = proxy({
       reason = "卡片种类不符合";
     }
 
-    const maxSameCard = forbidden.get(card.id) ?? 3; // TODO: 禁卡表
-    const sameCardCount = editDeckStore
-      .getAll()
-      .filter((c) => c.id === card.id).length;
-    if (sameCardCount >= maxSameCard) {
+    const max = forbidden.get(card.id) ?? 3; // TODO: 禁卡表
+    const numOfSameCards =
+      editDeckStore.getAll().filter((c) => c.id === card.id).length -
+      (source !== "search" ? 1 : 0);
+
+    if (numOfSameCards >= max) {
       result = false;
-      reason = `超过同名卡 ${maxSameCard} 张的上限`;
+      reason = `超过同名卡 ${max} 张的上限`;
     }
     return { result, reason };
   },

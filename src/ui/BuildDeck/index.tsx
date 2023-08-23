@@ -26,8 +26,9 @@ import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { type CardMeta, searchCards, forbidden } from "@/api";
+import { type CardMeta, forbidden, searchCards } from "@/api";
 import { isToken } from "@/common";
+import { useConfig } from "@/config";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, type IDeck, initStore } from "@/stores";
 import {
@@ -50,7 +51,6 @@ import {
   iDeckToEditingDeck,
   type Type,
 } from "./utils";
-import { useConfig } from "@/config";
 
 const { assetsPath } = useConfig();
 
@@ -407,7 +407,7 @@ const DeckZone: React.FC<{
     // 当拖拽物在这个拖放区域放下时触发,这个item就是拖拽物的item（拖拽物携带的数据）
     drop: ({ value, source }: { value: CardMeta; source: Type | "search" }) => {
       if (type === source) return;
-      const { result, reason } = editDeckStore.canAdd(value, type);
+      const { result, reason } = editDeckStore.canAdd(value, type, source);
       if (result) {
         editDeckStore.add(type, value);
         if (source !== "search") {
@@ -419,7 +419,9 @@ const DeckZone: React.FC<{
     },
     hover: ({ value, source }) => {
       setAllowToDrop(
-        type !== source ? editDeckStore.canAdd(value, type).result : true,
+        type !== source
+          ? editDeckStore.canAdd(value, type, source).result
+          : true,
       );
     },
     collect: (monitor) => ({
