@@ -24,9 +24,7 @@ const NeosConfig = useConfig();
 export const Component: React.FC = () => {
   const { message } = App.useApp();
   const serverList = NeosConfig.servers;
-  const [server, setServer] = useState(
-    `${serverList[0].ip}:${serverList[0].port}`,
-  );
+  const server = `${serverList[0].ip}:${serverList[0].port}`;
   const { decks } = deckStore;
   const [deckName, setDeckName] = useState(decks.at(0)?.deckName ?? "");
   const user = accountStore.user;
@@ -91,20 +89,6 @@ export const Component: React.FC = () => {
         <div className={styles.wrap}>
           <Space size={16}>
             <Select
-              title="服务器"
-              showSearch
-              value={server}
-              style={{ width: 200 }}
-              onChange={
-                // @ts-ignore
-                (value) => setServer(value)
-              }
-              options={serverList.map((item) => ({
-                value: `${item.ip}:${item.port}`,
-                label: item.name,
-              }))}
-            />
-            <Select
               title="卡组"
               showSearch
               value={deckName}
@@ -134,13 +118,13 @@ export const Component: React.FC = () => {
           </Space>
           <div className={styles["mode-select"]}>
             <Mode
-              title="竞技匹配"
-              desc="与天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。"
+              title="MC竞技匹配"
+              desc="与MyCard天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。"
               icon={<IconFont type="icon-battle" size={32} />}
               onClick={onCompetitiveMatch}
             />
             <Mode
-              title="娱乐匹配"
+              title="MC娱乐匹配"
               desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被禁用。"
               icon={
                 matchLoading ? (
@@ -152,8 +136,14 @@ export const Component: React.FC = () => {
               onClick={onEntertainMatch}
             />
             <Mode
+              title="MC观战列表"
+              desc="观看萌卡MyCard上正在进行的决斗。"
+              icon={<PlayCircleFilled />}
+              onClick={onWatchList}
+            />
+            <Mode
               title="单人模式"
-              desc="开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。"
+              desc="在Koishi 7210服务器上开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。"
               icon={
                 singleLoading ? (
                   <LoadingOutlined />
@@ -174,12 +164,6 @@ export const Component: React.FC = () => {
               desc="自由查看进行过的决斗，回味那些精彩的逆转瞬间。"
               icon={<IconFont type="icon-record" size={24} />}
               onClick={replayOpen}
-            />
-            <Mode
-              title="观战列表"
-              desc="观看萌卡MyCard上正在进行的决斗。"
-              icon={<PlayCircleFilled />}
-              onClick={onWatchList}
             />
           </div>
         </div>
