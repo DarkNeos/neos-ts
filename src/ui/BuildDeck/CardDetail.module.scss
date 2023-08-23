@@ -45,19 +45,14 @@
   width: var(--width);
   height: calc(var(--width) / var(--card-ratio));
   flex-shrink: 0;
-  border-radius: 4px;
+  border: 1px solid #ffffff52;
   overflow: hidden;
-  box-shadow:
-    0 0px 0px -15px #5a627a,
-    0 0px 5px -30px #41485f;
+  box-shadow: 0 0 6px 2px #ffffff2b;
   transition: 0.3s;
   cursor: pointer;
   &:hover {
-    --width: 200px;
+    --width: 220px;
     filter: contrast(1.1);
-    box-shadow:
-      25px 0px 2px -15px #5a627a,
-      50px 0px 5px -30px #41485f;
   }
 }
 
