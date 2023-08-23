@@ -15,17 +15,19 @@ export type PlaceInteractivity =
     }>
   | undefined;
 
-const { MZONE, SZONE } = ygopro.CardZone;
+const { MZONE, SZONE, HAND, GRAVE, REMOVED } = ygopro.CardZone;
 
 export interface BlockState {
   interactivity?: PlaceInteractivity; // 互动性
   disabled: boolean; // 是否被禁用
+  chainIndex: number[]; // 当前位置上的连锁序号。YGOPRO和MASTER DUEL的连锁都是和位置绑定的，因此在`PlaceStore`中记录连锁状态。
 }
 
 const genPLaces = (n: number): BlockState[] =>
   Array.from({ length: n }).map(() => ({
     interactivity: undefined,
     disabled: false,
+    chainIndex: [],
   }));
 
 const initialState = {
@@ -37,27 +39,35 @@ const initialState = {
     me: genPLaces(6),
     op: genPLaces(6),
   },
+  [HAND]: {
+    me: genPLaces(100), // 给100个占位
+    op: genPLaces(100),
+  },
+  [GRAVE]: {
+    me: genPLaces(100),
+    op: genPLaces(100),
+  },
+  [REMOVED]: {
+    me: genPLaces(100),
+    op: genPLaces(100),
+  },
 };
 
 class PlaceStore implements NeosStore {
   inner: {
-    [MZONE]: {
-      me: BlockState[];
-      op: BlockState[];
-    };
-    [SZONE]: {
+    [zone: number]: {
       me: BlockState[];
       op: BlockState[];
     };
   } = initialState;
-  set(
-    zone: ygopro.CardZone.MZONE | ygopro.CardZone.SZONE,
-    controller: number,
-    sequence: number,
-    state: BlockState,
-  ) {
-    placeStore.inner[zone][matStore.isMe(controller) ? "me" : "op"][sequence] =
-      state;
+  of(location: {
+    zone: ygopro.CardZone;
+    controller: number;
+    sequence: number;
+  }): BlockState | undefined {
+    return placeStore.inner[location.zone][
+      matStore.isMe(location.controller) ? "me" : "op"
+    ][location.sequence];
   }
   clearAllInteractivity() {
     (["me", "op"] as const).forEach((who) => {

@@ -13,17 +13,17 @@ export default (selectPlace: MsgSelectPlace) => {
     switch (place.zone) {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
-        placeStore.set(place.zone, place.controller, place.sequence, {
-          interactivity: {
+        const block = placeStore.of(place);
+        if (block) {
+          block.interactivity = {
             interactType: InteractType.PLACE_SELECTABLE,
             response: {
               controller: place.controller,
               zone: place.zone,
               sequence: place.sequence,
             },
-          },
-          disabled: false,
-        });
+          };
+        }
         break;
     }
   }

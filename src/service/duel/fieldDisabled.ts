@@ -7,10 +7,12 @@ export default (fieldDisabled: MsgFieldDisabled) => {
     switch (action.zone) {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
-        placeStore.set(action.zone, action.controller, action.sequence, {
-          interactivity: undefined,
-          disabled: action.disabled,
-        });
+        const block = placeStore.of(action);
+        if (block) {
+          block.disabled = action.disabled;
+        } else {
+          console.warn("<FieldDisabled>block is undefined");
+        }
         break;
       default:
         console.warn("<FieldDisabled>zone is not MZONE nor SZONE!");
