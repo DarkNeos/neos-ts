@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 
-import { type CardMeta, forbidden } from "@/api";
+import { type CardMeta } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
 
 import { compareCards, type EditingDeck, type Type } from "./utils";
@@ -78,7 +78,7 @@ export const editDeckStore = proxy({
       reason = "卡片种类不符合";
     }
 
-    const max = forbidden.get(card.id) ?? 3; // TODO: 禁卡表
+    const max = 3; // 这里无需参考禁卡表
     const numOfSameCards =
       editDeckStore.getAll().filter((c) => c.id === card.id).length -
       (source !== "search" ? 1 : 0);
@@ -87,6 +87,7 @@ export const editDeckStore = proxy({
       result = false;
       reason = `超过同名卡 ${max} 张的上限`;
     }
+
     return { result, reason };
   },
 }) satisfies EditingDeck;
