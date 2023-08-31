@@ -6,12 +6,12 @@ import {
 } from "@ant-design/icons";
 import { App, Button, Space } from "antd";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { match } from "@/api";
 import { useConfig } from "@/config";
-import { accountStore, deckStore, roomStore } from "@/stores";
+import { accountStore, deckStore, resetUniverse, roomStore } from "@/stores";
 import { Background, IconFont, Select } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
@@ -20,6 +20,12 @@ import { ReplayModal, replayOpen } from "./ReplayModal";
 import { connectSrvpro } from "./util";
 
 const NeosConfig = useConfig();
+
+export const loader: LoaderFunction = () => {
+  // 在加载这个页面之前先重置一些store，清掉上局游戏遗留的数据
+  resetUniverse();
+  return null;
+};
 
 export const Component: React.FC = () => {
   const { message } = App.useApp();

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSnapshot } from "valtio";
 
-import { resetUniverse } from "@/stores";
+import { SideStage, sideStore } from "@/stores";
 
-import { ChangeSideModal, TpModal } from "../Side";
 import {
   Alert,
-  AnnounceModal,
   CardListModal,
   CardModal,
   CheckCounterModal,
@@ -21,12 +21,15 @@ import {
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 
 export const Component: React.FC = () => {
+  const { stage } = useSnapshot(sideStore);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    return () => {
-      // Duel组件卸载的时候初始化一些store
-      resetUniverse();
-    };
-  }, []);
+    if (stage === SideStage.SIDE_CHANGING) {
+      // 跳转更换Side
+      navigate("/side");
+    }
+  }, [stage]);
 
   return (
     <>
@@ -44,11 +47,8 @@ export const Component: React.FC = () => {
       <OptionModal />
       <CheckCounterModal />
       <SortCardModal />
-      <AnnounceModal />
       <SimpleSelectCardsModal />
       <EndModal />
-      <ChangeSideModal />
-      <TpModal />
     </>
   );
 };

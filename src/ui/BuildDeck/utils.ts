@@ -2,8 +2,6 @@ import { type CardMeta, fetchCard } from "@/api";
 import { tellCardBasicType, tellCardSecondaryType } from "@/common";
 import { type IDeck } from "@/stores";
 
-export type Type = "main" | "extra" | "side";
-
 /** 用在卡组编辑 */
 export interface EditingDeck {
   deckName: string;

@@ -1,0 +1,38 @@
+.card {
+  cursor: move;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  aspect-ratio: var(--card-ratio);
+  position: relative;
+  background-size: contain;
+  content-visibility: auto;
+  transition: 0.1s;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  .cardname {
+    font-size: 12px;
+    position: absolute;
+    padding: 5px;
+    top: 0;
+    bottom: 0;
+    max-height: 100%;
+    margin: auto;
+    left: 0;
+    height: fit-content;
+    width: 100%;
+    text-align: center;
+    line-height: 1.75em;
+    overflow: hidden; //超出的文本隐藏
+    text-overflow: ellipsis; //溢出用省略号显示
+  }
+  .cardcover {
+    position: relative;
+  }
+  .cardlimit {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+  }
+}

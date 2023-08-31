@@ -14,9 +14,10 @@ export default async (selectOption: ygopro.StocGameMessage.MsgSelectOption) => {
     await Promise.all(
       options.map(async ({ code, response }) => {
         const meta = fetchCard(code >> 4);
-        const msg = getCardStr(meta, code & 0xf) || "[?]";
-        return { msg, response };
+        const info = getCardStr(meta, code & 0xf) ?? "[?]";
+        return { info, response };
       }),
     ),
+    1,
   );
 };

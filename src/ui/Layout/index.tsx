@@ -64,7 +64,7 @@ export const Component = () => {
   const logined = Boolean(useSnapshot(accountStore).user);
 
   const { pathname } = routerLocation;
-  const pathnamesHideHeader = ["/waitroom", "/duel"];
+  const pathnamesHideHeader = ["/waitroom", "/duel", "/side"];
 
   const callbackUrl = `${location.origin}/match/`;
   const onLogin = () => location.replace(getSSOSignInUrl(callbackUrl));

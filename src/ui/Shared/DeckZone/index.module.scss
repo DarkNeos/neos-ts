@@ -1,0 +1,39 @@
+.main,
+.extra,
+.side {
+  transition: 0.2s;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  &.over {
+    background-color: hsla(0, 0%, 100%, 0.05);
+  }
+  &.not-allow-to-drop {
+    background-color: rgba(255, 0, 0, 0.15);
+    cursor: not-allowed;
+  }
+}
+.main {
+  flex: 3;
+}
+.extra,
+.side {
+  flex: 1;
+}
+.card-continer {
+  display: grid;
+  grid-template-columns: repeat(var(--card-grid), 1fr);
+  gap: 5px;
+}
+
+.editing-zone-name {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #212332;
+  color: hsla(0, 0%, 100%, 0.3);
+  font-size: 12px;
+  padding: 2px 6px;
+  font-family: var(--theme-font);
+  user-select: none;
+}

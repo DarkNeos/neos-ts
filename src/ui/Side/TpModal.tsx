@@ -5,7 +5,7 @@ import { useSnapshot } from "valtio";
 import { sendTpResult } from "@/api";
 import { SideStage, sideStore } from "@/stores";
 
-import styles from "./index.module.scss";
+import styles from "./TpModal.module.scss";
 
 export const TpModal: React.FC = () => {
   const { stage } = useSnapshot(sideStore);

@@ -46,8 +46,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   onCancel,
   onFinish,
 }) => {
-  // FIXME: handle `selecteds`
-  const [result, setResult] = useState<Option[]>([]);
+  const grouped = groupBy(selectables, (option) => option.location?.zone!);
+  const [result, setResult] = useState<[ygopro.CardZone, Option[]][]>([]);
   const [submitable, setSubmitable] = useState(false);
 
   const hint = useSnapshot(matStore.hint);
@@ -56,14 +56,21 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
 
   const minMaxText = min === max ? min : `${min}-${max}`;
 
-  // const isMultiple = !single && max > 1;
-  // FIXME: 如果想上面这样鞋会panic，还不是很清楚原因，先放着后面再优化
-  const isMultiple = true;
+  useEffect(() => {
+    const initial: [ygopro.CardZone, Option[]][] = grouped.map(([zone, _]) => [
+      zone,
+      [] as Option[],
+    ]);
+    if (initial.length > 0) {
+      setResult(initial);
+    }
+  }, [selectables]);
 
   // 判断是否可以提交
   useEffect(() => {
+    const flatResult = result.map(([_, v]) => v).flat();
     const [sumLevel1, sumLevel2] = (["level1", "level2"] as const).map((key) =>
-      [...mustSelects, ...result]
+      [...mustSelects, ...flatResult]
         .map((option) => option[key] || 0)
         .reduce((sum, current) => sum + current, 0),
     );
@@ -72,12 +79,10 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
       : sumLevel1 === totalLevels || sumLevel2 === totalLevels;
     setSubmitable(
       single
-        ? result.length === 1
-        : result.length >= min && result.length <= max && levelMatched,
+        ? flatResult.length === 1
+        : flatResult.length >= min && flatResult.length <= max && levelMatched,
     );
-  }, [result.length]);
-
-  const grouped = groupBy(selectables, (option) => option.location?.zone!);
+  }, [result]);
 
   const zoneOptions = grouped.map((x) => ({
     value: x[0],
@@ -126,7 +131,9 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           <Button
             type="primary"
             disabled={!submitable}
-            onClick={() => onSubmit([...mustSelects, ...result])}
+            onClick={() =>
+              onSubmit([...mustSelects, ...result.map(([_, v]) => v).flat()])
+            }
           >
             {submitText}
           </Button>
@@ -144,11 +151,18 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
             options[0] === selectedZone && (
               <div className={styles["container"]} key={i}>
                 <CheckCard.Group
-                  onChange={(res) => {
-                    setResult((isMultiple ? res : [res]) as any);
+                  onChange={(res: any) => {
+                    const newRes: [ygopro.CardZone, Option[]][] = result.map(
+                      ([k, v]) => [k, k === selectedZone ? res : v],
+                    );
+                    setResult(newRes);
                   }}
+                  value={
+                    result.find(([k, _]) => k === selectedZone)?.[1] ??
+                    ([] as any)
+                  }
                   // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                  multiple={isMultiple}
+                  multiple
                   className={styles["check-group"]}
                 >
                   {options[1].map((card, j) => (

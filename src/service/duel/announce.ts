@@ -1,5 +1,5 @@
 import { fetchCard, fetchStrings, Region, ygopro } from "@/api";
-import { displayAnnounceModal } from "@/ui/Duel/Message";
+import { displayOptionModal } from "@/ui/Duel/Message";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
 
 export default async (announce: MsgAnnounce) => {
@@ -14,26 +14,26 @@ export default async (announce: MsgAnnounce) => {
 
   switch (type_) {
     case MsgAnnounce.AnnounceType.RACE: {
-      await displayAnnounceModal({
-        min,
-        title: fetchStrings(Region.System, 563),
-        options: announce.options.map((option) => ({
+      await displayOptionModal(
+        fetchStrings(Region.System, 563),
+        announce.options.map((option) => ({
           info: fetchStrings(Region.System, 1200 + option.code),
           response: option.response,
         })),
-      });
+        min,
+      );
 
       break;
     }
     case MsgAnnounce.AnnounceType.Attribute: {
-      await displayAnnounceModal({
-        min,
-        title: fetchStrings(Region.System, 562),
-        options: announce.options.map((option) => ({
+      await displayOptionModal(
+        fetchStrings(Region.System, 562),
+        announce.options.map((option) => ({
           info: fetchStrings(Region.System, 1010 + option.code),
           response: option.response,
         })),
-      });
+        min,
+      );
 
       break;
     }
@@ -48,23 +48,19 @@ export default async (announce: MsgAnnounce) => {
           });
         }
       }
-      await displayAnnounceModal({
-        min,
-        title: fetchStrings(Region.System, 564),
-        options,
-      });
+      await displayOptionModal(fetchStrings(Region.System, 564), options, min);
 
       break;
     }
     case MsgAnnounce.AnnounceType.Number: {
-      await displayAnnounceModal({
-        min,
-        title: fetchStrings(Region.System, 565),
-        options: announce.options.map((option) => ({
+      await displayOptionModal(
+        fetchStrings(Region.System, 565),
+        announce.options.map((option) => ({
           info: option.code.toString(),
           response: option.response,
         })),
-      });
+        min,
+      );
 
       break;
     }

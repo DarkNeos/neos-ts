@@ -2,8 +2,9 @@ import { proxy } from "valtio";
 
 import { type CardMeta } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
+import { Type } from "@/ui/Shared/DeckZone";
 
-import { compareCards, type EditingDeck, type Type } from "./utils";
+import { compareCards, type EditingDeck } from "./utils";
 
 export const editDeckStore = proxy({
   deckName: "",
