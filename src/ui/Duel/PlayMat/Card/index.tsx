@@ -351,11 +351,11 @@ const handleEffectActivation = (
           ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
           : "[:?]";
       return {
-        msg: effectMsg,
+        info: effectMsg,
         response: effect.response,
       };
     });
-    displayOptionModal(fetchStrings(Region.System, 556), options); // 主动发动效果，所以不需要await，但是以后可能要留心
+    displayOptionModal(fetchStrings(Region.System, 556), options, 1); // 主动发动效果，所以不需要await，但是以后可能要留心
   }
 };
 

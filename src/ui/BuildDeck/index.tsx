@@ -16,28 +16,28 @@ import {
   Pagination,
   Space,
 } from "antd";
-import classNames from "classnames";
 import { isEqual } from "lodash-es";
 import { type OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { type CardMeta, forbidden, searchCards } from "@/api";
+import { type CardMeta, searchCards } from "@/api";
 import { isToken } from "@/common";
-import { useConfig } from "@/config";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, type IDeck, initStore } from "@/stores";
 import {
   Background,
+  DeckCard,
+  DeckZone,
   IconFont,
   Loading,
   ScrollableArea,
-  YgoCard,
 } from "@/ui/Shared";
+import { Type } from "@/ui/Shared/DeckZone";
 
 import { CardDetail } from "./CardDetail";
 import { DeckSelect } from "./DeckSelect";
@@ -49,10 +49,7 @@ import {
   downloadDeckAsYDK,
   editingDeckToIDeck,
   iDeckToEditingDeck,
-  type Type,
 } from "./utils";
-
-const { assetsPath } = useConfig();
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -207,7 +204,23 @@ export const DeckEditor: React.FC<{
       </Space>
       <ScrollableArea className={styles["deck-zone"]}>
         {(["main", "extra", "side"] as const).map((type) => (
-          <DeckZone key={type} type={type} />
+          <DeckZone
+            key={type}
+            type={type}
+            cards={[...snapEditDeck[type]]}
+            canAdd={editDeckStore.canAdd}
+            onChange={(card, source, destination) => {
+              editDeckStore.add(destination, card);
+              if (source !== "search") {
+                editDeckStore.remove(source, card);
+              }
+            }}
+            onElementClick={(card) => {
+              selectedCard.id = card.id;
+              selectedCard.open = true;
+            }}
+            onElementRightClick={(card) => editDeckStore.remove(type, card)}
+          />
         ))}
       </ScrollableArea>
     </div>
@@ -394,65 +407,6 @@ const Search: React.FC = () => {
   );
 };
 
-/** 正在组卡的zone，包括main/extra/side */
-const DeckZone: React.FC<{
-  type: Type;
-}> = ({ type }) => {
-  const { message } = App.useApp();
-  const cards = useSnapshot(editDeckStore)[type];
-  const [allowToDrop, setAllowToDrop] = useState(false);
-  const [{ isOver }, dropRef] = useDrop({
-    accept: ["Card"], // 指明该区域允许接收的拖放物。可以是单个，也可以是数组
-    // 里面的值就是useDrag所定义的type
-    // 当拖拽物在这个拖放区域放下时触发,这个item就是拖拽物的item（拖拽物携带的数据）
-    drop: ({ value, source }: { value: CardMeta; source: Type | "search" }) => {
-      if (type === source) return;
-      const { result, reason } = editDeckStore.canAdd(value, type, source);
-      if (result) {
-        editDeckStore.add(type, value);
-        if (source !== "search") {
-          editDeckStore.remove(source, value);
-        }
-      } else {
-        message.error(reason);
-      }
-    },
-    hover: ({ value, source }) => {
-      setAllowToDrop(
-        type !== source
-          ? editDeckStore.canAdd(value, type, source).result
-          : true,
-      );
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-  return (
-    <div
-      className={classNames(styles[type], {
-        [styles.over]: isOver,
-        [styles["not-allow-to-drop"]]: isOver && !allowToDrop,
-      })}
-      ref={dropRef}
-    >
-      <div className={styles["card-continer"]}>
-        {cards.map((card, i) => (
-          <Card
-            value={card}
-            key={card.id + i + type}
-            source={type}
-            onRightClick={() => editDeckStore.remove(type, card)}
-          />
-        ))}
-        <div className={styles["editing-zone-name"]}>
-          {`${type.toUpperCase()}: ${cards.length}`}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 /** 搜索区的搜索结果，使用memo避免重复渲染 */
 const SearchResults: React.FC<{
   results: CardMeta[];
@@ -473,7 +427,15 @@ const SearchResults: React.FC<{
     <>
       <div className={styles["search-cards"]}>
         {currentData.map((card) => (
-          <Card value={card} key={card.id} source="search" />
+          <DeckCard
+            value={card}
+            key={card.id}
+            source="search"
+            onClick={() => {
+              selectedCard.id = card.id;
+              selectedCard.open = true;
+            }}
+          />
         ))}
       </div>
       {results.length > itemsPerPage && (
@@ -493,53 +455,6 @@ const SearchResults: React.FC<{
         </div>
       )}
     </>
-  );
-});
-
-/** 本组件内使用的单张卡片，增加了文字在图片下方 */
-const Card: React.FC<{
-  value: CardMeta;
-  source: Type | "search";
-  onRightClick?: () => void;
-}> = memo(({ value, source, onRightClick }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [{ isDragging }, drag] = useDrag({
-    type: "Card",
-    item: { value, source },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  drag(ref);
-  const [showText, setShowText] = useState(true);
-  const limitCnt = forbidden.get(value.id);
-  return (
-    <div
-      className={styles.card}
-      ref={ref}
-      style={{ opacity: isDragging && source !== "search" ? 0 : 1 }}
-      onClick={() => {
-        selectedCard.id = value.id;
-        selectedCard.open = true;
-      }}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        onRightClick?.();
-      }}
-    >
-      {showText && <div className={styles.cardname}>{value.text.name}</div>}
-      <YgoCard
-        className={styles.cardcover}
-        code={value.id}
-        onLoad={() => setShowText(false)}
-      />
-      {limitCnt !== undefined && (
-        <img
-          className={styles.cardlimit}
-          src={`${assetsPath}/Limit0${limitCnt}.png`}
-        />
-      )}
-    </div>
   );
 });
 

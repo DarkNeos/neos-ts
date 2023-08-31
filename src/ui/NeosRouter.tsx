@@ -28,6 +28,10 @@ const router = createBrowserRouter([
         path: "/duel",
         lazy: () => import("./Duel/Main"),
       },
+      {
+        path: "/side",
+        lazy: () => import("./Side"),
+      },
     ],
   },
 ]);

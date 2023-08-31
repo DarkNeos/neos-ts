@@ -57,33 +57,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-  .main,
-  .extra,
-  .side {
-    transition: 0.2s;
-    position: relative;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.75rem;
-    &.over {
-      background-color: hsla(0, 0%, 100%, 0.05);
-    }
-    &.not-allow-to-drop {
-      background-color: rgba(255, 0, 0, 0.15);
-      cursor: not-allowed;
-    }
-  }
-  .main {
-    flex: 3;
-  }
-  .extra,
-  .side {
-    flex: 1;
-  }
-  .card-continer {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
+    --card-grid: 10;
   }
   background-color: hsla(0, 0%, 100%, 0.05);
   backdrop-filter: blur(5px);
@@ -96,45 +70,6 @@
 .select .container {
   border-left: none;
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
-}
-
-.card {
-  cursor: move;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  aspect-ratio: var(--card-ratio);
-  position: relative;
-  background-size: contain;
-  content-visibility: auto;
-  transition: 0.1s;
-  &:hover {
-    filter: brightness(0.9);
-  }
-  .cardname {
-    font-size: 12px;
-    position: absolute;
-    padding: 5px;
-    top: 0;
-    bottom: 0;
-    max-height: 100%;
-    margin: auto;
-    left: 0;
-    height: fit-content;
-    width: 100%;
-    text-align: center;
-    line-height: 1.75em;
-    overflow: hidden; //超出的文本隐藏
-    text-overflow: ellipsis; //溢出用省略号显示
-  }
-  .cardcover {
-    position: relative;
-  }
-  .cardlimit {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 20px;
-  }
 }
 
 .search-cards-container {
