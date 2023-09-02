@@ -3,6 +3,7 @@ import { cardStore } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
+import { TYPE_TOKEN } from "@/common";
 export default async (updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
@@ -17,7 +18,10 @@ export default async (updateData: MsgUpdateData) => {
           // 目前只更新以下字段
           if (action?.code >= 0) {
             const newMeta = fetchCard(action.code);
-            target.code = action.code;
+            if (target.code !== action.code) {
+              // 这个if判断一定要有，不然会触发`genCard`里面的事件
+              target.code = action.code;
+            }
             target.meta = newMeta;
           }
 
@@ -32,6 +36,9 @@ export default async (updateData: MsgUpdateData) => {
           }
           if (action?.type_ >= 0) {
             meta.data.type = action.type_;
+            if (action.type_ & TYPE_TOKEN) {
+              target.isToken = true;
+            }
           }
           if (action?.level >= 0) {
             meta.data.level = action.level;

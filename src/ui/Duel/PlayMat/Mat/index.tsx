@@ -28,7 +28,7 @@ const Cards: React.FC = () => {
   return (
     <>
       {Array.from({ length }).map((_, i) => (
-        <Card key={i} idx={i} />
+        <Card key={inner[i].uuid} idx={i} />
       ))}
     </>
   );

@@ -28,14 +28,6 @@ export default (data: Uint8Array) => {
             overlay_count,
           }),
         );
-      } else {
-        zone_actions.push(
-          new MsgReloadField.ZoneAction({
-            zone: ygopro.CardZone.MZONE,
-            sequence,
-            position: ygopro.CardPosition.FACEDOWN,
-          }),
-        );
       }
     }
 
@@ -50,14 +42,6 @@ export default (data: Uint8Array) => {
             zone: ygopro.CardZone.SZONE,
             sequence,
             position: numberToCardPosition(position),
-          }),
-        );
-      } else {
-        zone_actions.push(
-          new MsgReloadField.ZoneAction({
-            zone: ygopro.CardZone.SZONE,
-            sequence,
-            position: ygopro.CardPosition.FACEDOWN,
           }),
         );
       }
