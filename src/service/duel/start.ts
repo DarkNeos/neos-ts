@@ -71,7 +71,6 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
             sequence,
             position: ygopro.CardPosition.FACEDOWN,
           }),
-          originController: i < 3 ? 0 : 1,
           counters: {},
           idleInteractivities: [],
           meta: {

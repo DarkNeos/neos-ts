@@ -13,7 +13,6 @@ export interface CardType {
   code: number; // 卡号
   meta: CardMeta; // 卡片元数据
   location: ygopro.CardLocation;
-  originController: number; // 在卡组构建之中持有这张卡的玩家，方便reloadField的使用
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   placeInteractivity?: Interactivity<{
     controller: number;
