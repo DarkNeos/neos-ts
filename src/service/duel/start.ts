@@ -1,14 +1,11 @@
 import { flatten } from "lodash-es";
 import { v4 as v4uuid } from "uuid";
-import { proxy } from "valtio";
-import { subscribeKey } from "valtio/utils";
 import PlayerType = ygopro.StocGameMessage.MsgStart.PlayerType;
-import { fetchCard, ygopro } from "@/api";
+import { ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
 import {
   cardStore,
-  CardType,
   matStore,
   RoomStage,
   roomStore,
@@ -16,6 +13,8 @@ import {
   sideStore,
 } from "@/stores";
 import { replayStart } from "@/ui/Match/ReplayModal";
+
+import { genCard } from "../utils";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
 export default async (start: ygopro.StocGameMessage.MsgStart) => {
@@ -100,14 +99,4 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 初始化完后，sleep 1s，让UI初始化完成，
   // 否则在和AI对战时，由于后端给传给前端的`MSG`频率太高，会导致一些问题。
   await sleep(useConfig().startDelay);
-};
-
-// 自动从code推断出occupant
-const genCard = (o: CardType) => {
-  const t = proxy(o);
-  subscribeKey(t, "code", async (code) => {
-    const meta = fetchCard(code ?? 0);
-    t.meta = meta;
-  });
-  return t;
 };

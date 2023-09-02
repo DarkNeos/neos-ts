@@ -17,7 +17,10 @@ export default async (updateData: MsgUpdateData) => {
           // 目前只更新以下字段
           if (action?.code >= 0) {
             const newMeta = fetchCard(action.code);
-            target.code = action.code;
+            if (target.code !== action.code) {
+              // 这个if判断一定要有，不然会触发`genCard`里面的事件
+              target.code = action.code;
+            }
             target.meta = newMeta;
           }
 
