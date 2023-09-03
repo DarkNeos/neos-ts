@@ -109,7 +109,7 @@ export const MatchModal: React.FC = ({}) => {
         />
         <Input
           className={styles.input}
-          type="password"
+          type="text"
           autoCorrect="off"
           placeholder="房间密码(可选)"
           value={passwd}
