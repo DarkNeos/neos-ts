@@ -87,11 +87,20 @@ const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
   const glowingExtra = judgeGlowing(ygopro.CardZone.EXTRA);
   const glowingGraveyard = judgeGlowing(ygopro.CardZone.GRAVE);
   const glowingBanish = judgeGlowing(ygopro.CardZone.REMOVED);
+  const snap = useSnapshot(placeStore.inner);
+  const field = op
+    ? snap[ygopro.CardZone.SZONE].op[5]
+    : snap[ygopro.CardZone.SZONE].me[5];
   return (
     <div className={classnames(styles["other-blocks"], { [styles.op]: op })}>
       <BgBlock className={styles.banish} glowing={!op && glowingBanish} />
       <BgBlock className={styles.graveyard} glowing={!op && glowingGraveyard} />
-      <BgBlock className={styles.field} />
+      <BgBlock
+        className={styles.field}
+        onClick={() => onBlockClick(field.interactivity)}
+        disabled={field.disabled}
+        highlight={!!field.interactivity}
+      />
       <BgBlock className={styles.deck} />
       <BgBlock
         className={classnames(styles.deck, styles["extra-deck"])}

@@ -71,7 +71,7 @@ export const displayCardListModal = ({
   controller,
 }: Partial<Omit<typeof defaultStore, "isOpen">>) => {
   store.isOpen = true;
-  isZone && (store.isZone = isZone);
+  store.isZone = isZone ?? false;
   monster && (store.monster = monster);
   zone && (store.zone = zone);
   controller !== undefined && (store.controller = controller);
