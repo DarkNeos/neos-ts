@@ -97,13 +97,7 @@ export function extraCardTypes(typeCode: number): number[] {
 
 /** 这张卡能不能放入额外卡组 */
 export function isExtraDeckCard(typeCode: number): boolean {
-  const extraTypes = [
-    TYPE_PENDULUM,
-    TYPE_LINK,
-    TYPE_SYNCHRO,
-    TYPE_XYZ,
-    TYPE_FUSION,
-  ];
+  const extraTypes = [TYPE_LINK, TYPE_SYNCHRO, TYPE_XYZ, TYPE_FUSION];
   return extraTypes.reduce((acc, cur) => (acc | cur) & typeCode, 0) > 0;
 }
 
