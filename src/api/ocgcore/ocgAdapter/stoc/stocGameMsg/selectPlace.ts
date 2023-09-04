@@ -69,6 +69,17 @@ export default (data: Uint8Array) => {
       }
     }
 
+    if ((field & 0x2000) !== 0) {
+      // 场地魔法区
+      msg.places.push(
+        new MsgSelectPlace.SelectAblePlace({
+          controller,
+          zone: ygopro.CardZone.SZONE,
+          sequence: 5,
+        }),
+      );
+    }
+
     if ((field & 0xc000) !== 0) {
       // 灵摆区?
       const zone = ygopro.CardZone.SZONE;
