@@ -27,7 +27,7 @@ const TYPE_TOON = 0x400000; //
 const TYPE_XYZ = 0x800000; //
 const TYPE_PENDULUM = 0x1000000; //
 const TYPE_SPSUMMON = 0x2000000; //
-const TYPE_LINK = 0x4000000; //
+export const TYPE_LINK = 0x4000000; //
 
 /*
  * 在做卡牌信息展示的时候，发现`CardMeta`里面的数据和`strings.conf`配置文件

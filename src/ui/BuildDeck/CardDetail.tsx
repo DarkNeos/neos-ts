@@ -101,7 +101,7 @@ export const CardDetail: React.FC<{
       }
     }
     return result;
-  }, [code]);
+  }, [card]);
 
   return (
     <div className={classNames(styles.detail, { [styles.open]: open })}>

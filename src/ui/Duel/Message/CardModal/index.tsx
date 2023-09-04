@@ -10,6 +10,7 @@ import {
   Attribute2StringCodeMap,
   extraCardTypes,
   Race2StringCodeMap,
+  TYPE_LINK,
   Type2StringCodeMap,
 } from "../../../../common";
 import { Desc } from "./Desc";
@@ -43,7 +44,7 @@ export const CardModal = () => {
   const { isOpen, meta, counters: _counters } = snap;
 
   const name = meta?.text.name;
-  const types = meta?.data.type;
+  const types = extraCardTypes(meta?.data.type ?? 0);
   const race = meta?.data.race;
   const attribute = meta?.data.attribute;
   const desc = meta?.text.desc;
@@ -75,12 +76,11 @@ export const CardModal = () => {
             style={{ borderRadius: 4 }}
           />
           <Space direction="vertical" className={styles.info}>
-            <AtkLine atk={atk} def={def} />
-            <AttLine
-              types={extraCardTypes(types || 0)}
-              race={race}
-              attribute={attribute}
+            <AtkLine
+              atk={atk}
+              def={types.includes(TYPE_LINK) ? undefined : def}
             />
+            <AttLine types={types} race={race} attribute={attribute} />
             {/* TODO: 只有怪兽卡需要展示攻击防御 */}
             {/* TODO: 展示星级/LINK数 */}
             {/* <CounterLine counters={counters} /> */}
