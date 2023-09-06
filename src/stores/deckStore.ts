@@ -13,6 +13,8 @@ export interface IDeck {
   side: number[];
 }
 
+export const emptyDeck: IDeck = { deckName: "", main: [], extra: [], side: [] };
+
 export const deckStore = proxy({
   decks: [] as IDeck[],
 
