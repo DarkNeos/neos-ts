@@ -3,8 +3,10 @@ import {
   DeleteOutlined,
   EditOutlined,
   FilterOutlined,
+  RetweetOutlined,
   SearchOutlined,
   SortAscendingOutlined,
+  SwapOutlined,
   UndoOutlined,
 } from "@ant-design/icons";
 import {
@@ -99,6 +101,14 @@ export const Component: React.FC = () => {
     }
   };
 
+  const handleDeckEditorShuffle = () => {
+    editDeckStore.shuffle(editDeckStore);
+  };
+
+  const handleDeckEditorSort = () => {
+    editDeckStore.sort(editDeckStore);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Background />
@@ -134,6 +144,8 @@ export const Component: React.FC = () => {
                   onClear={editDeckStore.clear}
                   onReset={handleDeckEditorReset}
                   onSave={handleDeckEditorSave}
+                  onShuffle={handleDeckEditorShuffle}
+                  onSort={handleDeckEditorSort}
                 />
               </div>
               <div className={styles.select}>
@@ -155,10 +167,12 @@ Component.displayName = "Build";
 /** 正在编辑的卡组 */
 export const DeckEditor: React.FC<{
   deck: IDeck;
+  onShuffle: () => void;
+  onSort: () => void;
   onClear: () => void;
   onReset: () => void;
   onSave: () => void;
-}> = ({ deck, onClear, onReset, onSave }) => {
+}> = ({ deck, onClear, onReset, onSave, onShuffle, onSort }) => {
   const snapEditDeck = useSnapshot(editDeckStore);
   const [deckName, setDeckName] = useState(editDeckStore.deckName);
 
@@ -223,11 +237,27 @@ export const DeckEditor: React.FC<{
           placeholder="请输入卡组名字"
           bordered={false}
           prefix={<EditOutlined />}
-          style={{ width: 400 }}
+          style={{ width: 240 }}
           onChange={(e) => setDeckName(e.target.value)}
           value={deckName}
         />
         <Space style={{ marginRight: 6 }}>
+          <Button
+            type="text"
+            size="small"
+            icon={<SwapOutlined />}
+            onClick={onShuffle}
+          >
+            打乱
+          </Button>
+          <Button
+            type="text"
+            size="small"
+            icon={<RetweetOutlined />}
+            onClick={onSort}
+          >
+            排序
+          </Button>
           <Button
             type="text"
             size="small"

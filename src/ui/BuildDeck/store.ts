@@ -1,3 +1,4 @@
+import { shuffle } from "lodash-es";
 import { proxy } from "valtio";
 
 import { type CardMeta } from "@/api";
@@ -30,7 +31,7 @@ export const editDeckStore = proxy({
   },
   set(deck: EditingDeck) {
     editDeckStore.deckName = deck.deckName;
-    editDeckStore.main = deck.main.sort(compareCards);
+    editDeckStore.main = deck.main;
     editDeckStore.extra = deck.extra.sort(compareCards);
     editDeckStore.side = deck.side.sort(compareCards);
     editDeckStore.edited = false;
@@ -39,6 +40,18 @@ export const editDeckStore = proxy({
     editDeckStore.main = [];
     editDeckStore.extra = [];
     editDeckStore.side = [];
+    editDeckStore.edited = true;
+  },
+  /**
+   * 打乱
+   * @description 通常只有主卡组有打乱的需求，但这里也支持额外和副卡组
+   */
+  shuffle(deck: EditingDeck, type: Type = "main") {
+    editDeckStore[type] = shuffle(deck[type]);
+    editDeckStore.edited = true;
+  },
+  sort(deck: EditingDeck, type: Type = "main") {
+    editDeckStore[type] = deck[type].sort(compareCards);
     editDeckStore.edited = true;
   },
   getAll() {
