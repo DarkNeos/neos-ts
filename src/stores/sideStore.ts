@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 
-import { IDeck } from "./deckStore";
+import { emptyDeck, IDeck } from "./deckStore";
 import { type NeosStore } from "./shared";
 
 export enum SideStage {
@@ -12,8 +12,6 @@ export enum SideStage {
   DUEL_START = 7, // 决斗开始
   WAITING = 8, // 观战者等待双方玩家
 }
-
-const emptyDeck: IDeck = { deckName: "", main: [], extra: [], side: [] };
 
 class SideStore implements NeosStore {
   stage: SideStage = SideStage.NONE;

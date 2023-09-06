@@ -29,7 +29,7 @@ import { subscribeKey } from "valtio/utils";
 import { type CardMeta, searchCards } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
 import { FtsConditions } from "@/middleware/sqlite/fts";
-import { deckStore, type IDeck, initStore } from "@/stores";
+import { deckStore, emptyDeck, type IDeck, initStore } from "@/stores";
 import {
   Background,
   DeckCard,
@@ -74,7 +74,9 @@ export const loader: LoaderFunction = async () => {
 export const Component: React.FC = () => {
   const snapDecks = useSnapshot(deckStore);
   const { progress } = useSnapshot(initStore.sqlite);
-  const [selectedDeck, setSelectedDeck] = useState<IDeck>(deckStore.decks[0]);
+  const [selectedDeck, setSelectedDeck] = useState<IDeck>(
+    deckStore.decks.at(0) ?? emptyDeck,
+  );
 
   const { message } = App.useApp();
 
@@ -107,7 +109,7 @@ export const Component: React.FC = () => {
               decks={snapDecks.decks}
               selected={selectedDeck.deckName}
               onSelect={(name) =>
-                setSelectedDeck(deckStore.get(name) ?? deckStore.decks[0])
+                setSelectedDeck(deckStore.get(name) ?? emptyDeck)
               }
               onDelete={async (name) => await deckStore.delete(name)}
               onDownload={(name) => {

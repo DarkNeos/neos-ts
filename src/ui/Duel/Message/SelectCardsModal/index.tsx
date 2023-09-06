@@ -1,11 +1,12 @@
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Segmented, Space, Tooltip } from "antd";
+import classnames from "classnames";
 import { useEffect, useState } from "react";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { type CardMeta, Region, type ygopro } from "@/api";
 import { fetchStrings } from "@/api";
-import { CardType, matStore } from "@/stores";
+import { CardType, isMe, matStore } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
 
 import { groupBy } from "../../utils";
@@ -176,7 +177,11 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                               className={styles.card}
                             />
                           }
-                          className={styles["check-card"]}
+                          className={classnames(styles["check-card"], {
+                            [styles.opponent]:
+                              card.location?.controller !== undefined &&
+                              !isMe(card.location.controller),
+                          })}
                           value={card}
                           onClick={() => {
                             showCardModal(card);
