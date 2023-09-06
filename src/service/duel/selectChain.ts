@@ -67,7 +67,7 @@ export default async (selectChain: MsgSelectChain) => {
     case 2: // 处理多张
     case 3: {
       // 处理强制发动的卡
-      await fetchSelectHintMeta({
+      fetchSelectHintMeta({
         selectHintData: 203,
       });
       const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(

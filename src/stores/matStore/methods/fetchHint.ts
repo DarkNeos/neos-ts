@@ -10,7 +10,7 @@ export const fetchCommonHintMeta = (code: number) => {
   matStore.hint.msg = fetchStrings(Region.System, code);
 };
 
-export const fetchSelectHintMeta = async ({
+export const fetchSelectHintMeta = ({
   selectHintData,
   esHint,
 }: {
@@ -26,7 +26,7 @@ export const fetchSelectHintMeta = async ({
       cardMeta.text.name || "[?]",
     );
   } else {
-    selectHintMeta = await getStrings(selectHintData);
+    selectHintMeta = getStrings(selectHintData);
   }
 
   matStore.hint.code = selectHintData;
