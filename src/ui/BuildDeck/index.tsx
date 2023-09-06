@@ -160,9 +160,15 @@ export const DeckEditor: React.FC<{
   onSave: () => void;
 }> = ({ deck, onClear, onReset, onSave }) => {
   const snapEditDeck = useSnapshot(editDeckStore);
+  const [deckName, setDeckName] = useState(editDeckStore.deckName);
+
   useEffect(() => {
     iDeckToEditingDeck(deck).then(editDeckStore.set);
+    setDeckName(deck.deckName);
   }, [deck]);
+  useEffect(() => {
+    editDeckStore.deckName = deckName;
+  }, [deckName]);
 
   const handleSwitchCard = (type: Type, card: CardMeta) => {
     const cardType = card.data.type ?? 0;
@@ -218,13 +224,8 @@ export const DeckEditor: React.FC<{
           bordered={false}
           prefix={<EditOutlined />}
           style={{ width: 400 }}
-          onChange={(e) =>
-            editDeckStore.set({
-              ...editDeckStore,
-              deckName: e.target.value,
-            })
-          }
-          value={snapEditDeck.deckName}
+          onChange={(e) => setDeckName(e.target.value)}
+          value={deckName}
         />
         <Space style={{ marginRight: 6 }}>
           <Button
