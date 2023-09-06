@@ -25,17 +25,18 @@ export function invokeFts(db: Database, params: FtsParams): CardMeta[] {
   const { query, conditions } = params;
   const ftsMetas: CardMeta[] = [];
 
+  const queryList = query.trim().split(" ");
+
   const filterConditions = getFtsCondtions(conditions);
   const stmt = db.prepare(`
     SELECT datas.*, texts.*
     FROM datas
     INNER JOIN texts ON datas.id = texts.id
-    WHERE texts.name LIKE $query ${
-      filterConditions ? `AND ${filterConditions}` : ""
-    }
+    WHERE (texts.name || texts.desc) LIKE $query
+    ${filterConditions ? `AND ${filterConditions}` : ""}
   `);
 
-  stmt.bind({ $query: `%${query}%` });
+  stmt.bind({ $query: `%${queryList.join("%")}%` });
 
   while (stmt.step()) {
     const row = stmt.getAsObject() as CardData & CardText;
