@@ -29,13 +29,13 @@ export function fetchStrings(region: Region, id: string | number): string {
   return localStorage.getItem(`${region}_${id}`) || "";
 }
 
-export async function getStrings(description: number): Promise<string> {
+export function getStrings(description: number): string {
   if (description < DESCRIPTION_LIMIT) {
     return fetchStrings(Region.System, description);
   } else {
     const code = description >> 4;
     const index = description & 0xf;
 
-    return getCardStr(fetchCard(code), index) || "";
+    return getCardStr(fetchCard(code), index) ?? "[?]";
   }
 }

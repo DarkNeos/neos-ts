@@ -18,7 +18,7 @@ export default async (hint: MsgHint) => {
       break;
     }
     case MsgHint.HintType.HINT_SELECTMSG: {
-      await fetchSelectHintMeta({
+      fetchSelectHintMeta({
         selectHintData: hint.hint_data,
         esHint: "",
       });
