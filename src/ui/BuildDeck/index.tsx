@@ -379,7 +379,7 @@ const Search: React.FC = () => {
     <div className={styles.container} ref={dropRef}>
       <div className={styles.title}>
         <Input
-          placeholder="搜索卡片"
+          placeholder="关键词(空格分隔)"
           bordered={false}
           suffix={
             <Button
