@@ -10,13 +10,18 @@ import styles from "./index.module.scss";
 
 const { assetsPath } = useConfig();
 
+export interface DeckCardMouseUpEvent {
+  event: React.MouseEvent;
+  card: CardMeta;
+}
+
 /** 组卡页和Side页使用的单张卡片，增加了文字和禁限数量 */
 export const DeckCard: React.FC<{
   value: CardMeta;
   source: Type | "search";
-  onRightClick?: () => void;
-  onClick?: () => void;
-}> = memo(({ value, source, onRightClick, onClick }) => {
+  onMouseUp?: (event: DeckCardMouseUpEvent) => void;
+  onMouseEnter?: () => void;
+}> = memo(({ value, source, onMouseUp, onMouseEnter }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: "Card",
@@ -33,10 +38,15 @@ export const DeckCard: React.FC<{
       className={styles.card}
       ref={ref}
       style={{ opacity: isDragging && source !== "search" ? 0 : 1 }}
-      onClick={onClick}
+      onMouseUp={(event) =>
+        onMouseUp?.({
+          event,
+          card: value,
+        })
+      }
+      onMouseEnter={onMouseEnter}
       onContextMenu={(e) => {
         e.preventDefault();
-        onRightClick?.();
       }}
     >
       {showText && <div className={styles.cardname}>{value.text.name}</div>}
