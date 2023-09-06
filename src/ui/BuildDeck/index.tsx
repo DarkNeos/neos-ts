@@ -13,6 +13,7 @@ import {
   Dropdown,
   Input,
   type MenuProps,
+  message,
   Pagination,
   Space,
 } from "antd";
@@ -26,12 +27,13 @@ import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
 import { type CardMeta, searchCards } from "@/api";
-import { isToken } from "@/common";
+import { isExtraDeckCard, isToken } from "@/common";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, type IDeck, initStore } from "@/stores";
 import {
   Background,
   DeckCard,
+  DeckCardMouseUpEvent,
   DeckZone,
   IconFont,
   Loading,
@@ -159,6 +161,53 @@ export const DeckEditor: React.FC<{
   useEffect(() => {
     iDeckToEditingDeck(deck).then(editDeckStore.set);
   }, [deck]);
+
+  const handleSwitchCard = (type: Type, card: CardMeta) => {
+    const cardType = card.data.type ?? 0;
+    const isSide = type === "side";
+    const targetType = isSide
+      ? isExtraDeckCard(cardType)
+        ? "extra"
+        : "main"
+      : "side";
+    const { result, reason } = editDeckStore.canAdd(card, targetType, type);
+    if (result) {
+      editDeckStore.remove(type, card);
+      editDeckStore.add(targetType, card);
+    } else {
+      message.error(reason);
+    }
+  };
+
+  const showSelectedCard = (card: CardMeta) => {
+    selectedCard.id = card.id;
+    selectedCard.open = true;
+  };
+
+  const handleMouseUp = (
+    type: "main" | "extra" | "side",
+    payload: DeckCardMouseUpEvent,
+  ) => {
+    const { event, card } = payload;
+    switch (event.button) {
+      // 左键
+      case 0:
+        showSelectedCard(card);
+        break;
+      // 中键
+      case 1:
+        handleSwitchCard(type, card);
+        break;
+      // 右键
+      case 2:
+        editDeckStore.remove(type, card);
+        break;
+      default:
+        break;
+    }
+    event.preventDefault();
+  };
+
   return (
     <div className={styles.container}>
       <Space className={styles.title}>
@@ -215,11 +264,7 @@ export const DeckEditor: React.FC<{
                 editDeckStore.remove(source, card);
               }
             }}
-            onElementClick={(card) => {
-              selectedCard.id = card.id;
-              selectedCard.open = true;
-            }}
-            onElementRightClick={(card) => editDeckStore.remove(type, card)}
+            onElementMouseUp={(event) => handleMouseUp(type, event)}
           />
         ))}
       </ScrollableArea>
@@ -423,6 +468,53 @@ const SearchResults: React.FC<{
   const endIndex = startIndex + itemsPerPage;
   const currentData = results.slice(startIndex, endIndex);
 
+  const showSelectedCard = (card: CardMeta) => {
+    selectedCard.id = card.id;
+    selectedCard.open = true;
+  };
+
+  const handleAddCardToMain = (card: CardMeta) => {
+    const cardType = card.data.type ?? 0;
+    const isExtraCard = isExtraDeckCard(cardType);
+    const type = isExtraCard ? "extra" : "main";
+    const { result, reason } = editDeckStore.canAdd(card, type, "search");
+    if (result) {
+      editDeckStore.add(type, card);
+    } else {
+      message.error(reason);
+    }
+  };
+
+  const handleAddCardToSide = (card: CardMeta) => {
+    const { result, reason } = editDeckStore.canAdd(card, "side", "search");
+    if (result) {
+      editDeckStore.add("side", card);
+    } else {
+      message.error(reason);
+    }
+  };
+
+  /** safari 不支持 onAuxClick，所以使用 mousedown 模拟 */
+  const handleMouseUp = (payload: DeckCardMouseUpEvent) => {
+    const { event, card } = payload;
+    switch (event.button) {
+      // 左键
+      case 0:
+        showSelectedCard(card);
+        break;
+      // 中键
+      case 1:
+        handleAddCardToSide(card);
+        break;
+      // 右键
+      case 2:
+        handleAddCardToMain(card);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className={styles["search-cards"]}>
@@ -431,10 +523,8 @@ const SearchResults: React.FC<{
             value={card}
             key={card.id}
             source="search"
-            onClick={() => {
-              selectedCard.id = card.id;
-              selectedCard.open = true;
-            }}
+            onMouseUp={handleMouseUp}
+            onMouseEnter={() => showSelectedCard(card)}
           />
         ))}
       </div>

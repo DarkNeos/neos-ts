@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 
 import { CardMeta } from "@/api";
 
-import { DeckCard } from "../DeckCard";
+import { DeckCard, DeckCardMouseUpEvent } from "../DeckCard";
 import styles from "./index.module.scss";
 
 /** 正在组卡的zone，包括main/extra/side
@@ -24,15 +24,13 @@ export const DeckZone: React.FC<{
     source: Type | "search",
     destination: Type,
   ) => void;
-  onElementClick: (card: CardMeta) => void;
-  onElementRightClick?: (card: CardMeta) => void;
+  onElementMouseUp: (event: DeckCardMouseUpEvent) => void;
 }> = ({
   type,
   cards,
   canAdd,
   onChange,
-  onElementClick,
-  onElementRightClick,
+  onElementMouseUp: onElementMouseUp,
 }) => {
   const { message } = App.useApp();
   const [allowToDrop, setAllowToDrop] = useState(false);
@@ -72,12 +70,7 @@ export const DeckZone: React.FC<{
             value={card}
             key={card.id + i + type}
             source={type}
-            onClick={() => {
-              onElementClick(card);
-            }}
-            onRightClick={() => {
-              onElementRightClick?.(card);
-            }}
+            onMouseUp={onElementMouseUp}
           />
         ))}
         <div className={styles["editing-zone-name"]}>

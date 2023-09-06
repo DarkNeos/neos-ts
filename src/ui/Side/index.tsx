@@ -115,7 +115,7 @@ export const Component: React.FC = () => {
                   cards={[...deck[type]].map((id) => fetchCard(id))}
                   canAdd={canAdd}
                   onChange={onChange}
-                  onElementClick={(card) => setSelectedCard(card.id)}
+                  onElementMouseUp={(event) => setSelectedCard(event.card.id)}
                 />
               ))}
             </ScrollableArea>
