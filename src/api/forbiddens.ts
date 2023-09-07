@@ -1,4 +1,8 @@
+import { isNil } from "lodash-es";
+
 import { useConfig } from "@/config";
+
+import { CardMeta } from "./cards";
 const { lflistUrl } = useConfig();
 
 class Forbidden {
@@ -16,8 +20,12 @@ class Forbidden {
     this.data.set(cardId, limitCount);
   }
 
-  public get(id: number): number | undefined {
-    return this.data.get(id);
+  public get(card: CardMeta): number | undefined {
+    let cardForbiddenById = this.data.get(card.id);
+    if (isNil(cardForbiddenById) && !isNil(card.data.alias)) {
+      cardForbiddenById = this.data.get(card.data.alias);
+    }
+    return cardForbiddenById;
   }
 
   private setForbiddens(forbiddens: Map<number, number>): void {
