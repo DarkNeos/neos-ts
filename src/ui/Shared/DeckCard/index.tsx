@@ -32,7 +32,8 @@ export const DeckCard: React.FC<{
   });
   drag(ref);
   const [showText, setShowText] = useState(true);
-  const limitCnt = forbidden.get(value.id);
+  const limitCnt = forbidden.get(value);
+
   return (
     <div
       className={styles.card}
