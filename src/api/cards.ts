@@ -8,6 +8,7 @@ export interface CardMeta {
 }
 
 export interface CardData {
+  alias?: number;
   ot?: number;
   setcode?: number;
   type?: number;
