@@ -94,8 +94,14 @@ export const editDeckStore = proxy({
 
     const max = 3; // 这里无需参考禁卡表
     const numOfSameCards =
-      editDeckStore.getAll().filter((c) => c.id === card.id).length -
-      (source !== "search" ? 1 : 0);
+      editDeckStore
+        .getAll()
+        .filter(
+          (c) =>
+            c.id === card.id ||
+            c.data.alias === card.id ||
+            c.id === card.data.alias,
+        ).length - (source !== "search" ? 1 : 0);
 
     if (numOfSameCards >= max) {
       result = false;
