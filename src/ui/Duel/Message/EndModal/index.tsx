@@ -27,7 +27,6 @@ export const EndModal: React.FC = () => {
   const onReturn = () => {
     resetDuel();
     rs();
-    // TODO: 这里暂时不自动跳转，决斗结束后让玩家自己手动选择回到主页
   };
 
   return (

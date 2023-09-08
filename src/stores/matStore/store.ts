@@ -85,6 +85,7 @@ const initialState: Omit<MatState, "reset"> = {
   },
   tossResult: undefined,
   chainSetting: ChainSetting.CHAIN_SMART,
+  duelEnd: false,
   // methods
   isMe,
 };
@@ -102,6 +103,7 @@ class MatStore implements MatState, NeosStore {
   unimplemented = initialState.unimplemented;
   handResults = initialState.handResults;
   tossResult = initialState.tossResult;
+  duelEnd = initialState.duelEnd;
   // methods
   isMe = initialState.isMe;
   reset(): void {
@@ -123,6 +125,7 @@ class MatStore implements MatState, NeosStore {
     this.unimplemented = 0;
     this.handResults.me = 0;
     this.handResults.op = 0;
+    this.duelEnd = false;
   }
 }
 

@@ -978,7 +978,7 @@ export namespace ygopro {
         }
     }
     export class YgoStocMsg extends pb_1.Message {
-        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]];
+        #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]];
         constructor(data?: any[] | ({} & (({
             stoc_join_game?: StocJoinGame;
             stoc_chat?: never;
@@ -996,6 +996,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: StocChat;
@@ -1013,6 +1014,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1030,6 +1032,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1047,6 +1050,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1064,6 +1068,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1081,6 +1086,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1098,6 +1104,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1115,6 +1122,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1132,6 +1140,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1149,6 +1158,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1166,6 +1176,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1183,6 +1194,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1200,6 +1212,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1217,6 +1230,7 @@ export namespace ygopro {
             stoc_error_msg?: StocErrorMsg;
             stoc_change_side?: never;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1234,6 +1248,7 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: StocChangeSide;
             stoc_waiting_side?: never;
+            stoc_duel_end?: never;
         } | {
             stoc_join_game?: never;
             stoc_chat?: never;
@@ -1251,6 +1266,25 @@ export namespace ygopro {
             stoc_error_msg?: never;
             stoc_change_side?: never;
             stoc_waiting_side?: StocWaitingSide;
+            stoc_duel_end?: never;
+        } | {
+            stoc_join_game?: never;
+            stoc_chat?: never;
+            stoc_hs_player_enter?: never;
+            stoc_type_change?: never;
+            stoc_hs_player_change?: never;
+            stoc_hs_watch_change?: never;
+            stoc_select_hand?: never;
+            stoc_hand_result?: never;
+            stoc_select_tp?: never;
+            stoc_deck_count?: never;
+            stoc_duel_start?: never;
+            stoc_game_msg?: never;
+            stoc_time_limit?: never;
+            stoc_error_msg?: never;
+            stoc_change_side?: never;
+            stoc_waiting_side?: never;
+            stoc_duel_end?: StocDuelEnd;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -1302,6 +1336,9 @@ export namespace ygopro {
                 }
                 if ("stoc_waiting_side" in data && data.stoc_waiting_side != undefined) {
                     this.stoc_waiting_side = data.stoc_waiting_side;
+                }
+                if ("stoc_duel_end" in data && data.stoc_duel_end != undefined) {
+                    this.stoc_duel_end = data.stoc_duel_end;
                 }
             }
         }
@@ -1449,9 +1486,18 @@ export namespace ygopro {
         get has_stoc_waiting_side() {
             return pb_1.Message.getField(this, 16) != null;
         }
+        get stoc_duel_end() {
+            return pb_1.Message.getWrapperField(this, StocDuelEnd, 17) as StocDuelEnd;
+        }
+        set stoc_duel_end(value: StocDuelEnd) {
+            pb_1.Message.setOneofWrapperField(this, 17, this.#one_of_decls[0], value);
+        }
+        get has_stoc_duel_end() {
+            return pb_1.Message.getField(this, 17) != null;
+        }
         get msg() {
             const cases: {
-                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change" | "stoc_hs_player_change" | "stoc_hs_watch_change" | "stoc_select_hand" | "stoc_hand_result" | "stoc_select_tp" | "stoc_deck_count" | "stoc_duel_start" | "stoc_game_msg" | "stoc_time_limit" | "stoc_error_msg" | "stoc_change_side" | "stoc_waiting_side";
+                [index: number]: "none" | "stoc_join_game" | "stoc_chat" | "stoc_hs_player_enter" | "stoc_type_change" | "stoc_hs_player_change" | "stoc_hs_watch_change" | "stoc_select_hand" | "stoc_hand_result" | "stoc_select_tp" | "stoc_deck_count" | "stoc_duel_start" | "stoc_game_msg" | "stoc_time_limit" | "stoc_error_msg" | "stoc_change_side" | "stoc_waiting_side" | "stoc_duel_end";
             } = {
                 0: "none",
                 1: "stoc_join_game",
@@ -1469,9 +1515,10 @@ export namespace ygopro {
                 13: "stoc_time_limit",
                 14: "stoc_error_msg",
                 15: "stoc_change_side",
-                16: "stoc_waiting_side"
+                16: "stoc_waiting_side",
+                17: "stoc_duel_end"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])];
+            return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])];
         }
         static fromObject(data: {
             stoc_join_game?: ReturnType<typeof StocJoinGame.prototype.toObject>;
@@ -1490,6 +1537,7 @@ export namespace ygopro {
             stoc_error_msg?: ReturnType<typeof StocErrorMsg.prototype.toObject>;
             stoc_change_side?: ReturnType<typeof StocChangeSide.prototype.toObject>;
             stoc_waiting_side?: ReturnType<typeof StocWaitingSide.prototype.toObject>;
+            stoc_duel_end?: ReturnType<typeof StocDuelEnd.prototype.toObject>;
         }): YgoStocMsg {
             const message = new YgoStocMsg({});
             if (data.stoc_join_game != null) {
@@ -1540,6 +1588,9 @@ export namespace ygopro {
             if (data.stoc_waiting_side != null) {
                 message.stoc_waiting_side = StocWaitingSide.fromObject(data.stoc_waiting_side);
             }
+            if (data.stoc_duel_end != null) {
+                message.stoc_duel_end = StocDuelEnd.fromObject(data.stoc_duel_end);
+            }
             return message;
         }
         toObject() {
@@ -1560,6 +1611,7 @@ export namespace ygopro {
                 stoc_error_msg?: ReturnType<typeof StocErrorMsg.prototype.toObject>;
                 stoc_change_side?: ReturnType<typeof StocChangeSide.prototype.toObject>;
                 stoc_waiting_side?: ReturnType<typeof StocWaitingSide.prototype.toObject>;
+                stoc_duel_end?: ReturnType<typeof StocDuelEnd.prototype.toObject>;
             } = {};
             if (this.stoc_join_game != null) {
                 data.stoc_join_game = this.stoc_join_game.toObject();
@@ -1609,6 +1661,9 @@ export namespace ygopro {
             if (this.stoc_waiting_side != null) {
                 data.stoc_waiting_side = this.stoc_waiting_side.toObject();
             }
+            if (this.stoc_duel_end != null) {
+                data.stoc_duel_end = this.stoc_duel_end.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -1647,6 +1702,8 @@ export namespace ygopro {
                 writer.writeMessage(15, this.stoc_change_side, () => this.stoc_change_side.serialize(writer));
             if (this.has_stoc_waiting_side)
                 writer.writeMessage(16, this.stoc_waiting_side, () => this.stoc_waiting_side.serialize(writer));
+            if (this.has_stoc_duel_end)
+                writer.writeMessage(17, this.stoc_duel_end, () => this.stoc_duel_end.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1703,6 +1760,9 @@ export namespace ygopro {
                         break;
                     case 16:
                         reader.readMessage(message.stoc_waiting_side, () => message.stoc_waiting_side = StocWaitingSide.deserialize(reader));
+                        break;
+                    case 17:
+                        reader.readMessage(message.stoc_duel_end, () => message.stoc_duel_end = StocDuelEnd.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -4951,6 +5011,46 @@ export namespace ygopro {
         }
         static deserializeBinary(bytes: Uint8Array): StocDuelStart {
             return StocDuelStart.deserialize(bytes);
+        }
+    }
+    export class StocDuelEnd extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {}) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") { }
+        }
+        static fromObject(data: {}): StocDuelEnd {
+            const message = new StocDuelEnd({});
+            return message;
+        }
+        toObject() {
+            const data: {} = {};
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): StocDuelEnd {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new StocDuelEnd();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): StocDuelEnd {
+            return StocDuelEnd.deserialize(bytes);
         }
     }
     export class StocTimeLimit extends pb_1.Message {

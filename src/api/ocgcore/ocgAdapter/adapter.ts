@@ -4,6 +4,7 @@ import {
   STOC_CHANGE_SIDE,
   STOC_CHAT,
   STOC_DECK_COUNT,
+  STOC_DUEL_END,
   STOC_DUEL_START,
   STOC_ERROR_MSG,
   STOC_GAME_MSG,
@@ -21,6 +22,7 @@ import {
 import StocChangeSide from "./stoc/stocChangeSide";
 import StocChat from "./stoc/stocChat";
 import StocDeckCount from "./stoc/stocDeckCount";
+import StocDuelEnd from "./stoc/stocDuelEnd";
 import StocDuelStart from "./stoc/stocDuelStart";
 import StocErrorMsg from "./stoc/stocErrorMsg";
 import StocGameMsg from "./stoc/stocGameMsg/mod";
@@ -87,6 +89,10 @@ export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
     }
     case STOC_DUEL_START: {
       pb = new StocDuelStart(packet).upcast();
+      break;
+    }
+    case STOC_DUEL_END: {
+      pb = new StocDuelEnd(packet).upcast();
       break;
     }
     case STOC_GAME_MSG: {
