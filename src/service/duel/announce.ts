@@ -17,7 +17,7 @@ export default async (announce: MsgAnnounce) => {
       await displayOptionModal(
         fetchStrings(Region.System, 563),
         announce.options.map((option) => ({
-          info: fetchStrings(Region.System, 1200 + option.code),
+          info: fetchStrings(Region.System, 1020 + option.code),
           response: option.response,
         })),
         min,
