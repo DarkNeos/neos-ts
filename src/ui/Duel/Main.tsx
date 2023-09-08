@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { SideStage, sideStore } from "@/stores";
+import { matStore, SideStage, sideStore } from "@/stores";
 
 import {
   Alert,
@@ -22,6 +22,7 @@ import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 
 export const Component: React.FC = () => {
   const { stage } = useSnapshot(sideStore);
+  const { duelEnd } = useSnapshot(matStore);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +31,13 @@ export const Component: React.FC = () => {
       navigate("/side");
     }
   }, [stage]);
+
+  useEffect(() => {
+    if (duelEnd) {
+      // 决斗结束，返回匹配页
+      navigate("/match");
+    }
+  }, [duelEnd]);
 
   return (
     <>

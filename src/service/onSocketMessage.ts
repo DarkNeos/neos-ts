@@ -12,6 +12,7 @@ import handleDeckCount from "./mora/deckCount";
 import handleSelectHand from "./mora/selectHand";
 import handleSelectTp from "./mora/selectTp";
 import handleChat from "./room/chat";
+import handleDuelEnd from "./room/duelEnd";
 import handleDuelStart from "./room/duelStart";
 import handleErrorMsg from "./room/errorMsg";
 import handleHandResult from "./room/handResult";
@@ -83,6 +84,10 @@ async function _handle(e: MessageEvent) {
     }
     case "stoc_duel_start": {
       handleDuelStart(pb);
+      break;
+    }
+    case "stoc_duel_end": {
+      handleDuelEnd(pb);
       break;
     }
     case "stoc_game_msg": {

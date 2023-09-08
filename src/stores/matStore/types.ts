@@ -40,6 +40,8 @@ export interface MatState {
     set: (controller: number, result: HandResult) => void;
   }; // 猜拳结果
 
+  duelEnd: boolean; // 决斗是否结束，包括单局模式和匹配模式
+
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
 }
