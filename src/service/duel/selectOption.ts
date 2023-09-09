@@ -1,10 +1,16 @@
-import { fetchStrings, getStrings, Region, type ygopro } from "@/api";
+import {
+  fetchStrings,
+  getStrings,
+  Region,
+  sendSelectOptionResponse,
+  type ygopro,
+} from "@/api";
 import { displayOptionModal } from "@/ui/Duel/Message";
 
 export default async (selectOption: ygopro.StocGameMessage.MsgSelectOption) => {
   const options = selectOption.options;
   if (options.length === 0) {
-    console.warn("<MsgSelectOption>options is empty.");
+    sendSelectOptionResponse(0);
     return;
   }
   await displayOptionModal(
