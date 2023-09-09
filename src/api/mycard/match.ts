@@ -11,7 +11,10 @@ export async function match(
   extraId: number,
   arena: string = "entertain",
 ): Promise<MatchInfo | undefined> {
-  const headers = { Authorization: "Basic " + btoa(username + ":" + extraId) };
+  const headers = {
+    Authorization:
+      "Basic " + btoa(encodeURIComponent(username) + ":" + extraId),
+  };
   let response: Response | undefined = undefined;
   const params = new URLSearchParams({
     arena,
