@@ -3,6 +3,10 @@ import { displayOptionModal } from "@/ui/Duel/Message";
 
 export default async (selectOption: ygopro.StocGameMessage.MsgSelectOption) => {
   const options = selectOption.options;
+  if (options.length === 0) {
+    console.warn("<MsgSelectOption>options is empty.");
+    return;
+  }
   await displayOptionModal(
     fetchStrings(Region.System, 556),
     options.map(({ code, response }) => ({

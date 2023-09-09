@@ -7,7 +7,7 @@ import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 import { type CardMeta, Region, type ygopro } from "@/api";
 import { fetchStrings } from "@/api";
 import { CardType, isMe, matStore } from "@/stores";
-import { YgoCard } from "@/ui/Shared";
+import { ScrollableArea, YgoCard } from "@/ui/Shared";
 
 import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
@@ -147,53 +147,59 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           selectedZone={selectedZone}
           onChange={setSelectedZone as any}
         />
-        {grouped.map(
-          (options, i) =>
-            options[0] === selectedZone && (
-              <div className={styles["container"]} key={i}>
-                <CheckCard.Group
-                  onChange={(res: any) => {
-                    const newRes: [ygopro.CardZone, Option[]][] = result.map(
-                      ([k, v]) => [k, k === selectedZone ? res : v],
-                    );
-                    setResult(newRes);
-                  }}
-                  value={
-                    result.find(([k, _]) => k === selectedZone)?.[1] ??
-                    ([] as any)
-                  }
-                  // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
-                  multiple
-                  className={styles["check-group"]}
-                >
-                  {options[1].map((card, j) => (
-                    <Tooltip title={card.effectDesc} placement="bottom" key={j}>
-                      {/* 这儿必须有一个div，不然tooltip不生效 */}
-                      <div>
-                        <CheckCard
-                          cover={
-                            <YgoCard
-                              code={card.meta.id}
-                              className={styles.card}
-                            />
-                          }
-                          className={classnames(styles["check-card"], {
-                            [styles.opponent]:
-                              card.location?.controller !== undefined &&
-                              !isMe(card.location.controller),
-                          })}
-                          value={card}
-                          onClick={() => {
-                            showCardModal(card);
-                          }}
-                        />
-                      </div>
-                    </Tooltip>
-                  ))}
-                </CheckCard.Group>
-              </div>
-            ),
-        )}
+        <ScrollableArea maxHeight="50vh">
+          {grouped.map(
+            (options, i) =>
+              options[0] === selectedZone && (
+                <div className={styles["container"]} key={i}>
+                  <CheckCard.Group
+                    onChange={(res: any) => {
+                      const newRes: [ygopro.CardZone, Option[]][] = result.map(
+                        ([k, v]) => [k, k === selectedZone ? res : v],
+                      );
+                      setResult(newRes);
+                    }}
+                    value={
+                      result.find(([k, _]) => k === selectedZone)?.[1] ??
+                      ([] as any)
+                    }
+                    // TODO 考虑如何设置默认值，比如只有一个的，就直接选中
+                    multiple
+                    className={styles["check-group"]}
+                  >
+                    {options[1].map((card, j) => (
+                      <Tooltip
+                        title={card.effectDesc}
+                        placement="bottom"
+                        key={j}
+                      >
+                        {/* 这儿必须有一个div，不然tooltip不生效 */}
+                        <div>
+                          <CheckCard
+                            cover={
+                              <YgoCard
+                                code={card.meta.id}
+                                className={styles.card}
+                              />
+                            }
+                            className={classnames(styles["check-card"], {
+                              [styles.opponent]:
+                                card.location?.controller !== undefined &&
+                                !isMe(card.location.controller),
+                            })}
+                            value={card}
+                            onClick={() => {
+                              showCardModal(card);
+                            }}
+                          />
+                        </div>
+                      </Tooltip>
+                    ))}
+                  </CheckCard.Group>
+                </div>
+              ),
+          )}
+        </ScrollableArea>
         <p>
           <span>
             {/* TODO: 这里的字体可以调整下 */}
