@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
-import { matStore } from "@/stores";
+import { replayStore } from "@/stores";
 
 import { Uploader } from "../Shared";
 import { connectSrvpro } from "./util";
@@ -39,7 +39,7 @@ export const ReplayModal: React.FC = () => {
       setLoading(true);
 
       // 标记为回放模式
-      matStore.isReplay = true;
+      replayStore.isReplay = true;
 
       // 初始化额外卡组
       // FIXME: 这样写应该不对，有空来修

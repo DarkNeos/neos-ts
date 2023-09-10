@@ -7,6 +7,7 @@ import { sleep } from "@/infra";
 import {
   cardStore,
   matStore,
+  replayStore,
   RoomStage,
   roomStore,
   SideStage,
@@ -91,7 +92,7 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
     .at(ygopro.CardZone.EXTRA, 1 - opponent)
     .forEach((card) => (card.code = window.myExtraDeckCodes?.pop() ?? 0));
 
-  if (matStore.isReplay) {
+  if (replayStore.isReplay) {
     replayStart();
   }
 
