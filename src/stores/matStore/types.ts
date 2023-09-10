@@ -30,8 +30,6 @@ export interface MatState {
 
   phase: PhaseState;
 
-  isReplay: boolean; // 是否是回放模式
-
   unimplemented: number; // 未处理的`Message`
 
   tossResult?: string; // 骰子/硬币结果

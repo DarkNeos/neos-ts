@@ -73,7 +73,6 @@ const initialState: Omit<MatState, "reset"> = {
     enableM2: false, // 允许进入M2阶段
     enableEp: false, // 允许回合结束
   },
-  isReplay: false,
   unimplemented: 0,
   handResults: {
     me: 0,
@@ -99,7 +98,6 @@ class MatStore implements MatState, NeosStore {
   hint = initialState.hint;
   currentPlayer = initialState.currentPlayer;
   phase = initialState.phase;
-  isReplay = initialState.isReplay;
   unimplemented = initialState.unimplemented;
   handResults = initialState.handResults;
   tossResult = initialState.tossResult;
@@ -121,7 +119,6 @@ class MatStore implements MatState, NeosStore {
       enableM2: false, // 允许进入M2阶段
       enableEp: false, // 允许回合结束
     };
-    this.isReplay = false;
     this.unimplemented = 0;
     this.handResults.me = 0;
     this.handResults.op = 0;

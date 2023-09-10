@@ -17,6 +17,7 @@ interface ReplayPacket {
 
 // 保存对局回放数据的`Store`
 class ReplayStore implements NeosStore {
+  isReplay: boolean = false; // 是否进入了回放模式
   inner: ReplaySpot[] = ref([]);
   record(ygoPacket: YgoProPacket) {
     this.inner.push({
@@ -28,6 +29,7 @@ class ReplayStore implements NeosStore {
   }
   reset() {
     this.inner.splice(0);
+    this.isReplay = false;
   }
 }
 

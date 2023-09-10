@@ -91,7 +91,7 @@ export const Menu = () => {
 
   const phaseSwitchItems: MenuProps["items"] = phaseBind
     .filter(([, , , show]) => show)
-    .map(([phase, label, response], key) => ({
+    .map(([phase, label, response, _], key) => ({
       key,
       label,
       disabled: currentPhase >= phase || !checkPhaseEnabled(phase),

@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { replayStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
 import onAnnounce from "./announce";
@@ -83,6 +83,7 @@ const ReplayIgnoreMsg = [
   "select_yes_no",
   "select_tribute",
   "select_counter",
+  "select_sum",
   "rock_paper_scissors",
   "sort_card",
   "announce",
@@ -97,7 +98,7 @@ export default async function handleGameMsg(
     showWaiting(false);
   }
 
-  if (matStore.isReplay && ReplayIgnoreMsg.includes(msg.gameMsg)) return;
+  if (replayStore.isReplay && ReplayIgnoreMsg.includes(msg.gameMsg)) return;
 
   switch (msg.gameMsg) {
     case "start": {

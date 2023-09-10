@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
-import { matStore, replayStore, resetDuel } from "@/stores";
+import { replayStore, resetDuel } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
@@ -22,7 +22,7 @@ const localStore = proxy(defaultProps);
 
 export const EndModal: React.FC = () => {
   const { isOpen, isWin, reason } = useSnapshot(localStore);
-  const { isReplay } = useSnapshot(matStore);
+  const { isReplay } = useSnapshot(replayStore);
 
   const onReturn = () => {
     resetDuel();
