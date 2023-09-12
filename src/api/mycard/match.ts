@@ -12,8 +12,7 @@ export async function match(
   arena: string = "entertain",
 ): Promise<MatchInfo | undefined> {
   const headers = {
-    Authorization:
-      "Basic " + btoa(encodeURIComponent(username) + ":" + extraId),
+    Authorization: "Basic " + customBase64Encode(username + ":" + extraId),
   };
   let response: Response | undefined = undefined;
   const params = new URLSearchParams({
@@ -37,4 +36,10 @@ export async function match(
   }
 
   return (await response?.json()) as MatchInfo;
+}
+
+function customBase64Encode(input: string): string {
+  const uint8Array = new TextEncoder().encode(input);
+  const base64String = btoa(String.fromCharCode(...uint8Array));
+  return base64String;
 }
