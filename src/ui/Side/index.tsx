@@ -58,7 +58,10 @@ export const Component: React.FC = () => {
     setDeck(JSON.parse(JSON.stringify(sideDeck)));
     message.info("重置成功");
   };
-  const onSummit = () => sendUpdateDeck(deck);
+  const onSummit = () => {
+    sendUpdateDeck(deck);
+    window.myExtraDeckCodes = [...deck.extra];
+  };
 
   useEffect(() => {
     if (stage === SideStage.SIDE_CHANGED) {
