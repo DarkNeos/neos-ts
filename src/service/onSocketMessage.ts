@@ -91,12 +91,11 @@ async function _handle(e: MessageEvent) {
       break;
     }
     case "stoc_game_msg": {
-      await handleGameMsg(pb);
-
       if (!replayStore.isReplay) {
         // 如果不是回放模式，则记录回放数据
         replayStore.record(packet);
       }
+      await handleGameMsg(pb);
 
       break;
     }
