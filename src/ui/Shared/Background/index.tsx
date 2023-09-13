@@ -22,7 +22,10 @@ export const withPortalToBody = <P extends object>(
       return () => {
         // 卸载组件并且移除容器
         setTimeout(() => root.unmount());
-        portalRoot.removeChild(newNode);
+        if (portalRoot.contains(newNode)) {
+          // 做个if判断，防止下面这行crash
+          portalRoot.removeChild(newNode);
+        }
       };
     }, []);
 
