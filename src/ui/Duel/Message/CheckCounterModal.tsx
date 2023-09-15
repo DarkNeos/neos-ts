@@ -1,7 +1,7 @@
 // 指示器选择弹窗
 import { Omit } from "@react-spring/web";
 import { Button, Card, Col, InputNumber, Row } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region, sendSelectCounterResponse } from "@/api";
@@ -41,6 +41,10 @@ export const CheckCounterModal = () => {
   const sum = selected.reduce((sum, current) => sum + current, 0);
   const finishable = sum === min;
 
+  useEffect(() => {
+    setSelected(new Array(options.length));
+  }, [options]);
+
   const onFinish = () => {
     sendSelectCounterResponse(selected);
     rs();
@@ -75,10 +79,11 @@ export const CheckCounterModal = () => {
                   max={option.max}
                   defaultValue={0}
                   onChange={(value) => {
-                    let newSelected = [...selected];
-                    newSelected[idx] = value || 0;
-
-                    setSelected(newSelected);
+                    setSelected((prevSelected) => {
+                      let newSelected = [...prevSelected];
+                      newSelected[idx] = value ?? 0;
+                      return newSelected;
+                    });
                   }}
                 />
               </Card>

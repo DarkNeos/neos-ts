@@ -26,7 +26,9 @@
   height: 100%;
 }
 
-.atkLine {
+.atkLine,
+.counterLine
+{
   .title,
   .number {
     font-family: var(--theme-font);
@@ -46,5 +48,5 @@
 .info {
   justify-content: space-between;
   position: relative;
-  height: 204px; // TODO - fix this
+  height: 230px; // TODO - fix this
 }
