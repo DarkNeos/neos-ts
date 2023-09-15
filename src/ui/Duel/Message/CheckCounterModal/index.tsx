@@ -1,13 +1,14 @@
 // 指示器选择弹窗
 import { Omit } from "@react-spring/web";
-import { Button, Card, Col, InputNumber, Row } from "antd";
+import { Button, InputNumber } from "antd";
 import React, { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region, sendSelectCounterResponse } from "@/api";
-import { useConfig } from "@/config";
+import { YgoCard } from "@/ui/Shared";
 
-import { NeosModal } from "./NeosModal";
+import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 interface CheckCounterModalProps {
   isOpen: boolean;
@@ -25,7 +26,6 @@ const defaultProps = {
 
 const localStore = proxy<CheckCounterModalProps>(defaultProps);
 
-const NeosConfig = useConfig();
 export const CheckCounterModal = () => {
   const snapCheckCounterModal = useSnapshot(localStore);
 
@@ -34,8 +34,8 @@ export const CheckCounterModal = () => {
   const options = snapCheckCounterModal.options;
   const counterName = fetchStrings(
     Region.Counter,
-    `0x${snapCheckCounterModal.counterType!}`,
-  ); // FIXME: 这里转十六进制的逻辑有问题
+    `0x${snapCheckCounterModal.counterType?.toString(16)}`,
+  );
 
   const [selected, setSelected] = useState(new Array(options.length));
   const sum = selected.reduce((sum, current) => sum + current, 0);
@@ -60,37 +60,28 @@ export const CheckCounterModal = () => {
         </Button>
       }
     >
-      <Row>
+      <div className={styles.container}>
         {options.map((option, idx) => {
           return (
-            <Col span={4} key={idx}>
-              <Card
-                hoverable
-                style={{ width: 120 }}
-                cover={
-                  <img
-                    alt={option.code.toString()}
-                    src={`${NeosConfig.cardImgUrl}/${option.code}.jpg`}
-                  />
-                }
-              >
-                <InputNumber
-                  min={0}
-                  max={option.max}
-                  defaultValue={0}
-                  onChange={(value) => {
-                    setSelected((prevSelected) => {
-                      let newSelected = [...prevSelected];
-                      newSelected[idx] = value ?? 0;
-                      return newSelected;
-                    });
-                  }}
-                />
-              </Card>
-            </Col>
+            <div key={idx}>
+              <YgoCard code={option.code} className={styles.card} />
+              <InputNumber
+                className={styles["input-number"]}
+                min={0}
+                max={option.max}
+                defaultValue={0}
+                onChange={(value) => {
+                  setSelected((prevSelected) => {
+                    let newSelected = [...prevSelected];
+                    newSelected[idx] = value ?? 0;
+                    return newSelected;
+                  });
+                }}
+              />
+            </div>
           );
         })}
-      </Row>
+      </div>
     </NeosModal>
   );
 };
