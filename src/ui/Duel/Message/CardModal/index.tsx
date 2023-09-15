@@ -41,7 +41,7 @@ const store = proxy(defaultStore);
 export const CardModal = () => {
   const snap = useSnapshot(store);
 
-  const { isOpen, meta, counters: _counters } = snap;
+  const { isOpen, meta, counters } = snap;
 
   const name = meta?.text.name;
   const types = extraCardTypes(meta?.data.type ?? 0);
@@ -80,10 +80,10 @@ export const CardModal = () => {
               atk={atk}
               def={types.includes(TYPE_LINK) ? undefined : def}
             />
+            <CounterLine counters={counters} />
             <AttLine types={types} race={race} attribute={attribute} />
             {/* TODO: 只有怪兽卡需要展示攻击防御 */}
             {/* TODO: 展示星级/LINK数 */}
-            {/* <CounterLine counters={counters} /> */}
           </Space>
         </Space>
         <Divider style={{ margin: "14px 0" }}></Divider>
@@ -132,23 +132,24 @@ const AtkLine = (props: { atk?: number; def?: number }) => (
   </Space>
 );
 
-// TODO: 未完成，研究一下怎么展示这个信息
-const _CounterLine = (props: { counters: { [type: number]: number } }) => {
-  const counters = [];
-  for (const counterType in props.counters) {
-    const count = props.counters[counterType];
-    if (count > 0) {
-      const counterStr = fetchStrings(Region.Counter, `0x${counterType}`);
-      counters.push(`${counterStr}: ${count}`);
-    }
-  }
-
+const CounterLine = (props: { counters: { [type: number]: number } }) => {
   return (
-    <>
-      {counters.map((counter) => (
-        <div>{counter}</div>
-      ))}
-    </>
+    <Space size={10} className={styles.counterLine} direction="vertical">
+      {Object.entries(props.counters).map(
+        ([counterType, count], idx) =>
+          count > 0 && (
+            <div key={idx}>
+              <div className={styles.title}>
+                {fetchStrings(
+                  Region.Counter,
+                  `0x${Number(counterType).toString(16)}`,
+                )}
+              </div>
+              <div className={styles.number}>{count}</div>
+            </div>
+          ),
+      )}
+    </Space>
   );
 };
 
