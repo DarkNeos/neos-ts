@@ -58,6 +58,7 @@ export const MSG_PAY_LP_COST = 100;
 export const MSG_WIN = 5;
 export const MSG_WAITING = 3;
 export const MSG_UPDATE_DATA = 6;
+export const MSG_UPDATE_CARD = 7;
 export const MSG_RELOAD_FIELD = 162;
 export const MSG_SELECT_SUM = 23;
 export const MSG_ADD_COUNTER = 101;
