@@ -41,6 +41,7 @@ import MsgSibylNameAdapter from "./sibylName";
 import MsgSortCard from "./sortCard";
 import MsgStartAdapter from "./start";
 import MsgTossAdapter from "./toss";
+import MsgUpdateCardAdapter from "./updateCard";
 import MsgUpdateDataAdapter from "./updateData";
 import MsgWaitAdapter from "./wait";
 import MsgWin from "./win";
@@ -72,159 +73,132 @@ export default class GameMsgAdapter implements StocAdapter {
       switch (func) {
         case GAME_MSG.MSG_START: {
           gameMsg.start = MsgStartAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_DRAW: {
           gameMsg.draw = MsgDrawAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_NEW_TURN: {
           gameMsg.new_turn = MsgNewTurnAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_NEW_PHASE: {
           gameMsg.new_phase = MsgNewPhaseAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_HINT: {
           gameMsg.hint = MsgHintAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_IDLE_CMD: {
           gameMsg.select_idle_cmd = MsgSelectIdleCmdAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_DISFIELD:
         case GAME_MSG.MSG_SELECT_PLACE: {
           gameMsg.select_place = MsgSelectPlaceAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_CARD: {
           gameMsg.select_card = MsgSelectCardAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_TRIBUTE: {
           gameMsg.select_tribute = MsgSelectTributeAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_CHAIN: {
           gameMsg.select_chain = MsgSelectChainAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_EFFECTYN: {
           gameMsg.select_effect_yn = MsgSelectEffectYnAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_POSITION: {
           gameMsg.select_position = MsgSelectPositionAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_OPTION: {
           gameMsg.select_option = MsgSelectOptionAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_BATTLE_CMD: {
           gameMsg.select_battle_cmd = MsgSelectBattleCmdAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_UNSELECT_CARD: {
           gameMsg.select_unselect_card = MsgSelectUnselectCardAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_PAY_LP_COST:
         case GAME_MSG.MSG_DAMAGE: {
           gameMsg.update_hp = MsgDamage(gameData);
-
           break;
         }
         case GAME_MSG.MSG_RECOVER: {
           gameMsg.update_hp = MsgRecover(gameData);
-
           break;
         }
         case GAME_MSG.MSG_WIN: {
           gameMsg.win = MsgWin(gameData);
-
           break;
         }
         case GAME_MSG.MSG_WAITING: {
           gameMsg.wait = MsgWaitAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_UPDATE_DATA: {
           gameMsg.update_data = MsgUpdateDataAdapter(gameData);
-
+          break;
+        }
+        case GAME_MSG.MSG_UPDATE_CARD: {
+          gameMsg.update_data = MsgUpdateCardAdapter(gameData);
           break;
         }
         case GAME_MSG.MSG_RELOAD_FIELD: {
           gameMsg.reload_field = MsgReloadFieldAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_SUM: {
           gameMsg.select_sum = MsgSelectSum(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ADD_COUNTER: {
           gameMsg.update_counter = MsgAddCounter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_REMOVE_COUNTER: {
           gameMsg.update_counter = MsgRemoveCounter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SELECT_COUNTER: {
           gameMsg.select_counter = MsgSelectCounter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SORT_CARD: {
           gameMsg.sort_card = MsgSortCard(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ATTACK: {
           gameMsg.attack = MsgAttack(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_RACE: {
           gameMsg.announce = MsgAnnounceRace(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_ATTRIB: {
           gameMsg.announce = MsgAnnounceAttribute(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_CARD: {
           gameMsg.announce = MsgAnnounceCard(gameData);
-
           break;
         }
         case GAME_MSG.MSG_ANNOUNCE_NUMBER: {
           gameMsg.announce = MsgAnnounceNumber(gameData);
-
           break;
         }
         case GAME_MSG.MSG_TOSS_COIN: {
@@ -232,7 +206,6 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             ygopro.StocGameMessage.MsgToss.TossType.COIN,
           );
-
           break;
         }
         case GAME_MSG.MSG_TOSS_DICE: {
@@ -240,22 +213,18 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             ygopro.StocGameMessage.MsgToss.TossType.DICE,
           );
-
           break;
         }
         case GAME_MSG.MSG_SHUFFLE_SET_CARD: {
           gameMsg.shuffle_set_card = MsgShuffleSetCard(gameData);
-
           break;
         }
         case GAME_MSG.MSG_FIELD_DISABLED: {
           gameMsg.field_disabled = MsgFieldDisabledAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_HAND_RES: {
           gameMsg.hand_res = MsgHandResultAdapter(gameData);
-
           break;
         }
         case GAME_MSG.MSG_SHUFFLE_HAND: {
@@ -263,7 +232,6 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             false,
           );
-
           break;
         }
         case GAME_MSG.MSG_SHUFFLE_EXTRA: {
@@ -271,19 +239,16 @@ export default class GameMsgAdapter implements StocAdapter {
             gameData,
             true,
           );
-
           break;
         }
         case GAME_MSG.MSG_SIBYL_NAME: {
           gameMsg.sibyl_name = MsgSibylNameAdapter(gameData);
-
           break;
         }
         default: {
           gameMsg.unimplemented = new ygopro.StocGameMessage.MsgUnimplemented({
             command: func,
           });
-
           break;
         }
       }

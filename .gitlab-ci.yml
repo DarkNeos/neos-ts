@@ -24,9 +24,11 @@ npm_ci:
 
 rs_check_lint:
   stage: rs_check_lint
-  image: rust:latest
   tags:
     - linux
+  before_script:
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - source "$HOME/.cargo/env"
   script:
     - cd rust-src
     - cargo check
@@ -36,11 +38,12 @@ rs_check_lint:
 wasm_build:
   tags:
     - linux
-  image: rust:latest
   stage: wasm
   extends:
     - .build_base
   before_script:
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - source "$HOME/.cargo/env"
     - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
   script:
     - wasm-pack build ./rust-src --target web
