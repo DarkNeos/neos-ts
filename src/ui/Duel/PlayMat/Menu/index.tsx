@@ -15,7 +15,7 @@ import {
   theme,
   Tooltip,
 } from "antd";
-import { cloneElement } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import {
@@ -32,66 +32,89 @@ import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
 const { phase: store } = matStore;
 const { useToken } = theme;
+const clearAllIdleInteractivities = () => {
+  for (const card of cardStore.inner) {
+    card.idleInteractivities = [];
+  }
+};
+
+// PhaseType, 中文, response, 是否显示，是否禁用
+const initialPhaseBind: [
+  phase: PhaseType,
+  label: string,
+  response: number,
+  show: boolean,
+  disabled: boolean,
+][] = [
+  [PhaseType.DRAW, "抽卡阶段", -1, true, true],
+  [PhaseType.STANDBY, "准备阶段", -1, true, true],
+  [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
+  [PhaseType.BATTLE, "战斗阶段", 6, true, true],
+  [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
+  [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
+  [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
+  [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
+  [PhaseType.MAIN2, "主要阶段 2", 2, true, true],
+  [PhaseType.END, "结束阶段", 7, true, true],
+  [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
+];
+
 export const Menu = () => {
   const { enableBp, enableM2, enableEp, currentPhase } = useSnapshot(store);
   const { currentPlayer, chainSetting } = useSnapshot(matStore);
+  const [phaseBind, setPhaseBind] = useState(initialPhaseBind);
+  const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
+    [],
+  );
 
-  const clearAllIdleInteractivities = () => {
-    for (const card of cardStore.inner) {
-      card.idleInteractivities = [];
-    }
-  };
+  useEffect(() => {
+    const endResponse = [
+      PhaseType.BATTLE_START,
+      PhaseType.BATTLE_STEP,
+      PhaseType.DAMAGE,
+      PhaseType.DAMAGE_GAL,
+      PhaseType.BATTLE,
+    ].includes(currentPhase)
+      ? 3
+      : 7;
 
-  const endResponse = [
-    PhaseType.BATTLE_START,
-    PhaseType.BATTLE_STEP,
-    PhaseType.DAMAGE,
-    PhaseType.DAMAGE_GAL,
-    PhaseType.BATTLE,
-  ].includes(currentPhase)
-    ? 3
-    : 7;
+    setPhaseBind((prev) => {
+      const newItems = [...prev];
 
-  // PhaseType, 中文, response, 是否显示，是否禁用
-  const phaseBind: [
-    phase: PhaseType,
-    label: string,
-    response: number,
-    show: boolean,
-    disabled: boolean,
-  ][] = [
-    [PhaseType.DRAW, "抽卡阶段", -1, true, true],
-    [PhaseType.STANDBY, "准备阶段", -1, true, true],
-    [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
-    [PhaseType.BATTLE, "战斗阶段", 6, true, !enableBp],
-    [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
-    [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
-    [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
-    [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
-    [PhaseType.MAIN2, "主要阶段 2", 2, true, !enableM2],
-    [PhaseType.END, "结束阶段", endResponse, true, !enableEp],
-    [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
-  ];
+      for (const item of newItems) {
+        const [phase, , , ,] = item;
+        if (phase === PhaseType.BATTLE) {
+          item[4] = !enableBp;
+        } else if (phase === PhaseType.MAIN2) {
+          item[4] = !enableM2;
+        } else if (phase === PhaseType.END) {
+          item[4] = !enableEp;
+          item[2] = endResponse;
+        }
+      }
 
-  const phaseSwitchItems: MenuProps["items"] = phaseBind
-    .filter(([, , , show]) => show)
-    .map(([phase, label, response, _, disabled], key) => ({
-      key,
-      label,
-      disabled: store.currentPhase >= phase || disabled,
-      onClick: () => {
-        if (response === 2) sendSelectIdleCmdResponse(response);
-        else sendSelectBattleCmdResponse(response);
-        clearAllIdleInteractivities();
-      },
-      icon:
-        store.currentPhase >= phase || disabled ? (
-          <CheckOutlined />
-        ) : (
-          <ArrowRightOutlined />
-        ),
-      danger: phase === PhaseType.END,
-    }));
+      return newItems;
+    });
+  }, [enableBp, enableM2, enableEp, currentPhase]);
+
+  useEffect(() => {
+    const newPhaseSwitchItems = phaseBind
+      .filter(([, , , show]) => show)
+      .map(([phase, label, response, _, disabled], key) => ({
+        key,
+        label,
+        disabled: disabled,
+        onClick: () => {
+          if (response === 2) sendSelectIdleCmdResponse(response);
+          else sendSelectBattleCmdResponse(response);
+          clearAllIdleInteractivities();
+        },
+        icon: disabled ? <CheckOutlined /> : <ArrowRightOutlined />,
+        danger: phase === PhaseType.END,
+      }));
+
+    setPhaseSwitchItems(newPhaseSwitchItems);
+  }, [phaseBind]);
 
   const chainSettingTexts = [
     [ChainSetting.CHAIN_ALL, "全部连锁"],
