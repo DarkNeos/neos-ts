@@ -8,8 +8,6 @@ export const DESCRIPTION_LIMIT = 10000;
 export async function initStrings() {
   const strings = await (await fetch(stringsUrl)).text();
 
-  console.log({ strings });
-
   const lineIter = strings.split("\n");
   for (const line of lineIter) {
     if (!line.startsWith("#") && line !== "") {
