@@ -29,7 +29,9 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
     // target.code = meta.id;
 
     // 设置`Meta`信息，让对手发动效果的卡也能展示正面卡图
-    target.meta = meta;
+    if (target.code === 0) {
+      target.meta = meta;
+    }
 
     // 发动效果动画
     await callCardFocus(target.uuid);
