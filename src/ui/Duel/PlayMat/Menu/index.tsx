@@ -30,14 +30,10 @@ import { IconFont } from "@/ui/Shared";
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 
-const { phase } = matStore;
+const { phase: store } = matStore;
 const { useToken } = theme;
 export const Menu = () => {
-  const snapPhase = useSnapshot(phase);
-  const currentPhase = snapPhase.currentPhase;
-  const enableBp = snapPhase.enableBp;
-  const enableM2 = snapPhase.enableM2;
-  const enableEp = snapPhase.enableEp;
+  const { enableBp, enableM2, enableEp, currentPhase } = useSnapshot(store);
   const { currentPlayer, chainSetting } = useSnapshot(matStore);
 
   const clearAllIdleInteractivities = () => {
@@ -56,52 +52,40 @@ export const Menu = () => {
     ? 3
     : 7;
 
-  // PhaseType, 中文, response, 是否显示
+  // PhaseType, 中文, response, 是否显示，是否禁用
   const phaseBind: [
     phase: PhaseType,
     label: string,
     response: number,
     show: boolean,
+    disabled: boolean,
   ][] = [
-    [PhaseType.DRAW, "抽卡阶段", -1, true],
-    [PhaseType.STANDBY, "准备阶段", -1, true],
-    [PhaseType.MAIN1, "主要阶段 1", -1, true],
-    [PhaseType.BATTLE, "战斗阶段", 6, true],
-    [PhaseType.BATTLE_START, "战斗开始", 3, false],
-    [PhaseType.BATTLE_STEP, "战斗步骤", 3, false],
-    [PhaseType.DAMAGE, "伤害步骤", 3, false],
-    [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false],
-    [PhaseType.MAIN2, "主要阶段 2", 2, true],
-    [PhaseType.END, "结束阶段", endResponse, true],
-    [PhaseType.UNKNOWN, "未知阶段", -1, false],
+    [PhaseType.DRAW, "抽卡阶段", -1, true, true],
+    [PhaseType.STANDBY, "准备阶段", -1, true, true],
+    [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
+    [PhaseType.BATTLE, "战斗阶段", 6, true, !enableBp],
+    [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
+    [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
+    [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
+    [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
+    [PhaseType.MAIN2, "主要阶段 2", 2, true, !enableM2],
+    [PhaseType.END, "结束阶段", endResponse, true, !enableEp],
+    [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
   ];
-
-  const checkPhaseEnabled = (phase: PhaseType) => {
-    switch (phase) {
-      case PhaseType.BATTLE:
-        return enableBp;
-      case PhaseType.MAIN2:
-        return enableM2;
-      case PhaseType.END:
-        return enableEp;
-      default:
-        return true;
-    }
-  };
 
   const phaseSwitchItems: MenuProps["items"] = phaseBind
     .filter(([, , , show]) => show)
-    .map(([phase, label, response, _], key) => ({
+    .map(([phase, label, response, _, disabled], key) => ({
       key,
       label,
-      disabled: currentPhase >= phase || !checkPhaseEnabled(phase),
+      disabled: store.currentPhase >= phase || disabled,
       onClick: () => {
         if (response === 2) sendSelectIdleCmdResponse(response);
         else sendSelectBattleCmdResponse(response);
         clearAllIdleInteractivities();
       },
       icon:
-        currentPhase >= phase || !checkPhaseEnabled(phase) ? (
+        store.currentPhase >= phase || disabled ? (
           <CheckOutlined />
         ) : (
           <ArrowRightOutlined />
