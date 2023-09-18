@@ -29,6 +29,7 @@ import { IconFont } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+import { openChatBox } from "../ChatBox";
 
 const { phase: store } = matStore;
 const { useToken } = theme;
@@ -170,7 +171,11 @@ export const Menu = () => {
         ></Button>
       </DropdownWithTitle>
       <Tooltip title="聊天室">
-        <Button icon={<MessageFilled />} type="text"></Button>
+        <Button
+          icon={<MessageFilled />}
+          onClick={openChatBox}
+          type="text"
+        ></Button>
       </Tooltip>
       <DropdownWithTitle
         title="是否投降？"
