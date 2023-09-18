@@ -19,6 +19,7 @@ import {
   YesNoModal,
 } from "./Message";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
+import { ChatBox } from "./PlayMat/ChatBox";
 
 export const Component: React.FC = () => {
   const { stage } = useSnapshot(sideStore);
@@ -57,6 +58,7 @@ export const Component: React.FC = () => {
       <SortCardModal />
       <SimpleSelectCardsModal />
       <EndModal />
+      <ChatBox />
     </>
   );
 };
