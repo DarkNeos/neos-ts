@@ -22,20 +22,23 @@ English | [简体中文](./README-zh_CN.md)
 
 Neos is web version of [Yu-Gi-Oh!](https://www.yugioh-card.com/en/) game written in [TypeScript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) and [WebAssembly](https://webassembly.org/).
 
+## Public Beta!!
+NEOS has launched its public beta! For more details, please visit the [post](https://ygobbs.com/t/447323) on the Moecard community.
+
 ## ✨ Features
 
-- **[WIP]Competitive Match**
-  - Match online with players from around the world, and your ranking will be displayed in real-time on the leaderboard.
-- **[WIP]Entertainment Match**
-  - Battle with any deck, set aside victory or defeat for now, and fully enjoy the pleasure of the duel.
+- **Competitive Match**
+  - Battle against tens of thousands of other players in MyCard Ladder, striving to become the strongest. Rankings are announced and rewards are distributed at 22:00 on the last day of each month.
+- **Entertainment Match**
+  - Set aside victory and defeat for now, and enjoy the thrill of dueling. The top 20 most-used decks in ranked matches from the past week will be temporarily disabled.
+- **MC Watching List**
+  - Watch ongoing duels on MyCard.
 - **Single Mode**
-  - Engage in duels with AI, validate your deck, or simply pass the time.
+  - Start a duel against AI on the Koishi 7210 server to test your deck or simply pass the time.
 - **Custom Room**
-  - Create a custom duel room to easily battle with friends, or even host a competitive tournament.
+  - Create a custom duel room to easily battle with friends.
 - **Replay**
   - Freely review past duels and savor those thrilling moments of reversal.
-- **Deck Editing**
-  - Create and edit decks, choose from tens of thousands of cards, and assemble a unique build.
 
 ## 📦Quick Start
 See the [player guide](https://doc.neos.moe/docs/category/%E7%8E%A9%E5%AE%B6%E6%8C%87%E5%8D%97) for details.
