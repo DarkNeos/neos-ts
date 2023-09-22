@@ -161,7 +161,7 @@ export const Component: React.FC = () => {
             />
             <Mode
               title="自定义房间"
-              desc="创建双打TAG或自定义规则的房间，与好友约战。"
+              desc="创建自定义规则的房间，与好友约战。"
               icon={<SettingFilled />}
               onClick={onCustomRoom}
             />
