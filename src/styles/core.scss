@@ -1,14 +1,32 @@
 @charset "utf-8";
 @import url("https://fonts.font.im/css2?family=Electrolize&family=Noto+Serif+SC:wght@700&display=swap");
 
+/* 默认字体大小，适用于PC端 */
+html {
+  font-size: 16px;
+}
+
+/* 在移动端上设置不同的字体大小 */
+/* iPad */
+@media screen and (max-width: 1280px) {
+  html {
+    font-size: 14px;
+  }
+}
+/* Mobile */
+@media screen and (max-width: 1000px) {
+  html {
+    font-size: 10px;
+  }
+}
+
 body {
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
   background: #0f131e;
-  font-size: 14px;
   display: flex;
   margin: 0;
-  min-width: 320px;
+  min-width: 20rem;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -17,7 +35,7 @@ body {
   font-family: var(--theme-font);
   --theme-font: "Electrolize", sans-serif;
   --nato-serif-font: "Noto Serif SC", serif;
-  --header-height: 56px;
+  --header-height: 3.5rem;
   #root {
     height: 100%;
     margin: 0 auto;

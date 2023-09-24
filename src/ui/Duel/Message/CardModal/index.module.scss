@@ -5,19 +5,19 @@
 }
 
 .drawer {
-  width: 90% !important;
+  width: 20vw !important;
   left: 10%;
-  --height: 640px;
+  --height: 40rem;
   top: calc((100% - var(--height)) / 2);
   height: var(--height) !important;
   position: relative;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   background: #242424;
   :global(.ant-drawer-header) {
-    padding: 15px 0;
+    padding: 1rem 0;
     :global(.ant-drawer-header-title) {
       flex-direction: row-reverse;
-      padding-left: 24px;
+      padding-left: 1.5rem;
     }
   }
 }
@@ -34,19 +34,19 @@
     font-family: var(--theme-font);
   }
   .number {
-    font-size: 30px;
-    line-height: 36px;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }
 
 .attline {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 10px;
+  row-gap: 0.625rem;
 }
 
 .info {
   justify-content: space-between;
   position: relative;
-  height: 230px; // TODO - fix this
+  height: 15rem; // TODO - fix this
 }

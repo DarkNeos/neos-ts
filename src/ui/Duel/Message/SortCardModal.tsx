@@ -114,7 +114,7 @@ const SortableItem = (props: { id: number; meta: CardMeta }) => {
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Card
-        style={{ width: 100 }}
+        style={{ width: "6.25rem" }}
         cover={
           <img
             alt={props.meta.id.toString()}

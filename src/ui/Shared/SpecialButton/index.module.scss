@@ -1,18 +1,18 @@
 .special-btn {
   cursor: pointer;
-  width: 200px;
+  width: 12.5rem;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 12px 0;
+  gap: 0.625rem;
+  padding: 0.75rem 0;
   border: 3px solid hsla(0, 0%, 100%, 0.3);
   border-radius: 8px;
   background-clip: padding-box;
   background-color: hsla(0, 0%, 100%, 0.9);
   color: #0d0d0d;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.2px;
   transition: 0.3s;

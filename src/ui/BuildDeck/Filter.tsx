@@ -173,7 +173,7 @@ const Item: React.FC<
       {title}
       {showTip && (
         <Tooltip title="若要输入 ? 的攻击/守备，请输入 -2">
-          <InfoCircleFilled style={{ fontSize: 10 }} />
+          <InfoCircleFilled style={{ fontSize: "0.625rem" }} />
         </Tooltip>
       )}
     </div>

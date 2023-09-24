@@ -25,7 +25,7 @@ export const YesNoModal: React.FC = () => {
     <NeosModal
       title={`${preHintMsg} ${msg}`}
       open={isOpen}
-      width={400}
+      width={"25rem"}
       afterClose={() => (matStore.hint.esHint = undefined)}
       footer={
         <>

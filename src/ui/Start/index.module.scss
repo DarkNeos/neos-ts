@@ -5,66 +5,68 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  gap: 3rem;
 }
 
 .main {
-  height: 453px;
-  width: 1000px;
+  height: 50vh;
+  width: 60vw;
   max-height: 100%;
   position: relative;
   display: flex;
   justify-content: space-between;
   .left {
     height: 100%;
+    width: 40%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.4rem;
     .neos-logo {
-      width: 143px;
-      height: 34px;
+      width: 9rem;
+      height: 2rem;
     }
     .title {
-      font-size: 36px;
+      font-size: 2rem;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.86);
     }
     .keywords {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: 500;
       color: rgba(235, 245, 235, 0.8);
     }
     .details {
-      margin-top: 31px;
-      width: 450px;
-      font-size: 14px;
+      margin-top: 2rem;
+      width: 28rem;
+      max-width: 100%;
+      font-size: 1rem;
       font-weight: 500;
-      line-height: 28px;
+      line-height: 1.75rem;
       color: rgba(235, 245, 235, 0.5);
     }
   }
   .right {
-    width: 360px;
     height: 100%;
+    width: 40%;
     position: relative;
     overflow: hidden;
-    border-bottom-right-radius: 180px;
-    border-bottom-left-radius: 180px;
+    border-bottom-right-radius: 11.25rem;
+    border-bottom-left-radius: 11.25rem;
     .neos-main-bg {
       position: absolute;
       bottom: 0;
       width: fit-content;
-      height: 360px;
+      height: fit-content;
       border-radius: 50%;
       filter: brightness(0.7);
     }
     .neos-main {
       position: absolute;
       bottom: 0;
+      width: 80%;
       border-bottom-right-radius: 50%;
       transform: scale(1.25);
       transform-origin: 50% 100%;
-      width: max-content;
       filter: drop-shadow(0px 8px 8px rgba(255, 255, 255, 0.3))
         drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.8));
       transition: 0.2s;

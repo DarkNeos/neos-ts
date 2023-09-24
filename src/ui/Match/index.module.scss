@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 60px;
+    gap: 3.75rem;
   }
 }
 
@@ -18,19 +18,19 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr); /* 自动调整行高 */
-  width: 800px;
-  height: 530px;
-  gap: 16px;
+  width: 55rem;
+  // height: 33rem;
+  gap: 1rem;
   .mode {
     height: 100%;
     background: hsla(0, 0%, 100%, 0.1);
     backdrop-filter: blur(10px);
-    padding: 32px;
-    border-radius: 12px;
+    padding: 2rem;
+    border-radius: 0.75rem;
     transition: 0.2s;
     cursor: pointer;
     &:hover {
-      box-shadow: 0 0 0 4px #226170;
+      box-shadow: 0 0 0 0.25rem #226170;
       // background: hsla(0, 0%, 100%, 0.07);
       filter: brightness(1.2);
     }
@@ -38,26 +38,26 @@
       background: linear-gradient(#514f5780, #2a283277);
       overflow: hidden;
       position: relative;
-      --length: 48px;
+      --length: 3rem;
       width: var(--length);
       height: var(--length);
-      border-radius: 12px;
+      border-radius: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 1.25rem;
       color: white;
       transition: 0.2s;
       filter: brightness(1.5);
     }
     .title {
-      margin-top: 24px;
-      margin-bottom: 12px;
-      font-size: 16px;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
     }
     .desc {
-      font-size: 14px;
-      line-height: 24px;
+      font-size: 0.875rem;
+      line-height: 1.5rem;
       color: hsla(0, 0%, 100%, 0.6);
       white-space: pre-wrap;
     }

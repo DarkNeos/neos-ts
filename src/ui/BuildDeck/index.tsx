@@ -237,11 +237,11 @@ export const DeckEditor: React.FC<{
           placeholder="请输入卡组名字"
           bordered={false}
           prefix={<EditOutlined />}
-          style={{ width: 240 }}
+          style={{ width: "8.8rem" }}
           onChange={(e) => setDeckName(e.target.value)}
           value={deckName}
         />
-        <Space style={{ marginRight: 6 }}>
+        <Space style={{ marginRight: "0.4rem" }} size={5}>
           <Button
             type="text"
             size="small"

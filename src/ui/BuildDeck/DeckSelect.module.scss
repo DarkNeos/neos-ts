@@ -1,10 +1,10 @@
 .deck-select {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
   .item {
-    height: 40px;
-    padding: 0 20px;
+    height: 2.5rem;
+    padding: 0 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,10 +17,10 @@
       height: auto;
       top: 0;
       bottom: 0;
-      --padding-x: 5px;
+      --padding-x: 0.3rem;
       left: var(--padding-x);
       right: var(--padding-x);
-      border-radius: 4px;
+      border-radius: 0.25rem;
       transition: 0.2s;
     }
     .hover {
@@ -34,7 +34,7 @@
       transition: 0.2s;
       opacity: 0;
       display: flex;
-      gap: 4px;
+      gap: 0.25rem;
     }
     &:hover {
       .hover,
@@ -47,12 +47,12 @@
 
 .btn-add {
   position: absolute;
-  bottom: 40px;
+  bottom: 2.5rem;
   left: 0;
   right: 0;
   margin: auto;
   background-color: rgba(0, 168, 202, 0.451);
-  box-shadow: 0 0 20px 0 rgba(0, 221, 255, 0.5);
+  box-shadow: 0 0 1.25rem 0 rgba(0, 221, 255, 0.5);
   &:hover {
     background-color: rgba(0, 168, 202, 0.451) !important;
     transform: scale(1.1);

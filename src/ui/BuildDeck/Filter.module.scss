@@ -1,8 +1,8 @@
 .title {
   text-align: center;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 12px 0 32px;
+  margin: 0.75rem 0 2rem;
 }
 
 .item {
@@ -10,9 +10,9 @@
   align-items: center;
   .item-name {
     display: flex;
-    gap: 4px;
+    gap: 0.25rem;
     flex: 1;
-    flex-basis: 80px;
+    flex-basis: 5rem;
     vertical-align: middle;
   }
 }
@@ -20,18 +20,18 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 8px;
+  gap: 1.25rem;
+  padding: 0.5rem;
 }
 
 .btns {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
   align-items: center;
-  padding: 30px 0 10px;
+  padding: 1.875rem 0 0.625rem;
   & > button {
-    width: 220px;
+    width: 13.75rem;
     border-radius: 3px;
   }
 }
@@ -44,8 +44,8 @@
   }
   .divider {
     flex: 0;
-    flex-basis: 32px;
+    flex-basis: 2rem;
     text-align: center;
-    line-height: 30px;
+    line-height: 1.25rem;
   }
 }
