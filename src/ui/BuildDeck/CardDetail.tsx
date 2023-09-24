@@ -117,7 +117,6 @@ export const CardDetail: React.FC<{
         </a>
         <div className={styles.title}>
           <span>{card?.text.name}</span>
-          {/* <Avatar size={22}>光</Avatar> */}
         </div>
         <ScrollableArea>
           <Descriptions layout="vertical" size="small" items={items} />

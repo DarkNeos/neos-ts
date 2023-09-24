@@ -11,7 +11,7 @@ interface Props {
   code?: number;
   // cardName?: string;
   style?: CSSProperties;
-  width?: number;
+  width?: number | string;
   onClick?: () => void;
   onLoad?: () => void;
 }

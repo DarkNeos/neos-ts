@@ -8,7 +8,8 @@ import { YgoCard } from "@/ui/Shared";
 
 import { showCardModal } from "./CardModal";
 
-const CARD_WIDTH = 100;
+const CARD_WIDTH = "6.25rem";
+const DRAWER_WIDTH = "10rem";
 
 // TODO: 显示的位置还需要细细斟酌
 
@@ -46,7 +47,7 @@ export const CardListModal = () => {
       open={isOpen}
       onClose={handleOkOrCancel}
       // headerStyle={{ display: "none" }}
-      width={CARD_WIDTH + 66}
+      width={DRAWER_WIDTH}
       style={{ maxHeight: "100%" }}
       mask={false}
     >

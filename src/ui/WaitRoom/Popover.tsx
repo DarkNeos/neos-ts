@@ -94,7 +94,7 @@ export const TpPopover: React.FC<
 
   return (
     <Popover
-      overlayStyle={{ backdropFilter: "blur(10px)" }}
+      overlayStyle={{ backdropFilter: "blur(0.625rem)" }}
       content={
         <Space>
           {[Tp.First, Tp.Second].map((item) => (

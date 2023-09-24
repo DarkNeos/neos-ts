@@ -72,7 +72,7 @@ export const OptionModal = () => {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "10px",
+                gap: "0.625rem",
               }}
               onChange={(values: any) => {
                 const v = selecteds.map((x, i) => (i === page ? values : x));
@@ -83,7 +83,8 @@ export const OptionModal = () => {
                 <CheckCard
                   key={idx}
                   style={{
-                    width: "200px",
+                    width: "12.5rem",
+                    fontSize: "1rem",
                     marginInlineEnd: 0,
                     marginBlockEnd: 0,
                   }}
@@ -108,7 +109,7 @@ const Selector: React.FC<{
     <Segmented
       block
       options={Array.from({ length: maxPage }).map((_, idx) => idx)}
-      style={{ margin: "10px 0" }}
+      style={{ margin: "0.625rem 0" }}
       value={page}
       onChange={onChange as any}
     ></Segmented>

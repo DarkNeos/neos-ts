@@ -249,7 +249,7 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
       <Select
         title="卡组"
         showSearch
-        style={{ width: 250 }}
+        style={{ width: "15.6rem" }}
         defaultValue={snapDeck.decks[0].deckName}
         options={snapDeck.decks.map((deck) => ({
           value: deck.deckName,

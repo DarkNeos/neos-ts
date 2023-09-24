@@ -16,7 +16,7 @@ import {
 import { Desc } from "./Desc";
 import styles from "./index.module.scss";
 
-const CARD_WIDTH = 140;
+const CARD_WIDTH = "8.75rem";
 
 const defaultStore = {
   isOpen: false,
@@ -86,7 +86,7 @@ export const CardModal = () => {
             {/* TODO: 展示星级/LINK数 */}
           </Space>
         </Space>
-        <Divider style={{ margin: "14px 0" }}></Divider>
+        <Divider style={{ margin: "0.875rem 0" }}></Divider>
         <Desc desc={desc} />
       </div>
     </Drawer>
