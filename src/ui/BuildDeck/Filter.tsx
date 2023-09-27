@@ -23,9 +23,9 @@ const levels = Array.from({ length: 12 }, (_, index) => ({
   label: (index + 1).toString(),
 }));
 
-const lscales = Array.from({ length: 12 }, (_, index) => ({
-  value: index + 1,
-  label: (index + 1).toString(),
+const lscales = Array.from({ length: 14 }, (_, index) => ({
+  value: index,
+  label: index.toString(),
 }));
 
 export const Filter: React.FC<{

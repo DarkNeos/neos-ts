@@ -19,7 +19,6 @@ export default (data: Uint8Array) => {
   switch (phase) {
     case 0x01: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.DRAW;
-
       break;
     }
     case 0x02: {
@@ -28,42 +27,34 @@ export default (data: Uint8Array) => {
     }
     case 0x04: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.MAIN1;
-
       break;
     }
     case 0x08: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.BATTLE_START;
-
       break;
     }
     case 0x10: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.BATTLE_STEP;
-
       break;
     }
     case 0x20: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.DAMAGE;
-
       break;
     }
     case 0x40: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.DAMAGE_GAL;
-
       break;
     }
     case 0x80: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.BATTLE;
-
       break;
     }
     case 0x100: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.MAIN2;
-
       break;
     }
     case 0x200: {
       phaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType.END;
-
       break;
     }
     default: {
