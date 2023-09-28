@@ -25,6 +25,7 @@ export interface socketAction {
     ip: string;
     player: string;
     passWd: string;
+    ssl: boolean;
   };
   isReplay?: boolean; // 是否是回放模式
   replayInfo?: {
@@ -43,13 +44,14 @@ export default async function (action: socketAction) {
     case socketCmd.CONNECT: {
       const { initInfo: info, isReplay, replayInfo } = action;
       if (info) {
-        ws = new WebSocketStream(info.ip, (conn, _event) =>
+        ws = new WebSocketStream(info.ip, info.ssl, (conn, _event) =>
           handleSocketOpen(conn, info.ip, info.player, info.passWd),
         );
 
         await ws.execute(handleSocketMessage);
       } else if (isReplay && replayInfo) {
-        ws = new WebSocketStream(replayInfo.Url, (conn, _event) => {
+        // 回放模式必定支持ssl
+        ws = new WebSocketStream(replayInfo.Url, true, (conn, _event) => {
           console.info("replay websocket open.");
           conn.binaryType = "arraybuffer";
           conn.send(replayInfo.data);

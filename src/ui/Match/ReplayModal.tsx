@@ -49,6 +49,7 @@ export const ReplayModal: React.FC = () => {
         ip: "",
         player: "",
         passWd: "",
+        ssl: true,
         replay: true,
         replayData: replay,
       });

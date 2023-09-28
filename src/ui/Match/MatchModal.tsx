@@ -1,4 +1,5 @@
-import { App, Button, Input, Modal } from "antd";
+import { App, Button, Checkbox, Input, Modal, Space } from "antd";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
@@ -36,22 +37,25 @@ export const MatchModal: React.FC = ({}) => {
   const [server, setServer] = useState(
     `${serverConfig[0].ip}:${serverConfig[0].port}`,
   );
+  const [ssl, setSSL] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
 
-  let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
   };
-  let handleServerChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleServerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServer(event.target.value);
   };
-  let handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswd(event.target.value);
   };
+  const handleSSLCheck = (event: CheckboxChangeEvent) =>
+    setSSL(event.target.checked);
 
   const handleSubmit = async () => {
     setConfirmLoading(true);
-    await connectSrvpro({ player, ip: server, passWd: passwd });
+    await connectSrvpro({ player, ip: server, passWd: passwd, ssl });
   };
 
   useEffect(() => {
@@ -99,14 +103,23 @@ export const MatchModal: React.FC = ({}) => {
           onChange={handlePlayerChange}
           required
         />
-        <Input
-          className={styles.input}
-          type="text"
-          placeholder="服务器(IP+端口)"
-          value={server}
-          onChange={handleServerChange}
-          required
-        />
+        <Space.Compact>
+          <Input
+            className={styles.input}
+            type="text"
+            placeholder="服务器(IP+端口)"
+            value={server}
+            onChange={handleServerChange}
+            required
+          />
+          <Checkbox
+            checked={ssl}
+            onChange={handleSSLCheck}
+            defaultChecked={true}
+          >
+            SSL
+          </Checkbox>
+        </Space.Compact>
         <Input
           className={styles.input}
           type="text"

@@ -12,8 +12,12 @@ export class WebSocketStream {
   public ws: WebSocket;
   stream: ReadableStream;
 
-  constructor(ip: string, onWsOpen?: (ws: WebSocket, ev: Event) => any) {
-    this.ws = new WebSocket("wss://" + ip);
+  constructor(
+    ip: string,
+    ssl: boolean,
+    onWsOpen?: (ws: WebSocket, ev: Event) => any,
+  ) {
+    this.ws = new WebSocket((ssl ? "wss://" : "ws://") + ip);
     if (onWsOpen) {
       this.ws.onopen = (e) => onWsOpen(this.ws, e);
     }

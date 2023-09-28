@@ -12,6 +12,7 @@ export const connectSrvpro = async (params: {
   ip: string;
   player: string;
   passWd: string;
+  ssl: boolean;
   replay?: boolean;
   replayData?: ArrayBuffer;
 }) => {
