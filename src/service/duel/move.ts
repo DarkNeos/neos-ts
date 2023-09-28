@@ -117,7 +117,12 @@ export default async (move: MsgMove) => {
         await callCardMove(overlayMaterial.uuid);
       } else {
         console.warn(
-          `<Move>overlayMaterial from zone=${location.zone}, controller=${location.controller}, sequence=${location.sequence}, overlay_sequence=${location.overlay_sequence} is null`,
+          `<Move>overlayMaterial from
+            zone=${location.zone},
+            controller=${location.controller},
+            sequence=${location.sequence},
+            overlay_sequence=${location.overlay_sequence}
+          is null`,
         );
       }
     }

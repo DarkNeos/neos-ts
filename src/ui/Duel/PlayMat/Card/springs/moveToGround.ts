@@ -121,6 +121,7 @@ export const moveToGround: MoveFunc = async (props) => {
     zIndex: is_overlay ? 1 : 3,
     config: {
       easing: easings.easeInQuad,
+      duration: 200,
       clamp: true,
     },
   });
