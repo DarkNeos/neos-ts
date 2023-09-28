@@ -4,7 +4,8 @@
       {
          "name":"koishi",
          "ip":"koishi.momobako.com",
-         "port":"7211"
+         "port":"7211",
+         "ssl": true
       }
    ],
    "assetsPath":"/neos-assets",

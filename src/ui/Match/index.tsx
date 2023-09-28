@@ -55,6 +55,7 @@ export const Component: React.FC = () => {
           ip: matchInfo.address + ":" + (matchInfo.port + 1),
           player: user.username,
           passWd: matchInfo.password,
+          ssl: true,
         });
       } else {
         message.error("匹配失败T_T");
@@ -71,6 +72,7 @@ export const Component: React.FC = () => {
       ip: server,
       player: user?.name ?? "Guest",
       passWd: "AI",
+      ssl: true,
     });
   };
 
