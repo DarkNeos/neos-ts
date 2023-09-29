@@ -16,7 +16,7 @@ interface ChatItem {
 
 export const ChatBox: React.FC = () => {
   const { open } = useSnapshot(store);
-  const { dialogs, input, setInput, ref, onSend } = useChat();
+  const { dialogs, input, setInput, ref, onSend } = useChat(true);
 
   const onClose = () => (store.open = false);
 

@@ -90,7 +90,7 @@ export const Component: React.FC = () => {
               if (deck) {
                 setDeck(deck);
               } else {
-                alert(`Deck ${deckName} not found`);
+                message.error(`Deck ${deckName} not found`);
               }
             }}
           />
