@@ -52,7 +52,7 @@ export const Component: React.FC = () => {
 
       if (matchInfo) {
         await connectSrvpro({
-          ip: matchInfo.address + ":" + (matchInfo.port + 1),
+          ip: matchInfo.address + ":" + (matchInfo.port + 1), // 分配给Neos的Websocket端口是TCP端口+1
           player: user.username,
           passWd: matchInfo.password,
         });
@@ -69,7 +69,7 @@ export const Component: React.FC = () => {
     // 初始化，然后等待后端通知成功加入房间后跳转页面
     await connectSrvpro({
       ip: server,
-      player: user?.name ?? "Guest",
+      player: user?.username ?? "Guest",
       passWd: "AI",
     });
   };

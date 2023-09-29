@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import { sendChat } from "@/api";
-import { chatStore, roomStore } from "@/stores";
+import { chatStore, isMe, roomStore } from "@/stores";
 
 interface ChatItem {
   name: string;
@@ -13,7 +13,7 @@ interface ChatItem {
   content: string;
 }
 
-export const useChat = () => {
+export const useChat = (isDuel: boolean = false) => {
   const [chatList, setChatList] = useState<ChatItem[]>([]);
   const [input, setInput] = useState<string | undefined>(undefined);
   const chat = useSnapshot(chatStore);
@@ -36,15 +36,28 @@ export const useChat = () => {
     }
   };
 
+  // 获取消息发送者的名字
+  const getSenderName = (sender: number) => {
+    if (sender < roomStore.players.length) {
+      if (isDuel) {
+        // 决斗内和决斗外场景sender是不一样的
+        if (isMe(sender)) {
+          return roomStore.getMePlayer()?.name;
+        } else {
+          return roomStore.getOpPlayer()?.name;
+        }
+      } else {
+        return roomStore.players[sender]?.name;
+      }
+    } else if (sender <= 8 || (sender >= 11 && sender <= 19)) {
+      return "System";
+    }
+  };
+
   useEffect(() => {
     if (chatStore.sender >= 0 && chatStore.message.length !== 0) {
       const { sender } = chatStore;
-      const name =
-        sender < roomStore.players.length
-          ? roomStore.players[sender]?.name ?? "?"
-          : (sender > 8 && sender < 11) || sender > 19
-          ? "?"
-          : "System";
+      const name = getSenderName(sender) ?? "?";
       setChatList((prev) => [
         ...prev,
         {

@@ -12,7 +12,12 @@ export async function initStrings() {
   for (const line of lineIter) {
     if (!line.startsWith("#") && line !== "") {
       let [region, code, value] = line.split(" ", 3);
-      localStorage.setItem(`${region}_${code}`, value);
+      try {
+        localStorage.setItem(`${region}_${code}`, value);
+      } catch (error) {
+        alert(`set item in local storage error: ${error}`);
+        break;
+      }
     }
   }
 }
@@ -24,7 +29,7 @@ export enum Region {
 }
 
 export function fetchStrings(region: Region, id: string | number): string {
-  return localStorage.getItem(`${region}_${id}`) || "";
+  return localStorage.getItem(`${region}_${id}`) ?? "";
 }
 
 export function getStrings(description: number): string {
