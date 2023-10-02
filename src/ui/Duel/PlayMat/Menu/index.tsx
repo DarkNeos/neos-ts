@@ -50,13 +50,13 @@ const initialPhaseBind: [
   [PhaseType.DRAW, "抽卡阶段", -1, true, true],
   [PhaseType.STANDBY, "准备阶段", -1, true, true],
   [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
-  [PhaseType.BATTLE, "战斗阶段", 6, true, true],
+  [PhaseType.BATTLE, "战斗阶段", 6, true, false],
   [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
   [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
   [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
   [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
-  [PhaseType.MAIN2, "主要阶段 2", 2, true, true],
-  [PhaseType.END, "结束阶段", 7, true, true],
+  [PhaseType.MAIN2, "主要阶段 2", 2, true, false],
+  [PhaseType.END, "结束阶段", 7, true, false],
   [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
 ];
 
@@ -82,14 +82,16 @@ export const Menu = () => {
     setPhaseBind((prev) => {
       const newItems = [...prev];
 
+      // FIXME: 由于不断有玩家反馈说进不了战阶和主2，修改几次实现都解决不了问题，
+      // 因此这里不进行限制。当存在无法进入战阶的自肃时，由后端（srvpro）判断
       for (const item of newItems) {
         const [phase, , , ,] = item;
         if (phase === PhaseType.BATTLE) {
-          item[4] = !enableBp;
+          // item[4] = !enableBp;
         } else if (phase === PhaseType.MAIN2) {
-          item[4] = !enableM2;
+          // item[4] = !enableM2;
         } else if (phase === PhaseType.END) {
-          item[4] = !enableEp;
+          // item[4] = !enableEp;
           item[2] = endResponse;
         }
       }
