@@ -40,7 +40,7 @@ export class YgoProPacket {
    * 返回值可用于业务逻辑处理。
    *
    * */
-  static deserialize(array: ArrayBuffer): YgoProPacket {
+  static deserialize(array: ArrayBuffer): YgoProPacket[] {
     try {
       if (array.byteLength < PACKET_MIN_LEN) {
         throw new Error(
@@ -51,13 +51,29 @@ export class YgoProPacket {
       console.error(e);
     }
 
-    const dataView = new DataView(array);
+    // 由于srvpro实现问题，目前可能出现粘包的情况，因此这里做下解包
+    const packets = [];
 
-    const packetLen = dataView.getInt16(0, littleEndian);
-    const proto = dataView.getInt8(2);
-    const exData = array.slice(3, packetLen + 2);
+    let offset = 0;
+    while (true) {
+      const buffer = array.slice(offset);
 
-    return new YgoProPacket(packetLen, proto, new Uint8Array(exData));
+      if (buffer.byteLength < PACKET_MIN_LEN) {
+        // 解包结束
+        break;
+      }
+
+      const dataView = new DataView(buffer);
+      const packetLen = dataView.getInt16(0, littleEndian);
+      const proto = dataView.getInt8(2);
+      const exData = buffer.slice(3, packetLen + 2);
+
+      packets.push(new YgoProPacket(packetLen, proto, new Uint8Array(exData)));
+
+      offset += packetLen + 2;
+    }
+
+    return packets;
   }
 }
 

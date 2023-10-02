@@ -21,6 +21,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
+    "react-use-websocket": "^4.5.0",
     "sql.js": "^1.8.0",
     "u-reset.css": "^2.0.1",
     "uuid": "^9.0.0",

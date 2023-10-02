@@ -5,6 +5,11 @@
          "name":"koishi",
          "ip":"koishi.momobako.com",
          "port":"7211"
+      },
+      {
+        "name":"mycard-athletic",
+        "ip":"tiramisu.moecube.com",
+        "port":"8912"
       }
    ],
    "assetsPath":"/neos-assets",
@@ -16,11 +21,13 @@
    "loginUrl":"https://accounts.moecube.com/signin",
    "logoutUrl":"https://accounts.moecube.com/signout",
    "profileUrl":"https://accounts.moecube.com/profiles",
+   "athleticWatchUrl":"wss://tiramisu.moecube.com:8923",
+   "entertainWatchUrl":"wss://tiramisu.moecube.com:7923",
+   "userApi":"https://sapi.moecube.com:444/accounts/users/{username}.json",
    "streamInterval":20,
    "startDelay":1000,
    "ui":{
       "hint":{
-         "waitingDuration":1.5,
          "maxCount":1
       }
    },

@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  font: var(--theme-font);
+  font-size: 1rem;
+  .search {
+    margin-bottom: 1rem;
+    .input {
+      border: 1px solid #afbdd2;
+      background: transparent;
+    }
+  }
+  .item {
+    display: flex;
+    padding: 1rem 0;
+    .avatar {
+      flex: 1;
+      margin-left: 1rem;
+    }
+    .title {
+      flex: 2;
+    }
+    .mode {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      color: #5f6b7c;
+    }
+  }
+  .item:hover {
+    border: 2px solid #1059c6;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  .item-selected {
+    border: 2px solid #1059c6;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 2px #0087e6 inset;
+  }
+
+  .divider {
+    margin: 0;
+  }
+}

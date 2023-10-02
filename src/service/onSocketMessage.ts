@@ -38,87 +38,90 @@ export default async function handleSocketMessage(e: MessageEvent) {
 }
 
 async function _handle(e: MessageEvent) {
-  const packet = YgoProPacket.deserialize(e.data);
-  const pb = adaptStoc(packet);
+  const packets = YgoProPacket.deserialize(e.data);
 
-  switch (pb.msg) {
-    case "stoc_join_game": {
-      handleJoinGame(pb);
-      break;
-    }
-    case "stoc_chat": {
-      handleChat(pb);
-      break;
-    }
-    case "stoc_hs_player_change": {
-      handleHsPlayerChange(pb);
-      break;
-    }
-    case "stoc_hs_watch_change": {
-      handleHsWatchChange(pb);
-      break;
-    }
-    case "stoc_hs_player_enter": {
-      handleHsPlayerEnter(pb);
-      break;
-    }
-    case "stoc_type_change": {
-      handleTypeChange(pb);
-      break;
-    }
-    case "stoc_select_hand": {
-      handleSelectHand(pb);
-      break;
-    }
-    case "stoc_hand_result": {
-      handleHandResult(pb);
-      break;
-    }
-    case "stoc_select_tp": {
-      handleSelectTp(pb);
-      break;
-    }
-    case "stoc_deck_count": {
-      handleDeckCount(pb);
-      break;
-    }
-    case "stoc_duel_start": {
-      handleDuelStart(pb);
-      break;
-    }
-    case "stoc_duel_end": {
-      handleDuelEnd(pb);
-      break;
-    }
-    case "stoc_game_msg": {
-      if (!replayStore.isReplay) {
-        // 如果不是回放模式，则记录回放数据
-        replayStore.record(packet);
+  for (const packet of packets) {
+    const pb = adaptStoc(packet);
+
+    switch (pb.msg) {
+      case "stoc_join_game": {
+        handleJoinGame(pb);
+        break;
       }
-      await handleGameMsg(pb);
+      case "stoc_chat": {
+        handleChat(pb);
+        break;
+      }
+      case "stoc_hs_player_change": {
+        handleHsPlayerChange(pb);
+        break;
+      }
+      case "stoc_hs_watch_change": {
+        handleHsWatchChange(pb);
+        break;
+      }
+      case "stoc_hs_player_enter": {
+        handleHsPlayerEnter(pb);
+        break;
+      }
+      case "stoc_type_change": {
+        handleTypeChange(pb);
+        break;
+      }
+      case "stoc_select_hand": {
+        handleSelectHand(pb);
+        break;
+      }
+      case "stoc_hand_result": {
+        handleHandResult(pb);
+        break;
+      }
+      case "stoc_select_tp": {
+        handleSelectTp(pb);
+        break;
+      }
+      case "stoc_deck_count": {
+        handleDeckCount(pb);
+        break;
+      }
+      case "stoc_duel_start": {
+        handleDuelStart(pb);
+        break;
+      }
+      case "stoc_duel_end": {
+        handleDuelEnd(pb);
+        break;
+      }
+      case "stoc_game_msg": {
+        if (!replayStore.isReplay) {
+          // 如果不是回放模式，则记录回放数据
+          replayStore.record(packet);
+        }
+        await handleGameMsg(pb);
 
-      break;
-    }
-    case "stoc_time_limit": {
-      handleTimeLimit(pb.stoc_time_limit);
-      break;
-    }
-    case "stoc_error_msg": {
-      await handleErrorMsg(pb.stoc_error_msg);
-      break;
-    }
-    case "stoc_change_side": {
-      handleChangeSide(pb.stoc_change_side);
-      break;
-    }
-    case "stoc_waiting_side": {
-      handleWaitingSide(pb.stoc_waiting_side);
-      break;
-    }
-    default: {
-      console.log(packet);
+        break;
+      }
+      case "stoc_time_limit": {
+        handleTimeLimit(pb.stoc_time_limit);
+        break;
+      }
+      case "stoc_error_msg": {
+        await handleErrorMsg(pb.stoc_error_msg);
+        break;
+      }
+      case "stoc_change_side": {
+        handleChangeSide(pb.stoc_change_side);
+        break;
+      }
+      case "stoc_waiting_side": {
+        handleWaitingSide(pb.stoc_waiting_side);
+        break;
+      }
+      default: {
+        console.log(packet);
 
-      break;
+        break;
+      }
     }
   }
 }
