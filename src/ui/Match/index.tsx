@@ -17,9 +17,10 @@ import { Background, IconFont, Select } from "@/ui/Shared";
 import styles from "./index.module.scss";
 import { MatchModal, matchStore } from "./MatchModal";
 import { ReplayModal, replayOpen } from "./ReplayModal";
-import { connectSrvpro } from "./util";
+import { connectSrvpro, getEncryptedPasswd } from "./util";
+import { WatchContent, watchStore } from "./WatchContent";
 
-const NeosConfig = useConfig();
+const { servers: serverList } = useConfig();
 
 export const loader: LoaderFunction = () => {
   // 在加载这个页面之前先重置一些store，清掉上局游戏遗留的数据
@@ -28,8 +29,7 @@ export const loader: LoaderFunction = () => {
 };
 
 export const Component: React.FC = () => {
-  const { message } = App.useApp();
-  const serverList = NeosConfig.servers;
+  const { message, modal } = App.useApp();
   const server = `${serverList[0].ip}:${serverList[0].port}`;
   const { decks } = deckStore;
   const [deckName, setDeckName] = useState(decks.at(0)?.deckName ?? "");
@@ -37,6 +37,7 @@ export const Component: React.FC = () => {
   const { joined } = useSnapshot(roomStore);
   const [singleLoading, setSingleLoading] = useState(false); // 单人模式的loading状态
   const [matchLoading, setMatchLoading] = useState(false); // 匹配模式的loading状态
+  const [watchLoading, setWatchLoading] = useState(false); // 观战模式的loading状态
   const navigate = useNavigate();
 
   // 竞技匹配
@@ -62,6 +63,46 @@ export const Component: React.FC = () => {
     }
   };
 
+  // MC观战
+  const onMCWatch = () => {
+    if (!user) {
+      message.error("请先登录萌卡账号");
+    } else {
+      modal.info({
+        icon: null,
+        width: "40vw",
+        okText: "进入观战",
+        onOk: async () => {
+          if (watchStore.watchID) {
+            setWatchLoading(true);
+
+            // 找到MC竞技匹配的Server
+            const mcServer = serverList.find(
+              (server) => server.name === "mycard-athletic",
+            );
+            if (mcServer) {
+              const passWd = getEncryptedPasswd(watchStore.watchID, user);
+              await connectSrvpro({
+                ip: mcServer.ip + ":" + mcServer.port,
+                player: user.username,
+                passWd,
+              });
+            } else {
+              message.error(
+                "Something unexpected happened, please contact <ccc@neos.moe> to fix",
+              );
+            }
+          } else {
+            message.error("请选择观战的房间");
+          }
+        },
+        centered: true,
+        maskClosable: true,
+        content: <WatchContent />,
+      });
+    }
+  };
+
   // 单人模式
   const onAIMatch = async () => {
     setSingleLoading(true);
@@ -77,13 +118,11 @@ export const Component: React.FC = () => {
   // 自定义房间
   const onCustomRoom = () => (matchStore.open = true);
 
-  // 观战列表
-  const onWatchList = () => message.error("开发中，敬请期待");
-
   useEffect(() => {
     if (joined) {
       setSingleLoading(false);
       setMatchLoading(false);
+      setWatchLoading(false);
       navigate(`/waitroom`);
     }
   }, [joined]);
@@ -144,8 +183,8 @@ export const Component: React.FC = () => {
             <Mode
               title="MC观战列表"
               desc="观看萌卡MyCard上正在进行的决斗。"
-              icon={<PlayCircleFilled />}
-              onClick={onWatchList}
+              icon={watchLoading ? <LoadingOutlined /> : <PlayCircleFilled />}
+              onClick={onMCWatch}
             />
             <Mode
               title="单人模式"

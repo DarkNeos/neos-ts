@@ -17,10 +17,10 @@ export default (data: Uint8Array) => {
   // TODO: use `BufferIO`
   const pT = dataView.getUint8(0);
   const playerType =
-    (pT & 0xf) <= 0
-      ? ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
-      : (pT & 0xf0) > 0
+    (pT & 0xf0) > 0
       ? ygopro.StocGameMessage.MsgStart.PlayerType.Observer
+      : (pT & 0xf) <= 0
+      ? ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
       : ygopro.StocGameMessage.MsgStart.PlayerType.SecondStrike;
 
   let offset = 1;
