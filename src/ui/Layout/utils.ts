@@ -1,6 +1,12 @@
 import rustInit from "rust-src";
 
-import { CookieKeys, forbidden, getCookie, setCookie } from "@/api";
+import {
+  CookieKeys,
+  forbidden,
+  getCookie,
+  initStrings,
+  setCookie,
+} from "@/api";
 import { useConfig } from "@/config";
 import { useEnv } from "@/hook";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
@@ -46,6 +52,14 @@ export const initForbidden = async () => {
   if (!initStore.forbidden) {
     await forbidden.init();
     initStore.forbidden = true;
+  }
+};
+
+/** 加载I18N文案 */
+export const initI18N = async () => {
+  if (!initStore.i18n) {
+    await initStrings();
+    initStore.i18n = true;
   }
 };
 

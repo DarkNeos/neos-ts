@@ -70,6 +70,13 @@ export const loader: LoaderFunction = async () => {
     });
   }
 
+  // 最后，等待I18N文案的加载
+  if (!initStore.i18n) {
+    await new Promise<void>((rs) => {
+      subscribeKey(initStore, "i18n", (done) => done && rs());
+    });
+  }
+
   return null;
 };
 

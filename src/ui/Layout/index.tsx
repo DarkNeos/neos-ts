@@ -24,6 +24,7 @@ import {
   handleSSOLogin,
   initDeck,
   initForbidden,
+  initI18N,
   initSqlite,
   initWASM,
 } from "./utils";
@@ -36,6 +37,7 @@ export const loader: LoaderFunction = async () => {
   initSqlite();
   initWASM();
   initForbidden();
+  initI18N();
   return null;
 };
 
