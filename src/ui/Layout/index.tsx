@@ -134,6 +134,11 @@ export const Component = () => {
                     label: logined ? "退出登录" : "登录萌卡",
                     onClick: logined ? onLogout : onLogin,
                   },
+                  {
+                    label: "全屏",
+                    onClick: () => document.documentElement.requestFullscreen(),
+                    danger: true,
+                  },
                 ].map((x, key) => ({ ...x, key })),
               }}
             >
