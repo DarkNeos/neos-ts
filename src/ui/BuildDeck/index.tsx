@@ -21,9 +21,10 @@ import {
 } from "antd";
 import { isEqual } from "lodash-es";
 import { type OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { DndProvider, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDrop } from "react-dnd";
+import { DndProvider } from "react-dnd-multi-backend";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
@@ -117,7 +118,7 @@ export const Component: React.FC = () => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider options={HTML5toTouch}>
       <Background />
       <div className={styles.layout} style={{ width: "100%" }}>
         <div className={styles.sider}>
