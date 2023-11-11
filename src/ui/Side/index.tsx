@@ -1,8 +1,8 @@
 import { CheckOutlined, UndoOutlined } from "@ant-design/icons";
 import { App, Button, Space } from "antd";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import React, { useEffect, useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd-multi-backend";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
@@ -80,7 +80,7 @@ export const Component: React.FC = () => {
   }, [errorMsg]);
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider options={HTML5toTouch}>
       <Background />
       <div className={styles.container}>
         <div className={styles.sider}>
