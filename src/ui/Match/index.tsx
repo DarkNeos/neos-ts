@@ -36,20 +36,20 @@ export const Component: React.FC = () => {
   const user = accountStore.user;
   const { joined } = useSnapshot(roomStore);
   const [singleLoading, setSingleLoading] = useState(false); // 单人模式的loading状态
-  const [matchLoading, setMatchLoading] = useState(false); // 匹配模式的loading状态
+  const [athleticMatchLoading, setAthleticMatchLoading] = useState(false); // 竞技匹配的loading状态
+  const [entertainMatchLoading, setEntertainMatchLoading] = useState(false); // 娱乐匹配的loading状态
   const [watchLoading, setWatchLoading] = useState(false); // 观战模式的loading状态
   const navigate = useNavigate();
 
-  // 竞技匹配
-  const onCompetitiveMatch = () => message.error("暂未开放，敬请期待");
-
-  // 娱乐匹配
-  const onEntertainMatch = async () => {
+  // 匹配
+  const onMatch = async (arena: "athletic" | "entertain") => {
     if (!user) {
       message.error("请先登录萌卡账号");
     } else {
-      setMatchLoading(true);
-      const matchInfo = await match(user.username, user.external_id);
+      arena === "athletic"
+        ? setAthleticMatchLoading(true)
+        : setEntertainMatchLoading(true);
+      const matchInfo = await match(user.username, user.external_id, arena);
 
       if (matchInfo) {
         await connectSrvpro({
@@ -62,6 +62,12 @@ export const Component: React.FC = () => {
       }
     }
   };
+
+  // 竞技匹配
+  const onCompetitiveMatch = async () => await onMatch("athletic");
+
+  // 娱乐匹配
+  const onEntertainMatch = async () => await onMatch("entertain");
 
   // MC观战
   const onMCWatch = () => {
@@ -121,7 +127,8 @@ export const Component: React.FC = () => {
   useEffect(() => {
     if (joined) {
       setSingleLoading(false);
-      setMatchLoading(false);
+      setAthleticMatchLoading(false);
+      setEntertainMatchLoading(false);
       setWatchLoading(false);
       navigate(`/waitroom`);
     }
@@ -165,14 +172,20 @@ export const Component: React.FC = () => {
             <Mode
               title="MC竞技匹配"
               desc="与MyCard天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。"
-              icon={<IconFont type="icon-battle" size={32} />}
+              icon={
+                athleticMatchLoading ? (
+                  <LoadingOutlined />
+                ) : (
+                  <IconFont type="icon-battle" size={32} />
+                )
+              }
               onClick={onCompetitiveMatch}
             />
             <Mode
               title="MC娱乐匹配"
               desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被禁用。"
               icon={
-                matchLoading ? (
+                entertainMatchLoading ? (
                   <LoadingOutlined />
                 ) : (
                   <IconFont type="icon-coffee" size={28} />
