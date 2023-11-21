@@ -18,8 +18,8 @@ export default async (selectSum: MsgSelectSum) => {
   await displaySelectActionsModal({
     overflow: selectSum.overflow !== 0,
     totalLevels: selectSum.level_sum,
-    min: selectSum.min,
-    max: selectSum.max,
+    min: selectSum.min < 1 ? 1 : selectSum.min, // ygopro2 implementation
+    max: selectSum.max < 1 ? 99 : selectSum.max,
     selecteds: [...selecteds1, ...selecteds2],
     mustSelects: [...mustSelect1, ...mustSelect2],
     selectables: [...selectable1, ...selectable2],
