@@ -26,12 +26,6 @@ export default (data: Uint8Array) => {
       action.location.controller = player;
       action.location.zone = zone;
       action.location.sequence = sequence;
-    } else {
-      action.location = new ygopro.CardLocation({
-        controller: player,
-        zone,
-        sequence,
-      });
     }
     msg.actions.push(action);
   }

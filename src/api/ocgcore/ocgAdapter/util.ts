@@ -262,7 +262,7 @@ export function readUpdateAction(
 
   const mask = -1;
   let code = mask;
-  let location;
+  let location = undefined;
   let alias = mask;
   let type_ = mask;
   let level = mask;
