@@ -22,11 +22,9 @@ import { proxy, useSnapshot } from "valtio";
 
 import { sendSortCardResponse } from "@/api";
 import { CardMeta } from "@/api/cards";
-import { useConfig } from "@/config";
+import { getCardImgUrl } from "@/ui/Shared";
 
 import { NeosModal } from "./NeosModal";
-
-const NeosConfig = useConfig();
 
 interface SortOption {
   meta: CardMeta;
@@ -118,7 +116,7 @@ const SortableItem = (props: { id: number; meta: CardMeta }) => {
         cover={
           <img
             alt={props.meta.id.toString()}
-            src={`${NeosConfig.cardImgUrl}/${props.meta.id}.jpg`}
+            src={getCardImgUrl(props.meta.id)}
           />
         }
       />

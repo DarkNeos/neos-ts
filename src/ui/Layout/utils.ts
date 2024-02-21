@@ -11,7 +11,7 @@ import { useConfig } from "@/config";
 import { useEnv } from "@/hook";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import { accountStore, deckStore, initStore, type User } from "@/stores";
-const { cardsDbUrl } = useConfig();
+const { releaseDbUrl, preReleaseDbUrl } = useConfig();
 const { BASE_URL } = useEnv();
 
 /** 加载ygodb */
@@ -23,7 +23,7 @@ export const initSqlite = async () => {
     sqlite.progress = 0.01;
     await sqliteMiddleWare({
       cmd: sqliteCmd.INIT,
-      initInfo: { dbUrl: cardsDbUrl, progressCallback },
+      initInfo: { releaseDbUrl, preReleaseDbUrl, progressCallback },
     });
     sqlite.progress = 1;
   }

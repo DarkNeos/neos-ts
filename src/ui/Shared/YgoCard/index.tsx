@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { CSSProperties, useMemo } from "react";
 
 import { useConfig } from "@/config";
+import { isSuperReleaseCard } from "@/superPreRelease";
 
 import styles from "./index.module.scss";
 
@@ -60,5 +61,10 @@ export function getCardImgUrl(code: number, back = false) {
   if (back || code === 0) {
     return `${ASSETS_BASE}/card_back.jpg`;
   }
-  return `${NeosConfig.cardImgUrl}/${code}.jpg`;
+
+  if (isSuperReleaseCard(code)) {
+    return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
+  } else {
+    return `${NeosConfig.releaseImgUrl}/${code}.jpg`;
+  }
 }

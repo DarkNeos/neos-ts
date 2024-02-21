@@ -5,11 +5,16 @@ import { proxy, useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
 import { accountStore, roomStore } from "@/stores";
+import { Select } from "@/ui/Shared";
 
 import styles from "./MatchModal.module.scss";
 import { connectSrvpro } from "./util";
+
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;
+
+const KOISHI = "koishi";
+const PRERELEASE = "pre-release";
 
 const {
   defaults: { defaultPlayer, defaultPassword },
@@ -33,17 +38,26 @@ export const MatchModal: React.FC = ({}) => {
   const { joined, errorMsg } = useSnapshot(roomStore);
   const [player, setPlayer] = useState(user?.name ?? defaultPlayer);
   const [passwd, setPasswd] = useState(defaultPassword);
-  const [server, setServer] = useState(
-    `${serverConfig[0].ip}:${serverConfig[0].port}`,
-  );
+  const [serverId, setServerId] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
 
   let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
   };
-  let handleServerChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setServer(event.target.value);
+  let handleServerChange = (value: any) => {
+    switch (value) {
+      case KOISHI: {
+        setServerId(0);
+        break;
+      }
+      case PRERELEASE: {
+        setServerId(2);
+        break;
+      }
+      default:
+        break;
+    }
   };
   let handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswd(event.target.value);
@@ -51,7 +65,11 @@ export const MatchModal: React.FC = ({}) => {
 
   const handleSubmit = async () => {
     setConfirmLoading(true);
-    await connectSrvpro({ player, ip: server, passWd: passwd });
+    await connectSrvpro({
+      player,
+      ip: genServerAddress(serverId),
+      passWd: passwd,
+    });
   };
 
   useEffect(() => {
@@ -91,20 +109,28 @@ export const MatchModal: React.FC = ({}) => {
       centered
     >
       <div className={styles["inputs-container"]}>
+        <Select
+          className={styles.select}
+          title="服务器"
+          value={KOISHI}
+          options={[
+            {
+              value: KOISHI,
+              label: "Koishi服",
+            },
+            {
+              value: PRERELEASE,
+              label: "超先行服",
+            },
+          ]}
+          onChange={handleServerChange}
+        />
         <Input
           className={styles.input}
           type="text"
           placeholder="玩家昵称"
           value={player}
           onChange={handlePlayerChange}
-          required
-        />
-        <Input
-          className={styles.input}
-          type="text"
-          placeholder="服务器(IP+端口)"
-          value={server}
-          onChange={handleServerChange}
           required
         />
         <Input
@@ -118,4 +144,8 @@ export const MatchModal: React.FC = ({}) => {
       </div>
     </Modal>
   );
+};
+
+const genServerAddress = (id: number) => {
+  return `${serverConfig[id].ip}:${serverConfig[id].port}`;
 };

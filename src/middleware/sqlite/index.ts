@@ -10,6 +10,7 @@ import initSqlJs, { Database } from "sql.js";
 import { CardData, CardMeta, CardText } from "@/api/cards";
 import { useConfig } from "@/config";
 import { pfetch } from "@/infra";
+import { isSuperReleaseCard } from "@/superPreRelease";
 
 import { FtsParams, invokeFts } from "./fts";
 
@@ -28,7 +29,8 @@ export interface sqliteAction<T extends sqliteCmd> {
   cmd: T;
   // 初始化DB需要业务方传入的数据
   initInfo?: {
-    dbUrl: string;
+    releaseDbUrl: string;
+    preReleaseDbUrl: string;
     progressCallback?: (progress: number) => void; // 用于获取读取进度
   };
   payload?: {
@@ -42,7 +44,6 @@ export interface sqliteResult {
   ftsResult?: CardMeta[];
 }
 
-let YGODB: Database | null = null;
 const sqlPromise = initSqlJs({
   locateFile: (file) => `${NeosConfig.assetsPath}/${file}`,
 });
@@ -53,17 +54,37 @@ export default function <T extends sqliteCmd>(
   return helper(action) as any;
 }
 
+// TODO: may defining a class be better?
+interface YgoDbs {
+  release: Database | null;
+  preRelease: Database | null;
+}
+
+let YGODBS: YgoDbs = { release: null, preRelease: null };
+
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果，比如初始化DB失败
 function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
   switch (action.cmd) {
     case sqliteCmd.INIT: {
       const info = action.initInfo;
       if (info) {
-        const dataPromise = pfetch(info.dbUrl, {
+        const releasePromise = pfetch(info.releaseDbUrl, {
           progressCallback: action.initInfo?.progressCallback,
         }).then((res) => res.arrayBuffer()); // TODO: i18n
-        return Promise.all([sqlPromise, dataPromise]).then(([SQL, buffer]) => {
-          YGODB = new SQL.Database(new Uint8Array(buffer));
+        const preReleasePromise = pfetch(info.preReleaseDbUrl, {
+          progressCallback: action.initInfo?.progressCallback,
+        }).then((res) => res.arrayBuffer());
+
+        return Promise.all([
+          sqlPromise,
+          releasePromise,
+          preReleasePromise,
+        ]).then(([SQL, releaseBuffer, preReleaseBuffer]) => {
+          YGODBS.release = new SQL.Database(new Uint8Array(releaseBuffer));
+          YGODBS.preRelease = new SQL.Database(
+            new Uint8Array(preReleaseBuffer),
+          );
+
           console.log("YGODB inited!");
         });
       } else {
@@ -72,12 +93,21 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
       }
     }
     case sqliteCmd.SELECT: {
-      if (YGODB && action.payload && action.payload.id) {
+      if (
+        YGODBS.release &&
+        YGODBS.preRelease &&
+        action.payload &&
+        action.payload.id
+      ) {
         const code = action.payload.id;
 
-        const dataStmt = YGODB.prepare("SELECT * FROM datas WHERE ID = $id");
+        const db = isSuperReleaseCard(code)
+          ? YGODBS.preRelease
+          : YGODBS.release;
+
+        const dataStmt = db.prepare("SELECT * FROM datas WHERE ID = $id");
         const dataResult = dataStmt.getAsObject({ $id: code });
-        const textStmt = YGODB.prepare("SELECT * FROM texts WHERE ID = $id");
+        const textStmt = db.prepare("SELECT * FROM texts WHERE ID = $id");
         const textResult = textStmt.getAsObject({ $id: code });
 
         return {
@@ -93,8 +123,22 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
       return {};
     }
     case sqliteCmd.FTS: {
-      if (YGODB && action.payload && action.payload.ftsParams) {
-        const metas = invokeFts(YGODB, action.payload.ftsParams);
+      if (
+        YGODBS.release &&
+        YGODBS.preRelease &&
+        action.payload &&
+        action.payload.ftsParams
+      ) {
+        const releaseMetas = invokeFts(
+          YGODBS.release,
+          action.payload.ftsParams,
+        );
+        const preReleaseMetas = invokeFts(
+          YGODBS.preRelease,
+          action.payload.ftsParams,
+        );
+
+        const metas = releaseMetas.concat(preReleaseMetas);
 
         return { ftsResult: metas };
       } else {
