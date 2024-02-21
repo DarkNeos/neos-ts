@@ -26,7 +26,10 @@ export const connectSrvpro = async (params: {
   // 初始化sqlite
   await sqliteMiddleWare({
     cmd: sqliteCmd.INIT,
-    initInfo: { dbUrl: NeosConfig.cardsDbUrl },
+    initInfo: {
+      releaseDbUrl: NeosConfig.releaseDbUrl,
+      preReleaseDbUrl: NeosConfig.preReleaseDbUrl,
+    },
   });
 
   // 初始化I18N文案
