@@ -13,9 +13,6 @@ import { connectSrvpro } from "./util";
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;
 
-const KOISHI = "koishi";
-const PRERELEASE = "pre-release";
-
 const {
   defaults: { defaultPlayer, defaultPassword },
   automation: { isAiMode },
@@ -31,6 +28,7 @@ const defaultProps: Props = {
 
 export const matchStore = proxy<Props>(defaultProps);
 
+// TODO: support MC server
 export const MatchModal: React.FC = ({}) => {
   const { message } = App.useApp();
   const { open } = useSnapshot(matchStore);
@@ -46,18 +44,7 @@ export const MatchModal: React.FC = ({}) => {
     setPlayer(event.target.value);
   };
   let handleServerChange = (value: any) => {
-    switch (value) {
-      case KOISHI: {
-        setServerId(0);
-        break;
-      }
-      case PRERELEASE: {
-        setServerId(2);
-        break;
-      }
-      default:
-        break;
-    }
+    setServerId(value);
   };
   let handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswd(event.target.value);
@@ -112,14 +99,14 @@ export const MatchModal: React.FC = ({}) => {
         <Select
           className={styles.select}
           title="服务器"
-          value={KOISHI}
+          value={serverId}
           options={[
             {
-              value: KOISHI,
+              value: 0,
               label: "Koishi服",
             },
             {
-              value: PRERELEASE,
+              value: 2,
               label: "超先行服",
             },
           ]}
