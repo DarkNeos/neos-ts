@@ -3,6 +3,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   FilterOutlined,
+  QuestionCircleOutlined,
   RetweetOutlined,
   SearchOutlined,
   SortAscendingOutlined,
@@ -18,6 +19,7 @@ import {
   message,
   Pagination,
   Space,
+  Tooltip,
 } from "antd";
 import { isEqual } from "lodash-es";
 import { type OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
@@ -290,6 +292,9 @@ export const DeckEditor: React.FC<{
           >
             保存
           </Button>
+          <Tooltip title="双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片">
+            <QuestionCircleOutlined />
+          </Tooltip>
         </Space>
       </Space>
       <ScrollableArea className={styles["deck-zone"]}>
@@ -306,6 +311,11 @@ export const DeckEditor: React.FC<{
               }
             }}
             onElementMouseUp={(event) => handleMouseUp(type, event)}
+            onDoubleClick={(card) => {
+              if (editDeckStore.canAdd(card, type, "search").result) {
+                editDeckStore.add(type, card);
+              }
+            }}
           />
         ))}
       </ScrollableArea>
