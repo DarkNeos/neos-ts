@@ -21,7 +21,8 @@ export const DeckCard: React.FC<{
   source: Type | "search";
   onMouseUp?: (event: DeckCardMouseUpEvent) => void;
   onMouseEnter?: () => void;
-}> = memo(({ value, source, onMouseUp, onMouseEnter }) => {
+  onDoubleClick?: (card: CardMeta) => void;
+}> = memo(({ value, source, onMouseUp, onMouseEnter, onDoubleClick }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: "Card",
@@ -46,6 +47,7 @@ export const DeckCard: React.FC<{
         })
       }
       onMouseEnter={onMouseEnter}
+      onDoubleClick={() => onDoubleClick?.(value)}
       onContextMenu={(e) => {
         e.preventDefault();
       }}
