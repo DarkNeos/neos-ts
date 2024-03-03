@@ -2,6 +2,7 @@ import {
   ArrowRightOutlined,
   CheckOutlined,
   CloseCircleFilled,
+  LogoutOutlined,
   MessageFilled,
   StepForwardFilled,
 } from "@ant-design/icons";
@@ -16,6 +17,7 @@ import {
   Tooltip,
 } from "antd";
 import { cloneElement, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import {
@@ -67,6 +69,8 @@ export const Menu = () => {
   const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
     [],
   );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const endResponse = [
@@ -147,6 +151,9 @@ export const Menu = () => {
   ].map((item, i) => ({ key: i, ...item }));
 
   const globalDisable = !matStore.isMe(currentPlayer);
+
+  const onExit = () => navigate("/match");
+
   return (
     <div className={styles["menu-container"]}>
       <DropdownWithTitle
@@ -185,6 +192,13 @@ export const Menu = () => {
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>
       </DropdownWithTitle>
+      <Tooltip title="退出页面">
+        <Button
+          icon={<LogoutOutlined style={{ color: "red" }} />}
+          type="text"
+          onClick={onExit}
+        ></Button>
+      </Tooltip>
     </div>
   );
 };
