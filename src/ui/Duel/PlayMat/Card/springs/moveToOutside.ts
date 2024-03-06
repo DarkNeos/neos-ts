@@ -22,16 +22,20 @@ export const moveToOutside: MoveFunc = async (props) => {
   const { zone, controller, position, sequence } = card.location;
 
   let x =
-      BLOCK_WIDTH * 2.5 +
-      COL_GAP * 2 +
-      BLOCK_OUTSIDE_OFFSET_X +
-      CARD_HEIGHT_O * CARD_RATIO * 0.5,
+    BLOCK_WIDTH * 2.5 +
+    COL_GAP * 2 +
+    BLOCK_OUTSIDE_OFFSET_X +
+    CARD_HEIGHT_O * CARD_RATIO * 0.5,
     y = ROW_GAP + BLOCK_HEIGHT_M + (BLOCK_HEIGHT_M - CARD_HEIGHT_O) / 2;
   if (zone === REMOVED) y -= ROW_GAP + CARD_HEIGHT_O;
   if (!isMe(controller)) {
     x = -x;
     y = -y;
   }
+  api.set({
+    z: 0,
+    subZ: 100,
+  })
   await asyncStart(api)({
     x,
     y,
@@ -41,9 +45,6 @@ export const moveToOutside: MoveFunc = async (props) => {
     ry: [ygopro.CardPosition.FACEDOWN].includes(position) ? 180 : 0,
     subZ: 100,
     zIndex: sequence,
-    config: {
-      tension: 140,
-    },
   });
   api.set({ subZ: 0 });
 };
