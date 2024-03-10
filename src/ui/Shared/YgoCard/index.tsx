@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useMemo } from "react";
 
 import { useConfig } from "@/config";
 import { isSuperReleaseCard } from "@/superPreRelease";
@@ -21,41 +21,33 @@ export const YgoCard: React.FC<Props> = (props) => {
   const {
     className,
     code = 0,
+    // cardName,
     isBack = false,
     width,
     style,
     onClick,
     onLoad,
   } = props;
-
-  const [src, setSrc] = useState(
-    "https://img2.imgtp.com/2024/03/06/G6wTJRz9.png",
-  );
-
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      console.timeEnd(code.toString());
-      setSrc(img.src); // 图片加载完成后更新src状态
-    };
-    // 直接设置图片路径，无需url()包裹
-    img.src = getCardImgUrl(code, isBack);
-    console.time(code.toString());
-  }, [code, isBack]); // useEffect的依赖数组中加入isBack
-
-  return (
-    <div
-      className={classNames(styles["ygo-card"], className)}
-      style={
-        {
-          width,
-          "--src": `url(${src})`,
-          ...style,
-        } as any
-      }
-      onClick={onClick}
-      onLoad={onLoad}
-    ></div>
+  return useMemo(
+    () => (
+      <div
+        className={classNames(styles["ygo-card"], className)}
+        style={
+          {
+            width,
+            "--src": `url(${getCardImgUrl(code, isBack)})`,
+            ...style,
+          } as any
+        }
+        onClick={onClick}
+        // 加载完成
+        onLoad={onLoad}
+      >
+        {/* 暂时不能这么写...但如果用onload的话来判断可能又很消耗性能，再看看吧 */}
+        {/* {cardName} */}
+      </div>
+    ),
+    [code],
   );
 };
 

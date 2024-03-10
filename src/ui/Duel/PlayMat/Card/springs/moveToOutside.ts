@@ -32,10 +32,6 @@ export const moveToOutside: MoveFunc = async (props) => {
     x = -x;
     y = -y;
   }
-  api.set({
-    z: 0,
-    subZ: 100,
-  });
   await asyncStart(api)({
     x,
     y,
@@ -45,6 +41,9 @@ export const moveToOutside: MoveFunc = async (props) => {
     ry: [ygopro.CardPosition.FACEDOWN].includes(position) ? 180 : 0,
     subZ: 100,
     zIndex: sequence,
+    config: {
+      tension: 140,
+    },
   });
   api.set({ subZ: 0 });
 };

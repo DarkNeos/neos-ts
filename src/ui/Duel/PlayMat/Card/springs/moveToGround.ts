@@ -1,3 +1,5 @@
+import { easings } from "@react-spring/web";
+
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
@@ -96,17 +98,32 @@ export const moveToGround: MoveFunc = async (props) => {
       rz,
       height: 0,
     });
+  } else {
+    await asyncStart(api)({
+      x,
+      y,
+      height,
+      z: is_overlay ? 120 : 200,
+      ry,
+      rz,
+      config: {
+        tension: 250,
+        clamp: true,
+        easing: easings.easeOutSine,
+      },
+    });
   }
 
   await asyncStart(api)({
     height,
-    x,
-    y,
     z: 0,
-    ry,
-    rz,
     subZ: isToken ? 100 : 0,
     zIndex: is_overlay ? 1 : 3,
+    config: {
+      easing: easings.easeInQuad,
+      duration: 200,
+      clamp: true,
+    },
   });
   if (isToken) api.set({ subZ: 0 });
 };
