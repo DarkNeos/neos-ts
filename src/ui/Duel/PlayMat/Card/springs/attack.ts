@@ -52,17 +52,16 @@ export const attack: AttackFunc = async (props) => {
     z: 200,
   });
   // 后撤半个卡位，并调整倾斜角
-  // await asyncStart(api)({
-  //   y:
-  //     current.y +
-  //     (BLOCK_HEIGHT_M / 2) * (isMe(card.location.controller) ? 1 : -1),
-  //   rz,
-  // });
+  await asyncStart(api)({
+    y:
+      current.y +
+      (BLOCK_HEIGHT_M / 2) * (isMe(card.location.controller) ? 1 : -1),
+    rz,
+  });
   // 加速前冲
   await asyncStart(api)({
     x,
     y,
-    rz,
     config: {
       easing: easings.easeInOutSine,
     },
@@ -73,5 +72,8 @@ export const attack: AttackFunc = async (props) => {
     y: current.y,
     z: current.z,
     rz: current.rz,
+    config: {
+      easing: easings.easeInOutQuad,
+    },
   });
 };

@@ -54,7 +54,6 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         focusOpacity: 1,
         subZ: 0,
         opacity: 1,
-        config: { mass: 1, tension: 800, friction: 30 },
       }) satisfies SpringApiProps,
   );
 
