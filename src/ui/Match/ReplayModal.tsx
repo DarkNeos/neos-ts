@@ -41,10 +41,6 @@ export const ReplayModal: React.FC = () => {
       // 标记为回放模式
       replayStore.isReplay = true;
 
-      // 初始化额外卡组
-      // FIXME: 这样写应该不对，有空来修
-      window.myExtraDeckCodes = [];
-
       await connectSrvpro({
         ip: "",
         player: "",

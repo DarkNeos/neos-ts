@@ -17,7 +17,6 @@ import { EventEmitter } from "eventemitter3";
 
 /* eslint no-var: 0 */
 declare global {
-  var myExtraDeckCodes: number[] = [];
   interface Console {
     color: (
       color: string,

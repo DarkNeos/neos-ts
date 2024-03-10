@@ -111,8 +111,6 @@ export const Component: React.FC = () => {
                           sendUpdateDeck(deck);
                           // 设置side里面的卡组
                           sideStore.deck = deck;
-                          // 设置额外卡组数据
-                          window.myExtraDeckCodes = [...deck.extra];
                           sendHsReady();
                         } else {
                           message.error("请先选择卡组");

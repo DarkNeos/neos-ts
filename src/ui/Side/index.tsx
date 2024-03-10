@@ -60,7 +60,6 @@ export const Component: React.FC = () => {
   };
   const onSummit = () => {
     sendUpdateDeck(deck);
-    window.myExtraDeckCodes = [...deck.extra];
   };
 
   useEffect(() => {

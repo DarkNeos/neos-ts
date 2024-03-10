@@ -4,6 +4,7 @@ import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 import { TYPE_TOKEN } from "@/common";
+
 export default async (updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
