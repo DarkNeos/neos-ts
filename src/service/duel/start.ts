@@ -1,6 +1,6 @@
 import { flatten } from "lodash-es";
 import { v4 as v4uuid } from "uuid";
-import PlayerType = ygopro.StocGameMessage.MsgStart.PlayerType;
+
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { sleep } from "@/infra";
@@ -21,11 +21,6 @@ const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 export default async (start: ygopro.StocGameMessage.MsgStart) => {
   // 先初始化`matStore`
   matStore.selfType = start.playerType;
-  const opponent =
-    start.playerType === PlayerType.FirstStrike ||
-    start.playerType === PlayerType.Observer
-      ? 1
-      : 0;
 
   if (sideStore.stage !== SideStage.NONE) {
     // 更新Side状态
@@ -87,10 +82,8 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
   );
 
   cardStore.inner.push(...cards);
-  // 设置自己的额外卡组，信息是在waitroom之中拿到的
-  cardStore
-    .at(ygopro.CardZone.EXTRA, 1 - opponent)
-    .forEach((card) => (card.code = window.myExtraDeckCodes?.pop() ?? 0));
+
+  // note: 额外卡组的卡会在对局开始后通过`UpdateData` msg更新
 
   if (replayStore.isReplay) {
     replayStart();
