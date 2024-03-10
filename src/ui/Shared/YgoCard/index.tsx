@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { CSSProperties, useMemo, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 
 import { useConfig } from "@/config";
 import { isSuperReleaseCard } from "@/superPreRelease";

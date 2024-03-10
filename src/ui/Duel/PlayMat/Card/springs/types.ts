@@ -22,11 +22,11 @@ export interface SpringApiProps {
   subZ: number; // 0 -> 100，这是为了让卡片移动过程中，稍微上浮一些，避免一些奇怪的遮挡问题
 
   config?: Partial<{
-    mass: number,
-    tension: number,
-    friction: number,
-    clamp: boolean
-  }>
+    mass: number;
+    tension: number;
+    friction: number;
+    clamp: boolean;
+  }>;
 }
 
 export type SpringApi = SpringRef<SpringApiProps>;
@@ -44,7 +44,7 @@ export type MoveFunc = OptionsToFunc<MoveOptions>;
 
 export type AttackOptions =
   | {
-    directAttack: true;
-  }
+      directAttack: true;
+    }
   | { directAttack: false; target: ygopro.CardLocation };
 export type AttackFunc = OptionsToFunc<AttackOptions>;

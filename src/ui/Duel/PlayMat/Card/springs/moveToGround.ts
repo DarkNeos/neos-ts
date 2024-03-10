@@ -1,5 +1,3 @@
-import { easings } from "@react-spring/web";
-
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
 import { matConfig } from "@/ui/Shared";
