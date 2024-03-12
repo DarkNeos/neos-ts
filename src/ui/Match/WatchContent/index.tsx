@@ -5,39 +5,17 @@ import React, { useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { proxy, useSnapshot } from "valtio";
 
-import { getUserInfo } from "@/api";
+import { getUserInfo, Room } from "@/api";
 import { useConfig } from "@/config";
 
-import { ScrollableArea } from "../Shared";
-import styles from "./WatchContent.module.scss";
+import { ScrollableArea } from "../../Shared";
+import styles from "./index.module.scss";
 
 const { athleticWatchUrl } = useConfig();
 
 interface Info {
   event: "init" | "create" | "update" | "delete";
   data: Room | Room[] | string;
-}
-
-interface Room {
-  id?: string;
-  title?: string;
-  users?: { username: string; position: number; avatar?: string }[];
-  options: Options;
-}
-
-interface Options {
-  mode: number;
-  rule: number;
-  start_lp: number;
-  start_lp_tag: number;
-  start_hand: number;
-  draw_count: number;
-  duel_rule: number;
-  no_check_deck: boolean;
-  no_shuffle_deck: boolean;
-  lflist?: number;
-  time_limit?: number;
-  auto_death: boolean;
 }
 
 export const watchStore = proxy<{ watchID: string | undefined }>({

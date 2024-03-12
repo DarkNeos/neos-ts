@@ -16,7 +16,7 @@
 
 .mode-select {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr); /* 自动调整行高 */
   width: 55rem;
   // height: 33rem;

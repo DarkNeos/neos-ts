@@ -5,8 +5,8 @@ import { proxy, useSnapshot } from "valtio";
 
 import { replayStore } from "@/stores";
 
-import { Uploader } from "../Shared";
-import { connectSrvpro } from "./util";
+import { Uploader } from "../../Shared";
+import { connectSrvpro } from "../util";
 
 const localStore = proxy({
   open: false,

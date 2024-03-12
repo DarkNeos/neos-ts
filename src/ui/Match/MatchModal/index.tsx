@@ -7,11 +7,14 @@ import { useConfig } from "@/config";
 import { accountStore, roomStore } from "@/stores";
 import { Select } from "@/ui/Shared";
 
-import styles from "./MatchModal.module.scss";
-import { connectSrvpro } from "./util";
+import { connectSrvpro } from "../util";
+import styles from "./index.module.scss";
 
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;
+
+const KOISHI_INDEX = 0;
+const PRERELEASE_INDEX = 3;
 
 const {
   defaults: { defaultPlayer, defaultPassword },
@@ -28,7 +31,6 @@ const defaultProps: Props = {
 
 export const matchStore = proxy<Props>(defaultProps);
 
-// TODO: support MC server
 export const MatchModal: React.FC = ({}) => {
   const { message } = App.useApp();
   const { open } = useSnapshot(matchStore);
@@ -40,13 +42,13 @@ export const MatchModal: React.FC = ({}) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
 
-  let handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
   };
-  let handleServerChange = (value: any) => {
+  const handleServerChange = (value: any) => {
     setServerId(value);
   };
-  let handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswd(event.target.value);
   };
 
@@ -102,11 +104,11 @@ export const MatchModal: React.FC = ({}) => {
           value={serverId}
           options={[
             {
-              value: 0,
+              value: KOISHI_INDEX,
               label: "Koishi服",
             },
             {
-              value: 2,
+              value: PRERELEASE_INDEX,
               label: "超先行服",
             },
           ]}
