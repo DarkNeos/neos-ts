@@ -1,23 +1,34 @@
 import {
+  BulbOutlined,
   EditOutlined,
   LoadingOutlined,
   PlayCircleFilled,
   SettingFilled,
 } from "@ant-design/icons";
-import { App, Button, Space } from "antd";
+import { App, Button, Modal, Space } from "antd";
 import { useEffect, useState } from "react";
 import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import { match } from "@/api";
+import {
+  getCreateRoomPasswd,
+  getJoinRoomPasswd,
+  getPrivateRoomID,
+  match,
+} from "@/api";
 import { useConfig } from "@/config";
 import { accountStore, deckStore, resetUniverse, roomStore } from "@/stores";
 import { Background, IconFont, Select } from "@/ui/Shared";
 
+import {
+  CustomRoomContent,
+  CustomRoomFooter,
+  mcCustomRoomStore,
+} from "./CustomRoomContent";
 import styles from "./index.module.scss";
 import { MatchModal, matchStore } from "./MatchModal";
 import { ReplayModal, replayOpen } from "./ReplayModal";
-import { connectSrvpro, getEncryptedPasswd } from "./util";
+import { connectSrvpro } from "./util";
 import { WatchContent, watchStore } from "./WatchContent";
 
 const { servers: serverList } = useConfig();
@@ -69,6 +80,72 @@ export const Component: React.FC = () => {
   // 娱乐匹配
   const onEntertainMatch = async () => await onMatch("entertain");
 
+  // MC自定义房间
+  const onMCCustomRoom = () => {
+    if (!user) {
+      message.error("请先登录萌卡账号");
+    } else {
+      modal.info({
+        icon: null,
+        centered: true,
+        maskClosable: true,
+        content: <CustomRoomContent />,
+        footer: (
+          <CustomRoomFooter
+            onCreateRoom={onCreateMCRoom}
+            onJoinRoom={onJoinMCRoom}
+          />
+        ),
+      });
+    }
+  };
+
+  // 创建MC自定义房间
+  const onCreateMCRoom = async () => {
+    if (user) {
+      const mcServer = serverList.find(
+        (server) => server.name === "mycard-custom",
+      );
+      if (mcServer) {
+        const passWd = getCreateRoomPasswd(
+          mcCustomRoomStore.options,
+          String(getPrivateRoomID(user.external_id)),
+          user.external_id,
+          true,
+        );
+        await connectSrvpro({
+          ip: mcServer.ip + ":" + mcServer.port,
+          player: user.username,
+          passWd,
+        });
+      }
+    }
+  };
+  // 加入MC自定义房间
+  const onJoinMCRoom = async () => {
+    if (user) {
+      if (mcCustomRoomStore.friendPrivateID !== undefined) {
+        const mcServer = serverList.find(
+          (server) => server.name === "mycard-custom",
+        );
+        if (mcServer) {
+          const passWd = getJoinRoomPasswd(
+            String(mcCustomRoomStore.friendPrivateID),
+            user.external_id,
+            true,
+          );
+          await connectSrvpro({
+            ip: mcServer.ip + ":" + mcServer.port,
+            player: user.username,
+            passWd,
+          });
+        }
+      } else {
+        message.error("请输入朋友的私密房间密码！");
+      }
+    }
+  };
+
   // MC观战
   const onMCWatch = () => {
     if (!user) {
@@ -87,7 +164,10 @@ export const Component: React.FC = () => {
               (server) => server.name === "mycard-athletic",
             );
             if (mcServer) {
-              const passWd = getEncryptedPasswd(watchStore.watchID, user);
+              const passWd = getJoinRoomPasswd(
+                watchStore.watchID,
+                user.external_id,
+              );
               await connectSrvpro({
                 ip: mcServer.ip + ":" + mcServer.port,
                 player: user.username,
@@ -130,6 +210,7 @@ export const Component: React.FC = () => {
       setAthleticMatchLoading(false);
       setEntertainMatchLoading(false);
       setWatchLoading(false);
+      Modal.destroyAll(); // 销毁当前所有modal
       navigate(`/waitroom`);
     }
   }, [joined]);
@@ -194,6 +275,12 @@ export const Component: React.FC = () => {
               onClick={onEntertainMatch}
             />
             <Mode
+              title="MC服自定义房间"
+              desc="在MC服务器上创建或者加入自定义房间，与牌友约战。"
+              icon={<BulbOutlined />}
+              onClick={onMCCustomRoom}
+            />
+            <Mode
               title="MC观战列表"
               desc="观看萌卡MyCard上正在进行的决斗。"
               icon={watchLoading ? <LoadingOutlined /> : <PlayCircleFilled />}
@@ -223,6 +310,7 @@ export const Component: React.FC = () => {
               icon={<IconFont type="icon-record" size={24} />}
               onClick={replayOpen}
             />
+            <Mode title="开发中..." desc="其他功能敬请期待。" icon={null} />
           </div>
         </div>
       </div>

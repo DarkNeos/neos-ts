@@ -11,6 +11,11 @@
 			"port": "8912"
 		},
 		{
+			"name": "mycard-custom",
+			"ip": "tiramisu.moecube.com",
+			"port": "7912"
+		},
+		{
 			"name": "pre-release",
 			"ip": "koishi.momobako.com",
 			"port": "889"

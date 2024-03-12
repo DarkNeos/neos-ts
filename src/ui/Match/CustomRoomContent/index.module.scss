@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  font: var(--theme-font);
+  font-size: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .clipboard {
+    display: flex;
+    flex-direction: row;
+
+    .title {
+      margin-right: 3.5rem;
+    }
+
+    .input {
+      width: 50%;
+    }
+  }
+
+  .digit-option {
+    display: flex;
+    justify-content: space-between;
+
+    .input {
+      width: 60%;
+    }
+  }
+
+  .select-option {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .check {
+    font-size: 1rem;
+  }
+}
+
+.footer {
+  text-align: right;
+  gap: 1rem;
+
+  .btn {
+    margin-right: 0.5rem;
+  }
+}
