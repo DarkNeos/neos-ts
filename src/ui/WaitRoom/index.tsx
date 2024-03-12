@@ -54,6 +54,12 @@ export const Component: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 组件初始化时发一次更新卡组的包
+    //
+    // 否则娱乐匹配准备会有问题（原因不明）
+    if (deck) sendUpdateDeck(deck);
+  }, []);
+  useEffect(() => {
     if (room.stage === RoomStage.DUEL_START) {
       // 决斗开始，跳转决斗页面
       navigate("/duel");
