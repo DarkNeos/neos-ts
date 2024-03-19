@@ -53,6 +53,36 @@ export const Component: React.FC = () => {
   const op = room.getOpPlayer();
   const navigate = useNavigate();
 
+  const updateDeck = (deck: IDeck) => {
+    sendUpdateDeck(deck);
+    // 设置side里面的卡组
+    sideStore.deck = deck;
+  };
+
+  const onDeckSelected = (deckName: string) => {
+    const newDeck = deckStore.get(deckName);
+    if (newDeck) {
+      sendHsNotReady();
+      updateDeck(newDeck);
+      setDeck(newDeck);
+    } else {
+      message.error(`Deck ${deckName} not found`);
+    }
+  };
+
+  const onReady = () => {
+    if (me?.state === PlayerState.NO_READY) {
+      if (deck) {
+        updateDeck(deck);
+        sendHsReady();
+      } else {
+        message.error("请先选择卡组");
+      }
+    } else {
+      sendHsNotReady();
+    }
+  };
+
   useEffect(() => {
     // 组件初始化时发一次更新卡组的包
     //
@@ -90,16 +120,7 @@ export const Component: React.FC = () => {
           switchCollapse={() => setCollapsed(!collapsed)}
         />
         <div className={styles.wrap}>
-          <Controller
-            onDeckChange={(deckName: string) => {
-              const deck = deckStore.get(deckName);
-              if (deck) {
-                setDeck(deck);
-              } else {
-                message.error(`Deck ${deckName} not found`);
-              }
-            }}
-          />
+          <Controller onDeckChange={onDeckSelected} />
           <div className={styles["both-side-container"]}>
             <PlayerZone
               who={Who.Me}
@@ -111,20 +132,7 @@ export const Component: React.FC = () => {
                   <Button
                     size="large"
                     className={styles["btn-join"]}
-                    onClick={() => {
-                      if (me?.state === PlayerState.NO_READY) {
-                        if (deck) {
-                          sendUpdateDeck(deck);
-                          // 设置side里面的卡组
-                          sideStore.deck = deck;
-                          sendHsReady();
-                        } else {
-                          message.error("请先选择卡组");
-                        }
-                      } else {
-                        sendHsNotReady();
-                      }
-                    }}
+                    onClick={onReady}
                   >
                     {me?.state === PlayerState.NO_READY
                       ? "决斗准备"

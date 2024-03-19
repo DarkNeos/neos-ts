@@ -23,7 +23,7 @@ export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
     }
     case ErrorType.DECKERROR: {
       const flag = error_code >> 28;
-      const code = error_code && 0xfffffff;
+      const code = error_code & 0xfffffff;
       const card = fetchCard(code);
       const baseMsg = `卡组非法，请检查：${card.text.name}`;
       switch (flag) {
