@@ -15,6 +15,11 @@ export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
       target.meta = meta;
       // 动画
       await callCardFocus(target.uuid);
+      if (target.code === 0) {
+        // 如果是对方或者是在观战模式下双方展示手牌，target的code会是0，
+        // 这里应该清掉meta，UI上表现是回复到卡背状态
+        target.meta = { id: 0, data: {}, text: {} };
+      }
     } else {
       console.warn(`card of ${card} is null`);
     }
