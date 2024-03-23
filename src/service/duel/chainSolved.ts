@@ -6,10 +6,12 @@ import { matStore, placeStore } from "@/stores";
 // 2. NEGATED - 被无效；
 // 3. DISABLED - 被禁用。
 //
-// 对于这三种情况`service`层的逻辑是一致的，但是UI展示应该有区别，
-// 因为现在还没实现连锁处理的动画，因此暂时先都一致处理，
-// 体现在 `penetrage.json`文件中三个一样的配置。
+// 第一种MSG后端会在每一个连锁点处理完（不管是无效还是禁用）发给前端，
+// 第二第三种只会在特定情况下发，用于UI展示。
+// 这里暂时只处理第一种。
 export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
+  console.info(`<ChainSolved>solved_index = ${chainSolved.solved_index}`);
+
   const location = matStore.chains
     .splice(chainSolved.solved_index - 1, 1)
     .at(0);
@@ -23,7 +25,8 @@ export default async (chainSolved: ygopro.StocGameMessage.MsgChainSolved) => {
     }
   } else {
     console.warn(
-      `pop from chains return null! solved_index=${chainSolved.solved_index}, len of chains in store=${matStore.chains.length}`,
+      `pop from chains return null! solved_index=${chainSolved.solved_index},
+        len of chains in store=${matStore.chains.length}`,
     );
   }
 };
