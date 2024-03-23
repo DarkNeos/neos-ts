@@ -2,6 +2,8 @@ import { ygopro } from "@/api";
 import { cardStore, matStore, placeStore } from "@/stores";
 
 export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
+  console.info(`<ChainEnd>chain has been end`);
+
   while (true) {
     const chain = matStore.chains.pop();
     if (chain === undefined) {
