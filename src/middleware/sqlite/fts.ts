@@ -48,14 +48,17 @@ export function invokeFts(db: Database, params: FtsParams): CardMeta[] {
 }
 
 function getFtsCondtions(conditions: FtsConditions): string {
-  const { types, levels, atk, def, races, attributes } = conditions;
+  const { types, levels, lscales, atk, def, races, attributes } = conditions;
   const assertMonster = `(type & ${TYPE_MONSTER}) > 0`;
 
   const typesCondition = types
     .map((type) => `(type & ${type}) > 0`)
     .join(" OR ");
   const levelsCondition = levels
-    .map((level) => `level = ${level}`)
+    .map((level) => `(level & 0xff) = ${level}`)
+    .join(" OR ");
+  const lscalesCondition = lscales
+    .map((lscale) => `((level >> 0x18) & 0xff) = ${lscale}`)
     .join(" OR ");
   const atkCondition =
     atk.min !== null || atk.max !== null
@@ -79,6 +82,7 @@ function getFtsCondtions(conditions: FtsConditions): string {
   const merged = [
     typesCondition,
     levelsCondition,
+    lscalesCondition,
     atkCondition,
     defCondition,
     raceCondition,
