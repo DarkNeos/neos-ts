@@ -26,6 +26,7 @@
 	"preReleaseImgUrl": "https://cdn02.moecube.com:444/ygopro-super-pre/data/pics",
 	"releaseDbUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
 	"preReleaseDbUrl": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release.cdb",
+  "preReleaseConfig": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release-v2.json",
 	"stringsUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
 	"lflistUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/lflist.conf",
 	"replayUrl": "replay.neos.moe",

@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { CSSProperties, useMemo } from "react";
 
+import { isSuperReleaseCard } from "@/api";
 import { useConfig } from "@/config";
-import { isSuperReleaseCard } from "@/superPreRelease";
 
 import styles from "./index.module.scss";
 

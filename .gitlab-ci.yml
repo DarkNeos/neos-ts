@@ -62,7 +62,6 @@ ts_check_lint:
   tags:
     - linux
   script:
-    - sh sync_super_prerelease.sh
     - npx tsc
     - npm run lint
 
@@ -74,7 +73,6 @@ npm_build:
   tags:
     - linux
   script:
-    - sh sync_super_prerelease.sh
     - cp neos.config.prod.json neos.config.json
     - npm run build:prod
   artifacts:

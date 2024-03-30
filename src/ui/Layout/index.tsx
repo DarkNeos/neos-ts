@@ -26,6 +26,7 @@ import {
   initForbidden,
   initI18N,
   initSqlite,
+  initSuper,
   initWASM,
 } from "./utils";
 
@@ -38,6 +39,7 @@ export const loader: LoaderFunction = async () => {
   initWASM();
   initForbidden();
   initI18N();
+  initSuper();
   return null;
 };
 

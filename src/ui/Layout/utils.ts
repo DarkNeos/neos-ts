@@ -5,6 +5,7 @@ import {
   forbidden,
   getCookie,
   initStrings,
+  initSuperPrerelease,
   setCookie,
 } from "@/api";
 import { useConfig } from "@/config";
@@ -60,6 +61,14 @@ export const initI18N = async () => {
   if (!initStore.i18n) {
     await initStrings();
     initStore.i18n = true;
+  }
+};
+
+/** 加载超先行服配置 */
+export const initSuper = async () => {
+  if (!initStore.superprerelease) {
+    await initSuperPrerelease();
+    initStore.superprerelease = true;
   }
 };
 
