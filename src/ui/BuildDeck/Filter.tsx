@@ -115,7 +115,6 @@ export const Filter: React.FC<{
           type="primary"
           onClick={() => {
             onConfirm(newConditions);
-            console.log(newConditions);
           }}
         >
           确定
