@@ -1,6 +1,6 @@
 import rustInit from "rust-src";
 
-import { initStrings } from "@/api";
+import { initStrings, initSuperPrerelease } from "@/api";
 import { useConfig } from "@/config";
 import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
@@ -33,6 +33,9 @@ export const connectSrvpro = async (params: {
 
   // 初始化I18N文案
   await initStrings();
+
+  // 初始化超先行配置
+  await initSuperPrerelease();
 
   if (params.replay && params.replayData) {
     // 连接回放websocket服务

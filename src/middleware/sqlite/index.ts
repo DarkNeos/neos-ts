@@ -7,10 +7,10 @@
 
 import initSqlJs, { Database } from "sql.js";
 
+import { isSuperReleaseCard } from "@/api";
 import { CardData, CardMeta, CardText } from "@/api/cards";
 import { useConfig } from "@/config";
 import { pfetch } from "@/infra";
-import { isSuperReleaseCard } from "@/superPreRelease";
 
 import { FtsParams, invokeFts } from "./fts";
 

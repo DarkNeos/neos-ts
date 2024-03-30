@@ -10,6 +10,7 @@ export const initStore = proxy({
   i18n: false,
   wasm: false,
   forbidden: false, // 禁卡表
+  superprerelease: false, // 超先行
   // ...
   reset() {},
 } satisfies NeosStore);
