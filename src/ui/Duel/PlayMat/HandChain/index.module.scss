@@ -1,0 +1,18 @@
+.container {
+  position: fixed;
+  display: flex;
+  overflow: hidden;
+  z-index: 2;
+
+  .me {
+    position: fixed;
+    bottom: 1rem;
+    right: 50%;
+  }
+
+  .op {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+  }
+}

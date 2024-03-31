@@ -9,20 +9,25 @@ import {
   type PlaceInteractivity,
   placeStore,
 } from "@/stores";
+import { BgChain, ChainProps } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
+
+const { MZONE, SZONE, EXTRA, GRAVE, REMOVED } = ygopro.CardZone;
 
 const BgBlock: React.FC<
   React.HTMLProps<HTMLDivElement> & {
     disabled?: boolean;
     highlight?: boolean;
     glowing?: boolean;
+    chains: ChainProps;
   }
 > = ({
   disabled = false,
   highlight = false,
   glowing = false,
   className,
+  chains,
   ...rest
 }) => (
   <div
@@ -34,6 +39,7 @@ const BgBlock: React.FC<
   >
     {<DecoTriangles />}
     {<DisabledCross disabled={disabled} />}
+    {<BgChain {...chains} />}
   </div>
 );
 
@@ -53,6 +59,8 @@ const BgExtraRow: React.FC<{
           }}
           disabled={meSnap[i].disabled || opSnap[i].disabled}
           highlight={!!meSnap[i].interactivity || !!opSnap[i].interactivity}
+          /* FIXME */
+          chains={{ chains: meSnap[i].chainIndex.concat(opSnap[i].chainIndex) }}
         />
       ))}
     </div>
@@ -72,6 +80,7 @@ const BgRow: React.FC<{
         onClick={() => onBlockClick(snap[i].interactivity)}
         disabled={snap[i].disabled}
         highlight={!!snap[i].interactivity}
+        chains={{ chains: snap[i].chainIndex }}
       />
     ))}
   </div>
@@ -84,27 +93,46 @@ const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
     !!cardStore
       .at(zone, meController)
       .reduce((sum, c) => (sum += c.idleInteractivities.length), 0);
-  const glowingExtra = judgeGlowing(ygopro.CardZone.EXTRA);
-  const glowingGraveyard = judgeGlowing(ygopro.CardZone.GRAVE);
-  const glowingBanish = judgeGlowing(ygopro.CardZone.REMOVED);
+  const glowingExtra = judgeGlowing(EXTRA);
+  const glowingGraveyard = judgeGlowing(GRAVE);
+  const glowingBanish = judgeGlowing(REMOVED);
   const snap = useSnapshot(placeStore.inner);
-  const field = op
-    ? snap[ygopro.CardZone.SZONE].op[5]
-    : snap[ygopro.CardZone.SZONE].me[5];
+  const field = op ? snap[SZONE].op[5] : snap[SZONE].me[5];
+  const grave = op ? snap[GRAVE].op : snap[GRAVE].me;
+  const removed = op ? snap[REMOVED].op : snap[REMOVED].me;
+  const extra = op ? snap[EXTRA].op : snap[EXTRA].me;
+
+  const genChains = (states: Snapshot<BlockState[]>) => {
+    const chains: number[] = states.flatMap((state) => state.chainIndex);
+    chains.sort();
+
+    return chains;
+  };
+
   return (
     <div className={classnames(styles["other-blocks"], { [styles.op]: op })}>
-      <BgBlock className={styles.banish} glowing={!op && glowingBanish} />
-      <BgBlock className={styles.graveyard} glowing={!op && glowingGraveyard} />
+      <BgBlock
+        className={styles.banish}
+        glowing={!op && glowingBanish}
+        chains={{ chains: genChains(removed), banish: true, op }}
+      />
+      <BgBlock
+        className={styles.graveyard}
+        glowing={!op && glowingGraveyard}
+        chains={{ chains: genChains(grave), graveyard: true, op }}
+      />
       <BgBlock
         className={styles.field}
         onClick={() => onBlockClick(field.interactivity)}
         disabled={field.disabled}
         highlight={!!field.interactivity}
+        chains={{ chains: field.chainIndex, field: true, op }}
       />
-      <BgBlock className={styles.deck} />
+      <BgBlock className={styles.deck} chains={{ chains: [] }} />
       <BgBlock
         className={classnames(styles.deck, styles["extra-deck"])}
         glowing={!op && glowingExtra}
+        chains={{ chains: genChains(extra), extra: true, op }}
       />
     </div>
   );
@@ -114,14 +142,14 @@ export const Bg: React.FC = () => {
   const snap = useSnapshot(placeStore.inner);
   return (
     <div className={styles["mat-bg"]}>
-      <BgRow snap={snap[ygopro.CardZone.SZONE].op} szone opponent />
-      <BgRow snap={snap[ygopro.CardZone.MZONE].op} opponent />
+      <BgRow snap={snap[SZONE].op} szone opponent />
+      <BgRow snap={snap[MZONE].op} opponent />
       <BgExtraRow
-        meSnap={snap[ygopro.CardZone.MZONE].me.slice(5, 7)}
-        opSnap={snap[ygopro.CardZone.MZONE].op.slice(5, 7)}
+        meSnap={snap[MZONE].me.slice(5, 7)}
+        opSnap={snap[MZONE].op.slice(5, 7)}
       />
-      <BgRow snap={snap[ygopro.CardZone.MZONE].me} />
-      <BgRow snap={snap[ygopro.CardZone.SZONE].me} szone />
+      <BgRow snap={snap[MZONE].me} />
+      <BgRow snap={snap[SZONE].me} szone />
       <BgOtherBlocks />
       <BgOtherBlocks op />
     </div>

@@ -1,5 +1,6 @@
 export * from "./Background";
 export * from "./CardEffectText";
+export * from "./Chain";
 export * from "./chatHook";
 export * from "./css";
 export * from "./DeckCard";
