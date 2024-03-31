@@ -20,6 +20,7 @@ import {
 } from "./Message";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 import { ChatBox } from "./PlayMat/ChatBox";
+import { HandChain } from "./PlayMat/HandChain";
 
 export const Component: React.FC = () => {
   const { stage } = useSnapshot(sideStore);
@@ -59,6 +60,7 @@ export const Component: React.FC = () => {
       <SimpleSelectCardsModal />
       <EndModal />
       <ChatBox />
+      <HandChain />
     </>
   );
 };

@@ -20,7 +20,8 @@ const { MZONE, SZONE, HAND, GRAVE, REMOVED, EXTRA } = ygopro.CardZone;
 export interface BlockState {
   interactivity?: PlaceInteractivity; // 互动性
   disabled: boolean; // 是否被禁用
-  chainIndex: number[]; // 当前位置上的连锁序号。YGOPRO和MASTER DUEL的连锁都是和位置绑定的，因此在`PlaceStore`中记录连锁状态。
+  chainIndex: number[] /* 当前位置上的连锁序号。
+  YGOPRO和MASTER DUEL的连锁都是和位置绑定的，因此在`PlaceStore`中记录连锁状态。*/;
 }
 
 const genPLaces = (n: number): BlockState[] =>
