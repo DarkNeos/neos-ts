@@ -55,12 +55,13 @@ const BgExtraRow: React.FC<{
           className={styles.extra}
           onClick={() => {
             onBlockClick(meSnap[i].interactivity);
-            onBlockClick(opSnap[i].interactivity);
+            onBlockClick(opSnap[1 - i].interactivity);
           }}
-          disabled={meSnap[i].disabled || opSnap[i].disabled}
-          highlight={!!meSnap[i].interactivity || !!opSnap[i].interactivity}
-          /* FIXME */
-          chains={{ chains: meSnap[i].chainIndex.concat(opSnap[i].chainIndex) }}
+          disabled={meSnap[i].disabled || opSnap[1 - i].disabled}
+          highlight={!!meSnap[i].interactivity || !!opSnap[1 - i].interactivity}
+          chains={{
+            chains: meSnap[i].chainIndex.concat(opSnap[1 - i].chainIndex),
+          }}
         />
       ))}
     </div>
