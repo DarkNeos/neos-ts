@@ -56,7 +56,7 @@ export const Component: React.FC = () => {
   const updateDeck = (deck: IDeck) => {
     sendUpdateDeck(deck);
     // 设置side里面的卡组
-    sideStore.deck = deck;
+    sideStore.setSideDeck(deck);
   };
 
   const onDeckSelected = (deckName: string) => {
