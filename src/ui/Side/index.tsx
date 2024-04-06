@@ -18,10 +18,9 @@ import { TpModal } from "./TpModal";
 
 export const Component: React.FC = () => {
   const { message } = App.useApp();
-  const { deck: sideDeck } = sideStore;
+  const initialDeck = sideStore.getSideDeck();
   const { stage } = useSnapshot(sideStore);
   const { errorMsg } = useSnapshot(roomStore);
-  const initialDeck = JSON.parse(JSON.stringify(sideDeck));
   const [deck, setDeck] = useState<IDeck>(initialDeck);
   const [selectedCard, setSelectedCard] = useState(0);
   const navigate = useNavigate();
@@ -55,11 +54,12 @@ export const Component: React.FC = () => {
     });
   };
   const onReset = () => {
-    setDeck(JSON.parse(JSON.stringify(sideDeck)));
+    setDeck(initialDeck);
     message.info("重置成功");
   };
   const onSummit = () => {
     sendUpdateDeck(deck);
+    sideStore.setSideDeck(deck);
   };
 
   useEffect(() => {
