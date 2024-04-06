@@ -22,7 +22,7 @@ const RegexWrapper: React.FC<{
   Wrapper: React.FunctionComponent<any>;
 }> = ({ text, re, Wrapper }) => {
   const matches = text.match(re);
-  if (!matches) return <>{text}</>;
+  if (!matches) return <span>{text}</span>;
   const sepRe = new RegExp(
     matches?.reduce((acc, cur) => `${acc}|${cur}`) ?? "",
   );

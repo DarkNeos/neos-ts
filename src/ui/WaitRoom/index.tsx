@@ -360,7 +360,7 @@ const ActionButton: React.FC<{
           {stage === RoomStage.WAITING ? (
             <>
               <IconFont type="icon-play" size={12} />
-              开始游戏
+              <span>开始游戏</span>
             </>
           ) : stage === RoomStage.HAND_SELECTING ? (
             <>
