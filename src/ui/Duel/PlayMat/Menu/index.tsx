@@ -33,7 +33,6 @@ import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 import { openChatBox } from "../ChatBox";
 
-const { phase: store } = matStore;
 const { useToken } = theme;
 const clearAllIdleInteractivities = () => {
   for (const card of cardStore.inner) {
@@ -63,8 +62,11 @@ const initialPhaseBind: [
 ];
 
 export const Menu = () => {
-  const { enableBp, enableM2, enableEp, currentPhase } = useSnapshot(store);
-  const { currentPlayer, chainSetting } = useSnapshot(matStore);
+  const {
+    currentPlayer,
+    chainSetting,
+    phase: { enableBp, enableM2, enableEp, currentPhase },
+  } = useSnapshot(matStore);
   const [phaseBind, setPhaseBind] = useState(initialPhaseBind);
   const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
     [],
