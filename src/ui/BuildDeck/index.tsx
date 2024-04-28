@@ -33,7 +33,7 @@ import { subscribeKey } from "valtio/utils";
 
 import { type CardMeta, searchCards } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
-import { FtsConditions } from "@/middleware/sqlite/fts";
+import { emptySearchConditions, FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, emptyDeck, type IDeck, initStore } from "@/stores";
 import {
   Background,
@@ -327,15 +327,6 @@ export const DeckEditor: React.FC<{
 const Search: React.FC = () => {
   const { modal } = App.useApp();
   const [searchWord, setSearchWord] = useState("");
-  const emptySearchConditions: FtsConditions = {
-    atk: { min: null, max: null },
-    def: { min: null, max: null },
-    levels: [],
-    lscales: [],
-    races: [],
-    attributes: [],
-    types: [],
-  };
   const [searchConditions, setSearchConditions] = useState<FtsConditions>(
     emptySearchConditions,
   );

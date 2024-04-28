@@ -6,7 +6,7 @@ import { ygopro } from "@/api";
 import { cardStore, CardType } from "@/stores";
 import { YgoCard } from "@/ui/Shared";
 
-import { showCardModal } from "./CardModal";
+import { showCardModal } from "../CardModal";
 
 const CARD_WIDTH = "6.25rem";
 const DRAWER_WIDTH = "10rem";

@@ -1,5 +1,6 @@
 import { ygopro } from "@/api";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+import { CardMeta } from "@/api";
 //! 一些Neos中基础的数据结构
 
 // 类型
@@ -284,3 +285,164 @@ export const Phase2StringCodeMap: Map<number, number> = new Map([
   [PhaseType.MAIN2, 22],
   [PhaseType.END, 26],
 ]);
+
+// For Announce Card
+const OPCODE_ADD = 0x40000000;
+const OPCODE_SUB = 0x40000001;
+const OPCODE_MUL = 0x40000002;
+const OPCODE_DIV = 0x40000003;
+const OPCODE_AND = 0x40000004;
+const OPCODE_OR = 0x40000005;
+const OPCODE_NEG = 0x40000006;
+const OPCODE_NOT = 0x40000007;
+const OPCODE_ISCODE = 0x40000100;
+const OPCODE_ISSETCARD = 0x40000101;
+const OPCODE_ISTYPE = 0x40000102;
+const OPCODE_ISRACE = 0x40000103;
+const OPCODE_ISATTRIBUTE = 0x40000104;
+
+const CARD_MARINE_DOLPHIN = 78734254;
+const CARD_TWINKLE_MOSS = 13857930;
+
+/*
+ * 判断一张卡是否能被宣言
+ * 用于处理`AnnounceCard`
+ * */
+export function isDeclarable(card: CardMeta, opcodes: number[]): boolean {
+  const stack: number[] = [];
+
+  for (const opcode of opcodes) {
+    switch (opcode) {
+      case OPCODE_ADD: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          stack.push(lhs + rhs);
+        }
+        break;
+      }
+      case OPCODE_SUB: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          stack.push(lhs - rhs);
+        }
+        break;
+      }
+      case OPCODE_MUL: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          stack.push(lhs * rhs);
+        }
+        break;
+      }
+      case OPCODE_DIV: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          stack.push(lhs / rhs);
+        }
+        break;
+      }
+      case OPCODE_AND: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          const b0 = rhs !== 0;
+          const b1 = lhs !== 0;
+          stack.push(Number(b0 && b1));
+        }
+        break;
+      }
+      case OPCODE_OR: {
+        if (stack.length >= 2) {
+          const rhs = stack.pop()!;
+          const lhs = stack.pop()!;
+          const b0 = rhs !== 0;
+          const b1 = lhs !== 0;
+          stack.push(Number(b0 || b1));
+        }
+        break;
+      }
+      case OPCODE_NEG: {
+        if (stack.length >= 1) {
+          const rhs = stack.pop()!;
+          stack.push(-rhs);
+        }
+        break;
+      }
+      case OPCODE_NOT: {
+        if (stack.length >= 1) {
+          const rhs = stack.pop()!;
+          stack.push(Number(rhs === 0));
+        }
+        break;
+      }
+      case OPCODE_ISCODE: {
+        if (stack.length >= 1) {
+          const code = stack.pop()!;
+          stack.push(Number(code === card.id));
+        }
+        break;
+      }
+      case OPCODE_ISSETCARD: {
+        if (stack.length >= 1) {
+          const setCode = stack.pop()!;
+          stack.push(Number(ifSetCard(setCode, card.data.setcode ?? 0)));
+        }
+        break;
+      }
+      case OPCODE_ISTYPE: {
+        if (stack.length >= 1) {
+          const type_ = stack.pop()!;
+          stack.push(Number((type_ & (card.data.type ?? 0)) > 0));
+        }
+        break;
+      }
+      case OPCODE_ISRACE: {
+        if (stack.length >= 1) {
+          const race_ = stack.pop()!;
+          stack.push(Number((race_ & (card.data.race ?? 0)) > 0));
+        }
+        break;
+      }
+      case OPCODE_ISATTRIBUTE: {
+        if (stack.length >= 1) {
+          const attribute_ = stack.pop()!;
+          stack.push(Number((attribute_ & (card.data.attribute ?? 0)) > 0));
+        }
+        break;
+      }
+      default: {
+        stack.push(opcode);
+        break;
+      }
+    }
+  }
+
+  if (stack.length !== 1 || stack.pop() === 0) return false;
+
+  return (
+    card.id === CARD_MARINE_DOLPHIN ||
+    card.id === CARD_TWINKLE_MOSS ||
+    (!(card.data.alias !== 0) &&
+      (card.data.type ?? 0 & (TYPE_MONSTER + TYPE_TOKEN)) !==
+        TYPE_MONSTER + TYPE_TOKEN)
+  );
+}
+
+function ifSetCard(setCodeToAnalyse: number, setCodeFromCard: number): boolean {
+  let res = false;
+  const settype = setCodeToAnalyse & 0xfff;
+  const setsubtype = setCodeToAnalyse & 0xf000;
+  let sc = setCodeFromCard;
+
+  while (sc !== 0) {
+    if ((sc & 0xfff) === settype && (sc & 0xf000 & setsubtype) === setsubtype)
+      res = true;
+    sc = sc >> 16;
+  }
+
+  return res;
+}

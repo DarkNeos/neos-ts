@@ -6,7 +6,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectPositionResponse, ygopro } from "@/api";
 
-import { NeosModal } from "./NeosModal";
+import { NeosModal } from "../NeosModal";
 
 interface PositionModalProps {
   isOpen: boolean;

@@ -1,6 +1,7 @@
-import { fetchCard, fetchStrings, Region, ygopro } from "@/api";
+import { fetchStrings, Region, ygopro } from "@/api";
 import { displayOptionModal } from "@/ui/Duel/Message";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
+import { displayAnnounceModal } from "@/ui/Duel/Message/AnnounceModal";
 
 export default async (announce: MsgAnnounce) => {
   const type_ = announce.announce_type;
@@ -38,17 +39,7 @@ export default async (announce: MsgAnnounce) => {
       break;
     }
     case MsgAnnounce.AnnounceType.Card: {
-      const options = [];
-      for (const option of announce.options) {
-        const meta = fetchCard(option.code);
-        if (meta.text.name) {
-          options.push({
-            info: meta.text.name,
-            response: option.response,
-          });
-        }
-      }
-      await displayOptionModal(fetchStrings(Region.System, 564), options, min);
+      await displayAnnounceModal(announce.options.map((option) => option.code));
 
       break;
     }

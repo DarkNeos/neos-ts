@@ -18,6 +18,7 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
+import { AnnounceModal } from "./Message/AnnounceModal";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 import { ChatBox } from "./PlayMat/ChatBox";
 import { HandChain } from "./PlayMat/HandChain";
@@ -58,6 +59,7 @@ export const Component: React.FC = () => {
       <CheckCounterModal />
       <SortCardModal />
       <SimpleSelectCardsModal />
+      <AnnounceModal />
       <EndModal />
       <ChatBox />
       <HandChain />

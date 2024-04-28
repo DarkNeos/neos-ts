@@ -24,7 +24,7 @@ import { sendSortCardResponse } from "@/api";
 import { CardMeta } from "@/api/cards";
 import { getCardImgUrl } from "@/ui/Shared";
 
-import { NeosModal } from "./NeosModal";
+import { NeosModal } from "../NeosModal";
 
 interface SortOption {
   meta: CardMeta;
