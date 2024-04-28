@@ -16,6 +16,17 @@ export interface FtsConditions {
   atk: { min: number | null; max: number | null }; // 攻击力区间
   def: { min: number | null; max: number | null }; // 防御力区间
 }
+
+export const emptySearchConditions: FtsConditions = {
+  atk: { min: null, max: null },
+  def: { min: null, max: null },
+  levels: [],
+  lscales: [],
+  races: [],
+  attributes: [],
+  types: [],
+};
+
 export interface FtsParams {
   query: string; // 用于全文检索的query
   conditions: FtsConditions; // 过滤条件

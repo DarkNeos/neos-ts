@@ -53,6 +53,7 @@ export const YgoCard: React.FC<Props> = (props) => {
 
 const NeosConfig = useConfig();
 
+// TODO: 这个函数应该从这个文件抽离出来作为公共的函数使用
 export function getCardImgUrl(code: number, back = false) {
   const ASSETS_BASE =
     import.meta.env.BASE_URL === "/"

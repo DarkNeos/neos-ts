@@ -13,7 +13,7 @@ import {
   sendSelectOptionResponse,
 } from "@/api";
 
-import { NeosModal } from "./NeosModal";
+import { NeosModal } from "../NeosModal";
 
 type Options = { info: string; response: number }[];
 
