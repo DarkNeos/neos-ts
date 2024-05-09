@@ -14,11 +14,6 @@ export interface CardType {
   meta: CardMeta; // 卡片元数据
   location: ygopro.CardLocation;
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
-  placeInteractivity?: Interactivity<{
-    controller: number;
-    zone: ygopro.CardZone;
-    sequence: number;
-  }>; // 选择位置状态下的互动信息
   counters: { [type: number]: number }; // 指示器
   isToken: boolean; // 是否是token
   selected: boolean; // 当前卡是否被选择成为效果的对象

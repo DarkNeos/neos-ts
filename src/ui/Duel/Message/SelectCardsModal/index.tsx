@@ -96,6 +96,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
     setSelectedZone(zoneOptions[0]?.value);
   }, [selectables]);
 
+  // 文案
   const [submitText, finishText, cancelText] = [1211, 1296, 1295].map((n) =>
     fetchStrings(Region.System, n),
   );
