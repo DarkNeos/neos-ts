@@ -110,7 +110,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
           <span>{single ? "每次选择一张" : ""}</span>
         </>
       } // TODO: 这里可以再细化一些
-      width={"37.5rem"}
+      width={"38.25rem"}
       okButtonProps={{
         disabled: !submitable,
       }}
