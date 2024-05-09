@@ -26,10 +26,10 @@
     height: var(--block-height-s);
   }
   &.highlight {
-    background: #ffffff35;
+    background: #ffffff4f;
     cursor: pointer;
     &:hover {
-      opacity: 0.7;
+      opacity: 0.5;
     }
   }
   .triangle {
