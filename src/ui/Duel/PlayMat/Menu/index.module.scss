@@ -15,3 +15,13 @@
 :global(.ant-dropdown-menu-item) {
   gap: 0.5rem;
 }
+
+.select-manager {
+  .btn {
+    font-size: 0.9rem;
+  }
+
+  .cancle {
+    color: red;
+  }
+}

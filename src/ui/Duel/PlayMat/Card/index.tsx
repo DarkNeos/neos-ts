@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React, { type CSSProperties, useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 
-import { type CardMeta, Region } from "@/api";
+import { type CardMeta, Region, sendSelectMultiResponse } from "@/api";
 import {
   fetchStrings,
   getCardStr,
@@ -21,7 +21,12 @@ import {
   displayOptionModal,
   displaySimpleSelectCardsModal,
 } from "../../Message";
-import { interactTypeToIcon, interactTypeToString } from "../../utils";
+import {
+  clearAllIdleInteractivities,
+  clearSelectInfo,
+  interactTypeToIcon,
+  interactTypeToString,
+} from "../../utils";
 import styles from "./index.module.scss";
 import {
   attack,
@@ -157,6 +162,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
             // 单卡: 直接召唤/特殊召唤/...
             const card = cards[0];
             sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
+            clearAllIdleInteractivities();
           } else {
             // 场地: 选择卡片
             // TODO: hint
@@ -167,7 +173,10 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
                 response: getNonEffectResponse(action, card),
               })),
             });
-            sendSelectIdleCmdResponse(option[0].response!);
+            if (option.length > 0) {
+              sendSelectIdleCmdResponse(option[0].response!);
+              clearAllIdleInteractivities();
+            }
           }
         },
       }),
@@ -234,6 +243,16 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   const onClick = () => {
     const onCardClick = (card: CardType) => {
+      const selectInfo = card.selectInfo;
+      if (selectInfo.selectable || selectInfo.selected) {
+        if (selectInfo.response !== undefined) {
+          sendSelectMultiResponse([selectInfo.response]);
+          clearSelectInfo();
+        } else {
+          console.error("card is selectable but the response is undefined!");
+        }
+      }
+
       // 中央弹窗展示选中卡牌信息
       // TODO: 同一张卡片，是否重复点击会关闭CardModal？
       displayCardModal(card);
@@ -274,7 +293,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
 
   return (
     <animated.div
-      className={classnames(styles["mat-card"], { [styles.glowing]: glowing })}
+      className={classnames(styles["mat-card"], {
+        /* 有可操作选项或者已被选中*/
+        [styles.glowing]: glowing || snap.selectInfo.selected,
+        [styles.shining]: snap.selectInfo.selectable, // 可以被选中
+      })}
       style={
         {
           transform: to(
@@ -313,13 +336,12 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         >
           <YgoCard
             className={styles.cover}
-            // cardName={snap.meta.text.name}
             code={snap.code === 0 ? snap.meta.id : snap.code}
           />
           <YgoCard className={styles.back} isBack />
         </div>
       </Dropdown>
-      {snap.selected ? <div className={styles.streamer} /> : <></>}
+      {snap.targeted ? <div className={styles.streamer} /> : <></>}
     </animated.div>
   );
 });

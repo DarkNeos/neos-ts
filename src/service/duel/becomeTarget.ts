@@ -10,7 +10,7 @@ export default (becomeTarget: ygopro.StocGameMessage.MsgBecomeTarget) => {
     );
     if (target) {
       console.info(`${target.meta.text.name} become target`);
-      target.selected = true;
+      target.targeted = true;
     } else {
       console.warn(`<BecomeTarget>target from ${location} is null`);
     }

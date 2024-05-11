@@ -23,6 +23,6 @@ export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
   //
   // TODO: 这里每次都要全部遍历一遍，后续可以优化下
   for (const card of cardStore.inner) {
-    card.selected = false;
+    card.targeted = false;
   }
 };
