@@ -102,13 +102,22 @@
   }
 }
 
-.mat-card.glowing .shadow {
-  --shadow-color: #0099ff;
+.frame {
   display: block !important;
   background: var(--shadow-color) !important;
   border-radius: 5px;
   box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
   transform: translateZ(calc((var(--z)) * 1px + 0.1px));
+}
+
+.mat-card.glowing .shadow {
+  --shadow-color: #0099ff;
+  @extend .frame;
+}
+
+.mat-card.shining {
+  --shadow-color: #f4ff00;
+  @extend .frame;
 }
 
 @keyframes focus {

@@ -16,7 +16,12 @@ export interface CardType {
   idleInteractivities: Interactivity<number>[]; // IDLE状态下的互动信息
   counters: { [type: number]: number }; // 指示器
   isToken: boolean; // 是否是token
-  selected: boolean; // 当前卡是否被选择成为效果的对象
+  targeted: boolean; // 当前卡是否被选择成为效果的对象
+  selectInfo: {
+    selectable: boolean; // 是否可以被选择
+    selected: boolean; // 是否已经被选择
+    response?: number; // 被选择时发送给服务器的值
+  };
 }
 
 class CardStore implements NeosStore {

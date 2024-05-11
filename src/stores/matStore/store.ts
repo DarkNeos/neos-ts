@@ -83,6 +83,12 @@ const initialState: Omit<MatState, "reset"> = {
     },
   },
   tossResult: undefined,
+  selectUnselectInfo: {
+    finishable: false,
+    cancelable: false,
+    selectableList: [],
+    selectedList: [],
+  },
   chainSetting: ChainSetting.CHAIN_SMART,
   duelEnd: false,
   // methods
@@ -101,6 +107,7 @@ class MatStore implements MatState, NeosStore {
   unimplemented = initialState.unimplemented;
   handResults = initialState.handResults;
   tossResult = initialState.tossResult;
+  selectUnselectInfo = initialState.selectUnselectInfo;
   duelEnd = initialState.duelEnd;
   // methods
   isMe = initialState.isMe;
@@ -122,6 +129,13 @@ class MatStore implements MatState, NeosStore {
     this.unimplemented = 0;
     this.handResults.me = 0;
     this.handResults.op = 0;
+    this.tossResult = undefined;
+    this.selectUnselectInfo = {
+      finishable: false,
+      cancelable: false,
+      selectableList: [],
+      selectedList: [],
+    };
     this.duelEnd = false;
   }
 }

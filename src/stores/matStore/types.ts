@@ -34,6 +34,13 @@ export interface MatState {
 
   tossResult?: string; // 骰子/硬币结果
 
+  selectUnselectInfo: {
+    finishable: boolean; // 是否可以完成选择
+    cancelable: boolean; // 是否可以取消当前选择
+    selectableList: ygopro.CardLocation[]; // 记录当前可以选择的卡列表
+    selectedList: ygopro.CardLocation[]; // 记录当前已经选择的卡列表
+  };
+
   handResults: BothSide<HandResult> & {
     set: (controller: number, result: HandResult) => void;
   }; // 猜拳结果

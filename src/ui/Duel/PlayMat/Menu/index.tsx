@@ -2,7 +2,6 @@ import {
   ArrowRightOutlined,
   CheckOutlined,
   CloseCircleFilled,
-  LogoutOutlined,
   MessageFilled,
   StepForwardFilled,
 } from "@ant-design/icons";
@@ -16,29 +15,28 @@ import {
   theme,
   Tooltip,
 } from "antd";
+import classNames from "classnames";
 import { cloneElement, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import {
   sendSelectBattleCmdResponse,
   sendSelectIdleCmdResponse,
+  sendSelectSingleResponse,
   sendSurrender,
   ygopro,
 } from "@/api";
-import { cardStore, ChainSetting, matStore } from "@/stores";
+import { ChainSetting, matStore } from "@/stores";
 import { IconFont } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
 
 const { useToken } = theme;
-const clearAllIdleInteractivities = () => {
-  for (const card of cardStore.inner) {
-    card.idleInteractivities = [];
-  }
-};
+
+const FINISH_CANCEL_RESPONSE = -1;
 
 // PhaseType, 中文, response, 是否显示，是否禁用
 const initialPhaseBind: [
@@ -71,8 +69,6 @@ export const Menu = () => {
   const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
     [],
   );
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const endResponse = [
@@ -154,10 +150,9 @@ export const Menu = () => {
 
   const globalDisable = !matStore.isMe(currentPlayer);
 
-  const onExit = () => navigate("/match");
-
   return (
     <div className={styles["menu-container"]}>
+      <SelectManager />
       <DropdownWithTitle
         title="请选择要进入的阶段"
         menu={{ items: phaseSwitchItems }}
@@ -194,13 +189,6 @@ export const Menu = () => {
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>
       </DropdownWithTitle>
-      <Tooltip title="退出页面">
-        <Button
-          icon={<LogoutOutlined style={{ color: "red" }} />}
-          type="text"
-          onClick={onExit}
-        ></Button>
-      </Tooltip>
     </div>
   );
 };
@@ -255,4 +243,23 @@ const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
     default:
       return <IconFont type="icon-chain-broken" />;
   }
+};
+
+const SelectManager: React.FC = () => {
+  const { finishable, cancelable } = useSnapshot(matStore.selectUnselectInfo);
+  const onFinishOrCancel = () => {
+    sendSelectSingleResponse(FINISH_CANCEL_RESPONSE);
+    clearSelectInfo();
+  };
+  return (
+    <div className={styles["select-manager"]}>
+      <Button
+        className={classNames(styles.btn, { [styles.cancle]: cancelable })}
+        disabled={!cancelable && !finishable}
+        onClick={onFinishOrCancel}
+      >
+        {finishable ? "完成选择" : "取消选择"}
+      </Button>
+    </div>
+  );
 };

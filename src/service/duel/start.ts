@@ -75,7 +75,11 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
             text: {},
           },
           isToken: !((i + 1) % 3),
-          selected: false,
+          targeted: false,
+          selectInfo: {
+            selectable: false,
+            selected: false,
+          },
         }),
       ),
     ),

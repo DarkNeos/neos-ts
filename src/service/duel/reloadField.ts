@@ -35,7 +35,11 @@ export default (field: MsgReloadField) => {
               idleInteractivities: [],
               meta: { id: 0, data: {}, text: {} },
               isToken: false,
-              selected: false,
+              targeted: false,
+              selectInfo: {
+                selectable: false,
+                selected: false,
+              },
             }),
         ),
       )
