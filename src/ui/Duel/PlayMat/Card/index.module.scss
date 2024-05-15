@@ -106,8 +106,20 @@
   display: block !important;
   background: var(--shadow-color) !important;
   border-radius: 5px;
-  box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
   transform: translateZ(calc((var(--z)) * 1px + 0.1px));
+  animation: shadow-fadding 2s infinite ease-in-out;
+}
+
+@keyframes shadow-fadding {
+  0% {
+    box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
+  }
+  50% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
+  }
 }
 
 .mat-card.glowing .shadow {
