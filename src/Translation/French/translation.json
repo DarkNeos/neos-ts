@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": "Page d'accueil",
+    "Match": "Correspondance",
+    "DeckBuilding": "Construction de Deck",
+    "PersonalCenter": "Centre personnel",
+    "MengkaCommunity": "Communauté Mengka",
+    "DuelDatabase": "Base de données de duels",
+    "LogOut": "Déconnexion",
+    "LoginToMengka": "Connexion à Mengka",
+    "Fullscreen": "Plein écran"
+  },
+  "Start": {
+    "Title": "Plateforme de combat Yu-gi-oh basée sur le Web",
+    "Keywords": "Open-source, gratuit, léger",
+    "Details": "Neos est une plateforme de combat Yu-gi-oh basée sur le Web open-source. Sur Neos, vous pouvez construire des decks, créer des salles, inviter des amis à se battre. Actuellement, Neos a mis en œuvre la fonctionnalité de combattre les joueurs des plateformes telles que YGOpro, YGOpro2, YGOmobile et KoishiPro, et plus de clients seront pris en charge à l'avenir.",
+    "StartGame": "Commencer le jeu",
+    "LoginToGame": "Se connecter au jeu"
+  },
+  "Match": {
+    "Deck": "Deck",
+    "DeckEdit": "Édition de deck",
+    "MCCompetitiveMatchmakingTitle": "Matchmaking compétitif MC",
+    "MCCompetitiveMatchmakingDesc": "Combattez avec ferveur contre des dizaines de milliers d'autres joueurs sur l'échelle de MyCard, visant à être le plus fort. Règlement à 22h le dernier jour de chaque mois, annonce du classement et distribution des récompenses.",
+    "MCCasualMatchmakingTitle": "Matchmaking détente MC",
+    "MCCasualMatchmakingDesc": "Mettez de côté les victoires et les défaites pour le moment, et profitez du plaisir du duel. Les 20 decks les plus utilisés en matchmaking compétitif au cours de la semaine écoulée seront temporairement désactivés.",
+    "MCCustomRoomTitle": "Salle personnalisée MC",
+    "MCCustomRoomDesc": "Créez ou rejoignez des salles personnalisées sur le serveur MC et affrontez vos amis.",
+    "MCSpectatorListTitle": "Liste des spectateurs",
+    "MCSpectatorListDesc": "Regardez les duels en cours sur Mengka MyCard.",
+    "SinglePlayerModeTitle": "Mode solo",
+    "SinglePlayerModeDesc": "Démarrez un duel contre l'IA sur le serveur Koishi 7210 pour tester votre deck ou juste passer le temps.",
+    "CustomRoomTitle": "Salle personnalisée",
+    "CustomRoomDesc": "Salle personnalisée",
+    "ReplayTitle": "Replay",
+    "ReplayDesc": "Regardez librement les duels passés et revivez ces moments passionnants de retournement.",
+    "WIPTitle": "En développement...",
+    "WIPDesc": "D'autres fonctionnalités à venir."
+  }
+}

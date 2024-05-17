@@ -18,6 +18,7 @@ import "u-reset.css";
 import "overlayscrollbars/overlayscrollbars.css";
 import "@/styles/core.scss";
 import "@/styles/inject.scss";
+import "./i18n";
 
 import { ProConfigProvider } from "@ant-design/pro-provider";
 import { App, ConfigProvider } from "antd";
@@ -27,6 +28,7 @@ import ReactDOM from "react-dom/client";
 
 import { theme } from "@/ui/theme";
 
+import { LanguageProvider } from "./Language/LanguageContext";
 import { NeosRouter } from "./ui/NeosRouter";
 
 const root = ReactDOM.createRoot(
@@ -34,11 +36,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <ConfigProvider theme={theme} locale={zhCN}>
-    <App>
-      <ProConfigProvider dark>
-        <NeosRouter />
-      </ProConfigProvider>
-    </App>
-  </ConfigProvider>,
+  <LanguageProvider>
+    <ConfigProvider theme={theme} locale={zhCN}>
+      <App>
+        <ProConfigProvider dark>
+          <NeosRouter />
+        </ProConfigProvider>
+      </App>
+    </ConfigProvider>
+  </LanguageProvider>,
 );

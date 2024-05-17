@@ -1,6 +1,7 @@
 import { Avatar, Dropdown } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   type LoaderFunction,
   NavLink,
@@ -16,6 +17,7 @@ import {
   removeCookie,
 } from "@/api";
 import { useConfig } from "@/config";
+import LanguageSelector from "@/Language/LanguageSelector";
 import { accountStore } from "@/stores";
 
 import styles from "./index.module.scss";
@@ -58,6 +60,8 @@ const HeaderBtn: React.FC<
 };
 
 export const Component = () => {
+  const { t } = useTranslation("Header");
+
   // 捕获SSO登录
   const routerLocation = useLocation();
   useEffect(() => {
@@ -95,14 +99,15 @@ export const Component = () => {
             />
           </a>
 
-          <HeaderBtn to="/">主页</HeaderBtn>
+          <HeaderBtn to="/">{t("HomePage")}</HeaderBtn>
           <HeaderBtn to="/match" disabled={!logined}>
-            匹配
+            {t("Match")}
           </HeaderBtn>
           <HeaderBtn to="/build" disabled={!logined}>
-            组卡
+            {t("DeckBuilding")}
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
+          <LanguageSelector />
           <span className={styles.profile}>
             <Dropdown
               arrow
@@ -111,14 +116,14 @@ export const Component = () => {
                   {
                     label: (
                       <a href={NeosConfig.profileUrl} target="_blank">
-                        个人中心
+                        {t("PersonalCenter")}
                       </a>
                     ),
                   },
                   {
                     label: (
                       <a href="https://ygobbs.com" target="_blank">
-                        萌卡社区
+                        {t("MengkaCommunity")}
                       </a>
                     ),
                   },
@@ -128,16 +133,16 @@ export const Component = () => {
                         href="https://mycard.moe/ygopro/arena/#/"
                         target="_blank"
                       >
-                        决斗数据库
+                        {t("DuelDatabase")}
                       </a>
                     ),
                   },
                   {
-                    label: logined ? "退出登录" : "登录萌卡",
+                    label: logined ? t("LogOut") : t("LoginToMengka"),
                     onClick: logined ? onLogout : onLogin,
                   },
                   {
-                    label: "全屏",
+                    label: t("Fullscreen"),
                     onClick: () => document.documentElement.requestFullscreen(),
                     danger: true,
                   },

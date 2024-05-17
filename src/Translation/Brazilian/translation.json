@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": "Página Inicial",
+    "Match": "Match",
+    "DeckBuilding": "Montagem de baralho",
+    "PersonalCenter": "Centro pessoal",
+    "MengkaCommunity": "Comunidade Mengka",
+    "DuelDatabase": "Base de dados de duelos",
+    "LogOut": "Sair",
+    "LoginToMengka": "Entrar no Mengka",
+    "Fullscreen": "Tela cheia"
+  },
+  "Start": {
+    "Title": "Plataforma de batalha online de Yu-Gi-Oh!",
+    "Keywords": "Código aberto, gratuito, leve",
+    "Details": "Neos é uma plataforma de batalha online de Yu-gi-oh de código aberto. No Neos, você pode construir decks, criar salas, convidar amigos para batalhas. Atualmente, o Neos implementou a funcionalidade de batalhar contra jogadores de plataformas como YGOpro, YGOpro2, YGOmobile e KoishiPro, e mais clientes serão suportados no futuro.",
+    "StartGame": "Iniciar jogo",
+    "LoginToGame": "Entrar no jogo"
+  },
+  "Match": {
+    "Deck": "Deck",
+    "DeckEdit": "Edição de deck",
+    "MCCompetitiveMatchmakingTitle": "Duelo Competitivo",
+    "MCCompetitiveMatchmakingDesc": "Lute ferozmente com dezenas de milhares de outros jogadores na escada do MyCard, visando ser o mais forte. Liquidação às 22:00 do último dia de cada mês, anúncio de classificação e distribuição de recompensas.",
+    "MCCasualMatchmakingTitle": "Duelo Casual",
+    "MCCasualMatchmakingDesc": "Por enquanto, deixe de lado as vitórias e as derrotas e aproveite a diversão dos duelos. Os 20 decks mais usados no combate competitivo durante a última semana serão temporariamente desativados.",
+    "MCCustomRoomTitle": "Sala Personalizada",
+    "MCCustomRoomDesc": "Crie ou entre em salas personalizadas no servidor e batalhe com amigos.",
+    "MCSpectatorListTitle": "Lista de espectadores",
+    "MCSpectatorListDesc": "Assista aos duelos atualmente em andamento no Mengka MyCard.",
+    "SinglePlayerModeTitle": "Modo de um jogador",
+    "SinglePlayerModeDesc": "Inicie um duelo contra a IA no servidor Koishi 7210 para testar seu deck ou apenas passar o tempo.",
+    "CustomRoomTitle": "Sala Personalizada",
+    "CustomRoomDesc": "Crie uma sala com regras personalizadas e desafie seus amigos.",
+    "ReplayTitle": "Replay",
+    "ReplayDesc": "Assista livremente aos duelos passados e reviva aqueles momentos emocionantes de reversão.",
+    "WIPTitle": "Em desenvolvimento...",
+    "WIPDesc": "Aguarde por outras funcionalidades."
+  }
+}

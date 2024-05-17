@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { App, Button, Modal, Space } from "antd";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
@@ -51,6 +52,7 @@ export const Component: React.FC = () => {
   const [entertainMatchLoading, setEntertainMatchLoading] = useState(false); // 娱乐匹配的loading状态
   const [watchLoading, setWatchLoading] = useState(false); // 观战模式的loading状态
   const navigate = useNavigate();
+  const { t } = useTranslation("Match");
 
   // 匹配
   const onMatch = async (arena: "athletic" | "entertain") => {
@@ -222,7 +224,7 @@ export const Component: React.FC = () => {
         <div className={styles.wrap}>
           <Space size={16}>
             <Select
-              title="卡组"
+              title={t("Deck")}
               showSearch
               value={deckName}
               style={{ width: 200 }}
@@ -246,13 +248,13 @@ export const Component: React.FC = () => {
               onClick={() => navigate("/build")}
               size="large"
             >
-              卡组编辑
+              {t("DeckEdit")}
             </Button>
           </Space>
           <div className={styles["mode-select"]}>
             <Mode
-              title="MC竞技匹配"
-              desc="与MyCard天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。"
+              title={t("MCCompetitiveMatchmakingTitle")}
+              desc={t("MCCompetitiveMatchmakingDesc")}
               icon={
                 athleticMatchLoading ? (
                   <LoadingOutlined />
@@ -263,8 +265,8 @@ export const Component: React.FC = () => {
               onClick={onCompetitiveMatch}
             />
             <Mode
-              title="MC娱乐匹配"
-              desc="暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被禁用。"
+              title={t("MCCasualMatchmakingTitle")}
+              desc={t("MCCasualMatchmakingDesc")}
               icon={
                 entertainMatchLoading ? (
                   <LoadingOutlined />
@@ -275,20 +277,20 @@ export const Component: React.FC = () => {
               onClick={onEntertainMatch}
             />
             <Mode
-              title="MC服自定义房间"
-              desc="在MC服务器上创建或者加入自定义房间，与牌友约战。"
+              title={t("MCCustomRoomTitle")}
+              desc={t("MCCustomRoomDesc")}
               icon={<BulbOutlined />}
               onClick={onMCCustomRoom}
             />
             <Mode
-              title="MC观战列表"
-              desc="观看萌卡MyCard上正在进行的决斗。"
+              title={t("MCSpectatorListTitle")}
+              desc={t("MCSpectatorListDesc")}
               icon={watchLoading ? <LoadingOutlined /> : <PlayCircleFilled />}
               onClick={onMCWatch}
             />
             <Mode
-              title="单人模式"
-              desc="在Koishi 7210服务器上开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。"
+              title={t("SinglePlayerModeTitle")}
+              desc={t("SinglePlayerModeDesc")}
               icon={
                 singleLoading ? (
                   <LoadingOutlined />
@@ -299,18 +301,18 @@ export const Component: React.FC = () => {
               onClick={onAIMatch}
             />
             <Mode
-              title="自定义房间"
-              desc="创建自定义规则的房间，与好友约战。"
+              title={t("CustomRoomTitle")}
+              desc={t("CustomRoomDesc")}
               icon={<SettingFilled />}
               onClick={onCustomRoom}
             />
             <Mode
-              title="录像回放"
-              desc="自由查看进行过的决斗，回味那些精彩的逆转瞬间。"
+              title={t("ReplayTitle")}
+              desc={t("ReplayDesc")}
               icon={<IconFont type="icon-record" size={24} />}
               onClick={replayOpen}
             />
-            <Mode title="开发中..." desc="其他功能敬请期待。" icon={null} />
+            <Mode title={t("WIPTitle")} desc={t("WIPDesc")} icon={null} />
           </div>
         </div>
       </div>

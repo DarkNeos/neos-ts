@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": " Página Principal",
+    "Match": "Emparejamiento",
+    "DeckBuilding": "Construcción de Mazo",
+    "PersonalCenter": "Centro personal",
+    "MengkaCommunity": "Comunidad Mengka",
+    "DuelDatabase": "Base de datos de duelos",
+    "LogOut": "Cerrar sesión",
+    "LoginToMengka": "Iniciar sesión en Mengka",
+    "Fullscreen": "Pantalla completa"
+  },
+  "Start": {
+    "Title": "Plataforma de batalla basada en la web de Yu-gi-oh",
+    "Keywords": "Código abierto, gratuito, ligero",
+    "Details": "Neos es una plataforma de batalla Yu-gi-oh basada en la web de código abierto. En Neos, puedes construir mazos, crear salas, invitar a amigos a batallas. Actualmente, Neos ha implementado la funcionalidad de batallar contra jugadores de plataformas como YGOpro, YGOpro2, YGOmobile y KoishiPro, y más clientes serán compatibles en el futuro.",
+    "StartGame": "Comenzar juego",
+    "LoginToGame": "Iniciar sesión en el juego"
+  },
+  "Match": {
+    "Deck": "Mazo",
+    "DeckEdit": "Edición de mazo",
+    "MCCompetitiveMatchmakingTitle": "Combate competitivo en MC",
+    "MCCompetitiveMatchmakingDesc": "Lucha ferozmente con decenas de miles de otros jugadores en la escalera de MyCard, aspirando a ser el más fuerte. Liquidación a las 22:00 del último día de cada mes, anuncio de clasificación y distribución de recompensas.",
+    "MCCasualMatchmakingTitle": "Combate casual en MC",
+    "MCCasualMatchmakingDesc": "Por ahora, deja de lado las victorias y las derrotas, y disfruta la diversión de los duelos. Los 20 mazos más utilizados en el combate competitivo durante la última semana serán temporalmente desactivados.",
+    "MCCustomRoomTitle": "Sala personalizada",
+    "MCCustomRoomDesc": "Crea o únete a salas personalizadas en el servidor y juega con amigos.",
+    "MCSpectatorListTitle": "Lista de espectadores",
+    "MCSpectatorListDesc": "Observa los duelos que se están llevando a cabo en Mengka MyCard.",
+    "SinglePlayerModeTitle": "Modo un jugador",
+    "SinglePlayerModeDesc": "Inicia un duelo contra la IA en el servidor Koishi 7210 para probar tu mazo o simplemente pasar el tiempo.",
+    "CustomRoomTitle": "Sala personalizada",
+    "CustomRoomDesc": "Crea una sala con reglas personalizadas y desafía a tus amigos.",
+    "ReplayTitle": "Repetición",
+    "ReplayDesc": "Mira libremente duelos pasados y revive esos emocionantes momentos de reversión.",
+    "WIPTitle": "En desarrollo...",
+    "WIPDesc": "Espere por otras funciones."
+  }
+}

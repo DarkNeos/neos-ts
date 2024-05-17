@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": "Home Page",
+    "Match": "Match",
+    "DeckBuilding": "Deck Building",
+    "PersonalCenter": "Personal Center",
+    "MengkaCommunity": "Mengka Community",
+    "DuelDatabase": "Duel Database",
+    "LogOut": "Log out",
+    "LoginToMengka": "Login to Mengka",
+    "Fullscreen": "Fullscreen"
+  },
+  "Start": {
+    "Title": "Yu-Gi-Oh! Web Based Battle Platform",
+    "Keywords": "Open Source, Free, Lightweight",
+    "Details": "Neos is an open-source Yu-gi-oh web-based battle platform. In Neos, you can build decks, create rooms, invite friends for battles. Currently, Neos has implemented the functionality to battle players from platforms such as YGOpro, YGOpro2, YGOmobile, and KoishiPro, and more clients will be supported in the future.",
+    "StartGame": "Start game",
+    "LoginToGame": "Start game"
+  },
+  "Match": {
+    "Deck": "Deck",
+    "DeckEdit": "Deck Edit",
+    "MCCompetitiveMatchmakingTitle": "Competitive Matchmaking",
+    "MCCompetitiveMatchmakingDesc": "Battle fiercely with tens of thousands of other players on MyCard ladder, aiming to be the strongest. Settlement at 22:00 on the last day of each month, ranking announcement and rewards distribution.",
+    "MCCasualMatchmakingTitle": "Casual Matchmaking",
+    "MCCasualMatchmakingDesc": "Set aside wins and losses for now, and enjoy the fun of dueling. The top 20 most used decks in competitive matchmaking over the past week will be temporarily disabled.",
+    "MCCustomRoomTitle": "Custom Room",
+    "MCCustomRoomDesc": "Create or join custom rooms on MC server and battle with friends.",
+    "MCSpectatorListTitle": "Spectator List",
+    "MCSpectatorListDesc": "Watch the duels currently taking place on Mengka MyCard.",
+    "SinglePlayerModeTitle": "Single Player Mode",
+    "SinglePlayerModeDesc": "Start a duel against AI on Koishi 7210 server to test your deck or just pass the time.",
+    "CustomRoomTitle": "Custom Room",
+    "CustomRoomDesc": "Create a room with custom rules and challenge friends.",
+    "ReplayTitle": "Replay",
+    "ReplayDesc": "Freely watch past duels and relive those exciting moments of reversal.",
+    "WIPTitle": "Under development...",
+    "WIPDesc": "Stay tuned for other features."
+  }
+}

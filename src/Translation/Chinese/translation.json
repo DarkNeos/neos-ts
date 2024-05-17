@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": "主页",
+    "Match": "匹配",
+    "DeckBuilding": "组卡",
+    "PersonalCenter": "个人中心",
+    "MengkaCommunity": "萌卡社区",
+    "DuelDatabase": "决斗数据库",
+    "LogOut": "退出登录",
+    "LoginToMengka": "登录萌卡",
+    "Fullscreen": "全屏"
+  },
+  "Start": {
+    "Title": "游戏王网页端对战平台",
+    "Keywords": "开源、免费、轻量级",
+    "Details": "Neos是一个开源的游戏王网页端对战平台。在Neos中，你可以组建卡组，创建房间，邀请好友进行对战。目前，Neos已经实现了与来自YGOpro、YGOpro2、YGOmobile和KoishiPro等平台的玩家进行对战的功能，而今后更多客户端也将得到支持。",
+    "StartGame": "开始游戏",
+    "LoginToGame": "登录游戏"
+  },
+  "Match": {
+    "Deck": "卡组",
+    "DeckEdit": "卡组编辑",
+    "MCCompetitiveMatchmakingTitle": "MC竞技匹配",
+    "MCCompetitiveMatchmakingDesc": "与MyCard天梯其他数万名玩家激战，力争最强。每月最后一天22点结算，公布排名并获取奖励。",
+    "MCCasualMatchmakingTitle": "MC娱乐匹配",
+    "MCCasualMatchmakingDesc": "暂且搁置胜负，享受决斗的乐趣。过去一周竞技匹配使用数最多的20个卡组将被禁用。",
+    "MCCustomRoomTitle": "MC服自定义房间",
+    "MCCustomRoomDesc": "在MC服务器上创建或者加入自定义房间，与牌友约战。",
+    "MCSpectatorListTitle": "MC观战列表",
+    "MCSpectatorListDesc": "观看萌卡MyCard上正在进行的决斗",
+    "SinglePlayerModeTitle": "单人模式",
+    "SinglePlayerModeDesc": "在Koishi 7210服务器上开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。",
+    "CustomRoomTitle": "自定义房间",
+    "CustomRoomDesc": "创建自定义规则的房间，与好友约战。",
+    "ReplayTitle": "录像回放",
+    "ReplayDesc": "自由查看进行过的决斗，回味那些精彩的逆转瞬间。",
+    "WIPTitle": "开发中...",
+    "WIPDesc": "其他功能敬请期待。"
+  }
+}

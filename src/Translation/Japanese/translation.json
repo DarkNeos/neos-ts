@@ -1,0 +1,40 @@
+{
+  "Header": {
+    "HomePage": "ホームページ",
+    "Match": "マッチ",
+    "DeckBuilding": "デッキ構築",
+    "PersonalCenter": "個人センター",
+    "MengkaCommunity": "萌卡コミュニティ",
+    "DuelDatabase": "デュエルデータベース",
+    "LogOut": "ログアウト",
+    "LoginToMengka": "萌卡にログインする",
+    "Fullscreen": "フルスクリーン"
+  },
+  "Start": {
+    "Title": "遊戯王ウェブベースのバトルプラットフォーム",
+    "Keywords": "オープンソース、無料、軽量",
+    "Details": "Neosはオープンソースの遊戯王ウェブベースのバトルプラットフォームです。Neosでは、デッキを組み、部屋を作成し、友達を招待して対戦することができます。現在、Neosでは、YGOpro、YGOpro2、YGOmobile、KoishiProなどのプラットフォームからのプレイヤーとの対戦機能が実装されており、今後はさらに多くのクライアントがサポートされる予定です。",
+    "StartGame": "ゲームを開始する",
+    "LoginToGame": "ゲームにログインする"
+  },
+  "Match": {
+    "Deck": "デッキ",
+    "DeckEdit": "デッキ編集",
+    "MCCompetitiveMatchmakingTitle": "MC競技マッチメイキング",
+    "MCCompetitiveMatchmakingDesc": "MyCardのランキングで他の何万人ものプレイヤーと激闘を繰り広げ、最強を目指します。毎月最終日の22時に決済、ランキング発表と報酬の配布が行われます。",
+    "MCCasualMatchmakingTitle": "MCカジュアルマッチメイキング",
+    "MCCasualMatchmakingDesc": "今のところ勝ち負けを置いて、デュエルの楽しみを味わってください。過去1週間の競技マッチメイキングで最も使用された20のデッキが一時的に無効にされます。",
+    "MCCustomRoomTitle": "MCカスタムルーム",
+    "MCCustomRoomDesc": "MCサーバーでカスタムルームを作成または参加し、友達と対戦しましょう。",
+    "MCSpectatorListTitle": "MC観戦リスト",
+    "MCSpectatorListDesc": "Mengka MyCardで現在進行中のデュエルを観戦しましょう。",
+    "SinglePlayerModeTitle": "シングルプレイヤーモード",
+    "SinglePlayerModeDesc": "Koishi 7210サーバーでAIとのデュエルを開始し、自分のデッキをテストしたり、ただ時間を潰したりします。",
+    "CustomRoomTitle": "カスタムルーム",
+    "CustomRoomDesc": "カスタムルールの部屋を作成し、友達と対戦しましょう。",
+    "ReplayTitle": "リプレイ",
+    "ReplayDesc": "過去のデュエルを自由に見て、それらのエキサイティングな逆転の瞬間を振り返りましょう。",
+    "WIPTitle": "開発中...",
+    "WIPDesc": "他の機能をお楽しみに。"
+  }
+}
