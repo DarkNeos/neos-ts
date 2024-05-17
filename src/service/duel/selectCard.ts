@@ -1,4 +1,4 @@
-import { ygopro } from "@/api";
+import { sendSelectMultiResponse, ygopro } from "@/api";
 import MsgSelectCard = ygopro.StocGameMessage.MsgSelectCard;
 
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
@@ -9,6 +9,12 @@ export default async (selectCard: MsgSelectCard) => {
   const { cancelable, min, max, cards } = selectCard;
 
   // TODO: handle release_param
+
+  if (!cancelable && cards.length === 1) {
+    // auto send
+    sendSelectMultiResponse([cards[0].response]);
+    return;
+  }
 
   const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
     cards,

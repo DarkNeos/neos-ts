@@ -3,8 +3,8 @@ import { cardStore, matStore } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";
+import { isAllOnField } from "./util";
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
-const { MZONE, SZONE, HAND } = ygopro.CardZone;
 
 export default async ({
   finishable,
@@ -15,9 +15,9 @@ export default async ({
   selected_cards: selectedCards,
 }: MsgSelectUnselectCard) => {
   if (
-    selectableCards
-      .concat(selectedCards)
-      .find((info) => !isOnField(info.location)) === undefined
+    isAllOnField(
+      selectableCards.concat(selectedCards).map((info) => info.location),
+    )
   ) {
     // 所有可选卡和已选卡都是在场上或手牌
     // 通过让玩家点击场上的卡来进行选择
@@ -65,7 +65,3 @@ export default async ({
     });
   }
 };
-
-function isOnField(location: ygopro.CardLocation): boolean {
-  return [MZONE, SZONE, HAND].includes(location.zone);
-}
