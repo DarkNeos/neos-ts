@@ -13,6 +13,11 @@ export default async (selectOption: ygopro.StocGameMessage.MsgSelectOption) => {
     sendSelectOptionResponse(0);
     return;
   }
+  if (options.length === 1) {
+    sendSelectOptionResponse(options[0].response);
+    return;
+  }
+
   await displayOptionModal(
     fetchStrings(Region.System, 556),
     options.map(({ code, response }) => ({
