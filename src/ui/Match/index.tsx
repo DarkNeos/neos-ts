@@ -19,7 +19,7 @@ import {
 } from "@/api";
 import { useConfig } from "@/config";
 import { accountStore, deckStore, resetUniverse, roomStore } from "@/stores";
-import { Background, IconFont, Select } from "@/ui/Shared";
+import { Background, IconFont, ScrollableArea, Select } from "@/ui/Shared";
 
 import {
   CustomRoomContent,
@@ -52,7 +52,7 @@ export const Component: React.FC = () => {
   const [entertainMatchLoading, setEntertainMatchLoading] = useState(false); // 娱乐匹配的loading状态
   const [watchLoading, setWatchLoading] = useState(false); // 观战模式的loading状态
   const navigate = useNavigate();
-  const { t } = useTranslation("Match");
+  const { t: i18n } = useTranslation("Match");
 
   // 匹配
   const onMatch = async (arena: "athletic" | "entertain") => {
@@ -224,7 +224,7 @@ export const Component: React.FC = () => {
         <div className={styles.wrap}>
           <Space size={16}>
             <Select
-              title={t("Deck")}
+              title={i18n("Deck")}
               showSearch
               value={deckName}
               style={{ width: 200 }}
@@ -248,13 +248,13 @@ export const Component: React.FC = () => {
               onClick={() => navigate("/build")}
               size="large"
             >
-              {t("DeckEdit")}
+              {i18n("DeckEdit")}
             </Button>
           </Space>
           <div className={styles["mode-select"]}>
             <Mode
-              title={t("MCCompetitiveMatchmakingTitle")}
-              desc={t("MCCompetitiveMatchmakingDesc")}
+              title={i18n("MCCompetitiveMatchmakingTitle")}
+              desc={i18n("MCCompetitiveMatchmakingDesc")}
               icon={
                 athleticMatchLoading ? (
                   <LoadingOutlined />
@@ -265,8 +265,8 @@ export const Component: React.FC = () => {
               onClick={onCompetitiveMatch}
             />
             <Mode
-              title={t("MCCasualMatchmakingTitle")}
-              desc={t("MCCasualMatchmakingDesc")}
+              title={i18n("MCCasualMatchmakingTitle")}
+              desc={i18n("MCCasualMatchmakingDesc")}
               icon={
                 entertainMatchLoading ? (
                   <LoadingOutlined />
@@ -277,20 +277,20 @@ export const Component: React.FC = () => {
               onClick={onEntertainMatch}
             />
             <Mode
-              title={t("MCCustomRoomTitle")}
-              desc={t("MCCustomRoomDesc")}
+              title={i18n("MCCustomRoomTitle")}
+              desc={i18n("MCCustomRoomDesc")}
               icon={<BulbOutlined />}
               onClick={onMCCustomRoom}
             />
             <Mode
-              title={t("MCSpectatorListTitle")}
-              desc={t("MCSpectatorListDesc")}
+              title={i18n("MCSpectatorListTitle")}
+              desc={i18n("MCSpectatorListDesc")}
               icon={watchLoading ? <LoadingOutlined /> : <PlayCircleFilled />}
               onClick={onMCWatch}
             />
             <Mode
-              title={t("SinglePlayerModeTitle")}
-              desc={t("SinglePlayerModeDesc")}
+              title={i18n("SinglePlayerModeTitle")}
+              desc={i18n("SinglePlayerModeDesc")}
               icon={
                 singleLoading ? (
                   <LoadingOutlined />
@@ -301,18 +301,18 @@ export const Component: React.FC = () => {
               onClick={onAIMatch}
             />
             <Mode
-              title={t("CustomRoomTitle")}
-              desc={t("CustomRoomDesc")}
+              title={i18n("CustomRoomTitle")}
+              desc={i18n("CustomRoomDesc")}
               icon={<SettingFilled />}
               onClick={onCustomRoom}
             />
             <Mode
-              title={t("ReplayTitle")}
-              desc={t("ReplayDesc")}
+              title={i18n("ReplayTitle")}
+              desc={i18n("ReplayDesc")}
               icon={<IconFont type="icon-record" size={24} />}
               onClick={replayOpen}
             />
-            <Mode title={t("WIPTitle")} desc={t("WIPDesc")} icon={null} />
+            <Mode title={i18n("WIPTitle")} desc={i18n("WIPDesc")} icon={null} />
           </div>
         </div>
       </div>
@@ -330,8 +330,10 @@ const Mode: React.FC<{
   onClick?: () => void;
 }> = ({ title, desc, icon, onClick }) => (
   <div className={styles.mode} onClick={onClick}>
-    <div className={styles.icon}>{icon}</div>
-    <div className={styles.title}>{title}</div>
-    <div className={styles.desc}>{desc}</div>
+    <ScrollableArea maxHeight="15rem">
+      <div className={styles.icon}>{icon}</div>
+      <div className={styles.title}>{title}</div>
+      <div className={styles.desc}>{desc}</div>
+    </ScrollableArea>
   </div>
 );

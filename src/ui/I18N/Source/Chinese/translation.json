@@ -4,10 +4,10 @@
     "Match": "匹配",
     "DeckBuilding": "组卡",
     "PersonalCenter": "个人中心",
-    "MengkaCommunity": "萌卡社区",
+    "MyCardCommunity": "萌卡社区",
     "DuelDatabase": "决斗数据库",
     "LogOut": "退出登录",
-    "LoginToMengka": "登录萌卡",
+    "Login": "登录萌卡",
     "Fullscreen": "全屏"
   },
   "Start": {

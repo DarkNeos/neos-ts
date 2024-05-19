@@ -4,10 +4,10 @@
     "Match": "マッチ",
     "DeckBuilding": "デッキ構築",
     "PersonalCenter": "個人センター",
-    "MengkaCommunity": "萌卡コミュニティ",
+    "MyCardCommunity": "萌卡コミュニティ",
     "DuelDatabase": "デュエルデータベース",
     "LogOut": "ログアウト",
-    "LoginToMengka": "萌卡にログインする",
+    "Login": "萌卡にログインする",
     "Fullscreen": "フルスクリーン"
   },
   "Start": {

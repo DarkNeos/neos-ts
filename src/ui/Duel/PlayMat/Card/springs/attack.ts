@@ -2,8 +2,8 @@
 import { easings } from "@react-spring/web";
 
 import { isMe } from "@/stores";
-import { matConfig } from "@/ui/Shared";
 
+import { matConfig } from "../../css";
 import type { AttackFunc } from "./types";
 import { asyncStart } from "./utils";
 

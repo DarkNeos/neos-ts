@@ -17,9 +17,9 @@ import {
   removeCookie,
 } from "@/api";
 import { useConfig } from "@/config";
-import LanguageSelector from "@/Language/LanguageSelector";
 import { accountStore } from "@/stores";
 
+import { I18NSelector } from "../I18N";
 import styles from "./index.module.scss";
 import {
   getLoginStatus,
@@ -60,7 +60,7 @@ const HeaderBtn: React.FC<
 };
 
 export const Component = () => {
-  const { t } = useTranslation("Header");
+  const { t: i18n } = useTranslation("Header");
 
   // 捕获SSO登录
   const routerLocation = useLocation();
@@ -99,15 +99,15 @@ export const Component = () => {
             />
           </a>
 
-          <HeaderBtn to="/">{t("HomePage")}</HeaderBtn>
+          <HeaderBtn to="/">{i18n("HomePage")}</HeaderBtn>
           <HeaderBtn to="/match" disabled={!logined}>
-            {t("Match")}
+            {i18n("Match")}
           </HeaderBtn>
           <HeaderBtn to="/build" disabled={!logined}>
-            {t("DeckBuilding")}
+            {i18n("DeckBuilding")}
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
-          <LanguageSelector />
+          <I18NSelector />
           <span className={styles.profile}>
             <Dropdown
               arrow
@@ -116,14 +116,14 @@ export const Component = () => {
                   {
                     label: (
                       <a href={NeosConfig.profileUrl} target="_blank">
-                        {t("PersonalCenter")}
+                        {i18n("PersonalCenter")}
                       </a>
                     ),
                   },
                   {
                     label: (
                       <a href="https://ygobbs.com" target="_blank">
-                        {t("MengkaCommunity")}
+                        {i18n("MyCardCommunity")}
                       </a>
                     ),
                   },
@@ -133,16 +133,16 @@ export const Component = () => {
                         href="https://mycard.moe/ygopro/arena/#/"
                         target="_blank"
                       >
-                        {t("DuelDatabase")}
+                        {i18n("DuelDatabase")}
                       </a>
                     ),
                   },
                   {
-                    label: logined ? t("LogOut") : t("LoginToMengka"),
+                    label: logined ? i18n("LogOut") : i18n("Login"),
                     onClick: logined ? onLogout : onLogin,
                   },
                   {
-                    label: t("Fullscreen"),
+                    label: i18n("Fullscreen"),
                     onClick: () => document.documentElement.requestFullscreen(),
                     danger: true,
                   },
