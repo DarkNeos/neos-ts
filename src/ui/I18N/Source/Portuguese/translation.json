@@ -4,10 +4,10 @@
     "Match": "Match",
     "DeckBuilding": "Montagem de baralho",
     "PersonalCenter": "Centro pessoal",
-    "MengkaCommunity": "Comunidade Mengka",
+    "MyCardCommunity": "Comunidade Mengka",
     "DuelDatabase": "Base de dados de duelos",
     "LogOut": "Terminar sessão",
-    "LoginToMengka": "Iniciar sessão no Mengka",
+    "Login": "Iniciar sessão no Mengka",
     "Fullscreen": "Ecrã completo"
   },
   "Start": {

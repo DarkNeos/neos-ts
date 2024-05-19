@@ -1,7 +1,7 @@
 import { ygopro } from "@/api";
 import { isMe } from "@/stores";
-import { matConfig } from "@/ui/Shared";
 
+import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
 import { asyncStart } from "./utils";
 

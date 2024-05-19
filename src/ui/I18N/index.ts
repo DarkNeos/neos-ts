@@ -1,29 +1,18 @@
+export * from "./I18NContext";
+export * from "./I18NSelector";
+
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import translationBrazilian from "./Translation/Brazilian/translation.json";
-import translationChinese from "./Translation/Chinese/translation.json";
-//Import all translation files
-import translationEnglish from "./Translation/English/translation.json";
-import translationFrench from "./Translation/French/translation.json";
-import translationJapanese from "./Translation/Japanese/translation.json";
-import translationPortuguese from "./Translation/Portuguese/translation.json";
-import translationSpanish from "./Translation/Spanish/translation.json";
+/* Import all translation files */
+import translationBrazilian from "./Source/Brazilian/translation.json";
+import translationChinese from "./Source/Chinese/translation.json";
+import translationEnglish from "./Source/English/translation.json";
+import translationFrench from "./Source/French/translation.json";
+import translationJapanese from "./Source/Japanese/translation.json";
+import translationPortuguese from "./Source/Portuguese/translation.json";
+import translationSpanish from "./Source/Spanish/translation.json";
 
-//---Using translation
-// const resources = {
-//     en: {
-//         translation: translationEnglish,
-//     },
-//     es: {
-//         translation: translationSpanish,
-//     },
-//     fr: {
-//         translation: translationFrench,
-//     },
-// }
-
-//---Using different namespaces
 const resources = {
   cn: {
     Header: translationChinese.Header,
