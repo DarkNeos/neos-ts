@@ -1,4 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
@@ -12,6 +13,7 @@ import styles from "./index.module.scss";
 const NeosConfig = useConfig();
 
 export const Component: React.FC = () => {
+  const { t } = useTranslation("Start");
   const { user } = useSnapshot(accountStore);
   return (
     <>
@@ -24,11 +26,9 @@ export const Component: React.FC = () => {
               src={`${NeosConfig.assetsPath}/neos-logo.svg`}
               alt="YGO NEOS"
             />
-            <div className={styles.title}>游戏王网页端对战平台</div>
-            <div className={styles.keywords}>开源、免费、轻量级</div>
-            <div className={styles.details}>
-              Neos是一个开源的游戏王网页端对战平台。在Neos中，你可以组建卡组，创建房间，邀请好友进行对战。目前，Neos已经实现了与来自YGOpro、YGOpro2、YGOmobile和KoishiPro等平台的玩家进行对战的功能，而今后更多客户端也将得到支持。
-            </div>
+            <div className={styles.title}>{t("Title")}</div>
+            <div className={styles.keywords}>{t("Keywords")}</div>
+            <div className={styles.details}>{t("Details")}</div>
             <LoginBtn logined={Boolean(user)} />
           </div>
           <div className={styles.right}>
@@ -49,6 +49,7 @@ export const Component: React.FC = () => {
 Component.displayName = "Start";
 
 const LoginBtn: React.FC<{ logined: boolean }> = ({ logined }) => {
+  const { t } = useTranslation("Start");
   const navigate = useNavigate();
 
   const loginViaSSO = () =>
@@ -62,7 +63,7 @@ const LoginBtn: React.FC<{ logined: boolean }> = ({ logined }) => {
       style={{ marginTop: "auto" }}
       onClick={logined ? goToMatch : loginViaSSO}
     >
-      <span>{logined ? "开始游戏" : "登录游戏"}</span>
+      <span>{logined ? t("StartGame") : t("LoginToGame")}</span>
       <RightOutlined />
     </SpecialButton>
   );

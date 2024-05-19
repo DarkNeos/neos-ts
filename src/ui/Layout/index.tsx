@@ -1,6 +1,7 @@
 import { Avatar, Dropdown } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   type LoaderFunction,
   NavLink,
@@ -18,6 +19,7 @@ import {
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
+import { I18NSelector } from "../I18N";
 import styles from "./index.module.scss";
 import {
   getLoginStatus,
@@ -58,6 +60,8 @@ const HeaderBtn: React.FC<
 };
 
 export const Component = () => {
+  const { t: i18n } = useTranslation("Header");
+
   // 捕获SSO登录
   const routerLocation = useLocation();
   useEffect(() => {
@@ -95,14 +99,15 @@ export const Component = () => {
             />
           </a>
 
-          <HeaderBtn to="/">主页</HeaderBtn>
+          <HeaderBtn to="/">{i18n("HomePage")}</HeaderBtn>
           <HeaderBtn to="/match" disabled={!logined}>
-            匹配
+            {i18n("Match")}
           </HeaderBtn>
           <HeaderBtn to="/build" disabled={!logined}>
-            组卡
+            {i18n("DeckBuilding")}
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
+          <I18NSelector />
           <span className={styles.profile}>
             <Dropdown
               arrow
@@ -111,14 +116,14 @@ export const Component = () => {
                   {
                     label: (
                       <a href={NeosConfig.profileUrl} target="_blank">
-                        个人中心
+                        {i18n("PersonalCenter")}
                       </a>
                     ),
                   },
                   {
                     label: (
                       <a href="https://ygobbs.com" target="_blank">
-                        萌卡社区
+                        {i18n("MyCardCommunity")}
                       </a>
                     ),
                   },
@@ -128,16 +133,16 @@ export const Component = () => {
                         href="https://mycard.moe/ygopro/arena/#/"
                         target="_blank"
                       >
-                        决斗数据库
+                        {i18n("DuelDatabase")}
                       </a>
                     ),
                   },
                   {
-                    label: logined ? "退出登录" : "登录萌卡",
+                    label: logined ? i18n("LogOut") : i18n("Login"),
                     onClick: logined ? onLogout : onLogin,
                   },
                   {
-                    label: "全屏",
+                    label: i18n("Fullscreen"),
                     onClick: () => document.documentElement.requestFullscreen(),
                     danger: true,
                   },

@@ -27,6 +27,7 @@ import ReactDOM from "react-dom/client";
 
 import { theme } from "@/ui/theme";
 
+import { I18NProvider } from "./ui/I18N";
 import { NeosRouter } from "./ui/NeosRouter";
 
 const root = ReactDOM.createRoot(
@@ -34,11 +35,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <ConfigProvider theme={theme} locale={zhCN}>
-    <App>
-      <ProConfigProvider dark>
-        <NeosRouter />
-      </ProConfigProvider>
-    </App>
-  </ConfigProvider>,
+  <I18NProvider>
+    <ConfigProvider theme={theme} locale={zhCN}>
+      <App>
+        <ProConfigProvider dark>
+          <NeosRouter />
+        </ProConfigProvider>
+      </App>
+    </ConfigProvider>
+  </I18NProvider>,
 );
