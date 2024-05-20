@@ -1,4 +1,5 @@
 import { ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 import { callCardAttack } from "@/ui/Duel/PlayMat/Card";
 
@@ -16,10 +17,12 @@ export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
 
   if (attacker) {
     if (attack.direct_attack) {
+      playEffect(AudioActionType.SOUND_DIRECT_ATTACK);
       await callCardAttack(attacker.uuid, {
         directAttack: true,
       });
     } else {
+      playEffect(AudioActionType.SOUND_ATTACK);
       await callCardAttack(attacker.uuid, {
         directAttack: false,
         target: attack.target_location,

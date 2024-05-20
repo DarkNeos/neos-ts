@@ -1,4 +1,4 @@
-import { Avatar, Dropdown } from "antd";
+import { App, Avatar, Dropdown } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,7 @@ import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
 import { I18NSelector } from "../I18N";
+import { Setting } from "../Setting";
 import styles from "./index.module.scss";
 import {
   getLoginStatus,
@@ -73,6 +74,7 @@ export const Component = () => {
 
   const { pathname } = routerLocation;
   const pathnamesHideHeader = ["/waitroom", "/duel", "/side"];
+  const { modal } = App.useApp();
 
   const callbackUrl = `${location.origin}/match/`;
   const onLogin = () => location.replace(getSSOSignInUrl(callbackUrl));
@@ -136,6 +138,18 @@ export const Component = () => {
                         {i18n("DuelDatabase")}
                       </a>
                     ),
+                  },
+                  {
+                    label: "系统设置",
+                    onClick: () => {
+                      modal.info({
+                        content: <Setting />,
+                        centered: true,
+                        maskClosable: true,
+                        icon: null,
+                        footer: null,
+                      });
+                    },
                   },
                   {
                     label: logined ? i18n("LogOut") : i18n("Login"),

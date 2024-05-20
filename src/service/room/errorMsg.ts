@@ -1,6 +1,7 @@
 import { fetchCard, fetchStrings, Region, ygopro } from "@/api";
 import { roomStore } from "@/stores";
 import ErrorType = ygopro.StocErrorMsg.ErrorType;
+import { AudioActionType, playEffect } from "@/infra/audio";
 
 // TODO: 是时候需要一个统一管理国际化文案的模块了
 
@@ -16,6 +17,7 @@ const DECKERROR_NOTAVAIL = 0x9;
 
 export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
   const { error_type, error_code } = errorMsg;
+  playEffect(AudioActionType.SOUND_INFO);
   switch (error_type) {
     case ErrorType.JOINERROR: {
       roomStore.errorMsg = fetchStrings(Region.System, 1403 + error_code);

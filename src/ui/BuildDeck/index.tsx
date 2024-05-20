@@ -33,6 +33,7 @@ import { subscribeKey } from "valtio/utils";
 
 import { type CardMeta, searchCards } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { emptySearchConditions, FtsConditions } from "@/middleware/sqlite/fts";
 import { deckStore, emptyDeck, type IDeck, initStore } from "@/stores";
 import {
@@ -79,6 +80,9 @@ export const loader: LoaderFunction = async () => {
       subscribeKey(initStore, "i18n", (done) => done && rs());
     });
   }
+
+  // 更新场景
+  changeScene(AudioActionType.BGM_DECK);
 
   return null;
 };

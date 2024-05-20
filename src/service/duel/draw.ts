@@ -1,4 +1,5 @@
 import { fetchCard, ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore, fetchEsHintMeta } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
@@ -23,6 +24,8 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
     card.location.zone = ygopro.CardZone.HAND;
     card.location.sequence = Number(idx) + handsLength;
   }
+
+  playEffect(AudioActionType.SOUND_DRAW);
 
   // 抽卡动画
   await Promise.all(

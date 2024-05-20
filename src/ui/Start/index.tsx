@@ -1,16 +1,23 @@
 import { RightOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { getSSOSignInUrl } from "@/api";
 import { useConfig } from "@/config";
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { accountStore } from "@/stores";
 import { Background, SpecialButton } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 
 const NeosConfig = useConfig();
+
+export const loader: LoaderFunction = async () => {
+  // 更新场景
+  changeScene(AudioActionType.BGM_MENU);
+  return null;
+};
 
 export const Component: React.FC = () => {
   const { t } = useTranslation("Start");

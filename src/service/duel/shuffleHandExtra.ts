@@ -1,10 +1,12 @@
 import { ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 type MsgShuffleHandExtra = ygopro.StocGameMessage.MsgShuffleHandExtra;
 
 export default async (shuffleHandExtra: MsgShuffleHandExtra) => {
+  playEffect(AudioActionType.SOUND_SHUFFLE);
   const { cards: codes, player: controller, zone } = shuffleHandExtra;
 
   // 本质上是要将手卡/额外卡组的sequence变成和codes一样的顺序
