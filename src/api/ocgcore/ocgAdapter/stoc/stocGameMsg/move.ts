@@ -21,6 +21,6 @@ export default (data: Uint8Array) => {
     code,
     from: fromLocation,
     to: toLocation,
-    reason: reader.inner.readUint8(),
+    reason: reader.inner.readUint32(),
   });
 };

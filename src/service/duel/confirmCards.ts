@@ -1,5 +1,6 @@
 import { fetchCard, ygopro } from "@/api";
 import { sleep } from "@/infra";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore } from "@/stores";
 import { callCardFocus, callCardMove } from "@/ui/Duel/PlayMat/Card";
 
@@ -10,6 +11,7 @@ const { FACEUP_ATTACK, FACEDOWN_ATTACK, FACEDOWN_DEFENSE, FACEDOWN } =
 const WAIT_TIME = 100;
 
 export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
+  playEffect(AudioActionType.SOUND_REVEAL);
   const cards = confirmCards.cards;
   console.color("pink")(`confirmCards: ${cards}`);
 

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { matStore, SideStage, sideStore } from "@/stores";
 
 import {
@@ -22,6 +23,12 @@ import { AnnounceModal } from "./Message/AnnounceModal";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 import { ChatBox } from "./PlayMat/ChatBox";
 import { HandChain } from "./PlayMat/HandChain";
+
+export const loader: LoaderFunction = async () => {
+  // 更新场景
+  changeScene(AudioActionType.BGM_DUEL);
+  return null;
+};
 
 export const Component: React.FC = () => {
   const { stage } = useSnapshot(sideStore);

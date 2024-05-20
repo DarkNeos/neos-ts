@@ -2,9 +2,11 @@ import { ygopro } from "@/api";
 import { cardStore } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 import MsgShuffleSetCard = ygopro.StocGameMessage.MsgShuffleSetCard;
+import { AudioActionType, playEffect } from "@/infra/audio";
 
 // 后端传过来的`from_locations`的列表是切洗前场上卡的location，它们在列表里面按照切洗后的顺序排列
 export default async (shuffleSetCard: MsgShuffleSetCard) => {
+  playEffect(AudioActionType.SOUND_SHUFFLE);
   const from_locations = shuffleSetCard.from_locations;
   const overlay_locations = shuffleSetCard.overlay_locations;
   if (from_locations.length === 0) {

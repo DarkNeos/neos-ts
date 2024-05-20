@@ -1,11 +1,14 @@
 import { fetchCard, ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore, CardType } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
-import { REASON_MATERIAL, TYPE_TOKEN } from "../../common";
+import { REASON_DESTROY, REASON_MATERIAL, TYPE_TOKEN } from "../../common";
 
 type MsgMove = ygopro.StocGameMessage.MsgMove;
-const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, TZONE } = ygopro.CardZone;
+const { HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
+  ygopro.CardZone;
+const { FACEDOWN, FACEDOWN_ATTACK, FACEDOWN_DEFENSE } = ygopro.CardPosition;
 
 const overlayStack: ygopro.CardLocation[] = [];
 
@@ -161,7 +164,21 @@ export default async (move: MsgMove) => {
   target.code = code;
   target.location = to;
 
-  // 维护完了之后，开始动画
+  // 维护完了之后，开始播放音效和动画
+
+  if (to.zone === REMOVED) {
+    playEffect(AudioActionType.SOUND_BANISHED);
+  } else if (
+    (to.zone === MZONE || to.zone === SZONE) &&
+    (to.position === FACEDOWN ||
+      to.position === FACEDOWN_ATTACK ||
+      to.position === FACEDOWN_DEFENSE)
+  ) {
+    playEffect(AudioActionType.SOUND_SET);
+  } else if (reason === REASON_DESTROY) {
+    playEffect(AudioActionType.SOUND_DESTROYED);
+  }
+
   const p = callCardMove(target.uuid, { fromZone: from.zone });
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {

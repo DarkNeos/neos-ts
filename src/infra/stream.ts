@@ -3,10 +3,6 @@
 //
 // 因此封装了一个`WebSocketStream`类，当每次Websocket连接中有消息到达时，往流中添加event，
 
-import { useConfig } from "@/config";
-
-import { sleep } from "./sleep";
-
 // 同时执行器会不断地从流中获取event进行处理。
 export class WebSocketStream {
   public ws: WebSocket;
@@ -32,8 +28,9 @@ export class WebSocketStream {
         ws.onmessage = (event) => {
           controller.enqueue(event);
         };
-        ws.onclose = () => {
-          console.info("Websocket closed.");
+        ws.onclose = (ev) => {
+          // 后续可能根据断线原因做处理，先暴露出来
+          console.info("Websocket closed.", ev);
           // 下面这行注释掉，因为虽然websocket关掉了，但是已经收到的数据可能还在处理中
           // controller.close();
         };
@@ -68,7 +65,11 @@ export class WebSocketStream {
 
       if (value) {
         // wait some time, and then handle message from server
-        await sleep(useConfig().streamInterval);
+        //
+        // but now it seems that we don't need wait any more,
+        // so comment the following line and check if it's ok without it.
+        //
+        // await sleep(useConfig().streamInterval);
         await onMessage(value);
       } else {
         console.warn("value from ReadableStream is undefined!");

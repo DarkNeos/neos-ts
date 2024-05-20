@@ -220,7 +220,7 @@ export const Race2StringCodeMap: Map<number, number> = new Map([
   [RACE_CYBERSE, 1044],
 ]);
 
-// const REASON_DESTROY = 0x1; //
+export const REASON_DESTROY = 0x1; //
 // const REASON_RELEASE = 0x2; //
 // const REASON_TEMPORARY = 0x4; //
 export const REASON_MATERIAL = 0x8; //
