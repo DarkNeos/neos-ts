@@ -36,5 +36,58 @@
     "ReplayDesc": "自由查看进行过的决斗，回味那些精彩的逆转瞬间。",
     "WIPTitle": "开发中...",
     "WIPDesc": "其他功能敬请期待。"
+  },
+  "BuildDeck": {
+    "EnterTheDeckName": "请输入卡组名字",
+    "Shuffle": "打乱",
+    "Sort": "排序",
+    "Clear": "清空",
+    "Reset": "重置",
+    "Save": "保存",
+    "QuestionCircleTooltip": "双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片",
+    "Filter": "筛选",
+    "SortBy": "排列 ",
+    "KeywordsPlaceholder": "关键词(空格分隔)",
+    "FromNewToOld": "从新到旧",
+    "FromOldToNew": "从旧到新",
+    "AttackPowerFromHighToLow": "攻击力从高到低",
+    "AttackPowerFromLowToHigh": "攻击力从低到高",
+    "DefensePowerFromHighToLow": "守备力从高到低",
+    "DefensePowerFromLowToHigh": "守备力从低到高",
+    "StarsRanksLevelsLinkFromHighToLow": "星/阶/刻/Link从高到低",
+    "StarsRanksLevelsLinkFromLowToHigh": "星/阶/刻/Link从低到高",
+    "PendulumScaleFromHighToLow": "灵摆刻度从高到低",
+    "PendulumScaleFromLowToHigh": "灵摆刻度从低到高"
+  },
+  "Filter": {
+    "CardFilter": "卡片筛选",
+    "Attribute": "属性",
+    "Race": "种族",
+    "Type": "类型",
+    "Level": "星级",
+    "PendulumScale": "灵摆刻度",
+    "Attack": "攻击力",
+    "Defense": "守备力",
+    "Select": "请选择",
+    "Minimum": "最小值",
+    "Maximum": "最大值",
+    "Confirm": "确 定",
+    "Cancel": "取 消"
+  },
+  "CardDetails": {
+    "Level": "等级",
+    "Type": "类型",
+    "Attribute": "类型",
+    "Race": "种族",
+    "Attack": "攻击力",
+    "Defence": "守备力",
+    "PendulumScale": "灵摆刻度",
+    "MonsterEffect": "怪兽效果",
+    "PendulumEffect": "灵摆效果",
+    "CardEffect": "卡片效果"
+  },
+  "Store": {
+    "CannotAddTokens": "不能添加衍生物",
+    "CardTypeDoesNotMatch": "卡片种类不符合"
   }
 }

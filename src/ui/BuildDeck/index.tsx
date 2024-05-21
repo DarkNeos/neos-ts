@@ -57,6 +57,7 @@ import {
   editingDeckToIDeck,
   iDeckToEditingDeck,
 } from "./utils";
+import { useTranslation } from "react-i18next";
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -240,11 +241,13 @@ export const DeckEditor: React.FC<{
     event.preventDefault();
   };
 
+  const { t: i18n } = useTranslation("BuildDeck");
+
   return (
     <div className={styles.container}>
       <Space className={styles.title}>
         <Input
-          placeholder="请输入卡组名字"
+          placeholder={i18n("EnterTheDeckName")}
           bordered={false}
           prefix={<EditOutlined />}
           style={{ width: "8.8rem" }}
@@ -258,7 +261,7 @@ export const DeckEditor: React.FC<{
             icon={<SwapOutlined />}
             onClick={onShuffle}
           >
-            打乱
+            {i18n("Shuffle")}
           </Button>
           <Button
             type="text"
@@ -266,7 +269,7 @@ export const DeckEditor: React.FC<{
             icon={<RetweetOutlined />}
             onClick={onSort}
           >
-            排序
+            {i18n("Sort")}
           </Button>
           <Button
             type="text"
@@ -274,7 +277,7 @@ export const DeckEditor: React.FC<{
             icon={<DeleteOutlined />}
             onClick={onClear}
           >
-            清空
+            {i18n("Clear")}
           </Button>
           <Button
             type="text"
@@ -282,7 +285,7 @@ export const DeckEditor: React.FC<{
             icon={<UndoOutlined />}
             onClick={() => onReset()}
           >
-            重置
+            {i18n("Reset")}
           </Button>
           <Button
             type={snapEditDeck.edited ? "primary" : "text"}
@@ -290,9 +293,9 @@ export const DeckEditor: React.FC<{
             icon={<CheckOutlined />}
             onClick={() => onSave()}
           >
-            保存
+            {i18n("Save")}
           </Button>
-          <Tooltip title="双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片">
+          <Tooltip title={i18n("QuestionCircleTooltip")}>
             <QuestionCircleOutlined />
           </Tooltip>
         </Space>
@@ -350,18 +353,20 @@ const Search: React.FC = () => {
       );
   };
 
+  const { t } = useTranslation("BuildDeck");
+
   const dropdownOptions: MenuProps["items"] = (
     [
-      ["从新到旧", () => setSortRef((a, b) => b.id - a.id)],
-      ["从旧到新", () => setSortRef((a, b) => a.id - b.id)],
-      ["攻击力从高到低", genSort("atk", -1)],
-      ["攻击力从低到高", genSort("atk")],
-      ["守备力从高到低", genSort("def", -1)],
-      ["守备力从低到高", genSort("def")],
-      ["星/阶/刻/Link从高到低", genSort("level", -1)],
-      ["星/阶/刻/Link从低到高", genSort("level")],
-      ["灵摆刻度从高到低", genSort("lscale", -1)],
-      ["灵摆刻度从低到高", genSort("lscale")],
+      [t("FromNewToOld"), () => setSortRef((a, b) => b.id - a.id)],
+      [t("FromOldToNew"), () => setSortRef((a, b) => a.id - b.id)],
+      [t("AttackPowerFromHighToLow"), genSort("atk", -1)],
+      [t("AttackPowerFromLowToHigh"), genSort("atk")],
+      [t("DefensePowerFromHighToLow"), genSort("def", -1)],
+      [t("DefensePowerFromLowToHigh"), genSort("def")],
+      [t("StarsRanksLevelsLinkFromHighToLow"), genSort("level", -1)],
+      [t("StarsRanksLevelsLinkFromLowToHigh"), genSort("level")],
+      [t("PendulumScaleFromHighToLow"), genSort("lscale", -1)],
+      [t("PendulumScaleFromLowToHigh"), genSort("lscale")],
     ] as const
   ).map(([label, onClick], key) => ({ key, label, onClick }));
 
@@ -415,11 +420,13 @@ const Search: React.FC = () => {
     if (viewport) viewport.scrollTop = 0;
   }, []);
 
+  const { t: i18n } = useTranslation("BuildDeck");
+
   return (
     <div className={styles.container} ref={dropRef}>
       <div className={styles.title}>
         <Input
-          placeholder="关键词(空格分隔)"
+          placeholder={i18n("KeywordsPlaceholder")}
           bordered={false}
           suffix={
             <Button
@@ -445,7 +452,7 @@ const Search: React.FC = () => {
           icon={<FilterOutlined />}
           onClick={showFilterModal}
         >
-          筛选
+          {i18n("Filter")}
         </Button>
         <Dropdown
           menu={{ items: dropdownOptions }}
@@ -459,7 +466,7 @@ const Search: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-              排列
+            {i18n("SortBy")}
               <span className={styles["search-count"]}>
                 ({searchResult.length})
               </span>
@@ -477,7 +484,7 @@ const Search: React.FC = () => {
             handleSearch(emptySearchConditions);
           }}
         >
-          重置
+          {i18n("Reset")}
         </Button>
       </div>
       <ScrollableArea className={styles["search-cards-container"]} ref={ref}>

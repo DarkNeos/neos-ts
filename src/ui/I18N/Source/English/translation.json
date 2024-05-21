@@ -36,5 +36,58 @@
     "ReplayDesc": "Freely watch past duels and relive those exciting moments of reversal.",
     "WIPTitle": "Under development...",
     "WIPDesc": "Stay tuned for other features."
+  },
+  "BuildDeck": {
+    "EnterTheDeckName": "Deck name",
+    "Shuffle": "Shuffle",
+    "Sort": "Sort",
+    "Clear": "Clear",
+    "Reset": "Reset",
+    "Save": "Save",
+    "QuestionCircleTooltip": "Double-click to add a card, right-click to remove a card, press the mouse wheel to switch cards between the main deck and the side deck.",
+    "Filter": "Filter",
+    "SortBy": "Sort By ",
+    "KeywordsPlaceholder": "Keywords (separated by spaces)",
+    "FromNewToOld": "From new to old",
+    "FromOldToNew": "From old to new",
+    "AttackPowerFromHighToLow": "Attack power from high to low",
+    "AttackPowerFromLowToHigh": "Attack power from low to high",
+    "DefensePowerFromHighToLow": "Defense power from high to low",
+    "DefensePowerFromLowToHigh": "Defense power from low to high",
+    "StarsRanksLevelsLinkFromHighToLow": "Stars/Ranks/Levels/Link from high to low",
+    "StarsRanksLevelsLinkFromLowToHigh": "Stars/Ranks/Levels/Link from low to high",
+    "PendulumScaleFromHighToLow": "Pendulum Scale from high to low",
+    "PendulumScaleFromLowToHigh": "Pendulum Scale from low to high"
+  },
+  "Filter": {
+    "CardFilter": "Card Filter",
+    "Attribute": "Attribute",
+    "Race": "Race",
+    "Type": "Type",
+    "Level": "Level",
+    "PendulumScale": "Pendulum Scale",
+    "Attack": "Attack",
+    "Defense": "Defense",
+    "Select": "-Select-",
+    "Minimum": "Min",
+    "Maximum": "Max",
+    "Confirm": "Confirm",
+    "Cancel": "Cancel"
+  },
+  "CardDetails": {
+    "Level": "Level",
+    "Type": "Type",
+    "Attribute": "Attribute",
+    "Race": "Race",
+    "Attack": "Attack",
+    "Defence": "Defence",
+    "PendulumScale": "Pendulum Scale",
+    "MonsterEffect": "Monster Effect",
+    "PendulumEffect": "Pendulum Effect",
+    "CardEffect": "Card Effect"
+  },
+  "Store": {
+    "CannotAddTokens": "Cannot add Tokens",
+    "CardTypeDoesNotMatch": "The card type does not match"
   }
 }
