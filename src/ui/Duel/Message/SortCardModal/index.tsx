@@ -21,8 +21,7 @@ import React, { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { sendSortCardResponse } from "@/api";
-import { CardMeta } from "@/api/cards";
-import { getCardImgUrl } from "@/ui/Shared";
+import { CardMeta, getCardImgUrl } from "@/api/cards";
 
 import { NeosModal } from "../NeosModal";
 
