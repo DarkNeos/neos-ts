@@ -3,10 +3,14 @@ import { Avatar, Button, Checkbox, Input, List } from "antd";
 import React, { useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { CardMeta, searchCards, sendSelectOptionResponse } from "@/api";
+import {
+  CardMeta,
+  getCardImgUrl,
+  searchCards,
+  sendSelectOptionResponse,
+} from "@/api";
 import { isDeclarable, isToken } from "@/common";
 import { emptySearchConditions } from "@/middleware/sqlite/fts";
-import { getCardImgUrl } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
