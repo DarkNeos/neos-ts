@@ -86,6 +86,22 @@
     "PendulumEffect": "灵摆效果",
     "CardEffect": "卡片效果"
   },
+  "WaitRoom": {
+    "Deck": "卡组",
+    "JoinDuelist": "加入决斗者",
+    "JoinSpectator": "加入观战",
+    "DuelReady": "决斗准备",
+    "CancelReady": "取消准备",
+    "LeaveRoom": "退出房间",
+    "Expand": "展开",
+    "Collapse": "收起",
+    "Sidebar": "侧栏",
+    "StartGame": "开始游戏",
+    "PlsRockPaperScissors": "请猜拳",
+    "WaitOpponentPlayRockPaperScissors": "等待对方猜拳",
+    "PlsChooseWhoGoesFirst": "请选择先后手",
+    "WaitingForGameToStart": "等待游戏开始"
+  },
   "Store": {
     "CannotAddTokens": "不能添加衍生物",
     "CardTypeDoesNotMatch": "卡片种类不符合"

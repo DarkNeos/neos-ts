@@ -36,10 +36,13 @@ import { Background, IconFont, Select, SpecialButton } from "@/ui/Shared";
 import { Chat } from "./Chat";
 import styles from "./index.module.scss";
 import { Mora, MoraPopover, Tp, TpPopover } from "./Popover";
+import { useTranslation } from "react-i18next";
+import { I18NSelector } from "../I18N";
 
 const NeosConfig = useConfig();
 
 export const Component: React.FC = () => {
+  const { t: i18n } = useTranslation("WaitRoom");
   const { message } = App.useApp();
   const { user } = useSnapshot(accountStore);
   const [collapsed, setCollapsed] = useState(false);
@@ -135,8 +138,8 @@ export const Component: React.FC = () => {
                     onClick={onReady}
                   >
                     {me?.state === PlayerState.NO_READY
-                      ? "决斗准备"
-                      : "取消准备"}
+                      ? i18n("DuelReady")
+                      : i18n("CancelReady")}
                   </Button>
                 ) : (
                   <MoraAvatar
@@ -254,12 +257,14 @@ const MoraAvatar: React.FC<{ mora?: Mora }> = ({ mora }) => (
 const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
   onDeckChange,
 }) => {
+  const { t: i18n } = useTranslation("WaitRoom");
   const snapDeck = useSnapshot(deckStore);
   const snapRoom = useSnapshot(roomStore);
   return (
     <Space>
+      <I18NSelector />
       <Select
-        title="卡组"
+        title={ i18n("Deck") }
         showSearch
         style={{ width: "15.6rem" }}
         defaultValue={snapDeck.decks[0].deckName}
@@ -283,7 +288,7 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
           }
         }}
       >
-        {snapRoom.selfType === SelfType.OBSERVER ? "加入决斗者" : "加入观战"}
+        {snapRoom.selfType === SelfType.OBSERVER ? i18n("JoinDuelist") : i18n("JoinSpectator") }
         {!!snapRoom.observerCount && (
           <Avatar size="small" style={{ marginLeft: 8 }}>
             {snapRoom.observerCount}
@@ -299,6 +304,7 @@ const SideButtons: React.FC<{
   collapsed: boolean;
 }> = ({ switchCollapse, collapsed }) => {
   const navigate = useNavigate();
+  const { t: i18n } = useTranslation("WaitRoom");
   return (
     <div className={styles["btns-side"]}>
       <Button
@@ -307,7 +313,7 @@ const SideButtons: React.FC<{
         icon={
           <span className={styles["btn-icon"]}>
             <IconFont type="icon-exit" size={17} />
-            <span className={styles["btn-text"]}>&#20;&#20;退出房间</span>
+            <span className={styles["btn-text"]}>&nbsp;&nbsp;{i18n("LeaveRoom")}</span>
           </span>
         }
         onClick={() => {
@@ -325,7 +331,7 @@ const SideButtons: React.FC<{
           <span className={styles["btn-icon"]}>
             <IconFont type="icon-side-bar-fill" size={16} />
             <span className={styles["btn-text"]}>
-              &#20;&#20;{collapsed ? "展开" : "收起"}侧栏
+            &nbsp;&nbsp;{collapsed ? i18n("Expand") : i18n("Collapse")}{/* {i18n("Sidebar")} */}
             </span>
           </span>
         }
@@ -341,6 +347,7 @@ const ActionButton: React.FC<{
 }> = ({ onMoraSelect, onTpSelect }) => {
   const room = useSnapshot(roomStore);
   const { stage, isHost } = room;
+  const { t: i18n } = useTranslation("WaitRoom");
   return (
     <MoraPopover onSelect={onMoraSelect}>
       <TpPopover onSelect={onTpSelect}>
@@ -360,32 +367,32 @@ const ActionButton: React.FC<{
           {stage === RoomStage.WAITING ? (
             <>
               <IconFont type="icon-play" size={12} />
-              <span>开始游戏</span>
+              <span>{i18n("StartGame")}</span>
             </>
           ) : stage === RoomStage.HAND_SELECTING ? (
             <>
               <IconFont type="icon-mora" size={20} />
-              <span>请猜拳</span>
+              <span>{i18n("PlsRockPaperScissors")}</span>
             </>
           ) : stage === RoomStage.HAND_SELECTED ? (
             <>
               <LoadingOutlined />
-              <span>等待对方猜拳</span>
+              <span>{i18n("WaitOpponentPlayRockPaperScissors")}</span>
             </>
           ) : stage === RoomStage.TP_SELECTING ? (
             <>
               <IconFont type="icon-one" size={18} />
-              <span>请选择先后手</span>
+              <span>{i18n("PlsChooseWhoGoesFirst")}</span>
             </>
           ) : stage === RoomStage.TP_SELECTED ? (
             <>
               <LoadingOutlined />
-              <span>等待游戏开始</span>
+              <span>{i18n("WaitingForGameToStart")}</span>
             </>
           ) : (
             <>
               <LoadingOutlined />
-              <span>等待游戏开始</span>
+              <span>{i18n("WaitingForGameToStart")}</span>
             </>
           )}
         </SpecialButton>

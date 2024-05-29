@@ -21,6 +21,7 @@ const resources = {
     BuildDeck: translationChinese.BuildDeck,
     Filter: translationChinese.Filter,
     CardDetails: translationChinese.CardDetails,
+    WaitRoom: translationChinese.WaitRoom,
     Store: translationChinese.Store,
   },
   en: {
@@ -30,6 +31,7 @@ const resources = {
     BuildDeck: translationEnglish.BuildDeck,
     Filter: translationEnglish.Filter,
     CardDetails: translationEnglish.CardDetails,
+    WaitRoom: translationEnglish.WaitRoom,
     Store: translationChinese.Store,
   },
   es: {

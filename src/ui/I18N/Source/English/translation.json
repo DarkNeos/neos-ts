@@ -86,6 +86,22 @@
     "PendulumEffect": "Pendulum Effect",
     "CardEffect": "Card Effect"
   },
+  "WaitRoom": {
+    "Deck": "Deck",
+    "JoinDuelist": "Join Duelist",
+    "JoinSpectator": "Join Spectator",
+    "DuelReady": "Duel Ready",
+    "CancelReady": "Cancel Ready",
+    "LeaveRoom": "Leave Room",
+    "Expand": "Expand",
+    "Collapse": "Collapse",
+    "Sidebar": "Sidebar",
+    "StartGame": "Start Game",
+    "PlsRockPaperScissors": "Please play Rock, Paper, Scissors",
+    "WaitOpponentPlayRockPaperScissors": "Wait for the opponent to play Rock, Paper, Scissors",
+    "PlsChooseWhoGoesFirst": "Please choose who goes first",
+    "WaitingForGameToStart": "Waiting for the game to start"
+  },
   "Store": {
     "CannotAddTokens": "Cannot add Tokens",
     "CardTypeDoesNotMatch": "The card type does not match"
