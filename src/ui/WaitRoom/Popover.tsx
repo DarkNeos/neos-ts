@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { eventbus, Task } from "@/infra";
 
 import { IconFont } from "../Shared";
+import { useTranslation } from "react-i18next";
 
 export enum Mora {
   Scissors = "scissors",
@@ -35,10 +36,12 @@ export const MoraPopover: React.FC<
     setOpen(false);
   };
 
+  const { t: i18n } = useTranslation("WaitRoom");
+
   const map = {
-    [Mora.Rock]: "石头",
-    [Mora.Scissors]: "剪刀",
-    [Mora.Paper]: "布",
+    [Mora.Rock]: i18n("Rock"),
+    [Mora.Scissors]: i18n("Scissors"), 
+    [Mora.Paper]: i18n("Paper")
   };
 
   return (

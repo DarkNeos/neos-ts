@@ -23,6 +23,8 @@ const resources = {
     CardDetails: translationChinese.CardDetails,
     WaitRoom: translationChinese.WaitRoom,
     Store: translationChinese.Store,
+    CustomRoomContent: translationChinese.CustomRoomContent,
+    WatchContent: translationChinese.WatchContent,
   },
   en: {
     Header: translationEnglish.Header,
@@ -32,7 +34,9 @@ const resources = {
     Filter: translationEnglish.Filter,
     CardDetails: translationEnglish.CardDetails,
     WaitRoom: translationEnglish.WaitRoom,
-    Store: translationChinese.Store,
+    Store: translationEnglish.Store,
+    CustomRoomContent: translationEnglish.CustomRoomContent,
+    WatchContent: translationEnglish.WatchContent
   },
   es: {
     Header: translationSpanish.Header,

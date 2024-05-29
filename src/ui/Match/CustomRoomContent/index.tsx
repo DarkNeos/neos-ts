@@ -9,6 +9,7 @@ import { accountStore } from "@/stores";
 import { Select } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface CustomRoomProps {
   options: Options;
@@ -80,13 +81,13 @@ export const CustomRoomContent: React.FC = () => {
   const onChangePrivateID = (event: ChangeEvent<HTMLInputElement>) => {
     mcCustomRoomStore.friendPrivateID = Number(event.target.value);
   };
-
+  const { t: i18n } = useTranslation("CustomRoomContent");
   return (
     <div className={styles.container}>
-      <p>创建/加入私密房间</p>
+      <p>{i18n("CreateJoinPrivateRoom")}</p>
       <div className={styles.clipboard}>
         <div className={styles.title}>
-          房间密码
+          {i18n("RoomPassword")}
           <KeyOutlined />
         </div>
         <Input
@@ -98,7 +99,7 @@ export const CustomRoomContent: React.FC = () => {
         <Button icon={<CopyOutlined />} onClick={onCopy} />
       </div>
       <div className={styles["digit-option"]}>
-        <div className={styles.title}>初始LP</div>
+        <div className={styles.title}>{i18n("Initial")}LP</div>
         <Input
           className={styles.input}
           value={options.start_lp}
@@ -107,7 +108,7 @@ export const CustomRoomContent: React.FC = () => {
         />
       </div>
       <div className={styles["digit-option"]}>
-        <div className={styles.title}>初始手牌数</div>
+        <div className={styles.title}>{i18n("InitialHandSize")}</div>
         <Input
           className={styles.input}
           value={options.start_hand}
@@ -116,7 +117,7 @@ export const CustomRoomContent: React.FC = () => {
         />
       </div>
       <div className={styles["digit-option"]}>
-        <div className={styles.title}>每回合抽卡</div>
+        <div className={styles.title}>{i18n("DrawPerTurn")}</div>
         <Input
           className={styles.input}
           value={options.draw_count}
@@ -126,26 +127,26 @@ export const CustomRoomContent: React.FC = () => {
       </div>
       <div className={styles["select-option"]}>
         <Select
-          title="卡片允许"
+          title={i18n("CardsAllowed")}
           value={options.rule}
           options={[
             { value: 0, label: "OCG" },
             { value: 1, label: "TCG" },
-            { value: 2, label: "简体中文" },
-            { value: 3, label: "自制卡" },
-            { value: 4, label: "专有卡禁止" },
-            { value: 5, label: "所有卡片" },
+            { value: 2, label: i18n("SimplifiedChinese") },
+            { value: 3, label: i18n("CustomCards") },
+            { value: 4, label: i18n("ExclusiveCardsProhibited") },
+            { value: 5, label: i18n("AllCards") },
           ]}
           onChange={onChangeRule}
         />
       </div>
       <div className={styles["select-option"]}>
         <Select
-          title="决斗模式"
+          title={i18n("DuelMode")}
           value={options.mode}
           options={[
-            { value: 0, label: "单局模式" },
-            { value: 1, label: "比赛模式" },
+            { value: 0, label: i18n("SingleMatchMode") },
+            { value: 1, label: i18n("TournamentMode") },
             // {value: 2, label: "TAG"},
           ]}
           onChange={onChangeMode}
@@ -153,14 +154,14 @@ export const CustomRoomContent: React.FC = () => {
       </div>
       <div className={styles["select-option"]}>
         <Select
-          title="决斗规则"
+          title={i18n("DuelRules")}
           value={options.duel_rule}
           options={[
-            { value: 1, label: "大师规则1" },
-            { value: 2, label: "大师规则2" },
-            { value: 3, label: "大师规则3" },
-            { value: 4, label: "新大师规则" },
-            { value: 5, label: "大师规则2020" },
+            { value: 1, label: i18n("MasterRule1") },
+            { value: 2, label: i18n("MasterRule2") },
+            { value: 3, label: i18n("MasterRule3") },
+            { value: 4, label: i18n("NewMasterRule") },
+            { value: 5, label: i18n("MasterRule2020") },
           ]}
           onChange={onChangeDuelRule}
         />
@@ -170,26 +171,26 @@ export const CustomRoomContent: React.FC = () => {
         checked={options.no_check_deck}
         onChange={onChangeNoCheckDeck}
       >
-        不检查卡组
+        {i18n("NoDeckCheck")}
       </Checkbox>
       <Checkbox
         className={styles.check}
         checked={options.no_shuffle_deck}
         onChange={onChangeNoShuffleDeck}
       >
-        不切洗卡组
+        {i18n("NoShuffleDeck")}
       </Checkbox>
       <Checkbox
         className={styles.check}
         checked={options.auto_death}
         onChange={onChangeAutoDeath}
       >
-        40分自动加时
+        {i18n("40MinutesAutomaticOvertime")}
       </Checkbox>
       <Input
         value={friendPrivateID}
         onChange={onChangePrivateID}
-        placeholder="在这输入你朋友的私密房间密码"
+        placeholder={i18n("EnterYourFriendsPrivateRoomPassword")}
         type="text"
       />
     </div>
@@ -200,13 +201,14 @@ export const CustomRoomFooter: React.FC<{
   onCreateRoom: () => void;
   onJoinRoom: () => void;
 }> = ({ onCreateRoom, onJoinRoom }) => {
+  const { t: i18n } = useTranslation("CustomRoomContent");
   return (
     <div className={styles.footer}>
       <Button className={styles.btn} onClick={onCreateRoom}>
-        创建私密房间
+      {i18n("CreatePrivateRoom")}
       </Button>
       <Button className={styles.btn} onClick={onJoinRoom}>
-        加入私密房间
+      {i18n("JoinPrivateRoom")}
       </Button>
     </div>
   );

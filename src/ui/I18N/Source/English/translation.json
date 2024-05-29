@@ -35,7 +35,9 @@
     "ReplayTitle": "Replay",
     "ReplayDesc": "Freely watch past duels and relive those exciting moments of reversal.",
     "WIPTitle": "Under development...",
-    "WIPDesc": "Stay tuned for other features."
+    "WIPDesc": "Stay tuned for other features.",
+    "EnterSpectatorMode": "Enter Spectator Mode",
+    "PleaseSelectTheRoomToSpectate": "Please select the room to spectate"
   },
   "BuildDeck": {
     "EnterTheDeckName": "Deck name",
@@ -100,7 +102,42 @@
     "PlsRockPaperScissors": "Please play Rock, Paper, Scissors",
     "WaitOpponentPlayRockPaperScissors": "Wait for the opponent to play Rock, Paper, Scissors",
     "PlsChooseWhoGoesFirst": "Please choose who goes first",
-    "WaitingForGameToStart": "Waiting for the game to start"
+    "WaitingForGameToStart": "Waiting for the game to start",
+    "Scissors": "Scissors",
+    "Rock": "Rock",
+    "Paper": "Paper"
+  },
+  "CustomRoomContent": {
+    "CreateJoinPrivateRoom": "Create/Join Private Room",
+    "RoomPassword": "Password",
+    "Initial": "Initial ",
+    "InitialHandSize": "Initial Hand Size",
+    "DrawPerTurn": "Draw per Turn",
+    "CardsAllowed": "Cards Allowed",
+    "SimplifiedChinese": "Simplified Chinese",
+    "CustomCards": "Custom Cards",
+    "ExclusiveCardsProhibited": "Exclusive Cards Prohibited",
+    "AllCards": "All Cards",
+    "DuelMode": "Duel Mode",
+    "SingleMatchMode": "Single Match Mode",
+    "TournamentMode": "Tournament Mode",
+    "DuelRules": "Duel Rules",
+    "MasterRule1": "Master Rule 1",
+    "MasterRule2": "Master Rule 2",
+    "MasterRule3": "Master Rule 3",
+    "NewMasterRule": "New Master Rule",
+    "MasterRule2020": "Master Rule 2020",
+    "NoDeckCheck": "No Deck Check",
+    "NoShuffleDeck": "No Shuffle Deck",
+    "40MinutesAutomaticOvertime": "40 Minutes Automatic Overtime",
+    "EnterYourFriendsPrivateRoomPassword": "Enter your friend's private room password here.",
+    "CreatePrivateRoom": "Create Private Room",
+    "JoinPrivateRoom": "Join Private Room"
+  },
+  "WatchContent": {
+    "SearchRoomByPlayerUsername": "Search Room by Player Username",
+    "RankedMatch": "Ranked Match",
+    "Versus": "vs"
   },
   "Store": {
     "CannotAddTokens": "Cannot add Tokens",

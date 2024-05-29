@@ -35,7 +35,9 @@
     "ReplayTitle": "录像回放",
     "ReplayDesc": "自由查看进行过的决斗，回味那些精彩的逆转瞬间。",
     "WIPTitle": "开发中...",
-    "WIPDesc": "其他功能敬请期待。"
+    "WIPDesc": "其他功能敬请期待。",
+    "EnterSpectatorMode": "进入观战",
+    "PleaseSelectTheRoomToSpectate": "请选择观战的房间"
   },
   "BuildDeck": {
     "EnterTheDeckName": "请输入卡组名字",
@@ -100,7 +102,42 @@
     "PlsRockPaperScissors": "请猜拳",
     "WaitOpponentPlayRockPaperScissors": "等待对方猜拳",
     "PlsChooseWhoGoesFirst": "请选择先后手",
-    "WaitingForGameToStart": "等待游戏开始"
+    "WaitingForGameToStart": "等待游戏开始",
+    "Scissors": "剪刀",
+    "Rock": "石头",
+    "Paper": "布"
+  },
+  "CustomRoomContent": {
+    "CreateJoinPrivateRoom": "创建/加入私密房间",
+    "RoomPassword": "房间密码",
+    "Initial": "初始",
+    "InitialHandSize": "初始手牌数",
+    "DrawPerTurn": "每回合抽卡",
+    "CardsAllowed": "卡片允许",
+    "SimplifiedChinese": "简体中文",
+    "CustomCards": "自制卡",
+    "ExclusiveCardsProhibited": "专有卡禁止",
+    "AllCards": "所有卡片",
+    "DuelMode": "决斗模式",
+    "SingleMatchMode": "单局模式",
+    "TournamentMode": "比赛模式",
+    "DuelRules": "决斗规则",
+    "MasterRule1": "大师规则1",
+    "MasterRule2": "大师规则2",
+    "MasterRule3": "大师规则3",
+    "NewMasterRule": "新大师规则",
+    "MasterRule2020": "大师规则2020",
+    "NoDeckCheck": "不检查卡组",
+    "NoShuffleDeck": "不切洗卡组",
+    "40MinutesAutomaticOvertime": "40分自动加时",
+    "EnterYourFriendsPrivateRoomPassword": "在这输入你朋友的私密房间密码",
+    "CreatePrivateRoom": "创建私密房间",
+    "JoinPrivateRoom": "加入私密房间"
+  },
+  "WatchContent": {
+    "SearchRoomByPlayerUsername": "通过玩家用户名搜索房间",
+    "RankedMatch": "竞技匹配",
+    "Versus": "与"
   },
   "Store": {
     "CannotAddTokens": "不能添加衍生物",
