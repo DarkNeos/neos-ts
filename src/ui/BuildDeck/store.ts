@@ -7,6 +7,12 @@ import { Type } from "@/ui/Shared/DeckZone";
 
 import { compareCards, type EditingDeck } from "./utils";
 
+const language = localStorage.getItem("language");
+const cardTypeNotMatch = language === 'en' ? "The Card Type does not match" : "卡片种类不符合";
+const exceedsNumberCardsSameName = language === 'en' ? "Exceeds the number of cards with the same name" : "超过同名卡";
+const limitCards = language === 'en' ? 'Limit of cards' : '张的上限';
+const exceedsLimit = language  === 'en' ? 'Exceeds the limit' : '超过';
+const cannotAddTokens = language === 'en' ? 'Cannot add tokens' : '不能添加衍生物';
 export const editDeckStore = proxy({
   deckName: "",
   main: [] as CardMeta[],
@@ -75,13 +81,13 @@ export const editDeckStore = proxy({
 
     if (isToken(cardType)) {
       result = false;
-      reason = "不能添加衍生物";
+      reason = cannotAddTokens;
     }
 
     const countLimit = type === "main" ? 60 : 15;
     if (deckType.length >= countLimit) {
       result = false;
-      reason = `超过 ${countLimit} 张的上限`;
+      reason = `${exceedsLimit} ${countLimit} ${limitCards}`;
     }
 
     if (
@@ -89,9 +95,8 @@ export const editDeckStore = proxy({
       (type === "main" && isExtraDeckCard(cardType))
     ) {
       result = false;
-      reason = "卡片种类不符合";
+      reason = cardTypeNotMatch;
     }
-
     const max = 3; // 这里无需参考禁卡表
     const numOfSameCards =
       editDeckStore
@@ -105,7 +110,7 @@ export const editDeckStore = proxy({
 
     if (numOfSameCards >= max) {
       result = false;
-      reason = `超过同名卡 ${max} 张的上限`;
+      reason = `${exceedsNumberCardsSameName} ${max} ${limitCards}`;
     }
 
     return { result, reason };

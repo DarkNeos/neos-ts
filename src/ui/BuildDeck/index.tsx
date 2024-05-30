@@ -92,10 +92,10 @@ export const Component: React.FC = () => {
   );
 
   const { message } = App.useApp();
-
+  const { t: i18n } = useTranslation("BuildDeck");
   const handleDeckEditorReset = async () => {
     editDeckStore.set(await iDeckToEditingDeck(selectedDeck));
-    message.info("重置成功");
+    message.info(`${i18n("ResetSuccessful")}`);
   };
 
   const handleDeckEditorSave = async () => {
@@ -103,7 +103,7 @@ export const Component: React.FC = () => {
     const result = await deckStore.update(selectedDeck.deckName, tmpIDeck);
     if (result) {
       setSelectedDeck(tmpIDeck);
-      message.info("保存成功");
+      message.info(`${i18n("SaveSuccessful")}`);
       editDeckStore.edited = false;
     } else {
       editDeckStore.set(await iDeckToEditingDeck(selectedDeck));

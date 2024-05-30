@@ -22,9 +22,9 @@ const resources = {
     Filter: translationChinese.Filter,
     CardDetails: translationChinese.CardDetails,
     WaitRoom: translationChinese.WaitRoom,
-    Store: translationChinese.Store,
     CustomRoomContent: translationChinese.CustomRoomContent,
     WatchContent: translationChinese.WatchContent,
+    DeckSelect: translationChinese.DeckSelect,
   },
   en: {
     Header: translationEnglish.Header,
@@ -34,9 +34,9 @@ const resources = {
     Filter: translationEnglish.Filter,
     CardDetails: translationEnglish.CardDetails,
     WaitRoom: translationEnglish.WaitRoom,
-    Store: translationEnglish.Store,
     CustomRoomContent: translationEnglish.CustomRoomContent,
-    WatchContent: translationEnglish.WatchContent
+    WatchContent: translationEnglish.WatchContent,
+    DeckSelect: translationEnglish.DeckSelect,
   },
   es: {
     Header: translationSpanish.Header,

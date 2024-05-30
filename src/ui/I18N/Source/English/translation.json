@@ -59,7 +59,9 @@
     "StarsRanksLevelsLinkFromHighToLow": "Stars/Ranks/Levels/Link from high to low",
     "StarsRanksLevelsLinkFromLowToHigh": "Stars/Ranks/Levels/Link from low to high",
     "PendulumScaleFromHighToLow": "Pendulum Scale from high to low",
-    "PendulumScaleFromLowToHigh": "Pendulum Scale from low to high"
+    "PendulumScaleFromLowToHigh": "Pendulum Scale from low to high",
+    "ResetSuccessful": "Reset successful",
+    "SaveSuccessful": "Save successful"
   },
   "Filter": {
     "CardFilter": "Card Filter",
@@ -139,8 +141,14 @@
     "RankedMatch": "Ranked Match",
     "Versus": "vs"
   },
-  "Store": {
-    "CannotAddTokens": "Cannot add Tokens",
-    "CardTypeDoesNotMatch": "The card type does not match"
+  "DeckSelect": {
+    "CopySuccessful": "Copy successful",
+    "CopyFailed.": "Copy failed",
+    "CreateNewDeck": "Create new deck",
+    "ImportFromLocalFile": "Import from local file",
+    "ImportFromClipboard": "Import from clipboard",
+    "ClickOrDragFilesHereToUpload": "Click or drag files here to upload",
+    "SupportsYdkExtension": "Only supports deck files with the .ydk extension.",
+    "UnableToReadClipboardContent": "Unable to read clipboard content."
   }
 }

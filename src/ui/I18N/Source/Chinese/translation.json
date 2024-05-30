@@ -59,7 +59,9 @@
     "StarsRanksLevelsLinkFromHighToLow": "星/阶/刻/Link从高到低",
     "StarsRanksLevelsLinkFromLowToHigh": "星/阶/刻/Link从低到高",
     "PendulumScaleFromHighToLow": "灵摆刻度从高到低",
-    "PendulumScaleFromLowToHigh": "灵摆刻度从低到高"
+    "PendulumScaleFromLowToHigh": "灵摆刻度从低到高",
+    "ResetSuccessful": "重置成功",
+    "SaveSuccessful": "保存成功"
   },
   "Filter": {
     "CardFilter": "卡片筛选",
@@ -139,8 +141,14 @@
     "RankedMatch": "竞技匹配",
     "Versus": "与"
   },
-  "Store": {
-    "CannotAddTokens": "不能添加衍生物",
-    "CardTypeDoesNotMatch": "卡片种类不符合"
+  "DeckSelect": {
+    "CopySuccessful": "复制成功",
+    "CopyFailed": "复制失败",
+    "CreateNewDeck": "新建卡组",
+    "ImportFromLocalFile": "从本地文件导入",
+    "ImportFromClipboard": "从剪贴板导入",
+    "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
+    "SupportsYdkExtension": "仅支持后缀名为ydk的卡组文件。",
+    "UnableToReadClipboardContent": "无法读取剪贴板内容:"
   }
 }
