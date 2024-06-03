@@ -6,6 +6,7 @@ import { proxy, useSnapshot } from "valtio";
 import { IconFont, ScrollableArea, useChat } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
+import { useTranslation } from "react-i18next";
 
 const store = proxy({ open: false });
 
@@ -17,7 +18,7 @@ interface ChatItem {
 export const ChatBox: React.FC = () => {
   const { open } = useSnapshot(store);
   const { dialogs, input, setInput, ref, onSend } = useChat(true);
-
+  const { t: i18n } = useTranslation("Chat");
   const onClose = () => (store.open = false);
 
   return (
@@ -42,7 +43,7 @@ export const ChatBox: React.FC = () => {
             value={input}
             onChange={(event) => setInput(event.target.value)}
             autoSize
-            placeholder="请输入聊天内容"
+            placeholder={i18n("PleaseEnterChatContent")}
             onPressEnter={(e) => {
               e.preventDefault();
               onSend();

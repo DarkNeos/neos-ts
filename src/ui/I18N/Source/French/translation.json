@@ -4,10 +4,10 @@
     "Match": "Correspondance",
     "DeckBuilding": "Construction de Deck",
     "PersonalCenter": "Centre personnel",
-    "MyCardCommunity": "Communauté Mengka",
+    "MyCardCommunity": "Communauté MyCard",
     "DuelDatabase": "Base de données de duels",
     "LogOut": "Déconnexion",
-    "Login": "Connexion à Mengka",
+    "Login": "Connexion à MyCard",
     "Fullscreen": "Plein écran"
   },
   "Start": {
@@ -27,7 +27,7 @@
     "MCCustomRoomTitle": "Salle personnalisée MC",
     "MCCustomRoomDesc": "Créez ou rejoignez des salles personnalisées sur le serveur MC et affrontez vos amis.",
     "MCSpectatorListTitle": "Liste des spectateurs",
-    "MCSpectatorListDesc": "Regardez les duels en cours sur Mengka MyCard.",
+    "MCSpectatorListDesc": "Regardez les duels en cours sur MyCard MyCard.",
     "SinglePlayerModeTitle": "Mode solo",
     "SinglePlayerModeDesc": "Démarrez un duel contre l'IA sur le serveur Koishi 7210 pour tester votre deck ou juste passer le temps.",
     "CustomRoomTitle": "Salle personnalisée",

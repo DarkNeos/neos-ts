@@ -150,5 +150,23 @@
     "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
     "SupportsYdkExtension": "仅支持后缀名为ydk的卡组文件。",
     "UnableToReadClipboardContent": "无法读取剪贴板内容:"
+  },
+  "Chat": {
+    "PleaseEnterChatContent": "请输入聊天内容"
+  },
+  "MatchModal": {
+    "PleaseEnterCustomRoomInformation": "请输入自定义房间信息",
+    "Server": "服务器",
+    "KoishiServer": "Koishi服",
+    "UltraPreemptiveServer": "超先行服",
+    "PlayerNickname": "玩家昵称",
+    "RoomPasswordOptional": "房间密码(可选)"
+  },
+  "ReplayModal": {
+    "SelectReplay": "选择回放",
+    "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
+    "SupportsYrd3dExtension": "仅支持后缀名为yrp3d的录像文件。",
+    "StartReplay": "开始回放",
+    "PleaseUploadReplayFile": "请先上传录像文件"
   }
 }

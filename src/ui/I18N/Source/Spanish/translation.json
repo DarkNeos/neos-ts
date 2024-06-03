@@ -4,10 +4,10 @@
     "Match": "Emparejamiento",
     "DeckBuilding": "Construcción de Mazo",
     "PersonalCenter": "Centro personal",
-    "MyCardCommunity": "Comunidad Mengka",
+    "MyCardCommunity": "Comunidad MyCard",
     "DuelDatabase": "Base de datos de duelos",
     "LogOut": "Cerrar sesión",
-    "Login": "Iniciar sesión en Mengka",
+    "Login": "Iniciar sesión en MyCard",
     "Fullscreen": "Pantalla completa"
   },
   "Start": {
@@ -27,7 +27,7 @@
     "MCCustomRoomTitle": "Sala personalizada",
     "MCCustomRoomDesc": "Crea o únete a salas personalizadas en el servidor y juega con amigos.",
     "MCSpectatorListTitle": "Lista de espectadores",
-    "MCSpectatorListDesc": "Observa los duelos que se están llevando a cabo en Mengka MyCard.",
+    "MCSpectatorListDesc": "Observa los duelos que se están llevando a cabo en MyCard MyCard.",
     "SinglePlayerModeTitle": "Modo un jugador",
     "SinglePlayerModeDesc": "Inicia un duelo contra la IA en el servidor Koishi 7210 para probar tu mazo o simplemente pasar el tiempo.",
     "CustomRoomTitle": "Sala personalizada",

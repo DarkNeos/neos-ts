@@ -7,6 +7,7 @@ import { replayStore } from "@/stores";
 
 import { Uploader } from "../../Shared";
 import { connectSrvpro } from "../util";
+import { useTranslation } from "react-i18next";
 
 const localStore = proxy({
   open: false,
@@ -17,6 +18,7 @@ export const ReplayModal: React.FC = () => {
   const { open, hasStart } = useSnapshot(localStore);
   const [replay, setReplay] = useState<null | ArrayBuffer>(null);
   const [loading, setLoading] = useState(false);
+  const { t: i18n } = useTranslation("ReplayModal");
   const uploadProps: UploadProps = {
     name: "replay",
     onChange(info) {
@@ -34,7 +36,7 @@ export const ReplayModal: React.FC = () => {
   const navigate = useNavigate();
   const onSubmit = async () => {
     if (replay === null) {
-      message.error("请先上传录像文件");
+      message.error(`${i18n("PleaseUploadReplayFile")}`);
     } else {
       setLoading(true);
 
@@ -63,22 +65,22 @@ export const ReplayModal: React.FC = () => {
 
   return (
     <Modal
-      title="选择回放"
+      title={i18n("SelectReplay")}
       open={open}
       maskClosable={false}
       confirmLoading={loading}
       centered
       footer={
         <Button onClick={onSubmit} loading={loading}>
-          开始回放
+          {i18n("StartReplay")}
         </Button>
       }
       onCancel={() => (localStore.open = false)}
     >
       <Uploader
         {...uploadProps}
-        text="单击或拖动文件到此区域进行上传"
-        hint="仅支持后缀名为yrp3d的录像文件。"
+        text={i18n("ClickOrDragFilesHereToUpload")}
+        hint={i18n("SupportsYrd3dExtension")}
       />
     </Modal>
   );

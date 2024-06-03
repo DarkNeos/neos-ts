@@ -25,6 +25,9 @@ const resources = {
     CustomRoomContent: translationChinese.CustomRoomContent,
     WatchContent: translationChinese.WatchContent,
     DeckSelect: translationChinese.DeckSelect,
+    Chat: translationChinese.Chat,
+    MatchModal: translationChinese.MatchModal,
+    ReplayModal: translationChinese.ReplayModal,
   },
   en: {
     Header: translationEnglish.Header,
@@ -37,6 +40,9 @@ const resources = {
     CustomRoomContent: translationEnglish.CustomRoomContent,
     WatchContent: translationEnglish.WatchContent,
     DeckSelect: translationEnglish.DeckSelect,
+    Chat: translationEnglish.Chat,
+    MatchModal: translationEnglish.MatchModal,
+    ReplayModal: translationEnglish.ReplayModal,
   },
   es: {
     Header: translationSpanish.Header,

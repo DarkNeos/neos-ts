@@ -9,6 +9,7 @@ import { Select } from "@/ui/Shared";
 
 import { connectSrvpro } from "../util";
 import styles from "./index.module.scss";
+import { useTranslation } from "react-i18next";
 
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;
@@ -41,6 +42,7 @@ export const MatchModal: React.FC = ({}) => {
   const [serverId, setServerId] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
+  const { t: i18n } = useTranslation("MatchModal");
 
   const handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
@@ -87,7 +89,7 @@ export const MatchModal: React.FC = ({}) => {
   return (
     <Modal
       open={open}
-      title="请输入自定义房间信息"
+      title={i18n("PleaseEnterCustomRoomInformation")}
       onCancel={() => (matchStore.open = false)}
       footer={
         <Button onClick={handleSubmit} loading={confirmLoading}>
@@ -100,16 +102,16 @@ export const MatchModal: React.FC = ({}) => {
       <div className={styles["inputs-container"]}>
         <Select
           className={styles.select}
-          title="服务器"
+          title={i18n("Server")}
           value={serverId}
           options={[
             {
               value: KOISHI_INDEX,
-              label: "Koishi服",
+              label: i18n("KoishiServer"),
             },
             {
               value: PRERELEASE_INDEX,
-              label: "超先行服",
+              label: i18n("UltraPreemptiveServer"),
             },
           ]}
           onChange={handleServerChange}
@@ -117,7 +119,7 @@ export const MatchModal: React.FC = ({}) => {
         <Input
           className={styles.input}
           type="text"
-          placeholder="玩家昵称"
+          placeholder={i18n("PlayerNickname")}
           value={player}
           onChange={handlePlayerChange}
           required
@@ -126,7 +128,7 @@ export const MatchModal: React.FC = ({}) => {
           className={styles.input}
           type="text"
           autoCorrect="off"
-          placeholder="房间密码(可选)"
+          placeholder={i18n("RoomPasswordOptional")}
           value={passwd}
           onChange={handlePasswdChange}
         />

@@ -3,6 +3,7 @@ import { Button, Input } from "antd";
 import { IconFont, ScrollableArea, useChat } from "@/ui/Shared";
 
 import styles from "./Chat.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ChatItem {
   name: string;
@@ -12,7 +13,7 @@ interface ChatItem {
 
 export const Chat: React.FC = () => {
   const { dialogs, input, setInput, ref, onSend } = useChat();
-
+  const { t: i18n } = useTranslation("Chat");
   return (
     <div className={styles.chat}>
       <ScrollableArea className={styles.dialogs} ref={ref}>
@@ -26,7 +27,7 @@ export const Chat: React.FC = () => {
           value={input}
           onChange={(event) => setInput(event.target.value)}
           autoSize
-          placeholder="请输入聊天内容"
+          placeholder={i18n("PleaseEnterChatContent")}
           onPressEnter={(e) => {
             e.preventDefault();
             onSend();

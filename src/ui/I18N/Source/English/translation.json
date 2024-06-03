@@ -4,10 +4,10 @@
     "Match": "Match",
     "DeckBuilding": "Deck Building",
     "PersonalCenter": "Personal Center",
-    "MyCardCommunity": "Mengka Community",
+    "MyCardCommunity": "MyCard Community",
     "DuelDatabase": "Duel Database",
     "LogOut": "Log out",
-    "Login": "Login to Mengka",
+    "Login": "Login to MyCard",
     "Fullscreen": "Fullscreen"
   },
   "Start": {
@@ -24,10 +24,10 @@
     "MCCompetitiveMatchmakingDesc": "Battle fiercely with tens of thousands of other players on MyCard ladder, aiming to be the strongest. Settlement at 22:00 on the last day of each month, ranking announcement and rewards distribution.",
     "MCCasualMatchmakingTitle": "Casual Matchmaking",
     "MCCasualMatchmakingDesc": "Set aside wins and losses for now, and enjoy the fun of dueling. The top 20 most used decks in competitive matchmaking over the past week will be temporarily disabled.",
-    "MCCustomRoomTitle": "Custom Room",
+    "MCCustomRoomTitle": "MyCard Custom Room",
     "MCCustomRoomDesc": "Create or join custom rooms on MC server and battle with friends.",
     "MCSpectatorListTitle": "Spectator List",
-    "MCSpectatorListDesc": "Watch the duels currently taking place on Mengka MyCard.",
+    "MCSpectatorListDesc": "Watch the duels currently taking place on MyCard MyCard.",
     "SinglePlayerModeTitle": "Single Player Mode",
     "SinglePlayerModeDesc": "Start a duel against AI on Koishi 7210 server to test your deck or just pass the time.",
     "CustomRoomTitle": "Custom Room",
@@ -150,5 +150,23 @@
     "ClickOrDragFilesHereToUpload": "Click or drag files here to upload",
     "SupportsYdkExtension": "Only supports deck files with the .ydk extension.",
     "UnableToReadClipboardContent": "Unable to read clipboard content."
+  },
+  "Chat": {
+    "PleaseEnterChatContent": "Please enter chat"
+  },
+  "MatchModal": {
+    "PleaseEnterCustomRoomInformation": "Please enter custom room information",
+    "Server": "Server",
+    "KoishiServer": "Koishi Server",
+    "UltraPreemptiveServer": "Ultra Preemptive Server",
+    "PlayerNickname": "Player Nickname",
+    "RoomPasswordOptional": "Room Password (optional)"
+  },
+  "ReplayModal": {
+    "SelectReplay": "Select Replay",
+    "ClickOrDragFilesHereToUpload": "Click or drag files here to upload",
+    "SupportsYrd3dExtension": "Only replay files with the .yrp3d extension are supported.",
+    "StartReplay": "Start Replay",
+    "PleaseUploadReplayFile": "Please upload the replay file first."
   }
 }

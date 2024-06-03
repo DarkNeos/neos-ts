@@ -331,7 +331,7 @@ const SideButtons: React.FC<{
           <span className={styles["btn-icon"]}>
             <IconFont type="icon-side-bar-fill" size={16} />
             <span className={styles["btn-text"]}>
-            &nbsp;&nbsp;{collapsed ? i18n("Expand") : i18n("Collapse")}{/* {i18n("Sidebar")} */}
+            &nbsp;&nbsp;{collapsed ? i18n("Expand") : i18n("Collapse")} {i18n("Sidebar")}
             </span>
           </span>
         }
