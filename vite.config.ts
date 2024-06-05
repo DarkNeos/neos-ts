@@ -6,6 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import wasmPack from "vite-plugin-wasm-pack";
 import sassDts from "vite-plugin-sass-dts";
 import path from "path";
+import arraybuffer from "vite-plugin-arraybuffer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
     react(),
     svgr(),
     ydkLoader(),
+    arraybuffer(),
     tsconfigPaths(),
     wasmPack("./rust-src"),
     sassDts({

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { LoaderFunction, useNavigate } from "react-router-dom";
+import { LoaderFunction, useNavigate, useSearchParams } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
+import { ygopro } from "@/api";
 import { AudioActionType, changeScene } from "@/infra/audio";
 import { matStore, SideStage, sideStore } from "@/stores";
 
@@ -34,6 +35,19 @@ export const Component: React.FC = () => {
   const { stage } = useSnapshot(sideStore);
   const { duelEnd } = useSnapshot(matStore);
   const navigate = useNavigate();
+
+  // 如果处于开发时的本地文件回放模式，则重新跳回Match且保持record参数，从而开始下一轮播放
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const devReplayFile = searchParams.get("record");
+    if (
+      searchParams &&
+      matStore.selfType === ygopro.StocTypeChange.SelfType.UNKNOWN
+    ) {
+      navigate(`/match?record=${devReplayFile}`);
+    }
+  }, []);
 
   useEffect(() => {
     if (stage === SideStage.SIDE_CHANGING) {
