@@ -7,6 +7,7 @@ import { replayStore } from "@/stores";
 
 import { Uploader } from "../../Shared";
 import { connectSrvpro } from "../util";
+import { useEnv } from "@/hook";
 
 const localStore = proxy({
   open: false,
@@ -44,10 +45,12 @@ export const ReplayModal: React.FC = () => {
 
   // 开发时的回放模式：路径跳转到duel
   const [searchParams] = useSearchParams();
+  const { DEV } = useEnv();
   const recordName = searchParams.get("record");
 
   // 如处于回放模式且有回放文件，则导入播放
   useEffect(() => {
+    if (!DEV) return;
     if (recordName) {
       import(
         /* @vite-ignore */ `../../../../neos-assets/records/${recordName}.yrp3d?arraybuffer`

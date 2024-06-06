@@ -24,6 +24,7 @@ import { AnnounceModal } from "./Message/AnnounceModal";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 import { ChatBox } from "./PlayMat/ChatBox";
 import { HandChain } from "./PlayMat/HandChain";
+import { useEnv } from "@/hook";
 
 export const loader: LoaderFunction = async () => {
   // 更新场景
@@ -38,14 +39,16 @@ export const Component: React.FC = () => {
 
   // 如果处于开发时的本地文件回放模式，则重新跳回Match且保持record参数，从而开始下一轮播放
   const [searchParams] = useSearchParams();
+  const { DEV } = useEnv();
 
   useEffect(() => {
-    const devReplayFile = searchParams.get("record");
+    if (!DEV) return;
+    const recordName = searchParams.get("record");
     if (
       searchParams &&
       matStore.selfType === ygopro.StocTypeChange.SelfType.UNKNOWN
     ) {
-      navigate(`/match?record=${devReplayFile}`);
+      navigate(`/match?record=${recordName}`);
     }
   }, []);
 
