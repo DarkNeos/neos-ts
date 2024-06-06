@@ -1,12 +1,13 @@
-import { Button, message, Modal, UploadProps } from "antd";
+import { Button, message, Modal, type UploadProps } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { replayStore } from "@/stores";
 
 import { Uploader } from "../../Shared";
 import { connectSrvpro } from "../util";
+import { useEnv } from "@/hook";
 
 const localStore = proxy({
   open: false,
@@ -38,18 +39,26 @@ export const ReplayModal: React.FC = () => {
     } else {
       setLoading(true);
 
-      // 标记为回放模式
-      replayStore.isReplay = true;
-
-      await connectSrvpro({
-        ip: "",
-        player: "",
-        passWd: "",
-        replay: true,
-        replayData: replay,
-      });
+      await launchReplay(replay);
     }
   };
+
+  // 开发时的回放模式：路径跳转到duel
+  const [searchParams] = useSearchParams();
+  const { DEV } = useEnv();
+  const recordName = searchParams.get("record");
+
+  // 如处于回放模式且有回放文件，则导入播放
+  useEffect(() => {
+    if (!DEV) return;
+    if (recordName) {
+      import(
+        /* @vite-ignore */ `../../../../neos-assets/records/${recordName}.yrp3d?arraybuffer`
+      )
+        .then((res) => launchReplay(res.default))
+        .catch(() => console.error(`Local record '${recordName}' not found`));
+    }
+  }, []);
 
   useEffect(() => {
     if (hasStart) {
@@ -57,7 +66,7 @@ export const ReplayModal: React.FC = () => {
       localStore.open = false;
       localStore.hasStart = false;
       // 跳转
-      navigate(`/duel`);
+      navigate(recordName ? `/duel?record=${recordName}` : "/duel");
     }
   }, [hasStart]);
 
@@ -90,4 +99,18 @@ export const replayOpen = () => {
 
 export const replayStart = () => {
   localStore.hasStart = true;
+};
+
+/** 单独抽离出来，以便可以在 Match.tsx 中调用，跳过Modal直接加载回放，便于开发 */
+export const launchReplay = async (replayData: ArrayBuffer) => {
+  // 标记为回放模式
+  replayStore.isReplay = true;
+
+  await connectSrvpro({
+    ip: "",
+    player: "",
+    passWd: "",
+    replay: true,
+    replayData,
+  });
 };
