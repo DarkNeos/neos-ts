@@ -37,7 +37,6 @@ const BgBlock: React.FC<
       [styles.glowing]: glowing,
     })}
   >
-    {<DecoTriangles />}
     {<DisabledCross disabled={disabled} />}
     {<BgChain {...chains} />}
   </div>
@@ -103,6 +102,9 @@ const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
   const removed = op ? snap[REMOVED].op : snap[REMOVED].me;
   const extra = op ? snap[EXTRA].op : snap[EXTRA].me;
 
+  const getN = (zone: ygopro.CardZone) =>
+    cardStore.at(zone, meController).length;
+
   const genChains = (states: Snapshot<BlockState[]>) => {
     const chains: number[] = states.flatMap((state) => state.chainIndex);
     chains.sort();
@@ -115,25 +117,37 @@ const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
       <BgBlock
         className={styles.banish}
         glowing={!op && glowingBanish}
-        chains={{ chains: genChains(removed), banish: true, op }}
+        chains={{
+          chains: genChains(removed),
+          op,
+          nBelow: getN(REMOVED),
+        }}
       />
       <BgBlock
         className={styles.graveyard}
         glowing={!op && glowingGraveyard}
-        chains={{ chains: genChains(grave), graveyard: true, op }}
+        chains={{
+          chains: genChains(grave),
+          op,
+          nBelow: getN(GRAVE),
+        }}
       />
       <BgBlock
         className={styles.field}
         onClick={() => onBlockClick(field.interactivity)}
         disabled={field.disabled}
         highlight={!!field.interactivity}
-        chains={{ chains: field.chainIndex, field: true, op }}
+        chains={{ chains: field.chainIndex, op }}
       />
       <BgBlock className={styles.deck} chains={{ chains: [] }} />
       <BgBlock
         className={classnames(styles.deck, styles["extra-deck"])}
         glowing={!op && glowingExtra}
-        chains={{ chains: genChains(extra), extra: true, op }}
+        chains={{
+          chains: genChains(extra),
+          op,
+          nBelow: getN(EXTRA),
+        }}
       />
     </div>
   );
@@ -164,17 +178,6 @@ const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
     placeStore.clearAllInteractivity();
   }
 };
-
-const DecoTriangles: React.FC = () => (
-  <>
-    {Array.from({ length: 2 }).map((_, i) => (
-      <div className={styles.triangle} key={i}>
-        <div className={styles["triangle-atom"]} />
-        <div className={styles["triangle-atom"]} />
-      </div>
-    ))}
-  </>
-);
 
 const DisabledCross: React.FC<{ disabled: boolean }> = ({ disabled }) => (
   <div

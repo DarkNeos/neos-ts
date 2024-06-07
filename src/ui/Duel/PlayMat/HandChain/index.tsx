@@ -10,8 +10,7 @@ const { HAND } = ygopro.CardZone;
 
 export const HandChain: React.FC = () => {
   const snap = useSnapshot(placeStore.inner);
-  const me = snap[HAND].me;
-  const op = snap[HAND].op;
+  const { me, op } = snap[HAND];
 
   const genChains = (states: Snapshot<BlockState[]>) => {
     const chains: number[] = states.flatMap((state) => state.chainIndex);

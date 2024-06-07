@@ -16,14 +16,17 @@ section.mat {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // perspective: var(--perspective);
+    perspective: var(--perspective);
+  }
+  .camera,
+  .camera * {
+    // 所有元素加入同一个三维渲染上下文：https://acgtofe.com/posts/2013/09/css-3d-transform
+    transform-style: preserve-3d;
   }
   .plane {
     transform: translateX(0) translateY(0) translateZ(0)
       rotateX(var(--plane-rotate-x));
     width: fit-content;
-
-    perspective: var(--perspective);
   }
 }
 
@@ -34,6 +37,4 @@ section.mat {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  transform-style: preserve-3d;
 }

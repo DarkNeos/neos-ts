@@ -2,23 +2,10 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-width: 8rem;
-  max-width: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
   pointer-events: none;
-}
-
-.banish,
-.graveyard {
-  left: 70%;
-}
-
-.field,
-.extra-deck {
-  right: 130%;
 }
 
 .op {
@@ -26,7 +13,7 @@
 }
 
 .chain {
-  position: relative;
+  transform: translateZ(calc(var(--n) * 1px + 3px));
   width: 50%;
   height: 50%;
   display: flex;
