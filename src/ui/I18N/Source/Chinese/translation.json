@@ -168,5 +168,9 @@
     "SupportsYrd3dExtension": "仅支持后缀名为yrp3d的录像文件。",
     "StartReplay": "开始回放",
     "PleaseUploadReplayFile": "请先上传录像文件"
+  },
+  "Popover": {
+    "First": "先手",
+    "Second": "后手"
   }
 }

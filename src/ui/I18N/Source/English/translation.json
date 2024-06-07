@@ -168,5 +168,9 @@
     "SupportsYrd3dExtension": "Only replay files with the .yrp3d extension are supported.",
     "StartReplay": "Start Replay",
     "PleaseUploadReplayFile": "Please upload the replay file first."
+  },
+  "Popover": {
+    "First": "First",
+    "Second": "Second"
   }
 }

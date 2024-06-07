@@ -127,7 +127,11 @@ export const CardDetail: React.FC<{
             size="small"
             items={desc.filter(Boolean).map((d, i) => ({
               label:
-                desc.length > 1 ? (i ? i18n("MonsterEffect") : i18n("PendulumEffect")) : i18n("CardEffect"),
+                desc.length > 1
+                  ? i
+                    ? i18n("MonsterEffect")
+                    : i18n("PendulumEffect")
+                  : i18n("CardEffect"),
               span: 3,
               children: <CardEffectText desc={d} />,
             }))}

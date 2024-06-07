@@ -27,7 +27,7 @@ export const I18NSelector: React.FC = () => {
         { value: "cn", label: "简体中文" },
         { value: "en", label: "English" },
         { value: "fr", label: "Français" },
-        { value: "jp", label: "日本語" },
+        { value: "ja", label: "日本語" },
         { value: "br", label: "Português do Brasil" },
         { value: "pt", label: "Português" },
         { value: "es", label: "Castellano" },

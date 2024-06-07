@@ -28,6 +28,7 @@ const resources = {
     Chat: translationChinese.Chat,
     MatchModal: translationChinese.MatchModal,
     ReplayModal: translationChinese.ReplayModal,
+    Popover: translationChinese.Popover,
   },
   en: {
     Header: translationEnglish.Header,
@@ -43,6 +44,7 @@ const resources = {
     Chat: translationEnglish.Chat,
     MatchModal: translationEnglish.MatchModal,
     ReplayModal: translationEnglish.ReplayModal,
+    Popover: translationEnglish.Popover,
   },
   es: {
     Header: translationSpanish.Header,
@@ -54,7 +56,7 @@ const resources = {
     Start: translationFrench.Start,
     Match: translationFrench.Match,
   },
-  jp: {
+  ja: {
     Header: translationJapanese.Header,
     Start: translationJapanese.Start,
     Match: translationJapanese.Match,

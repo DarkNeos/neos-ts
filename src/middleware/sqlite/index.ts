@@ -68,6 +68,28 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
     case sqliteCmd.INIT: {
       const info = action.initInfo;
       if (info) {
+        const language = localStorage.getItem("language") || "cn";
+
+        //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
+        if (
+          language === "en" ||
+          language === "br" ||
+          language === "pt" ||
+          language === "fr"
+        ) {
+          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "en-US");
+          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "en-US");
+        } else if (language === "ja") {
+          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "ja-JP");
+          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "ja-JP");
+        } else if (language === "es") {
+          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "es-ES");
+          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "es-ES");
+        } else if (language === "ko") {
+          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "ko-KR");
+          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "ko-KR");
+        }
+
         const releasePromise = pfetch(info.releaseDbUrl, {
           progressCallback: action.initInfo?.progressCallback,
         }).then((res) => res.arrayBuffer()); // TODO: i18n
