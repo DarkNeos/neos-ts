@@ -74,27 +74,10 @@
 
 .search-cards-container {
   height: 100%;
-  .search-cards {
-    --card-width: 5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
-    padding: 0.75rem;
-    gap: 0.625rem;
-  }
 }
 
 .search-count {
   font-size: 0.7rem;
-}
-
-.empty {
-  gap: 1.25rem;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .editing-zone-name {

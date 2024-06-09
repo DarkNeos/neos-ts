@@ -4,18 +4,24 @@ import {
   DownloadOutlined,
   FileAddOutlined,
   PlusOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import { App, Button, Dropdown, MenuProps, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
 import YGOProDeck from "ygopro-deck-encode";
 
-import { deckStore, IDeck } from "@/stores";
+import { uploadDeck } from "@/api";
+import { MdproDeck } from "@/api/mdproDeck/schema";
+import { accountStore, deckStore, IDeck } from "@/stores";
 
-import { Uploader } from "../Shared";
-import styles from "./DeckSelect.module.scss";
+import { Uploader } from "../../Shared";
+import { genYdkText } from "../utils";
+import styles from "./index.module.scss";
+
+const DEFAULT_DECK_CASE = 1082012;
 
 export const DeckSelect: React.FC<{
-  decks: readonly { deckName: string }[];
+  decks: IDeck[];
   selected: string;
   onSelect: (deckName: string) => any;
   onDelete: (deckName: string) => Promise<any>;
@@ -120,25 +126,52 @@ export const DeckSelect: React.FC<{
     },
   ].map((_, key) => ({ ..._, key }));
 
+  const onUploadMdDeck = async (deck: IDeck) => {
+    const user = accountStore.user;
+    if (user) {
+      // TODO: Deck Case
+      const mdproDeck: MdproDeck = {
+        deckId: "",
+        deckContributor: user.username,
+        deckName: deck.deckName,
+        deckYdk: genYdkText(deck),
+        deckCase: DEFAULT_DECK_CASE,
+      };
+
+      const resp = await uploadDeck(mdproDeck);
+      if (resp) {
+        if (resp.code) {
+          message.error(resp.message);
+        } else {
+          message.success(`上传在线卡组<${deck.deckName}>成功!`);
+        }
+      } else {
+        message.error("上传在线卡组失败，请检查网络状况。");
+      }
+    } else {
+      message.error("需要先登录萌卡账号才能上传在线卡组！");
+    }
+  };
+
   return (
     <>
       <div className={styles["deck-select"]}>
-        {decks.map(({ deckName }) => (
+        {decks.map((deck) => (
           <div
-            key={deckName}
+            key={deck.deckName}
             className={styles.item}
-            onClick={() => onSelect(deckName)}
+            onClick={() => onSelect(deck.deckName)}
           >
             <div className={styles.hover} />
-            {selected === deckName && <div className={styles.selected} />}
-            <span>{deckName}</span>
+            {selected === deck.deckName && <div className={styles.selected} />}
+            <span>{deck.deckName}</span>
             <div className={styles.btns}>
               <Button
                 icon={<CopyOutlined />}
                 type="text"
                 size="small"
                 onClick={cancelBubble(async () => {
-                  const result = await onCopy(deckName);
+                  const result = await onCopy(deck.deckName);
                   result
                     ? message.success("复制成功")
                     : message.error("复制失败");
@@ -149,7 +182,7 @@ export const DeckSelect: React.FC<{
                 type="text"
                 size="small"
                 onClick={cancelBubble(async () => {
-                  await onDelete(deckName);
+                  await onDelete(deck.deckName);
                   onSelect(decks[0].deckName);
                 })}
               />
@@ -158,7 +191,13 @@ export const DeckSelect: React.FC<{
                 icon={<DownloadOutlined />}
                 type="text"
                 size="small"
-                onClick={cancelBubble(() => onDownload(deckName))}
+                onClick={cancelBubble(() => onDownload(deck.deckName))}
+              />
+              <Button
+                icon={<UploadOutlined />}
+                type="text"
+                size="small"
+                onClick={cancelBubble(async () => onUploadMdDeck(deck))}
               />
             </div>
           </div>

@@ -3,6 +3,7 @@ import { LoaderFunction, useNavigate, useSearchParams } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { ygopro } from "@/api";
+import { useEnv } from "@/hook";
 import { AudioActionType, changeScene } from "@/infra/audio";
 import { matStore, SideStage, sideStore } from "@/stores";
 
@@ -24,7 +25,6 @@ import { AnnounceModal } from "./Message/AnnounceModal";
 import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 import { ChatBox } from "./PlayMat/ChatBox";
 import { HandChain } from "./PlayMat/HandChain";
-import { useEnv } from "@/hook";
 
 export const loader: LoaderFunction = async () => {
   // 更新场景

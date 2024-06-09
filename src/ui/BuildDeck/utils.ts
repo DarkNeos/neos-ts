@@ -38,7 +38,7 @@ export const compareCards = (a: CardMeta, b: CardMeta): number => {
 };
 
 /** 生成ydk格式的卡组文本 */
-function genYdkText(deck: IDeck): string {
+export function genYdkText(deck: IDeck): string {
   const { main, extra, side } = deck;
 
   const lines = [

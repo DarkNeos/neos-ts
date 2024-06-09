@@ -14,7 +14,7 @@ import {
 } from "@/common";
 import { CardEffectText, IconFont, ScrollableArea, YgoCard } from "@/ui/Shared";
 
-import styles from "./CardDetail.module.scss";
+import styles from "./index.module.scss";
 
 export const CardDetail: React.FC<{
   code: number;
