@@ -16,7 +16,7 @@ import {
 } from "@/common";
 import { FtsConditions } from "@/middleware/sqlite/fts";
 
-import styles from "./Filter.module.scss";
+import styles from "./index.module.scss";
 
 const levels = Array.from({ length: 12 }, (_, index) => ({
   value: index + 1,
