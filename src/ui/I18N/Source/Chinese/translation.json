@@ -160,7 +160,8 @@
     "KoishiServer": "Koishi服",
     "UltraPreemptiveServer": "超先行服",
     "PlayerNickname": "玩家昵称",
-    "RoomPasswordOptional": "房间密码(可选)"
+    "RoomPasswordOptional": "房间密码(可选)",
+    "JoinRoom": "加入房间"
   },
   "ReplayModal": {
     "SelectReplay": "选择回放",
@@ -172,5 +173,10 @@
   "Popover": {
     "First": "先手",
     "Second": "后手"
+  },
+  "Menu": {
+    "DoYouSurrunder": "是否投降？",
+    "Cancel": "取消",
+    "Confirm": "确定"
   }
 }

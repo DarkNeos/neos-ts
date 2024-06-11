@@ -33,6 +33,7 @@ import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
+import { useTranslation } from "react-i18next";
 
 const { useToken } = theme;
 
@@ -60,6 +61,7 @@ const initialPhaseBind: [
 ];
 
 export const Menu = () => {
+  const { t: i18n } = useTranslation("Menu");
   const {
     currentPlayer,
     chainSetting,
@@ -136,13 +138,12 @@ export const Menu = () => {
       },
     }),
   );
-
   const surrenderMenuItems: MenuProps["items"] = [
     {
-      label: "取消",
+      label: i18n("Cancel"),
     },
     {
-      label: "确定",
+      label: i18n("Confirm"),
       danger: true,
       onClick: sendSurrender,
     },
@@ -184,7 +185,7 @@ export const Menu = () => {
         ></Button>
       </Tooltip>
       <DropdownWithTitle
-        title="是否投降？"
+        title={ i18n("DoYouSurrunder") }
         menu={{ items: surrenderMenuItems }}
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>

@@ -93,7 +93,7 @@ export const MatchModal: React.FC = ({}) => {
       onCancel={() => (matchStore.open = false)}
       footer={
         <Button onClick={handleSubmit} loading={confirmLoading}>
-          加入房间
+          {i18n("JoinRoom")}
         </Button>
       }
       confirmLoading={confirmLoading}

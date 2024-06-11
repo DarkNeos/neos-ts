@@ -160,7 +160,8 @@
     "KoishiServer": "Koishi Server",
     "UltraPreemptiveServer": "Ultra Preemptive Server",
     "PlayerNickname": "Player Nickname",
-    "RoomPasswordOptional": "Room Password (optional)"
+    "RoomPasswordOptional": "Room Password (optional)",
+    "JoinRoom": "Join the Room"
   },
   "ReplayModal": {
     "SelectReplay": "Select Replay",
@@ -172,5 +173,10 @@
   "Popover": {
     "First": "First",
     "Second": "Second"
+  },
+  "Menu": {
+    "DoYouSurrunder": "Do you surrender?",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm"
   }
 }

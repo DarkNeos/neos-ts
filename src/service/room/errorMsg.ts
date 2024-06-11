@@ -14,6 +14,9 @@ const DECKERROR_EXTRACOUNT = 0x7;
 const DECKERROR_SIDECOUNT = 0x8;
 const DECKERROR_NOTAVAIL = 0x9;
 
+const language = localStorage.getItem('language');
+const mainDeckWarining = language === 'en' ? 'The main deck should contain 40-60 cards.' : '主卡组数量应为40-60张';
+
 export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
   const { error_type, error_code } = errorMsg;
   switch (error_type) {
@@ -55,7 +58,7 @@ export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
           break;
         }
         case DECKERROR_MAINCOUNT: {
-          roomStore.errorMsg = "主卡组数量应为40-60张";
+          roomStore.errorMsg = mainDeckWarining;
           break;
         }
         case DECKERROR_EXTRACOUNT: {
