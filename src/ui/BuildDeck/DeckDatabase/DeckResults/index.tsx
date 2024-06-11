@@ -3,7 +3,7 @@ import React, { memo, useEffect } from "react";
 import { type INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
-import { pullDecks } from "@/api";
+import { mgetDeck, pullDecks } from "@/api";
 import { MdproDeck } from "@/api/mdproDeck/schema";
 import { useConfig } from "@/config";
 import { IconFont } from "@/ui/Shared";
@@ -120,17 +120,30 @@ const MdproDeckBlock: React.FC<Snapshot<MdproDeck>> = (deck) => (
 );
 
 const copyMdproDeckToEditing = async (mdproDeck: MdproDeck) => {
-  const deck = YGOProDeck.fromYdkString(mdproDeck.deckYdk);
+  // currently the content of the deck, which we named `Ydk`,
+  // haven't been downloaded, so we need to fetch from server again by `mgetDeck`
+  // API.
 
-  if (!(deck.main.length + deck.extra.length + deck.side.length === 0)) {
-    const deckName = mdproDeck.deckName;
-    const ideck = { deckName, ...deck };
-    const editingDeck = await iDeckToEditingDeck(ideck);
+  const deckID = mdproDeck.deckId;
+  const resp = await mgetDeck(deckID);
 
-    setSelectedDeck(ideck);
-    editDeckStore.set(editingDeck);
+  if (resp?.code !== 0) {
+    message.error(resp?.message);
+  } else if (resp.data?.deckYdk !== undefined) {
+    const deck = YGOProDeck.fromYdkString(resp.data.deckYdk);
+
+    if (!(deck.main.length + deck.extra.length + deck.side.length === 0)) {
+      const deckName = mdproDeck.deckName;
+      const ideck = { deckName, ...deck };
+      const editingDeck = await iDeckToEditingDeck(ideck);
+
+      setSelectedDeck(ideck);
+      editDeckStore.set(editingDeck);
+    } else {
+      message.error("卡组解析失败，请联系技术人员解决：<ccc@neos.moe>");
+    }
   } else {
-    message.error("卡组解析失败，请联系技术人员解决：<ccc@neos.moe>");
+    message.error("卡组复制失败，请联系技术人员结局：<ccc@neos.moe>");
   }
 };
 
