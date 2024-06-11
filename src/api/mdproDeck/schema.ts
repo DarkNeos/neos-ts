@@ -16,6 +16,6 @@ export interface MdproDeck {
   deckUploadDate?: string;
   deckUpdateDate?: string;
   /* Content of the deck. */
-  deckYdk: string;
+  deckYdk?: string;
   deckCase: number;
 }
