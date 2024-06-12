@@ -177,6 +177,15 @@
   "Menu": {
     "DoYouSurrunder": "是否投降？",
     "Cancel": "取消",
-    "Confirm": "确定"
+    "Confirm": "确定",
+    "SelectPhase": "请选择要进入的阶段",
+    "Deselect": "取消选择",
+    "SelectionComplete": "完成选择",
+    "ChatRoom": "聊天室"
+  },
+  "SelectCardModal": {
+    "PleaseSelect": "请选择",
+    "Cards": "张卡",
+    "SelectOneCardAtTime": "每次选择一张"
   }
 }

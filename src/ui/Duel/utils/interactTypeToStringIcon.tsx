@@ -6,15 +6,15 @@ import CardPosition = ygopro.CardPosition;
 
 const language = localStorage.getItem('language');
 
-const sSet = language === 'en' ? 'Set' : '后场放置';
-const summon = language === 'en' ? 'Normal Summon' : '普通召唤';
-const spSummon = language === 'en' ? 'Special Summon' : '特殊召唤';
-const posChange = language === 'en' ? 'Change Position' : '改变表示形式';
-const mSet = language === 'en' ? 'Set' : '前场放置';
-const activate = language === 'en' ? 'Activate' : '发动效果';
-const attack = language === 'en' ? 'Attack' : '攻击';
-
 export function interactTypeToString(t: InteractType): string {
+  const sSet = language != 'cn' ? 'Set' : '后场放置';
+  const summon = language != 'cn' ? 'Normal Summon' : '普通召唤';
+  const spSummon = language != 'cn' ? 'Special Summon' : '特殊召唤';
+  const posChange = language != 'cn' ? 'Change Position' : '改变表示形式';
+  const mSet = language != 'cn' ? 'Set' : '前场放置';
+  const activate = language != 'cn' ? 'Activate' : '发动效果';
+  const attack = language != 'cn' ? 'Attack' : '攻击';
+
   switch (t) {
     case InteractType.SUMMON:
       return summon;

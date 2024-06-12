@@ -66,6 +66,18 @@ export function getCardImgUrl(code: number, back = false) {
   if (isSuperReleaseCard(code)) {
     return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
   } else {
+    const language = localStorage.getItem("language");
+    if (
+      language === "en" ||
+      language === "br" ||
+      language === "pt" ||
+      language === "fr"
+    ) {
+      NeosConfig.releaseImgUrl = NeosConfig.releaseImgUrl.replace(
+        "zh-CN",
+        "en-US",
+      );
+    }
     return `${NeosConfig.releaseImgUrl}/${code}.jpg`;
   }
 }

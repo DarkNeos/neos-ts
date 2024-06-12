@@ -38,6 +38,19 @@ import { useTranslation } from "react-i18next";
 const { useToken } = theme;
 
 const FINISH_CANCEL_RESPONSE = -1;
+const language = localStorage.getItem('language');
+
+const drawPhase = language != 'cn' ? 'Draw' : '抽卡阶段';
+const standbyPhase = language != 'cn' ? 'Standhy Phase' : '准备阶段';
+const mainPhase1 = language != 'cn' ? 'Main Phase 1' : '主要阶段 1';
+const battlePhase = language != 'cn' ? 'Battle Phase' : '战斗阶段';
+const battleStart = language != 'cn' ? 'Battle Start' : '战斗开始';
+const battleStep = language != 'cn' ? 'Battle Step' : '战斗步骤';
+const damage = language != 'cn' ? 'Damage Step' : '伤害步骤';
+const damageCalc = language != 'cn' ? 'Damage Step (Damage Calculation)' : '伤害步骤（伤害计算）';
+const mainPhase2 = language != 'cn' ? 'Main Phase 2' : '主要阶段 2';
+const endPhase = language != 'cn' ? 'End Phase' : '结束阶段';
+const unknown = language != 'cn' ? 'Unknown' : '未知阶段';
 
 // PhaseType, 中文, response, 是否显示，是否禁用
 const initialPhaseBind: [
@@ -47,17 +60,17 @@ const initialPhaseBind: [
   show: boolean,
   disabled: boolean,
 ][] = [
-  [PhaseType.DRAW, "抽卡阶段", -1, true, true],
-  [PhaseType.STANDBY, "准备阶段", -1, true, true],
-  [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
-  [PhaseType.BATTLE, "战斗阶段", 6, true, false],
-  [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
-  [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
-  [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
-  [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
-  [PhaseType.MAIN2, "主要阶段 2", 2, true, false],
-  [PhaseType.END, "结束阶段", 7, true, false],
-  [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
+  [PhaseType.DRAW, drawPhase, -1, true, true],
+  [PhaseType.STANDBY, standbyPhase, -1, true, true],
+  [PhaseType.MAIN1, mainPhase1, -1, true, true],
+  [PhaseType.BATTLE, battlePhase, 6, true, false],
+  [PhaseType.BATTLE_START, battleStart, 3, false, true],
+  [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
+  [PhaseType.DAMAGE, damage, 3, false, true],
+  [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
+  [PhaseType.MAIN2, mainPhase2, 2, true, false],
+  [PhaseType.END, endPhase, 7, true, false],
+  [PhaseType.UNKNOWN, unknown, -1, false, true],
 ];
 
 export const Menu = () => {
@@ -123,10 +136,14 @@ export const Menu = () => {
     setPhaseSwitchItems(newPhaseSwitchItems);
   }, [phaseBind]);
 
+  const allChain = language != 'cn' ? 'All Chain' : '';
+  const ignoreChain = language != 'cn' ? 'Ignore Chain' : '';
+  const smartChain = language != 'cn' ? 'Smart Chain' : '';
+
   const chainSettingTexts = [
-    [ChainSetting.CHAIN_ALL, "全部连锁"],
-    [ChainSetting.CHAIN_IGNORE, "忽略连锁"],
-    [ChainSetting.CHAIN_SMART, "智能连锁"],
+    [ChainSetting.CHAIN_ALL, allChain],
+    [ChainSetting.CHAIN_IGNORE, ignoreChain],
+    [ChainSetting.CHAIN_SMART, smartChain],
   ] as const;
   const chainSettingItems: MenuProps["items"] = chainSettingTexts.map(
     ([key, text]) => ({
@@ -155,7 +172,7 @@ export const Menu = () => {
     <div className={styles["menu-container"]}>
       <SelectManager />
       <DropdownWithTitle
-        title="请选择要进入的阶段"
+        title={i18n("SelectPhase")}
         menu={{ items: phaseSwitchItems }}
         disabled={globalDisable}
       >
@@ -177,7 +194,7 @@ export const Menu = () => {
           type="text"
         ></Button>
       </DropdownWithTitle>
-      <Tooltip title="聊天室">
+      <Tooltip title={i18n("ChatRoom")}>
         <Button
           icon={<MessageFilled />}
           onClick={openChatBox}
@@ -247,6 +264,7 @@ const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
 };
 
 const SelectManager: React.FC = () => {
+  const { t: i18n } = useTranslation("Menu");
   const { finishable, cancelable } = useSnapshot(matStore.selectUnselectInfo);
   const onFinishOrCancel = () => {
     sendSelectSingleResponse(FINISH_CANCEL_RESPONSE);
@@ -259,7 +277,7 @@ const SelectManager: React.FC = () => {
         disabled={!cancelable && !finishable}
         onClick={onFinishOrCancel}
       >
-        {finishable ? "完成选择" : "取消选择"}
+        {finishable ? i18n("SelectionComplete") : i18n("Deselect")}
       </Button>
     </div>
   );

@@ -7,6 +7,7 @@ import { proxy, useSnapshot } from "valtio";
 import { sendSelectPositionResponse, ygopro } from "@/api";
 
 import { NeosModal } from "../NeosModal";
+import { useTranslation } from "react-i18next";
 
 interface PositionModalProps {
   isOpen: boolean;
@@ -16,15 +17,19 @@ const defaultProps = { isOpen: false, positions: [] };
 
 const localStore = proxy<PositionModalProps>(defaultProps);
 
+const language = localStorage.getItem('language');
+const title = language != 'cn' ? 'Please select a position' : '请选择表示形式';
+
 export const PositionModal = () => {
   const { isOpen, positions } = useSnapshot(localStore);
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined,
   );
 
+  
   return (
     <NeosModal
-      title="请选择表示形式"
+      title={title}
       open={isOpen}
       footer={
         <Button
@@ -51,7 +56,7 @@ export const PositionModal = () => {
         {positions.map((position, idx) => (
           <CheckCard
             key={idx}
-            title={cardPositionToChinese(position)}
+            title={cardPosition(position)}
             value={position}
           />
         ))}
@@ -60,20 +65,24 @@ export const PositionModal = () => {
   );
 };
 
-function cardPositionToChinese(position: ygopro.CardPosition): string {
+function cardPosition(position: ygopro.CardPosition): string {
+  const faceUpAtk = language != 'cn' ? 'Face-Up Attack' : "正面攻击形式";
+  const faceUpDef = language != 'cn' ? 'Face-Up Defense' : "正面防守形式";
+  const faceDownAtk = language != 'cn' ? 'Face-Down Attack' : "背面攻击形式";
+  const faceDownDef = language != 'cn' ? 'Face-Down Defense' : "背面防守形式";
+
   switch (position) {
-    // TODO: i18n
     case ygopro.CardPosition.FACEUP_ATTACK: {
-      return "正面攻击形式";
+      return faceUpAtk;
     }
     case ygopro.CardPosition.FACEUP_DEFENSE: {
-      return "正面防守形式";
+      return faceUpDef;
     }
     case ygopro.CardPosition.FACEDOWN_ATTACK: {
-      return "背面攻击形式";
+      return faceDownAtk;
     }
     case ygopro.CardPosition.FACEDOWN_DEFENSE: {
-      return "背面防守形式";
+      return faceDownDef;
     }
     default: {
       return "[?]";

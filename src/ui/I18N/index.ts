@@ -30,6 +30,7 @@ const resources = {
     ReplayModal: translationChinese.ReplayModal,
     Popover: translationChinese.Popover,
     Menu: translationChinese.Menu,
+    SelectCardModal: translationChinese.SelectCardModal,
   },
   en: {
     Header: translationEnglish.Header,
@@ -47,6 +48,7 @@ const resources = {
     ReplayModal: translationEnglish.ReplayModal,
     Popover: translationEnglish.Popover,
     Menu: translationEnglish.Menu,
+    SelectCardModal: translationEnglish.SelectCardModal,
   },
   es: {
     Header: translationSpanish.Header,

@@ -177,6 +177,15 @@
   "Menu": {
     "DoYouSurrunder": "Do you surrender?",
     "Cancel": "Cancel",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "SelectPhase": "Please select the phase",
+    "Deselect": "Deselect",
+    "SelectionComplete": "Selection complete",
+    "ChatRoom": "Chat Room"
+  },
+  "SelectCardModal": {
+    "PleaseSelect": "Please select",
+    "Cards": "Cards",
+    "SelectOneCardAtTime": "Select one card at a time"
   }
 }

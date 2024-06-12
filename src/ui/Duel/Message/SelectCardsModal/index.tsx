@@ -13,6 +13,7 @@ import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
+import { useTranslation } from "react-i18next";
 
 export interface SelectCardsModalProps {
   isOpen: boolean;
@@ -56,6 +57,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   const selectHintMsg = hint.esSelectHint || "请选择卡片";
 
   const minMaxText = min === max ? min : `${min}-${max}`;
+
+  const { t: i18n } = useTranslation("SelectCardModal");
 
   useEffect(() => {
     const initial: [ygopro.CardZone, Option[]][] = grouped.map(([zone, _]) => [
@@ -107,8 +110,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         <>
           <span>{preHintMsg}</span>
           <span>{selectHintMsg}</span>
-          <span>(请选择 {minMaxText} 张卡)</span>
-          <span>{single ? "每次选择一张" : ""}</span>
+          <span>({i18n("PleaseSelect")} {minMaxText} {i18n("Cards")})</span>
+          <span>{single ? i18n("SelectOneCardAtTime") : ""}</span>
         </>
       } // TODO: 这里可以再细化一些
       width={"38.25rem"}

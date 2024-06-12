@@ -37,7 +37,6 @@ import { Chat } from "./Chat";
 import styles from "./index.module.scss";
 import { Mora, MoraPopover, Tp, TpPopover } from "./Popover";
 import { useTranslation } from "react-i18next";
-import { I18NSelector } from "../I18N";
 
 const NeosConfig = useConfig();
 
@@ -262,7 +261,6 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
   const snapRoom = useSnapshot(roomStore);
   return (
     <Space>
-      <I18NSelector />
       <Select
         title={ i18n("Deck") }
         showSearch
