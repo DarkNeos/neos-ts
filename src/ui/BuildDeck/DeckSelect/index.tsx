@@ -11,7 +11,6 @@ import React, { useRef, useState } from "react";
 import YGOProDeck from "ygopro-deck-encode";
 
 import { uploadDeck } from "@/api";
-import { MdproDeck } from "@/api/mdproDeck/schema";
 import { accountStore, deckStore, IDeck } from "@/stores";
 
 import { Uploader } from "../../Shared";
@@ -130,15 +129,16 @@ export const DeckSelect: React.FC<{
     const user = accountStore.user;
     if (user) {
       // TODO: Deck Case
-      const mdproDeck: MdproDeck = {
-        deckId: "",
+      const resp = await uploadDeck({
+        userId: user.id,
+        token: user.token,
         deckContributor: user.username,
-        deckName: deck.deckName,
-        deckYdk: genYdkText(deck),
-        deckCase: DEFAULT_DECK_CASE,
-      };
-
-      const resp = await uploadDeck(mdproDeck);
+        deck: {
+          deckName: deck.deckName,
+          deckCase: DEFAULT_DECK_CASE,
+          deckYdk: genYdkText(deck),
+        },
+      });
       if (resp) {
         if (resp.code) {
           message.error(resp.message);
