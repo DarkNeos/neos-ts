@@ -1,3 +1,9 @@
+export interface MdproResp<T> {
+  code: number;
+  message: string;
+  data?: T;
+}
+
 export interface MdproDeck {
   /*
    *`ID` of the online deck.
@@ -18,4 +24,15 @@ export interface MdproDeck {
   /* Content of the deck. */
   deckYdk?: string;
   deckCase: number;
+  /* User ID of MyCard Account */
+  userId: number;
+}
+
+export interface MdproDeckLike {
+  deckId: string;
+  deckContributor: string;
+  deckName: string;
+  deckLike?: number;
+  deckCase: number;
+  lastDate?: string;
 }

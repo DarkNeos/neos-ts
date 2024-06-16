@@ -1,11 +1,14 @@
-import { message, Pagination } from "antd";
+import { App, Dropdown, message, Pagination } from "antd";
+import { MessageInstance } from "antd/es/message/interface";
+import Fuse from "fuse.js";
 import React, { memo, useEffect } from "react";
 import { type INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
-import { mgetDeck, pullDecks } from "@/api";
-import { MdproDeck } from "@/api/mdproDeck/schema";
+import { deleteDeck, getPersonalList, mgetDeck, pullDecks } from "@/api";
+import { MdproDeckLike } from "@/api/mdproDeck/schema";
 import { useConfig } from "@/config";
+import { accountStore } from "@/stores";
 import { IconFont } from "@/ui/Shared";
 
 import { setSelectedDeck } from "../..";
@@ -18,39 +21,53 @@ const { assetsPath } = useConfig();
 interface Props {
   query: string;
   page: number;
-  decks: MdproDeck[];
+  decks: MdproDeckLike[];
   total: number;
+  onlyMine: boolean;
 }
 
 // TODO: useConfig
 const PAGE_SIZE = 30;
 const SORT_LIKE = true;
 
-const store = proxy<Props>({ query: "", page: 1, decks: [], total: 0 });
+const store = proxy<Props>({
+  query: "",
+  page: 1,
+  decks: [],
+  total: 0,
+  onlyMine: false,
+});
 
 export const DeckResults: React.FC = memo(() => {
   const snap = useSnapshot(store);
+  const { message } = App.useApp();
 
   useEffect(() => {
-    const update = async () => {
-      const resp = await pullDecks({
-        page: snap.page,
-        size: PAGE_SIZE,
-        keyWord: snap.query !== "" ? snap.query : undefined,
-        sortLike: SORT_LIKE,
-      });
+    if (snap.onlyMine) {
+      // show only decks uploaded by myself
 
-      if (resp?.data) {
-        const { total, records: newDecks } = resp.data;
-        store.total = total;
-        store.decks = newDecks;
-      } else {
-        store.decks = [];
-      }
-    };
+      updatePersonalList(message);
+    } else {
+      const update = async () => {
+        const resp = await pullDecks({
+          page: snap.page,
+          size: PAGE_SIZE,
+          keyWord: snap.query !== "" ? snap.query : undefined,
+          sortLike: SORT_LIKE,
+        });
 
-    update();
-  }, [snap.query, snap.page]);
+        if (resp?.data) {
+          const { total, records: newDecks } = resp.data;
+          store.total = total;
+          store.decks = newDecks;
+        } else {
+          store.decks = [];
+        }
+      };
+
+      update();
+    }
+  }, [snap.query, snap.page, snap.onlyMine]);
 
   const onChangePage = async (page: number) => {
     const resp = await pullDecks({
@@ -78,7 +95,11 @@ export const DeckResults: React.FC = memo(() => {
         <div className={styles.container}>
           <div className={styles["search-decks"]}>
             {snap.decks.map((deck) => (
-              <MdproDeckBlock key={deck.deckId} {...deck} />
+              <MdproDeckBlock
+                key={deck.deckId}
+                deck={deck}
+                onlyMine={snap.onlyMine}
+              />
             ))}
           </div>
           <div style={{ textAlign: "center", padding: "0.625rem 0 1.25rem" }}>
@@ -102,24 +123,116 @@ export const DeckResults: React.FC = memo(() => {
   );
 });
 
-const MdproDeckBlock: React.FC<Snapshot<MdproDeck>> = (deck) => (
-  <div
-    className={styles["mdpro-deck"]}
-    onClick={async () => await copyMdproDeckToEditing(deck)}
-  >
-    <img
-      src={`${assetsPath}/deck-cases/DeckCase${deck.deckCase
-        .toString()
-        .slice(-4)}_L.png`}
-    />
-    <div className={styles.text}>
-      <div>{truncateString(deck.deckName, 8)}</div>
-      <div>{`By ${truncateString(deck.deckContributor, 6)}`}</div>
-    </div>
-  </div>
-);
+const MdproDeckBlock: React.FC<{
+  deck: Snapshot<MdproDeckLike>;
+  onlyMine: boolean;
+}> = ({ deck, onlyMine }) => {
+  const { message } = App.useApp();
+  const user = accountStore.user;
 
-const copyMdproDeckToEditing = async (mdproDeck: MdproDeck) => {
+  const onDelete = async () => {
+    if (user) {
+      const resp = await deleteDeck(user.id, user.token, deck.deckId);
+
+      if (resp?.code === 0 && resp.data === true) {
+        message.success(
+          "删除卡组成功，由于缓存的原因请稍等片刻后重新刷新页面。",
+        );
+
+        // fresh when deletion succeed
+        await updatePersonalList(message);
+      } else if (resp !== undefined && resp.message !== "") {
+        message.error(resp.message);
+      } else {
+        message.error("删除卡组失败，请检查自己的网络状况。");
+      }
+    } else {
+      message.error("需要先登录萌卡才能删除卡组。");
+    }
+  };
+
+  const items = [];
+  if (onlyMine) {
+    items.push({ key: 0, label: "删除", danger: true, onClick: onDelete });
+  }
+
+  return (
+    <Dropdown
+      menu={{
+        items,
+      }}
+      trigger={["contextMenu"]}
+    >
+      <div
+        className={styles["mdpro-deck"]}
+        onClick={async () => await copyMdproDeckToEditing(deck)}
+      >
+        <img
+          src={`${assetsPath}/deck-cases/DeckCase${deck.deckCase
+            .toString()
+            .slice(-4)}_L.png`}
+        />
+        <div className={styles.text}>
+          <div>{truncateString(deck.deckName, 8)}</div>
+          <div>{`By ${truncateString(deck.deckContributor, 6)}`}</div>
+        </div>
+      </div>
+    </Dropdown>
+  );
+};
+
+const updatePersonalList = async (message: MessageInstance) => {
+  const user = accountStore.user;
+  if (user) {
+    const resp = await getPersonalList({
+      userID: user.id,
+      token: user.token,
+    });
+
+    if (resp) {
+      if (resp.code !== 0 || resp.data === undefined) {
+        message.error(resp.message);
+      } else {
+        let decks = resp.data;
+
+        if (store.query !== "") {
+          // use `fuse.js` to search
+          const fuse = new Fuse(decks, {
+            keys: ["deckName"],
+            includeScore: true,
+            threshold: 0.3,
+          });
+          const results = fuse.search(store.query);
+          decks = results.map((result) => result.item);
+        }
+
+        const total = decks.length;
+        store.total = total;
+        if (total === 0) {
+          store.page = 1;
+          store.decks = [];
+        } else {
+          if (total <= (store.page - 1) * PAGE_SIZE)
+            store.page = Math.floor((total - 1) / PAGE_SIZE) + 1;
+          store.decks = decks.slice(
+            (store.page - 1) * PAGE_SIZE,
+            store.page * PAGE_SIZE,
+          );
+        }
+      }
+    } else {
+      message.error("获取个人卡组列表失败，请检查自己的网络状况。");
+    }
+  } else {
+    message.error("需要先登录萌卡账号才能查看自己的在线卡组");
+    // set to default
+    store.page = 1;
+    store.decks = [];
+    store.total = 0;
+  }
+};
+
+const copyMdproDeckToEditing = async (mdproDeck: MdproDeckLike) => {
   // currently the content of the deck, which we named `Ydk`,
   // haven't been downloaded, so we need to fetch from server again by `mgetDeck`
   // API.
@@ -160,4 +273,8 @@ function truncateString(str: string, maxLen: number): string {
   return `${start}...${end}`;
 }
 
-export const freshMdrpoDecks = (query: string) => (store.query = query);
+export const freshMdrpoDecks = (query: string, onlyMine?: boolean) => {
+  store.query = query;
+
+  if (onlyMine !== undefined) store.onlyMine = onlyMine;
+};

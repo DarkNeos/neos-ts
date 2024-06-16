@@ -11,6 +11,7 @@
     "classnames": "^2.3.2",
     "cookies-ts": "^1.0.5",
     "eventemitter3": "^5.0.1",
+    "fuse.js": "^7.0.0",
     "google-protobuf": "^3.21.2",
     "i18next": "^23.11.4",
     "idb-keyval": "^6.2.1",

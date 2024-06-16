@@ -15,7 +15,7 @@ import { useDrop } from "react-dnd";
 import { CardMeta, searchCards } from "@/api";
 import { isToken } from "@/common";
 import { emptySearchConditions, FtsConditions } from "@/middleware/sqlite/fts";
-import { ScrollableArea, Type } from "@/ui/Shared";
+import { ScrollableArea, Select, Type } from "@/ui/Shared";
 
 import { Filter } from "../Filter";
 import styles from "../index.module.scss";
@@ -149,19 +149,35 @@ export const DeckDatabase: React.FC = () => {
         </Button>
       </Space>
       <div className={styles["select-btns"]}>
-        <Button
-          block
-          type={
-            isEqual(emptySearchConditions, searchConditions)
-              ? "text"
-              : "primary"
-          }
-          disabled={showMdproDecks}
-          icon={<FilterOutlined />}
-          onClick={showFilterModal}
-        >
-          筛选
-        </Button>
+        {showMdproDecks ? (
+          <Select
+            title=""
+            style={{ width: "18.90rem" }}
+            defaultValue={false}
+            options={[
+              { value: true, label: "只显示我上传的卡组" },
+              { value: false, label: "显示全部在线卡组" },
+            ]}
+            onChange={
+              // @ts-ignore
+              (value) => freshMdrpoDecks(searchWord, value)
+            }
+          />
+        ) : (
+          <Button
+            block
+            type={
+              isEqual(emptySearchConditions, searchConditions)
+                ? "text"
+                : "primary"
+            }
+            disabled={showMdproDecks}
+            icon={<FilterOutlined />}
+            onClick={showFilterModal}
+          >
+            筛选
+          </Button>
+        )}
         <Dropdown
           menu={{ items: dropdownOptions }}
           disabled={showMdproDecks}

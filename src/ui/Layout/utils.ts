@@ -82,6 +82,8 @@ export const handleSSOLogin = async (search: string) => {
   const sso = new URLSearchParams(search).get("sso");
   const user = sso ? getSSOUser(new URLSearchParams(atob(sso))) : undefined;
   if (user) {
+    // Convert userID to [`Number`] here
+    user.id = Number(user.id);
     accountStore.login(user);
     setCookie(CookieKeys.USER, JSON.stringify(user));
     // TODO: toast显示登录成功

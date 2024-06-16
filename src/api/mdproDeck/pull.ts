@@ -1,7 +1,7 @@
 import { useConfig } from "@/config";
 
-import { MdproDeck } from "./schema";
-import { mdproHeaders } from "./util";
+import { MdproDeckLike, MdproResp } from "./schema";
+import { handleHttps, mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
 const API_PATH = "api/mdpro3/deck/list";
@@ -20,21 +20,17 @@ const defaultPullReq: PullReq = {
   size: 20,
 };
 
-interface PullResp {
-  code: number;
-  message: string;
-  data?: {
-    current: number;
-    size: number;
-    total: number;
-    pages: number;
-    records: MdproDeck[];
-  };
+interface RespData {
+  current: number;
+  size: number;
+  total: number;
+  pages: number;
+  records: MdproDeckLike[];
 }
 
 export async function pullDecks(
   req: PullReq = defaultPullReq,
-): Promise<PullResp | undefined> {
+): Promise<MdproResp<RespData> | undefined> {
   const myHeaders = mdproHeaders();
 
   const params = new URLSearchParams();
@@ -53,10 +49,5 @@ export async function pullDecks(
     redirect: "follow",
   });
 
-  if (!resp.ok) {
-    console.error(`[Pull of Mdpro Decks] HTTPS error! status: ${resp.status}`);
-    return undefined;
-  } else {
-    return await resp.json();
-  }
+  return await handleHttps(resp, API_PATH);
 }

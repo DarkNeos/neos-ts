@@ -1,36 +1,58 @@
-import { useConfig } from "@/config";
+import { generateDeck } from "./generate";
+import { MdproResp } from "./schema";
+import { syncDeck } from "./sync";
+import { updatePublic } from "./updatePulibc";
 
-import { MdproDeck } from "./schema";
-import { mdproHeaders } from "./util";
-
-const { mdproServer } = useConfig();
-const API_PATH = "api/mdpro3/deck/upload";
-
-interface UploadResp {
-  code: number;
-  message: string;
-  data: MdproDeck;
+export interface UploadReq {
+  userId: number;
+  token: string;
+  deckContributor: string;
+  deck: {
+    deckName: string;
+    deckCase: number;
+    deckYdk: string;
+  };
 }
 
 export async function uploadDeck(
-  req: MdproDeck,
-): Promise<UploadResp | undefined> {
-  const myHeaders = mdproHeaders();
-  myHeaders.append("Content-Type", "application/json");
+  req: UploadReq,
+): Promise<MdproResp<void> | undefined> {
+  const generateResp = await generateDeck();
+  if (generateResp === undefined) return undefined;
 
-  const resp = await fetch(`${mdproServer}/${API_PATH}`, {
-    method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(req),
-    redirect: "follow",
-  });
+  if (generateResp.code !== 0 || generateResp.data === undefined)
+    return { code: generateResp.code, message: generateResp.message };
 
-  if (!resp.ok) {
-    console.error(
-      `[Upload of Mdpro Decks] HTTPS error! status: ${resp.status}`,
+  const deckId = generateResp.data;
+
+  const syncRes = await syncDeck(
+    {
+      userId: req.userId,
+      deckContributor: req.deckContributor,
+      deck: {
+        deckId,
+        deckName: req.deck.deckName,
+        deckCase: req.deck.deckCase,
+        deckYdk: req.deck.deckYdk,
+      },
+    },
+    req.token,
+  );
+
+  if (syncRes === undefined) return undefined;
+
+  if (syncRes.code === 0 && syncRes.data === true) {
+    // succeed in syncing
+
+    return await updatePublic(
+      {
+        userId: req.userId,
+        deckId,
+        isPublic: true,
+      },
+      req.token,
     );
-    return undefined;
   } else {
-    return await resp.json();
+    return { code: syncRes.code, message: syncRes.message };
   }
 }

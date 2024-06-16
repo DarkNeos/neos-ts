@@ -1,18 +1,16 @@
 import { useConfig } from "@/config";
 
-import { MdproDeck, MdproResp } from "./schema";
+import { MdproResp } from "./schema";
 import { handleHttps, mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
 
-const API_PATH = "/api/mdpro3/deck";
+const API_PATH = "/api/mdpro3/deck/deckId";
 
-export async function mgetDeck(
-  id: string,
-): Promise<MdproResp<MdproDeck> | undefined> {
+export async function generateDeck(): Promise<MdproResp<string> | undefined> {
   const myHeaders = mdproHeaders();
 
-  const resp = await fetch(`${mdproServer}/${API_PATH}/${id}`, {
+  const resp = await fetch(`${mdproServer}/${API_PATH}`, {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
