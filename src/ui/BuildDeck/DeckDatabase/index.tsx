@@ -11,6 +11,7 @@ import { isEqual } from "lodash-es";
 import { OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
+import { useTranslation } from "react-i18next";
 
 import { CardMeta, searchCards } from "@/api";
 import { isToken } from "@/common";
@@ -22,7 +23,6 @@ import styles from "../index.module.scss";
 import { editDeckStore } from "../store";
 import { CardResults } from "./CardResults";
 import { DeckResults, freshMdrpoDecks } from "./DeckResults";
-import { useTranslation } from "react-i18next";
 
 /** 卡片库，选择卡片加入正在编辑的卡组 */
 export const DeckDatabase: React.FC = () => {
@@ -126,7 +126,7 @@ export const DeckDatabase: React.FC = () => {
     <div className={styles.container} ref={dropRef}>
       <Space className={styles.title} direction="horizontal">
         <Input
-          placeholder={ i18n("KeywordsPlaceholder") }
+          placeholder={i18n("KeywordsPlaceholder")}
           bordered={false}
           suffix={
             <Button
@@ -176,7 +176,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<FilterOutlined />}
             onClick={showFilterModal}
           >
-            { i18n("Filter") }
+            {i18n("Filter")}
           </Button>
         )}
         <Dropdown
@@ -192,7 +192,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-            { i18n("SortBy") }
+              {i18n("SortBy")}
               <span className={styles["search-count"]}>
                 ({searchCardResult.length})
               </span>
@@ -211,7 +211,7 @@ export const DeckDatabase: React.FC = () => {
             handleSearch(emptySearchConditions);
           }}
         >
-          { i18n("Reset") }
+          {i18n("Reset")}
         </Button>
       </div>
       <ScrollableArea className={styles["search-cards-container"]} ref={ref}>

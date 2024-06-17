@@ -1,6 +1,6 @@
 import { App, Avatar, Dropdown } from "antd";
 import classNames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   type LoaderFunction,
@@ -109,7 +109,7 @@ export const Component = () => {
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
           <span className={styles.profile}>
-          {location.pathname === "/" && <I18NSelector />}
+            {location.pathname === "/" && <I18NSelector />}
             <Dropdown
               arrow
               menu={{

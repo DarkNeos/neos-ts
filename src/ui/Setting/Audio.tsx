@@ -1,9 +1,9 @@
 import { Checkbox, Form, Slider, Space, Switch } from "antd";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useSnapshot } from "valtio";
 
 import { settingStore } from "@/stores/settingStore";
-import { useTranslation } from "react-i18next";
 
 export const AudioSetting: React.FC = () => {
   const { audio } = useSnapshot(settingStore);

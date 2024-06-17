@@ -2,11 +2,11 @@ import { ConfigProvider, Modal, Tabs, TabsProps } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
+import { useTranslation } from "react-i18next";
 
+import { I18NSelector } from "../I18N";
 import { theme } from "../theme";
 import { AudioSetting } from "./Audio";
-import { useTranslation } from "react-i18next";
-import { I18NSelector } from "../I18N";
 
 /** 设置面板属性 */
 export interface SettingProps {
@@ -17,7 +17,7 @@ export interface SettingProps {
 export const Setting = (props: SettingProps) => {
   const { defaultKey = "audio" } = props;
   const { t: i18n } = useTranslation("SystemSettings");
-  
+
   const items: TabsProps["items"] = [
     {
       key: "audio",
