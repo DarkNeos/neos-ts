@@ -3,10 +3,11 @@ import React from "react";
 import { useSnapshot } from "valtio";
 
 import { settingStore } from "@/stores/settingStore";
+import { useTranslation } from "react-i18next";
 
 export const AudioSetting: React.FC = () => {
   const { audio } = useSnapshot(settingStore);
-
+  const { t: i18n } = useTranslation("SystemSettings");
   return (
     <Form
       initialValues={audio}
@@ -15,7 +16,7 @@ export const AudioSetting: React.FC = () => {
       }}
       labelAlign="left"
     >
-      <Form.Item label="开启音乐">
+      <Form.Item label={i18n("TurnOnMusic")}>
         <Space size={16}>
           <Form.Item name="enableMusic" noStyle valuePropName="checked">
             <Checkbox />
@@ -33,7 +34,7 @@ export const AudioSetting: React.FC = () => {
           </Form.Item>
         </Space>
       </Form.Item>
-      <Form.Item label="开启音效">
+      <Form.Item label={i18n("TurnOnSoundEffects")}>
         <Space size={16}>
           <Form.Item name="enableSoundEffects" noStyle valuePropName="checked">
             <Checkbox />
@@ -53,7 +54,7 @@ export const AudioSetting: React.FC = () => {
       </Form.Item>
       <Form.Item
         name="enableMusicSwitchByEnv"
-        label="根据环境切换音乐"
+        label={i18n("SwitchMusicAccordingToTheEnvironment")}
         valuePropName="checked"
       >
         <Switch />

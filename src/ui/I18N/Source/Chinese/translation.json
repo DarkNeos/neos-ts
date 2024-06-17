@@ -8,7 +8,8 @@
     "DuelDatabase": "决斗数据库",
     "LogOut": "退出登录",
     "Login": "登录萌卡",
-    "Fullscreen": "全屏"
+    "Fullscreen": "全屏",
+    "SystemSettings": "系统设置"
   },
   "Start": {
     "Title": "游戏王网页端对战平台",
@@ -187,5 +188,11 @@
     "PleaseSelect": "请选择",
     "Cards": "张卡",
     "SelectOneCardAtTime": "每次选择一张"
+  },
+  "SystemSettings": {
+    "AudioSettings": "音频设置",
+    "TurnOnMusic": "开启音乐",
+    "TurnOnSoundEffects": "开启音效",
+    "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐"
   }
 }

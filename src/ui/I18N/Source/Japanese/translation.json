@@ -8,7 +8,8 @@
     "DuelDatabase": "デュエルデータベース",
     "LogOut": "ログアウト",
     "Login": "萌卡にログインする",
-    "Fullscreen": "フルスクリーン"
+    "Fullscreen": "フルスクリーン",
+    "SystemSettings": "システム設定"
   },
   "Start": {
     "Title": "遊戯王ウェブベースのバトルプラットフォーム",
@@ -36,5 +37,11 @@
     "ReplayDesc": "過去のデュエルを自由に見て、それらのエキサイティングな逆転の瞬間を振り返りましょう。",
     "WIPTitle": "開発中...",
     "WIPDesc": "他の機能をお楽しみに。"
+  },
+  "SystemSettings": {
+    "AudioSettings": "オーディオ設定",
+    "TurnOnMusic": "音楽をオンにする",
+    "TurnOnSoundEffects": "効果音をオンにする",
+    "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える"
   }
 }

@@ -31,6 +31,7 @@ const resources = {
     Popover: translationChinese.Popover,
     Menu: translationChinese.Menu,
     SelectCardModal: translationChinese.SelectCardModal,
+    SystemSettings: translationChinese.SystemSettings,
   },
   en: {
     Header: translationEnglish.Header,
@@ -49,31 +50,37 @@ const resources = {
     Popover: translationEnglish.Popover,
     Menu: translationEnglish.Menu,
     SelectCardModal: translationEnglish.SelectCardModal,
+    SystemSettings: translationEnglish.SystemSettings,
   },
   es: {
     Header: translationSpanish.Header,
     Start: translationSpanish.Start,
     Match: translationSpanish.Match,
+    SystemSettings: translationSpanish.SystemSettings,
   },
   fr: {
     Header: translationFrench.Header,
     Start: translationFrench.Start,
     Match: translationFrench.Match,
+    SystemSettings: translationFrench.SystemSettings,
   },
   ja: {
     Header: translationJapanese.Header,
     Start: translationJapanese.Start,
     Match: translationJapanese.Match,
+    SystemSettings: translationJapanese.SystemSettings,
   },
   br: {
     Header: translationBrazilian.Header,
     Start: translationBrazilian.Start,
     Match: translationBrazilian.Match,
+    SystemSettings: translationBrazilian.SystemSettings,
   },
   pt: {
     Header: translationPortuguese.Header,
     Start: translationPortuguese.Start,
     Match: translationPortuguese.Match,
+    SystemSettings: translationPortuguese.SystemSettings,
   },
 };
 

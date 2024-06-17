@@ -140,7 +140,7 @@ export const Component = () => {
                     ),
                   },
                   {
-                    label: "系统设置",
+                    label: i18n("SystemSettings"),
                     onClick: () => {
                       modal.info({
                         content: <Setting />,

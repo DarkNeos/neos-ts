@@ -8,7 +8,8 @@
     "DuelDatabase": "Base de dados de duelos",
     "LogOut": "Sair",
     "Login": "Entrar no MyCard",
-    "Fullscreen": "Tela cheia"
+    "Fullscreen": "Tela cheia",
+    "SystemSettings": "Configurações do sistema"
   },
   "Start": {
     "Title": "Plataforma de batalha online de Yu-Gi-Oh!",
@@ -36,5 +37,11 @@
     "ReplayDesc": "Assista livremente aos duelos passados e reviva aqueles momentos emocionantes de reversão.",
     "WIPTitle": "Em desenvolvimento...",
     "WIPDesc": "Aguarde por outras funcionalidades."
+  },
+  "SystemSettings": {
+    "AudioSettings": "Configurações de áudio",
+    "TurnOnMusic": "Música",
+    "TurnOnSoundEffects": "Efeitos sonoros",
+    "SwitchMusicAccordingToTheEnvironment": "Trocar música conforme o ambiente"
   }
 }

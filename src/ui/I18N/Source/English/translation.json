@@ -8,7 +8,8 @@
     "DuelDatabase": "Duel Database",
     "LogOut": "Log out",
     "Login": "Login to MyCard",
-    "Fullscreen": "Fullscreen"
+    "Fullscreen": "Fullscreen",
+    "SystemSettings": "System Settings"
   },
   "Start": {
     "Title": "Yu-Gi-Oh! Web Based Battle Platform",
@@ -187,5 +188,11 @@
     "PleaseSelect": "Please select",
     "Cards": "Cards",
     "SelectOneCardAtTime": "Select one card at a time"
+  },
+  "SystemSettings": {
+    "AudioSettings": "Audio settings",
+    "TurnOnMusic": "Music",
+    "TurnOnSoundEffects": "Sound effects",
+    "SwitchMusicAccordingToTheEnvironment": "Switch music according to the environment"
   }
 }
