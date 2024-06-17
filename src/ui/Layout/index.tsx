@@ -109,7 +109,6 @@ export const Component = () => {
           </HeaderBtn>
           <span style={{ flexGrow: 1 }} />
           <span className={styles.profile}>
-            {location.pathname === "/" && <I18NSelector />}
             <Dropdown
               arrow
               menu={{

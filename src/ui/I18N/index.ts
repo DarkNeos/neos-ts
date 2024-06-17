@@ -86,7 +86,7 @@ const resources = {
 
 i18next.use(initReactI18next).init({
   resources,
-  lng: "cn", //default language
+  lng: localStorage.getItem("language") ? localStorage.getItem("language")?.toString() : "cn", //default language
 });
 
 export default i18next;

@@ -62,7 +62,12 @@
     "PendulumScaleFromHighToLow": "灵摆刻度从高到低",
     "PendulumScaleFromLowToHigh": "灵摆刻度从低到高",
     "ResetSuccessful": "重置成功",
-    "SaveSuccessful": "保存成功"
+    "SaveSuccessful": "保存成功",
+    "NoDeckGroupFound": "找不到相应卡组",
+    "OnlyShowDecksIUploaded": "只显示我上传的卡组",
+    "ShowAllOnlineDecks": "显示全部在线卡组",
+    "CardDatabase": "卡片数据库",
+    "MDProOnlineDeck": "Mdpro在线卡组"
   },
   "Filter": {
     "CardFilter": "卡片筛选",

@@ -62,7 +62,12 @@
     "PendulumScaleFromHighToLow": "Pendulum Scale from high to low",
     "PendulumScaleFromLowToHigh": "Pendulum Scale from low to high",
     "ResetSuccessful": "Reset successful",
-    "SaveSuccessful": "Save successful"
+    "SaveSuccessful": "Save successful",
+    "NoDeckGroupFound": "No corresponding Deck group found",
+    "OnlyShowDecksIUploaded": "Only show decks I uploaded",
+    "ShowAllOnlineDecks": "Show all online decks",
+    "CardDatabase": "Card Database",
+    "MDProOnlineDeck": "MDPro Online Deck"
   },
   "Filter": {
     "CardFilter": "Card Filter",

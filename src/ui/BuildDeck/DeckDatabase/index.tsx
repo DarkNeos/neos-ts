@@ -146,7 +146,7 @@ export const DeckDatabase: React.FC = () => {
           icon={<SwapOutlined />}
           onClick={() => setShowMdproDecks(!showMdproDecks)}
         >
-          {showMdproDecks ? "卡片数据库" : "Mdpro在线卡组"}
+          {showMdproDecks ? i18n("CardDatabase") : i18n("MDProOnlineDeck")}
         </Button>
       </Space>
       <div className={styles["select-btns"]}>
@@ -156,8 +156,8 @@ export const DeckDatabase: React.FC = () => {
             style={{ width: "18.90rem" }}
             defaultValue={false}
             options={[
-              { value: true, label: "只显示我上传的卡组" },
-              { value: false, label: "显示全部在线卡组" },
+              { value: true, label: i18n("OnlyShowDecksIUploaded") },
+              { value: false, label: i18n("ShowAllOnlineDecks") },
             ]}
             onChange={
               // @ts-ignore
