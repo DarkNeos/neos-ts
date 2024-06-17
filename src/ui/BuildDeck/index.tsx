@@ -7,25 +7,22 @@ import {
   SwapOutlined,
   UndoOutlined,
 } from "@ant-design/icons";
-import { App, Button, Dropdown, Input, MenuProps, message, Pagination, Space, Tooltip } from "antd";
+import { App, Button, Input, message, Space, Tooltip } from "antd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd-multi-backend";
-import { useTranslation } from "react-i18next";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { searchCards, type CardMeta } from "@/api";
-import { isExtraDeckCard, isToken } from "@/common";
+import { type CardMeta } from "@/api";
+import { isExtraDeckCard } from "@/common";
 import { AudioActionType, changeScene } from "@/infra/audio";
 import { deckStore, emptyDeck, type IDeck, initStore } from "@/stores";
 import {
   Background,
-  DeckCard,
   DeckCardMouseUpEvent,
   DeckZone,
-  IconFont,
   Loading,
   ScrollableArea,
 } from "@/ui/Shared";
@@ -42,11 +39,7 @@ import {
   editingDeckToIDeck,
   iDeckToEditingDeck,
 } from "./utils";
-import { FtsConditions, emptySearchConditions } from "@/middleware/sqlite/fts";
-import { isEqual } from "lodash-es";
-import Filter from "lodash-es/filter";
-import { OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
-import { useDrop } from "react-dnd";
+import { useTranslation } from "react-i18next";
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -243,9 +236,7 @@ export const DeckEditor: React.FC<{
     }
     event.preventDefault();
   };
-
   const { t: i18n } = useTranslation("BuildDeck");
-
   return (
     <div className={styles.container}>
       <Space className={styles.title}>
@@ -328,273 +319,6 @@ export const DeckEditor: React.FC<{
     </div>
   );
 };
-
-/** 卡片库，选择卡片加入正在编辑的卡组 */
-const Search: React.FC = () => {
-  const { modal } = App.useApp();
-  const [searchWord, setSearchWord] = useState("");
-  const [searchConditions, setSearchConditions] = useState<FtsConditions>(
-    emptySearchConditions,
-  );
-  const [searchResult, setSearchResult] = useState<CardMeta[]>([]);
-
-  const defaultSort = (a: CardMeta, b: CardMeta) => a.id - b.id;
-  const sortRef = useRef<(a: CardMeta, b: CardMeta) => number>(defaultSort);
-  const [sortEdited, setSortEdited] = useState(false);
-
-  const setSortRef = (sort: (a: CardMeta, b: CardMeta) => number) => {
-    sortRef.current = sort;
-    setSearchResult([...searchResult.sort(sortRef.current)]);
-    setSortEdited(true);
-  };
-
-  const genSort = (key: keyof CardMeta["data"], scale: 1 | -1 = 1) => {
-    return () =>
-      setSortRef(
-        (a: CardMeta, b: CardMeta) =>
-          ((a.data?.[key] ?? 0) - (b.data?.[key] ?? 0)) * scale,
-      );
-  };
-
-  const dropdownOptions: MenuProps["items"] = (
-    [
-      ["从新到旧", () => setSortRef((a, b) => b.id - a.id)],
-      ["从旧到新", () => setSortRef((a, b) => a.id - b.id)],
-      ["攻击力从高到低", genSort("atk", -1)],
-      ["攻击力从低到高", genSort("atk")],
-      ["守备力从高到低", genSort("def", -1)],
-      ["守备力从低到高", genSort("def")],
-      ["星/阶/刻/Link从高到低", genSort("level", -1)],
-      ["星/阶/刻/Link从低到高", genSort("level")],
-      ["灵摆刻度从高到低", genSort("lscale", -1)],
-      ["灵摆刻度从低到高", genSort("lscale")],
-    ] as const
-  ).map(([label, onClick], key) => ({ key, label, onClick }));
-
-  const handleSearch = (conditions: FtsConditions = searchConditions) => {
-    const result = searchCards({ query: searchWord, conditions })
-      .filter((card) => !isToken(card.data.type ?? 0))
-      .sort(sortRef.current); // 衍生物不显示
-    setSearchResult(() => result);
-  };
-
-  useEffect(() => {
-    handleSearch();
-  }, []);
-
-  const [_, dropRef] = useDrop({
-    accept: ["Card"], // 指明该区域允许接收的拖放物。可以是单个，也可以是数组
-    // 里面的值就是useDrag所定义的type
-    // 当拖拽物在这个拖放区域放下时触发,这个item就是拖拽物的item（拖拽物携带的数据）
-    drop: ({ value, source }: { value: CardMeta; source: Type | "search" }) => {
-      if (source !== "search") {
-        editDeckStore.remove(source, value);
-      }
-    },
-  });
-
-  const showFilterModal = () => {
-    const { destroy } = modal.info({
-      width: 500,
-      centered: true,
-      title: null,
-      icon: null,
-      content: (
-        <Filter
-          conditions={searchConditions}
-          onConfirm={(newConditions) => {
-            setSearchConditions(newConditions);
-            destroy();
-            setTimeout(() => handleSearch(newConditions), 200); // 先收起再搜索
-          }}
-          onCancel={() => destroy()}
-        />
-      ),
-      footer: null,
-    });
-  };
-
-  /** 滚动条的ref，用来在翻页之后快速回顶 */
-  const ref = useRef<OverlayScrollbarsComponentRef<"div">>(null);
-  const scrollToTop = useCallback(() => {
-    const viewport = ref.current?.osInstance()?.elements().viewport;
-    if (viewport) viewport.scrollTop = 0;
-  }, []);
-
-  return (
-    <div className={styles.container} ref={dropRef}>
-      <div className={styles.title}>
-        <Input
-          placeholder="关键词(空格分隔)"
-          bordered={false}
-          suffix={
-            <Button
-              type="text"
-              icon={<SearchOutlined />}
-              onClick={() => handleSearch()}
-            />
-          }
-          value={searchWord}
-          onChange={(e) => setSearchWord(e.target.value)}
-          onKeyUp={(e) => e.key === "Enter" && handleSearch()}
-          allowClear
-        />
-      </div>
-      <div className={styles["select-btns"]}>
-        <Button
-          block
-          type={
-            isEqual(emptySearchConditions, searchConditions)
-              ? "text"
-              : "primary"
-          }
-          icon={<FilterOutlined />}
-          onClick={showFilterModal}
-        >
-          筛选
-        </Button>
-        <Dropdown
-          menu={{ items: dropdownOptions }}
-          trigger={["click"]}
-          placement="bottom"
-          arrow
-        >
-          <Button
-            block
-            type={sortEdited ? "primary" : "text"}
-            icon={<SortAscendingOutlined />}
-          >
-            <span>
-              排列
-              <span className={styles["search-count"]}>
-                ({searchResult.length})
-              </span>
-            </span>
-          </Button>
-        </Dropdown>
-        <Button
-          block
-          type="text"
-          icon={<DeleteOutlined />}
-          onClick={() => {
-            setSearchConditions(emptySearchConditions);
-            setSortRef(defaultSort);
-            setSortEdited(false);
-            handleSearch(emptySearchConditions);
-          }}
-        >
-          重置
-        </Button>
-      </div>
-      <ScrollableArea className={styles["search-cards-container"]} ref={ref}>
-        {searchResult.length ? (
-          <SearchResults results={searchResult} scrollToTop={scrollToTop} />
-        ) : (
-          <div className={styles.empty}>
-            <IconFont type="icon-empty" size={40} />
-            <div>无搜索结果</div>
-          </div>
-        )}
-      </ScrollableArea>
-    </div>
-  );
-};
-
-/** 搜索区的搜索结果，使用memo避免重复渲染 */
-const SearchResults: React.FC<{
-  results: CardMeta[];
-  scrollToTop: () => void;
-}> = memo(({ results, scrollToTop }) => {
-  const itemsPerPage = 196; // 每页显示的数据数量
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [results]);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = results.slice(startIndex, endIndex);
-
-  const showSelectedCard = (card: CardMeta) => {
-    selectedCard.id = card.id;
-    selectedCard.open = true;
-  };
-
-  const handleAddCardToMain = (card: CardMeta) => {
-    const cardType = card.data.type ?? 0;
-    const isExtraCard = isExtraDeckCard(cardType);
-    const type = isExtraCard ? "extra" : "main";
-    const { result, reason } = editDeckStore.canAdd(card, type, "search");
-    if (result) {
-      editDeckStore.add(type, card);
-    } else {
-      message.error(reason);
-    }
-  };
-
-  const handleAddCardToSide = (card: CardMeta) => {
-    const { result, reason } = editDeckStore.canAdd(card, "side", "search");
-    if (result) {
-      editDeckStore.add("side", card);
-    } else {
-      message.error(reason);
-    }
-  };
-
-  /** safari 不支持 onAuxClick，所以使用 mousedown 模拟 */
-  const handleMouseUp = (payload: DeckCardMouseUpEvent) => {
-    const { event, card } = payload;
-    switch (event.button) {
-      // 左键
-      case 0:
-        showSelectedCard(card);
-        break;
-      // 中键
-      case 1:
-        handleAddCardToSide(card);
-        break;
-      // 右键
-      case 2:
-        handleAddCardToMain(card);
-        break;
-      default:
-        break;
-    }
-  };
-
-  return (
-    <>
-      <div className={styles["search-cards"]}>
-        {currentData.map((card) => (
-          <DeckCard
-            value={card}
-            key={card.id}
-            source="search"
-            onMouseUp={handleMouseUp}
-            onMouseEnter={() => showSelectedCard(card)}
-          />
-        ))}
-      </div>
-      {results.length > itemsPerPage && (
-        <div style={{ textAlign: "center", padding: "10px 0 20px" }}>
-          <Pagination
-            current={currentPage}
-            onChange={(page) => {
-              setCurrentPage(page);
-              scrollToTop();
-            }}
-            total={results.length}
-            pageSize={itemsPerPage}
-            showSizeChanger={false}
-            showLessItems
-            hideOnSinglePage
-          />
-        </div>
-      )}
-    </>
-  );
-});
 
 const HigherCardDetail: React.FC = () => {
   const { id, open } = useSnapshot(selectedCard);
