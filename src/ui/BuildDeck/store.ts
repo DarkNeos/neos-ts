@@ -8,11 +8,12 @@ import { Type } from "@/ui/Shared/DeckZone";
 import { compareCards, type EditingDeck } from "./utils";
 
 const language = localStorage.getItem("language");
-const cardTypeNotMatch = language === 'en' ? "The Card Type does not match" : "卡片种类不符合";
-const exceedsNumberCardsSameName = language === 'en' ? "Exceeds the number of cards with the same name" : "超过同名卡";
-const limitCards = language === 'en' ? 'Limit of cards' : '张的上限';
-const exceedsLimit = language  === 'en' ? 'Exceeds the limit' : '超过';
-const cannotAddTokens = language === 'en' ? 'Cannot add tokens' : '不能添加衍生物';
+const cardTypeNotMatch = language != 'cn' ? "The Card Type does not match" : "卡片种类不符合";
+const exceedsNumberCardsSameName = language != 'cn' ? "Exceeds the number of cards with the same name" : "超过同名卡";
+const limitCards = language != 'cn' ? 'Limit of cards' : '张的上限';
+const exceedsLimit = language  != 'cn' ? 'Exceeds the limit' : '超过';
+const cannotAddTokens = language != 'cn' ? 'Cannot add tokens' : '不能添加衍生物';
+
 export const editDeckStore = proxy({
   deckName: "",
   main: [] as CardMeta[],

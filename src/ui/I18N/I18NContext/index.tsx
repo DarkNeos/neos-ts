@@ -10,7 +10,6 @@ const I18NContext = createContext<I18NContextType | undefined>(undefined);
 export const I18NProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  //const [language, setLanguage] = useState<string>("cn"); // default language
   const [language, setLanguage] = useState<string>(() => {
     // Get the language from localStorage if it exists, otherwise default to "cn"
     return localStorage.getItem("language") || "cn";
@@ -19,6 +18,9 @@ export const I18NProvider: React.FC<{ children: React.ReactNode }> = ({
   const changeLanguage = (newLanguage: string) => {
     setLanguage(newLanguage);
     localStorage.setItem("language", newLanguage);
+
+    //Force a reload of the page to apply the language change
+    window.location.reload();
   };
 
   useEffect(() => {
