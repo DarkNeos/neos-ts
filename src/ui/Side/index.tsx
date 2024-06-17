@@ -3,11 +3,12 @@ import { App, Button, Space } from "antd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd-multi-backend";
-import { useNavigate } from "react-router-dom";
+import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { CardMeta, fetchCard, sendUpdateDeck } from "@/api";
 import { isExtraDeckCard } from "@/common";
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { IDeck, roomStore, SideStage, sideStore } from "@/stores";
 
 import { CardDetail } from "../BuildDeck/CardDetail";
@@ -15,6 +16,12 @@ import { Background, DeckZone, ScrollableArea, Type } from "../Shared";
 import { Chat } from "../WaitRoom/Chat";
 import styles from "./index.module.scss";
 import { TpModal } from "./TpModal";
+
+export const loader: LoaderFunction = async () => {
+  // 更新场景
+  changeScene(AudioActionType.BGM_DECK);
+  return null;
+};
 
 export const Component: React.FC = () => {
   const { message } = App.useApp();

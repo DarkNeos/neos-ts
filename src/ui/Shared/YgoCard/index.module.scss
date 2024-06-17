@@ -13,3 +13,12 @@
   background-size: contain;
   text-align: center;
 }
+
+.targeted {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}

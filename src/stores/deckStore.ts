@@ -26,11 +26,17 @@ export const deckStore = proxy({
     const index = deckStore.decks.findIndex(
       (deck) => deck.deckName === deckName,
     );
-    if (index === -1) return false;
-    deckStore.decks[index] = deck;
-    await del(deckName, deckIdb); // 新的名字可能和旧的名字不一样，所以要删除旧的，再添加
-    await set(deck.deckName, deck, deckIdb);
-    return true;
+    if (index === -1) {
+      // if not existed, create one
+      await deckStore.add(deck);
+      return true;
+    } else {
+      deckStore.decks[index] = deck;
+      // 新的名字可能和旧的名字不一样，所以要删除旧的，再添加
+      await del(deckName, deckIdb);
+      await set(deck.deckName, deck, deckIdb);
+      return true;
+    }
   },
 
   async add(deck: IDeck): Promise<boolean> {

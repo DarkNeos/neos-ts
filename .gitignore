@@ -28,3 +28,5 @@ yarn-error.log*
 
 # scss type
 *.module.scss.d.ts
+
+*.yrp3d

@@ -1,5 +1,5 @@
 {
-	"version": 4960,
+	"version": 4961,
 	"servers": [{
 			"name": "koishi",
 			"ip": "koishi.momobako.com",
@@ -36,6 +36,7 @@
 	"athleticWatchUrl": "wss://tiramisu.moecube.com:8923",
 	"entertainWatchUrl": "wss://tiramisu.moecube.com:7923",
 	"userApi": "https://sapi.moecube.com:444/accounts/users/{username}.json",
+  "mdproServer": "https://rarnu.xyz:38443",
 	"streamInterval": 20,
 	"startDelay": 1000,
 	"ui": {

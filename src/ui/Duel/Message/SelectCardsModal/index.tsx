@@ -185,6 +185,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                             cover={
                               <YgoCard
                                 code={card.meta.id}
+                                targeted={card.targeted}
                                 className={styles.card}
                               />
                             }
@@ -222,7 +223,11 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
               <div>
                 <Card
                   cover={
-                    <YgoCard code={card.meta.id} className={styles.card} />
+                    <YgoCard
+                      code={card.meta.id}
+                      targeted={card.targeted}
+                      className={styles.card}
+                    />
                   }
                   className={styles["check-card"]}
                   onClick={() => {
@@ -269,6 +274,9 @@ export interface Option {
   level1?: number;
   level2?: number;
   response?: number;
+  targeted?: boolean;
   // 便于直接返回这个信息
+  //
+  // 尽量不要用这个字段
   card?: CardType;
 }

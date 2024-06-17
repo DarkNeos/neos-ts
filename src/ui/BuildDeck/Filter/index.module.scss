@@ -1,0 +1,51 @@
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.75rem 0 2rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  .item-name {
+    display: flex;
+    gap: 0.25rem;
+    flex: 1;
+    flex-basis: 5rem;
+    vertical-align: middle;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.5rem;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  align-items: center;
+  padding: 1.875rem 0 0.625rem;
+  & > button {
+    width: 13.75rem;
+    border-radius: 3px;
+  }
+}
+
+.number {
+  width: 100%;
+  display: flex;
+  & > * {
+    flex: 1;
+  }
+  .divider {
+    flex: 0;
+    flex-basis: 2rem;
+    text-align: center;
+    line-height: 1.25rem;
+  }
+}

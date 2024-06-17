@@ -50,6 +50,7 @@ const helper = async (
     level2,
     effectDesc,
     response,
+    targeted: target?.targeted,
   };
 
   if (selected) {

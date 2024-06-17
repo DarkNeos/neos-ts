@@ -3,7 +3,7 @@ import { proxy } from "valtio";
 import { type NeosStore } from "./shared";
 
 export interface User {
-  id: string;
+  id: number;
   username: string;
   name: string;
   email: string;

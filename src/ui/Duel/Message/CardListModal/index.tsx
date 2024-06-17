@@ -56,6 +56,7 @@ export const CardListModal = () => {
           <YgoCard
             code={card.code}
             key={card.uuid}
+            targeted={card.targeted}
             width={CARD_WIDTH}
             onClick={() => showCardModal(card)}
           />

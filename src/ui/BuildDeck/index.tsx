@@ -2,39 +2,23 @@ import {
   CheckOutlined,
   DeleteOutlined,
   EditOutlined,
-  FilterOutlined,
   QuestionCircleOutlined,
   RetweetOutlined,
-  SearchOutlined,
-  SortAscendingOutlined,
   SwapOutlined,
   UndoOutlined,
 } from "@ant-design/icons";
-import {
-  App,
-  Button,
-  Dropdown,
-  Input,
-  type MenuProps,
-  message,
-  Pagination,
-  Space,
-  Tooltip,
-} from "antd";
-import { isEqual } from "lodash-es";
-import { type OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
+import { App, Button, Dropdown, Input, MenuProps, message, Pagination, Space, Tooltip } from "antd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd-multi-backend";
 import { useTranslation } from "react-i18next";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 
-import { type CardMeta, searchCards } from "@/api";
+import { searchCards, type CardMeta } from "@/api";
 import { isExtraDeckCard, isToken } from "@/common";
-import { emptySearchConditions, FtsConditions } from "@/middleware/sqlite/fts";
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { deckStore, emptyDeck, type IDeck, initStore } from "@/stores";
 import {
   Background,
@@ -48,8 +32,8 @@ import {
 import { Type } from "@/ui/Shared/DeckZone";
 
 import { CardDetail } from "./CardDetail";
+import { DeckDatabase } from "./DeckDatabase";
 import { DeckSelect } from "./DeckSelect";
-import { Filter } from "./Filter";
 import styles from "./index.module.scss";
 import { editDeckStore } from "./store";
 import {
@@ -58,6 +42,11 @@ import {
   editingDeckToIDeck,
   iDeckToEditingDeck,
 } from "./utils";
+import { FtsConditions, emptySearchConditions } from "@/middleware/sqlite/fts";
+import { isEqual } from "lodash-es";
+import Filter from "lodash-es/filter";
+import { OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
+import { useDrop } from "react-dnd";
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -81,32 +70,46 @@ export const loader: LoaderFunction = async () => {
     });
   }
 
+  // 更新场景
+  changeScene(AudioActionType.BGM_DECK);
+
   return null;
+};
+
+export const selectedCard = proxy({
+  id: 23995346,
+  open: false,
+});
+
+const selectedDeck = proxy<{ deck: IDeck }>({
+  deck: deckStore.decks.at(0) ?? emptyDeck,
+});
+
+export const setSelectedDeck = (deck: IDeck) => {
+  selectedDeck.deck = deck;
 };
 
 export const Component: React.FC = () => {
   const snapDecks = useSnapshot(deckStore);
   const { progress } = useSnapshot(initStore.sqlite);
-  const [selectedDeck, setSelectedDeck] = useState<IDeck>(
-    deckStore.decks.at(0) ?? emptyDeck,
-  );
+  const { deck: snapSelectedDeck } = useSnapshot(selectedDeck);
 
   const { message } = App.useApp();
   const { t: i18n } = useTranslation("BuildDeck");
   const handleDeckEditorReset = async () => {
-    editDeckStore.set(await iDeckToEditingDeck(selectedDeck));
+    editDeckStore.set(await iDeckToEditingDeck(selectedDeck.deck as IDeck));
     message.info(`${i18n("ResetSuccessful")}`);
   };
 
   const handleDeckEditorSave = async () => {
     const tmpIDeck = editingDeckToIDeck(editDeckStore);
-    const result = await deckStore.update(selectedDeck.deckName, tmpIDeck);
+    const result = await deckStore.update(selectedDeck.deck.deckName, tmpIDeck);
     if (result) {
       setSelectedDeck(tmpIDeck);
       message.info(`${i18n("SaveSuccessful")}`);
       editDeckStore.edited = false;
     } else {
-      editDeckStore.set(await iDeckToEditingDeck(selectedDeck));
+      editDeckStore.set(await iDeckToEditingDeck(selectedDeck.deck as IDeck));
       message.error("保存失败");
       editDeckStore.edited = false;
     }
@@ -127,8 +130,8 @@ export const Component: React.FC = () => {
         <div className={styles.sider}>
           <ScrollableArea className={styles["deck-select-container"]}>
             <DeckSelect
-              decks={snapDecks.decks}
-              selected={selectedDeck.deckName}
+              decks={snapDecks.decks as IDeck[]}
+              selected={snapSelectedDeck.deckName}
               onSelect={(name) =>
                 setSelectedDeck(deckStore.get(name) ?? emptyDeck)
               }
@@ -151,7 +154,7 @@ export const Component: React.FC = () => {
             <>
               <div className={styles.deck}>
                 <DeckEditor
-                  deck={selectedDeck}
+                  deck={snapSelectedDeck as IDeck}
                   onClear={editDeckStore.clear}
                   onReset={handleDeckEditorReset}
                   onSave={handleDeckEditorSave}
@@ -160,7 +163,7 @@ export const Component: React.FC = () => {
                 />
               </div>
               <div className={styles.select}>
-                <Search />
+                <DeckDatabase />
               </div>
             </>
           ) : (
@@ -353,20 +356,18 @@ const Search: React.FC = () => {
       );
   };
 
-  const { t } = useTranslation("BuildDeck");
-
   const dropdownOptions: MenuProps["items"] = (
     [
-      [t("FromNewToOld"), () => setSortRef((a, b) => b.id - a.id)],
-      [t("FromOldToNew"), () => setSortRef((a, b) => a.id - b.id)],
-      [t("AttackPowerFromHighToLow"), genSort("atk", -1)],
-      [t("AttackPowerFromLowToHigh"), genSort("atk")],
-      [t("DefensePowerFromHighToLow"), genSort("def", -1)],
-      [t("DefensePowerFromLowToHigh"), genSort("def")],
-      [t("StarsRanksLevelsLinkFromHighToLow"), genSort("level", -1)],
-      [t("StarsRanksLevelsLinkFromLowToHigh"), genSort("level")],
-      [t("PendulumScaleFromHighToLow"), genSort("lscale", -1)],
-      [t("PendulumScaleFromLowToHigh"), genSort("lscale")],
+      ["从新到旧", () => setSortRef((a, b) => b.id - a.id)],
+      ["从旧到新", () => setSortRef((a, b) => a.id - b.id)],
+      ["攻击力从高到低", genSort("atk", -1)],
+      ["攻击力从低到高", genSort("atk")],
+      ["守备力从高到低", genSort("def", -1)],
+      ["守备力从低到高", genSort("def")],
+      ["星/阶/刻/Link从高到低", genSort("level", -1)],
+      ["星/阶/刻/Link从低到高", genSort("level")],
+      ["灵摆刻度从高到低", genSort("lscale", -1)],
+      ["灵摆刻度从低到高", genSort("lscale")],
     ] as const
   ).map(([label, onClick], key) => ({ key, label, onClick }));
 
@@ -420,13 +421,11 @@ const Search: React.FC = () => {
     if (viewport) viewport.scrollTop = 0;
   }, []);
 
-  const { t: i18n } = useTranslation("BuildDeck");
-
   return (
     <div className={styles.container} ref={dropRef}>
       <div className={styles.title}>
         <Input
-          placeholder={i18n("KeywordsPlaceholder")}
+          placeholder="关键词(空格分隔)"
           bordered={false}
           suffix={
             <Button
@@ -452,7 +451,7 @@ const Search: React.FC = () => {
           icon={<FilterOutlined />}
           onClick={showFilterModal}
         >
-          {i18n("Filter")}
+          筛选
         </Button>
         <Dropdown
           menu={{ items: dropdownOptions }}
@@ -466,7 +465,7 @@ const Search: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-              {i18n("SortBy")}
+              排列
               <span className={styles["search-count"]}>
                 ({searchResult.length})
               </span>
@@ -484,7 +483,7 @@ const Search: React.FC = () => {
             handleSearch(emptySearchConditions);
           }}
         >
-          {i18n("Reset")}
+          重置
         </Button>
       </div>
       <ScrollableArea className={styles["search-cards-container"]} ref={ref}>
@@ -607,8 +606,3 @@ const HigherCardDetail: React.FC = () => {
     />
   );
 };
-
-const selectedCard = proxy({
-  id: 23995346,
-  open: false,
-});

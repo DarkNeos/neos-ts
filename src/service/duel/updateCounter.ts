@@ -1,4 +1,5 @@
 import { ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore } from "@/stores";
 
 type MsgUpdateCounter = ygopro.StocGameMessage.MsgUpdateCounter;
@@ -12,8 +13,10 @@ export default (updateCounter: MsgUpdateCounter) => {
       case ygopro.StocGameMessage.MsgUpdateCounter.ActionType.ADD: {
         if (counterType in target.counters) {
           target.counters[counterType] += count;
+          playEffect(AudioActionType.SOUND_COUNTER_ADD);
         } else {
           target.counters[counterType] = count;
+          playEffect(AudioActionType.SOUND_COUNTER_REMOVE);
         }
         break;
       }

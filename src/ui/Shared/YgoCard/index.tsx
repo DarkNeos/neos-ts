@@ -1,15 +1,18 @@
 import classNames from "classnames";
 import { CSSProperties, useMemo } from "react";
 
-import { isSuperReleaseCard } from "@/api";
+import { getCardImgUrl } from "@/api";
 import { useConfig } from "@/config";
 
 import styles from "./index.module.scss";
+
+const { assetsPath } = useConfig();
 
 interface Props {
   className?: string;
   isBack?: boolean;
   code?: number;
+  targeted?: boolean;
   // cardName?: string;
   style?: CSSProperties;
   width?: number | string;
@@ -23,6 +26,7 @@ export const YgoCard: React.FC<Props> = (props) => {
     code = 0,
     // cardName,
     isBack = false,
+    targeted = false,
     width,
     style,
     onClick,
@@ -45,40 +49,15 @@ export const YgoCard: React.FC<Props> = (props) => {
       >
         {/* 暂时不能这么写...但如果用onload的话来判断可能又很消耗性能，再看看吧 */}
         {/* {cardName} */}
+        {targeted ? (
+          <div className={styles.targeted}>
+            <img src={`${assetsPath}/targeted.svg`} />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     ),
     [code],
   );
 };
-
-const NeosConfig = useConfig();
-
-// TODO: 这个函数应该从这个文件抽离出来作为公共的函数使用
-export function getCardImgUrl(code: number, back = false) {
-  const ASSETS_BASE =
-    import.meta.env.BASE_URL === "/"
-      ? NeosConfig.assetsPath
-      : `${import.meta.env.BASE_URL}${NeosConfig.assetsPath}`;
-  if (back || code === 0) {
-    return `${ASSETS_BASE}/card_back.jpg`;
-  }
-
-  if (isSuperReleaseCard(code)) {
-    return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
-  } else {
-    const language = localStorage.getItem("language");
-    if (
-      language === "en" ||
-      language === "br" ||
-      language === "pt" ||
-      language === "fr" ||
-      language === "es"
-    ) {
-      NeosConfig.releaseImgUrl = NeosConfig.releaseImgUrl.replace(
-        "zh-CN",
-        "en-US",
-      );
-    }
-    return `${NeosConfig.releaseImgUrl}/${code}.jpg`;
-  }
-}

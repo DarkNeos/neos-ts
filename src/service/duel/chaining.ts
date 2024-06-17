@@ -1,8 +1,10 @@
 import { fetchCard, ygopro } from "@/api";
+import { AudioActionType, playEffect } from "@/infra/audio";
 import { cardStore, fetchEsHintMeta, matStore, placeStore } from "@/stores";
 import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
+  playEffect(AudioActionType.SOUND_ACTIVATE);
   fetchEsHintMeta({
     originMsg: "「[?]」被发动时",
     cardID: chaining.code,

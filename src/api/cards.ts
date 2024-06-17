@@ -1,5 +1,10 @@
+import { useConfig } from "@/config";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import { FtsParams } from "@/middleware/sqlite/fts";
+
+import { isSuperReleaseCard } from "./superPreRelease";
+
+const NeosConfig = useConfig();
 
 export interface CardMeta {
   id: number;
@@ -70,4 +75,33 @@ window.searchCard = searchCards;
 export function getCardStr(meta: CardMeta, idx: number): string | undefined {
   const str = `str${idx + 1}` as CardStrRange;
   return meta.text[str];
+}
+
+export function getCardImgUrl(code: number, back = false) {
+  const ASSETS_BASE =
+    import.meta.env.BASE_URL === "/"
+      ? NeosConfig.assetsPath
+      : `${import.meta.env.BASE_URL}${NeosConfig.assetsPath}`;
+  if (back || code === 0) {
+    return `${ASSETS_BASE}/card_back.jpg`;
+  }
+
+  if (isSuperReleaseCard(code)) {
+    return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
+  } else {
+    const language = localStorage.getItem("language");
+    if (
+      language === "en" ||
+      language === "br" ||
+      language === "pt" ||
+      language === "fr" ||
+      language === "es"
+    ) {
+      NeosConfig.releaseImgUrl = NeosConfig.releaseImgUrl.replace(
+        "zh-CN",
+        "en-US",
+      );
+    }
+    return `${NeosConfig.releaseImgUrl}/${code}.jpg`;
+  }
 }

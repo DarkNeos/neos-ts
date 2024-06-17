@@ -18,6 +18,7 @@ import {
   match,
 } from "@/api";
 import { useConfig } from "@/config";
+import { AudioActionType, changeScene } from "@/infra/audio";
 import { accountStore, deckStore, resetUniverse, roomStore } from "@/stores";
 import { Background, IconFont, ScrollableArea, Select } from "@/ui/Shared";
 
@@ -37,6 +38,8 @@ const { servers: serverList } = useConfig();
 export const loader: LoaderFunction = () => {
   // 在加载这个页面之前先重置一些store，清掉上局游戏遗留的数据
   resetUniverse();
+  // 更新当前场景
+  changeScene(AudioActionType.BGM_MENU);
   return null;
 };
 
