@@ -17,7 +17,7 @@ const defaultProps = { isOpen: false, positions: [] };
 const localStore = proxy<PositionModalProps>(defaultProps);
 
 const language = localStorage.getItem("language");
-const title = language != "cn" ? "Please select a position" : "请选择表示形式";
+const title = language !== "cn" ? "Please select a position" : "请选择表示形式";
 
 export const PositionModal = () => {
   const { isOpen, positions } = useSnapshot(localStore);

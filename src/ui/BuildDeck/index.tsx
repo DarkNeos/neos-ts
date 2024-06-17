@@ -11,6 +11,7 @@ import { App, Button, Input, message, Space, Tooltip } from "antd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd-multi-backend";
+import { useTranslation } from "react-i18next";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
@@ -39,7 +40,6 @@ import {
   editingDeckToIDeck,
   iDeckToEditingDeck,
 } from "./utils";
-import { useTranslation } from "react-i18next";
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
