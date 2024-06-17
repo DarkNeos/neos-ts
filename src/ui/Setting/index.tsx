@@ -6,6 +6,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { theme } from "../theme";
 import { AudioSetting } from "./Audio";
 import { useTranslation } from "react-i18next";
+import { I18NSelector } from "../I18N";
 
 /** 设置面板属性 */
 export interface SettingProps {
@@ -22,6 +23,11 @@ export const Setting = (props: SettingProps) => {
       key: "audio",
       label: i18n("AudioSettings"),
       children: <AudioSetting />,
+    },
+    {
+      key: "language",
+      label: i18n("LanguageSettings"),
+      children: <I18NSelector />,
     },
   ];
 
