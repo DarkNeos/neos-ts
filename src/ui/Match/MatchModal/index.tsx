@@ -1,5 +1,6 @@
 import { App, Button, Input, Modal } from "antd";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
@@ -9,7 +10,6 @@ import { Select } from "@/ui/Shared";
 
 import { connectSrvpro } from "../util";
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 const NeosConfig = useConfig();
 const serverConfig = NeosConfig.servers;

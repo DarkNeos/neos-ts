@@ -1,12 +1,12 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Drawer, Input } from "antd";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { proxy, useSnapshot } from "valtio";
 
 import { IconFont, ScrollableArea, useChat } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 const store = proxy({ open: false });
 

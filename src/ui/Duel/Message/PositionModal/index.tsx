@@ -7,7 +7,6 @@ import { proxy, useSnapshot } from "valtio";
 import { sendSelectPositionResponse, ygopro } from "@/api";
 
 import { NeosModal } from "../NeosModal";
-import { useTranslation } from "react-i18next";
 
 interface PositionModalProps {
   isOpen: boolean;

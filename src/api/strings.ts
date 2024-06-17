@@ -8,17 +8,19 @@ export const DESCRIPTION_LIMIT = 10000;
 export async function initStrings() {
   const language = localStorage.getItem("language") || "cn";
 
-  //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN 
-  if (language === "en" || language === "br" || language === "pt" || language === "fr") {
+  //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
+  if (
+    language === "en" ||
+    language === "br" ||
+    language === "pt" ||
+    language === "fr"
+  ) {
     stringsUrl = stringsUrl.replace("zh-CN", "en-US");
-  }
-  else if (language === "ja") {
+  } else if (language === "ja") {
     stringsUrl = stringsUrl.replace("zh-CN", "ja-JP");
-  }
-  else if (language === "es") {
+  } else if (language === "es") {
     stringsUrl = stringsUrl.replace("zh-CN", "es-ES");
-  }
-  else if (language === "ko") {
+  } else if (language === "ko") {
     stringsUrl = stringsUrl.replace("zh-CN", "ko-KR");
   }
 

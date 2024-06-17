@@ -1,10 +1,10 @@
 import { Button, Popover, Space } from "antd";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { eventbus, Task } from "@/infra";
 
 import { IconFont } from "../Shared";
-import { useTranslation } from "react-i18next";
 
 export enum Mora {
   Scissors = "scissors",
@@ -40,8 +40,8 @@ export const MoraPopover: React.FC<
 
   const map = {
     [Mora.Rock]: i18n("Rock"),
-    [Mora.Scissors]: i18n("Scissors"), 
-    [Mora.Paper]: i18n("Paper")
+    [Mora.Scissors]: i18n("Scissors"),
+    [Mora.Paper]: i18n("Paper"),
   };
 
   return (

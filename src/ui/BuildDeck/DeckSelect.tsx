@@ -7,13 +7,13 @@ import {
 } from "@ant-design/icons";
 import { App, Button, Dropdown, MenuProps, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import YGOProDeck from "ygopro-deck-encode";
 
 import { deckStore, IDeck } from "@/stores";
 
 import { Uploader } from "../Shared";
 import styles from "./DeckSelect.module.scss";
-import { useTranslation } from "react-i18next";
 
 export const DeckSelect: React.FC<{
   decks: readonly { deckName: string }[];

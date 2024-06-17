@@ -31,26 +31,30 @@ import { IconFont } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+import { useTranslation } from "react-i18next";
+
 import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
-import { useTranslation } from "react-i18next";
 
 const { useToken } = theme;
 
 const FINISH_CANCEL_RESPONSE = -1;
-const language = localStorage.getItem('language');
+const language = localStorage.getItem("language");
 
-const drawPhase = language != 'cn' ? 'Draw' : '抽卡阶段';
-const standbyPhase = language != 'cn' ? 'Standhy Phase' : '准备阶段';
-const mainPhase1 = language != 'cn' ? 'Main Phase 1' : '主要阶段 1';
-const battlePhase = language != 'cn' ? 'Battle Phase' : '战斗阶段';
-const battleStart = language != 'cn' ? 'Battle Start' : '战斗开始';
-const battleStep = language != 'cn' ? 'Battle Step' : '战斗步骤';
-const damage = language != 'cn' ? 'Damage Step' : '伤害步骤';
-const damageCalc = language != 'cn' ? 'Damage Step (Damage Calculation)' : '伤害步骤（伤害计算）';
-const mainPhase2 = language != 'cn' ? 'Main Phase 2' : '主要阶段 2';
-const endPhase = language != 'cn' ? 'End Phase' : '结束阶段';
-const unknown = language != 'cn' ? 'Unknown' : '未知阶段';
+const drawPhase = language !== "cn" ? "Draw" : "抽卡阶段";
+const standbyPhase = language !== "cn" ? "Standhy Phase" : "准备阶段";
+const mainPhase1 = language !== "cn" ? "Main Phase 1" : "主要阶段 1";
+const battlePhase = language !== "cn" ? "Battle Phase" : "战斗阶段";
+const battleStart = language !== "cn" ? "Battle Start" : "战斗开始";
+const battleStep = language !== "cn" ? "Battle Step" : "战斗步骤";
+const damage = language !== "cn" ? "Damage Step" : "伤害步骤";
+const damageCalc =
+  language !== "cn"
+    ? "Damage Step (Damage Calculation)"
+    : "伤害步骤（伤害计算）";
+const mainPhase2 = language !== "cn" ? "Main Phase 2" : "主要阶段 2";
+const endPhase = language !== "cn" ? "End Phase" : "结束阶段";
+const unknown = language !== "cn" ? "Unknown" : "未知阶段";
 
 // PhaseType, 中文, response, 是否显示，是否禁用
 const initialPhaseBind: [
@@ -136,9 +140,9 @@ export const Menu = () => {
     setPhaseSwitchItems(newPhaseSwitchItems);
   }, [phaseBind]);
 
-  const allChain = language != 'cn' ? 'All Chain' : '';
-  const ignoreChain = language != 'cn' ? 'Ignore Chain' : '';
-  const smartChain = language != 'cn' ? 'Smart Chain' : '';
+  const allChain = language != "cn" ? "All Chain" : "";
+  const ignoreChain = language != "cn" ? "Ignore Chain" : "";
+  const smartChain = language != "cn" ? "Smart Chain" : "";
 
   const chainSettingTexts = [
     [ChainSetting.CHAIN_ALL, allChain],
@@ -202,7 +206,7 @@ export const Menu = () => {
         ></Button>
       </Tooltip>
       <DropdownWithTitle
-        title={ i18n("DoYouSurrunder") }
+        title={i18n("DoYouSurrunder")}
         menu={{ items: surrenderMenuItems }}
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>

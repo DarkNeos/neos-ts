@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { fetchStrings, Region } from "@/api";
 import {
@@ -17,7 +18,6 @@ import {
 import { FtsConditions } from "@/middleware/sqlite/fts";
 
 import styles from "./Filter.module.scss";
-import { useTranslation } from "react-i18next";
 
 const levels = Array.from({ length: 12 }, (_, index) => ({
   value: index + 1,

@@ -2,6 +2,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Segmented, Space, Tooltip } from "antd";
 import classnames from "classnames";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { type CardMeta, Region, type ygopro } from "@/api";
@@ -13,7 +14,6 @@ import { groupBy } from "../../utils";
 import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 export interface SelectCardsModalProps {
   isOpen: boolean;

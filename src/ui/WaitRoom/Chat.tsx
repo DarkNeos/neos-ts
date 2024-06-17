@@ -1,9 +1,9 @@
 import { Button, Input } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { IconFont, ScrollableArea, useChat } from "@/ui/Shared";
 
 import styles from "./Chat.module.scss";
-import { useTranslation } from "react-i18next";
 
 interface ChatItem {
   name: string;

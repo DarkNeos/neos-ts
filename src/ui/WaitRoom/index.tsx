@@ -17,6 +17,7 @@ import SelfType = ygopro.StocTypeChange.SelfType;
 import { App, Avatar, Button, Skeleton, Space } from "antd";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
@@ -36,7 +37,6 @@ import { Background, IconFont, Select, SpecialButton } from "@/ui/Shared";
 import { Chat } from "./Chat";
 import styles from "./index.module.scss";
 import { Mora, MoraPopover, Tp, TpPopover } from "./Popover";
-import { useTranslation } from "react-i18next";
 
 const NeosConfig = useConfig();
 
@@ -262,7 +262,7 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
   return (
     <Space>
       <Select
-        title={ i18n("Deck") }
+        title={i18n("Deck")}
         showSearch
         style={{ width: "15.6rem" }}
         defaultValue={snapDeck.decks[0].deckName}
@@ -286,7 +286,9 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
           }
         }}
       >
-        {snapRoom.selfType === SelfType.OBSERVER ? i18n("JoinDuelist") : i18n("JoinSpectator") }
+        {snapRoom.selfType === SelfType.OBSERVER
+          ? i18n("JoinDuelist")
+          : i18n("JoinSpectator")}
         {!!snapRoom.observerCount && (
           <Avatar size="small" style={{ marginLeft: 8 }}>
             {snapRoom.observerCount}
@@ -311,7 +313,9 @@ const SideButtons: React.FC<{
         icon={
           <span className={styles["btn-icon"]}>
             <IconFont type="icon-exit" size={17} />
-            <span className={styles["btn-text"]}>&nbsp;&nbsp;{i18n("LeaveRoom")}</span>
+            <span className={styles["btn-text"]}>
+              &nbsp;&nbsp;{i18n("LeaveRoom")}
+            </span>
           </span>
         }
         onClick={() => {
@@ -329,7 +333,8 @@ const SideButtons: React.FC<{
           <span className={styles["btn-icon"]}>
             <IconFont type="icon-side-bar-fill" size={16} />
             <span className={styles["btn-text"]}>
-            &nbsp;&nbsp;{collapsed ? i18n("Expand") : i18n("Collapse")} {i18n("Sidebar")}
+              &nbsp;&nbsp;{collapsed ? i18n("Expand") : i18n("Collapse")}{" "}
+              {i18n("Sidebar")}
             </span>
           </span>
         }

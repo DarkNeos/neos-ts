@@ -2,6 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { App, Avatar, Button, Divider, Empty, Input } from "antd";
 import classNames from "classnames";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { proxy, useSnapshot } from "valtio";
 
@@ -10,7 +11,6 @@ import { useConfig } from "@/config";
 
 import { ScrollableArea } from "../../Shared";
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 const { athleticWatchUrl } = useConfig();
 
@@ -130,8 +130,9 @@ export const WatchContent: React.FC = () => {
                     <Avatar src={room.users?.at(1)?.avatar} />
                   </div>
                   <div className={styles.title}>
-                    {`${room.users?.at(0)?.username}` + ` ${i18n("Versus")} ` + `${room.users?.at(1)
-                      ?.username} 的决斗`}
+                    {`${room.users?.at(0)?.username}` +
+                      ` ${i18n("Versus")} ` +
+                      `${room.users?.at(1)?.username} 的决斗`}
                   </div>
                   <div className={styles.mode}>{i18n("RankedMatch")}</div>
                 </div>

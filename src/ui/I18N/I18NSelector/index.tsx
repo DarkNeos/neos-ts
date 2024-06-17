@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Select } from "@/ui/Shared";
+
 import { useI18N } from "../I18NContext";
 
 export const I18NSelector: React.FC = () => {
