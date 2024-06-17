@@ -22,6 +22,7 @@ import styles from "../index.module.scss";
 import { editDeckStore } from "../store";
 import { CardResults } from "./CardResults";
 import { DeckResults, freshMdrpoDecks } from "./DeckResults";
+import { useTranslation } from "react-i18next";
 
 /** 卡片库，选择卡片加入正在编辑的卡组 */
 export const DeckDatabase: React.FC = () => {
@@ -120,12 +121,12 @@ export const DeckDatabase: React.FC = () => {
     const viewport = ref.current?.osInstance()?.elements().viewport;
     if (viewport) viewport.scrollTop = 0;
   }, []);
-
+  const { t: i18n } = useTranslation("BuildDeck");
   return (
     <div className={styles.container} ref={dropRef}>
       <Space className={styles.title} direction="horizontal">
         <Input
-          placeholder="关键词(空格分隔)"
+          placeholder={ i18n("KeywordsPlaceholder") }
           bordered={false}
           suffix={
             <Button
@@ -175,7 +176,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<FilterOutlined />}
             onClick={showFilterModal}
           >
-            筛选
+            { i18n("Filter") }
           </Button>
         )}
         <Dropdown
@@ -191,7 +192,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-              排列
+            { i18n("SortBy") }
               <span className={styles["search-count"]}>
                 ({searchCardResult.length})
               </span>
@@ -210,7 +211,7 @@ export const DeckDatabase: React.FC = () => {
             handleSearch(emptySearchConditions);
           }}
         >
-          重置
+          { i18n("Reset") }
         </Button>
       </div>
       <ScrollableArea className={styles["search-cards-container"]} ref={ref}>
