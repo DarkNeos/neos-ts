@@ -42,6 +42,7 @@
     "AudioSettings": "Paramètres audio",
     "TurnOnMusic": "Activer la musique",
     "TurnOnSoundEffects": "Effets sonores",
-    "SwitchMusicAccordingToTheEnvironment": "Changer la musique en fonction de l'environnement"
+    "SwitchMusicAccordingToTheEnvironment": "Changer la musique en fonction de l'environnement",
+    "LanguageSettings": "Langue"
   }
 }

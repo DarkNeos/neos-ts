@@ -193,6 +193,7 @@
     "AudioSettings": "音频设置",
     "TurnOnMusic": "开启音乐",
     "TurnOnSoundEffects": "开启音效",
-    "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐"
+    "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐",
+    "LanguageSettings": "语言"
   }
 }

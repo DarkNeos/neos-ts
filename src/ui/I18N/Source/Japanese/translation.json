@@ -42,6 +42,7 @@
     "AudioSettings": "オーディオ設定",
     "TurnOnMusic": "音楽をオンにする",
     "TurnOnSoundEffects": "効果音をオンにする",
-    "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える"
+    "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える",
+    "LanguageSettings": "言語"
   }
 }
