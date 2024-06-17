@@ -2,6 +2,7 @@ import { App, Dropdown, message, Pagination } from "antd";
 import { MessageInstance } from "antd/es/message/interface";
 import Fuse from "fuse.js";
 import React, { memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { type INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
@@ -15,7 +16,6 @@ import { setSelectedDeck } from "../..";
 import { editDeckStore } from "../../store";
 import { iDeckToEditingDeck } from "../../utils";
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 const { assetsPath } = useConfig();
 
@@ -117,7 +117,7 @@ export const DeckResults: React.FC = memo(() => {
       ) : (
         <div className={styles.empty}>
           <IconFont type="icon-empty" size={40} />
-          <div>{ i18n("NoDeckGroupFound") }</div>
+          <div>{i18n("NoDeckGroupFound")}</div>
         </div>
       )}
     </>

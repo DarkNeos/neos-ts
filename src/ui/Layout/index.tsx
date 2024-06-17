@@ -19,7 +19,6 @@ import {
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
-import { I18NSelector } from "../I18N";
 import { Setting } from "../Setting";
 import styles from "./index.module.scss";
 import {
