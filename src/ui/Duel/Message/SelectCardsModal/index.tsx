@@ -110,7 +110,9 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         <>
           <span>{preHintMsg}</span>
           <span>{selectHintMsg}</span>
-          <span>({i18n("PleaseSelect")} {minMaxText} {i18n("Cards")})</span>
+          <span>
+            ({i18n("PleaseSelect")} {minMaxText} {i18n("Cards")})
+          </span>
           <span>{single ? i18n("SelectOneCardAtTime") : ""}</span>
         </>
       } // TODO: 这里可以再细化一些

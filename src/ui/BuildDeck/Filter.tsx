@@ -68,7 +68,7 @@ export const Filter: React.FC<{
           [index]: value,
         },
       }));
-    };  
+    };
 
   return (
     <>
@@ -124,7 +124,7 @@ export const Filter: React.FC<{
           {i18n("Confirm")}
         </Button>
         <Button type="text" onClick={onCancel}>
-        {i18n("Cancel")}
+          {i18n("Cancel")}
         </Button>
       </div>
     </>

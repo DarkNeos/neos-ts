@@ -16,7 +16,7 @@ const DECKERROR_NOTAVAIL = 0x9;
 
 const language = localStorage.getItem("language");
 const mainDeckWarining =
-  language != "cn"
+  language !== "cn"
     ? "The main deck should contain 40-60 cards."
     : "主卡组数量应为40-60张";
 

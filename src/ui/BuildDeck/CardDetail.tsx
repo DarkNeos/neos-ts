@@ -1,6 +1,7 @@
 import { Button, Descriptions, type DescriptionsProps } from "antd";
 import classNames from "classnames";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { type CardMeta, fetchCard, fetchStrings, Region } from "@/api";
 import {
@@ -15,7 +16,6 @@ import {
 import { CardEffectText, IconFont, ScrollableArea, YgoCard } from "@/ui/Shared";
 
 import styles from "./CardDetail.module.scss";
-import { useTranslation } from "react-i18next";
 
 export const CardDetail: React.FC<{
   code: number;

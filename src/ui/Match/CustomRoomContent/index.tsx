@@ -2,6 +2,7 @@ import { CopyOutlined, KeyOutlined } from "@ant-design/icons";
 import type { CheckboxProps } from "antd";
 import { App, Button, Checkbox, Input } from "antd";
 import React, { ChangeEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { proxy, useSnapshot } from "valtio";
 
 import { defaultOptions, getPrivateRoomID, Options } from "@/api";
@@ -9,7 +10,6 @@ import { accountStore } from "@/stores";
 import { Select } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
-import { useTranslation } from "react-i18next";
 
 interface CustomRoomProps {
   options: Options;
@@ -205,10 +205,10 @@ export const CustomRoomFooter: React.FC<{
   return (
     <div className={styles.footer}>
       <Button className={styles.btn} onClick={onCreateRoom}>
-      {i18n("CreatePrivateRoom")}
+        {i18n("CreatePrivateRoom")}
       </Button>
       <Button className={styles.btn} onClick={onJoinRoom}>
-      {i18n("JoinPrivateRoom")}
+        {i18n("JoinPrivateRoom")}
       </Button>
     </div>
   );

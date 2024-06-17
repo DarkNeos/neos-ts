@@ -16,8 +16,8 @@ const defaultProps = { isOpen: false, positions: [] };
 
 const localStore = proxy<PositionModalProps>(defaultProps);
 
-const language = localStorage.getItem('language');
-const title = language != 'cn' ? 'Please select a position' : '请选择表示形式';
+const language = localStorage.getItem("language");
+const title = language != "cn" ? "Please select a position" : "请选择表示形式";
 
 export const PositionModal = () => {
   const { isOpen, positions } = useSnapshot(localStore);
@@ -25,7 +25,6 @@ export const PositionModal = () => {
     undefined,
   );
 
-  
   return (
     <NeosModal
       title={title}
@@ -65,10 +64,10 @@ export const PositionModal = () => {
 };
 
 function cardPosition(position: ygopro.CardPosition): string {
-  const faceUpAtk = language != 'cn' ? 'Face-Up Attack' : "正面攻击形式";
-  const faceUpDef = language != 'cn' ? 'Face-Up Defense' : "正面防守形式";
-  const faceDownAtk = language != 'cn' ? 'Face-Down Attack' : "背面攻击形式";
-  const faceDownDef = language != 'cn' ? 'Face-Down Defense' : "背面防守形式";
+  const faceUpAtk = language !== "cn" ? "Face-Up Attack" : "正面攻击形式";
+  const faceUpDef = language !== "cn" ? "Face-Up Defense" : "正面防守形式";
+  const faceDownAtk = language !== "cn" ? "Face-Down Attack" : "背面攻击形式";
+  const faceDownDef = language !== "cn" ? "Face-Down Defense" : "背面防守形式";
 
   switch (position) {
     case ygopro.CardPosition.FACEUP_ATTACK: {

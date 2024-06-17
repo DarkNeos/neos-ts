@@ -140,9 +140,9 @@ export const Menu = () => {
     setPhaseSwitchItems(newPhaseSwitchItems);
   }, [phaseBind]);
 
-  const allChain = language != "cn" ? "All Chain" : "";
-  const ignoreChain = language != "cn" ? "Ignore Chain" : "";
-  const smartChain = language != "cn" ? "Smart Chain" : "";
+  const allChain = language !== "cn" ? "All Chain" : "";
+  const ignoreChain = language !== "cn" ? "Ignore Chain" : "";
+  const smartChain = language !== "cn" ? "Smart Chain" : "";
 
   const chainSettingTexts = [
     [ChainSetting.CHAIN_ALL, allChain],

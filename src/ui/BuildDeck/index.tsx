@@ -466,7 +466,7 @@ const Search: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-            {i18n("SortBy")}
+              {i18n("SortBy")}
               <span className={styles["search-count"]}>
                 ({searchResult.length})
               </span>

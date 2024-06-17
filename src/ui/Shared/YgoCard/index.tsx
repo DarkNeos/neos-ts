@@ -71,7 +71,8 @@ export function getCardImgUrl(code: number, back = false) {
       language === "en" ||
       language === "br" ||
       language === "pt" ||
-      language === "fr"
+      language === "fr" ||
+      language === "es"
     ) {
       NeosConfig.releaseImgUrl = NeosConfig.releaseImgUrl.replace(
         "zh-CN",

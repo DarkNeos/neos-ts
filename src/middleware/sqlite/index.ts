@@ -69,7 +69,6 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
       const info = action.initInfo;
       if (info) {
         const language = localStorage.getItem("language") || "cn";
-
         //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
         if (
           language === "en" ||
@@ -82,12 +81,12 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
         } else if (language === "ja") {
           info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "ja-JP");
           info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "ja-JP");
-        } else if (language === "es") {
-          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "es-ES");
-          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "es-ES");
         } else if (language === "ko") {
           info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "ko-KR");
           info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "ko-KR");
+        } else if (language === "es") {
+          info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", "es-ES");
+          info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", "es-ES");
         }
 
         const releasePromise = pfetch(info.releaseDbUrl, {

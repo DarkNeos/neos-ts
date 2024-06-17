@@ -14,8 +14,8 @@ const exceedsNumberCardsSameName =
   language !== "cn"
     ? "Exceeds the number of cards with the same name"
     : "超过同名卡";
-const limitCards = language != "cn" ? "Limit of cards" : "张的上限";
-const exceedsLimit = language != "cn" ? "Exceeds the limit" : "超过";
+const limitCards = language !== "cn" ? "Limit of cards" : "张的上限";
+const exceedsLimit = language !== "cn" ? "Exceeds the limit" : "超过";
 const cannotAddTokens =
   language !== "cn" ? "Cannot add tokens" : "不能添加衍生物";
 
