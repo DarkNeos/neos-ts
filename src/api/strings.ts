@@ -9,20 +9,26 @@ export async function initStrings() {
   const language = localStorage.getItem("language") || "cn";
 
   //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
-  if (
-    language === "en" ||
-    language === "br" ||
-    language === "pt" ||
-    language === "fr"
-  ) {
-    stringsUrl = stringsUrl.replace("zh-CN", "en-US");
-  } else if (language === "ja") {
-    stringsUrl = stringsUrl.replace("zh-CN", "ja-JP");
-  } else if (language === "es") {
-    stringsUrl = stringsUrl.replace("zh-CN", "es-ES");
-  } else if (language === "ko") {
-    stringsUrl = stringsUrl.replace("zh-CN", "ko-KR");
+  switch (language) {
+    case "en":
+    case "br":
+    case "pt":
+    case "fr":
+      stringsUrl = stringsUrl.replace("zh-CN", "en-US");
+      break;
+    case "ja":
+      stringsUrl = stringsUrl.replace("zh-CN", "ja-JP");
+      break;
+    case "es":
+      stringsUrl = stringsUrl.replace("zh-CN", "es-ES");
+      break;
+    case "ko":
+      stringsUrl = stringsUrl.replace("zh-CN", "ko-KR");
+      break;
+    default:
+      break;
   }
+  
 
   const strings = await (await fetch(stringsUrl)).text();
 

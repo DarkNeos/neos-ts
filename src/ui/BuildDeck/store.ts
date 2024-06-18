@@ -7,17 +7,80 @@ import { Type } from "@/ui/Shared/DeckZone";
 
 import { compareCards, type EditingDeck } from "./utils";
 
-const language = localStorage.getItem("language");
-const cardTypeNotMatch =
-  language !== "cn" ? "The Card Type does not match" : "卡片种类不符合";
-const exceedsNumberCardsSameName =
-  language !== "cn"
-    ? "Exceeds the number of cards with the same name"
-    : "超过同名卡";
-const limitCards = language !== "cn" ? "Limit of cards" : "张的上限";
-const exceedsLimit = language !== "cn" ? "Exceeds the limit" : "超过";
-const cannotAddTokens =
-  language !== "cn" ? "Cannot add tokens" : "不能添加衍生物";
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  { cardTypeNotMatch: string; exceedsNumberCardsSameName: string, limitCards: string, exceedsLimit: string, cannotAddTokens: string }
+> = {
+  en: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  br: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  pt: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  fr: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  ja: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  ko: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  es: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "Exceeds the number of cards with the same name",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens"
+  },
+  cn: {
+    cardTypeNotMatch: "卡片种类不符合",
+    exceedsNumberCardsSameName: "超过同名卡",
+    limitCards: "张的上限",
+    exceedsLimit: "超过",
+    cannotAddTokens: "不能添加衍生物"
+  },
+};
+
+// Get the language from localStorage or default to 'cn' (I18N)
+const language = (localStorage.getItem("language") || "cn") as Language;
+const cardTypeNotMatch = messages[language].cardTypeNotMatch;
+const exceedsNumberCardsSameName = messages[language].exceedsNumberCardsSameName;
+const limitCards = messages[language].limitCards;
+const exceedsLimit = messages[language].exceedsLimit;
+const cannotAddTokens = messages[language].cannotAddTokens;
+/* End of definition (I18N) */
 
 export const editDeckStore = proxy({
   deckName: "",

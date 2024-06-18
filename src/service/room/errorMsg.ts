@@ -15,15 +15,58 @@ const DECKERROR_EXTRACOUNT = 0x7;
 const DECKERROR_SIDECOUNT = 0x8;
 const DECKERROR_NOTAVAIL = 0x9;
 
-const language = localStorage.getItem("language");
-const mainDeckWarining =
-  language !== "cn"
-    ? "The main deck should contain 40-60 cards."
-    : "主卡组数量应为40-60张";
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  { mainDeckWarning: string; extraDeckWarning: string }
+> = {
+  en: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  br: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  pt: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  fr: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  ja: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  ko: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  es: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  cn: {
+    mainDeckWarning: "主卡组数量应为40-60张",
+    extraDeckWarning: "额外卡组数量应为0-15张",
+  },
+};
+/* End of definition (I18N) */
 
 export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
   const { error_type, error_code } = errorMsg;
   playEffect(AudioActionType.SOUND_INFO);
+
+  // Get the language from localStorage or default to 'cn' (I18N)
+  const language = (localStorage.getItem("language") || "cn") as Language;
+  const mainDeckWarning = messages[language].mainDeckWarning;
+  //const extraDeckWarning = messages[language].extraDeckWarning;
+
   switch (error_type) {
     case ErrorType.JOINERROR: {
       roomStore.errorMsg = fetchStrings(Region.System, 1403 + error_code);
@@ -63,7 +106,7 @@ export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
           break;
         }
         case DECKERROR_MAINCOUNT: {
-          roomStore.errorMsg = mainDeckWarining;
+          roomStore.errorMsg = mainDeckWarning;
           break;
         }
         case DECKERROR_EXTRACOUNT: {

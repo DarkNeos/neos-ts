@@ -39,22 +39,137 @@ import { openChatBox } from "../ChatBox";
 const { useToken } = theme;
 
 const FINISH_CANCEL_RESPONSE = -1;
-const language = localStorage.getItem("language");
 
-const drawPhase = language !== "cn" ? "Draw" : "抽卡阶段";
-const standbyPhase = language !== "cn" ? "Standhy Phase" : "准备阶段";
-const mainPhase1 = language !== "cn" ? "Main Phase 1" : "主要阶段 1";
-const battlePhase = language !== "cn" ? "Battle Phase" : "战斗阶段";
-const battleStart = language !== "cn" ? "Battle Start" : "战斗开始";
-const battleStep = language !== "cn" ? "Battle Step" : "战斗步骤";
-const damage = language !== "cn" ? "Damage Step" : "伤害步骤";
-const damageCalc =
-  language !== "cn"
-    ? "Damage Step (Damage Calculation)"
-    : "伤害步骤（伤害计算）";
-const mainPhase2 = language !== "cn" ? "Main Phase 2" : "主要阶段 2";
-const endPhase = language !== "cn" ? "End Phase" : "结束阶段";
-const unknown = language !== "cn" ? "Unknown" : "未知阶段";
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  {
+    drawPhase: string; standbyPhase: string, mainPhase1: string, battlePhase: string, battleStart: string, battleStep: string, damage: string, damageCalc: string, mainPhase2: string, endPhase: string, unknown: string
+  }
+> = {
+  en: {
+    drawPhase: "Draw",
+    standbyPhase: "Standhy Phase",
+    mainPhase1: "Main Phase 1",
+    battlePhase: "Battle Phase",
+    battleStart: "Battle Start",
+    battleStep: "Battle Step",
+    damage: "Damage Step",
+    damageCalc: "Damage Step (Damage Calculation)",
+    mainPhase2: "Main Phase 2",
+    endPhase: "End Phase",
+    unknown: "Unknown"
+  },
+  br: {
+    drawPhase: "Compra",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalha",
+    battleStart: "Início da Batalha",
+    battleStep: "Fase da Batalha",
+    damage: "Fase de Dano",
+    damageCalc: "Fase de Dano (Cálculo de Dano)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconhecido"
+  },
+  pt: {
+    drawPhase: "Compra",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalha",
+    battleStart: "Início da Batalha",
+    battleStep: "Fase da Batalha",
+    damage: "Fase de Dano",
+    damageCalc: "Fase de Dano (Cálculo de Dano)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconhecido"
+  },
+  fr: {
+    drawPhase: "Pioche",
+    standbyPhase: "Phase de Standby",
+    mainPhase1: "Phase Principale 1",
+    battlePhase: "Phase de Bataille",
+    battleStart: "Début de la Bataille",
+    battleStep: "Étape de Bataille",
+    damage: "Étape de Dégâts",
+    damageCalc: "Étape de Dégâts (Calcul des Dégâts)",
+    mainPhase2: "Phase Principale 2",
+    endPhase: "Phase Finale",
+    unknown: "Inconnu"
+  },
+  ja: {
+    drawPhase: "ドロー",
+    standbyPhase: "スタンバイフェイズ",
+    mainPhase1: "メインフェイズ 1",
+    battlePhase: "バトルフェイズ",
+    battleStart: "バトル開始",
+    battleStep: "バトルステップ",
+    damage: "ダメージステップ",
+    damageCalc: "ダメージステップ（ダメージ計算）",
+    mainPhase2: "メインフェイズ 2",
+    endPhase: "エンドフェイズ",
+    unknown: "未知"
+  },
+  ko: {
+    drawPhase: "드로우",
+    standbyPhase: "대기 페이즈",
+    mainPhase1: "메인 페이즈 1",
+    battlePhase: "배틀 페이즈",
+    battleStart: "배틀 시작",
+    battleStep: "배틀 스텝",
+    damage: "데미지 스텝",
+    damageCalc: "데미지 스텝 (데미지 계산)",
+    mainPhase2: "메인 페이즈 2",
+    endPhase: "엔드 페이즈",
+    unknown: "알 수 없음"
+  },
+  es: {
+    drawPhase: "Robo",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalla",
+    battleStart: "Inicio de Batalla",
+    battleStep: "Paso de Batalla",
+    damage: "Paso de Daño",
+    damageCalc: "Paso de Daño (Cálculo de Daño)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconocido"
+  },
+  cn: {
+    drawPhase: "抽卡阶段",
+    standbyPhase: "准备阶段",
+    mainPhase1: "主要阶段 1",
+    battlePhase: "战斗阶段",
+    battleStart: "战斗开始",
+    battleStep: "战斗步骤",
+    damage: "伤害步骤",
+    damageCalc: "伤害步骤（伤害计算）",
+    mainPhase2: "主要阶段 2",
+    endPhase: "结束阶段",
+    unknown: "未知阶段",
+  },
+};
+
+// Get the language from localStorage or default to 'cn' (I18N)
+const language = (localStorage.getItem("language") || "cn") as Language;
+const drawPhase = messages[language].drawPhase;
+const standbyPhase = messages[language].standbyPhase;
+const mainPhase1 = messages[language].mainPhase1;
+const battlePhase = messages[language].battlePhase;
+const battleStart = messages[language].battleStart;
+const battleStep = messages[language].battleStep;
+const damage = messages[language].damage;
+const damageCalc = messages[language].damageCalc;
+const mainPhase2 = messages[language].mainPhase2;
+const endPhase = messages[language].endPhase;
+const unknown = messages[language].unknown;
+/* End of definition (I18N) */
 
 // PhaseType, 中文, response, 是否显示，是否禁用
 const initialPhaseBind: [
@@ -64,18 +179,18 @@ const initialPhaseBind: [
   show: boolean,
   disabled: boolean,
 ][] = [
-  [PhaseType.DRAW, drawPhase, -1, true, true],
-  [PhaseType.STANDBY, standbyPhase, -1, true, true],
-  [PhaseType.MAIN1, mainPhase1, -1, true, true],
-  [PhaseType.BATTLE, battlePhase, 6, true, false],
-  [PhaseType.BATTLE_START, battleStart, 3, false, true],
-  [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
-  [PhaseType.DAMAGE, damage, 3, false, true],
-  [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
-  [PhaseType.MAIN2, mainPhase2, 2, true, false],
-  [PhaseType.END, endPhase, 7, true, false],
-  [PhaseType.UNKNOWN, unknown, -1, false, true],
-];
+    [PhaseType.DRAW, drawPhase, -1, true, true],
+    [PhaseType.STANDBY, standbyPhase, -1, true, true],
+    [PhaseType.MAIN1, mainPhase1, -1, true, true],
+    [PhaseType.BATTLE, battlePhase, 6, true, false],
+    [PhaseType.BATTLE_START, battleStart, 3, false, true],
+    [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
+    [PhaseType.DAMAGE, damage, 3, false, true],
+    [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
+    [PhaseType.MAIN2, mainPhase2, 2, true, false],
+    [PhaseType.END, endPhase, 7, true, false],
+    [PhaseType.UNKNOWN, unknown, -1, false, true],
+  ];
 
 export const Menu = () => {
   const { t: i18n } = useTranslation("Menu");

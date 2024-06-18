@@ -4,16 +4,102 @@ import { IconFont } from "@/ui/Shared";
 
 import CardPosition = ygopro.CardPosition;
 
-const language = localStorage.getItem("language");
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  {
+    sSet: string; summon: string, spSummon: string, posChange: string, mSet: string, activate: string, attack: string
+  }
+> = {
+  en: {
+    sSet: "Set",
+    summon: "Normal Summon",
+    spSummon: "Special Summon",
+    posChange: "Change Position",
+    mSet: "Set",
+    activate: "Activate",
+    attack: "Attack"
+  },
+  br: {
+    sSet: "Setar",
+    summon: "Invocação Normal",
+    spSummon: "Invocação Especial",
+    posChange: "Mudar Posição",
+    mSet: "Setar",
+    activate: "Ativar",
+    attack: "Atacar"
+  },
+  pt: {
+    sSet: "Setar",
+    summon: "Invocação Normal",
+    spSummon: "Invocação Especial",
+    posChange: "Mudar Posição",
+    mSet: "Setar",
+    activate: "Ativar",
+    attack: "Atacar"
+  },
+  fr: {
+    sSet: "Poser",
+    summon: "Invocation Normale",
+    spSummon: "Invocation Spéciale",
+    posChange: "Changer de Position",
+    mSet: "Poser",
+    activate: "Activer",
+    attack: "Attaquer"
+  },
+  ja: {
+    sSet: "セット",
+    summon: "通常召喚",
+    spSummon: "特殊召喚",
+    posChange: "表示形式変更",
+    mSet: "セット",
+    activate: "発動",
+    attack: "攻撃"
+  },
+  ko: {
+    sSet: "세트",
+    summon: "일반 소환",
+    spSummon: "특수 소환",
+    posChange: "포지션 변경",
+    mSet: "세트",
+    activate: "발동",
+    attack: "공격"
+  },
+  es: {
+    sSet: "Colocar",
+    summon: "Invocación Normal",
+    spSummon: "Invocación Especial",
+    posChange: "Cambiar Posición",
+    mSet: "Colocar",
+    activate: "Activar",
+    attack: "Atacar"
+  },
+  cn: {
+    sSet: "后场放置",
+    summon: "普通召唤",
+    spSummon: "特殊召唤",
+    posChange: "改变表示形式",
+    mSet: "前场放置",
+    activate: "发动效果",
+    attack: "攻击",
+  },
+};
+
+// Get the language from localStorage or default to 'cn' (I18N)
+const language = (localStorage.getItem("language") || "cn") as Language;
+/* End of definition (I18N) */
 
 export function interactTypeToString(t: InteractType): string {
-  const sSet = language !== "cn" ? "Set" : "后场放置";
-  const summon = language !== "cn" ? "Normal Summon" : "普通召唤";
-  const spSummon = language !== "cn" ? "Special Summon" : "特殊召唤";
-  const posChange = language !== "cn" ? "Change Position" : "改变表示形式";
-  const mSet = language !== "cn" ? "Set" : "前场放置";
-  const activate = language !== "cn" ? "Activate" : "发动效果";
-  const attack = language !== "cn" ? "Attack" : "攻击";
+  const sSet = messages[language].sSet;
+  const summon = messages[language].summon;
+  const spSummon = messages[language].spSummon;
+  const posChange = messages[language].posChange;
+  const mSet = messages[language].mSet;
+  const activate = messages[language].activate;
+  const attack = messages[language].attack;
 
   switch (t) {
     case InteractType.SUMMON:
