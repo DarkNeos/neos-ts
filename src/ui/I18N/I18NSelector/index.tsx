@@ -1,38 +1,48 @@
+import { Checkbox, Col, Row, Tooltip } from "antd";
 import React, { useEffect } from "react";
+import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { useTranslation } from "react-i18next";
 
-import { Select } from "@/ui/Shared";
-
 import { useI18N } from "../I18NContext";
+
+const languageOptions: { value: string; label: string; flag: FlagIconCode }[] =
+  [
+    { value: "cn", label: "简体中文", flag: "CN" as FlagIconCode },
+    { value: "en", label: "English", flag: "US" as FlagIconCode },
+    { value: "fr", label: "Français", flag: "FR" as FlagIconCode },
+    { value: "ja", label: "日本語", flag: "JP" as FlagIconCode },
+    { value: "br", label: "Português do Brasil", flag: "BR" as FlagIconCode },
+    { value: "pt", label: "Português", flag: "PT" as FlagIconCode },
+    { value: "es", label: "Castellano", flag: "ES" as FlagIconCode },
+  ];
 
 export const I18NSelector: React.FC = () => {
   const { i18n } = useTranslation();
   const { language, changeLanguage } = useI18N();
 
-  const onClickLanguageChange = (language: any) => {
-    changeLanguage(language);
-    i18n.changeLanguage(language);
+  const onClickLanguageChange = (selectedLanguage: string) => {
+    changeLanguage(selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
   };
 
   useEffect(() => {
-    // Adding language state as a dependency to force re-render
-    // when the language changes
     i18n.changeLanguage(language);
-  }, [i18n.language]);
+  }, [language]);
 
   return (
-    <Select
-      value={i18n.language}
-      onChange={onClickLanguageChange}
-      options={[
-        { value: "cn", label: "简体中文" },
-        { value: "en", label: "English" },
-        { value: "fr", label: "Français" },
-        { value: "ja", label: "日本語" },
-        { value: "br", label: "Português do Brasil" },
-        { value: "pt", label: "Português" },
-        { value: "es", label: "Castellano" },
-      ]}
-    />
+    <Row gutter={[16, 16]}>
+      {languageOptions.map((lang) => (
+        <Col key={lang.value}>
+          <Tooltip title={lang.label}>
+            <Checkbox
+              checked={i18n.language === lang.value}
+              onChange={() => onClickLanguageChange(lang.value)}
+            >
+              <FlagIcon code={lang.flag} size={26} />
+            </Checkbox>
+          </Tooltip>
+        </Col>
+      ))}
+    </Row>
   );
 };
