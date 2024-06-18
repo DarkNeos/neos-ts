@@ -28,7 +28,6 @@ export async function initStrings() {
     default:
       break;
   }
-  
 
   const strings = await (await fetch(stringsUrl)).text();
 

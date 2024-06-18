@@ -47,7 +47,17 @@ type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
 const messages: Record<
   Language,
   {
-    drawPhase: string; standbyPhase: string, mainPhase1: string, battlePhase: string, battleStart: string, battleStep: string, damage: string, damageCalc: string, mainPhase2: string, endPhase: string, unknown: string
+    drawPhase: string;
+    standbyPhase: string;
+    mainPhase1: string;
+    battlePhase: string;
+    battleStart: string;
+    battleStep: string;
+    damage: string;
+    damageCalc: string;
+    mainPhase2: string;
+    endPhase: string;
+    unknown: string;
   }
 > = {
   en: {
@@ -61,7 +71,7 @@ const messages: Record<
     damageCalc: "Damage Step (Damage Calculation)",
     mainPhase2: "Main Phase 2",
     endPhase: "End Phase",
-    unknown: "Unknown"
+    unknown: "Unknown",
   },
   br: {
     drawPhase: "Compra",
@@ -74,7 +84,7 @@ const messages: Record<
     damageCalc: "Fase de Dano (Cálculo de Dano)",
     mainPhase2: "Fase Principal 2",
     endPhase: "Fase Final",
-    unknown: "Desconhecido"
+    unknown: "Desconhecido",
   },
   pt: {
     drawPhase: "Compra",
@@ -87,7 +97,7 @@ const messages: Record<
     damageCalc: "Fase de Dano (Cálculo de Dano)",
     mainPhase2: "Fase Principal 2",
     endPhase: "Fase Final",
-    unknown: "Desconhecido"
+    unknown: "Desconhecido",
   },
   fr: {
     drawPhase: "Pioche",
@@ -100,7 +110,7 @@ const messages: Record<
     damageCalc: "Étape de Dégâts (Calcul des Dégâts)",
     mainPhase2: "Phase Principale 2",
     endPhase: "Phase Finale",
-    unknown: "Inconnu"
+    unknown: "Inconnu",
   },
   ja: {
     drawPhase: "ドロー",
@@ -113,7 +123,7 @@ const messages: Record<
     damageCalc: "ダメージステップ（ダメージ計算）",
     mainPhase2: "メインフェイズ 2",
     endPhase: "エンドフェイズ",
-    unknown: "未知"
+    unknown: "未知",
   },
   ko: {
     drawPhase: "드로우",
@@ -126,7 +136,7 @@ const messages: Record<
     damageCalc: "데미지 스텝 (데미지 계산)",
     mainPhase2: "메인 페이즈 2",
     endPhase: "엔드 페이즈",
-    unknown: "알 수 없음"
+    unknown: "알 수 없음",
   },
   es: {
     drawPhase: "Robo",
@@ -139,7 +149,7 @@ const messages: Record<
     damageCalc: "Paso de Daño (Cálculo de Daño)",
     mainPhase2: "Fase Principal 2",
     endPhase: "Fase Final",
-    unknown: "Desconocido"
+    unknown: "Desconocido",
   },
   cn: {
     drawPhase: "抽卡阶段",
@@ -179,18 +189,18 @@ const initialPhaseBind: [
   show: boolean,
   disabled: boolean,
 ][] = [
-    [PhaseType.DRAW, drawPhase, -1, true, true],
-    [PhaseType.STANDBY, standbyPhase, -1, true, true],
-    [PhaseType.MAIN1, mainPhase1, -1, true, true],
-    [PhaseType.BATTLE, battlePhase, 6, true, false],
-    [PhaseType.BATTLE_START, battleStart, 3, false, true],
-    [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
-    [PhaseType.DAMAGE, damage, 3, false, true],
-    [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
-    [PhaseType.MAIN2, mainPhase2, 2, true, false],
-    [PhaseType.END, endPhase, 7, true, false],
-    [PhaseType.UNKNOWN, unknown, -1, false, true],
-  ];
+  [PhaseType.DRAW, drawPhase, -1, true, true],
+  [PhaseType.STANDBY, standbyPhase, -1, true, true],
+  [PhaseType.MAIN1, mainPhase1, -1, true, true],
+  [PhaseType.BATTLE, battlePhase, 6, true, false],
+  [PhaseType.BATTLE_START, battleStart, 3, false, true],
+  [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
+  [PhaseType.DAMAGE, damage, 3, false, true],
+  [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
+  [PhaseType.MAIN2, mainPhase2, 2, true, false],
+  [PhaseType.END, endPhase, 7, true, false],
+  [PhaseType.UNKNOWN, unknown, -1, false, true],
+];
 
 export const Menu = () => {
   const { t: i18n } = useTranslation("Menu");

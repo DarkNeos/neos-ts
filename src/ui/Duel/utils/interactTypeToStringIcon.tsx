@@ -11,7 +11,13 @@ type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
 const messages: Record<
   Language,
   {
-    sSet: string; summon: string, spSummon: string, posChange: string, mSet: string, activate: string, attack: string
+    sSet: string;
+    summon: string;
+    spSummon: string;
+    posChange: string;
+    mSet: string;
+    activate: string;
+    attack: string;
   }
 > = {
   en: {
@@ -21,7 +27,7 @@ const messages: Record<
     posChange: "Change Position",
     mSet: "Set",
     activate: "Activate",
-    attack: "Attack"
+    attack: "Attack",
   },
   br: {
     sSet: "Setar",
@@ -30,7 +36,7 @@ const messages: Record<
     posChange: "Mudar Posição",
     mSet: "Setar",
     activate: "Ativar",
-    attack: "Atacar"
+    attack: "Atacar",
   },
   pt: {
     sSet: "Setar",
@@ -39,7 +45,7 @@ const messages: Record<
     posChange: "Mudar Posição",
     mSet: "Setar",
     activate: "Ativar",
-    attack: "Atacar"
+    attack: "Atacar",
   },
   fr: {
     sSet: "Poser",
@@ -48,7 +54,7 @@ const messages: Record<
     posChange: "Changer de Position",
     mSet: "Poser",
     activate: "Activer",
-    attack: "Attaquer"
+    attack: "Attaquer",
   },
   ja: {
     sSet: "セット",
@@ -57,7 +63,7 @@ const messages: Record<
     posChange: "表示形式変更",
     mSet: "セット",
     activate: "発動",
-    attack: "攻撃"
+    attack: "攻撃",
   },
   ko: {
     sSet: "세트",
@@ -66,7 +72,7 @@ const messages: Record<
     posChange: "포지션 변경",
     mSet: "세트",
     activate: "발동",
-    attack: "공격"
+    attack: "공격",
   },
   es: {
     sSet: "Colocar",
@@ -75,7 +81,7 @@ const messages: Record<
     posChange: "Cambiar Posición",
     mSet: "Colocar",
     activate: "Activar",
-    attack: "Atacar"
+    attack: "Atacar",
   },
   cn: {
     sSet: "后场放置",

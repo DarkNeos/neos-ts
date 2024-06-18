@@ -19,7 +19,7 @@ const localStore = proxy<PositionModalProps>(defaultProps);
 // Define a type for translations with an index signature (I18N)
 interface Translations {
   [key: string]: {
-    Title: string,
+    Title: string;
     FACEUP_ATTACK: string;
     FACEUP_DEFENSE: string;
     FACEDOWN_ATTACK: string;
@@ -90,9 +90,6 @@ const translations: Translations = {
   },
 };
 
-// // Define translations for different languages (I18N)
-// const title = language !== "cn" ? "Please select a position" : "请选择表示形式";
-// const test = translations[language].Title
 export const PositionModal = () => {
   const { isOpen, positions } = useSnapshot(localStore);
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
@@ -143,13 +140,13 @@ function cardPosition(position: ygopro.CardPosition): string {
 
   switch (position) {
     case ygopro.CardPosition.FACEUP_ATTACK: {
-      return messages.FACEUP_ATTACK;;
+      return messages.FACEUP_ATTACK;
     }
     case ygopro.CardPosition.FACEUP_DEFENSE: {
       return messages.FACEUP_DEFENSE;
     }
     case ygopro.CardPosition.FACEDOWN_ATTACK: {
-      return messages.FACEDOWN_ATTACK;;
+      return messages.FACEDOWN_ATTACK;
     }
     case ygopro.CardPosition.FACEDOWN_DEFENSE: {
       return messages.FACEDOWN_DEFENSE;
