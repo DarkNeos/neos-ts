@@ -1,3 +1,12 @@
+import {
+  DatabaseFilled,
+  FullscreenOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  SettingFilled,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { App, Avatar, Dropdown } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
@@ -31,16 +40,6 @@ import {
   initSuper,
   initWASM,
 } from "./utils";
-
-import {
-  LoginOutlined,
-  LogoutOutlined,
-  FullscreenOutlined,
-  DatabaseFilled,
-  UserOutlined,
-  TeamOutlined,
-  SettingFilled
-} from "@ant-design/icons";
 
 const NeosConfig = useConfig();
 
@@ -125,14 +124,20 @@ export const Component = () => {
                   {
                     label: (
                       <a href={NeosConfig.profileUrl} target="_blank">
-                        <><UserOutlined style={{fontSize: '16px'}} /> <strong>{i18n("PersonalCenter")}</strong></>
+                        <>
+                          <UserOutlined style={{ fontSize: "16px" }} />{" "}
+                          <strong>{i18n("PersonalCenter")}</strong>
+                        </>
                       </a>
                     ),
                   },
                   {
                     label: (
                       <a href="https://ygobbs.com" target="_blank">
-                        <><TeamOutlined style={{fontSize: '16px'}} /> <strong>{i18n("MyCardCommunity")}</strong></>
+                        <>
+                          <TeamOutlined style={{ fontSize: "16px" }} />{" "}
+                          <strong>{i18n("MyCardCommunity")}</strong>
+                        </>
                       </a>
                     ),
                   },
@@ -142,15 +147,27 @@ export const Component = () => {
                         href="https://mycard.moe/ygopro/arena/#/"
                         target="_blank"
                       >
-                        <><DatabaseFilled style={{fontSize: '16px'}} /> <strong>{i18n("DuelDatabase")}</strong></>
+                        <>
+                          <DatabaseFilled style={{ fontSize: "16px" }} />{" "}
+                          <strong>{i18n("DuelDatabase")}</strong>
+                        </>
                       </a>
                     ),
                   },
                   {
-                    label: <><SettingFilled /> <strong>{i18n("SystemSettings")}</strong></>,
+                    label: (
+                      <>
+                        <SettingFilled />{" "}
+                        <strong>{i18n("SystemSettings")}</strong>
+                      </>
+                    ),
                     onClick: () => {
                       modal.info({
-                        content: <><Setting /></>,
+                        content: (
+                          <>
+                            <Setting />
+                          </>
+                        ),
                         centered: true,
                         maskClosable: true,
                         icon: null,
@@ -159,11 +176,28 @@ export const Component = () => {
                     },
                   },
                   {
-                    label: <><strong style={{ color: '#1890ff' }}><FullscreenOutlined style={{fontSize: '16px'}}/> {i18n("Fullscreen")}</strong></>,
-                    onClick: () => document.documentElement.requestFullscreen(),                    
+                    label: (
+                      <>
+                        <strong style={{ color: "#1890ff" }}>
+                          <FullscreenOutlined style={{ fontSize: "16px" }} />{" "}
+                          {i18n("Fullscreen")}
+                        </strong>
+                      </>
+                    ),
+                    onClick: () => document.documentElement.requestFullscreen(),
                   },
                   {
-                    label: logined ? <><LogoutOutlined style={{fontSize: '16px'}}/> <strong>{i18n("LogOut")}</strong></> : <><LoginOutlined style={{fontSize: '16px'}}/> <strong>{i18n("Login")}</strong></>,
+                    label: logined ? (
+                      <>
+                        <LogoutOutlined style={{ fontSize: "16px" }} />{" "}
+                        <strong>{i18n("LogOut")}</strong>
+                      </>
+                    ) : (
+                      <>
+                        <LoginOutlined style={{ fontSize: "16px" }} />{" "}
+                        <strong>{i18n("Login")}</strong>
+                      </>
+                    ),
                     onClick: logined ? onLogout : onLogin,
                     danger: logined ? true : false,
                   },
