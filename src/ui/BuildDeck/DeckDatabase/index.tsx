@@ -52,19 +52,19 @@ export const DeckDatabase: React.FC = () => {
           ((a.data?.[key] ?? 0) - (b.data?.[key] ?? 0)) * scale,
       );
   };
-
+  const { t } = useTranslation("BuildDeck");
   const dropdownOptions: MenuProps["items"] = (
     [
-      ["从新到旧", () => setSortRef((a, b) => b.id - a.id)],
-      ["从旧到新", () => setSortRef((a, b) => a.id - b.id)],
-      ["攻击力从高到低", genSort("atk", -1)],
-      ["攻击力从低到高", genSort("atk")],
-      ["守备力从高到低", genSort("def", -1)],
-      ["守备力从低到高", genSort("def")],
-      ["星/阶/刻/Link从高到低", genSort("level", -1)],
-      ["星/阶/刻/Link从低到高", genSort("level")],
-      ["灵摆刻度从高到低", genSort("lscale", -1)],
-      ["灵摆刻度从低到高", genSort("lscale")],
+      [`${t("FromNewToOld")}`, () => setSortRef((a, b) => b.id - a.id)],
+      [`${t("FromOldToNew")}`, () => setSortRef((a, b) => a.id - b.id)],
+      [`${t("AttackPowerFromHighToLow")}`, genSort("atk", -1)],
+      [`${t("AttackPowerFromLowToHigh")}`, genSort("atk")],
+      [`${t("DefensePowerFromHighToLow")}`, genSort("def", -1)],
+      [`${t("DefensePowerFromLowToHigh")}`, genSort("def")],
+      [`${t("StarsRanksLevelsLinkFromHighToLow")}`, genSort("level", -1)],
+      [`${t("StarsRanksLevelsLinkFromLowToHigh")}`, genSort("level")],
+      [`${t("PendulumScaleFromHighToLow")}`, genSort("lscale", -1)],
+      [`${t("PendulumScaleFromLowToHigh")}`, genSort("lscale")],
     ] as const
   ).map(([label, onClick], key) => ({ key, label, onClick }));
 

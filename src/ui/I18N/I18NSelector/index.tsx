@@ -38,7 +38,7 @@ export const I18NSelector: React.FC = () => {
               checked={i18n.language === lang.value}
               onChange={() => onClickLanguageChange(lang.value)}
             >
-              <FlagIcon code={lang.flag} size={26} />
+              <FlagIcon code={lang.flag} size={24} />
             </Checkbox>
           </Tooltip>
         </Col>

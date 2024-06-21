@@ -32,6 +32,16 @@ import {
   initWASM,
 } from "./utils";
 
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  FullscreenOutlined,
+  DatabaseFilled,
+  UserOutlined,
+  TeamOutlined,
+  SettingFilled
+} from "@ant-design/icons";
+
 const NeosConfig = useConfig();
 
 export const loader: LoaderFunction = async () => {
@@ -115,14 +125,14 @@ export const Component = () => {
                   {
                     label: (
                       <a href={NeosConfig.profileUrl} target="_blank">
-                        {i18n("PersonalCenter")}
+                        <><UserOutlined style={{fontSize: '16px'}} /> <strong>{i18n("PersonalCenter")}</strong></>
                       </a>
                     ),
                   },
                   {
                     label: (
                       <a href="https://ygobbs.com" target="_blank">
-                        {i18n("MyCardCommunity")}
+                        <><TeamOutlined style={{fontSize: '16px'}} /> <strong>{i18n("MyCardCommunity")}</strong></>
                       </a>
                     ),
                   },
@@ -132,15 +142,15 @@ export const Component = () => {
                         href="https://mycard.moe/ygopro/arena/#/"
                         target="_blank"
                       >
-                        {i18n("DuelDatabase")}
+                        <><DatabaseFilled style={{fontSize: '16px'}} /> <strong>{i18n("DuelDatabase")}</strong></>
                       </a>
                     ),
                   },
                   {
-                    label: i18n("SystemSettings"),
+                    label: <><SettingFilled /> <strong>{i18n("SystemSettings")}</strong></>,
                     onClick: () => {
                       modal.info({
-                        content: <Setting />,
+                        content: <><Setting /></>,
                         centered: true,
                         maskClosable: true,
                         icon: null,
@@ -149,13 +159,13 @@ export const Component = () => {
                     },
                   },
                   {
-                    label: logined ? i18n("LogOut") : i18n("Login"),
-                    onClick: logined ? onLogout : onLogin,
+                    label: <><strong style={{ color: '#1890ff' }}><FullscreenOutlined style={{fontSize: '16px'}}/> {i18n("Fullscreen")}</strong></>,
+                    onClick: () => document.documentElement.requestFullscreen(),                    
                   },
                   {
-                    label: i18n("Fullscreen"),
-                    onClick: () => document.documentElement.requestFullscreen(),
-                    danger: true,
+                    label: logined ? <><LogoutOutlined style={{fontSize: '16px'}}/> <strong>{i18n("LogOut")}</strong></> : <><LoginOutlined style={{fontSize: '16px'}}/> <strong>{i18n("Login")}</strong></>,
+                    onClick: logined ? onLogout : onLogin,
+                    danger: logined ? true : false,
                   },
                 ].map((x, key) => ({ ...x, key })),
               }}

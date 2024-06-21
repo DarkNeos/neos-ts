@@ -1,3 +1,4 @@
+import { AudioFilled, TranslationOutlined } from "@ant-design/icons";
 import { ConfigProvider, Modal, Tabs, TabsProps } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
@@ -21,12 +22,20 @@ export const Setting = (props: SettingProps) => {
   const items: TabsProps["items"] = [
     {
       key: "audio",
-      label: i18n("AudioSettings"),
+      label: (
+        <>
+          {i18n("AudioSettings")} <AudioFilled />
+        </>
+      ),
       children: <AudioSetting />,
     },
     {
       key: "language",
-      label: i18n("LanguageSettings"),
+      label: (
+        <>
+          {i18n("LanguageSettings")} <TranslationOutlined />
+        </>
+      ),
       children: <I18NSelector />,
     },
   ];

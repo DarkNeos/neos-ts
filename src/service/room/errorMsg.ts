@@ -28,28 +28,34 @@ const messages: Record<
     extraDeckWarning: "The number of Extra Deck should be 0-15",
   },
   br: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning:
+      "O número de cartas no Deck Principal deve ser entre 40-60",
+    extraDeckWarning: "O número de cartas no Deck Extra deve ser entre 0-15",
   },
   pt: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning:
+      "O número de cartas no Deck Principal deve ser entre 40-60",
+    extraDeckWarning: "O número de cartas no Deck Extra deve ser entre 0-15",
   },
   fr: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning:
+      "Le nombre de cartes dans le Deck Principal doit être entre 40 et 60",
+    extraDeckWarning:
+      "Le nombre de cartes dans le Deck Extra doit être entre 0 et 15",
   },
   ja: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning: "メインデッキの枚数は40～60枚でなければなりません",
+    extraDeckWarning: "エクストラデッキの枚数は0～15枚でなければなりません",
   },
   ko: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning: "메인 덱의 카드 수는 40-60장이어야 합니다",
+    extraDeckWarning: "엑스트라 덱의 카드 수는 0-15장이어야 합니다",
   },
   es: {
-    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
-    extraDeckWarning: "The number of Extra Deck should be 0-15",
+    mainDeckWarning:
+      "El número de cartas en el Mazo Principal debe ser entre 40-60",
+    extraDeckWarning:
+      "El número de cartas en el Mazo Extra debe ser entre 0-15",
   },
   cn: {
     mainDeckWarning: "主卡组数量应为40-60张",

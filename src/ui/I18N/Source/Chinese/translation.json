@@ -118,7 +118,7 @@
   "CustomRoomContent": {
     "CreateJoinPrivateRoom": "创建/加入私密房间",
     "RoomPassword": "房间密码",
-    "Initial": "初始",
+    "Initial": "初始 ",
     "InitialHandSize": "初始手牌数",
     "DrawPerTurn": "每回合抽卡",
     "CardsAllowed": "卡片允许",
