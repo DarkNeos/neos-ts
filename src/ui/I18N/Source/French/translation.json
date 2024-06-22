@@ -198,5 +198,8 @@
     "TurnOnSoundEffects": "Effets sonores",
     "SwitchMusicAccordingToTheEnvironment": "Changer la musique en fonction de l'environnement",
     "LanguageSettings": "Langue"
+  },
+  "DeckResults": {
+    "NoDeckGroupFound": "Impossible de trouver le jeu de cartes correspondant"
   }
 }

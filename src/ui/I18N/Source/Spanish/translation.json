@@ -198,5 +198,8 @@
     "TurnOnSoundEffects": "Efectos de sonido",
     "SwitchMusicAccordingToTheEnvironment": "Cambiar la música según el entorno",
     "LanguageSettings": "Idioma"
+  },
+  "DeckResults": {
+    "NoDeckGroupFound": "No se puede encontrar el mazo de cartas correspondiente"
   }
 }
