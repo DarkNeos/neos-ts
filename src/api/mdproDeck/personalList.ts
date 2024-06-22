@@ -1,4 +1,5 @@
 import { useConfig } from "@/config";
+import { pfetch } from "@/infra";
 
 import { MdproDeck, MdproResp } from "./schema";
 import { handleHttps, mdproHeaders } from "./util";
@@ -15,14 +16,18 @@ export interface PersonalListReq {
 
 export async function getPersonalList(
   req: PersonalListReq,
+  progressCallback?: (progress: number) => void,
 ): Promise<MdproResp<MdproDeck[]> | undefined> {
   const myHeaders = mdproHeaders();
   myHeaders.append("token", req.token);
 
-  const resp = await fetch(`${mdproServer}/${API_PATH}/${req.userID}`, {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
+  const resp = await pfetch(`${mdproServer}/${API_PATH}/${req.userID}`, {
+    init: {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    },
+    progressCallback,
   });
 
   return await handleHttps(resp, API_PATH);

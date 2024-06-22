@@ -200,5 +200,8 @@
     "TurnOnSoundEffects": "Sound effects",
     "SwitchMusicAccordingToTheEnvironment": "Switch music according to the environment",
     "LanguageSettings": "Language"
+  },
+  "DeckResults": {
+    "NoDeckGroupFound": "Cannot find the corresponding card deck"
   }
 }

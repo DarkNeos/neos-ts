@@ -10,7 +10,7 @@ import { deleteDeck, getPersonalList, mgetDeck, pullDecks } from "@/api";
 import { MdproDeckLike } from "@/api/mdproDeck/schema";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
-import { IconFont } from "@/ui/Shared";
+import { IconFont, Loading } from "@/ui/Shared";
 
 import { setSelectedDeck } from "../..";
 import { editDeckStore } from "../../store";
@@ -25,6 +25,7 @@ interface Props {
   decks: MdproDeckLike[];
   total: number;
   onlyMine: boolean;
+  progress: number;
 }
 
 // TODO: useConfig
@@ -37,6 +38,7 @@ const store = proxy<Props>({
   decks: [],
   total: 0,
   onlyMine: false,
+  progress: 0.01,
 });
 
 export const DeckResults: React.FC = memo(() => {
@@ -44,29 +46,13 @@ export const DeckResults: React.FC = memo(() => {
   const { message } = App.useApp();
   const { t: i18n } = useTranslation("DeckResults");
   useEffect(() => {
+    resetProgress();
     if (snap.onlyMine) {
       // show only decks uploaded by myself
 
       updatePersonalList(message);
     } else {
-      const update = async () => {
-        const resp = await pullDecks({
-          page: snap.page,
-          size: PAGE_SIZE,
-          keyWord: snap.query !== "" ? snap.query : undefined,
-          sortLike: SORT_LIKE,
-        });
-
-        if (resp?.data) {
-          const { total, records: newDecks } = resp.data;
-          store.total = total;
-          store.decks = newDecks;
-        } else {
-          store.decks = [];
-        }
-      };
-
-      update();
+      updateMdproDeck();
     }
   }, [snap.query, snap.page, snap.onlyMine]);
 
@@ -92,32 +78,38 @@ export const DeckResults: React.FC = memo(() => {
 
   return (
     <>
-      {snap.decks.length ? (
-        <div className={styles.container}>
-          <div className={styles["search-decks"]}>
-            {snap.decks.map((deck) => (
-              <MdproDeckBlock
-                key={deck.deckId}
-                deck={deck}
-                onlyMine={snap.onlyMine}
+      {snap.progress === 1 ? (
+        snap.decks.length ? (
+          <div className={styles.container}>
+            <div className={styles["search-decks"]}>
+              {snap.decks.map((deck) => (
+                <MdproDeckBlock
+                  key={deck.deckId}
+                  deck={deck}
+                  onlyMine={snap.onlyMine}
+                />
+              ))}
+            </div>
+            <div style={{ textAlign: "center", padding: "0.625rem 0 1.25rem" }}>
+              <Pagination
+                current={snap.page}
+                onChange={onChangePage}
+                total={snap.total}
+                pageSize={PAGE_SIZE}
+                showLessItems
+                hideOnSinglePage
               />
-            ))}
+            </div>
           </div>
-          <div style={{ textAlign: "center", padding: "0.625rem 0 1.25rem" }}>
-            <Pagination
-              current={snap.page}
-              onChange={onChangePage}
-              total={snap.total}
-              pageSize={PAGE_SIZE}
-              showLessItems
-              hideOnSinglePage
-            />
+        ) : (
+          <div className={styles.empty}>
+            <IconFont type="icon-empty" size={40} />
+            <div>{i18n("NoDeckGroupFound")}</div>
           </div>
-        </div>
+        )
       ) : (
         <div className={styles.empty}>
-          <IconFont type="icon-empty" size={40} />
-          <div>{i18n("NoDeckGroupFound")}</div>
+          <Loading progress={snap.progress * 100} />
         </div>
       )}
     </>
@@ -182,13 +174,38 @@ const MdproDeckBlock: React.FC<{
   );
 };
 
+const updateMdproDeck = async () => {
+  const resp = await pullDecks(
+    {
+      page: store.page,
+      size: PAGE_SIZE,
+      keyWord: store.query !== "" ? store.query : undefined,
+      sortLike: SORT_LIKE,
+    },
+    updateProgress,
+  );
+
+  if (resp?.data) {
+    const { total, records: newDecks } = resp.data;
+    store.total = total;
+    store.decks = newDecks;
+  } else {
+    store.decks = [];
+  }
+
+  finishProgress();
+};
+
 const updatePersonalList = async (message: MessageInstance) => {
   const user = accountStore.user;
   if (user) {
-    const resp = await getPersonalList({
-      userID: user.id,
-      token: user.token,
-    });
+    const resp = await getPersonalList(
+      {
+        userID: user.id,
+        token: user.token,
+      },
+      updateProgress,
+    );
 
     if (resp) {
       if (resp.code !== 0 || resp.data === undefined) {
@@ -231,7 +248,13 @@ const updatePersonalList = async (message: MessageInstance) => {
     store.decks = [];
     store.total = 0;
   }
+
+  finishProgress();
 };
+
+const resetProgress = () => (store.progress = 0.01);
+const updateProgress = (progress: number) => (store.progress = progress * 0.9);
+const finishProgress = () => (store.progress = 1);
 
 const copyMdproDeckToEditing = async (mdproDeck: MdproDeckLike) => {
   // currently the content of the deck, which we named `Ydk`,

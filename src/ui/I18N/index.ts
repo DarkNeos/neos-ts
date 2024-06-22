@@ -32,6 +32,7 @@ const resources = {
     Menu: translationChinese.Menu,
     SelectCardModal: translationChinese.SelectCardModal,
     SystemSettings: translationChinese.SystemSettings,
+    DeckResults: translationChinese.DeckResults,
   },
   en: {
     Header: translationEnglish.Header,
@@ -51,6 +52,7 @@ const resources = {
     Menu: translationEnglish.Menu,
     SelectCardModal: translationEnglish.SelectCardModal,
     SystemSettings: translationEnglish.SystemSettings,
+    DeckResults: translationEnglish.DeckResults,
   },
   es: {
     Header: translationSpanish.Header,
@@ -70,6 +72,7 @@ const resources = {
     Menu: translationSpanish.Menu,
     SelectCardModal: translationSpanish.SelectCardModal,
     SystemSettings: translationSpanish.SystemSettings,
+    DeckResults: translationSpanish.DeckResults,
   },
   fr: {
     Header: translationFrench.Header,
@@ -89,6 +92,7 @@ const resources = {
     Menu: translationFrench.Menu,
     SelectCardModal: translationFrench.SelectCardModal,
     SystemSettings: translationFrench.SystemSettings,
+    DeckResults: translationFrench.DeckResults,
   },
   ja: {
     Header: translationJapanese.Header,
@@ -108,6 +112,7 @@ const resources = {
     Menu: translationJapanese.Menu,
     SelectCardModal: translationJapanese.SelectCardModal,
     SystemSettings: translationJapanese.SystemSettings,
+    DeckResults: translationJapanese.DeckResults,
   },
   br: {
     Header: translationBrazilian.Header,
@@ -127,6 +132,7 @@ const resources = {
     Menu: translationBrazilian.Menu,
     SelectCardModal: translationBrazilian.SelectCardModal,
     SystemSettings: translationBrazilian.SystemSettings,
+    DeckResults: translationBrazilian.DeckResults,
   },
   pt: {
     Header: translationPortuguese.Header,
@@ -146,6 +152,7 @@ const resources = {
     Menu: translationPortuguese.Menu,
     SelectCardModal: translationPortuguese.SelectCardModal,
     SystemSettings: translationPortuguese.SystemSettings,
+    DeckResults: translationPortuguese.DeckResults,
   },
 };
 
