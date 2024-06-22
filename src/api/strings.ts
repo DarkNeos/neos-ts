@@ -2,10 +2,33 @@ import { useConfig } from "@/config";
 
 import { fetchCard, getCardStr } from "./cards";
 
-const { stringsUrl } = useConfig();
+let { stringsUrl } = useConfig();
 export const DESCRIPTION_LIMIT = 10000;
 
 export async function initStrings() {
+  const language = localStorage.getItem("language") || "cn";
+
+  //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
+  switch (language) {
+    case "en":
+    case "br":
+    case "pt":
+    case "fr":
+      stringsUrl = stringsUrl.replace("zh-CN", "en-US");
+      break;
+    case "ja":
+      stringsUrl = stringsUrl.replace("zh-CN", "ja-JP");
+      break;
+    case "es":
+      stringsUrl = stringsUrl.replace("zh-CN", "es-ES");
+      break;
+    case "ko":
+      stringsUrl = stringsUrl.replace("zh-CN", "ko-KR");
+      break;
+    default:
+      break;
+  }
+
   const strings = await (await fetch(stringsUrl)).text();
 
   const lineIter = strings.split("\n");

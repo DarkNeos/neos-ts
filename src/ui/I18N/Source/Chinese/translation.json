@@ -8,7 +8,8 @@
     "DuelDatabase": "决斗数据库",
     "LogOut": "退出登录",
     "Login": "登录萌卡",
-    "Fullscreen": "全屏"
+    "Fullscreen": "全屏",
+    "SystemSettings": "系统设置"
   },
   "Start": {
     "Title": "游戏王网页端对战平台",
@@ -35,6 +36,169 @@
     "ReplayTitle": "录像回放",
     "ReplayDesc": "自由查看进行过的决斗，回味那些精彩的逆转瞬间。",
     "WIPTitle": "开发中...",
-    "WIPDesc": "其他功能敬请期待。"
+    "WIPDesc": "其他功能敬请期待。",
+    "EnterSpectatorMode": "进入观战",
+    "PleaseSelectTheRoomToSpectate": "请选择观战的房间"
+  },
+  "BuildDeck": {
+    "EnterTheDeckName": "请输入卡组名字",
+    "Shuffle": "打乱",
+    "Sort": "排序",
+    "Clear": "清空",
+    "Reset": "重置",
+    "Save": "保存",
+    "QuestionCircleTooltip": "双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片",
+    "Filter": "筛选",
+    "SortBy": "排列 ",
+    "KeywordsPlaceholder": "关键词(空格分隔)",
+    "FromNewToOld": "从新到旧",
+    "FromOldToNew": "从旧到新",
+    "AttackPowerFromHighToLow": "攻击力从高到低",
+    "AttackPowerFromLowToHigh": "攻击力从低到高",
+    "DefensePowerFromHighToLow": "守备力从高到低",
+    "DefensePowerFromLowToHigh": "守备力从低到高",
+    "StarsRanksLevelsLinkFromHighToLow": "星/阶/刻/Link从高到低",
+    "StarsRanksLevelsLinkFromLowToHigh": "星/阶/刻/Link从低到高",
+    "PendulumScaleFromHighToLow": "灵摆刻度从高到低",
+    "PendulumScaleFromLowToHigh": "灵摆刻度从低到高",
+    "ResetSuccessful": "重置成功",
+    "SaveSuccessful": "保存成功",
+    "NoDeckGroupFound": "找不到相应卡组",
+    "OnlyShowDecksIUploaded": "只显示我上传的卡组",
+    "ShowAllOnlineDecks": "显示全部在线卡组",
+    "CardDatabase": "卡片数据库",
+    "MDProOnlineDeck": "Mdpro在线卡组"
+  },
+  "Filter": {
+    "CardFilter": "卡片筛选",
+    "Attribute": "属性",
+    "Race": "种族",
+    "Type": "类型",
+    "Level": "星级",
+    "PendulumScale": "灵摆刻度",
+    "Attack": "攻击力",
+    "Defense": "守备力",
+    "Select": "请选择",
+    "Minimum": "最小值",
+    "Maximum": "最大值",
+    "Confirm": "确 定",
+    "Cancel": "取 消"
+  },
+  "CardDetails": {
+    "Level": "等级",
+    "Type": "类型",
+    "Attribute": "类型",
+    "Race": "种族",
+    "Attack": "攻击力",
+    "Defence": "守备力",
+    "PendulumScale": "灵摆刻度",
+    "MonsterEffect": "怪兽效果",
+    "PendulumEffect": "灵摆效果",
+    "CardEffect": "卡片效果"
+  },
+  "WaitRoom": {
+    "Deck": "卡组",
+    "JoinDuelist": "加入决斗者",
+    "JoinSpectator": "加入观战",
+    "DuelReady": "决斗准备",
+    "CancelReady": "取消准备",
+    "LeaveRoom": "退出房间",
+    "Expand": "展开",
+    "Collapse": "收起",
+    "Sidebar": "侧栏",
+    "StartGame": "开始游戏",
+    "PlsRockPaperScissors": "请猜拳",
+    "WaitOpponentPlayRockPaperScissors": "等待对方猜拳",
+    "PlsChooseWhoGoesFirst": "请选择先后手",
+    "WaitingForGameToStart": "等待游戏开始",
+    "Scissors": "剪刀",
+    "Rock": "石头",
+    "Paper": "布"
+  },
+  "CustomRoomContent": {
+    "CreateJoinPrivateRoom": "创建/加入私密房间",
+    "RoomPassword": "房间密码",
+    "Initial": "初始 ",
+    "InitialHandSize": "初始手牌数",
+    "DrawPerTurn": "每回合抽卡",
+    "CardsAllowed": "卡片允许",
+    "SimplifiedChinese": "简体中文",
+    "CustomCards": "自制卡",
+    "ExclusiveCardsProhibited": "专有卡禁止",
+    "AllCards": "所有卡片",
+    "DuelMode": "决斗模式",
+    "SingleMatchMode": "单局模式",
+    "TournamentMode": "比赛模式",
+    "DuelRules": "决斗规则",
+    "MasterRule1": "大师规则1",
+    "MasterRule2": "大师规则2",
+    "MasterRule3": "大师规则3",
+    "NewMasterRule": "新大师规则",
+    "MasterRule2020": "大师规则2020",
+    "NoDeckCheck": "不检查卡组",
+    "NoShuffleDeck": "不切洗卡组",
+    "40MinutesAutomaticOvertime": "40分自动加时",
+    "EnterYourFriendsPrivateRoomPassword": "在这输入你朋友的私密房间密码",
+    "CreatePrivateRoom": "创建私密房间",
+    "JoinPrivateRoom": "加入私密房间"
+  },
+  "WatchContent": {
+    "SearchRoomByPlayerUsername": "通过玩家用户名搜索房间",
+    "RankedMatch": "竞技匹配",
+    "Versus": "与"
+  },
+  "DeckSelect": {
+    "CopySuccessful": "复制成功",
+    "CopyFailed": "复制失败",
+    "CreateNewDeck": "新建卡组",
+    "ImportFromLocalFile": "从本地文件导入",
+    "ImportFromClipboard": "从剪贴板导入",
+    "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
+    "SupportsYdkExtension": "仅支持后缀名为ydk的卡组文件。",
+    "UnableToReadClipboardContent": "无法读取剪贴板内容:"
+  },
+  "Chat": {
+    "PleaseEnterChatContent": "请输入聊天内容"
+  },
+  "MatchModal": {
+    "PleaseEnterCustomRoomInformation": "请输入自定义房间信息",
+    "Server": "服务器",
+    "KoishiServer": "Koishi服",
+    "UltraPreemptiveServer": "超先行服",
+    "PlayerNickname": "玩家昵称",
+    "RoomPasswordOptional": "房间密码(可选)",
+    "JoinRoom": "加入房间"
+  },
+  "ReplayModal": {
+    "SelectReplay": "选择回放",
+    "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
+    "SupportsYrd3dExtension": "仅支持后缀名为yrp3d的录像文件。",
+    "StartReplay": "开始回放",
+    "PleaseUploadReplayFile": "请先上传录像文件"
+  },
+  "Popover": {
+    "First": "先手",
+    "Second": "后手"
+  },
+  "Menu": {
+    "DoYouSurrunder": "是否投降？",
+    "Cancel": "取消",
+    "Confirm": "确定",
+    "SelectPhase": "请选择要进入的阶段",
+    "Deselect": "取消选择",
+    "SelectionComplete": "完成选择",
+    "ChatRoom": "聊天室"
+  },
+  "SelectCardModal": {
+    "PleaseSelect": "请选择",
+    "Cards": "张卡",
+    "SelectOneCardAtTime": "每次选择一张"
+  },
+  "SystemSettings": {
+    "AudioSettings": "音频设置",
+    "TurnOnMusic": "开启音乐",
+    "TurnOnSoundEffects": "开启音效",
+    "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐",
+    "LanguageSettings": "语言"
   }
 }

@@ -7,6 +7,89 @@ import { Type } from "@/ui/Shared/DeckZone";
 
 import { compareCards, type EditingDeck } from "./utils";
 
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  {
+    cardTypeNotMatch: string;
+    exceedsNumberCardsSameName: string;
+    limitCards: string;
+    exceedsLimit: string;
+    cannotAddTokens: string;
+  }
+> = {
+  en: {
+    cardTypeNotMatch: "The Card Type does not match",
+    exceedsNumberCardsSameName: "The number of Extra Deck should be 0-15",
+    limitCards: "Limit of cards",
+    exceedsLimit: "Exceeds the limit",
+    cannotAddTokens: "Cannot add tokens",
+  },
+  br: {
+    cardTypeNotMatch: "O Tipo de Carta não corresponde",
+    exceedsNumberCardsSameName: "Excede o número de cartas com o mesmo nome",
+    limitCards: "Limite de cartas",
+    exceedsLimit: "Excede o limite",
+    cannotAddTokens: "Não é possível adicionar fichas",
+  },
+  pt: {
+    cardTypeNotMatch: "O Tipo de Carta não corresponde",
+    exceedsNumberCardsSameName: "Excede o número de cartas com o mesmo nome",
+    limitCards: "Limite de cartas",
+    exceedsLimit: "Excede o limite",
+    cannotAddTokens: "Não é possível adicionar fichas",
+  },
+  fr: {
+    cardTypeNotMatch: "Le Type de Carte ne correspond pas",
+    exceedsNumberCardsSameName: "Dépasse le nombre de cartes avec le même nom",
+    limitCards: "Limite de cartes",
+    exceedsLimit: "Dépasse la limite",
+    cannotAddTokens: "Impossible d'ajouter des jetons",
+  },
+  ja: {
+    cardTypeNotMatch: "カードタイプが一致しません",
+    exceedsNumberCardsSameName: "同名カードの枚数を超えています",
+    limitCards: "カードの制限",
+    exceedsLimit: "制限を超えています",
+    cannotAddTokens: "トークンを追加できません",
+  },
+  ko: {
+    cardTypeNotMatch: "카드 유형이 일치하지 않습니다",
+    exceedsNumberCardsSameName: "동일한 이름의 카드 수를 초과합니다",
+    limitCards: "카드 제한",
+    exceedsLimit: "제한을 초과합니다",
+    cannotAddTokens: "토큰을 추가할 수 없습니다",
+  },
+  es: {
+    cardTypeNotMatch: "El Tipo de Carta no coincide",
+    exceedsNumberCardsSameName:
+      "Supera el número de cartas con el mismo nombre",
+    limitCards: "Límite de cartas",
+    exceedsLimit: "Supera el límite",
+    cannotAddTokens: "No se pueden agregar fichas",
+  },
+  cn: {
+    cardTypeNotMatch: "卡片种类不符合",
+    exceedsNumberCardsSameName: "超过同名卡",
+    limitCards: "张的上限",
+    exceedsLimit: "超过",
+    cannotAddTokens: "不能添加衍生物",
+  },
+};
+
+// Get the language from localStorage or default to 'cn' (I18N)
+const language = (localStorage.getItem("language") || "cn") as Language;
+const cardTypeNotMatch = messages[language].cardTypeNotMatch;
+const exceedsNumberCardsSameName =
+  messages[language].exceedsNumberCardsSameName;
+const limitCards = messages[language].limitCards;
+const exceedsLimit = messages[language].exceedsLimit;
+const cannotAddTokens = messages[language].cannotAddTokens;
+/* End of definition (I18N) */
+
 export const editDeckStore = proxy({
   deckName: "",
   main: [] as CardMeta[],
@@ -75,13 +158,13 @@ export const editDeckStore = proxy({
 
     if (isToken(cardType)) {
       result = false;
-      reason = "不能添加衍生物";
+      reason = cannotAddTokens;
     }
 
     const countLimit = type === "main" ? 60 : 15;
     if (deckType.length >= countLimit) {
       result = false;
-      reason = `超过 ${countLimit} 张的上限`;
+      reason = `${exceedsLimit} ${countLimit} ${limitCards}`;
     }
 
     if (
@@ -89,9 +172,8 @@ export const editDeckStore = proxy({
       (type === "main" && isExtraDeckCard(cardType))
     ) {
       result = false;
-      reason = "卡片种类不符合";
+      reason = cardTypeNotMatch;
     }
-
     const max = 3; // 这里无需参考禁卡表
     const numOfSameCards =
       editDeckStore
@@ -105,7 +187,7 @@ export const editDeckStore = proxy({
 
     if (numOfSameCards >= max) {
       result = false;
-      reason = `超过同名卡 ${max} 张的上限`;
+      reason = `${exceedsNumberCardsSameName} ${max} ${limitCards}`;
     }
 
     return { result, reason };

@@ -31,12 +31,155 @@ import { IconFont } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+import { useTranslation } from "react-i18next";
+
 import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
 
 const { useToken } = theme;
 
 const FINISH_CANCEL_RESPONSE = -1;
+
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  {
+    drawPhase: string;
+    standbyPhase: string;
+    mainPhase1: string;
+    battlePhase: string;
+    battleStart: string;
+    battleStep: string;
+    damage: string;
+    damageCalc: string;
+    mainPhase2: string;
+    endPhase: string;
+    unknown: string;
+  }
+> = {
+  en: {
+    drawPhase: "Draw",
+    standbyPhase: "Standhy Phase",
+    mainPhase1: "Main Phase 1",
+    battlePhase: "Battle Phase",
+    battleStart: "Battle Start",
+    battleStep: "Battle Step",
+    damage: "Damage Step",
+    damageCalc: "Damage Step (Damage Calculation)",
+    mainPhase2: "Main Phase 2",
+    endPhase: "End Phase",
+    unknown: "Unknown",
+  },
+  br: {
+    drawPhase: "Compra",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalha",
+    battleStart: "Início da Batalha",
+    battleStep: "Fase da Batalha",
+    damage: "Fase de Dano",
+    damageCalc: "Fase de Dano (Cálculo de Dano)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconhecido",
+  },
+  pt: {
+    drawPhase: "Compra",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalha",
+    battleStart: "Início da Batalha",
+    battleStep: "Fase da Batalha",
+    damage: "Fase de Dano",
+    damageCalc: "Fase de Dano (Cálculo de Dano)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconhecido",
+  },
+  fr: {
+    drawPhase: "Pioche",
+    standbyPhase: "Phase de Standby",
+    mainPhase1: "Phase Principale 1",
+    battlePhase: "Phase de Bataille",
+    battleStart: "Début de la Bataille",
+    battleStep: "Étape de Bataille",
+    damage: "Étape de Dégâts",
+    damageCalc: "Étape de Dégâts (Calcul des Dégâts)",
+    mainPhase2: "Phase Principale 2",
+    endPhase: "Phase Finale",
+    unknown: "Inconnu",
+  },
+  ja: {
+    drawPhase: "ドロー",
+    standbyPhase: "スタンバイフェイズ",
+    mainPhase1: "メインフェイズ 1",
+    battlePhase: "バトルフェイズ",
+    battleStart: "バトル開始",
+    battleStep: "バトルステップ",
+    damage: "ダメージステップ",
+    damageCalc: "ダメージステップ（ダメージ計算）",
+    mainPhase2: "メインフェイズ 2",
+    endPhase: "エンドフェイズ",
+    unknown: "未知",
+  },
+  ko: {
+    drawPhase: "드로우",
+    standbyPhase: "대기 페이즈",
+    mainPhase1: "메인 페이즈 1",
+    battlePhase: "배틀 페이즈",
+    battleStart: "배틀 시작",
+    battleStep: "배틀 스텝",
+    damage: "데미지 스텝",
+    damageCalc: "데미지 스텝 (데미지 계산)",
+    mainPhase2: "메인 페이즈 2",
+    endPhase: "엔드 페이즈",
+    unknown: "알 수 없음",
+  },
+  es: {
+    drawPhase: "Robo",
+    standbyPhase: "Fase de Espera",
+    mainPhase1: "Fase Principal 1",
+    battlePhase: "Fase de Batalla",
+    battleStart: "Inicio de Batalla",
+    battleStep: "Paso de Batalla",
+    damage: "Paso de Daño",
+    damageCalc: "Paso de Daño (Cálculo de Daño)",
+    mainPhase2: "Fase Principal 2",
+    endPhase: "Fase Final",
+    unknown: "Desconocido",
+  },
+  cn: {
+    drawPhase: "抽卡阶段",
+    standbyPhase: "准备阶段",
+    mainPhase1: "主要阶段 1",
+    battlePhase: "战斗阶段",
+    battleStart: "战斗开始",
+    battleStep: "战斗步骤",
+    damage: "伤害步骤",
+    damageCalc: "伤害步骤（伤害计算）",
+    mainPhase2: "主要阶段 2",
+    endPhase: "结束阶段",
+    unknown: "未知阶段",
+  },
+};
+
+// Get the language from localStorage or default to 'cn' (I18N)
+const language = (localStorage.getItem("language") || "cn") as Language;
+const drawPhase = messages[language].drawPhase;
+const standbyPhase = messages[language].standbyPhase;
+const mainPhase1 = messages[language].mainPhase1;
+const battlePhase = messages[language].battlePhase;
+const battleStart = messages[language].battleStart;
+const battleStep = messages[language].battleStep;
+const damage = messages[language].damage;
+const damageCalc = messages[language].damageCalc;
+const mainPhase2 = messages[language].mainPhase2;
+const endPhase = messages[language].endPhase;
+const unknown = messages[language].unknown;
+/* End of definition (I18N) */
 
 // PhaseType, 中文, response, 是否显示，是否禁用
 const initialPhaseBind: [
@@ -46,20 +189,21 @@ const initialPhaseBind: [
   show: boolean,
   disabled: boolean,
 ][] = [
-  [PhaseType.DRAW, "抽卡阶段", -1, true, true],
-  [PhaseType.STANDBY, "准备阶段", -1, true, true],
-  [PhaseType.MAIN1, "主要阶段 1", -1, true, true],
-  [PhaseType.BATTLE, "战斗阶段", 6, true, false],
-  [PhaseType.BATTLE_START, "战斗开始", 3, false, true],
-  [PhaseType.BATTLE_STEP, "战斗步骤", 3, false, true],
-  [PhaseType.DAMAGE, "伤害步骤", 3, false, true],
-  [PhaseType.DAMAGE_GAL, "伤害步骤（伤害计算）", 3, false, true],
-  [PhaseType.MAIN2, "主要阶段 2", 2, true, false],
-  [PhaseType.END, "结束阶段", 7, true, false],
-  [PhaseType.UNKNOWN, "未知阶段", -1, false, true],
+  [PhaseType.DRAW, drawPhase, -1, true, true],
+  [PhaseType.STANDBY, standbyPhase, -1, true, true],
+  [PhaseType.MAIN1, mainPhase1, -1, true, true],
+  [PhaseType.BATTLE, battlePhase, 6, true, false],
+  [PhaseType.BATTLE_START, battleStart, 3, false, true],
+  [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
+  [PhaseType.DAMAGE, damage, 3, false, true],
+  [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
+  [PhaseType.MAIN2, mainPhase2, 2, true, false],
+  [PhaseType.END, endPhase, 7, true, false],
+  [PhaseType.UNKNOWN, unknown, -1, false, true],
 ];
 
 export const Menu = () => {
+  const { t: i18n } = useTranslation("Menu");
   const {
     currentPlayer,
     chainSetting,
@@ -121,10 +265,14 @@ export const Menu = () => {
     setPhaseSwitchItems(newPhaseSwitchItems);
   }, [phaseBind]);
 
+  const allChain = language !== "cn" ? "All Chain" : "";
+  const ignoreChain = language !== "cn" ? "Ignore Chain" : "";
+  const smartChain = language !== "cn" ? "Smart Chain" : "";
+
   const chainSettingTexts = [
-    [ChainSetting.CHAIN_ALL, "全部连锁"],
-    [ChainSetting.CHAIN_IGNORE, "忽略连锁"],
-    [ChainSetting.CHAIN_SMART, "智能连锁"],
+    [ChainSetting.CHAIN_ALL, allChain],
+    [ChainSetting.CHAIN_IGNORE, ignoreChain],
+    [ChainSetting.CHAIN_SMART, smartChain],
   ] as const;
   const chainSettingItems: MenuProps["items"] = chainSettingTexts.map(
     ([key, text]) => ({
@@ -136,13 +284,12 @@ export const Menu = () => {
       },
     }),
   );
-
   const surrenderMenuItems: MenuProps["items"] = [
     {
-      label: "取消",
+      label: i18n("Cancel"),
     },
     {
-      label: "确定",
+      label: i18n("Confirm"),
       danger: true,
       onClick: sendSurrender,
     },
@@ -154,7 +301,7 @@ export const Menu = () => {
     <div className={styles["menu-container"]}>
       <SelectManager />
       <DropdownWithTitle
-        title="请选择要进入的阶段"
+        title={i18n("SelectPhase")}
         menu={{ items: phaseSwitchItems }}
         disabled={globalDisable}
       >
@@ -176,7 +323,7 @@ export const Menu = () => {
           type="text"
         ></Button>
       </DropdownWithTitle>
-      <Tooltip title="聊天室">
+      <Tooltip title={i18n("ChatRoom")}>
         <Button
           icon={<MessageFilled />}
           onClick={openChatBox}
@@ -184,7 +331,7 @@ export const Menu = () => {
         ></Button>
       </Tooltip>
       <DropdownWithTitle
-        title="是否投降？"
+        title={i18n("DoYouSurrunder")}
         menu={{ items: surrenderMenuItems }}
       >
         <Button icon={<CloseCircleFilled />} type="text"></Button>
@@ -246,6 +393,7 @@ const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
 };
 
 const SelectManager: React.FC = () => {
+  const { t: i18n } = useTranslation("Menu");
   const { finishable, cancelable } = useSnapshot(matStore.selectUnselectInfo);
   const onFinishOrCancel = () => {
     sendSelectSingleResponse(FINISH_CANCEL_RESPONSE);
@@ -258,7 +406,7 @@ const SelectManager: React.FC = () => {
         disabled={!cancelable && !finishable}
         onClick={onFinishOrCancel}
       >
-        {finishable ? "完成选择" : "取消选择"}
+        {finishable ? i18n("SelectionComplete") : i18n("Deselect")}
       </Button>
     </div>
   );

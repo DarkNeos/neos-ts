@@ -2,6 +2,7 @@ import { App, Dropdown, message, Pagination } from "antd";
 import { MessageInstance } from "antd/es/message/interface";
 import Fuse from "fuse.js";
 import React, { memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { type INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 import YGOProDeck from "ygopro-deck-encode";
 
@@ -41,7 +42,7 @@ const store = proxy<Props>({
 export const DeckResults: React.FC = memo(() => {
   const snap = useSnapshot(store);
   const { message } = App.useApp();
-
+  const { t: i18n } = useTranslation("DeckResults");
   useEffect(() => {
     if (snap.onlyMine) {
       // show only decks uploaded by myself
@@ -116,7 +117,7 @@ export const DeckResults: React.FC = memo(() => {
       ) : (
         <div className={styles.empty}>
           <IconFont type="icon-empty" size={40} />
-          <div>找不到相应卡组</div>
+          <div>{i18n("NoDeckGroupFound")}</div>
         </div>
       )}
     </>

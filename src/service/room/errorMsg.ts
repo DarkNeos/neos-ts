@@ -15,9 +15,64 @@ const DECKERROR_EXTRACOUNT = 0x7;
 const DECKERROR_SIDECOUNT = 0x8;
 const DECKERROR_NOTAVAIL = 0x9;
 
+// Define the possible language codes (I18N)
+type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
+
+// Define the structure for the messages (I18N)
+const messages: Record<
+  Language,
+  { mainDeckWarning: string; extraDeckWarning: string }
+> = {
+  en: {
+    mainDeckWarning: "The number of Main Deck should be 40-60 cards",
+    extraDeckWarning: "The number of Extra Deck should be 0-15",
+  },
+  br: {
+    mainDeckWarning:
+      "O número de cartas no Deck Principal deve ser entre 40-60",
+    extraDeckWarning: "O número de cartas no Deck Extra deve ser entre 0-15",
+  },
+  pt: {
+    mainDeckWarning:
+      "O número de cartas no Deck Principal deve ser entre 40-60",
+    extraDeckWarning: "O número de cartas no Deck Extra deve ser entre 0-15",
+  },
+  fr: {
+    mainDeckWarning:
+      "Le nombre de cartes dans le Deck Principal doit être entre 40 et 60",
+    extraDeckWarning:
+      "Le nombre de cartes dans le Deck Extra doit être entre 0 et 15",
+  },
+  ja: {
+    mainDeckWarning: "メインデッキの枚数は40～60枚でなければなりません",
+    extraDeckWarning: "エクストラデッキの枚数は0～15枚でなければなりません",
+  },
+  ko: {
+    mainDeckWarning: "메인 덱의 카드 수는 40-60장이어야 합니다",
+    extraDeckWarning: "엑스트라 덱의 카드 수는 0-15장이어야 합니다",
+  },
+  es: {
+    mainDeckWarning:
+      "El número de cartas en el Mazo Principal debe ser entre 40-60",
+    extraDeckWarning:
+      "El número de cartas en el Mazo Extra debe ser entre 0-15",
+  },
+  cn: {
+    mainDeckWarning: "主卡组数量应为40-60张",
+    extraDeckWarning: "额外卡组数量应为0-15张",
+  },
+};
+/* End of definition (I18N) */
+
 export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
   const { error_type, error_code } = errorMsg;
   playEffect(AudioActionType.SOUND_INFO);
+
+  // Get the language from localStorage or default to 'cn' (I18N)
+  const language = (localStorage.getItem("language") || "cn") as Language;
+  const mainDeckWarning = messages[language].mainDeckWarning;
+  //const extraDeckWarning = messages[language].extraDeckWarning;
+
   switch (error_type) {
     case ErrorType.JOINERROR: {
       roomStore.errorMsg = fetchStrings(Region.System, 1403 + error_code);
@@ -57,7 +112,7 @@ export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
           break;
         }
         case DECKERROR_MAINCOUNT: {
-          roomStore.errorMsg = "主卡组数量应为40-60张";
+          roomStore.errorMsg = mainDeckWarning;
           break;
         }
         case DECKERROR_EXTRACOUNT: {

@@ -2,6 +2,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Segmented, Space, Tooltip } from "antd";
 import classnames from "classnames";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { type CardMeta, Region, type ygopro } from "@/api";
@@ -57,6 +58,8 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
 
   const minMaxText = min === max ? min : `${min}-${max}`;
 
+  const { t: i18n } = useTranslation("SelectCardModal");
+
   useEffect(() => {
     const initial: [ygopro.CardZone, Option[]][] = grouped.map(([zone, _]) => [
       zone,
@@ -107,8 +110,10 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         <>
           <span>{preHintMsg}</span>
           <span>{selectHintMsg}</span>
-          <span>(请选择 {minMaxText} 张卡)</span>
-          <span>{single ? "每次选择一张" : ""}</span>
+          <span>
+            ({i18n("PleaseSelect")} {minMaxText} {i18n("Cards")})
+          </span>
+          <span>{single ? i18n("SelectOneCardAtTime") : ""}</span>
         </>
       } // TODO: 这里可以再细化一些
       width={"38.25rem"}

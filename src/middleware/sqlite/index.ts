@@ -62,12 +62,34 @@ interface YgoDbs {
 
 let YGODBS: YgoDbs = { release: null, preRelease: null };
 
+//It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
+// Function to update URLs based on the language
+function updateDbUrls(info: any, language: string): void {
+  const languageMap: { [key: string]: string } = {
+    en: "en-US",
+    br: "en-US",
+    pt: "en-US",
+    fr: "en-US",
+    ja: "ja-JP",
+    ko: "ko-KR",
+    es: "es-ES",
+  };
+
+  const locale = languageMap[language] || "zh-CN";
+  info.releaseDbUrl = info.releaseDbUrl.replace("zh-CN", locale);
+  info.preReleaseDbUrl = info.preReleaseDbUrl.replace("zh-CN", locale);
+}
+
 // FIXME: 应该有个返回值，告诉业务方本次请求的结果，比如初始化DB失败
 function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
   switch (action.cmd) {
     case sqliteCmd.INIT: {
       const info = action.initInfo;
       if (info) {
+        const language = localStorage.getItem("language") || "cn";
+        // Update URLs based on the language
+        updateDbUrls(info, language);
+
         const releasePromise = pfetch(info.releaseDbUrl, {
           progressCallback: action.initInfo?.progressCallback,
         }).then((res) => res.arrayBuffer()); // TODO: i18n

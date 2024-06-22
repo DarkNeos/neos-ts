@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { fetchStrings, Region } from "@/api";
 import {
@@ -47,12 +48,15 @@ export const Filter: React.FC<{
       value: key,
       label: fetchStrings(Region.System, value),
     }));
+
+  const { t: i18n } = useTranslation("Filter");
+
   const T = [
-    [genOptions(Attribute2StringCodeMap), "属性", "attributes"],
-    [genOptions(Race2StringCodeMap), "种族", "races"],
-    [genOptions(Type2StringCodeMap), "类型", "types"],
-    [levels, "星级", "levels"],
-    [lscales, "灵摆刻度", "lscales"],
+    [genOptions(Attribute2StringCodeMap), i18n("Attribute"), "attributes"],
+    [genOptions(Race2StringCodeMap), i18n("Race"), "races"],
+    [genOptions(Type2StringCodeMap), i18n("Type"), "types"],
+    [levels, i18n("Level"), "levels"],
+    [lscales, i18n("PendulumScale"), "lscales"],
   ] as const;
 
   const handleInputNumberChange =
@@ -68,7 +72,7 @@ export const Filter: React.FC<{
 
   return (
     <>
-      <div className={styles.title}>卡片筛选</div>
+      <div className={styles.title}>{i18n("CardFilter")}</div>
       <div className={styles.form}>
         {T.map(([options, title, key]) => (
           <Item title={title} key={key}>
@@ -79,31 +83,31 @@ export const Filter: React.FC<{
             />
           </Item>
         ))}
-        <Item title="攻击力" showTip>
+        <Item title={i18n("Attack")} showTip>
           <div className={styles.number}>
             <CustomInputNumber
-              placeholder="最小值"
+              placeholder={i18n("Minimum")}
               onChange={handleInputNumberChange("atk", "min")}
               value={newConditions.atk.min}
             />
             <span className={styles.divider}>~</span>
             <CustomInputNumber
-              placeholder="最大值"
+              placeholder={i18n("Maximum")}
               onChange={handleInputNumberChange("atk", "max")}
               value={newConditions.atk.max}
             />
           </div>
         </Item>
-        <Item title="守备力" showTip>
+        <Item title={i18n("Defense")} showTip>
           <div className={styles.number}>
             <CustomInputNumber
-              placeholder="最小值"
+              placeholder={i18n("Minimum")}
               onChange={handleInputNumberChange("def", "min")}
               value={newConditions.def.min}
             />
             <span className={styles.divider}>~</span>
             <CustomInputNumber
-              placeholder="最大值"
+              placeholder={i18n("Maximum")}
               onChange={handleInputNumberChange("def", "max")}
               value={newConditions.def.max}
             />
@@ -117,10 +121,10 @@ export const Filter: React.FC<{
             onConfirm(newConditions);
           }}
         >
-          确定
+          {i18n("Confirm")}
         </Button>
         <Button type="text" onClick={onCancel}>
-          取&nbsp;消
+          {i18n("Cancel")}
         </Button>
       </div>
     </>
@@ -151,12 +155,13 @@ const CustomSelect: React.FC<{
   defaultValue: number[];
   onChange: (values: number[]) => void;
 }> = ({ options, defaultValue, onChange }) => {
+  const { t: i18n } = useTranslation("Filter");
   return (
     <Select
       mode="multiple"
       allowClear
       style={{ width: "100%" }}
-      placeholder="请选择"
+      placeholder={i18n("Select")}
       options={options}
       defaultValue={defaultValue}
       onChange={onChange}

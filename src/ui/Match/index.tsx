@@ -159,7 +159,7 @@ export const Component: React.FC = () => {
       modal.info({
         icon: null,
         width: "40vw",
-        okText: "进入观战",
+        okText: i18n("EnterSpectatorMode"),
         onOk: async () => {
           if (watchStore.watchID) {
             setWatchLoading(true);
@@ -184,7 +184,7 @@ export const Component: React.FC = () => {
               );
             }
           } else {
-            message.error("请选择观战的房间");
+            message.error(`${i18n("PleaseSelectTheRoomToSpectate")}`);
           }
         },
         centered: true,

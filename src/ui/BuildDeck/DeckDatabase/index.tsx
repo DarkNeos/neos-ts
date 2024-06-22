@@ -11,6 +11,7 @@ import { isEqual } from "lodash-es";
 import { OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
+import { useTranslation } from "react-i18next";
 
 import { CardMeta, searchCards } from "@/api";
 import { isToken } from "@/common";
@@ -51,19 +52,19 @@ export const DeckDatabase: React.FC = () => {
           ((a.data?.[key] ?? 0) - (b.data?.[key] ?? 0)) * scale,
       );
   };
-
+  const { t } = useTranslation("BuildDeck");
   const dropdownOptions: MenuProps["items"] = (
     [
-      ["从新到旧", () => setSortRef((a, b) => b.id - a.id)],
-      ["从旧到新", () => setSortRef((a, b) => a.id - b.id)],
-      ["攻击力从高到低", genSort("atk", -1)],
-      ["攻击力从低到高", genSort("atk")],
-      ["守备力从高到低", genSort("def", -1)],
-      ["守备力从低到高", genSort("def")],
-      ["星/阶/刻/Link从高到低", genSort("level", -1)],
-      ["星/阶/刻/Link从低到高", genSort("level")],
-      ["灵摆刻度从高到低", genSort("lscale", -1)],
-      ["灵摆刻度从低到高", genSort("lscale")],
+      [`${t("FromNewToOld")}`, () => setSortRef((a, b) => b.id - a.id)],
+      [`${t("FromOldToNew")}`, () => setSortRef((a, b) => a.id - b.id)],
+      [`${t("AttackPowerFromHighToLow")}`, genSort("atk", -1)],
+      [`${t("AttackPowerFromLowToHigh")}`, genSort("atk")],
+      [`${t("DefensePowerFromHighToLow")}`, genSort("def", -1)],
+      [`${t("DefensePowerFromLowToHigh")}`, genSort("def")],
+      [`${t("StarsRanksLevelsLinkFromHighToLow")}`, genSort("level", -1)],
+      [`${t("StarsRanksLevelsLinkFromLowToHigh")}`, genSort("level")],
+      [`${t("PendulumScaleFromHighToLow")}`, genSort("lscale", -1)],
+      [`${t("PendulumScaleFromLowToHigh")}`, genSort("lscale")],
     ] as const
   ).map(([label, onClick], key) => ({ key, label, onClick }));
 
@@ -120,12 +121,12 @@ export const DeckDatabase: React.FC = () => {
     const viewport = ref.current?.osInstance()?.elements().viewport;
     if (viewport) viewport.scrollTop = 0;
   }, []);
-
+  const { t: i18n } = useTranslation("BuildDeck");
   return (
     <div className={styles.container} ref={dropRef}>
       <Space className={styles.title} direction="horizontal">
         <Input
-          placeholder="关键词(空格分隔)"
+          placeholder={i18n("KeywordsPlaceholder")}
           bordered={false}
           suffix={
             <Button
@@ -145,7 +146,7 @@ export const DeckDatabase: React.FC = () => {
           icon={<SwapOutlined />}
           onClick={() => setShowMdproDecks(!showMdproDecks)}
         >
-          {showMdproDecks ? "卡片数据库" : "Mdpro在线卡组"}
+          {showMdproDecks ? i18n("CardDatabase") : i18n("MDProOnlineDeck")}
         </Button>
       </Space>
       <div className={styles["select-btns"]}>
@@ -155,8 +156,8 @@ export const DeckDatabase: React.FC = () => {
             style={{ width: "18.90rem" }}
             defaultValue={false}
             options={[
-              { value: true, label: "只显示我上传的卡组" },
-              { value: false, label: "显示全部在线卡组" },
+              { value: true, label: i18n("OnlyShowDecksIUploaded") },
+              { value: false, label: i18n("ShowAllOnlineDecks") },
             ]}
             onChange={
               // @ts-ignore
@@ -175,7 +176,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<FilterOutlined />}
             onClick={showFilterModal}
           >
-            筛选
+            {i18n("Filter")}
           </Button>
         )}
         <Dropdown
@@ -191,7 +192,7 @@ export const DeckDatabase: React.FC = () => {
             icon={<SortAscendingOutlined />}
           >
             <span>
-              排列
+              {i18n("SortBy")}
               <span className={styles["search-count"]}>
                 ({searchCardResult.length})
               </span>
@@ -210,7 +211,7 @@ export const DeckDatabase: React.FC = () => {
             handleSearch(emptySearchConditions);
           }}
         >
-          重置
+          {i18n("Reset")}
         </Button>
       </div>
       <ScrollableArea className={styles["search-cards-container"]} ref={ref}>

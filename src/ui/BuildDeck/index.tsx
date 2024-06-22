@@ -11,6 +11,7 @@ import { App, Button, Input, message, Space, Tooltip } from "antd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd-multi-backend";
+import { useTranslation } from "react-i18next";
 import { LoaderFunction } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
@@ -87,10 +88,10 @@ export const Component: React.FC = () => {
   const { deck: snapSelectedDeck } = useSnapshot(selectedDeck);
 
   const { message } = App.useApp();
-
+  const { t: i18n } = useTranslation("BuildDeck");
   const handleDeckEditorReset = async () => {
     editDeckStore.set(await iDeckToEditingDeck(selectedDeck.deck as IDeck));
-    message.info("重置成功");
+    message.info(`${i18n("ResetSuccessful")}`);
   };
 
   const handleDeckEditorSave = async () => {
@@ -98,7 +99,7 @@ export const Component: React.FC = () => {
     const result = await deckStore.update(selectedDeck.deck.deckName, tmpIDeck);
     if (result) {
       setSelectedDeck(tmpIDeck);
-      message.info("保存成功");
+      message.info(`${i18n("SaveSuccessful")}`);
       editDeckStore.edited = false;
     } else {
       editDeckStore.set(await iDeckToEditingDeck(selectedDeck.deck as IDeck));
@@ -235,12 +236,12 @@ export const DeckEditor: React.FC<{
     }
     event.preventDefault();
   };
-
+  const { t: i18n } = useTranslation("BuildDeck");
   return (
     <div className={styles.container}>
       <Space className={styles.title}>
         <Input
-          placeholder="请输入卡组名字"
+          placeholder={i18n("EnterTheDeckName")}
           bordered={false}
           prefix={<EditOutlined />}
           style={{ width: "8.8rem" }}
@@ -254,7 +255,7 @@ export const DeckEditor: React.FC<{
             icon={<SwapOutlined />}
             onClick={onShuffle}
           >
-            打乱
+            {i18n("Shuffle")}
           </Button>
           <Button
             type="text"
@@ -262,7 +263,7 @@ export const DeckEditor: React.FC<{
             icon={<RetweetOutlined />}
             onClick={onSort}
           >
-            排序
+            {i18n("Sort")}
           </Button>
           <Button
             type="text"
@@ -270,7 +271,7 @@ export const DeckEditor: React.FC<{
             icon={<DeleteOutlined />}
             onClick={onClear}
           >
-            清空
+            {i18n("Clear")}
           </Button>
           <Button
             type="text"
@@ -278,7 +279,7 @@ export const DeckEditor: React.FC<{
             icon={<UndoOutlined />}
             onClick={() => onReset()}
           >
-            重置
+            {i18n("Reset")}
           </Button>
           <Button
             type={snapEditDeck.edited ? "primary" : "text"}
@@ -286,9 +287,9 @@ export const DeckEditor: React.FC<{
             icon={<CheckOutlined />}
             onClick={() => onSave()}
           >
-            保存
+            {i18n("Save")}
           </Button>
-          <Tooltip title="双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片">
+          <Tooltip title={i18n("QuestionCircleTooltip")}>
             <QuestionCircleOutlined />
           </Tooltip>
         </Space>

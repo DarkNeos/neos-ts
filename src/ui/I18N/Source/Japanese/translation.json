@@ -8,7 +8,8 @@
     "DuelDatabase": "デュエルデータベース",
     "LogOut": "ログアウト",
     "Login": "萌卡にログインする",
-    "Fullscreen": "フルスクリーン"
+    "Fullscreen": "フルスクリーン",
+    "SystemSettings": "システム設定"
   },
   "Start": {
     "Title": "遊戯王ウェブベースのバトルプラットフォーム",
@@ -27,7 +28,7 @@
     "MCCustomRoomTitle": "MCカスタムルーム",
     "MCCustomRoomDesc": "MCサーバーでカスタムルームを作成または参加し、友達と対戦しましょう。",
     "MCSpectatorListTitle": "MC観戦リスト",
-    "MCSpectatorListDesc": "Mengka MyCardで現在進行中のデュエルを観戦しましょう。",
+    "MCSpectatorListDesc": "MyCard MyCardで現在進行中のデュエルを観戦しましょう。",
     "SinglePlayerModeTitle": "シングルプレイヤーモード",
     "SinglePlayerModeDesc": "Koishi 7210サーバーでAIとのデュエルを開始し、自分のデッキをテストしたり、ただ時間を潰したりします。",
     "CustomRoomTitle": "カスタムルーム",
@@ -36,5 +37,166 @@
     "ReplayDesc": "過去のデュエルを自由に見て、それらのエキサイティングな逆転の瞬間を振り返りましょう。",
     "WIPTitle": "開発中...",
     "WIPDesc": "他の機能をお楽しみに。"
+  },
+  "BuildDeck": {
+    "EnterTheDeckName": "デッキ名を入力",
+    "Shuffle": "シャッフル",
+    "Sort": "ソート",
+    "Clear": "クリア",
+    "Reset": "リセット",
+    "Save": "保存",
+    "QuestionCircleTooltip": "カードを追加するにはダブルクリック、カードを削除するには右クリック、メインデッキとサイドデッキの間でカードを切り替えるにはホイールボタンを押します。",
+    "Filter": "フィルター",
+    "SortBy": "並び替え ",
+    "KeywordsPlaceholder": "キーワード（スペースで区切る）",
+    "FromNewToOld": "新しい順",
+    "FromOldToNew": "古い順",
+    "AttackPowerFromHighToLow": "攻撃力が高い順",
+    "AttackPowerFromLowToHigh": "攻撃力が低い順",
+    "DefensePowerFromHighToLow": "守備力が高い順",
+    "DefensePowerFromLowToHigh": "守備力が低い順",
+    "StarsRanksLevelsLinkFromHighToLow": "星/ランク/レベル/リンクが高い順",
+    "StarsRanksLevelsLinkFromLowToHigh": "星/ランク/レベル/リンクが低い順",
+    "PendulumScaleFromHighToLow": "ペンデュラムスケールが高い順",
+    "PendulumScaleFromLowToHigh": "ペンデュラムスケールが低い順",
+    "ResetSuccessful": "リセット成功",
+    "SaveSuccessful": "保存成功",
+    "NoDeckGroupFound": "対応するデッキグループが見つかりません",
+    "OnlyShowDecksIUploaded": "自分がアップロードしたデッキのみ表示",
+    "ShowAllOnlineDecks": "すべてのオンラインデッキを表示",
+    "CardDatabase": "カードデータベース",
+    "MDProOnlineDeck": "MDProオンラインデッキ"
+  },
+  "Filter": {
+    "CardFilter": "カードフィルター",
+    "Attribute": "属性",
+    "Race": "種族",
+    "Type": "種類",
+    "Level": "レベル",
+    "PendulumScale": "ペンデュラムスケール",
+    "Attack": "攻撃力",
+    "Defense": "守備力",
+    "Select": "-選択-",
+    "Minimum": "最小",
+    "Maximum": "最大",
+    "Confirm": "確認",
+    "Cancel": "キャンセル"
+  },
+  "CardDetails": {
+    "Level": "レベル",
+    "Type": "種類",
+    "Attribute": "属性",
+    "Race": "種族",
+    "Attack": "攻撃力",
+    "Defence": "守備力",
+    "PendulumScale": "ペンデュラムスケール",
+    "MonsterEffect": "モンスター効果",
+    "PendulumEffect": "ペンデュラム効果",
+    "CardEffect": "カード効果"
+  },
+  "WaitRoom": {
+    "Deck": "デッキ",
+    "JoinDuelist": "デュエリストとして参加",
+    "JoinSpectator": "観戦者として参加",
+    "DuelReady": "デュエル準備完了",
+    "CancelReady": "準備完了をキャンセル",
+    "LeaveRoom": "ルームを退出",
+    "Expand": "拡張",
+    "Collapse": "折りたたみ",
+    "Sidebar": "サイドバー",
+    "StartGame": "ゲームを開始",
+    "PlsRockPaperScissors": "じゃんけんをしてください",
+    "WaitOpponentPlayRockPaperScissors": "相手がじゃんけんをするのを待っています",
+    "PlsChooseWhoGoesFirst": "先行を選んでください",
+    "WaitingForGameToStart": "ゲーム開始を待っています",
+    "Scissors": "はさみ",
+    "Rock": "岩",
+    "Paper": "紙"
+  },
+  "CustomRoomContent": {
+    "CreateJoinPrivateRoom": "プライベートルームを作成/参加",
+    "RoomPassword": "パスワード",
+    "Initial": "初期 ",
+    "InitialHandSize": "初期手札サイズ",
+    "DrawPerTurn": "1ターンごとのドロー",
+    "CardsAllowed": "許可されるカード",
+    "SimplifiedChinese": "簡体字中国語",
+    "CustomCards": "カスタムカード",
+    "ExclusiveCardsProhibited": "専用カード禁止",
+    "AllCards": "すべてのカード",
+    "DuelMode": "デュエルモード",
+    "SingleMatchMode": "シングルマッチモード",
+    "TournamentMode": "トーナメントモード",
+    "DuelRules": "デュエルルール",
+    "MasterRule1": "マスタールール1",
+    "MasterRule2": "マスタールール2",
+    "MasterRule3": "マスタールール3",
+    "NewMasterRule": "新マスタールール",
+    "MasterRule2020": "マスタールール2020",
+    "NoDeckCheck": "デッキチェックなし",
+    "NoShuffleDeck": "デッキシャッフルなし",
+    "40MinutesAutomaticOvertime": "40分自動延長",
+    "EnterYourFriendsPrivateRoomPassword": "友達のプライベートルームのパスワードをここに入力してください。",
+    "CreatePrivateRoom": "プライベートルームを作成",
+    "JoinPrivateRoom": "プライベートルームに参加"
+  },
+  "WatchContent": {
+    "SearchRoomByPlayerUsername": "プレイヤーのユーザー名でルームを検索",
+    "RankedMatch": "ランクマッチ",
+    "Versus": "対"
+  },
+  "DeckSelect": {
+    "CopySuccessful": "コピー成功",
+    "CopyFailed.": "コピー失敗",
+    "CreateNewDeck": "新しいデッキを作成",
+    "ImportFromLocalFile": "ローカルファイルからインポート",
+    "ImportFromClipboard": "クリップボードからインポート",
+    "ClickOrDragFilesHereToUpload": "ここをクリックまたはファイルをドラッグしてアップロード",
+    "SupportsYdkExtension": "デッキファイルは.ydk拡張子のみサポートされています。",
+    "UnableToReadClipboardContent": "クリップボードの内容を読み取れません。"
+  },
+  "Chat": {
+    "PleaseEnterChatContent": "チャット内容を入力してください"
+  },
+  "MatchModal": {
+    "PleaseEnterCustomRoomInformation": "カスタムルーム情報を入力してください",
+    "Server": "サーバー",
+    "KoishiServer": "コイシサーバー",
+    "UltraPreemptiveServer": "超先行サーバー",
+    "PlayerNickname": "プレイヤーニックネーム",
+    "RoomPasswordOptional": "ルームパスワード（任意）",
+    "JoinRoom": "ルームに参加"
+  },
+  "ReplayModal": {
+    "SelectReplay": "リプレイを選択",
+    "ClickOrDragFilesHereToUpload": "ここをクリックまたはファイルをドラッグしてアップロード",
+    "SupportsYrd3dExtension": ".yrp3d拡張子のリプレイファイルのみサポートされています。",
+    "StartReplay": "リプレイを開始",
+    "PleaseUploadReplayFile": "まずリプレイファイルをアップロードしてください。"
+  },
+  "Popover": {
+    "First": "先行",
+    "Second": "後攻"
+  },
+  "Menu": {
+    "DoYouSurrunder": "降参しますか？",
+    "Cancel": "キャンセル",
+    "Confirm": "確認",
+    "SelectPhase": "フェーズを選択してください",
+    "Deselect": "選択解除",
+    "SelectionComplete": "選択完了",
+    "ChatRoom": "チャットルーム"
+  },
+  "SelectCardModal": {
+    "PleaseSelect": "選択してください",
+    "Cards": "カード",
+    "SelectOneCardAtTime": "1回に1枚のカードを選択してください"
+  },
+  "SystemSettings": {
+    "AudioSettings": "オーディオ設定",
+    "TurnOnMusic": "音楽をオンにする",
+    "TurnOnSoundEffects": "効果音をオンにする",
+    "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える",
+    "LanguageSettings": "言語"
   }
 }

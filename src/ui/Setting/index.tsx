@@ -1,8 +1,11 @@
+import { AudioFilled, TranslationOutlined } from "@ant-design/icons";
 import { ConfigProvider, Modal, Tabs, TabsProps } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
+import { useTranslation } from "react-i18next";
 
+import { I18NSelector } from "../I18N";
 import { theme } from "../theme";
 import { AudioSetting } from "./Audio";
 
@@ -14,12 +17,26 @@ export interface SettingProps {
 
 export const Setting = (props: SettingProps) => {
   const { defaultKey = "audio" } = props;
+  const { t: i18n } = useTranslation("SystemSettings");
 
   const items: TabsProps["items"] = [
     {
       key: "audio",
-      label: "音频设置",
+      label: (
+        <>
+          {i18n("AudioSettings")} <AudioFilled />
+        </>
+      ),
       children: <AudioSetting />,
+    },
+    {
+      key: "language",
+      label: (
+        <>
+          {i18n("LanguageSettings")} <TranslationOutlined />
+        </>
+      ),
+      children: <I18NSelector />,
     },
   ];
 

@@ -2,6 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { App, Avatar, Button, Divider, Empty, Input } from "antd";
 import classNames from "classnames";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { proxy, useSnapshot } from "valtio";
 
@@ -30,7 +31,7 @@ export const WatchContent: React.FC = () => {
   // 暂时只支持竞技匹配的观战，TODO：后面需要加上娱乐匹配的支持
   const url = new URL(athleticWatchUrl);
   url.searchParams.set("filter", "started");
-
+  const { t: i18n } = useTranslation("WatchContent");
   const { readyState } = useWebSocket(url.toString(), {
     onOpen: () => console.log("watch websocket opened."),
     onClose: () => console.log("watch websocket closed."),
@@ -99,7 +100,7 @@ export const WatchContent: React.FC = () => {
       <div className={styles.search}>
         <Input
           className={styles.input}
-          placeholder="通过玩家用户名搜索房间"
+          placeholder={i18n("SearchRoomByPlayerUsername")}
           bordered={false}
           suffix={<Button type="text" icon={<SearchOutlined />} />}
           value={query}
@@ -129,10 +130,11 @@ export const WatchContent: React.FC = () => {
                     <Avatar src={room.users?.at(1)?.avatar} />
                   </div>
                   <div className={styles.title}>
-                    {`${room.users?.at(0)?.username} 与 ${room.users?.at(1)
-                      ?.username} 的决斗`}
+                    {`${room.users?.at(0)?.username}` +
+                      ` ${i18n("Versus")} ` +
+                      `${room.users?.at(1)?.username} 的决斗`}
                   </div>
-                  <div className={styles.mode}>竞技匹配</div>
+                  <div className={styles.mode}>{i18n("RankedMatch")}</div>
                 </div>
                 <Divider className={styles.divider} />
               </div>

@@ -1,5 +1,6 @@
 import { Button, Popover, Space } from "antd";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { eventbus, Task } from "@/infra";
 
@@ -35,10 +36,12 @@ export const MoraPopover: React.FC<
     setOpen(false);
   };
 
+  const { t: i18n } = useTranslation("WaitRoom");
+
   const map = {
-    [Mora.Rock]: "石头",
-    [Mora.Scissors]: "剪刀",
-    [Mora.Paper]: "布",
+    [Mora.Rock]: i18n("Rock"),
+    [Mora.Scissors]: i18n("Scissors"),
+    [Mora.Paper]: i18n("Paper"),
   };
 
   return (
@@ -73,7 +76,7 @@ export const TpPopover: React.FC<
   }>
 > = ({ children, onSelect }) => {
   const [open, setOpen] = useState(false);
-
+  const { t: i18n } = useTranslation("WaitRoom");
   // 需要在mora的service之中，emit一个事件，让这个组件监听到，然后打开popover
   useEffect(() => {
     eventbus.once(Task.Tp, () => {
@@ -88,8 +91,8 @@ export const TpPopover: React.FC<
   };
 
   const map = {
-    [Tp.First]: "先手",
-    [Tp.Second]: "后手",
+    [Tp.First]: i18n("First"),
+    [Tp.Second]: i18n("Second"),
   };
 
   return (

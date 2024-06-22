@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { App, Button, Dropdown, MenuProps, UploadProps } from "antd";
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import YGOProDeck from "ygopro-deck-encode";
 
 import { uploadDeck } from "@/api";
@@ -29,6 +30,7 @@ export const DeckSelect: React.FC<{
 }> = ({ decks, selected, onSelect, onDelete, onDownload, onCopy }) => {
   const newDeck = useRef<IDeck[]>([]);
   const { modal, message } = App.useApp();
+  const { t: i18n } = useTranslation("DeckSelect");
 
   /** 创建卡组，直接给一个命名，用户可以手动修改，无需modal打断流程 */
   const createNewDeck = async () => {
@@ -109,17 +111,17 @@ export const DeckSelect: React.FC<{
 
   const items: MenuProps["items"] = [
     {
-      label: "新建卡组",
+      label: `${i18n("CreateNewDeck")}`,
       icon: <PlusOutlined />,
       onClick: createNewDeck,
     },
     {
-      label: "从本地文件导入",
+      label: `${i18n("ImportFromLocalFile")}`,
       icon: <FileAddOutlined />,
       onClick: showUploadModal,
     },
     {
-      label: "从剪贴板导入",
+      label: `${i18n("ImportFromClipboard")}`,
       icon: <CopyOutlined />,
       onClick: importFromClipboard,
     },
@@ -173,8 +175,8 @@ export const DeckSelect: React.FC<{
                 onClick={cancelBubble(async () => {
                   const result = await onCopy(deck.deckName);
                   result
-                    ? message.success("复制成功")
-                    : message.error("复制失败");
+                    ? message.success(`${i18n("CopySuccessful")}`)
+                    : message.error(`${i18n("CopyFailed")}`);
                 })}
               />
               <Button
@@ -221,6 +223,7 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
 }) => {
   const [uploadState, setUploadState] = useState("");
   const { message } = App.useApp();
+  const { t: i18n } = useTranslation("DeckSelect");
   const uploadProps: UploadProps = {
     name: "file",
     multiple: true,
@@ -252,8 +255,8 @@ const DeckUploader: React.FC<{ onLoaded: (deck: IDeck) => void }> = ({
   return (
     <Uploader
       {...uploadProps}
-      text="单击或拖动文件到此区域进行上传"
-      hint="仅支持后缀名为ydk的卡组文件。"
+      text={i18n("ClickOrDragFilesHereToUpload")}
+      hint={i18n("SupportsYdkExtension")}
     />
   );
 };

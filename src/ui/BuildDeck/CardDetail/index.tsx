@@ -1,6 +1,7 @@
 import { Button, Descriptions, type DescriptionsProps } from "antd";
 import classNames from "classnames";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { type CardMeta, fetchCard, fetchStrings, Region } from "@/api";
 import {
@@ -21,6 +22,7 @@ export const CardDetail: React.FC<{
   open: boolean;
   onClose: () => void;
 }> = ({ code, open, onClose }) => {
+  const { t: i18n } = useTranslation("CardDetails");
   const [card, setCard] = useState<CardMeta>();
   useEffect(() => {
     setCard(fetchCard(code));
@@ -44,20 +46,20 @@ export const CardDetail: React.FC<{
     const result: DescriptionsProps["items"] = [];
     if (card?.data.level) {
       result.push({
-        label: "等级",
+        label: i18n("Level"),
         children: card?.data.level,
       });
     }
 
     result.push({
-      label: "类型",
+      label: i18n("Type"),
       children: cardType,
       span: 2,
     });
 
     if (card?.data.attribute) {
       result.push({
-        label: "属性",
+        label: i18n("Attribute"),
         children: fetchStrings(
           Region.System,
           Attribute2StringCodeMap.get(card?.data.attribute ?? 0) || 0,
@@ -67,7 +69,7 @@ export const CardDetail: React.FC<{
 
     if (card?.data.race) {
       result.push({
-        label: "种族",
+        label: i18n("Race"),
         children: fetchStrings(
           Region.System,
           Race2StringCodeMap.get(card?.data.race ?? 0) || 0,
@@ -78,20 +80,20 @@ export const CardDetail: React.FC<{
 
     if (isMonster(card?.data.type ?? 0)) {
       result.push({
-        label: "攻击力",
+        label: i18n("Attack"),
         children: card?.data.atk,
       });
 
       if (!isLinkMonster(card?.data.type ?? 0)) {
         result.push({
-          label: "守备力",
+          label: i18n("Defence"),
           children: card?.data.def,
         });
       }
 
       if (card?.data.lscale) {
         result.push({
-          label: "灵摆刻度",
+          label: i18n("PendulumScale"),
           children: (
             <>
               ← {card.data.lscale} - {card.data.rscale} →
@@ -125,7 +127,11 @@ export const CardDetail: React.FC<{
             size="small"
             items={desc.filter(Boolean).map((d, i) => ({
               label:
-                desc.length > 1 ? (i ? "怪兽效果" : "灵摆效果") : "卡片效果",
+                desc.length > 1
+                  ? i
+                    ? i18n("MonsterEffect")
+                    : i18n("PendulumEffect")
+                  : i18n("CardEffect"),
               span: 3,
               children: <CardEffectText desc={d} />,
             }))}

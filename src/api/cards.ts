@@ -86,9 +86,27 @@ export function getCardImgUrl(code: number, back = false) {
     return `${ASSETS_BASE}/card_back.jpg`;
   }
 
+  // Define translations for different languages (I18N)
+  const language = localStorage.getItem("language");
+  let imgUrl;
+
+  switch (language) {
+    case "en":
+    case "br":
+    case "pt":
+    case "fr":
+    case "es":
+      imgUrl = NeosConfig.releaseImgUrl.replace("zh-CN", "en-US");
+      break;
+    default:
+      imgUrl = NeosConfig.releaseImgUrl;
+      break;
+  }
+  /* End of definition (I18N) */
+
   if (isSuperReleaseCard(code)) {
     return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
   } else {
-    return `${NeosConfig.releaseImgUrl}/${code}.jpg`;
+    return `${imgUrl}/${code}.jpg`;
   }
 }
