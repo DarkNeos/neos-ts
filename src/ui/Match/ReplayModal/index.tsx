@@ -48,7 +48,8 @@ export const ReplayModal: React.FC = () => {
   // 开发时的回放模式：路径跳转到duel
   const [searchParams] = useSearchParams();
   const { DEV } = useEnv();
-  const recordName = searchParams.get("record");
+  const RECORD = "record";
+  const recordName = searchParams.get(RECORD);
 
   // 如处于回放模式且有回放文件，则导入播放
   useEffect(() => {
@@ -68,7 +69,11 @@ export const ReplayModal: React.FC = () => {
       localStore.open = false;
       localStore.hasStart = false;
       // 跳转
-      navigate(recordName ? `/duel?record=${recordName}` : "/duel");
+      navigate(
+        recordName
+          ? `/duel?${new URLSearchParams({ [RECORD]: recordName })}`
+          : "/duel",
+      );
     }
   }, [hasStart]);
 

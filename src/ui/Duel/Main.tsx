@@ -40,15 +40,16 @@ export const Component: React.FC = () => {
   // 如果处于开发时的本地文件回放模式，则重新跳回Match且保持record参数，从而开始下一轮播放
   const [searchParams] = useSearchParams();
   const { DEV } = useEnv();
+  const RECORD = "record";
 
   useEffect(() => {
     if (!DEV) return;
-    const recordName = searchParams.get("record");
+    const recordName = searchParams.get(RECORD);
     if (
-      searchParams &&
+      recordName &&
       matStore.selfType === ygopro.StocTypeChange.SelfType.UNKNOWN
     ) {
-      navigate(`/match?record=${recordName}`);
+      navigate(`/match?${new URLSearchParams({ [RECORD]: recordName })}`);
     }
   }, []);
 
