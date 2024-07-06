@@ -57,6 +57,9 @@ const messages: Record<
     damageCalc: string;
     mainPhase2: string;
     endPhase: string;
+    allChain?: string;
+    ignoreChain?: string;
+    smartChain?: string;
     unknown: string;
   }
 > = {
@@ -71,6 +74,9 @@ const messages: Record<
     damageCalc: "Damage Step (Damage Calculation)",
     mainPhase2: "Main Phase 2",
     endPhase: "End Phase",
+    allChain: "All Chain",
+    ignoreChain: "Ignore Chain",
+    smartChain: "Smart Chain",
     unknown: "Unknown",
   },
   br: {
@@ -162,6 +168,9 @@ const messages: Record<
     damageCalc: "伤害步骤（伤害计算）",
     mainPhase2: "主要阶段 2",
     endPhase: "结束阶段",
+    allChain: "全部连锁",
+    ignoreChain: "忽略连锁",
+    smartChain: "智能连锁",
     unknown: "未知阶段",
   },
 };
@@ -178,6 +187,9 @@ const damage = messages[language].damage;
 const damageCalc = messages[language].damageCalc;
 const mainPhase2 = messages[language].mainPhase2;
 const endPhase = messages[language].endPhase;
+const allChain = messages[language].allChain ?? "All Chain";
+const ignoreChain = messages[language].ignoreChain ?? "Ignore Chain";
+const smartChain = messages[language].smartChain ?? "Smart Chain";
 const unknown = messages[language].unknown;
 /* End of definition (I18N) */
 
@@ -264,10 +276,6 @@ export const Menu = () => {
 
     setPhaseSwitchItems(newPhaseSwitchItems);
   }, [phaseBind]);
-
-  const allChain = language !== "cn" ? "All Chain" : "";
-  const ignoreChain = language !== "cn" ? "Ignore Chain" : "";
-  const smartChain = language !== "cn" ? "Smart Chain" : "";
 
   const chainSettingTexts = [
     [ChainSetting.CHAIN_ALL, allChain],
