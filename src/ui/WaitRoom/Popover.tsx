@@ -76,7 +76,7 @@ export const TpPopover: React.FC<
   }>
 > = ({ children, onSelect }) => {
   const [open, setOpen] = useState(false);
-  const { t: i18n } = useTranslation("WaitRoom");
+  const { t: i18n } = useTranslation("Popover");
   // 需要在mora的service之中，emit一个事件，让这个组件监听到，然后打开popover
   useEffect(() => {
     eventbus.once(Task.Tp, () => {
