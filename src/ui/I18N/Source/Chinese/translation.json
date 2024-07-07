@@ -199,7 +199,9 @@
     "TurnOnMusic": "开启音乐",
     "TurnOnSoundEffects": "开启音效",
     "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐",
-    "LanguageSettings": "语言"
+    "LanguageSettings": "语言",
+    "AnimationSettings": "动画",
+    "AnimationSpeed": "动画速度"
   },
   "DeckResults": {
     "NoDeckGroupFound": "找不到相应卡组"

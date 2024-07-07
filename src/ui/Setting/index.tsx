@@ -1,4 +1,8 @@
-import { AudioFilled, TranslationOutlined } from "@ant-design/icons";
+import {
+  AudioFilled,
+  PlayCircleOutlined,
+  TranslationOutlined,
+} from "@ant-design/icons";
 import { ConfigProvider, Modal, Tabs, TabsProps } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import React from "react";
@@ -7,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { I18NSelector } from "../I18N";
 import { theme } from "../theme";
+import { AnimationSetting } from "./Animation";
 import { AudioSetting } from "./Audio";
 
 /** 设置面板属性 */
@@ -37,6 +42,15 @@ export const Setting = (props: SettingProps) => {
         </>
       ),
       children: <I18NSelector />,
+    },
+    {
+      key: "animation",
+      label: (
+        <>
+          {i18n("AnimationSettings")} <PlayCircleOutlined />
+        </>
+      ),
+      children: <AnimationSetting />,
     },
   ];
 
