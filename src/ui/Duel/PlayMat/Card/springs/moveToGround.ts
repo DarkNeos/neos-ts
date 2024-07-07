@@ -5,7 +5,7 @@ import { isMe } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, getDuration } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -107,7 +107,7 @@ export const moveToGround: MoveFunc = async (props) => {
       ry,
       rz,
       config: {
-        tension: 250,
+        duration: getDuration(),
         clamp: true,
         easing: easings.easeOutSine,
       },
@@ -121,7 +121,7 @@ export const moveToGround: MoveFunc = async (props) => {
     zIndex: is_overlay ? 1 : 3,
     config: {
       easing: easings.easeInQuad,
-      duration: 200,
+      duration: 100,
       clamp: true,
     },
   });

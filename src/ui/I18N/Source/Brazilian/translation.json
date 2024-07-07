@@ -197,7 +197,9 @@
     "TurnOnMusic": "Música",
     "TurnOnSoundEffects": "Efeitos sonoros",
     "SwitchMusicAccordingToTheEnvironment": "Trocar música conforme o ambiente",
-    "LanguageSettings": "Idioma"
+    "LanguageSettings": "Idioma",
+    "AnimationSettings": "Animação",
+    "AnimationSpeed": "Velocidade da animação"
   },
   "DeckResults": {
     "NoDeckGroupFound": "Não foi possível encontrar o baralho correspondente"

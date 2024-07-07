@@ -199,7 +199,9 @@
     "TurnOnMusic": "Music",
     "TurnOnSoundEffects": "Sound effects",
     "SwitchMusicAccordingToTheEnvironment": "Switch music according to the environment",
-    "LanguageSettings": "Language"
+    "LanguageSettings": "Language",
+    "AnimationSettings": "Animation",
+    "AnimationSpeed": "Animation speed"
   },
   "DeckResults": {
     "NoDeckGroupFound": "Cannot find the corresponding card deck"

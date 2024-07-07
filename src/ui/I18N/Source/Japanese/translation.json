@@ -197,7 +197,9 @@
     "TurnOnMusic": "音楽をオンにする",
     "TurnOnSoundEffects": "効果音をオンにする",
     "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える",
-    "LanguageSettings": "言語"
+    "LanguageSettings": "言語",
+    "AnimationSettings": "アニメーション",
+    "AnimationSpeed": "アニメーション速度"
   },
   "DeckResults": {
     "NoDeckGroupFound": "対応するカードデッキが見つかりません"

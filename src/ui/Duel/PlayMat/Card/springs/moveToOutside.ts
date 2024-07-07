@@ -3,7 +3,7 @@ import { isMe } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, getDuration } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -42,7 +42,8 @@ export const moveToOutside: MoveFunc = async (props) => {
     subZ: 100,
     zIndex: sequence,
     config: {
-      tension: 140,
+      duration: getDuration(),
+      clamp: true,
     },
   });
   api.set({ subZ: 0 });

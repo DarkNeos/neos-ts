@@ -3,7 +3,7 @@ import { cardStore, isMe } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, getDuration } from "./utils";
 
 const {
   BLOCK_HEIGHT_M,
@@ -55,5 +55,9 @@ export const moveToHand: MoveFunc = async (props) => {
     height: HAND_CARD_HEIGHT,
     zIndex: sequence,
     // rx: -PLANE_ROTATE_X,
+    config: {
+      duration: getDuration(),
+      clamp: true,
+    },
   });
 };

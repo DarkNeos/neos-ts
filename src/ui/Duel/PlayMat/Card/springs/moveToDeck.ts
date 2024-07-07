@@ -3,7 +3,7 @@ import { isMe } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, getDuration } from "./utils";
 
 const {
   BLOCK_WIDTH,
@@ -45,5 +45,9 @@ export const moveToDeck: MoveFunc = async (props) => {
     ry: isMe(controller) ? (zone === DECK ? 180 : 0) : 180,
     zIndex: z,
     height: DECK_CARD_HEIGHT,
+
+    config: {
+      duration: getDuration(),
+    },
   });
 };
