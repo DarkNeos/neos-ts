@@ -6,14 +6,15 @@ import { fetchCheckCardMeta } from "../utils";
 import { isAllOnField } from "./util";
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
-export default async ({
-  finishable,
-  cancelable,
-  min,
-  max,
-  selectable_cards: selectableCards,
-  selected_cards: selectedCards,
-}: MsgSelectUnselectCard) => {
+export default async (selectUnselectCards: MsgSelectUnselectCard) => {
+  const {
+    finishable,
+    cancelable,
+    min,
+    max,
+    selectable_cards: selectableCards,
+    selected_cards: selectedCards,
+  } = selectUnselectCards;
   if (
     isAllOnField(
       selectableCards.concat(selectedCards).map((info) => info.location),

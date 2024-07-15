@@ -2,6 +2,8 @@ import classnames from "classnames";
 import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
 import { sendSelectPlaceResponse, ygopro } from "@/api";
+import { Container } from "@/container";
+import { getUIContainer } from "@/container/compat";
 import {
   type BlockState,
   cardStore,
@@ -46,6 +48,7 @@ const BgExtraRow: React.FC<{
   meSnap: Snapshot<BlockState[]>;
   opSnap: Snapshot<BlockState[]>;
 }> = ({ meSnap, opSnap }) => {
+  const container = getUIContainer();
   return (
     <div className={classnames(styles.row)}>
       {Array.from({ length: 2 }).map((_, i) => (
@@ -53,8 +56,8 @@ const BgExtraRow: React.FC<{
           key={i}
           className={styles.extra}
           onClick={() => {
-            onBlockClick(meSnap[i].interactivity);
-            onBlockClick(opSnap[1 - i].interactivity);
+            onBlockClick(container, meSnap[i].interactivity);
+            onBlockClick(container, opSnap[1 - i].interactivity);
           }}
           disabled={meSnap[i].disabled || opSnap[1 - i].disabled}
           highlight={!!meSnap[i].interactivity || !!opSnap[1 - i].interactivity}
@@ -71,23 +74,27 @@ const BgRow: React.FC<{
   szone?: boolean;
   opponent?: boolean;
   snap: Snapshot<BlockState[]>;
-}> = ({ szone = false, opponent = false, snap }) => (
-  <div className={classnames(styles.row, { [styles.opponent]: opponent })}>
-    {Array.from({ length: 5 }).map((_, i) => (
-      <BgBlock
-        key={i}
-        className={classnames({ [styles.szone]: szone })}
-        onClick={() => onBlockClick(snap[i].interactivity)}
-        disabled={snap[i].disabled}
-        highlight={!!snap[i].interactivity}
-        chains={{ chains: snap[i].chainIndex }}
-      />
-    ))}
-  </div>
-);
+}> = ({ szone = false, opponent = false, snap }) => {
+  const container = getUIContainer();
+  return (
+    <div className={classnames(styles.row, { [styles.opponent]: opponent })}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <BgBlock
+          key={i}
+          className={classnames({ [styles.szone]: szone })}
+          onClick={() => onBlockClick(container, snap[i].interactivity)}
+          disabled={snap[i].disabled}
+          highlight={!!snap[i].interactivity}
+          chains={{ chains: snap[i].chainIndex }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
   useSnapshot(cardStore);
+  const container = getUIContainer();
   const meController = isMe(0) ? 0 : 1;
   const judgeGlowing = (zone: ygopro.CardZone) =>
     !!cardStore
@@ -134,7 +141,7 @@ const BgOtherBlocks: React.FC<{ op?: boolean }> = ({ op }) => {
       />
       <BgBlock
         className={styles.field}
-        onClick={() => onBlockClick(field.interactivity)}
+        onClick={() => onBlockClick(container, field.interactivity)}
         disabled={field.disabled}
         highlight={!!field.interactivity}
         chains={{ chains: field.chainIndex, op }}
@@ -171,9 +178,12 @@ export const Bg: React.FC = () => {
   );
 };
 
-const onBlockClick = (placeInteractivity: PlaceInteractivity) => {
+const onBlockClick = (
+  container: Container,
+  placeInteractivity: PlaceInteractivity,
+) => {
   if (placeInteractivity) {
-    sendSelectPlaceResponse(placeInteractivity.response);
+    sendSelectPlaceResponse(container.conn, placeInteractivity.response);
     cardStore.inner.forEach((card) => (card.idleInteractivities = []));
     placeStore.clearAllInteractivity();
   }

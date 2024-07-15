@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectPositionResponse, ygopro } from "@/api";
+import { getUIContainer } from "@/container/compat";
 
 import { NeosModal } from "../NeosModal";
 
@@ -91,6 +92,7 @@ const translations: Translations = {
 };
 
 export const PositionModal = () => {
+  const container = getUIContainer();
   const { isOpen, positions } = useSnapshot(localStore);
   const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
     undefined,
@@ -105,7 +107,7 @@ export const PositionModal = () => {
           disabled={selected === undefined}
           onClick={() => {
             if (selected !== undefined) {
-              sendSelectPositionResponse(selected);
+              sendSelectPositionResponse(container.conn, selected);
               rs();
             }
           }}

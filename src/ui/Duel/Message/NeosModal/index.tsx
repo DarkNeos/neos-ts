@@ -35,7 +35,7 @@ export const NeosModal: React.FC<ModalProps> = (props) => {
       maskClosable={true}
       onCancel={() => setMini(!mini)}
       closeIcon={mini ? <UpOutlined /> : <MinusOutlined />}
-      bodyStyle={{ padding: "10px 0" }}
+      style={{ padding: "10px 0" }}
       mask={!mini}
       wrapClassName={classNames({ [styles.wrap]: mini })}
       closable={true}

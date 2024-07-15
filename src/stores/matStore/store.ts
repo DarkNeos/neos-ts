@@ -18,6 +18,7 @@ const getWhom = (controller: number): "me" | "op" =>
  * 原本名字叫judgeSelf
  */
 export const isMe = (controller: number): boolean => {
+  // FIXME: all of the `matStore` need to access with container
   switch (matStore.selfType) {
     case 1:
       // 自己是先攻
@@ -93,9 +94,11 @@ const initialState: Omit<MatState, "reset"> = {
   duelEnd: false,
   // methods
   isMe,
+  turnCount: 0,
+  error: "",
 };
 
-class MatStore implements MatState, NeosStore {
+export class MatStore implements MatState, NeosStore {
   chains = initialState.chains;
   chainSetting = initialState.chainSetting;
   timeLimits = initialState.timeLimits;
@@ -109,6 +112,9 @@ class MatStore implements MatState, NeosStore {
   tossResult = initialState.tossResult;
   selectUnselectInfo = initialState.selectUnselectInfo;
   duelEnd = initialState.duelEnd;
+  turnCount = initialState.turnCount;
+  error = initialState.error;
+
   // methods
   isMe = initialState.isMe;
   reset(): void {
@@ -137,6 +143,8 @@ class MatStore implements MatState, NeosStore {
       selectedList: [],
     };
     this.duelEnd = false;
+    this.turnCount = 0;
+    this.error = initialState.error;
   }
 }
 

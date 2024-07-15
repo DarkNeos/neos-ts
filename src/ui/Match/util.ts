@@ -2,8 +2,13 @@ import rustInit from "rust-src";
 
 import { initStrings, initSuperPrerelease } from "@/api";
 import { useConfig } from "@/config";
-import socketMiddleWare, { socketCmd } from "@/middleware/socket";
+import { getUIContainer, initUIContainer } from "@/container/compat";
+import { initReplaySocket, initSocket } from "@/middleware/socket";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
+import {
+  pollSocketLooper,
+  pollSocketLooperWithAgent,
+} from "@/service/executor";
 
 const NeosConfig = useConfig();
 
@@ -12,6 +17,7 @@ export const connectSrvpro = async (params: {
   ip: string;
   player: string;
   passWd: string;
+  enableKuriboh?: boolean;
   replay?: boolean;
   replayData?: ArrayBuffer;
 }) => {
@@ -38,20 +44,32 @@ export const connectSrvpro = async (params: {
   await initSuperPrerelease();
 
   if (params.replay && params.replayData) {
-    // 连接回放websocket服务
-    socketMiddleWare({
-      cmd: socketCmd.CONNECT,
-      isReplay: true,
-      replayInfo: {
-        Url: NeosConfig.replayUrl,
-        data: params.replayData,
-      },
+    // connect to replay Server
+    const conn = initReplaySocket({
+      url: NeosConfig.replayUrl,
+      data: params.replayData,
     });
+
+    // initialize the UI Container
+    initUIContainer(conn);
+
+    // execute the event looper
+    pollSocketLooper(getUIContainer());
   } else {
-    // 通过socket中间件向ygopro服务端请求建立长连接
-    socketMiddleWare({
-      cmd: socketCmd.CONNECT,
-      initInfo: params,
-    });
+    // connect to the ygopro Server
+    const conn = initSocket(params);
+
+    // initialize the UI Contaner
+    initUIContainer(conn);
+
+    // execute the event looper
+
+    if (params.enableKuriboh) {
+      const container = getUIContainer();
+      container.setEnableKuriboh(true);
+      pollSocketLooperWithAgent(container);
+    } else {
+      pollSocketLooper(getUIContainer());
+    }
   }
 };

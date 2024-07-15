@@ -2,7 +2,8 @@
  * 一些发ygopro协议数据包的辅助函数，用于简化业务代码。
  *
  * */
-import socketMiddleWare, { socketCmd } from "@/middleware/socket";
+import { WebSocketStream } from "@/infra";
+import { sendSocketData } from "@/middleware/socket";
 import { IDeck } from "@/stores";
 
 import { ygopro } from "./idl/ocgcore";
@@ -21,7 +22,7 @@ import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
 import TpResult from "./ocgAdapter/ctos/ctosTpResult";
 import UpdateDeckAdapter from "./ocgAdapter/ctos/ctosUpdateDeck";
 
-export function sendUpdateDeck(deck: IDeck) {
+export function sendUpdateDeck(conn: WebSocketStream, deck: IDeck) {
   const updateDeck = new ygopro.YgoCtosMsg({
     ctos_update_deck: new ygopro.CtosUpdateDeck({
       main: deck.main,
@@ -33,52 +34,52 @@ export function sendUpdateDeck(deck: IDeck) {
   // FIXME: 如果要实现UI层和Adapter层解耦，这里应该不感知具体Adapter类型
   const payload = new UpdateDeckAdapter(updateDeck).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendHsReady() {
+export function sendHsReady(conn: WebSocketStream) {
   const hasReady = new ygopro.YgoCtosMsg({
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
   const payload = new HsReadyAdapter(hasReady).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendHsNotReady() {
+export function sendHsNotReady(conn: WebSocketStream) {
   const hasNotReady = new ygopro.YgoCtosMsg({
     ctos_hs_not_ready: new ygopro.CtosHsNotReady({}),
   });
   const payload = new HsNotReadyAdapter(hasNotReady).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendHsToObserver() {
+export function sendHsToObserver(conn: WebSocketStream) {
   const hasToObserver = new ygopro.YgoCtosMsg({
     ctos_hs_to_observer: new ygopro.CtosHsToObserver({}),
   });
   const payload = new HsToObserverAdapter(hasToObserver).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendHsToDuelList() {
+export function sendHsToDuelList(conn: WebSocketStream) {
   const hasToDuelList = new ygopro.YgoCtosMsg({
     ctos_hs_to_duel_list: new ygopro.CtosHsToDuelList({}),
   });
   const payload = new HsToDuelListAdapter(hasToDuelList).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendHsStart() {
+export function sendHsStart(conn: WebSocketStream) {
   const hasStart = new ygopro.YgoCtosMsg({
     ctos_hs_start: new ygopro.CtosHsStart({}),
   });
   const payload = new HsStartAdapter(hasStart).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
 export function sendPlayerInfo(ws: WebSocket, player: string) {
@@ -105,7 +106,7 @@ export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
   ws.send(packet.serialize());
 }
 
-export function sendHandResult(result: string) {
+export function sendHandResult(conn: WebSocketStream, result: string) {
   let hand = ygopro.HandType.UNKNOWN;
   if (result === "scissors") {
     hand = ygopro.HandType.SCISSORS;
@@ -122,10 +123,10 @@ export function sendHandResult(result: string) {
   });
   const payload = new HandResult(handResult).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendTpResult(isFirst: boolean) {
+export function sendTpResult(conn: WebSocketStream, isFirst: boolean) {
   let tp = ygopro.CtosTpResult.TpType.UNKNOWN;
   if (isFirst) {
     tp = ygopro.CtosTpResult.TpType.FIRST;
@@ -140,37 +141,40 @@ export function sendTpResult(isFirst: boolean) {
   });
   const payload = new TpResult(tpResult).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendTimeConfirm() {
+export function sendTimeConfirm(conn: WebSocketStream) {
   const timeConfirm = new ygopro.YgoCtosMsg({
     ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
   });
   const payload = new TimeConfirm(timeConfirm).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSurrender() {
+export function sendSurrender(conn: WebSocketStream) {
   const surrender = new ygopro.YgoCtosMsg({
     ctos_surrender: new ygopro.CtosSurrender({}),
   });
   const payload = new Surrender(surrender).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendChat(message: string) {
+export function sendChat(conn: WebSocketStream, message: string) {
   const chat = new ygopro.YgoCtosMsg({
     ctos_chat: new ygopro.CtosChat({ message }),
   });
   const payload = new Chat(chat).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectIdleCmdResponse(value: number) {
+export function sendSelectIdleCmdResponse(
+  conn: WebSocketStream,
+  value: number,
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_idle_cmd: new ygopro.CtosGameMsgResponse.SelectIdleCmdResponse({
@@ -180,14 +184,17 @@ export function sendSelectIdleCmdResponse(value: number) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectPlaceResponse(value: {
-  controller: number;
-  zone: ygopro.CardZone;
-  sequence: number;
-}) {
+export function sendSelectPlaceResponse(
+  conn: WebSocketStream,
+  value: {
+    controller: number;
+    zone: ygopro.CardZone;
+    sequence: number;
+  },
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_place: new ygopro.CtosGameMsgResponse.SelectPlaceResponse({
@@ -199,10 +206,13 @@ export function sendSelectPlaceResponse(value: {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectMultiResponse(value: number[]) {
+export function sendSelectMultiResponse(
+  conn: WebSocketStream,
+  value: number[],
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_multi: new ygopro.CtosGameMsgResponse.SelectMultiResponse({
@@ -212,10 +222,10 @@ export function sendSelectMultiResponse(value: number[]) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectSingleResponse(value: number) {
+export function sendSelectSingleResponse(conn: WebSocketStream, value: number) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_single: new ygopro.CtosGameMsgResponse.SelectSingleResponse({
@@ -225,10 +235,13 @@ export function sendSelectSingleResponse(value: number) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectEffectYnResponse(value: boolean) {
+export function sendSelectEffectYnResponse(
+  conn: WebSocketStream,
+  value: boolean,
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_effect_yn: new ygopro.CtosGameMsgResponse.SelectEffectYnResponse({
@@ -238,10 +251,13 @@ export function sendSelectEffectYnResponse(value: boolean) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectPositionResponse(value: ygopro.CardPosition) {
+export function sendSelectPositionResponse(
+  conn: WebSocketStream,
+  value: ygopro.CardPosition,
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_position: new ygopro.CtosGameMsgResponse.SelectPositionResponse({
@@ -251,10 +267,10 @@ export function sendSelectPositionResponse(value: ygopro.CardPosition) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectOptionResponse(value: number) {
+export function sendSelectOptionResponse(conn: WebSocketStream, value: number) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_option: new ygopro.CtosGameMsgResponse.SelectOptionResponse({
@@ -264,10 +280,13 @@ export function sendSelectOptionResponse(value: number) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectBattleCmdResponse(value: number) {
+export function sendSelectBattleCmdResponse(
+  conn: WebSocketStream,
+  value: number,
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_battle_cmd: new ygopro.CtosGameMsgResponse.SelectBattleCmdResponse(
@@ -279,10 +298,13 @@ export function sendSelectBattleCmdResponse(value: number) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSelectCounterResponse(counts: number[]) {
+export function sendSelectCounterResponse(
+  conn: WebSocketStream,
+  counts: number[],
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       select_counter_response:
@@ -293,10 +315,13 @@ export function sendSelectCounterResponse(counts: number[]) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }
 
-export function sendSortCardResponse(sortedIndexes: number[]) {
+export function sendSortCardResponse(
+  conn: WebSocketStream,
+  sortedIndexes: number[],
+) {
   const response = new ygopro.YgoCtosMsg({
     ctos_response: new ygopro.CtosGameMsgResponse({
       sort_card: new ygopro.CtosGameMsgResponse.SortCardResponse({
@@ -306,5 +331,5 @@ export function sendSortCardResponse(sortedIndexes: number[]) {
   });
   const payload = new GameMsgResponse(response).serialize();
 
-  socketMiddleWare({ cmd: socketCmd.SEND, payload });
+  sendSocketData(conn, payload);
 }

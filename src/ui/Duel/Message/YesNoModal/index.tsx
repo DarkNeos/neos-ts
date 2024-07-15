@@ -3,6 +3,7 @@ import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectEffectYnResponse } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { matStore } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
@@ -16,6 +17,7 @@ const defaultProps = { isOpen: false };
 const localStore = proxy<YesNoModalProps>(defaultProps);
 
 export const YesNoModal: React.FC = () => {
+  const container = getUIContainer();
   const { isOpen, msg } = useSnapshot(localStore);
   const hint = useSnapshot(matStore.hint);
 
@@ -31,7 +33,7 @@ export const YesNoModal: React.FC = () => {
         <>
           <Button
             onClick={() => {
-              sendSelectEffectYnResponse(false);
+              sendSelectEffectYnResponse(container.conn, false);
               rs();
             }}
           >
@@ -40,7 +42,7 @@ export const YesNoModal: React.FC = () => {
           <Button
             type="primary"
             onClick={() => {
-              sendSelectEffectYnResponse(true);
+              sendSelectEffectYnResponse(container.conn, true);
               rs();
             }}
           >

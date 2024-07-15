@@ -81,8 +81,8 @@
     "Select": "请选择",
     "Minimum": "最小值",
     "Maximum": "最大值",
-    "Confirm": "确 定",
-    "Cancel": "取 消"
+    "Confirm": "确定",
+    "Cancel": "取消"
   },
   "CardDetails": {
     "Level": "等级",
@@ -167,7 +167,9 @@
     "UltraPreemptiveServer": "超先行服",
     "PlayerNickname": "玩家昵称",
     "RoomPasswordOptional": "房间密码(可选)",
-    "JoinRoom": "加入房间"
+    "JoinRoom": "加入房间",
+    "EnableAIAssist": "启用AI辅助功能",
+    "BetaTest": "Beta测试"
   },
   "ReplayModal": {
     "SelectReplay": "选择回放",

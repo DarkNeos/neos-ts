@@ -1,6 +1,7 @@
 import { INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
 
 import { sendSelectMultiResponse, sendSelectSingleResponse } from "@/api";
+import { getUIContainer } from "@/container/compat";
 
 import {
   type Option,
@@ -32,25 +33,26 @@ const defaultProps: Omit<
 const localStore = proxy(defaultProps);
 
 export const SelectActionsModal: React.FC = () => {
+  const container = getUIContainer();
   const snap = useSnapshot(localStore);
 
   const onSubmit = (options: Snapshot<Option[]>) => {
     const values = options.map((option) => option.response!);
     if (localStore.isChain) {
-      sendSelectSingleResponse(values[0]);
+      sendSelectSingleResponse(container.conn, values[0]);
     } else {
-      sendSelectMultiResponse(values);
+      sendSelectMultiResponse(container.conn, values);
     }
     rs();
   };
 
   const onFinish = () => {
-    sendSelectSingleResponse(FINISH_RESPONSE);
+    sendSelectSingleResponse(container.conn, FINISH_RESPONSE);
     rs();
   };
 
   const onCancel = () => {
-    sendSelectSingleResponse(CANCEL_RESPONSE);
+    sendSelectSingleResponse(container.conn, CANCEL_RESPONSE);
     rs();
   };
 

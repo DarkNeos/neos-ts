@@ -4,8 +4,10 @@
  * */
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
+import { Container } from "@/container";
 import { replayStore } from "@/stores";
 
+import { YgoAgent } from "./duel/agent";
 import handleGameMsg from "./duel/gameMsg";
 import handleTimeLimit from "./duel/timeLimit";
 import handleDeckCount from "./mora/deckCount";
@@ -32,12 +34,21 @@ import { handleWaitingSide } from "./side/waitingSide";
 
 let animation: Promise<void> = Promise.resolve();
 
-export default async function handleSocketMessage(e: MessageEvent) {
+export default async function handleSocketMessage(
+  container: Container,
+  e: MessageEvent,
+  agent?: YgoAgent,
+) {
   // 确保按序执行
-  animation = animation.then(() => _handle(e));
+  animation = animation.then(() => _handle(container, e, agent));
 }
 
-async function _handle(e: MessageEvent) {
+// FIXME: 下面的所有`handler`中访问`Store`的时候都应该通过`Container`进行访问
+async function _handle(
+  container: Container,
+  e: MessageEvent,
+  agent?: YgoAgent,
+) {
   const packets = YgoProPacket.deserialize(e.data);
 
   for (const packet of packets) {
@@ -97,12 +108,12 @@ async function _handle(e: MessageEvent) {
           // 如果不是回放模式，则记录回放数据
           replayStore.record(packet);
         }
-        await handleGameMsg(pb);
+        await handleGameMsg(container, pb, agent);
 
         break;
       }
       case "stoc_time_limit": {
-        handleTimeLimit(pb.stoc_time_limit);
+        handleTimeLimit(container, pb.stoc_time_limit);
         break;
       }
       case "stoc_error_msg": {

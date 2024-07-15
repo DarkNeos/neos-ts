@@ -101,7 +101,7 @@ export const WatchContent: React.FC = () => {
         <Input
           className={styles.input}
           placeholder={i18n("SearchRoomByPlayerUsername")}
-          bordered={false}
+          variant="borderless"
           suffix={<Button type="text" icon={<SearchOutlined />} />}
           value={query}
           onChange={(e) => setQuery(e.target.value)}

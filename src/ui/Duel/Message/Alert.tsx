@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { sendSurrender } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { matStore } from "@/stores";
 
 export const Alert = () => {
   const matSnap = useSnapshot(matStore);
   const unimplemented = matSnap.unimplemented;
+  const container = getUIContainer();
 
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ export const Alert = () => {
           banner
           afterClose={() => {
             // 发送投降信号
-            sendSurrender();
+            sendSurrender(container.conn);
             navigate("/match");
           }}
         />

@@ -6,4 +6,5 @@ export default (newTurn: ygopro.StocGameMessage.MsgNewTurn) => {
   playEffect(AudioActionType.SOUND_NEXT_TURN);
   const player = newTurn.player;
   matStore.currentPlayer = player;
+  matStore.turnCount = matStore.turnCount + 1;
 };

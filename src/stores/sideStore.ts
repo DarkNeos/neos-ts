@@ -15,7 +15,7 @@ export enum SideStage {
   WAITING = 8, // 观战者等待双方玩家
 }
 
-class SideStore implements NeosStore {
+export class SideStore implements NeosStore {
   stage: SideStage = SideStage.NONE;
 
   // 因为在上一局可能会出现断线重连，

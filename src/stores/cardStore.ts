@@ -24,7 +24,7 @@ export interface CardType {
   };
 }
 
-class CardStore implements NeosStore {
+export class CardStore implements NeosStore {
   inner: CardType[] = [];
   at(zone: ygopro.CardZone, controller: number): CardType[];
   at(

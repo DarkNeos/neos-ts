@@ -33,7 +33,7 @@ export enum RoomStage {
   DUEL_START = 6, // 决斗开始
 }
 
-class RoomStore implements NeosStore {
+export class RoomStore implements NeosStore {
   joined: boolean = false; // 是否已经加入房间
   players: (Player | undefined)[] = Array.from({ length: 4 }).map(
     (_) => undefined,

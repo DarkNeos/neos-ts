@@ -12,6 +12,8 @@ import {
   sendSelectIdleCmdResponse,
   sendSelectOptionResponse,
 } from "@/api";
+import { Container } from "@/container";
+import { getUIContainer } from "@/container/compat";
 
 import { NeosModal } from "../NeosModal";
 
@@ -29,6 +31,7 @@ const store = proxy(defaultStore);
 const MAX_NUM_PER_PAGE = 4;
 
 export const OptionModal = () => {
+  const container = getUIContainer();
   const snap = useSnapshot(store);
   const { title, isOpen, min, options } = snap;
   // options可能太多，因此分页展示
@@ -41,7 +44,7 @@ export const OptionModal = () => {
     const responses = selecteds.flat();
     if (responses.length > 0) {
       const response = responses.reduce((res, current) => res | current, 0); // 多个选择求或
-      sendSelectOptionResponse(response);
+      sendSelectOptionResponse(container.conn, response);
       rs();
     }
   };
@@ -132,6 +135,7 @@ export const displayOptionModal = async (
 };
 
 export const handleEffectActivation = async (
+  container: Container,
   meta: CardMeta,
   effectInteractivies: {
     desc: string;
@@ -144,7 +148,7 @@ export const handleEffectActivation = async (
   }
   if (effectInteractivies.length === 1) {
     // 如果只有一个效果，点击直接触发
-    sendSelectIdleCmdResponse(effectInteractivies[0].response);
+    sendSelectIdleCmdResponse(container.conn, effectInteractivies[0].response);
   } else {
     // optionsModal
     const options = effectInteractivies.map((effect) => {

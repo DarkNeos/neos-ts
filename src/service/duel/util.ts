@@ -8,3 +8,48 @@ export function isAllOnField(locations: ygopro.CardLocation[]): boolean {
 
   return locations.find((location) => !isOnField(location)) === undefined;
 }
+
+export function computeSetDifference(set1: number[], set2: number[]): number[] {
+  const freq1 = new Map<number, number>();
+  const freq2 = new Map<number, number>();
+
+  for (const num of set1) {
+    freq1.set(num, (freq1.get(num) || 0) + 1);
+  }
+  for (const num of set2) {
+    freq2.set(num, (freq2.get(num) || 0) + 1);
+  }
+
+  for (const [num, count] of freq2) {
+    if (freq1.has(num)) {
+      freq1.set(num, freq1.get(num)! - count);
+    }
+  }
+  const difference: number[] = [];
+  for (const [num, count] of freq1) {
+    if (count > 0) {
+      difference.push(...Array(count).fill(num));
+    }
+  }
+
+  return difference;
+}
+
+export function argmax<T>(arr: T[], getValue: (item: T) => number): number {
+  if (arr.length === 0) {
+    throw new Error("Array is empty");
+  }
+
+  let maxIndex = 0;
+  let maxValue = getValue(arr[0]);
+
+  for (let i = 1; i < arr.length; i++) {
+    const currentValue = getValue(arr[i]);
+    if (currentValue > maxValue) {
+      maxValue = currentValue;
+      maxIndex = i;
+    }
+  }
+
+  return maxIndex;
+}

@@ -58,7 +58,7 @@ const initialState = {
   },
 };
 
-class PlaceStore implements NeosStore {
+export class PlaceStore implements NeosStore {
   inner: {
     [zone: number]: {
       me: BlockState[];
@@ -70,14 +70,15 @@ class PlaceStore implements NeosStore {
     controller: number;
     sequence: number;
   }): BlockState | undefined {
-    return placeStore.inner[location.zone][
+    return this.inner[location.zone][
+      // FIXME: inject `matStore`
       matStore.isMe(location.controller) ? "me" : "op"
     ][location.sequence];
   }
   clearAllInteractivity() {
     (["me", "op"] as const).forEach((who) => {
       ([MZONE, SZONE] as const).forEach((where) => {
-        placeStore.inner[where][who].forEach(
+        this.inner[where][who].forEach(
           (block) => (block.interactivity = undefined),
         );
       });
@@ -87,7 +88,7 @@ class PlaceStore implements NeosStore {
     const resetObj = cloneDeep(initialState);
     Object.keys(resetObj).forEach((key) => {
       // @ts-ignore
-      placeStore.inner[key] = resetObj[key];
+      this.inner[key] = resetObj[key];
     });
   }
 }

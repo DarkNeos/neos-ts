@@ -8,11 +8,12 @@ import {
 
 import MsgSelectBattleCmd = ygopro.StocGameMessage.MsgSelectBattleCmd;
 
-export default (selectBattleCmd: MsgSelectBattleCmd) => {
+export default async (selectBattleCmd: MsgSelectBattleCmd) => {
   const player = selectBattleCmd.player;
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
+  // TODO: 确认这里在AI托管的模式下是否需要
   cardStore.inner.forEach((card) => {
     card.idleInteractivities = [];
   });

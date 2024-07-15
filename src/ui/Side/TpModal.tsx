@@ -3,11 +3,13 @@ import React from "react";
 import { useSnapshot } from "valtio";
 
 import { sendTpResult } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { SideStage, sideStore } from "@/stores";
 
 import styles from "./TpModal.module.scss";
 
 export const TpModal: React.FC = () => {
+  const container = getUIContainer();
   const { stage } = useSnapshot(sideStore);
 
   return (
@@ -20,7 +22,7 @@ export const TpModal: React.FC = () => {
       <div className={styles.container}>
         <Button
           onClick={() => {
-            sendTpResult(true);
+            sendTpResult(container.conn, true);
             sideStore.stage = SideStage.TP_SELECTED;
           }}
         >
@@ -28,7 +30,7 @@ export const TpModal: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            sendTpResult(false);
+            sendTpResult(container.conn, false);
             sideStore.stage = SideStage.TP_SELECTED;
           }}
         >

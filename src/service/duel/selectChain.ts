@@ -1,11 +1,13 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
+import { Container } from "@/container";
 import { ChainSetting, fetchSelectHintMeta, matStore } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";
 
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
-export default async (selectChain: MsgSelectChain) => {
+export default async (container: Container, selectChain: MsgSelectChain) => {
+  const conn = container.conn;
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
   const _hint0 = selectChain.hint0;
@@ -15,7 +17,7 @@ export default async (selectChain: MsgSelectChain) => {
 
   if (chainSetting === ChainSetting.CHAIN_IGNORE) {
     // 如果玩家配置了忽略连锁，直接回应后端并返回
-    sendSelectSingleResponse(-1);
+    sendSelectSingleResponse(conn, -1);
     return;
   }
 
@@ -60,7 +62,7 @@ export default async (selectChain: MsgSelectChain) => {
   switch (handle_flag) {
     case 0: {
       // 直接回答
-      sendSelectSingleResponse(-1);
+      sendSelectSingleResponse(conn, -1);
 
       break;
     }
@@ -86,7 +88,7 @@ export default async (selectChain: MsgSelectChain) => {
     }
     case 4: {
       // 有一张强制发动的卡，直接回应
-      sendSelectSingleResponse(chains[0].response);
+      sendSelectSingleResponse(conn, chains[0].response);
 
       break;
     }

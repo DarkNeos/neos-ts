@@ -1,7 +1,9 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { replayStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
 
+import { YgoAgent } from "./agent";
 import onAnnounce from "./announce";
 import onMsgAttack from "./attack";
 import onMsgAttackDisable from "./attackDisable";
@@ -68,19 +70,6 @@ const ActiveList = [
   "select_battle_cmd",
   "select_unselect_card",
   "select_yes_no",
-];
-
-const ReplayIgnoreMsg = [
-  "select_idle_cmd",
-  "select_place",
-  "select_card",
-  "select_chain",
-  "select_effect_yn",
-  "select_position",
-  "select_option",
-  "select_battle_cmd",
-  "select_unselect_card",
-  "select_yes_no",
   "select_tribute",
   "select_counter",
   "select_sum",
@@ -90,19 +79,42 @@ const ReplayIgnoreMsg = [
 ];
 
 export default async function handleGameMsg(
+  container: Container,
   pb: ygopro.YgoStocMsg,
+  agent?: YgoAgent,
 ): Promise<void> {
   const msg = pb.stoc_game_msg;
 
   if (ActiveList.includes(msg.gameMsg)) {
     showWaiting(false);
-  }
 
-  if (replayStore.isReplay && ReplayIgnoreMsg.includes(msg.gameMsg)) return;
+    if (replayStore.isReplay) return;
+
+    if (agent && !agent.getDisable()) {
+      console.info(`Handling msg: ${msg.gameMsg} with YgoAgent`);
+      const enableKuriboh = container.getEnableKuriboh();
+
+      try {
+        await agent.sendAIPredictAsResponse(container.conn, msg, enableKuriboh);
+        if (enableKuriboh) return;
+      } catch (e) {
+        console.error(`Erros occurs when handling msg ${msg.gameMsg}: ${e}`);
+        container.setEnableKuriboh(false);
+        // TODO: I18N
+        container.context.matStore.error = `AI模型监测到场上存在它没见过的卡片，
+        因此需要关掉AI辅助功能。\n
+        请耐心等待开发团队对模型进行优化，感谢！`;
+        agent.setDisable(true);
+      }
+    }
+  }
 
   switch (msg.gameMsg) {
     case "start": {
       await onMsgStart(msg.start);
+
+      // We should init agent when the MSG_START reached.
+      if (agent) await agent.init();
 
       break;
     }
@@ -132,7 +144,7 @@ export default async function handleGameMsg(
       break;
     }
     case "select_place": {
-      onMsgSelectPlace(msg.select_place);
+      onMsgSelectPlace(container, msg.select_place);
 
       break;
     }
@@ -141,12 +153,12 @@ export default async function handleGameMsg(
       break;
     }
     case "select_card": {
-      onMsgSelectCard(msg.select_card);
+      onMsgSelectCard(container, msg.select_card);
 
       break;
     }
     case "select_chain": {
-      onMsgSelectChain(msg.select_chain);
+      onMsgSelectChain(container, msg.select_chain);
 
       break;
     }
@@ -161,7 +173,7 @@ export default async function handleGameMsg(
       break;
     }
     case "select_option": {
-      await onMsgSelectOption(msg.select_option);
+      await onMsgSelectOption(container, msg.select_option);
 
       break;
     }

@@ -3,6 +3,8 @@ import {
   CheckOutlined,
   CloseCircleFilled,
   MessageFilled,
+  RobotFilled,
+  RobotOutlined,
   StepForwardFilled,
 } from "@ant-design/icons";
 import {
@@ -32,6 +34,8 @@ import { IconFont } from "@/ui/Shared";
 import styles from "./index.module.scss";
 import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
 import { useTranslation } from "react-i18next";
+
+import { getUIContainer } from "@/container/compat";
 
 import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
@@ -215,6 +219,7 @@ const initialPhaseBind: [
 ];
 
 export const Menu = () => {
+  const container = getUIContainer();
   const { t: i18n } = useTranslation("Menu");
   const {
     currentPlayer,
@@ -224,6 +229,10 @@ export const Menu = () => {
   const [phaseBind, setPhaseBind] = useState(initialPhaseBind);
   const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
     [],
+  );
+
+  const [enableKuriboh, setEnableKuriboh] = useState(
+    container.getEnableKuriboh(),
   );
 
   useEffect(() => {
@@ -266,8 +275,9 @@ export const Menu = () => {
         label,
         disabled: disabled,
         onClick: () => {
-          if (response === 2) sendSelectIdleCmdResponse(response);
-          else sendSelectBattleCmdResponse(response);
+          if (response === 2)
+            sendSelectIdleCmdResponse(container.conn, response);
+          else sendSelectBattleCmdResponse(container.conn, response);
           clearAllIdleInteractivities();
         },
         icon: disabled ? <CheckOutlined /> : <ArrowRightOutlined />,
@@ -299,11 +309,19 @@ export const Menu = () => {
     {
       label: i18n("Confirm"),
       danger: true,
-      onClick: sendSurrender,
+      onClick: () => {
+        sendSurrender(container.conn);
+      },
     },
   ].map((item, i) => ({ key: i, ...item }));
 
   const globalDisable = !matStore.isMe(currentPlayer);
+
+  const switchAutoSelect = () => {
+    const newValue = !enableKuriboh;
+    setEnableKuriboh(newValue);
+    container.setEnableKuriboh(newValue);
+  };
 
   return (
     <div className={styles["menu-container"]}>
@@ -331,6 +349,13 @@ export const Menu = () => {
           type="text"
         ></Button>
       </DropdownWithTitle>
+      <Tooltip title="AI">
+        <Button
+          icon={enableKuriboh ? <RobotFilled /> : <RobotOutlined />}
+          onClick={switchAutoSelect}
+          type="text"
+        ></Button>
+      </Tooltip>
       <Tooltip title={i18n("ChatRoom")}>
         <Button
           icon={<MessageFilled />}
@@ -401,10 +426,11 @@ const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
 };
 
 const SelectManager: React.FC = () => {
+  const container = getUIContainer();
   const { t: i18n } = useTranslation("Menu");
   const { finishable, cancelable } = useSnapshot(matStore.selectUnselectInfo);
   const onFinishOrCancel = () => {
-    sendSelectSingleResponse(FINISH_CANCEL_RESPONSE);
+    sendSelectSingleResponse(container.conn, FINISH_CANCEL_RESPONSE);
     clearSelectInfo();
   };
   return (

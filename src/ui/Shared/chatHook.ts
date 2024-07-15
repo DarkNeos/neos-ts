@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import { sendChat } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { chatStore, isMe, roomStore } from "@/stores";
 
 interface ChatItem {
@@ -14,6 +15,7 @@ interface ChatItem {
 }
 
 export const useChat = (isDuel: boolean = false) => {
+  const container = getUIContainer();
   const [chatList, setChatList] = useState<ChatItem[]>([]);
   const [input, setInput] = useState<string | undefined>(undefined);
   const chat = useSnapshot(chatStore);
@@ -31,7 +33,7 @@ export const useChat = (isDuel: boolean = false) => {
   /** 发信息 */
   const onSend = () => {
     if (input !== undefined) {
-      sendChat(input);
+      sendChat(container.conn, input);
       setInput("");
     }
   };

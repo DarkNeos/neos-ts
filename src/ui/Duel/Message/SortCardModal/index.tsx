@@ -22,6 +22,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { sendSortCardResponse } from "@/api";
 import { CardMeta, getCardImgUrl } from "@/api/cards";
+import { getUIContainer } from "@/container/compat";
 
 import { NeosModal } from "../NeosModal";
 
@@ -41,6 +42,7 @@ const defaultProps = {
 const localStore = proxy<SortCardModalProps>(defaultProps);
 
 export const SortCardModal = () => {
+  const container = getUIContainer();
   const { isOpen, options } = useSnapshot(localStore);
   const [items, setItems] = useState(options);
   const sensors = useSensors(
@@ -51,7 +53,10 @@ export const SortCardModal = () => {
   );
 
   const onFinish = () => {
-    sendSortCardResponse(items.map((item) => item.response));
+    sendSortCardResponse(
+      container.conn,
+      items.map((item) => item.response),
+    );
     rs();
   };
   const onDragEnd = (event: DragEndEvent) => {

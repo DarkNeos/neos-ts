@@ -18,6 +18,7 @@ export const HintNotification = () => {
   const toss = snap.tossResult;
   const handResults = snap.handResults;
   const currentPhase = snap.phase.currentPhase;
+  const error = snap.error;
 
   const [msgApi, msgContextHolder] = message.useMessage({
     maxCount: NeosConfig.ui.hint.maxCount,
@@ -60,6 +61,12 @@ export const HintNotification = () => {
       );
     }
   }, [currentPhase]);
+
+  useEffect(() => {
+    if (error !== "") {
+      msgApi.error(error);
+    }
+  }, [error]);
 
   return <>{msgContextHolder}</>;
 };
