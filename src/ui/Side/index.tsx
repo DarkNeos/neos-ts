@@ -8,6 +8,7 @@ import { useSnapshot } from "valtio";
 
 import { CardMeta, fetchCard, sendUpdateDeck } from "@/api";
 import { isExtraDeckCard } from "@/common";
+import { getUIContainer } from "@/container/compat";
 import { AudioActionType, changeScene } from "@/infra/audio";
 import { IDeck, roomStore, SideStage, sideStore } from "@/stores";
 
@@ -24,6 +25,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const Component: React.FC = () => {
+  const container = getUIContainer();
   const { message } = App.useApp();
   const initialDeck = sideStore.getSideDeck();
   const { stage } = useSnapshot(sideStore);
@@ -65,7 +67,7 @@ export const Component: React.FC = () => {
     message.info("重置成功");
   };
   const onSummit = () => {
-    sendUpdateDeck(deck);
+    sendUpdateDeck(container.conn, deck);
     sideStore.setSideDeck(deck);
   };
 

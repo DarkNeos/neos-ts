@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region, sendSelectCounterResponse } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { YgoCard } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
@@ -27,6 +28,7 @@ const defaultProps = {
 const localStore = proxy<CheckCounterModalProps>(defaultProps);
 
 export const CheckCounterModal = () => {
+  const container = getUIContainer();
   const snapCheckCounterModal = useSnapshot(localStore);
 
   const isOpen = snapCheckCounterModal.isOpen;
@@ -46,7 +48,7 @@ export const CheckCounterModal = () => {
   }, [options]);
 
   const onFinish = () => {
-    sendSelectCounterResponse(selected);
+    sendSelectCounterResponse(container.conn, selected);
     rs();
   };
 

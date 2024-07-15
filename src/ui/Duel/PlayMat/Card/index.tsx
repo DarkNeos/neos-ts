@@ -11,6 +11,8 @@ import {
   sendSelectIdleCmdResponse,
   ygopro,
 } from "@/api";
+import { Container } from "@/container";
+import { getUIContainer } from "@/container/compat";
 import { eventbus, Task } from "@/infra";
 import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
@@ -40,6 +42,7 @@ import type { SpringApiProps } from "./springs/types";
 const { HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } = ygopro.CardZone;
 
 export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
+  const container = getUIContainer();
   const card = cardStore.inner[idx];
   const snap = useSnapshot(card);
 
@@ -161,7 +164,10 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           if (!isField) {
             // 单卡: 直接召唤/特殊召唤/...
             const card = cards[0];
-            sendSelectIdleCmdResponse(getNonEffectResponse(action, card));
+            sendSelectIdleCmdResponse(
+              container.conn,
+              getNonEffectResponse(action, card),
+            );
             clearAllIdleInteractivities();
           } else {
             // 场地: 选择卡片
@@ -174,7 +180,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
               })),
             });
             if (option.length > 0) {
-              sendSelectIdleCmdResponse(option[0].response!);
+              sendSelectIdleCmdResponse(container.conn, option[0].response!);
               clearAllIdleInteractivities();
             }
           }
@@ -223,6 +229,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         }
         // 选择发动哪个效果
         handleEffectActivation(
+          container,
           tmpCard.idleInteractivities
             .filter(
               ({ interactType }) => interactType === InteractType.ACTIVATE,
@@ -246,7 +253,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       const selectInfo = card.selectInfo;
       if (selectInfo.selectable || selectInfo.selected) {
         if (selectInfo.response !== undefined) {
-          sendSelectMultiResponse([selectInfo.response]);
+          sendSelectMultiResponse(container.conn, [selectInfo.response]);
           clearSelectInfo();
         } else {
           console.error("card is selectable but the response is undefined!");
@@ -358,13 +365,14 @@ type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
 };
 
 const handleEffectActivation = (
+  container: Container,
   effectInteractivies: Interactivy[],
   meta?: CardMeta,
 ) => {
   if (!effectInteractivies.length) return;
   else if (effectInteractivies.length === 1) {
     // 如果只有一个效果，点击直接触发
-    sendSelectIdleCmdResponse(effectInteractivies[0].response);
+    sendSelectIdleCmdResponse(container.conn, effectInteractivies[0].response);
   } else {
     // optionsModal
     const options = effectInteractivies.map((effect) => {

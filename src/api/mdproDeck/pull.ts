@@ -1,8 +1,9 @@
 import { useConfig } from "@/config";
 import { pfetch } from "@/infra";
 
+import { handleHttps } from "..";
 import { MdproDeckLike, MdproResp } from "./schema";
-import { handleHttps, mdproHeaders } from "./util";
+import { mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
 const API_PATH = "api/mdpro3/deck/list";

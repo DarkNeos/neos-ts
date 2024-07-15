@@ -11,7 +11,6 @@ import {
   sendUpdateDeck,
   ygopro,
 } from "@/api";
-import socketMiddleWare, { socketCmd } from "@/middleware/socket";
 import PlayerState = ygopro.StocHsPlayerChange.State;
 import SelfType = ygopro.StocTypeChange.SelfType;
 import { App, Avatar, Button, Skeleton, Space } from "antd";
@@ -22,7 +21,9 @@ import { LoaderFunction, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 import { useConfig } from "@/config";
+import { getUIContainer } from "@/container/compat";
 import { AudioActionType, changeScene } from "@/infra/audio";
+import { closeSocket } from "@/middleware/socket";
 import {
   accountStore,
   deckStore,
@@ -48,6 +49,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const Component: React.FC = () => {
+  const container = getUIContainer();
   const { t: i18n } = useTranslation("WaitRoom");
   const { message } = App.useApp();
   const { user } = useSnapshot(accountStore);
@@ -63,7 +65,7 @@ export const Component: React.FC = () => {
   const navigate = useNavigate();
 
   const updateDeck = (deck: IDeck) => {
-    sendUpdateDeck(deck);
+    sendUpdateDeck(container.conn, deck);
     // 设置side里面的卡组
     sideStore.setSideDeck(deck);
   };
@@ -71,7 +73,7 @@ export const Component: React.FC = () => {
   const onDeckSelected = (deckName: string) => {
     const newDeck = deckStore.get(deckName);
     if (newDeck) {
-      sendHsNotReady();
+      sendHsNotReady(container.conn);
       updateDeck(newDeck);
       setDeck(newDeck);
     } else {
@@ -83,12 +85,12 @@ export const Component: React.FC = () => {
     if (me?.state === PlayerState.NO_READY) {
       if (deck) {
         updateDeck(deck);
-        sendHsReady();
+        sendHsReady(container.conn);
       } else {
         message.error("请先选择卡组");
       }
     } else {
-      sendHsNotReady();
+      sendHsNotReady(container.conn);
     }
   };
 
@@ -96,7 +98,7 @@ export const Component: React.FC = () => {
     // 组件初始化时发一次更新卡组的包
     //
     // 否则娱乐匹配准备会有问题（原因不明）
-    if (deck) sendUpdateDeck(deck);
+    if (deck) sendUpdateDeck(container.conn, deck);
   }, []);
   useEffect(() => {
     if (room.stage === RoomStage.DUEL_START) {
@@ -184,11 +186,11 @@ export const Component: React.FC = () => {
           </div>
           <ActionButton
             onMoraSelect={(mora) => {
-              sendHandResult(mora);
+              sendHandResult(container.conn, mora);
               roomStore.stage = RoomStage.HAND_SELECTED;
             }}
             onTpSelect={(tp) => {
-              sendTpResult(tp === Tp.First);
+              sendTpResult(container.conn, tp === Tp.First);
               roomStore.stage = RoomStage.TP_SELECTED;
             }}
           />
@@ -263,6 +265,7 @@ const MoraAvatar: React.FC<{ mora?: Mora }> = ({ mora }) => (
 const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
   onDeckChange,
 }) => {
+  const container = getUIContainer();
   const { t: i18n } = useTranslation("WaitRoom");
   const snapDeck = useSnapshot(deckStore);
   const snapRoom = useSnapshot(roomStore);
@@ -287,9 +290,9 @@ const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
         icon={<IconFont type="icon-record" size={18} />}
         onClick={() => {
           if (snapRoom.selfType !== SelfType.OBSERVER) {
-            sendHsToObserver();
+            sendHsToObserver(container.conn);
           } else {
-            sendHsToDuelList();
+            sendHsToDuelList(container.conn);
           }
         }}
       >
@@ -326,8 +329,8 @@ const SideButtons: React.FC<{
           </span>
         }
         onClick={() => {
-          // 断开websocket🔗，
-          socketMiddleWare({ cmd: socketCmd.DISCONNECT });
+          // 断开websocket🔗
+          closeSocket(getUIContainer().conn);
           // 重置stores
           resetUniverse();
           // 返回上一个路由
@@ -355,6 +358,7 @@ const ActionButton: React.FC<{
   onMoraSelect: (mora: Mora) => void;
   onTpSelect: (tp: Tp) => void;
 }> = ({ onMoraSelect, onTpSelect }) => {
+  const container = getUIContainer();
   const room = useSnapshot(roomStore);
   const { stage, isHost } = room;
   const { t: i18n } = useTranslation("WaitRoom");
@@ -371,7 +375,7 @@ const ActionButton: React.FC<{
                 room.getOpPlayer()?.state !== PlayerState.READY))
           }
           onClick={() => {
-            sendHsStart();
+            sendHsStart(container.conn);
           }}
         >
           {stage === RoomStage.WAITING ? (

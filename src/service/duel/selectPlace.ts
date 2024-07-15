@@ -1,9 +1,11 @@
 import { sendSelectPlaceResponse, ygopro } from "@/api";
+import { Container } from "@/container";
 import { InteractType, placeStore } from "@/stores";
 
 type MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 
-export default (selectPlace: MsgSelectPlace) => {
+export default async (container: Container, selectPlace: MsgSelectPlace) => {
+  const conn = container.conn;
   if (selectPlace.count !== 1) {
     console.warn(`Unhandled case: ${selectPlace}`);
     return;
@@ -11,7 +13,7 @@ export default (selectPlace: MsgSelectPlace) => {
 
   if (selectPlace.places.length === 1) {
     const place = selectPlace.places[0];
-    sendSelectPlaceResponse({
+    sendSelectPlaceResponse(conn, {
       controller: place.controller,
       zone: place.zone,
       sequence: place.sequence,

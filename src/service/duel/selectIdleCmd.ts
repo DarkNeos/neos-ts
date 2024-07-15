@@ -8,11 +8,12 @@ import {
 
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
 
-export default (selectIdleCmd: MsgSelectIdleCmd) => {
+export default async (selectIdleCmd: MsgSelectIdleCmd) => {
   const player = selectIdleCmd.player;
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的互动性
+  // TODO: 确认这里是否需要在AI托管的时候调用
   cardStore.inner.forEach((card) => {
     card.idleInteractivities = [];
   });

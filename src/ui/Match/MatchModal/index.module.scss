@@ -15,4 +15,16 @@
   .select {
     margin: 0.25rem 0;
   }
+
+  .ai-assist-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.25rem 0;
+
+    span {
+      font-size: 1rem;
+      color: #d7e70b;
+    }
+  }
 }

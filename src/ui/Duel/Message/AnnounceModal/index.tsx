@@ -10,6 +10,7 @@ import {
   sendSelectOptionResponse,
 } from "@/api";
 import { isDeclarable, isToken } from "@/common";
+import { getUIContainer } from "@/container/compat";
 import { emptySearchConditions } from "@/middleware/sqlite/fts";
 
 import { NeosModal } from "../NeosModal";
@@ -35,6 +36,7 @@ export const AnnounceModal: React.FC = () => {
   const [searchWord, setSearchWord] = useState("");
   const [cardList, setCardList] = useState<CardMeta[]>([]);
   const [selected, setSelected] = useState<number | undefined>(undefined);
+  const container = getUIContainer();
 
   const handleSearch = () => {
     const result = searchCards({
@@ -51,7 +53,7 @@ export const AnnounceModal: React.FC = () => {
   };
   const onSummit = () => {
     if (selected !== undefined) {
-      sendSelectOptionResponse(selected);
+      sendSelectOptionResponse(container.conn, selected);
       rs();
       setSearchWord("");
       setCardList([]);

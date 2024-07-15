@@ -5,10 +5,10 @@ import { fetchCheckCardMeta } from "../utils";
 type MsgSelectTribute = ygopro.StocGameMessage.MsgSelectTribute;
 
 export default async (selectTribute: MsgSelectTribute) => {
-  // TODO: 当玩家选择卡数大于`max`时，是否也合法？
   const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
     selectTribute.selectable_cards,
   );
+  // TODO: 当玩家选择卡数大于`max`时，是否也合法？
   await displaySelectActionsModal({
     overflow: true,
     totalLevels: 0,

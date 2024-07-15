@@ -49,6 +49,9 @@ export interface MatState {
 
   /**  根据自己的先后手判断是否是自己 */
   isMe: (player: number) => boolean;
+
+  turnCount: number;
+  error: string;
 }
 
 export interface InitInfo {

@@ -37,6 +37,7 @@
 	"entertainWatchUrl": "wss://tiramisu.moecube.com:7923",
 	"userApi": "https://sapi.moecube.com:444/accounts/users/{username}.json",
   "mdproServer": "https://rarnu.xyz:38443",
+  "agentServer": "https://t1v-n-e71fca19-w-0.tail0aad8.ts.net",
 	"streamInterval": 20,
 	"startDelay": 1000,
 	"ui": {
