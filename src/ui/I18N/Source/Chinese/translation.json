@@ -203,7 +203,11 @@
     "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐",
     "LanguageSettings": "语言",
     "AnimationSettings": "动画",
-    "AnimationSpeed": "动画速度"
+    "AnimationSpeed": "动画速度",
+    "AISettings": "AI设置",
+    "CustomAIServer": "输入自定义AI模型服务器URL",
+    "ApplyAISettings": "应用",
+    "RecoverDefault": "恢复默认设置"
   },
   "DeckResults": {
     "NoDeckGroupFound": "找不到相应卡组"

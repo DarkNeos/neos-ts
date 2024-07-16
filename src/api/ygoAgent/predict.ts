@@ -1,10 +1,7 @@
-import { useConfig } from "@/config";
-
 import { handleHttps } from "..";
 import { Input, MsgResponse } from "./schema";
-import { agentHeader } from "./util";
+import { agentHeader, getAgentServer } from "./util";
 
-const { agentServer } = useConfig();
 const apiPath = (duelId: string) => `v0/duels/${duelId}/predict`;
 
 export interface PredictReq {
@@ -33,7 +30,7 @@ export async function predictDuel(
     "Content-Type": "application/json",
   };
 
-  const resp = await fetch(`${agentServer}/${apiPath(duelId)}`, {
+  const resp = await fetch(`${getAgentServer()}/${apiPath(duelId)}`, {
     method: "POST",
     headers,
     body: JSON.stringify(req),

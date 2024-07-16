@@ -1,5 +1,6 @@
 import {
   AudioFilled,
+  OpenAIOutlined,
   PlayCircleOutlined,
   TranslationOutlined,
 } from "@ant-design/icons";
@@ -11,6 +12,7 @@ import { useTranslation } from "react-i18next";
 
 import { I18NSelector } from "../I18N";
 import { theme } from "../theme";
+import { AISettings } from "./AISettings";
 import { AnimationSetting } from "./Animation";
 import { AudioSetting } from "./Audio";
 
@@ -51,6 +53,15 @@ export const Setting = (props: SettingProps) => {
         </>
       ),
       children: <AnimationSetting />,
+    },
+    {
+      key: "ai",
+      label: (
+        <>
+          {i18n("AISettings")} <OpenAIOutlined />
+        </>
+      ),
+      children: <AISettings />,
     },
   ];
 
