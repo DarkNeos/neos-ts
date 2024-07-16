@@ -6,8 +6,8 @@ import { useSnapshot } from "valtio";
 import { getSSOSignInUrl } from "@/api";
 import { useConfig } from "@/config";
 import { AudioActionType, changeScene } from "@/infra/audio";
-import { accountStore } from "@/stores";
-import { Background, SpecialButton } from "@/ui/Shared";
+import { accountStore, initStore } from "@/stores";
+import { Background, Loading, SpecialButton } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 
@@ -22,33 +22,38 @@ export const loader: LoaderFunction = async () => {
 export const Component: React.FC = () => {
   const { t } = useTranslation("Start");
   const { user } = useSnapshot(accountStore);
+  const { progress } = useSnapshot(initStore.sqlite);
   return (
     <>
       <Background />
       <div className={styles.wrap}>
-        <main className={styles.main}>
-          <div className={styles.left}>
-            <img
-              className={styles["neos-logo"]}
-              src={`${NeosConfig.assetsPath}/neos-logo.svg`}
-              alt="YGO NEOS"
-            />
-            <div className={styles.title}>{t("Title")}</div>
-            <div className={styles.keywords}>{t("Keywords")}</div>
-            <div className={styles.details}>{t("Details")}</div>
-            <LoginBtn logined={Boolean(user)} />
-          </div>
-          <div className={styles.right}>
-            <img
-              className={styles["neos-main-bg"]}
-              src={`${NeosConfig.assetsPath}/neos-main-bg.webp`}
-            />
-            <img
-              className={styles["neos-main"]}
-              src={`${NeosConfig.assetsPath}/neos-main.webp`}
-            />
-          </div>
-        </main>
+        {progress === 1 ? (
+          <main className={styles.main}>
+            <div className={styles.left}>
+              <img
+                className={styles["neos-logo"]}
+                src={`${NeosConfig.assetsPath}/neos-logo.svg`}
+                alt="YGO NEOS"
+              />
+              <div className={styles.title}>{t("Title")}</div>
+              <div className={styles.keywords}>{t("Keywords")}</div>
+              <div className={styles.details}>{t("Details")}</div>
+              <LoginBtn logined={Boolean(user)} />
+            </div>
+            <div className={styles.right}>
+              <img
+                className={styles["neos-main-bg"]}
+                src={`${NeosConfig.assetsPath}/neos-main-bg.webp`}
+              />
+              <img
+                className={styles["neos-main"]}
+                src={`${NeosConfig.assetsPath}/neos-main.webp`}
+              />
+            </div>
+          </main>
+        ) : (
+          <Loading progress={progress * 100} />
+        )}
       </div>
     </>
   );
