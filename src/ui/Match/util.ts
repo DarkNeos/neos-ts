@@ -4,11 +4,12 @@ import { initStrings, initSuperPrerelease } from "@/api";
 import { useConfig } from "@/config";
 import { getUIContainer, initUIContainer } from "@/container/compat";
 import { initReplaySocket, initSocket } from "@/middleware/socket";
-import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import {
   pollSocketLooper,
   pollSocketLooperWithAgent,
 } from "@/service/executor";
+
+import { initSqlite } from "../Layout/utils";
 
 const NeosConfig = useConfig();
 
@@ -29,13 +30,7 @@ export const connectSrvpro = async (params: {
   await rustInit(url);
 
   // 初始化sqlite
-  await sqliteMiddleWare({
-    cmd: sqliteCmd.INIT,
-    initInfo: {
-      releaseDbUrl: NeosConfig.releaseDbUrl,
-      preReleaseDbUrl: NeosConfig.preReleaseDbUrl,
-    },
-  });
+  await initSqlite();
 
   // 初始化I18N文案
   await initStrings();
