@@ -1,12 +1,16 @@
 import { ygopro } from "@/api";
-import { cardStore } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 import MsgShuffleSetCard = ygopro.StocGameMessage.MsgShuffleSetCard;
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
 
 // 后端传过来的`from_locations`的列表是切洗前场上卡的location，它们在列表里面按照切洗后的顺序排列
-export default async (shuffleSetCard: MsgShuffleSetCard) => {
+export default async (
+  container: Container,
+  shuffleSetCard: MsgShuffleSetCard,
+) => {
   playEffect(AudioActionType.SOUND_SHUFFLE);
+  const context = container.context;
   const from_locations = shuffleSetCard.from_locations;
   const overlay_locations = shuffleSetCard.overlay_locations;
   if (from_locations.length === 0) {
@@ -24,7 +28,11 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
   Promise.all(
     Array.from({ length: count }).map(async (_, i) => {
       const from = from_locations[i];
-      const target = cardStore.at(from.zone, from.controller, from.sequence);
+      const target = context.cardStore.at(
+        from.zone,
+        from.controller,
+        from.sequence,
+      );
       if (target) {
         // 设置code为0，洗切后的code会由`UpdateData`指定
         target.code = 0;
@@ -38,7 +46,7 @@ export default async (shuffleSetCard: MsgShuffleSetCard) => {
       const overlay_location = overlay_locations[i];
       if (overlay_location.zone > 0) {
         // 如果没有超量素材，后端会全传0
-        for (const overlay of cardStore.findOverlay(
+        for (const overlay of context.cardStore.findOverlay(
           from.zone,
           from.controller,
           from.sequence,

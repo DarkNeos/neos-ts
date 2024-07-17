@@ -1,7 +1,7 @@
 import { fetchCard, ygopro } from "@/api";
+import { Container } from "@/container";
 import { sleep } from "@/infra";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore } from "@/stores";
 import { callCardFocus, callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 const { MZONE, SZONE } = ygopro.CardZone;
@@ -10,13 +10,21 @@ const { FACEUP_ATTACK, FACEDOWN_ATTACK, FACEDOWN_DEFENSE, FACEDOWN } =
 
 const WAIT_TIME = 100;
 
-export default async (confirmCards: ygopro.StocGameMessage.MsgConfirmCards) => {
+export default async (
+  container: Container,
+  confirmCards: ygopro.StocGameMessage.MsgConfirmCards,
+) => {
   playEffect(AudioActionType.SOUND_REVEAL);
+  const context = container.context;
   const cards = confirmCards.cards;
   console.color("pink")(`confirmCards: ${cards}`);
 
   for (const card of cards) {
-    const target = cardStore.at(card.location, card.controller, card.sequence);
+    const target = context.cardStore.at(
+      card.location,
+      card.controller,
+      card.sequence,
+    );
 
     if (target) {
       // 设置`occupant`

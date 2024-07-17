@@ -1,16 +1,25 @@
 import { fetchCard, ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore, fetchEsHintMeta } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
-export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
-  fetchEsHintMeta({ originMsg: "玩家抽卡时" });
+import { fetchEsHintMeta } from "./util";
+
+export default async (
+  container: Container,
+  draw: ygopro.StocGameMessage.MsgDraw,
+) => {
+  const context = container.context;
+  fetchEsHintMeta({ context, originMsg: "玩家抽卡时" });
 
   const drawLength = draw.cards.length;
 
   // 将卡从卡组移到手牌：设置zone、occupant、sequence
-  const handsLength = cardStore.at(ygopro.CardZone.HAND, draw.player).length;
-  const newHands = cardStore
+  const handsLength = context.cardStore.at(
+    ygopro.CardZone.HAND,
+    draw.player,
+  ).length;
+  const newHands = context.cardStore
     .at(ygopro.CardZone.DECK, draw.player)
     .sort((a, b) => a.location.sequence - b.location.sequence)
     .slice(-drawLength);
@@ -29,7 +38,7 @@ export default async (draw: ygopro.StocGameMessage.MsgDraw) => {
 
   // 抽卡动画
   await Promise.all(
-    cardStore
+    context.cardStore
       .at(ygopro.CardZone.HAND, draw.player)
       .map((card) => callCardMove(card.uuid)),
   );

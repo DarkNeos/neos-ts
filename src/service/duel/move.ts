@@ -1,6 +1,7 @@
 import { fetchCard, ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore, CardType } from "@/stores";
+import { CardType } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import { REASON_DESTROY, REASON_MATERIAL, TYPE_TOKEN } from "../../common";
@@ -31,7 +32,8 @@ const overlayStack: ygopro.CardLocation[] = [];
  * - 通过`meta.data.type`判断一张卡是否是衍生物。
  *
  * */
-export default async (move: MsgMove) => {
+export default async (container: Container, move: MsgMove) => {
+  const context = container.context;
   const code = move.code;
   const from = move.from;
   const to = move.to;
@@ -63,7 +65,7 @@ export default async (move: MsgMove) => {
 
   if (from.is_overlay) {
     // 超量素材的去除
-    const overlayMaterial = cardStore.at(
+    const overlayMaterial = context.cardStore.at(
       from.zone,
       from.controller,
       from.sequence,
@@ -79,14 +81,18 @@ export default async (move: MsgMove) => {
       return;
     }
   } else {
-    const card = cardStore.at(from.zone, from.controller, from.sequence);
+    const card = context.cardStore.at(
+      from.zone,
+      from.controller,
+      from.sequence,
+    );
     if (card) {
       target = card;
     } else {
       console.warn(
         `<Move>card from zone=${from.zone}, controller=${from.controller} sequence=${from.sequence} is null`,
       );
-      console.info(cardStore.at(from.zone, from.controller));
+      console.info(context.cardStore.at(from.zone, from.controller));
       return;
     }
   }
@@ -105,7 +111,7 @@ export default async (move: MsgMove) => {
     // 超量素材出栈
     const xyzLocations = overlayStack.splice(0, overlayStack.length);
     for (const location of xyzLocations) {
-      const overlayMaterial = cardStore.at(
+      const overlayMaterial = context.cardStore.at(
         location.zone,
         location.controller,
         location.sequence,
@@ -132,8 +138,8 @@ export default async (move: MsgMove) => {
   }
 
   // 维护sequence
-  const fromCards = cardStore.at(from.zone, from.controller);
-  const toCards = cardStore.at(to.zone, to.controller);
+  const fromCards = context.cardStore.at(from.zone, from.controller);
+  const toCards = context.cardStore.at(to.zone, to.controller);
 
   if (
     [HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone) &&
@@ -149,7 +155,7 @@ export default async (move: MsgMove) => {
   if (from.is_overlay) {
     // 超量素材的序号也需要维护
     const overlay_sequence = from.overlay_sequence;
-    for (const overlay of cardStore.findOverlay(
+    for (const overlay of context.cardStore.findOverlay(
       from.zone,
       from.controller,
       from.sequence,
@@ -182,7 +188,7 @@ export default async (move: MsgMove) => {
   const p = callCardMove(target.uuid, { fromZone: from.zone });
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
-    const pHands = cardStore
+    const pHands = context.cardStore
       .at(HAND, target.location.controller)
       .filter((c) => c.uuid !== target.uuid)
       .map(async (c) => await callCardMove(c.uuid));
@@ -193,7 +199,7 @@ export default async (move: MsgMove) => {
 
   // 超量素材位置跟随超量怪兽移动
   if (from.zone === MZONE && !from.is_overlay) {
-    for (const overlay of cardStore.findOverlay(
+    for (const overlay of context.cardStore.findOverlay(
       from.zone,
       from.controller,
       from.sequence,

@@ -9,6 +9,7 @@ import { fetchCheckCardMeta } from "../utils";
 export default async (container: Container, selectCard: MsgSelectCard) => {
   const { cancelable, min, max, cards } = selectCard;
   const conn = container.conn;
+  const context = container.context;
 
   // TODO: handle release_param
 
@@ -19,6 +20,7 @@ export default async (container: Container, selectCard: MsgSelectCard) => {
   }
 
   const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
+    context,
     cards,
   );
   await displaySelectActionsModal({

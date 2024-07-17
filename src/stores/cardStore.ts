@@ -94,6 +94,3 @@ export class CardStore implements NeosStore {
 }
 
 export const cardStore = proxy(new CardStore());
-
-// @ts-ignore
-window.cardStore = cardStore;

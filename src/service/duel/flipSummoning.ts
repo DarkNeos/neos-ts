@@ -1,9 +1,15 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/stores";
+import { Container } from "@/container";
 
-export default (flipSummoning: ygopro.StocGameMessage.MsgFlipSummoning) => {
+import { fetchEsHintMeta } from "./util";
+
+export default (
+  container: Container,
+  flipSummoning: ygopro.StocGameMessage.MsgFlipSummoning,
+) => {
   // playEffect(AudioActionType.SOUND_FILP);
   fetchEsHintMeta({
+    context: container.context,
     originMsg: "「[?]」反转召唤宣言时",
     cardID: flipSummoning.code,
   });

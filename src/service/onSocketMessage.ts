@@ -56,51 +56,51 @@ async function _handle(
 
     switch (pb.msg) {
       case "stoc_join_game": {
-        handleJoinGame(pb);
+        handleJoinGame(container, pb);
         break;
       }
       case "stoc_chat": {
-        handleChat(pb);
+        handleChat(container, pb);
         break;
       }
       case "stoc_hs_player_change": {
-        handleHsPlayerChange(pb);
+        handleHsPlayerChange(container, pb);
         break;
       }
       case "stoc_hs_watch_change": {
-        handleHsWatchChange(pb);
+        handleHsWatchChange(container, pb);
         break;
       }
       case "stoc_hs_player_enter": {
-        handleHsPlayerEnter(pb);
+        handleHsPlayerEnter(container, pb);
         break;
       }
       case "stoc_type_change": {
-        handleTypeChange(pb);
+        handleTypeChange(container, pb);
         break;
       }
       case "stoc_select_hand": {
-        handleSelectHand(pb);
+        handleSelectHand(container, pb);
         break;
       }
       case "stoc_hand_result": {
-        handleHandResult(pb);
+        handleHandResult(container, pb);
         break;
       }
       case "stoc_select_tp": {
-        handleSelectTp(pb);
+        handleSelectTp(container, pb);
         break;
       }
       case "stoc_deck_count": {
-        handleDeckCount(pb);
+        handleDeckCount(container, pb);
         break;
       }
       case "stoc_duel_start": {
-        handleDuelStart(pb);
+        handleDuelStart(container, pb);
         break;
       }
       case "stoc_duel_end": {
-        handleDuelEnd(pb);
+        handleDuelEnd(container, pb);
         break;
       }
       case "stoc_game_msg": {
@@ -117,15 +117,15 @@ async function _handle(
         break;
       }
       case "stoc_error_msg": {
-        await handleErrorMsg(pb.stoc_error_msg);
+        await handleErrorMsg(container, pb.stoc_error_msg);
         break;
       }
       case "stoc_change_side": {
-        handleChangeSide(pb.stoc_change_side);
+        handleChangeSide(container, pb.stoc_change_side);
         break;
       }
       case "stoc_waiting_side": {
-        handleWaitingSide(pb.stoc_waiting_side);
+        handleWaitingSide(container, pb.stoc_waiting_side);
         break;
       }
       default: {

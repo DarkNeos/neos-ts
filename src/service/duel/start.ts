@@ -3,40 +3,37 @@ import { v4 as v4uuid } from "uuid";
 
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
+import { Container } from "@/container";
 import { sleep } from "@/infra";
-import {
-  cardStore,
-  matStore,
-  replayStore,
-  RoomStage,
-  roomStore,
-  SideStage,
-  sideStore,
-} from "@/stores";
+import { replayStore, RoomStage, SideStage } from "@/stores";
 import { replayStart } from "@/ui/Match/ReplayModal";
 
 import { genCard } from "../utils";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
 
-export default async (start: ygopro.StocGameMessage.MsgStart) => {
+export default async (
+  container: Container,
+  start: ygopro.StocGameMessage.MsgStart,
+) => {
+  const context = container.context;
   // 先初始化`matStore`
-  matStore.selfType = start.playerType;
+  context.matStore.selfType = start.playerType;
 
-  if (sideStore.stage !== SideStage.NONE) {
+  if (context.sideStore.stage !== SideStage.NONE) {
     // 更新Side状态
-    sideStore.stage = SideStage.DUEL_START;
+    context.sideStore.stage = SideStage.DUEL_START;
   } else {
     // 通知房间页面决斗开始
     // 这行在该函数中的位置不能随便放，否则可能会block住
-    roomStore.stage = RoomStage.DUEL_START;
+    context.roomStore.stage = RoomStage.DUEL_START;
   }
 
-  matStore.initInfo.set(0, {
+  context.matStore.initInfo.set(0, {
     life: start.life1,
     deckSize: start.deckSize1,
     extraSize: start.extraSize1,
   });
-  matStore.initInfo.set(1, {
+  context.matStore.initInfo.set(1, {
     life: start.life2,
     deckSize: start.deckSize2,
     extraSize: start.extraSize2,
@@ -85,7 +82,7 @@ export default async (start: ygopro.StocGameMessage.MsgStart) => {
     ),
   );
 
-  cardStore.inner.push(...cards);
+  context.cardStore.inner.push(...cards);
 
   // note: 额外卡组的卡会在对局开始后通过`UpdateData` msg更新
 

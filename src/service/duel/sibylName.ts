@@ -1,10 +1,11 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 type MsgSibylName = ygopro.StocGameMessage.MsgSibylName;
 
-export default (sibylName: MsgSibylName) => {
-  const me = roomStore.getMePlayer();
-  const op = roomStore.getOpPlayer();
+export default (container: Container, sibylName: MsgSibylName) => {
+  const context = container.context;
+  const me = context.roomStore.getMePlayer();
+  const op = context.roomStore.getOpPlayer();
   if (me) {
     me.name = sibylName.name_0;
   }

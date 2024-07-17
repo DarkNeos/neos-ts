@@ -1,18 +1,22 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { roomStore } from "@/stores";
 
-export default function handleHsPlayerEnter(pb: ygopro.YgoStocMsg) {
+export default function handleHsPlayerEnter(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
   playEffect(AudioActionType.SOUND_PLAYER_ENTER);
   const name = pb.stoc_hs_player_enter.name;
   const pos = pb.stoc_hs_player_enter.pos;
+  const context = container.context;
 
-  const player = roomStore.players[pos];
+  const player = context.roomStore.players[pos];
 
   if (player) {
     player.name = name;
   } else {
-    roomStore.players[pos] = {
+    context.roomStore.players[pos] = {
       name,
       state: ygopro.StocHsPlayerChange.State.NO_READY,
     };

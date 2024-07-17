@@ -1,11 +1,15 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore } from "@/stores";
 
-export default (shuffleDeck: ygopro.StocGameMessage.MsgShuffleDeck) => {
+export default (
+  container: Container,
+  shuffleDeck: ygopro.StocGameMessage.MsgShuffleDeck,
+) => {
+  const context = container.context;
   playEffect(AudioActionType.SOUND_SHUFFLE);
   const player = shuffleDeck.player;
-  for (const card of cardStore.at(ygopro.CardZone.DECK, player)) {
+  for (const card of context.cardStore.at(ygopro.CardZone.DECK, player)) {
     // 把数据抹掉就好了
     card.code = 0;
     card.meta = { id: 0, data: {}, text: {} };

@@ -1,10 +1,14 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { matStore } from "@/stores";
 
-export default (newTurn: ygopro.StocGameMessage.MsgNewTurn) => {
+export default (
+  container: Container,
+  newTurn: ygopro.StocGameMessage.MsgNewTurn,
+) => {
   playEffect(AudioActionType.SOUND_NEXT_TURN);
+  const context = container.context;
   const player = newTurn.player;
-  matStore.currentPlayer = player;
-  matStore.turnCount = matStore.turnCount + 1;
+  context.matStore.currentPlayer = player;
+  context.matStore.turnCount = context.matStore.turnCount + 1;
 };

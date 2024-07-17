@@ -1,11 +1,18 @@
 import { fetchCard, ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore, fetchEsHintMeta, matStore, placeStore } from "@/stores";
 import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
-export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
+import { fetchEsHintMeta } from "./util";
+
+export default async (
+  container: Container,
+  chaining: ygopro.StocGameMessage.MsgChaining,
+) => {
   playEffect(AudioActionType.SOUND_ACTIVATE);
+  const context = container.context;
   fetchEsHintMeta({
+    context,
     originMsg: "「[?]」被发动时",
     cardID: chaining.code,
   });
@@ -13,14 +20,14 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
   const location = chaining.location;
 
   // 将`location`添加到连锁栈
-  matStore.chains.push(location);
+  context.matStore.chains.push(location);
 
-  const target = cardStore.find(location);
+  const target = context.cardStore.find(location);
   if (target) {
     // 设置连锁序号
-    const block = placeStore.of(location);
+    const block = context.placeStore.of(context, location);
     if (block) {
-      block.chainIndex.push(matStore.chains.length);
+      block.chainIndex.push(context.matStore.chains.length);
     } else {
       console.warn(`<Chaining>block from ${location} is null`);
     }
@@ -40,7 +47,9 @@ export default async (chaining: ygopro.StocGameMessage.MsgChaining) => {
     // 发动效果动画
     await callCardFocus(target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);
-    console.info(`<Chaining>chain stack length = ${matStore.chains.length}`);
+    console.info(
+      `<Chaining>chain stack length = ${context.matStore.chains.length}`,
+    );
   } else {
     console.warn(`<Chaining>target from ${location} is null`);
   }

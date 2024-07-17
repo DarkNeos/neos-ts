@@ -1,13 +1,14 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore } from "@/stores";
 
 type MsgUpdateCounter = ygopro.StocGameMessage.MsgUpdateCounter;
 
-export default (updateCounter: MsgUpdateCounter) => {
+export default (container: Container, updateCounter: MsgUpdateCounter) => {
+  const context = container.context;
   const { location, count, action_type: counterType } = updateCounter;
 
-  const target = cardStore.find(location); // 不太确定这个后面能不能相应，我不好说
+  const target = context.cardStore.find(location); // 不太确定这个后面能不能相应，我不好说
   if (target) {
     switch (counterType) {
       case ygopro.StocGameMessage.MsgUpdateCounter.ActionType.ADD: {

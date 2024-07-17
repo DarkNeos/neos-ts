@@ -1,10 +1,15 @@
 import { ygopro } from "@/api";
-import { RoomStage, roomStore, SideStage, sideStore } from "@/stores";
+import { Container } from "@/container";
+import { RoomStage, SideStage } from "@/stores";
 
-export default function handleDuelStart(_pb: ygopro.YgoStocMsg) {
-  if (sideStore.stage !== SideStage.NONE) {
-    sideStore.stage = SideStage.SIDE_CHANGED;
+export default function handleDuelStart(
+  container: Container,
+  _pb: ygopro.YgoStocMsg,
+) {
+  const context = container.context;
+  if (context.sideStore.stage !== SideStage.NONE) {
+    context.sideStore.stage = SideStage.SIDE_CHANGED;
   } else {
-    roomStore.stage = RoomStage.MORA;
+    context.roomStore.stage = RoomStage.MORA;
   }
 }

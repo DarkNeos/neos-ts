@@ -1,11 +1,12 @@
 import { sendSelectPlaceResponse, ygopro } from "@/api";
 import { Container } from "@/container";
-import { InteractType, placeStore } from "@/stores";
+import { InteractType } from "@/stores";
 
 type MsgSelectPlace = ygopro.StocGameMessage.MsgSelectPlace;
 
 export default async (container: Container, selectPlace: MsgSelectPlace) => {
   const conn = container.conn;
+  const context = container.context;
   if (selectPlace.count !== 1) {
     console.warn(`Unhandled case: ${selectPlace}`);
     return;
@@ -26,7 +27,7 @@ export default async (container: Container, selectPlace: MsgSelectPlace) => {
     switch (place.zone) {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
-        const block = placeStore.of(place);
+        const block = context.placeStore.of(context, place);
         if (block) {
           block.interactivity = {
             interactType: InteractType.PLACE_SELECTABLE,

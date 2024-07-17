@@ -1,8 +1,10 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 
-export default function handleJoinGame(pb: ygopro.YgoStocMsg) {
+export default function handleJoinGame(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
   const _msg = pb.stoc_join_game;
-  // TODO
-  roomStore.joined = true;
+  container.context.roomStore.joined = true;
 }

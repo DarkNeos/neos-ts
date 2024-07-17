@@ -111,7 +111,7 @@ export default async function handleGameMsg(
 
   switch (msg.gameMsg) {
     case "start": {
-      await onMsgStart(msg.start);
+      await onMsgStart(container, msg.start);
 
       // We should init agent when the MSG_START reached.
       if (agent) await agent.init();
@@ -119,27 +119,27 @@ export default async function handleGameMsg(
       break;
     }
     case "draw": {
-      await onMsgDraw(msg.draw);
+      await onMsgDraw(container, msg.draw);
 
       break;
     }
     case "new_turn": {
-      onMsgNewTurn(msg.new_turn);
+      onMsgNewTurn(container, msg.new_turn);
 
       break;
     }
     case "new_phase": {
-      onMsgNewPhase(msg.new_phase);
+      onMsgNewPhase(container, msg.new_phase);
 
       break;
     }
     case "hint": {
-      await onMsgHint(msg.hint);
+      await onMsgHint(container, msg.hint);
 
       break;
     }
     case "select_idle_cmd": {
-      onMsgSelectIdleCmd(msg.select_idle_cmd);
+      onMsgSelectIdleCmd(container, msg.select_idle_cmd);
 
       break;
     }
@@ -149,7 +149,7 @@ export default async function handleGameMsg(
       break;
     }
     case "move": {
-      await onMsgMove(msg.move);
+      await onMsgMove(container, msg.move);
       break;
     }
     case "select_card": {
@@ -178,22 +178,22 @@ export default async function handleGameMsg(
       break;
     }
     case "shuffle_hand_extra": {
-      await onMsgShuffleHandExtra(msg.shuffle_hand_extra);
+      await onMsgShuffleHandExtra(container, msg.shuffle_hand_extra);
 
       break;
     }
     case "select_battle_cmd": {
-      onMsgSelectBattleCmd(msg.select_battle_cmd);
+      onMsgSelectBattleCmd(container, msg.select_battle_cmd);
 
       break;
     }
     case "pos_change": {
-      await onMsgPosChange(msg.pos_change);
+      await onMsgPosChange(container, msg.pos_change);
 
       break;
     }
     case "select_unselect_card": {
-      await onMsgSelectUnselectCard(msg.select_unselect_card);
+      await onMsgSelectUnselectCard(container, msg.select_unselect_card);
 
       break;
     }
@@ -203,47 +203,47 @@ export default async function handleGameMsg(
       break;
     }
     case "update_hp": {
-      onMsgUpdateHp(msg.update_hp);
+      onMsgUpdateHp(container, msg.update_hp);
 
       break;
     }
     case "win": {
-      await onMsgWin(msg.win);
+      await onMsgWin(container, msg.win);
 
       break;
     }
     case "wait": {
-      onMsgWait(msg.wait);
+      onMsgWait(container, msg.wait);
 
       break;
     }
     case "update_data": {
-      await onMsgUpdateData(msg.update_data);
+      await onMsgUpdateData(container, msg.update_data);
 
       break;
     }
     case "reload_field": {
-      onMsgReloadField(msg.reload_field);
+      onMsgReloadField(container, msg.reload_field);
 
       break;
     }
     case "select_sum": {
-      onMsgSelectSum(msg.select_sum);
+      onMsgSelectSum(container, msg.select_sum);
 
       break;
     }
     case "select_tribute": {
-      onMsgSelectTribute(msg.select_tribute);
+      onMsgSelectTribute(container, msg.select_tribute);
 
       break;
     }
     case "update_counter": {
-      onMsgUpdateCounter(msg.update_counter);
+      onMsgUpdateCounter(container, msg.update_counter);
 
       break;
     }
     case "select_counter": {
-      await onMsgSelectCounter(msg.select_counter);
+      await onMsgSelectCounter(container, msg.select_counter);
 
       break;
     }
@@ -253,66 +253,66 @@ export default async function handleGameMsg(
       break;
     }
     case "set": {
-      onMsgSet(msg.set);
+      onMsgSet(container, msg.set);
 
       break;
     }
     case "swap": {
-      onMsgSwap(msg.swap);
+      onMsgSwap(container, msg.swap);
 
       break;
     }
     case "attack": {
-      await onMsgAttack(msg.attack);
+      await onMsgAttack(container, msg.attack);
 
       break;
     }
     case "attack_disable": {
-      onMsgAttackDisable(msg.attack_disable);
+      onMsgAttackDisable(container, msg.attack_disable);
 
       break;
     }
     case "chaining": {
-      await onMsgChaining(msg.chaining);
+      await onMsgChaining(container, msg.chaining);
       break;
     }
     case "chain_solved": {
-      await onMsgChainSolved(msg.chain_solved);
+      await onMsgChainSolved(container, msg.chain_solved);
 
       break;
     }
     case "chain_end": {
-      onMsgChainEnd(msg.chain_end);
+      onMsgChainEnd(container, msg.chain_end);
 
       break;
     }
     case "summoning": {
-      onMsgSummoning(msg.summoning);
+      onMsgSummoning(container, msg.summoning);
 
       break;
     }
     case "summoned": {
-      onMsgSummoned(msg.summoned);
+      onMsgSummoned(container, msg.summoned);
 
       break;
     }
     case "flip_summoning": {
-      onMsgFlipSummoning(msg.flip_summoning);
+      onMsgFlipSummoning(container, msg.flip_summoning);
 
       break;
     }
     case "flip_summoned": {
-      onMsgFilpSummoned(msg.flip_summoned);
+      onMsgFilpSummoned(container, msg.flip_summoned);
 
       break;
     }
     case "sp_summoning": {
-      onMsgSpSummoning(msg.sp_summoning);
+      onMsgSpSummoning(container, msg.sp_summoning);
 
       break;
     }
     case "sp_summoned": {
-      onMsgSpSummoned(msg.sp_summoned);
+      onMsgSpSummoned(container, msg.sp_summoned);
 
       break;
     }
@@ -322,36 +322,36 @@ export default async function handleGameMsg(
       break;
     }
     case "lp_update": {
-      onLpUpdate(msg.lp_update);
+      onLpUpdate(container, msg.lp_update);
 
       break;
     }
     case "confirm_cards": {
-      await onConfirmCards(msg.confirm_cards);
+      await onConfirmCards(container, msg.confirm_cards);
       break;
     }
     case "become_target": {
-      onMsgBecomeTarget(msg.become_target);
+      onMsgBecomeTarget(container, msg.become_target);
 
       break;
     }
     case "toss": {
-      onMsgToss(msg.toss);
+      onMsgToss(container, msg.toss);
 
       break;
     }
     case "shuffle_set_card": {
-      await onMsgShuffleSetCard(msg.shuffle_set_card);
+      await onMsgShuffleSetCard(container, msg.shuffle_set_card);
 
       break;
     }
     case "field_disabled": {
-      onMsgFieldDisabled(msg.field_disabled);
+      onMsgFieldDisabled(container, msg.field_disabled);
 
       break;
     }
     case "shuffle_deck": {
-      onMsgShuffleDeck(msg.shuffle_deck);
+      onMsgShuffleDeck(container, msg.shuffle_deck);
 
       break;
     }
@@ -361,22 +361,22 @@ export default async function handleGameMsg(
       break;
     }
     case "hand_res": {
-      onMsgHandResult(msg.hand_res);
+      onMsgHandResult(container, msg.hand_res);
 
       break;
     }
     case "swap_grave_deck": {
-      await onMsgSwapGraveDeck(msg.swap_grave_deck);
+      await onMsgSwapGraveDeck(container, msg.swap_grave_deck);
 
       break;
     }
     case "sibyl_name": {
-      onMsgSibylName(msg.sibyl_name);
+      onMsgSibylName(container, msg.sibyl_name);
 
       break;
     }
     case "unimplemented": {
-      onUnimplemented(msg.unimplemented);
+      onUnimplemented(container, msg.unimplemented);
 
       break;
     }

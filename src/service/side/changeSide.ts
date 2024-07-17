@@ -1,5 +1,9 @@
 import { ygopro } from "@/api";
-import { SideStage, sideStore } from "@/stores";
-export function handleChangeSide(_: ygopro.StocChangeSide) {
-  sideStore.stage = SideStage.SIDE_CHANGING;
+import { Container } from "@/container";
+import { SideStage } from "@/stores";
+export function handleChangeSide(
+  container: Container,
+  _: ygopro.StocChangeSide,
+) {
+  container.context.sideStore.stage = SideStage.SIDE_CHANGING;
 }

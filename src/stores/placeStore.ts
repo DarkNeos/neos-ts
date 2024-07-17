@@ -2,7 +2,7 @@ import { cloneDeep } from "lodash-es";
 import { proxy } from "valtio";
 
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { Context } from "@/container";
 
 import type { Interactivity } from "./matStore/types";
 import { type NeosStore } from "./shared";
@@ -65,14 +65,16 @@ export class PlaceStore implements NeosStore {
       op: BlockState[];
     };
   } = initialState;
-  of(location: {
-    zone: ygopro.CardZone;
-    controller: number;
-    sequence: number;
-  }): BlockState | undefined {
+  of(
+    context: Context,
+    location: {
+      zone: ygopro.CardZone;
+      controller: number;
+      sequence: number;
+    },
+  ): BlockState | undefined {
     return this.inner[location.zone][
-      // FIXME: inject `matStore`
-      matStore.isMe(location.controller) ? "me" : "op"
+      context.matStore.isMe(location.controller) ? "me" : "op"
     ][location.sequence];
   }
   clearAllInteractivity() {

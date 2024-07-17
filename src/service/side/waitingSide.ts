@@ -1,5 +1,9 @@
 import { ygopro } from "@/api";
-import { SideStage, sideStore } from "@/stores";
-export function handleWaitingSide(_: ygopro.StocWaitingSide) {
-  sideStore.stage = SideStage.WAITING;
+import { Container } from "@/container";
+import { SideStage } from "@/stores";
+export function handleWaitingSide(
+  container: Container,
+  _: ygopro.StocWaitingSide,
+) {
+  container.context.sideStore.stage = SideStage.WAITING;
 }

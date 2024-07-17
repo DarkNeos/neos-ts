@@ -1,12 +1,15 @@
 import { ygopro } from "@/api";
 import MsgPosChange = ygopro.StocGameMessage.MsgPosChange;
-import { cardStore, fetchEsHintMeta } from "@/stores";
+import { Container } from "@/container";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
-export default async (posChange: MsgPosChange) => {
+import { fetchEsHintMeta } from "./util";
+
+export default async (container: Container, posChange: MsgPosChange) => {
+  const context = container.context;
   const { location, controller, sequence } = posChange.card_info;
 
-  const target = cardStore.at(location, controller, sequence);
+  const target = context.cardStore.at(location, controller, sequence);
   if (target) {
     target.location.position = posChange.cur_position;
 
@@ -17,6 +20,7 @@ export default async (posChange: MsgPosChange) => {
   }
 
   fetchEsHintMeta({
+    context,
     originMsg: 1600,
   });
 };

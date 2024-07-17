@@ -1,14 +1,14 @@
 import { fetchCard, ygopro } from "@/api";
-import { cardStore } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import MsgUpdateData = ygopro.StocGameMessage.MsgUpdateData;
 import { TYPE_TOKEN } from "@/common";
+import { Container } from "@/container";
 
-export default async (updateData: MsgUpdateData) => {
+export default async (container: Container, updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
-    const field = cardStore.at(zone, controller);
+    const field = container.context.cardStore.at(zone, controller);
     for (const action of actions) {
       const sequence = action.location?.sequence;
       if (typeof sequence !== "undefined") {

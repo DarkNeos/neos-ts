@@ -1,8 +1,12 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 
-export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
+export default function handleHsPlayerChange(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
   const change = pb.stoc_hs_player_change;
+  const context = container.context;
 
   if (change.pos > 1) {
     console.log("Currently only supported 2v2 mode.");
@@ -21,25 +25,26 @@ export default function handleHsPlayerChange(pb: ygopro.YgoStocMsg) {
             " moved to " +
             change.moved_pos,
         );
-        roomStore.players[change.moved_pos] = roomStore.players[change.pos];
-        roomStore.players[change.pos] = undefined;
+        context.roomStore.players[change.moved_pos] =
+          context.roomStore.players[change.pos];
+        context.roomStore.players[change.pos] = undefined;
         break;
       }
       case ygopro.StocHsPlayerChange.State.READY:
       case ygopro.StocHsPlayerChange.State.NO_READY: {
-        const player = roomStore.players[change.pos];
+        const player = context.roomStore.players[change.pos];
         if (player) {
           player.state = change.state;
         }
         break;
       }
       case ygopro.StocHsPlayerChange.State.LEAVE: {
-        roomStore.players[change.pos] = undefined;
+        context.roomStore.players[change.pos] = undefined;
         break;
       }
       case ygopro.StocHsPlayerChange.State.TO_OBSERVER: {
-        roomStore.players[change.pos] = undefined;
-        roomStore.observerCount += 1;
+        context.roomStore.players[change.pos] = undefined;
+        context.roomStore.observerCount += 1;
         break;
       }
       default: {

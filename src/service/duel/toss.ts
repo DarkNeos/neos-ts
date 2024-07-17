@@ -1,22 +1,27 @@
 import { fetchStrings, Region, ygopro } from "@/api";
 import { sleep } from "@/infra";
-import { matStore } from "@/stores";
 import MsgToss = ygopro.StocGameMessage.MsgToss;
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
 
-export default async (toss: MsgToss) => {
+export default async (container: Container, toss: MsgToss) => {
+  const context = container.context;
   const player = toss.player;
   const tossType = toss.toss_type;
 
-  const prefix = fetchStrings(Region.System, matStore.isMe(player) ? 102 : 103);
+  const prefix = fetchStrings(
+    Region.System,
+    context.matStore.isMe(player) ? 102 : 103,
+  );
 
   for (const x of toss.res) {
     if (tossType === MsgToss.TossType.DICE) {
       playEffect(AudioActionType.SOUND_DICE);
-      matStore.tossResult = prefix + fetchStrings(Region.System, 1624) + x;
+      context.matStore.tossResult =
+        prefix + fetchStrings(Region.System, 1624) + x;
     } else if (tossType === MsgToss.TossType.COIN) {
       playEffect(AudioActionType.SOUND_COIN);
-      matStore.tossResult =
+      context.matStore.tossResult =
         prefix +
         fetchStrings(Region.System, 1623) +
         fetchStrings(Region.System, 61 - x);
