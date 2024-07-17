@@ -1,6 +1,11 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/stores";
+import { Container } from "@/container";
 
-export default (_: ygopro.StocGameMessage.MsgAttackDisabled) => {
-  fetchEsHintMeta({ originMsg: "攻击被无效时" });
+import { fetchEsHintMeta } from "./util";
+
+export default (
+  container: Container,
+  _: ygopro.StocGameMessage.MsgAttackDisabled,
+) => {
+  fetchEsHintMeta({ context: container.context, originMsg: "攻击被无效时" });
 };

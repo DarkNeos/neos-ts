@@ -1,12 +1,16 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 
 // TODO: 这里设置的player可能顺序会反
-export default function handleDeckCount(pb: ygopro.YgoStocMsg) {
+export default function handleDeckCount(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
+  const context = container.context;
   const deckCount = pb.stoc_deck_count;
 
-  const me = roomStore.getMePlayer();
-  const op = roomStore.getOpPlayer();
+  const me = context.roomStore.getMePlayer();
+  const op = context.roomStore.getOpPlayer();
 
   if (me) {
     me.deckInfo = {

@@ -6,6 +6,7 @@ import { useSnapshot } from "valtio";
 
 import { sendChat } from "@/api";
 import { getUIContainer } from "@/container/compat";
+// TODO: access store via `Container`
 import { chatStore, isMe, roomStore } from "@/stores";
 
 interface ChatItem {

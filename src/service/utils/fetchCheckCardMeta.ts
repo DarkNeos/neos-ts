@@ -1,9 +1,10 @@
 import type { ygopro } from "@/api";
 import { fetchCard, getCardStr } from "@/api/cards";
-import { cardStore } from "@/stores";
+import { Context } from "@/container";
 import type { Option } from "@/ui/Duel/Message";
 
 const helper = async (
+  context: Context,
   {
     code,
     location,
@@ -26,7 +27,7 @@ const helper = async (
   mustSelect?: boolean,
 ) => {
   const { controller, zone, sequence } = location;
-  const target = cardStore.at(zone, controller, sequence);
+  const target = context.cardStore.at(zone, controller, sequence);
 
   // 这里可能直接用target.meta即可，不用再查一遍DB
   // 但是ygopro后端传回来了code，感觉这里会有些坑，因此求稳这样写
@@ -63,6 +64,7 @@ const helper = async (
 };
 
 export const fetchCheckCardMeta = async (
+  context: Context,
   cards: {
     code: number;
     location: ygopro.CardLocation;
@@ -79,6 +81,7 @@ export const fetchCheckCardMeta = async (
   const selectables: Option[] = [];
   for (const card of cards) {
     await helper(
+      context,
       card,
       selecteds,
       mustSelects,

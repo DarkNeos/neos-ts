@@ -1,7 +1,10 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 
-export default function handleHsWatchChange(pb: ygopro.YgoStocMsg) {
+export default function handleHsWatchChange(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
   const count = pb.stoc_hs_watch_change.count;
-  roomStore.observerCount = count;
+  container.context.roomStore.observerCount = count;
 }

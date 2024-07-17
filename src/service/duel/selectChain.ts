@@ -1,6 +1,6 @@
 import { sendSelectSingleResponse, ygopro } from "@/api";
 import { Container } from "@/container";
-import { ChainSetting, fetchSelectHintMeta, matStore } from "@/stores";
+import { ChainSetting, fetchSelectHintMeta } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";
@@ -8,12 +8,13 @@ import { fetchCheckCardMeta } from "../utils";
 type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default async (container: Container, selectChain: MsgSelectChain) => {
   const conn = container.conn;
+  const context = container.context;
   const spCount = selectChain.special_count;
   const forced = selectChain.forced;
   const _hint0 = selectChain.hint0;
   const _hint1 = selectChain.hint1;
   const chains = selectChain.chains;
-  const chainSetting = matStore.chainSetting;
+  const chainSetting = context.matStore.chainSetting;
 
   if (chainSetting === ChainSetting.CHAIN_IGNORE) {
     // 如果玩家配置了忽略连锁，直接回应后端并返回
@@ -73,6 +74,7 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
         selectHintData: 203,
       });
       const { selecteds, mustSelects, selectables } = await fetchCheckCardMeta(
+        context,
         chains,
       );
       await displaySelectActionsModal({

@@ -1,16 +1,18 @@
 import { ygopro } from "@/api";
-import {
-  fetchCommonHintMeta,
-  fetchEsHintMeta,
-  fetchSelectHintMeta,
-} from "@/stores";
+import { fetchCommonHintMeta, fetchSelectHintMeta } from "@/stores";
 
 import MsgHint = ygopro.StocGameMessage.MsgHint;
+import { Container } from "@/container";
 
-export default async (hint: MsgHint) => {
+import { fetchEsHintMeta } from "./util";
+
+export default async (container: Container, hint: MsgHint) => {
   switch (hint.hint_type) {
     case MsgHint.HintType.HINT_EVENT: {
-      await fetchEsHintMeta({ originMsg: hint.hint_data });
+      await fetchEsHintMeta({
+        context: container.context,
+        originMsg: hint.hint_data,
+      });
       break;
     }
     case MsgHint.HintType.HINT_MESSAGE: {

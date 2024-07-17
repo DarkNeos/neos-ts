@@ -1,20 +1,20 @@
 import { ygopro } from "@/api";
-import {
-  cardStore,
-  type Interactivity,
-  InteractType,
-  matStore,
-} from "@/stores";
+import { type Interactivity, InteractType } from "@/stores";
 
 import MsgSelectBattleCmd = ygopro.StocGameMessage.MsgSelectBattleCmd;
+import { Container } from "@/container";
 
-export default async (selectBattleCmd: MsgSelectBattleCmd) => {
+export default async (
+  container: Container,
+  selectBattleCmd: MsgSelectBattleCmd,
+) => {
+  const context = container.context;
   const player = selectBattleCmd.player;
   const cmds = selectBattleCmd.battle_cmds;
 
   // 先清掉之前的互动性
   // TODO: 确认这里在AI托管的模式下是否需要
-  cardStore.inner.forEach((card) => {
+  context.cardStore.inner.forEach((card) => {
     card.idleInteractivities = [];
   });
 
@@ -33,7 +33,7 @@ export default async (selectBattleCmd: MsgSelectBattleCmd) => {
           [InteractType.ATTACK]: { directAttackAble: data.direct_attackable },
         };
         const tmp = map[interactType]; // 添加额外信息
-        const target = cardStore.at(location, player, sequence);
+        const target = context.cardStore.at(location, player, sequence);
         if (target) {
           target.idleInteractivities.push({
             ...tmp,
@@ -50,8 +50,8 @@ export default async (selectBattleCmd: MsgSelectBattleCmd) => {
       }
     });
   });
-  matStore.phase.enableM2 = selectBattleCmd.enable_m2;
-  matStore.phase.enableEp = selectBattleCmd.enable_ep;
+  context.matStore.phase.enableM2 = selectBattleCmd.enable_m2;
+  context.matStore.phase.enableEp = selectBattleCmd.enable_ep;
 };
 
 function battleTypeToInteracType(

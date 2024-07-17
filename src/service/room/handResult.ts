@@ -1,15 +1,21 @@
 import { ygopro } from "@/api";
-import { roomStore } from "@/stores";
+import { Container } from "@/container";
 
-export default function handResult(pb: ygopro.YgoStocMsg) {
+export default function handResult(
+  container: Container,
+  pb: ygopro.YgoStocMsg,
+) {
   const msg = pb.stoc_hand_result;
-  const me = roomStore.getMePlayer();
-  const op = roomStore.getOpPlayer();
+  const context = container.context;
+  const me = context.roomStore.getMePlayer();
+  const op = context.roomStore.getOpPlayer();
 
   if (me && op) {
     me.moraResult = msg.meResult;
     op.moraResult = msg.opResult;
-  } else if (roomStore.selfType !== ygopro.StocTypeChange.SelfType.OBSERVER) {
+  } else if (
+    context.roomStore.selfType !== ygopro.StocTypeChange.SelfType.OBSERVER
+  ) {
     console.error("<HandResult>me or op is undefined");
   }
 }

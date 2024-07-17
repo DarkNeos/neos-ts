@@ -1,7 +1,12 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/stores";
+import { Container } from "@/container";
 
-export default (spSummoning: ygopro.StocGameMessage.MsgSpSummoning) => {
+import { fetchEsHintMeta } from "./util";
+
+export default (
+  container: Container,
+  spSummoning: ygopro.StocGameMessage.MsgSpSummoning,
+) => {
   // const card = fetchCard(spSummoning.code);
   // if (card.data.type && card.data.type & TYPE_TOKEN) {
   //   playEffect(AudioActionType.SOUND_TOKEN);
@@ -9,6 +14,7 @@ export default (spSummoning: ygopro.StocGameMessage.MsgSpSummoning) => {
   //   playEffect(AudioActionType.SOUND_SPECIAL_SUMMON);
   // }
   fetchEsHintMeta({
+    context: container.context,
     originMsg: "「[?]」特殊召唤宣言时",
     cardID: spSummoning.code,
   });

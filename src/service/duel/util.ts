@@ -1,5 +1,9 @@
 import { ygopro } from "@/api";
 const { MZONE, SZONE, HAND } = ygopro.CardZone;
+import { fetchStrings } from "@/api";
+import { Region } from "@/api";
+import { fetchCard } from "@/api/cards";
+import { Context } from "@/container";
 
 export function isAllOnField(locations: ygopro.CardLocation[]): boolean {
   const isOnField = (location: ygopro.CardLocation) => {
@@ -53,3 +57,41 @@ export function argmax<T>(arr: T[], getValue: (item: T) => number): number {
 
   return maxIndex;
 }
+
+export const fetchEsHintMeta = async ({
+  context,
+  originMsg,
+  location,
+  cardID,
+}: {
+  context: Context;
+  originMsg: string | number;
+  location?: ygopro.CardLocation;
+  cardID?: number;
+}) => {
+  const newOriginMsg =
+    typeof originMsg === "string"
+      ? originMsg
+      : fetchStrings(Region.System, originMsg);
+
+  const cardMeta = cardID ? fetchCard(cardID) : undefined;
+
+  let esHint = newOriginMsg;
+
+  if (cardMeta?.text.name) {
+    esHint = esHint.replace("[?]", cardMeta.text.name);
+  }
+
+  if (location) {
+    const fieldMeta = context.cardStore.at(
+      location.zone,
+      location.controller,
+      location.sequence,
+    );
+    if (fieldMeta?.meta.text.name) {
+      esHint = esHint.replace("[?]", fieldMeta.meta.text.name);
+    }
+  }
+
+  context.matStore.hint.esHint = esHint;
+};

@@ -1,11 +1,14 @@
 import { ygopro } from "@/api";
 import { useConfig } from "@/config";
-import { matStore } from "@/stores";
+import { Container } from "@/container";
 
 const NeosConfig = useConfig();
 
-export default (unimplemented: ygopro.StocGameMessage.MsgUnimplemented) => {
+export default (
+  container: Container,
+  unimplemented: ygopro.StocGameMessage.MsgUnimplemented,
+) => {
   if (!NeosConfig.unimplementedWhiteList.includes(unimplemented.command)) {
-    matStore.unimplemented = unimplemented.command;
+    container.context.matStore.unimplemented = unimplemented.command;
   }
 };

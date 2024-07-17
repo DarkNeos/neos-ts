@@ -1,8 +1,11 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { Container } from "@/container";
 
-export default (lpUpdate: ygopro.StocGameMessage.MsgLpUpdate) => {
+export default (
+  container: Container,
+  lpUpdate: ygopro.StocGameMessage.MsgLpUpdate,
+) => {
   const player = lpUpdate.player;
   const newLp = lpUpdate.new_lp;
-  matStore.initInfo.of(player).life = newLp;
+  container.context.matStore.initInfo.of(player).life = newLp;
 };

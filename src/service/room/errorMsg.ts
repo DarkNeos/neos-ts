@@ -1,6 +1,6 @@
 import { fetchCard, fetchStrings, Region, ygopro } from "@/api";
-import { roomStore } from "@/stores";
 import ErrorType = ygopro.StocErrorMsg.ErrorType;
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
 
 // TODO: 是时候需要一个统一管理国际化文案的模块了
@@ -64,9 +64,14 @@ const messages: Record<
 };
 /* End of definition (I18N) */
 
-export default async function handleErrorMsg(errorMsg: ygopro.StocErrorMsg) {
+export default async function handleErrorMsg(
+  container: Container,
+  errorMsg: ygopro.StocErrorMsg,
+) {
   const { error_type, error_code } = errorMsg;
   playEffect(AudioActionType.SOUND_INFO);
+
+  const roomStore = container.context.roomStore;
 
   // Get the language from localStorage or default to 'cn' (I18N)
   const language = (localStorage.getItem("language") || "cn") as Language;

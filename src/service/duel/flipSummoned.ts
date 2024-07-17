@@ -1,6 +1,11 @@
 import { ygopro } from "@/api";
-import { fetchEsHintMeta } from "@/stores";
+import { Container } from "@/container";
 
-export default (_: ygopro.StocGameMessage.MsgFlipSummoned) => {
-  fetchEsHintMeta({ originMsg: 1608 });
+import { fetchEsHintMeta } from "./util";
+
+export default (
+  container: Container,
+  _: ygopro.StocGameMessage.MsgFlipSummoned,
+) => {
+  fetchEsHintMeta({ context: container.context, originMsg: 1608 });
 };

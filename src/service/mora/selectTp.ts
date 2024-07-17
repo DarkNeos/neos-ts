@@ -1,12 +1,17 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { eventbus, Task } from "@/infra";
-import { RoomStage, roomStore, SideStage, sideStore } from "@/stores";
+import { RoomStage, SideStage } from "@/stores";
 
-export default function handleSelectTp(_: ygopro.YgoStocMsg) {
-  if (sideStore.stage !== SideStage.NONE) {
-    sideStore.stage = SideStage.TP_SELECTING;
+export default function handleSelectTp(
+  container: Container,
+  _: ygopro.YgoStocMsg,
+) {
+  const context = container.context;
+  if (context.sideStore.stage !== SideStage.NONE) {
+    context.sideStore.stage = SideStage.TP_SELECTING;
   } else {
-    roomStore.stage = RoomStage.TP_SELECTING;
+    context.roomStore.stage = RoomStage.TP_SELECTING;
     eventbus.emit(Task.Tp);
   }
 }

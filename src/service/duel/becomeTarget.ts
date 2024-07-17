@@ -1,9 +1,13 @@
 import { ygopro } from "@/api";
-import { cardStore } from "@/stores";
+import { Container } from "@/container";
 
-export default (becomeTarget: ygopro.StocGameMessage.MsgBecomeTarget) => {
+export default (
+  container: Container,
+  becomeTarget: ygopro.StocGameMessage.MsgBecomeTarget,
+) => {
+  const context = container.context;
   for (const location of becomeTarget.locations) {
-    const target = cardStore.at(
+    const target = context.cardStore.at(
       location.zone,
       location.controller,
       location.sequence,

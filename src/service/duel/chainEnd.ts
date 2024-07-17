@@ -1,16 +1,20 @@
 import { ygopro } from "@/api";
-import { cardStore, matStore, placeStore } from "@/stores";
+import { Container } from "@/container";
 
-export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
+export default (
+  container: Container,
+  _chainEnd: ygopro.StocGameMessage.MsgChainEnd,
+) => {
   console.info(`<ChainEnd>chain has been end`);
+  const context = container.context;
 
   while (true) {
-    const chain = matStore.chains.pop();
+    const chain = context.matStore.chains.pop();
     if (chain === undefined) {
       break;
     }
 
-    const block = placeStore.of(chain);
+    const block = context.placeStore.of(context, chain);
     if (block) {
       block.chainIndex.pop();
     } else {
@@ -22,7 +26,7 @@ export default (_chainEnd: ygopro.StocGameMessage.MsgChainEnd) => {
   // 因此在连锁结束的时候把selected标记清掉。
   //
   // TODO: 这里每次都要全部遍历一遍，后续可以优化下
-  for (const card of cardStore.inner) {
+  for (const card of context.cardStore.inner) {
     card.targeted = false;
   }
 };

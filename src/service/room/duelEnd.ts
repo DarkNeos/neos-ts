@@ -1,6 +1,9 @@
 import { ygopro } from "@/api";
-import { matStore } from "@/stores";
+import { Container } from "@/container";
 
-export default function handleDuelEnd(_pb: ygopro.YgoStocMsg) {
-  matStore.duelEnd = true;
+export default function handleDuelEnd(
+  container: Container,
+  _pb: ygopro.YgoStocMsg,
+) {
+  container.context.matStore.duelEnd = true;
 }

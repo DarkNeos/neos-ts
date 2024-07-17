@@ -1,15 +1,22 @@
 import { ygopro } from "@/api";
+import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { cardStore, fetchEsHintMeta } from "@/stores";
 import { callCardAttack } from "@/ui/Duel/PlayMat/Card";
 
-export default async (attack: ygopro.StocGameMessage.MsgAttack) => {
+import { fetchEsHintMeta } from "./util";
+
+export default async (
+  container: Container,
+  attack: ygopro.StocGameMessage.MsgAttack,
+) => {
+  const context = container.context;
   fetchEsHintMeta({
+    context,
     originMsg: "「[?]」攻击时",
     location: attack.attacker_location,
   });
 
-  const attacker = cardStore.at(
+  const attacker = context.cardStore.at(
     attack.attacker_location.zone,
     attack.attacker_location.controller,
     attack.attacker_location.sequence,

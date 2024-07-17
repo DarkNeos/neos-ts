@@ -1,20 +1,20 @@
 import { ygopro } from "@/api";
-import {
-  cardStore,
-  type Interactivity,
-  InteractType,
-  matStore,
-} from "@/stores";
+import { type Interactivity, InteractType } from "@/stores";
 
 import MsgSelectIdleCmd = ygopro.StocGameMessage.MsgSelectIdleCmd;
+import { Container } from "@/container";
 
-export default async (selectIdleCmd: MsgSelectIdleCmd) => {
+export default async (
+  container: Container,
+  selectIdleCmd: MsgSelectIdleCmd,
+) => {
+  const context = container.context;
   const player = selectIdleCmd.player;
   const cmds = selectIdleCmd.idle_cmds;
 
   // 先清掉之前的互动性
   // TODO: 确认这里是否需要在AI托管的时候调用
-  cardStore.inner.forEach((card) => {
+  context.cardStore.inner.forEach((card) => {
     card.idleInteractivities = [];
   });
 
@@ -32,7 +32,7 @@ export default async (selectIdleCmd: MsgSelectIdleCmd) => {
           [InteractType.ACTIVATE]: { activateIndex: data.effect_description },
         };
         const tmp = map[interactType];
-        const target = cardStore.at(location, player, sequence);
+        const target = context.cardStore.at(location, player, sequence);
         if (target) {
           target.idleInteractivities.push({
             ...tmp,
@@ -50,8 +50,8 @@ export default async (selectIdleCmd: MsgSelectIdleCmd) => {
     });
   });
 
-  matStore.phase.enableBp = selectIdleCmd.enable_bp;
-  matStore.phase.enableEp = selectIdleCmd.enable_ep;
+  context.matStore.phase.enableBp = selectIdleCmd.enable_bp;
+  context.matStore.phase.enableEp = selectIdleCmd.enable_ep;
 };
 
 function idleTypeToInteractType(

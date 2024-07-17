@@ -1,13 +1,14 @@
 import { ygopro } from "@/api";
-import { placeStore } from "@/stores";
 import MsgFieldDisabled = ygopro.StocGameMessage.MsgFieldDisabled;
+import { Container } from "@/container";
 
-export default (fieldDisabled: MsgFieldDisabled) => {
+export default (container: Container, fieldDisabled: MsgFieldDisabled) => {
+  const context = container.context;
   for (const action of fieldDisabled.actions) {
     switch (action.zone) {
       case ygopro.CardZone.MZONE:
       case ygopro.CardZone.SZONE:
-        const block = placeStore.of(action);
+        const block = context.placeStore.of(context, action);
         if (block) {
           block.disabled = action.disabled;
         } else {

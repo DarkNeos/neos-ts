@@ -1,12 +1,18 @@
 import { ygopro } from "@/api";
-import { cardStore, matStore } from "@/stores";
+import { Container } from "@/container";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
 
 import { fetchCheckCardMeta } from "../utils";
 import { isAllOnField } from "./util";
 type MsgSelectUnselectCard = ygopro.StocGameMessage.MsgSelectUnselectCard;
 
-export default async (selectUnselectCards: MsgSelectUnselectCard) => {
+export default async (
+  container: Container,
+  selectUnselectCards: MsgSelectUnselectCard,
+) => {
+  const context = container.context;
+  const cardStore = context.cardStore;
+  const matStore = context.matStore;
   const {
     finishable,
     cancelable,
@@ -48,12 +54,12 @@ export default async (selectUnselectCards: MsgSelectUnselectCard) => {
       selecteds: selecteds1,
       mustSelects: mustSelect1,
       selectables: selectable1,
-    } = await fetchCheckCardMeta(selectableCards);
+    } = await fetchCheckCardMeta(context, selectableCards);
     const {
       selecteds: selecteds2,
       mustSelects: mustSelect2,
       selectables: selectable2,
-    } = await fetchCheckCardMeta(selectedCards, true);
+    } = await fetchCheckCardMeta(context, selectedCards, true);
     await displaySelectActionsModal({
       finishable,
       cancelable,
