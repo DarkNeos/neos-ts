@@ -5,6 +5,7 @@ import {
   matStore,
   placeStore,
   roomStore,
+  sideStore,
 } from "@/stores";
 
 import { CONTAINERS } from ".";
@@ -20,6 +21,7 @@ export function initUIContainer(conn: WebSocketStream) {
     placeStore,
     roomStore,
     chatStore,
+    sideStore,
   });
   const container = new Container(context, conn);
 
