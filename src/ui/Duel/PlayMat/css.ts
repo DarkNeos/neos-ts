@@ -67,6 +67,12 @@ const matConfigWithUnit = Object.entries(_matConfigWithUnit).map(
   ([k, [value, unit]]) => [k, pxTransform(value, unit) as [number, UNIT]],
 ) satisfies CSSConfig;
 
+export function setCssProperties() {
+  toCssProperties(matConfigWithUnit).forEach(([k, v]) => {
+    document.body.style.setProperty(k, v);
+  });
+}
+
 export const matConfig = matConfigWithUnit.reduce(
   (prev, [key, value]) => ({
     ...prev,
@@ -75,7 +81,3 @@ export const matConfig = matConfigWithUnit.reduce(
   }),
   {} as Record<keyof typeof _matConfigWithUnit, number>,
 );
-
-toCssProperties(matConfigWithUnit).forEach(([k, v]) => {
-  document.body.style.setProperty(k, v);
-});

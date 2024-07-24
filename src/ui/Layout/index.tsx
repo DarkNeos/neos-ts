@@ -40,6 +40,7 @@ import {
   initSuper,
   initWASM,
 } from "./utils";
+import { setCssProperties } from "../Duel/PlayMat/css";
 
 const NeosConfig = useConfig();
 
@@ -51,6 +52,10 @@ export const loader: LoaderFunction = async () => {
   initForbidden();
   initI18N();
   initSuper();
+
+  // set some styles
+  setCssProperties();
+
   return null;
 };
 
