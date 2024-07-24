@@ -242,7 +242,7 @@ export const DeckEditor: React.FC<{
       <Space className={styles.title}>
         <Input
           placeholder={i18n("EnterTheDeckName")}
-          bordered={false}
+          variant="borderless"
           prefix={<EditOutlined />}
           style={{ width: "8.8rem" }}
           onChange={(e) => setDeckName(e.target.value)}
