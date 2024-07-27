@@ -127,7 +127,7 @@ export const DeckDatabase: React.FC = () => {
       <Space className={styles.title} direction="horizontal">
         <Input
           placeholder={i18n("KeywordsPlaceholder")}
-          bordered={false}
+          variant="borderless"
           suffix={
             <Button
               type="text"

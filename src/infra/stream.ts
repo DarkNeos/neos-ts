@@ -84,4 +84,8 @@ export class WebSocketStream {
   close() {
     this.ws.close();
   }
+
+  isClosed(): boolean {
+    return this.ws.readyState === WebSocket.CLOSED;
+  }
 }

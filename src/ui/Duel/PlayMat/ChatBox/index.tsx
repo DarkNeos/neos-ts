@@ -39,7 +39,7 @@ export const ChatBox: React.FC = () => {
         </ScrollableArea>
         <div className={styles.input}>
           <Input.TextArea
-            bordered={false}
+            variant="borderless"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             autoSize
