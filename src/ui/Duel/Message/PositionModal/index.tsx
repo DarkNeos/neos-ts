@@ -1,13 +1,13 @@
 // 表示形式选择弹窗
-import { CheckCard } from "@ant-design/pro-components";
 import { Button } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
 import { sendSelectPositionResponse, ygopro } from "@/api";
 import { getUIContainer } from "@/container/compat";
 
 import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 interface PositionModalProps {
   isOpen: boolean;
@@ -94,44 +94,26 @@ const translations: Translations = {
 export const PositionModal = () => {
   const container = getUIContainer();
   const { isOpen, positions } = useSnapshot(localStore);
-  const [selected, setSelected] = useState<ygopro.CardPosition | undefined>(
-    undefined,
-  );
+
+  const onSummit = (position: ygopro.CardPosition) => {
+    sendSelectPositionResponse(container.conn, position);
+    rs();
+  };
 
   return (
     <NeosModal
       title={translations[language].Title}
       open={isOpen}
-      footer={
-        <Button
-          disabled={selected === undefined}
-          onClick={() => {
-            if (selected !== undefined) {
-              sendSelectPositionResponse(container.conn, selected);
-              rs();
-            }
-          }}
-        >
-          submit
-        </Button>
-      }
+      centered
+      footer={<></>}
     >
-      <CheckCard.Group
-        bordered
-        size="small"
-        onChange={(value) => {
-          // @ts-ignore
-          setSelected(value);
-        }}
-      >
-        {positions.map((position, idx) => (
-          <CheckCard
-            key={idx}
-            title={cardPosition(position)}
-            value={position}
-          />
+      <div className={styles.container}>
+        {positions.map((position) => (
+          <Button onClick={() => onSummit(position)}>
+            {cardPosition(position)}
+          </Button>
         ))}
-      </CheckCard.Group>
+      </div>
     </NeosModal>
   );
 };

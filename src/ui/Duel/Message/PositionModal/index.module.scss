@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 5rem;
+  button {
+    width: 7rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
+}
