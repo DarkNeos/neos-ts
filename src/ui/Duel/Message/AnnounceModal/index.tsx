@@ -74,7 +74,7 @@ export const AnnounceModal: React.FC = () => {
         <Input
           className={styles.input}
           placeholder="请输入宣言卡名(或关键字)"
-          bordered={false}
+          variant="borderless"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
           suffix={

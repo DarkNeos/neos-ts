@@ -1,7 +1,10 @@
+import { App } from "antd";
 import React, { CSSProperties } from "react";
+import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import { replayStore, resetDuel } from "@/stores";
 
 import { NeosModal } from "../NeosModal";
@@ -21,12 +24,21 @@ const defaultProps: EndProps = {
 const localStore = proxy(defaultProps);
 
 export const EndModal: React.FC = () => {
+  const container = getUIContainer();
+  const { message } = App.useApp();
   const { isOpen, isWin, reason } = useSnapshot(localStore);
   const { isReplay } = useSnapshot(replayStore);
+  const navigate = useNavigate();
 
   const onReturn = () => {
     resetDuel();
     rs();
+
+    if (container.conn.isClosed()) {
+      message.info("服务器关闭了连接，返回匹配页。");
+
+      navigate("/match");
+    }
   };
 
   return (

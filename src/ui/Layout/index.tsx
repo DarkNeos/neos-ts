@@ -28,6 +28,7 @@ import {
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
+import { setCssProperties } from "../Duel/PlayMat/css";
 import { Setting } from "../Setting";
 import styles from "./index.module.scss";
 import {
@@ -40,7 +41,6 @@ import {
   initSuper,
   initWASM,
 } from "./utils";
-import { setCssProperties } from "../Duel/PlayMat/css";
 
 const NeosConfig = useConfig();
 
