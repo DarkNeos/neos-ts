@@ -104,6 +104,15 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
     fetchStrings(Region.System, n),
   );
 
+  // Quick select if possiable
+  const onQuickSelect = (option: Option) => {
+    if (max === 1 || single) {
+      // if `max` is 1, it means that we can just select one,
+      // so quick selection is possiable in this case.
+      onSubmit([option]);
+    }
+  };
+
   return (
     <NeosModal
       title={
@@ -180,7 +189,9 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                         key={j}
                       >
                         {/* 这儿必须有一个div，不然tooltip不生效 */}
-                        <div>
+                        <div
+                          onDoubleClick={() => onQuickSelect(card as Option)}
+                        >
                           <CheckCard
                             cover={
                               <YgoCard
