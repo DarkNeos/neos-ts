@@ -77,6 +77,7 @@ export default async (
             selectable: false,
             selected: false,
           },
+          status: 0,
         }),
       ),
     ),

@@ -22,3 +22,12 @@
   z-index: 2;
   pointer-events: none;
 }
+
+.disabled {
+  position: relative;
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}

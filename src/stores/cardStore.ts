@@ -1,12 +1,15 @@
 import { proxy } from "valtio";
 
 import { CardMeta, ygopro } from "@/api";
+import { STATUS_DISABLED, STATUS_FORBIDDEN } from "@/common";
 
 import type { Interactivity } from "./matStore/types";
 import { type NeosStore } from "./shared";
 
 /**
- * 场上某位置的状态
+ * Status of card on field
+ *
+ * TODO: use class
  */
 export interface CardType {
   uuid: string; // 一张卡的唯一标识
@@ -22,6 +25,7 @@ export interface CardType {
     selected: boolean; // 是否已经被选择
     response?: number; // 被选择时发送给服务器的值
   };
+  status: number; // Current status, STATUS_DISABLED, etc.
 }
 
 export class CardStore implements NeosStore {
@@ -91,6 +95,11 @@ export class CardStore implements NeosStore {
   reset(): void {
     this.inner = [];
   }
+}
+
+// TODO: provided in class
+export function isCardDisabled(card: CardType): boolean {
+  return (card.status & (STATUS_DISABLED | STATUS_FORBIDDEN)) > 0;
 }
 
 export const cardStore = proxy(new CardStore());

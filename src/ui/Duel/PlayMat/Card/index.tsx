@@ -14,7 +14,13 @@ import {
 import { Container } from "@/container";
 import { getUIContainer } from "@/container/compat";
 import { eventbus, Task } from "@/infra";
-import { cardStore, CardType, Interactivity, InteractType } from "@/stores";
+import {
+  cardStore,
+  CardType,
+  Interactivity,
+  InteractType,
+  isCardDisabled,
+} from "@/stores";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
@@ -344,6 +350,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
           <YgoCard
             className={styles.cover}
             code={snap.code === 0 ? snap.meta.id : snap.code}
+            disabled={isCardDisabled(snap as CardType)}
           />
           <YgoCard className={styles.back} isBack />
         </div>

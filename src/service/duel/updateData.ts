@@ -53,6 +53,9 @@ export default async (container: Container, updateData: MsgUpdateData) => {
           if (action?.defense >= 0) {
             meta.data.def = action.defense;
           }
+          if (action?.status >= 0) {
+            target.status = action.status;
+          }
           // TODO: counters
         } else {
           console.warn(
