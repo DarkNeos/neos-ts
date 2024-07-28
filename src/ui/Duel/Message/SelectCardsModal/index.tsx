@@ -197,6 +197,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
                               <YgoCard
                                 code={card.meta.id}
                                 targeted={card.targeted}
+                                disabled={card.disabled}
                                 className={styles.card}
                               />
                             }
@@ -286,6 +287,7 @@ export interface Option {
   level2?: number;
   response?: number;
   targeted?: boolean;
+  disabled?: boolean;
   // 便于直接返回这个信息
   //
   // 尽量不要用这个字段

@@ -13,6 +13,7 @@ interface Props {
   isBack?: boolean;
   code?: number;
   targeted?: boolean;
+  disabled?: boolean;
   // cardName?: string;
   style?: CSSProperties;
   width?: number | string;
@@ -27,11 +28,13 @@ export const YgoCard: React.FC<Props> = (props) => {
     // cardName,
     isBack = false,
     targeted = false,
+    disabled = false,
     width,
     style,
     onClick,
     onLoad,
   } = props;
+
   return useMemo(
     () => (
       <div
@@ -56,8 +59,15 @@ export const YgoCard: React.FC<Props> = (props) => {
         ) : (
           <></>
         )}
+        {disabled ? (
+          <div className={styles.disabled}>
+            <img src={`${assetsPath}/disabled.png`} />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     ),
-    [code],
+    [code, targeted, disabled],
   );
 };

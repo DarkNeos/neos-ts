@@ -1,6 +1,7 @@
 import type { ygopro } from "@/api";
 import { fetchCard, getCardStr } from "@/api/cards";
 import { Context } from "@/container";
+import { isCardDisabled } from "@/stores";
 import type { Option } from "@/ui/Duel/Message";
 
 const helper = async (
@@ -52,6 +53,7 @@ const helper = async (
     effectDesc,
     response,
     targeted: target?.targeted,
+    disabled: target ? isCardDisabled(target) : false,
   };
 
   if (selected) {

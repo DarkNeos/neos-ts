@@ -41,6 +41,7 @@ export default (container: Container, field: MsgReloadField) => {
                 selectable: false,
                 selected: false,
               },
+              status: 0,
             }),
         ),
       )

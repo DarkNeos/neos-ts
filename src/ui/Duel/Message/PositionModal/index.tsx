@@ -108,8 +108,8 @@ export const PositionModal = () => {
       footer={<></>}
     >
       <div className={styles.container}>
-        {positions.map((position) => (
-          <Button onClick={() => onSummit(position)}>
+        {positions.map((position, idx) => (
+          <Button key={idx} onClick={() => onSummit(position)}>
             {cardPosition(position)}
           </Button>
         ))}
