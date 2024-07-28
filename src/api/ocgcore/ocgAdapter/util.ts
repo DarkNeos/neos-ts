@@ -61,6 +61,36 @@ export function strEncodeUTF16(str: string) {
   return new Uint8Array(buf);
 }
 
+/* 不定长的`utf8`到`utf16`转换 */
+export function strEncodeUTF16Fixed(str: string): Uint8Array {
+  const utf16Array: number[] = [];
+
+  for (let i = 0; i < str.length; i++) {
+    const codePoint = str.codePointAt(i)!;
+
+    if (codePoint > 0xffff) {
+      // Handle surrogate pairs
+      utf16Array.push(((codePoint - 0x10000) >> 10) + 0xd800);
+      utf16Array.push(((codePoint - 0x10000) & 0x3ff) + 0xdc00);
+      i++; // Skip the next code unit in the surrogate pair
+    } else {
+      // Handle BMP code units
+      utf16Array.push(codePoint);
+    }
+  }
+
+  // Convert to Uint8Array
+  //
+  // Must ended with zero because `ygopro` require this.
+  const byteArray = new Uint8Array((utf16Array.length + 1) * 2);
+  for (let i = 0; i < utf16Array.length; i++) {
+    byteArray[i * 2] = utf16Array[i] & 0xff; // Low byte
+    byteArray[i * 2 + 1] = (utf16Array[i] >> 8) & 0xff; // High byte
+  }
+
+  return byteArray;
+}
+
 // currently not used, but remain.
 export function utf8ArrayToStr(array: Uint8Array) {
   let out, i, len, c;
