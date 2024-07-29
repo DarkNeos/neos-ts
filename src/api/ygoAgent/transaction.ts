@@ -63,7 +63,7 @@ import {
   TYPE_XYZ,
 } from "@/common";
 import { extraCardTypes } from "@/common";
-import { CardType } from "@/stores/cardStore";
+import { CardType, isCardDisabled } from "@/stores/cardStore";
 
 import {
   ActionMsg,
@@ -352,8 +352,7 @@ export function convertCard(card: CardType, player: number): Card {
     race: numberToRace(meta.data.race ?? 0),
     level: meta.data.level ?? 0,
     counter: getCounter(counters),
-    // TODO (ygo-agent): add negated
-    negated: false,
+    negated: isCardDisabled(card),
     attack: meta.data.atk ?? 0,
     defense: meta.data.def ?? 0,
     types: extraCardTypes(meta.data.type ?? 0).map(numberToType),
