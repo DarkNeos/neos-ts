@@ -23,6 +23,13 @@ export default async (
     // 更新Side状态
     context.sideStore.stage = SideStage.DUEL_START;
   } else {
+    // 临时添加，防止上局在`EndModal`里面通过判断`conn.isClosed`返回
+    // Match页了，但是`handleDuelEnd`继续执行，这时候`matStore.duelEnd`是true
+    //
+    // 长期修改方案应该是将store通过容器管理起来，每一场对局都是单独的容器实例，
+    // 这样对局之间就不会互相影响。
+    context.matStore.duelEnd = false;
+
     // 通知房间页面决斗开始
     // 这行在该函数中的位置不能随便放，否则可能会block住
     context.roomStore.stage = RoomStage.DUEL_START;
