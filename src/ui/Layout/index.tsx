@@ -28,6 +28,7 @@ import {
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
 
+import { updateMdproDeck } from "../BuildDeck/DeckDatabase/DeckResults";
 import { setCssProperties } from "../Duel/PlayMat/css";
 import { Setting } from "../Setting";
 import styles from "./index.module.scss";
@@ -52,6 +53,8 @@ export const loader: LoaderFunction = async () => {
   initForbidden();
   initI18N();
   initSuper();
+  // TODO: should avoid reloading mdpro deck again
+  updateMdproDeck();
 
   // set some styles
   setCssProperties();

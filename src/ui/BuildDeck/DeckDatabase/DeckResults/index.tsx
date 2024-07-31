@@ -25,7 +25,7 @@ interface Props {
   decks: MdproDeckLike[];
   total: number;
   onlyMine: boolean;
-  progress: number;
+  loaded: boolean;
 }
 
 // TODO: useConfig
@@ -38,7 +38,7 @@ const store = proxy<Props>({
   decks: [],
   total: 0,
   onlyMine: false,
-  progress: 0.01,
+  loaded: false,
 });
 
 export const DeckResults: React.FC = memo(() => {
@@ -46,7 +46,7 @@ export const DeckResults: React.FC = memo(() => {
   const { message } = App.useApp();
   const { t: i18n } = useTranslation("DeckResults");
   useEffect(() => {
-    resetProgress();
+    resetLoaded();
     if (snap.onlyMine) {
       // show only decks uploaded by myself
 
@@ -56,29 +56,11 @@ export const DeckResults: React.FC = memo(() => {
     }
   }, [snap.query, snap.page, snap.onlyMine]);
 
-  const onChangePage = async (page: number) => {
-    const resp = await pullDecks({
-      page,
-      size: PAGE_SIZE,
-      keyWord: store.query !== "" ? store.query : undefined,
-      sortLike: SORT_LIKE,
-    });
-
-    if (resp?.data) {
-      const { current, total, records } = resp.data;
-      store.page = current;
-      store.total = total;
-      store.decks = records;
-    } else if (resp?.code !== 0) {
-      message.error(resp?.message);
-    } else {
-      message.error("翻页失败，请检查您的网络状况。");
-    }
-  };
+  const onChangePage = (page: number) => (store.page = page);
 
   return (
     <>
-      {snap.progress === 1 ? (
+      {snap.loaded ? (
         snap.decks.length ? (
           <div className={styles.container}>
             <div className={styles["search-decks"]}>
@@ -109,7 +91,7 @@ export const DeckResults: React.FC = memo(() => {
         )
       ) : (
         <div className={styles.empty}>
-          <Loading progress={snap.progress * 100} />
+          <Loading />
         </div>
       )}
     </>
@@ -174,16 +156,13 @@ const MdproDeckBlock: React.FC<{
   );
 };
 
-const updateMdproDeck = async () => {
-  const resp = await pullDecks(
-    {
-      page: store.page,
-      size: PAGE_SIZE,
-      keyWord: store.query !== "" ? store.query : undefined,
-      sortLike: SORT_LIKE,
-    },
-    updateProgress,
-  );
+export const updateMdproDeck = async () => {
+  const resp = await pullDecks({
+    page: store.page,
+    size: PAGE_SIZE,
+    keyWord: store.query !== "" ? store.query : undefined,
+    sortLike: SORT_LIKE,
+  });
 
   if (resp?.data) {
     const { total, records: newDecks } = resp.data;
@@ -193,19 +172,16 @@ const updateMdproDeck = async () => {
     store.decks = [];
   }
 
-  finishProgress();
+  finishLoaded();
 };
 
 const updatePersonalList = async (message: MessageInstance) => {
   const user = accountStore.user;
   if (user) {
-    const resp = await getPersonalList(
-      {
-        userID: user.id,
-        token: user.token,
-      },
-      updateProgress,
-    );
+    const resp = await getPersonalList({
+      userID: user.id,
+      token: user.token,
+    });
 
     if (resp) {
       if (resp.code !== 0 || resp.data === undefined) {
@@ -249,12 +225,11 @@ const updatePersonalList = async (message: MessageInstance) => {
     store.total = 0;
   }
 
-  finishProgress();
+  finishLoaded();
 };
 
-const resetProgress = () => (store.progress = 0.01);
-const updateProgress = (progress: number) => (store.progress = progress * 0.9);
-const finishProgress = () => (store.progress = 1);
+const resetLoaded = () => (store.loaded = false);
+const finishLoaded = () => (store.loaded = true);
 
 const copyMdproDeckToEditing = async (mdproDeck: MdproDeckLike) => {
   // currently the content of the deck, which we named `Ydk`,

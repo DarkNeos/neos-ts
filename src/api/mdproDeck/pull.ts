@@ -1,5 +1,4 @@
 import { useConfig } from "@/config";
-import { pfetch } from "@/infra";
 
 import { handleHttps } from "..";
 import { MdproDeckLike, MdproResp } from "./schema";
@@ -32,7 +31,6 @@ interface RespData {
 
 export async function pullDecks(
   req: PullReq = defaultPullReq,
-  progressCallback?: (progress: number) => void,
 ): Promise<MdproResp<RespData> | undefined> {
   const myHeaders = mdproHeaders();
 
@@ -46,13 +44,10 @@ export async function pullDecks(
   const url = new URL(`${mdproServer}/${API_PATH}`);
   url.search = params.toString();
 
-  const resp = await pfetch(url.toString(), {
-    init: {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    },
-    progressCallback,
+  const resp = await fetch(url.toString(), {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
   });
 
   return await handleHttps(resp, API_PATH);
