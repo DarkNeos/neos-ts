@@ -1,4 +1,5 @@
-import { message } from "antd";
+import { MessageOutlined } from "@ant-design/icons";
+import { message, notification } from "antd";
 import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
@@ -6,6 +7,7 @@ import { fetchStrings, Region } from "@/api";
 import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
+import { useChat } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
 
@@ -13,16 +15,21 @@ const NeosConfig = useConfig();
 
 let globalMsgApi: ReturnType<typeof message.useMessage>[0] | undefined;
 export const HintNotification = () => {
-  const snap = useSnapshot(matStore);
-  const hintState = snap.hint;
-  const toss = snap.tossResult;
-  const handResults = snap.handResults;
-  const currentPhase = snap.phase.currentPhase;
-  const error = snap.error;
+  const matSnap = useSnapshot(matStore);
+  const hintState = matSnap.hint;
+  const toss = matSnap.tossResult;
+  const handResults = matSnap.handResults;
+  const currentPhase = matSnap.phase.currentPhase;
+  const error = matSnap.error;
 
+  const { dialogs } = useChat(true);
   const [msgApi, msgContextHolder] = message.useMessage({
     maxCount: NeosConfig.ui.hint.maxCount,
   });
+  const [notiApi, notiContextHolder] = notification.useNotification({
+    maxCount: NeosConfig.ui.hint.maxCount,
+  });
+
   globalMsgApi = msgApi;
   useEffect(() => {
     if (hintState && hintState.msg) {
@@ -68,7 +75,23 @@ export const HintNotification = () => {
     }
   }, [error]);
 
-  return <>{msgContextHolder}</>;
+  useEffect(() => {
+    const latest = dialogs.at(-1);
+    if (latest) {
+      notiApi.open({
+        message: latest.name,
+        description: latest.content,
+        icon: <MessageOutlined />,
+      });
+    }
+  }, [dialogs]);
+
+  return (
+    <>
+      {msgContextHolder}
+      {notiContextHolder}
+    </>
+  );
 };
 
 // 防抖的waiting msg
