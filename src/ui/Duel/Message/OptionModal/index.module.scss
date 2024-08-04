@@ -1,0 +1,41 @@
+.container {
+  :global(.ant-pro-checkcard-description) {
+    font-family: var(--theme-font);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.ant-pro-checkcard) {
+    background-color: #1414142b;
+  }
+
+  :global(.ant-pro-checkcard-checked) {
+    &::before {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: "";
+      z-index: 1;
+      background-color: #0023bf32;
+      box-shadow: 0 0 0 1px #0087e6 inset;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .check-card-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+  }
+
+  .check-card {
+    max-width: 12.5rem;
+    margin-inline-end: 0;
+    margin-block-end: 0;
+  }
+}

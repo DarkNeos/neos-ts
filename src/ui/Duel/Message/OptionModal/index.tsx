@@ -16,6 +16,7 @@ import { Container } from "@/container";
 import { getUIContainer } from "@/container/compat";
 
 import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 type Options = { info: string; response: number }[];
 
@@ -53,6 +54,13 @@ export const OptionModal = () => {
     setSelecteds(Array.from({ length: maxPage }).map((_) => []));
   }, [options]);
 
+  const onQuickSelect = (response: number) => {
+    if (store.min === 1) {
+      sendSelectOptionResponse(container.conn, response);
+      rs();
+    }
+  };
+
   return (
     <NeosModal
       title={title}
@@ -67,35 +75,31 @@ export const OptionModal = () => {
       {grouped.map(
         (options, i) =>
           i === page && (
-            <CheckCard.Group
-              key={i}
-              bordered
-              multiple
-              value={selecteds[i]}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "0.625rem",
-              }}
-              onChange={(values: any) => {
-                const v = selecteds.map((x, i) => (i === page ? values : x));
-                setSelecteds(v);
-              }}
-            >
-              {options.map((option, idx) => (
-                <CheckCard
-                  key={idx}
-                  style={{
-                    width: "12.5rem",
-                    fontSize: "1rem",
-                    marginInlineEnd: 0,
-                    marginBlockEnd: 0,
-                  }}
-                  title={option.info}
-                  value={option.response}
-                />
-              ))}
-            </CheckCard.Group>
+            <div className={styles.container} key={i}>
+              <CheckCard.Group
+                bordered
+                multiple
+                value={selecteds[i]}
+                className={styles["check-card-group"]}
+                onChange={(values: any) => {
+                  const v = selecteds.map((x, i) => (i === page ? values : x));
+                  setSelecteds(v);
+                }}
+              >
+                {options.map((option, idx) => (
+                  <div
+                    key={idx}
+                    onDoubleClick={() => onQuickSelect(option.response)}
+                  >
+                    <CheckCard
+                      className={styles["check-card"]}
+                      description={option.info}
+                      value={option.response}
+                    />
+                  </div>
+                ))}
+              </CheckCard.Group>
+            </div>
           ),
       )}
     </NeosModal>

@@ -7,7 +7,7 @@
   top: -webkit-fill-available;
   margin: auto;
   height: fit-content;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .mini {
@@ -15,7 +15,7 @@
   bottom: 0 !important;
   transform: translateY(calc(50% - 66px));
   .ant-modal-body {
-    animation: fadeout 0.3s forwards;
+    animation: fadeout 0.1s forwards;
   }
 }
 
