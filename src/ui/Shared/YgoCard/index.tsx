@@ -54,7 +54,7 @@ export const YgoCard: React.FC<Props> = (props) => {
         {/* {cardName} */}
         {targeted ? (
           <div className={styles.targeted}>
-            <img src={`${assetsPath}/targeted.svg`} />
+            <img src={`${assetsPath}/targeted.png`} />
           </div>
         ) : (
           <></>

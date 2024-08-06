@@ -2,6 +2,7 @@ export * from "./accountStore";
 export * from "./cardStore";
 export * from "./chatStore";
 export * from "./deckStore";
+export * from "./historyStore";
 export * from "./initStore";
 export * from "./matStore";
 export * from "./placeStore";
@@ -17,6 +18,7 @@ import { accountStore } from "./accountStore";
 import { cardStore } from "./cardStore";
 import { chatStore } from "./chatStore";
 import { deckStore } from "./deckStore";
+import { historyStore } from "./historyStore";
 import { initStore } from "./initStore";
 import { matStore } from "./matStore";
 import { placeStore } from "./placeStore";
@@ -47,6 +49,7 @@ export const resetUniverse = () => {
   replayStore.reset();
   roomStore.reset();
   sideStore.reset();
+  historyStore.reset();
 };
 
 // 重置决斗相关的`Store`
@@ -54,4 +57,5 @@ export const resetDuel = () => {
   cardStore.reset();
   matStore.reset();
   placeStore.reset();
+  historyStore.reset();
 };

@@ -2,6 +2,7 @@ import { WebSocketStream } from "@/infra";
 import {
   cardStore,
   chatStore,
+  historyStore,
   matStore,
   placeStore,
   roomStore,
@@ -22,6 +23,7 @@ export function initUIContainer(conn: WebSocketStream) {
     roomStore,
     chatStore,
     sideStore,
+    historyStore,
   });
   const container = new Container(context, conn);
 

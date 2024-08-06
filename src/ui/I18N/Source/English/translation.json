@@ -182,6 +182,7 @@
   },
   "Menu": {
     "DoYouSurrunder": "Do you surrender?",
+    "History": "Operation History",
     "Cancel": "Cancel",
     "Confirm": "Confirm",
     "SelectPhase": "Please select the phase",

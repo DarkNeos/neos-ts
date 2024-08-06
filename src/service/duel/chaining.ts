@@ -44,6 +44,8 @@ export default async (
       target.meta = meta;
     }
 
+    context.historyStore.putEffect(context, meta.id, location);
+
     // 发动效果动画
     await callCardFocus(target.uuid);
     console.color("blue")(`${target.meta.text.name} chaining`);

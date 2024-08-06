@@ -2,6 +2,7 @@ import {
   ArrowRightOutlined,
   CheckOutlined,
   CloseCircleFilled,
+  FileSearchOutlined,
   MessageFilled,
   RobotFilled,
   RobotOutlined,
@@ -37,6 +38,7 @@ import { useTranslation } from "react-i18next";
 
 import { getUIContainer } from "@/container/compat";
 
+import { displayActionHistory } from "../../Message";
 import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
 
@@ -349,6 +351,13 @@ export const Menu = () => {
           type="text"
         ></Button>
       </DropdownWithTitle>
+      <Tooltip title={i18n("History")}>
+        <Button
+          icon={<FileSearchOutlined />}
+          onClick={displayActionHistory}
+          type="text"
+        />
+      </Tooltip>
       <Tooltip title="AI">
         <Button
           icon={enableKuriboh ? <RobotFilled /> : <RobotOutlined />}

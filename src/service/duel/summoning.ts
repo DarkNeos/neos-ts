@@ -11,9 +11,13 @@ export default (
    * 因此这里先注释掉，等解决掉上述问题后再加上召唤的音效。
    * */
   // playEffect(AudioActionType.SOUND_SUMMON);
+
+  const context = container.context;
   fetchEsHintMeta({
-    context: container.context,
+    context: context,
     originMsg: "「[?]」通常召唤宣言时",
     cardID: summoning.code,
   });
+
+  context.historyStore.putSummon(context, summoning.code, summoning.location);
 };
