@@ -8,7 +8,9 @@ import { AudioActionType, changeScene } from "@/infra/audio";
 import { matStore, SideStage, sideStore } from "@/stores";
 
 import {
+  ActionHistory,
   Alert,
+  AnnounceModal,
   CardListModal,
   CardModal,
   CheckCounterModal,
@@ -21,10 +23,7 @@ import {
   SortCardModal,
   YesNoModal,
 } from "./Message";
-import { AnnounceModal } from "./Message/AnnounceModal";
-import { LifeBar, Mat, Menu, Underlying } from "./PlayMat";
-import { ChatBox } from "./PlayMat/ChatBox";
-import { HandChain } from "./PlayMat/HandChain";
+import { ChatBox, HandChain, LifeBar, Mat, Menu, Underlying } from "./PlayMat";
 
 export const loader: LoaderFunction = async () => {
   // 更新场景
@@ -88,6 +87,7 @@ export const Component: React.FC = () => {
       <EndModal />
       <ChatBox />
       <HandChain />
+      <ActionHistory />
     </>
   );
 };

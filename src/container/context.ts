@@ -3,6 +3,7 @@
 import {
   CardStore,
   ChatStore,
+  HistoryStore,
   MatStore,
   PlaceStore,
   RoomStore,
@@ -16,6 +17,7 @@ interface ContextInitInfo {
   roomStore?: RoomStore;
   chatStore?: ChatStore;
   sideStore?: SideStore;
+  historyStore?: HistoryStore;
 }
 
 export class Context {
@@ -25,17 +27,26 @@ export class Context {
   public roomStore: RoomStore;
   public chatStore: ChatStore;
   public sideStore: SideStore;
+  public historyStore: HistoryStore;
 
   constructor();
   constructor(initInfo: ContextInitInfo);
   constructor(initInfo?: ContextInitInfo) {
-    const { matStore, cardStore, placeStore, roomStore, chatStore, sideStore } =
-      initInfo ?? {};
+    const {
+      matStore,
+      cardStore,
+      placeStore,
+      roomStore,
+      chatStore,
+      sideStore,
+      historyStore,
+    } = initInfo ?? {};
     this.matStore = matStore ?? new MatStore();
     this.cardStore = cardStore ?? new CardStore();
     this.placeStore = placeStore ?? new PlaceStore();
     this.roomStore = roomStore ?? new RoomStore();
     this.chatStore = chatStore ?? new ChatStore();
     this.sideStore = sideStore ?? new SideStore();
+    this.historyStore = historyStore ?? new HistoryStore();
   }
 }

@@ -63,6 +63,8 @@ export default async (
           target.meta = { id: 0, data: {}, text: {} };
         }
       }
+
+      context.historyStore.putConfirmed(context, meta.id, target.location);
     } else {
       console.warn(`card of ${card} is null`);
     }

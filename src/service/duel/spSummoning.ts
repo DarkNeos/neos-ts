@@ -13,9 +13,17 @@ export default (
   // } else {
   //   playEffect(AudioActionType.SOUND_SPECIAL_SUMMON);
   // }
+
+  const context = container.context;
   fetchEsHintMeta({
-    context: container.context,
+    context: context,
     originMsg: "「[?]」特殊召唤宣言时",
     cardID: spSummoning.code,
   });
+
+  context.historyStore.putSpSummon(
+    context,
+    spSummoning.code,
+    spSummoning.location,
+  );
 };

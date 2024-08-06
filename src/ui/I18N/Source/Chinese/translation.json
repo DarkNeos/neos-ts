@@ -184,6 +184,7 @@
   },
   "Menu": {
     "DoYouSurrunder": "是否投降？",
+    "History": "操作历史",
     "Cancel": "取消",
     "Confirm": "确定",
     "SelectPhase": "请选择要进入的阶段",

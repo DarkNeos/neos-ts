@@ -15,6 +15,8 @@ export default (
     if (target) {
       console.info(`${target.meta.text.name} become target`);
       target.targeted = true;
+
+      context.historyStore.putTargeted(context, target.code, location);
     } else {
       console.warn(`<BecomeTarget>target from ${location} is null`);
     }

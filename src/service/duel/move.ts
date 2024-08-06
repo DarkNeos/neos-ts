@@ -175,6 +175,12 @@ export default async (container: Container, move: MsgMove) => {
     target.targeted = false;
   }
 
+  if (
+    (to.zone !== MZONE && to.zone !== SZONE) ||
+    (to.zone === MZONE && reason !== 0)
+  )
+    context.historyStore.putMove(context, code, from, to.zone);
+
   // 维护完了之后，开始播放音效和动画
 
   if (to.zone === REMOVED) {

@@ -52,7 +52,7 @@ export enum Region {
 }
 
 export function fetchStrings(region: Region, id: string | number): string {
-  return localStorage.getItem(`${region}_${id}`) ?? "";
+  return localStorage.getItem(`${region}_${id}`) ?? "?";
 }
 
 export function getStrings(description: number): string {

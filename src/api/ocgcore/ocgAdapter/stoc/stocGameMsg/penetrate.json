@@ -52,7 +52,16 @@
   },
   "54": {
     "protoType": "set",
-    "fields": []
+    "fields": [
+      {
+        "fieldName": "code",
+        "fieldType": "uint32"
+      },
+      {
+        "fieldName": "location",
+        "fieldType": "CardLocation"
+      }
+    ]
   },
   "55": {
     "protoType": "swap",
