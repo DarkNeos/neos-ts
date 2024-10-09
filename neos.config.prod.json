@@ -1,102 +1,61 @@
 {
-	"version": 4961,
-	"servers": [{
-			"name": "koishi",
-			"ip": "koishi.momobako.com",
-			"port": "7211"
-		},
-		{
-			"name": "mycard-athletic",
-			"ip": "tiramisu.moecube.com",
-			"port": "8912"
-		},
-		{
-			"name": "mycard-custom",
-			"ip": "tiramisu.moecube.com",
-			"port": "7912"
-		},
-		{
-			"name": "pre-release",
-			"ip": "koishi.momobako.com",
-			"port": "889"
-		}
-	],
-	"assetsPath": "/neos-assets",
-	"releaseImgUrl": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
-	"preReleaseImgUrl": "https://cdn02.moecube.com:444/ygopro-super-pre/data/pics",
-	"releaseDbUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
-	"preReleaseDbUrl": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release.cdb",
-  "preReleaseConfig": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release-v2.json",
-	"stringsUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
-	"lflistUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/lflist.conf",
-	"replayUrl": "replay.neos.moe",
-	"loginUrl": "https://accounts.moecube.com/signin",
-	"logoutUrl": "https://accounts.moecube.com/signout",
-	"profileUrl": "https://accounts.moecube.com/profiles",
-	"athleticWatchUrl": "wss://tiramisu.moecube.com:8923",
-	"entertainWatchUrl": "wss://tiramisu.moecube.com:7923",
-	"userApi": "https://sapi.moecube.com:444/accounts/users/{username}.json",
+  "version": 4961,
+  "servers": [
+    {
+      "name": "koishi",
+      "ip": "koishi.momobako.com",
+      "port": "7211"
+    },
+    {
+      "name": "mycard-athletic",
+      "ip": "tiramisu.moecube.com",
+      "port": "8912"
+    },
+    {
+      "name": "mycard-custom",
+      "ip": "tiramisu.moecube.com",
+      "port": "7912"
+    },
+    {
+      "name": "pre-release",
+      "ip": "koishi.momobako.com",
+      "port": "889"
+    },
+    {
+      "name": "408",
+      "ip": "koishi.momobako.com",
+      "port": "1408"
+    }
+  ],
+  "assetsPath": "/neos-assets",
+  "releaseResource": {
+    "img": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
+    "cdb": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
+    "lflist": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/lflist.conf"
+  },
+  "preReleaseResource": {
+    "img": "https://cdn02.moecube.com:444/ygopro-super-pre/data/pics",
+    "cdb": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release.cdb",
+    "lflist": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/lflist.conf",
+    "config": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release-v2.json"
+  },
+  "env408Resource": {
+    "lflist": "https://cdn02.moecube.com:444/cn-database/env408-zh-CN/expansions/lflist.conf"
+  },
+  "stringsUrl": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/strings.conf",
+  "replayUrl": "replay.neos.moe",
+  "loginUrl": "https://accounts.moecube.com/signin",
+  "logoutUrl": "https://accounts.moecube.com/signout",
+  "profileUrl": "https://accounts.moecube.com/profiles",
+  "athleticWatchUrl": "wss://tiramisu.moecube.com:8923",
+  "entertainWatchUrl": "wss://tiramisu.moecube.com:7923",
+  "userApi": "https://sapi.moecube.com:444/accounts/users/{username}.json",
   "mdproServer": "https://rarnu.xyz:38443",
   "agentServer": "https://sapi.moecube.com:444/neos-ai-agent",
-	"streamInterval": 20,
-	"startDelay": 1000,
-	"ui": {
-		"hint": {
-			"maxCount": 1
-		}
-	},
-	"unimplementedWhiteList": [
-		1,
-		6,
-		7,
-		34,
-		54,
-		55,
-		56,
-		60,
-		61,
-		62,
-		63,
-		64,
-		65,
-		70,
-		71,
-		72,
-		73,
-		74,
-		75,
-		76,
-		80,
-		81,
-		83,
-		93,
-		95,
-		96,
-		97,
-		101,
-		102,
-		110,
-		111,
-		112,
-		113,
-		114,
-		120,
-		121,
-		122,
-		123,
-		130,
-		131,
-		132,
-		133,
-		160,
-		161,
-		163,
-		164,
-		165,
-		170,
-		180,
-		230,
-		231,
-		236
-	]
+  "startDelay": 1000,
+  "ui": {
+    "hint": {
+      "maxCount": 1
+    }
+  }
 }

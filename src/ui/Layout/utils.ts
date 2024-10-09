@@ -3,6 +3,7 @@ import rustInit from "rust-src";
 import {
   CookieKeys,
   forbidden,
+  forbidden_408,
   getCookie,
   initStrings,
   initSuperPrerelease,
@@ -12,7 +13,7 @@ import { useConfig } from "@/config";
 import { useEnv } from "@/hook";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import { accountStore, deckStore, initStore, type User } from "@/stores";
-const { releaseDbUrl, preReleaseDbUrl } = useConfig();
+const { releaseResource, preReleaseResource, env408Resource } = useConfig();
 const { BASE_URL } = useEnv();
 
 /** 加载ygodb */
@@ -24,7 +25,11 @@ export const initSqlite = async () => {
     sqlite.progress = 0.01;
     await sqliteMiddleWare({
       cmd: sqliteCmd.INIT,
-      initInfo: { releaseDbUrl, preReleaseDbUrl, progressCallback },
+      initInfo: {
+        releaseDbUrl: releaseResource.cdb,
+        preReleaseDbUrl: preReleaseResource.cdb,
+        progressCallback,
+      },
     });
     sqlite.progress = 1;
   }
@@ -51,7 +56,8 @@ export const initWASM = async () => {
 /** 加载禁限卡表 */
 export const initForbidden = async () => {
   if (!initStore.forbidden) {
-    await forbidden.init();
+    await forbidden.init(releaseResource.lflist);
+    await forbidden_408.init(env408Resource.lflist);
     initStore.forbidden = true;
   }
 };

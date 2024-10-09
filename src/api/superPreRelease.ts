@@ -1,6 +1,8 @@
 import { useConfig } from "@/config";
 
-const { preReleaseConfig } = useConfig();
+const {
+  preReleaseResource: { config },
+} = useConfig();
 
 interface SuperPreInfo {
   /* only use id currently, other fields see:
@@ -12,7 +14,7 @@ interface SuperPreInfo {
 let superPreList: SuperPreInfo[] = [];
 
 export async function initSuperPrerelease() {
-  const json = await (await fetch(preReleaseConfig)).text();
+  const json = await (await fetch(config)).text();
   const list: SuperPreInfo[] = JSON.parse(json);
   superPreList = list;
 }

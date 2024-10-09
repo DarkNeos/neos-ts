@@ -4,7 +4,7 @@ import { FtsParams } from "@/middleware/sqlite/fts";
 
 import { isSuperReleaseCard } from "./superPreRelease";
 
-const NeosConfig = useConfig();
+const { assetsPath, releaseResource, preReleaseResource } = useConfig();
 
 export interface CardMeta {
   id: number;
@@ -80,33 +80,31 @@ export function getCardStr(meta: CardMeta, idx: number): string | undefined {
 export function getCardImgUrl(code: number, back = false) {
   const ASSETS_BASE =
     import.meta.env.BASE_URL === "/"
-      ? NeosConfig.assetsPath
-      : `${import.meta.env.BASE_URL}${NeosConfig.assetsPath}`;
+      ? assetsPath
+      : `${import.meta.env.BASE_URL}${assetsPath}`;
   if (back || code === 0) {
     return `${ASSETS_BASE}/card_back.jpg`;
-  }
-
-  // Define translations for different languages (I18N)
-  const language = localStorage.getItem("language");
-  let imgUrl;
-
-  switch (language) {
-    case "en":
-    case "br":
-    case "pt":
-    case "fr":
-    case "es":
-      imgUrl = NeosConfig.releaseImgUrl.replace("zh-CN", "en-US");
-      break;
-    default:
-      imgUrl = NeosConfig.releaseImgUrl;
-      break;
-  }
-  /* End of definition (I18N) */
-
-  if (isSuperReleaseCard(code)) {
-    return `${NeosConfig.preReleaseImgUrl}/${code}.jpg`;
+  } else if (isSuperReleaseCard(code)) {
+    return `${preReleaseResource.img}/${code}.jpg`;
   } else {
+    // Define translations for different languages (I18N)
+    const language = localStorage.getItem("language");
+    let imgUrl;
+
+    switch (language) {
+      case "en":
+      case "br":
+      case "pt":
+      case "fr":
+      case "es":
+        imgUrl = releaseResource.img.replace("zh-CN", "en-US");
+        break;
+      default:
+        imgUrl = releaseResource.img;
+        break;
+    }
+    /* End of definition (I18N) */
+
     return `${imgUrl}/${code}.jpg`;
   }
 }

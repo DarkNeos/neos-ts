@@ -13,11 +13,13 @@ export function initSocket(initInfo: {
   ip: string;
   player: string;
   passWd: string;
+  customOnConnected?: (conn: WebSocketStream) => void;
 }): WebSocketStream {
-  const { ip, player, passWd } = initInfo;
-  return new WebSocketStream(ip, (conn, _event) =>
-    handleSocketOpen(conn, ip, player, passWd),
-  );
+  const { ip, player, passWd, customOnConnected } = initInfo;
+  return new WebSocketStream(ip, (conn, _event) => {
+    handleSocketOpen(conn, ip, player, passWd);
+    customOnConnected && customOnConnected(conn);
+  });
 }
 
 export function initReplaySocket(replayInfo: {
@@ -27,8 +29,8 @@ export function initReplaySocket(replayInfo: {
   const { url, data } = replayInfo;
   return new WebSocketStream(url, (conn, _event) => {
     console.info("replay websocket open.");
-    conn.binaryType = "arraybuffer";
-    conn.send(data);
+    conn.ws.binaryType = "arraybuffer";
+    conn.ws.send(data);
   });
 }
 

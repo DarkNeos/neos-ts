@@ -26,6 +26,7 @@ import {
   DeckZone,
   Loading,
   ScrollableArea,
+  Select,
 } from "@/ui/Shared";
 import { Type } from "@/ui/Shared/DeckZone";
 
@@ -40,6 +41,9 @@ import {
   editingDeckToIDeck,
   iDeckToEditingDeck,
 } from "./utils";
+
+const ENV_OCG = 0;
+const ENV_408 = 1;
 
 export const loader: LoaderFunction = async () => {
   // 必须先加载卡组，不然页面会崩溃
@@ -182,6 +186,9 @@ export const DeckEditor: React.FC<{
 }> = ({ deck, onClear, onReset, onSave, onShuffle, onSort }) => {
   const snapEditDeck = useSnapshot(editDeckStore);
   const [deckName, setDeckName] = useState(editDeckStore.deckName);
+  const [env, setEnv] = useState(ENV_OCG);
+
+  const handleEnvChange = (value: any) => setEnv(value);
 
   useEffect(() => {
     iDeckToEditingDeck(deck).then(editDeckStore.set);
@@ -249,6 +256,21 @@ export const DeckEditor: React.FC<{
           value={deckName}
         />
         <Space style={{ marginRight: "0.4rem" }} size={5}>
+          <Select
+            title={i18n("Environment")}
+            value={env}
+            options={[
+              {
+                value: ENV_OCG,
+                label: "OCG",
+              },
+              {
+                value: ENV_408,
+                label: "408",
+              },
+            ]}
+            onChange={handleEnvChange}
+          />
           <Button
             type="text"
             size="small"
@@ -313,6 +335,7 @@ export const DeckEditor: React.FC<{
                 editDeckStore.add(type, card);
               }
             }}
+            is408={env === ENV_408}
           />
         ))}
       </ScrollableArea>

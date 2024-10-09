@@ -26,6 +26,7 @@ export const DeckZone: React.FC<{
   ) => void;
   onElementMouseUp: (event: DeckCardMouseUpEvent) => void;
   onDoubleClick?: (card: CardMeta) => void;
+  is408?: boolean;
 }> = ({
   type,
   cards,
@@ -33,6 +34,7 @@ export const DeckZone: React.FC<{
   onChange,
   onElementMouseUp: onElementMouseUp,
   onDoubleClick,
+  is408,
 }) => {
   const { message } = App.useApp();
   const [allowToDrop, setAllowToDrop] = useState(false);
@@ -74,6 +76,7 @@ export const DeckZone: React.FC<{
             source={type}
             onMouseUp={onElementMouseUp}
             onDoubleClick={onDoubleClick}
+            is408={is408}
           />
         ))}
         <div className={styles["editing-zone-name"]}>
