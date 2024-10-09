@@ -42,6 +42,7 @@
   },
   "BuildDeck": {
     "EnterTheDeckName": "请输入卡组名字",
+    "Environment": "环境",
     "Shuffle": "打乱",
     "Sort": "排序",
     "Clear": "清空",
@@ -165,6 +166,7 @@
     "Server": "服务器",
     "KoishiServer": "Koishi服",
     "UltraPreemptiveServer": "超先行服",
+    "408": "408环境",
     "PlayerNickname": "玩家昵称",
     "RoomPasswordOptional": "房间密码(可选)",
     "JoinRoom": "加入房间",

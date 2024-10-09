@@ -3,6 +3,7 @@ import rustInit from "rust-src";
 import { initStrings, initSuperPrerelease } from "@/api";
 import { useConfig } from "@/config";
 import { getUIContainer, initUIContainer } from "@/container/compat";
+import { WebSocketStream } from "@/infra";
 import { initReplaySocket, initSocket } from "@/middleware/socket";
 import {
   pollSocketLooper,
@@ -21,6 +22,7 @@ export const connectSrvpro = async (params: {
   enableKuriboh?: boolean;
   replay?: boolean;
   replayData?: ArrayBuffer;
+  customOnConnected?: (conn: WebSocketStream) => void;
 }) => {
   // 初始化wasm
   const url =

@@ -10,7 +10,7 @@ export const Select: React.FC<
     {title && <span className={styles.prefix}>{title}</span>}
     <AntdSelect
       className={classNames(styles.select, className)}
-      size="large"
+      size="middle"
       dropdownStyle={{
         backdropFilter: "blur(20px)",
         ...dropdownStyle,

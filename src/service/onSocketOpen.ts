@@ -4,6 +4,7 @@
  * */
 import { sendJoinGame, sendPlayerInfo } from "@/api";
 import { useConfig } from "@/config";
+import { WebSocketStream } from "@/infra";
 
 const NeosConfig = useConfig();
 /*
@@ -12,17 +13,17 @@ const NeosConfig = useConfig();
  *
  * */
 export default function handleSocketOpen(
-  ws: WebSocket | undefined,
+  conn: WebSocketStream | undefined,
   _ip: string,
   player: string,
   passWd: string,
 ) {
   console.log("WebSocket opened.");
 
-  if (ws && ws.readyState === 1) {
-    ws.binaryType = "arraybuffer";
+  if (conn && conn.ws.readyState === 1) {
+    conn.ws.binaryType = "arraybuffer";
 
-    sendPlayerInfo(ws, player);
-    sendJoinGame(ws, NeosConfig.version, passWd);
+    sendPlayerInfo(conn.ws, player);
+    sendJoinGame(conn.ws, NeosConfig.version, passWd);
   }
 }

@@ -42,6 +42,7 @@
   },
   "BuildDeck": {
     "EnterTheDeckName": "Deck name",
+    "Environment": "Environment",
     "Shuffle": "Shuffle",
     "Sort": "Sort",
     "Clear": "Clear",
@@ -165,6 +166,7 @@
     "Server": "Server",
     "KoishiServer": "Koishi Server",
     "UltraPreemptiveServer": "Ultra Preemptive Server",
+    "408": "408 Environment",
     "PlayerNickname": "Player Nickname",
     "RoomPasswordOptional": "Room Password (optional)",
     "JoinRoom": "Join the Room"

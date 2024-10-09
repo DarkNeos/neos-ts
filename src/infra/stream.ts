@@ -8,10 +8,13 @@ export class WebSocketStream {
   public ws: WebSocket;
   stream: ReadableStream;
 
-  constructor(ip: string, onWsOpen?: (ws: WebSocket, ev: Event) => any) {
+  constructor(
+    ip: string,
+    onWsOpen?: (conn: WebSocketStream, ev: Event) => any,
+  ) {
     this.ws = new WebSocket("wss://" + ip);
     if (onWsOpen) {
-      this.ws.onopen = (e) => onWsOpen(this.ws, e);
+      this.ws.onopen = (e) => onWsOpen(this, e);
     }
     this.ws.onerror = (e) => {
       if (e instanceof ErrorEvent) {
@@ -69,7 +72,6 @@ export class WebSocketStream {
         // but now it seems that we don't need wait any more,
         // so comment the following line and check if it's ok without it.
         //
-        // await sleep(useConfig().streamInterval);
         await onMessage(value);
       } else {
         console.warn("value from ReadableStream is undefined!");

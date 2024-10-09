@@ -1,16 +1,13 @@
 import { isNil } from "lodash-es";
 
-import { useConfig } from "@/config";
-
 import { CardMeta } from "./cards";
-const { lflistUrl } = useConfig();
 
 class Forbidden {
   private data: Map<number, number> = new Map<number, number>();
   public time: string = "?";
 
-  public async init(): Promise<void> {
-    const text = await (await fetch(lflistUrl)).text();
+  public async init(lflist: string): Promise<void> {
+    const text = await (await fetch(lflist)).text();
     const { time, forbiddens } = this.extractForbiddensFromText(text);
     this.time = time;
     this.setForbiddens(forbiddens);
@@ -43,7 +40,7 @@ class Forbidden {
     function parseCardInfo(
       input: string,
     ): { cardId: number; limitCount: number } | null {
-      const match = input.match(/^(\d+)\s+(\d+)\s+--/);
+      const match = input.match(/^(\d+)\s+(\d+)/);
       if (match) {
         const cardId = parseInt(match[1]);
         const limitCount = parseInt(match[2]);
@@ -85,3 +82,4 @@ class Forbidden {
 }
 
 export const forbidden = new Forbidden();
+export const forbidden_408 = new Forbidden();

@@ -40,6 +40,7 @@
   },
   "BuildDeck": {
     "EnterTheDeckName": "デッキ名を入力",
+    "Environment": "環境",
     "Shuffle": "シャッフル",
     "Sort": "ソート",
     "Clear": "クリア",
@@ -163,6 +164,7 @@
     "Server": "サーバー",
     "KoishiServer": "コイシサーバー",
     "UltraPreemptiveServer": "超先行サーバー",
+    "408": "408環境",
     "PlayerNickname": "プレイヤーニックネーム",
     "RoomPasswordOptional": "ルームパスワード（任意）",
     "JoinRoom": "ルームに参加"
