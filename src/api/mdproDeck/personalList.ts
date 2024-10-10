@@ -22,7 +22,7 @@ export async function getPersonalList(
   const myHeaders = mdproHeaders();
   myHeaders.append("token", req.token);
 
-  const resp = await pfetch(`${mdproServer}/${API_PATH}/${req.userID}`, {
+  const resp = await pfetch(`${mdproServer}/${API_PATH}/${req.userID}/nodel`, {
     init: {
       method: "GET",
       headers: myHeaders,
