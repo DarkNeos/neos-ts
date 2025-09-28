@@ -1,5 +1,3 @@
-import rustInit from "rust-src";
-
 import { initStrings, initSuperPrerelease } from "@/api";
 import { useConfig } from "@/config";
 import { getUIContainer, initUIContainer } from "@/container/compat";
@@ -24,13 +22,6 @@ export const connectSrvpro = async (params: {
   replayData?: ArrayBuffer;
   customOnConnected?: (conn: WebSocketStream) => void;
 }) => {
-  // 初始化wasm
-  const url =
-    import.meta.env.BASE_URL === "/"
-      ? undefined
-      : new URL("rust_src_bg.wasm", `${import.meta.env.BASE_URL}assets/`);
-  await rustInit(url);
-
   // 初始化sqlite
   await initSqlite();
 

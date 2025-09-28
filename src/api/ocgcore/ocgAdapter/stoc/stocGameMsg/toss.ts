@@ -1,4 +1,5 @@
-import { BufferReader } from "../../../../../../rust-src/pkg/rust_src";
+import { BufferReader } from "@/infra";
+
 import { ygopro } from "../../../idl/ocgcore";
 import MsgToss = ygopro.StocGameMessage.MsgToss;
 

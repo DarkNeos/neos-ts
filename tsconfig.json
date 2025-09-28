@@ -26,9 +26,6 @@
       "@/*": [
         "./src/*"
       ],
-      "rust-src": [
-        "./rust-src/pkg"
-      ],
       "neos-assets/*": [
         "./neos-assets/*"
       ]
@@ -36,7 +33,6 @@
   },
   "include": [
     "src",
-    "rust-src/pkg",
     "neos-assets"
   ]
 }

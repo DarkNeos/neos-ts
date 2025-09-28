@@ -1,6 +1,5 @@
-import { BufferReader } from "rust-src";
-
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
+import { BufferReader } from "@/infra";
 import MsgAnnounce = ygopro.StocGameMessage.MsgAnnounce;
 
 /*

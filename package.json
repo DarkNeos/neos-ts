@@ -40,13 +40,12 @@
     "ygopro-deck-encode": "^1.0.3"
   },
   "scripts": {
-    "wasm": "wasm-pack build ./rust-src --target web",
-    "dev": "npm run wasm && vite",
+    "dev": "vite",
     "build": "vite build && cp -r neos-assets dist/",
     "build:prod": "vite build --base=https://cdn02.moecube.com:444/neos/",
     "preview": "vite preview",
     "lint": "eslint --ext .ts --ext .tsx src",
-    "fmt": "npx tsc && eslint --ext .ts --ext .tsx src --fix && cd rust-src && cargo fmt"
+    "fmt": "npx tsc && eslint --ext .ts --ext .tsx src --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -88,7 +87,6 @@
     "vite": "^4.4.9",
     "vite-plugin-arraybuffer": "^0.0.6",
     "vite-plugin-sass-dts": "^1.3.9",
-    "vite-plugin-wasm-pack": "^0.1.12",
     "vite-tsconfig-paths": "^4.2.0",
     "vite-ydk-loader": "^0.0.2"
   }

@@ -1,4 +1,4 @@
-import { BufferWriter } from "rust-src";
+import { BufferWriter } from "@/infra";
 
 import { ygopro } from "../../../idl/ocgcore";
 import { cardZoneToNumber } from "../../util";

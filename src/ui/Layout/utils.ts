@@ -1,5 +1,3 @@
-import rustInit from "rust-src";
-
 import {
   CookieKeys,
   forbidden,
@@ -10,11 +8,10 @@ import {
   setCookie,
 } from "@/api";
 import { useConfig } from "@/config";
-import { useEnv } from "@/hook";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import { accountStore, deckStore, initStore, type User } from "@/stores";
+
 const { releaseResource, preReleaseResource, env408Resource } = useConfig();
-const { BASE_URL } = useEnv();
 
 /** 加载ygodb */
 export const initSqlite = async () => {
@@ -41,16 +38,6 @@ export const initDeck = async () => {
     await deckStore.initialize();
     initStore.decks = true;
   }
-};
-
-/** 加载WASM */
-export const initWASM = async () => {
-  const url =
-    BASE_URL === "/"
-      ? undefined
-      : new URL("rust_src_bg.wasm", `${BASE_URL}assets/`);
-  await rustInit(url);
-  initStore.wasm = true;
 };
 
 /** 加载禁限卡表 */
