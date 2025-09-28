@@ -40,7 +40,6 @@ import {
   initI18N,
   initSqlite,
   initSuper,
-  initWASM,
 } from "./utils";
 
 const NeosConfig = useConfig();
@@ -49,7 +48,6 @@ export const loader: LoaderFunction = async () => {
   getLoginStatus();
   initDeck();
   initSqlite();
-  initWASM();
   initForbidden();
   initI18N();
   initSuper();

@@ -8,7 +8,6 @@ export const initStore = proxy({
   }, // ygodb
   decks: false,
   i18n: false,
-  wasm: false,
   forbidden: false, // 禁卡表
   superprerelease: false, // 超先行
   // ...

@@ -1,6 +1,9 @@
-import { ocgDamageAdapter } from "rust-src";
+import { BufferReader } from "@/infra";
 
 import { ygopro } from "../../../idl/ocgcore";
+
+import MsgUpdateHp = ygopro.StocGameMessage.MsgUpdateHp;
+import ActionType = ygopro.StocGameMessage.MsgUpdateHp.ActionType;
 
 /*
  * Msg Damage
@@ -9,7 +12,14 @@ import { ygopro } from "../../../idl/ocgcore";
  * @param value - 减少的Hp数值
  * */
 export default (data: Uint8Array) => {
-  const damage = ocgDamageAdapter(data);
+  const reader = new BufferReader(data);
 
-  return new ygopro.StocGameMessage.MsgUpdateHp(damage);
+  const player = reader.readInt8();
+  const value = reader.readInt32();
+
+  return new MsgUpdateHp({
+    player,
+    type_: ActionType.DAMAGE,
+    value,
+  });
 };

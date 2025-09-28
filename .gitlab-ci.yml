@@ -1,7 +1,5 @@
 stages:
   - install
-  - rs_check_lint
-  - wasm
   - ts_check_lint
   - test
   - build
@@ -22,42 +20,9 @@ npm_ci:
   dependencies:
     - npm_ci
 
-rs_check_lint:
-  stage: rs_check_lint
-  image: rust:latest
-  tags:
-    - linux
-  # before_script:
-  #   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  #   - source "$HOME/.cargo/env"
-  script:
-    - cd rust-src
-    - cargo check
-    - rustup component add clippy
-    - cargo clippy -- -Dwarnings
-
-wasm_build:
-  tags:
-    - linux
-  stage: wasm
-  image: rust:latest
-  extends:
-    - .build_base
-  before_script:
-  #   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  #   - source "$HOME/.cargo/env"
-    - curl --proto '=https' --tlsv1.2 -sSf https://rustwasm.github.io/wasm-pack/installer/init.sh | sh
-  script:
-    - wasm-pack build ./rust-src --target web
-  artifacts:
-    paths:
-      - rust-src/pkg
-      - node_modules
-
 ts_check_lint:
   dependencies:
     - npm_ci
-    - wasm_build
   stage: ts_check_lint
   tags:
     - linux
@@ -66,8 +31,6 @@ ts_check_lint:
     - npm run lint
 
 npm_build:
-  dependencies:
-    - wasm_build
   stage: build
   image: git-registry.mycard.moe/mycard/docker-runner-base:master-x86
   tags:

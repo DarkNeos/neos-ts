@@ -1,6 +1,5 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
-
-import { BufferReader } from "../../../../../../rust-src/pkg/rust_src";
+import { BufferReader } from "@/infra";
 import MsgShuffleHandExtra = ygopro.StocGameMessage.MsgShuffleHandExtra;
 
 /*

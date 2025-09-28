@@ -1,4 +1,4 @@
-import { BufferReader } from "rust-src";
+import { BufferReader } from "@/infra";
 
 import { ygopro } from "../idl/ocgcore";
 import { numberToCardPosition, numberToCardZone } from "./util";
