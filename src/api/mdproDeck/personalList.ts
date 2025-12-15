@@ -6,7 +6,7 @@ import { MdproDeck, MdproResp } from "./schema";
 import { mdproHeaders } from "./util";
 const { mdproServer } = useConfig();
 
-const API_PATH = "/api/mdpro3/sync/";
+const API_PATH = "api/mdpro3/sync";
 
 export interface PersonalListReq {
   /* ID of MyCard Account */

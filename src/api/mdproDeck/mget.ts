@@ -6,7 +6,7 @@ import { mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
 
-const API_PATH = "/api/mdpro3/deck";
+const API_PATH = "api/mdpro3/deck";
 
 export async function mgetDeck(
   id: string,

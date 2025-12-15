@@ -5,7 +5,7 @@ import { MdproResp } from "./schema";
 import { mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
-const API_PATH = "/api/mdpro3/deck/public";
+const API_PATH = "api/mdpro3/deck/public";
 
 export interface UpdatePublicReq {
   userId: number;

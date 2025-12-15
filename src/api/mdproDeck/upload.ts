@@ -32,8 +32,15 @@ export async function uploadDeck(
       deck: {
         deckId,
         deckName: req.deck.deckName,
+        deckType: "", // NEW: Default empty string for deck type
+        deckCoverCard1: 0, // NEW: Default to 0
+        deckCoverCard2: 0, // NEW: Default to 0
+        deckCoverCard3: 0, // NEW: Default to 0
         deckCase: req.deck.deckCase,
+        deckProtector: 0, // NEW: Default to 0
         deckYdk: req.deck.deckYdk,
+        isDelete: false, // NEW: Not a delete operation
+        timestamp: Date.now(), // NEW: Current timestamp
       },
     },
     req.token,

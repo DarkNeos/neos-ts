@@ -37,7 +37,7 @@
     "uuid": "^9.0.0",
     "valtio": "^1.11.2",
     "vite-plugin-svgr": "^3.2.0",
-    "ygopro-deck-encode": "^1.0.3"
+    "ygopro-deck-encode": "^1.0.14"
   },
   "scripts": {
     "dev": "vite",
