@@ -107,7 +107,12 @@ const MdproDeckBlock: React.FC<{
 
   const onDelete = async () => {
     if (user) {
-      const resp = await deleteDeck(user.id, user.token, deck.deckId);
+      const resp = await deleteDeck(
+        user.id,
+        user.token,
+        deck.deckId,
+        user.username,
+      );
 
       if (resp?.code === 0 && resp.data === true) {
         message.success(

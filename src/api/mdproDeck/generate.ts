@@ -6,7 +6,7 @@ import { mdproHeaders } from "./util";
 
 const { mdproServer } = useConfig();
 
-const API_PATH = "/api/mdpro3/deck/deckId";
+const API_PATH = "api/mdpro3/deck/deckId";
 
 export async function generateDeck(): Promise<MdproResp<string> | undefined> {
   const myHeaders = mdproHeaders();
