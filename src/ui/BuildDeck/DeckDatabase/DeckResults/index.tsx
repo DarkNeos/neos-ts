@@ -247,7 +247,9 @@ const copyMdproDeckToEditing = async (mdproDeck: MdproDeckLike) => {
   if (resp?.code !== 0) {
     message.error(resp?.message);
   } else if (resp.data?.deckYdk !== undefined) {
-    const deck = YGOProDeck.fromYdkString(resp.data.deckYdk);
+    // 服务端返回的 YDK 可能包含转义的换行符（如 "\\r\\n"），需要转换为标准换行符
+    const ydkString = resp.data.deckYdk.replace(/\\r\\n|\\r|\\n/g, "\n");
+    const deck = YGOProDeck.fromYdkString(ydkString);
 
     if (!(deck.main.length + deck.extra.length + deck.side.length === 0)) {
       const deckName = mdproDeck.deckName;
