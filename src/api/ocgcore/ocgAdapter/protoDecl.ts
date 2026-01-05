@@ -78,3 +78,5 @@ export const MSG_HAND_RES = 133;
 export const MSG_SHUFFLE_HAND = 33;
 export const MSG_SHUFFLE_EXTRA = 39;
 export const MSG_SIBYL_NAME = 235;
+export const MSG_CONFIRM_CARDS = 30;
+export const MSG_CONFIRM_DECKTOP = 31;
