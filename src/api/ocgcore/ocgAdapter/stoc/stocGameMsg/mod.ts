@@ -12,6 +12,7 @@ import MsgAnnounceCard from "./announceCard";
 import MsgAnnounceNumber from "./announceNumber";
 import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
+import MsgConfirmCardsAdapter from "./confirmCards";
 import MsgDamage from "./damage";
 import MsgDrawAdapter from "./draw";
 import MsgFieldDisabledAdapter from "./fieldDisabled";
@@ -243,6 +244,11 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_SIBYL_NAME: {
           gameMsg.sibyl_name = MsgSibylNameAdapter(gameData);
+          break;
+        }
+        case GAME_MSG.MSG_CONFIRM_CARDS:
+        case GAME_MSG.MSG_CONFIRM_DECKTOP: {
+          gameMsg.confirm_cards = MsgConfirmCardsAdapter(gameData);
           break;
         }
         default: {

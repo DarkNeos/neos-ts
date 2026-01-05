@@ -161,34 +161,7 @@
       }
     ]
   },
-  "30": {
-    "protoType": "confirm_cards",
-    "fields": [
-      {
-        "fieldName": "player",
-        "fieldType": "uint8"
-      },
-      {
-        "fieldName": "cards",
-        "fieldType": "repeated",
-        "repeatedType": "CardInfo"
-      }
-    ]
-  },
-  "31": {
-    "protoType": "confirm_cards",
-    "fields": [
-      {
-        "fieldName": "player",
-        "fieldType": "uint8"
-      },
-      {
-        "fieldName": "cards",
-        "fieldType": "repeated",
-        "repeatedType": "CardInfo"
-      }
-    ]
-  },
+
   "83": {
     "protoType": "become_target",
     "fields": [

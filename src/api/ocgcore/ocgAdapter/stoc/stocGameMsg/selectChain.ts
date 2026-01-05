@@ -17,35 +17,41 @@ export default (data: Uint8Array) => {
   const player = reader.inner.readUint8();
   const count = reader.inner.readUint8();
   const spCount = reader.inner.readUint8();
-  const forced = reader.inner.readUint8() !== 0;
   const hint0 = reader.inner.readUint32();
   const hint1 = reader.inner.readUint32();
 
   const msg = new MsgSelectChain({
     player,
     special_count: spCount,
-    forced,
+    forced: false,
     hint0,
     hint1,
     chains: [],
   });
 
+  let forceCount = 0;
   for (let i = 0; i < count; i++) {
     const flag = reader.inner.readUint8();
-    const code = reader.inner.readUint32();
+    const forced = reader.inner.readUint8();
+    forceCount += forced;
+    const code = reader.inner.readUint32() % 1000000000;
     const location = reader.readCardLocation();
     const effect_desc = reader.inner.readUint32();
 
-    msg.chains.push(
-      new MsgSelectChain.Chain({
-        flag: numberToChainFlag(flag),
-        code,
-        location,
-        effect_description: effect_desc,
-        response: i,
-      }),
-    );
+    const chain = new MsgSelectChain.Chain({
+      flag: numberToChainFlag(flag),
+      code,
+      location,
+      effect_description: effect_desc,
+      response: i,
+    });
+    // 由于 protobuf 定义中 Chain 没有 forced 字段，使用类型扩展
+    (chain as any).forced = forced > 0;
+
+    msg.chains.push(chain);
   }
+
+  msg.forced = forceCount > 0;
 
   return msg;
 };
