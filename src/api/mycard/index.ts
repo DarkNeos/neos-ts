@@ -3,4 +3,5 @@ export * from "./account";
 export * from "./match";
 export * from "./options";
 export * from "./room";
+export * from "./u16Secret";
 export * from "./user";

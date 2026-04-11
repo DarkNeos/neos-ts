@@ -15,6 +15,7 @@ import {
   getCreateRoomPasswd,
   getJoinRoomPasswd,
   getPrivateRoomID,
+  getUserU16Secret,
   match,
 } from "@/api";
 import { useConfig } from "@/config";
@@ -61,11 +62,17 @@ export const Component: React.FC = () => {
   const onMatch = async (arena: "athletic" | "entertain") => {
     if (!user) {
       message.error("请先登录萌卡账号");
-    } else {
+      return;
+    }
+
+    try {
       arena === "athletic"
         ? setAthleticMatchLoading(true)
         : setEntertainMatchLoading(true);
-      const matchInfo = await match(user.username, user.external_id, arena);
+
+      // 每次匹配前都要重新获取 u16Secret，因为它会按时间轮换
+      const u16Secret = await getUserU16Secret(user.token);
+      const matchInfo = await match(user.username, u16Secret, arena);
 
       if (matchInfo) {
         await connectSrvpro({
@@ -75,7 +82,16 @@ export const Component: React.FC = () => {
         });
       } else {
         message.error("匹配失败T_T");
+        arena === "athletic"
+          ? setAthleticMatchLoading(false)
+          : setEntertainMatchLoading(false);
       }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "未知错误";
+      message.error(errorMsg);
+      arena === "athletic"
+        ? setAthleticMatchLoading(false)
+        : setEntertainMatchLoading(false);
     }
   };
 
@@ -107,15 +123,21 @@ export const Component: React.FC = () => {
 
   // 创建MC自定义房间
   const onCreateMCRoom = async () => {
-    if (user) {
+    if (!user) {
+      return;
+    }
+
+    try {
       const mcServer = serverList.find(
         (server) => server.name === "mycard-custom",
       );
       if (mcServer) {
+        // 每次操作前都要重新获取 u16Secret
+        const u16Secret = await getUserU16Secret(user.token);
         const passWd = getCreateRoomPasswd(
           mcCustomRoomStore.options,
           String(getPrivateRoomID(user.external_id)),
-          user.external_id,
+          u16Secret,
           true,
         );
         await connectSrvpro({
@@ -124,30 +146,43 @@ export const Component: React.FC = () => {
           passWd,
         });
       }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "未知错误";
+      message.error(errorMsg);
     }
   };
   // 加入MC自定义房间
   const onJoinMCRoom = async () => {
-    if (user) {
-      if (mcCustomRoomStore.friendPrivateID !== undefined) {
-        const mcServer = serverList.find(
-          (server) => server.name === "mycard-custom",
+    if (!user) {
+      return;
+    }
+
+    if (mcCustomRoomStore.friendPrivateID === undefined) {
+      message.error("请输入朋友的私密房间密码！");
+      return;
+    }
+
+    try {
+      const mcServer = serverList.find(
+        (server) => server.name === "mycard-custom",
+      );
+      if (mcServer) {
+        // 每次操作前都要重新获取 u16Secret
+        const u16Secret = await getUserU16Secret(user.token);
+        const passWd = getJoinRoomPasswd(
+          String(mcCustomRoomStore.friendPrivateID),
+          u16Secret,
+          true,
         );
-        if (mcServer) {
-          const passWd = getJoinRoomPasswd(
-            String(mcCustomRoomStore.friendPrivateID),
-            user.external_id,
-            true,
-          );
-          await connectSrvpro({
-            ip: mcServer.ip + ":" + mcServer.port,
-            player: user.username,
-            passWd,
-          });
-        }
-      } else {
-        message.error("请输入朋友的私密房间密码！");
+        await connectSrvpro({
+          ip: mcServer.ip + ":" + mcServer.port,
+          player: user.username,
+          passWd,
+        });
       }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "未知错误";
+      message.error(errorMsg);
     }
   };
 
@@ -161,7 +196,12 @@ export const Component: React.FC = () => {
         width: "40vw",
         okText: i18n("EnterSpectatorMode"),
         onOk: async () => {
-          if (watchStore.watchID) {
+          if (!watchStore.watchID) {
+            message.error(`${i18n("PleaseSelectTheRoomToSpectate")}`);
+            return;
+          }
+
+          try {
             setWatchLoading(true);
 
             // 找到MC竞技匹配的Server
@@ -169,10 +209,9 @@ export const Component: React.FC = () => {
               (server) => server.name === "mycard-athletic",
             );
             if (mcServer) {
-              const passWd = getJoinRoomPasswd(
-                watchStore.watchID,
-                user.external_id,
-              );
+              // 每次操作前都要重新获取 u16Secret
+              const u16Secret = await getUserU16Secret(user.token);
+              const passWd = getJoinRoomPasswd(watchStore.watchID, u16Secret);
               await connectSrvpro({
                 ip: mcServer.ip + ":" + mcServer.port,
                 player: user.username,
@@ -182,9 +221,13 @@ export const Component: React.FC = () => {
               message.error(
                 "Something unexpected happened, please contact <ccc@neos.moe> to fix",
               );
+              setWatchLoading(false);
             }
-          } else {
-            message.error(`${i18n("PleaseSelectTheRoomToSpectate")}`);
+          } catch (error) {
+            const errorMsg =
+              error instanceof Error ? error.message : "未知错误";
+            message.error(errorMsg);
+            setWatchLoading(false);
           }
         },
         centered: true,

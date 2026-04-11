@@ -16,19 +16,20 @@ export interface Room {
   options: Options;
 }
 
-// 通过房间ID和external_id加密得出房间密码
+// 通过房间ID和secret加密得出房间密码
 //
 // 用于加入MC服房间
+// @param secret - 优先使用 u16Secret，如果没有则使用 external_id
 export function getJoinRoomPasswd(
   roomID: string,
-  external_id: number,
+  secret: number,
   _private: boolean = false,
 ): string {
   const optionsBuffer = new Uint8Array(6);
   optionsBuffer[1] =
     (_private ? RoomAction.JoinPrivate : RoomAction.JoinPublic) << 4;
 
-  encryptBuffer(optionsBuffer, external_id);
+  encryptBuffer(optionsBuffer, secret);
 
   const base64String = btoa(String.fromCharCode(...optionsBuffer));
 
@@ -36,10 +37,11 @@ export function getJoinRoomPasswd(
 }
 
 // 获取创建房间的密码
+// @param secret - 优先使用 u16Secret，如果没有则使用 external_id
 export function getCreateRoomPasswd(
   options: Options,
   roomID: string,
-  external_id: number,
+  secret: number,
   _private: boolean = false,
 ) {
   // ref: https://docs.google.com/document/d/1rvrCGIONua2KeRaYNjKBLqyG9uybs9ZI-AmzZKNftOI/edit
@@ -57,14 +59,15 @@ export function getCreateRoomPasswd(
   writeUInt16LE(optionsBuffer, 3, options.start_lp);
   optionsBuffer[5] = (options.start_hand << 4) | options.draw_count;
 
-  encryptBuffer(optionsBuffer, external_id);
+  encryptBuffer(optionsBuffer, secret);
   const base64String = btoa(String.fromCharCode(...optionsBuffer));
 
   return base64String + roomID;
 }
 
 // 填充校验码和加密
-function encryptBuffer(buffer: Uint8Array, external_id: number) {
+// @param secret - 优先使用 u16Secret，如果没有则使用 external_id
+function encryptBuffer(buffer: Uint8Array, secret: number) {
   let checksum = 0;
 
   for (let i = 1; i < buffer.length; i++) {
@@ -73,11 +76,11 @@ function encryptBuffer(buffer: Uint8Array, external_id: number) {
 
   buffer[0] = checksum & 0xff;
 
-  const secret = (external_id % 65535) + 1;
+  const encryptSecret = (secret % 65535) + 1;
 
   for (let i = 0; i < buffer.length; i += 2) {
     const value = readUInt16LE(buffer, i);
-    const xorResult = value ^ secret;
+    const xorResult = value ^ encryptSecret;
     writeUInt16LE(buffer, i, xorResult);
   }
 }
