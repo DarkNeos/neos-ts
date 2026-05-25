@@ -127,9 +127,38 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
           ? YGODBS.preRelease
           : YGODBS.release;
 
-        const dataStmt = db.prepare("SELECT * FROM datas WHERE ID = $id");
+        const dataStmt = db.prepare(`SELECT datas.id,
+          datas.ot,
+          datas.alias,
+          datas.setcode,
+          datas.type,
+          datas.atk,
+          datas.def,
+          datas.level,
+          datas.race,
+          datas.attribute,
+          datas.category FROM datas WHERE ID = $id`);
         const dataResult = dataStmt.getAsObject({ $id: code });
-        const textStmt = db.prepare("SELECT * FROM texts WHERE ID = $id");
+        const textStmt = db.prepare(`SELECT 
+          texts.id,
+          texts.name,
+          texts.desc,
+          texts.str1,
+          texts.str2,
+          texts.str3,
+          texts.str4,
+          texts.str5,
+          texts.str6,
+          texts.str7,
+          texts.str8,
+          texts.str9,
+          texts.str10,
+          texts.str11,
+          texts.str12,
+          texts.str13,
+          texts.str14,
+          texts.str15,
+          texts.str16 FROM texts WHERE ID = $id`);
         const textResult = textStmt.getAsObject({ $id: code });
 
         return {
