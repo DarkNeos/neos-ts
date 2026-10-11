@@ -10,7 +10,26 @@
   &:hover {
     filter: brightness(0.9);
   }
+  // 插入线覆盖在卡图边缘，不占布局宽度，也不拦截拖放事件。
+  &[data-drop-position]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #67e8f9;
+    z-index: 2;
+    pointer-events: none;
+  }
+  &[data-drop-position="before"]::after {
+    left: 0;
+  }
+  &[data-drop-position="after"]::after {
+    right: 0;
+  }
   .cardname {
+    z-index: 1;
+    pointer-events: none;
     font-size: 12px;
     position: absolute;
     padding: 5px;
@@ -30,6 +49,7 @@
     position: relative;
   }
   .cardlimit {
+    pointer-events: none;
     position: absolute;
     top: 2px;
     left: 2px;

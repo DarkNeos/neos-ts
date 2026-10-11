@@ -51,6 +51,18 @@ See the [player guide](https://doc.neos.moe/docs/category/%E7%8E%A9%E5%AE%B6%E6%
 ## Document
 See the [Document for Neos](https://doc.neos.moe).
 
+## Development and field artwork
+
+The [neos-filed](https://code.moenext.com/hex/neos-filed) CI converts upstream field artwork to WebP. This project pins the images and their manifest together using a Git submodule. Initialize it before development or builds:
+
+```sh
+npm run fields:init
+npm ci
+npm run dev
+```
+
+Run `npm run fields:update` to adopt the latest artwork, then validate and commit the updated `neos-filed` pointer. No WebP encoder is required in the main project. Development and production keep the `/neos-assets/fields/<card-code>.webp` URLs and the existing remote fallback.
+
 ## Deployed
 * https://neos.moecube.com by Mycard community
 * https://www.neos.moe by [Cloudflare](https://www.cloudflare.com/)

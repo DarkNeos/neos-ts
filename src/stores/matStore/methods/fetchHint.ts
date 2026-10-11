@@ -1,6 +1,7 @@
 import { Region } from "@/api";
 import { DESCRIPTION_LIMIT, fetchStrings, getStrings } from "@/api";
 import { fetchCard } from "@/api/cards";
+import { formatCardName } from "@/api/cardText";
 
 import { matStore } from "../store";
 
@@ -20,9 +21,10 @@ export const fetchSelectHintMeta = ({
   if (selectHintData > DESCRIPTION_LIMIT) {
     // 针对`MSG_SELECT_PLACE`的特化逻辑
     const cardMeta = fetchCard(selectHintData);
-    selectHintMeta = fetchStrings(Region.System, 569).replace(
+    selectHintMeta = formatCardName(
+      fetchStrings(Region.System, 569),
+      cardMeta.text.name || "?",
       "[%ls]",
-      cardMeta.text.name || "[?]",
     );
   } else {
     selectHintMeta = getStrings(selectHintData);

@@ -1,4 +1,5 @@
 import { useConfig } from "@/config";
+import { pfetch } from "@/infra/pfetch";
 
 const {
   preReleaseResource: { config },
@@ -14,7 +15,7 @@ interface SuperPreInfo {
 let superPreList: SuperPreInfo[] = [];
 
 export async function initSuperPrerelease() {
-  const json = await (await fetch(config)).text();
+  const json = await (await pfetch(config)).text();
   const list: SuperPreInfo[] = JSON.parse(json);
   superPreList = list;
 }

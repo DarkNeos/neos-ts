@@ -1,81 +1,67 @@
 import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
-import { sleep } from "@/infra";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { callCardFocus, callCardMove } from "@/ui/Duel/PlayMat/Card";
-
-const { MZONE, SZONE } = ygopro.CardZone;
-const { FACEUP_ATTACK, FACEDOWN_ATTACK, FACEDOWN_DEFENSE, FACEDOWN } =
-  ygopro.CardPosition;
-
-const WAIT_TIME = 100;
+import { type CardType, replayStore } from "@/stores";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
+import { displayConfirmCardsModal } from "@/ui/Duel/Message/ConfirmCardsModal";
+import { callCardConfirm } from "@/ui/Duel/PlayMat/Card";
 
 export default async (
   container: Container,
   confirmCards: ygopro.StocGameMessage.MsgConfirmCards,
 ) => {
-  playEffect(AudioActionType.SOUND_REVEAL);
+  if (container.conn.cancelled) return;
   const context = container.context;
-  const cards = confirmCards.cards;
   const isDeckTop = (
-    confirmCards as typeof confirmCards & {
-      is_decktop?: boolean;
-    }
+    confirmCards as typeof confirmCards & { is_decktop?: boolean }
   ).is_decktop;
-  console.color("pink")(`confirmCards: ${cards}`);
+  // 顶部确认按牌堆最高序号起取卡，协议中的排列表示从顶端开始的顺序。
+  const deck = isDeckTop
+    ? context.cardStore
+        .at(ygopro.CardZone.DECK, confirmCards.player)
+        .slice()
+        .sort((a, b) => b.location.sequence - a.location.sequence)
+    : [];
+  const targets: CardType[] = [];
 
-  for (const [index, card] of cards.entries()) {
+  for (const [index, card] of confirmCards.cards.entries()) {
     const target = isDeckTop
-      ? context.cardStore
-          .at(ygopro.CardZone.DECK, confirmCards.player)
-          .sort((a, b) => a.location.sequence - b.location.sequence)
-          .at(-1 - index)
+      ? deck[index]
       : context.cardStore.at(card.location, card.controller, card.sequence);
-
-    if (target) {
-      // 设置`occupant`
-      const meta = card.code !== 0 ? fetchCard(card.code) : target.meta;
-      if (card.code !== 0) {
-        target.code = card.code;
-        target.meta = meta;
-      }
-
-      const zone = target.location.zone;
-      const position = target.location.position;
-
-      // 动画
-      if (
-        (zone === MZONE || zone === SZONE) &&
-        (position === FACEDOWN_ATTACK ||
-          position === FACEDOWN_DEFENSE ||
-          position === FACEDOWN)
-      ) {
-        /* 这个分支确认盖卡（包括魔限和怪兽卡）的场景。
-        /* 这里让盖卡向上翻开，再重新盖上
-        /* TODO: 这里比较合理的做法应该是新实现一种动画。
-        /* 这里暂时先使用这种简单的处理办法。*/
-        target.location.position = FACEUP_ATTACK;
-        await callCardMove(target.uuid);
-
-        // 暂停一会再盖上
-        await sleep(WAIT_TIME);
-
-        // 恢复position
-        target.location.position = position;
-        await callCardMove(target.uuid);
-      } else {
-        // 这个分支是确认手卡或者卡组或者额外卡组的场景（大概）
-        await callCardFocus(target.uuid);
-        if (target.code === 0) {
-          // 如果是对方或者是在观战模式下双方展示手牌，target的code会是0，
-          // 这里应该清掉meta，UI上表现是回复到卡背状态
-          target.meta = { id: 0, data: {}, text: {} };
-        }
-      }
-
-      context.historyStore.putConfirmed(context, meta.id, target.location);
-    } else {
+    if (!target) {
       console.warn(`card of ${card} is null`);
+      continue;
     }
+    if (card.code !== 0) {
+      target.code = card.code;
+      target.meta = fetchCard(card.code);
+    }
+    targets.push(target);
+    context.historyStore.putConfirmed(context, target.meta.id, target.location);
+  }
+
+  if (!targets.length || container.conn.isClosed()) return;
+  const controller = new AbortController();
+  // 断线或退出时取消尚未结束的展示动画，释放当前消息的等待。
+  const unregister = registerDuelDialogReset(() => controller.abort());
+  try {
+    const { PLAYER1, PLAYER6 } = ygopro.StocTypeChange.SelfType;
+    const isPlayer =
+      context.matStore.selfType >= PLAYER1 &&
+      context.matStore.selfType <= PLAYER6;
+    if (!isDeckTop && targets.length > 3 && isPlayer && !replayStore.isReplay) {
+      playEffect(AudioActionType.SOUND_REVEAL);
+      // 只等待本地确认，不向服务器发送选卡响应。
+      await displayConfirmCardsModal(targets);
+    } else {
+      for (const target of targets) {
+        if (controller.signal.aborted || container.conn.isClosed()) break;
+        playEffect(AudioActionType.SOUND_REVEAL);
+        await callCardConfirm(target.uuid, { signal: controller.signal });
+        if (target.code === 0) target.meta = { id: 0, data: {}, text: {} };
+      }
+    }
+  } finally {
+    unregister();
   }
 };

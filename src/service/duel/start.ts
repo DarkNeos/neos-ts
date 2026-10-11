@@ -5,8 +5,8 @@ import { ygopro } from "@/api";
 import { useConfig } from "@/config";
 import { Container } from "@/container";
 import { sleep } from "@/infra";
-import { replayStore, RoomStage, SideStage } from "@/stores";
-import { replayStart } from "@/ui/Match/ReplayModal";
+import { replayStore, resetDuel, RoomStage, SideStage } from "@/stores";
+import { settingStore } from "@/stores/settingStore";
 
 import { genCard } from "../utils";
 const TOKEN_SIZE = 13; // 每人场上最多就只可能有13个token
@@ -16,8 +16,48 @@ export default async (
   start: ygopro.StocGameMessage.MsgStart,
 ) => {
   const context = container.context;
+  if (replayStore.isReplay) {
+    if (context.cardStore.inner.length) resetDuel();
+    replayStore.game += 1;
+  }
+  context.matStore.chainSetting = settingStore.duel.initialChain;
+  // MSG_START 是最终先后攻结果；与请求不符时终止训练，避免误以为设置生效。
+  const training = context.trainingStore.session;
+  if (training) {
+    const expected = training.first
+      ? ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+      : ygopro.StocGameMessage.MsgStart.PlayerType.SecondStrike;
+    if (start.playerType !== expected) {
+      const error =
+        "服务器没有按训练设置选择先后攻，训练已停止，请更换服务器后重试";
+      context.trainingStore.error = error;
+      context.roomStore.errorMsg = error;
+      throw new Error(error);
+    }
+  }
+  context.matStore.deckReserved = false;
+  context.matStore.chainCards = [];
+  context.matStore.chains = [];
+  context.matStore.playerHints = {};
+  context.matStore.hint.zones = [];
   // 先初始化`matStore`
-  context.matStore.selfType = start.playerType;
+  context.matStore.selfType =
+    replayStore.isReplay && replayStore.swapped
+      ? start.playerType ===
+        ygopro.StocGameMessage.MsgStart.PlayerType.SecondStrike
+        ? ygopro.StocGameMessage.MsgStart.PlayerType.FirstStrike
+        : ygopro.StocGameMessage.MsgStart.PlayerType.SecondStrike
+      : start.playerType;
+  if (replayStore.isReplay) {
+    const decks = replayStore.decks.filter(
+      (deck) => deck.game === replayStore.game,
+    );
+    context.roomStore.players = [0, 1].map((player) => ({
+      name: decks[player]?.player ?? `玩家 ${player + 1}`,
+      isMe: context.matStore.isMe(player),
+      state: ygopro.StocHsPlayerChange.State.READY,
+    }));
+  }
 
   if (context.sideStore.stage !== SideStage.NONE) {
     // 更新Side状态
@@ -94,11 +134,11 @@ export default async (
 
   // note: 额外卡组的卡会在对局开始后通过`UpdateData` msg更新
 
-  if (replayStore.isReplay) {
-    replayStart();
+  if (replayStore.isReplay && !replayStore.seeking) {
+    replayStore.playbackReady = true;
   }
 
   // 初始化完后，sleep 1s，让UI初始化完成，
   // 否则在和AI对战时，由于后端给传给前端的`MSG`频率太高，会导致一些问题。
-  await sleep(useConfig().startDelay);
+  if (!replayStore.seeking) await sleep(useConfig().startDelay);
 };

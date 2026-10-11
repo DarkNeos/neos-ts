@@ -1,3 +1,8 @@
 [submodule "neos-protobuf"]
 	path = neos-protobuf
   url = https://code.mycard.moe/mycard/neos-protobuf.git
+[submodule "neos-filed"]
+	path = neos-filed
+	url = https://code.moenext.com/hex/neos-filed.git
+	branch = main
+	shallow = true

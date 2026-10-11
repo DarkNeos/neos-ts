@@ -1,4 +1,5 @@
 import { ygopro } from "@/api";
+import type { DuelGameMessage } from "@/api/ocgcore/ocgAdapter/duelEvent";
 import { Container } from "@/container";
 import { replayStore } from "@/stores";
 import { showWaiting } from "@/ui/Duel/Message";
@@ -12,6 +13,7 @@ import onMsgChaining from "./chaining";
 import onMsgChainSolved from "./chainSolved";
 import onConfirmCards from "./confirmCards";
 import onMsgDraw from "./draw";
+import onDuelEvent from "./duelEvent";
 import onMsgFieldDisabled from "./fieldDisabled";
 import onMsgFilpSummoned from "./flipSummoned";
 import onMsgFlipSummoning from "./flipSummoning";
@@ -81,12 +83,36 @@ export default async function handleGameMsg(
   container: Container,
   pb: ygopro.YgoStocMsg,
 ): Promise<void> {
-  const msg = pb.stoc_game_msg;
+  const msg = pb.stoc_game_msg as DuelGameMessage;
+  if (msg.duelEvent) {
+    await onDuelEvent(container, msg.duelEvent);
+    return;
+  }
+  if (
+    ActiveList.includes(msg.gameMsg) ||
+    [
+      "start",
+      "new_turn",
+      "new_phase",
+      "move",
+      "chaining",
+      "win",
+      "wait",
+      "reload_field",
+    ].includes(msg.gameMsg)
+  )
+    container.context.matStore.clearPhaseCommands();
+  if (
+    !ActiveList.includes(msg.gameMsg) &&
+    !["hint", "retry", "waiting"].includes(msg.gameMsg)
+  ) {
+    container.context.matStore.stopClock();
+  }
 
   if (ActiveList.includes(msg.gameMsg)) {
     showWaiting(false);
 
-    if (replayStore.isReplay) return;
+    if (replayStore.isReplay || container.conn.isClosed()) return;
   }
 
   switch (msg.gameMsg) {
@@ -106,7 +132,7 @@ export default async function handleGameMsg(
       break;
     }
     case "new_phase": {
-      onMsgNewPhase(container, msg.new_phase);
+      await onMsgNewPhase(container, msg.new_phase);
 
       break;
     }
@@ -180,7 +206,7 @@ export default async function handleGameMsg(
       break;
     }
     case "update_hp": {
-      onMsgUpdateHp(container, msg.update_hp);
+      await onMsgUpdateHp(container, msg.update_hp);
 
       break;
     }
@@ -328,7 +354,7 @@ export default async function handleGameMsg(
       break;
     }
     case "shuffle_deck": {
-      onMsgShuffleDeck(container, msg.shuffle_deck);
+      await onMsgShuffleDeck(container, msg.shuffle_deck);
 
       break;
     }

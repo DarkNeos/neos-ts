@@ -1,7 +1,7 @@
+import { readYrp3dPackets } from "ygopro-yrp3d-encode";
+
 import { YgoProPacket } from "./ocgAdapter/packet";
 import { STOC_GAME_MSG } from "./ocgAdapter/protoDecl";
-
-const RECORD_HEADER_LENGTH = 5;
 
 interface ReplayRecord {
   func: number;
@@ -9,37 +9,15 @@ interface ReplayRecord {
 }
 
 export function parseYrp3dRecords(buffer: ArrayBuffer): ReplayRecord[] {
-  const records: ReplayRecord[] = [];
-  const dataView = new DataView(buffer);
-  let offset = 0;
-
-  while (offset < buffer.byteLength) {
-    if (offset + RECORD_HEADER_LENGTH > buffer.byteLength) {
-      throw new Error("Invalid yrp3d replay: incomplete record header.");
-    }
-
-    const func = dataView.getUint8(offset);
-    offset += 1;
-
-    const length = dataView.getUint32(offset, true);
-    offset += 4;
-
-    if (offset + length > buffer.byteLength) {
-      throw new Error("Invalid yrp3d replay: incomplete record data.");
-    }
-
-    records.push({
-      func,
-      data: buffer.slice(offset, offset + length),
-    });
-    offset += length;
-  }
-
-  return records;
+  return readYrp3dPackets(new Uint8Array(buffer)).map(({ type, payload }) => ({
+    func: type,
+    data: payload.slice().buffer as ArrayBuffer,
+  }));
 }
 
 export function yrp3dToStocGameMsgBuffers(buffer: ArrayBuffer): ArrayBuffer[] {
   return parseYrp3dRecords(buffer)
+    .filter((record) => record.func !== 231)
     .map(recordToStocGameMsgPacket)
     .map((packet) => packet.serialize().buffer as ArrayBuffer);
 }

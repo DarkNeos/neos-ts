@@ -1,3 +1,5 @@
+import YGOProDeck from "ygopro-deck-encode";
+
 import { type CardMeta, fetchCard } from "@/api";
 import { tellCardBasicType, tellCardSecondaryType } from "@/common";
 import { type IDeck } from "@/stores";
@@ -39,18 +41,7 @@ export const compareCards = (a: CardMeta, b: CardMeta): number => {
 
 /** 生成ydk格式的卡组文本 */
 export function genYdkText(deck: IDeck): string {
-  const { main, extra, side } = deck;
-
-  const lines = [
-    "#created by neos",
-    "#main",
-    ...main.map((cardId) => cardId.toString()),
-    "#extra",
-    ...extra.map((cardId) => cardId.toString()),
-    "!side",
-    ...side.map((cardId) => cardId.toString()),
-  ];
-  return lines.join("\n");
+  return new YGOProDeck(deck).toYdkString();
 }
 
 /** 下载卡组YDK文件 **/

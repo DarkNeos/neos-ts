@@ -1,4 +1,6 @@
 .mat-bg {
+  transform-style: preserve-3d;
+  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: var(--row-gap);
@@ -11,6 +13,24 @@
     &.opponent {
       flex-direction: row-reverse;
     }
+  }
+}
+
+.artwork {
+  position: absolute;
+  left: -18%;
+  width: 136%;
+  max-width: none;
+  top: 0;
+  height: 50%;
+  object-fit: cover;
+  opacity: 0.65;
+  pointer-events: none;
+  transform: translateZ(-1px);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent);
+  &[data-player="me"] {
+    top: 50%;
+    mask-image: linear-gradient(to top, #000 80%, transparent);
   }
 }
 
@@ -127,4 +147,15 @@
   .triangle {
     display: none;
   }
+}
+
+.block.linked {
+  box-shadow:
+    inset 0 0 0 2px #65deff,
+    inset 0 0 20px #3ab2d955;
+  background-color: #287b9940;
+}
+.block.hinted {
+  box-shadow: inset 0 0 0 2px #e5c76a;
+  background-color: #b7994540;
 }

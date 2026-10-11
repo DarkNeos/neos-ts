@@ -1,9 +1,20 @@
 import { LeftOutlined } from "@ant-design/icons";
 import { Divider, Drawer, Space, Tag } from "antd";
-import React from "react";
+import classnames from "classnames";
+import React, { useEffect } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { type CardMeta, fetchStrings, Region } from "@/api";
+import { type CardMeta, fetchStrings, getCardDisplayName, Region } from "@/api";
+import { quoteCardName } from "@/api/cardText";
+import { isGraveInspectionBlocked } from "@/api/duelHints";
+import {
+  cardStore,
+  type CardType,
+  hasIncompleteSummon,
+  matStore,
+} from "@/stores";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
+import { fieldSelection } from "@/stores/fieldSelection";
 import { YgoCard } from "@/ui/Shared";
 
 import {
@@ -13,10 +24,9 @@ import {
   TYPE_LINK,
   Type2StringCodeMap,
 } from "../../../../common";
+import { CardHints } from "../CardHints";
 import { Desc } from "./Desc";
 import styles from "./index.module.scss";
-
-const CARD_WIDTH = "8.75rem";
 
 const defaultStore = {
   isOpen: false,
@@ -34,63 +44,95 @@ const defaultStore = {
     effectCode?: number;
   }[],
   counters: {} as Record<number, number>,
+  cardUuid: null as string | null,
 };
 
-const store = proxy(defaultStore);
+const store = proxy({ ...defaultStore });
+registerDuelDialogReset(() => Object.assign(store, defaultStore));
 
 export const CardModal = () => {
   const snap = useSnapshot(store);
+  const { active: selectingOnField } = useSnapshot(fieldSelection);
+  const cards = useSnapshot(cardStore);
+  const { cardUuid } = snap;
+  const liveCard = cards.inner.find((card) => card.uuid === cardUuid);
+  const duelState = useSnapshot(matStore);
+  const graveBlocked = isGraveInspectionBlocked(liveCard?.location, duelState);
+  useEffect(() => {
+    if (graveBlocked) store.isOpen = false;
+  }, [graveBlocked]);
+  const summonIncomplete =
+    liveCard && hasIncompleteSummon(liveCard as CardType);
 
-  const { isOpen, meta, counters } = snap;
+  const { isOpen } = snap;
+  // 优先读取对局中的实时数据，使已打开的详情同步显示改名、属性和指示物。
+  const meta = liveCard?.meta ?? snap.meta;
+  const text = meta.text;
+  const counters = liveCard?.counters ?? snap.counters;
 
-  const name = meta?.text.name;
+  // 实时 alias 只影响显示卡名，效果描述和悬停原名仍来自这张卡自身的文本。
+  const { name, renamed } = getCardDisplayName(meta, liveCard?.originalData);
   const types = extraCardTypes(meta?.data.type ?? 0);
   const race = meta?.data.race;
   const attribute = meta?.data.attribute;
-  const desc = meta?.text.desc;
+  const desc = text.desc;
   const atk = meta?.data.atk;
   const def = meta?.data.def;
 
   return (
-    // TODO: 宽度要好好设置 根据屏幕宽度
     <Drawer
-      open={isOpen}
+      open={isOpen && !graveBlocked}
       placement="left"
       onClose={() => (store.isOpen = false)}
-      rootClassName={styles.root}
-      className={styles.drawer}
+      rootClassName="duel-translucent-drawer"
+      className={classnames(styles.drawer, {
+        [styles["field-selection"]]: selectingOnField,
+      })}
       mask={false}
-      title={name}
+      title={
+        <span
+          className={styles.cardName}
+          data-testid="duel-card-name"
+          data-renamed={renamed}
+          title={renamed ? `原卡名：${text.name ?? "?"}` : undefined}
+        >
+          {quoteCardName(text.name)}
+          {renamed && <small className={styles.renamedName}>({name})</small>}
+        </span>
+      }
       closeIcon={<LeftOutlined />}
-      width={350}
+      width="auto"
     >
       <div
         className={styles.container}
         data-testid="duel-card-detail"
         data-card-code={meta?.id}
+        data-card-alias={meta.data.alias ?? 0}
       >
-        <Space
-          align="start"
-          size={18}
-          style={{ position: "relative", display: "flex" }}
-        >
-          <YgoCard
-            code={meta?.id}
-            width={CARD_WIDTH}
-            style={{ borderRadius: 4 }}
-          />
-          <Space direction="vertical" className={styles.info}>
-            <AtkLine
-              atk={atk}
-              def={types.includes(TYPE_LINK) ? undefined : def}
-            />
+        <div className={styles.summary}>
+          <YgoCard code={meta?.id} width="100%" style={{ borderRadius: 4 }} />
+          <div className={styles.info}>
+            {!!((meta.data.type ?? 0) & 1) && (
+              <AtkLine
+                atk={atk}
+                def={types.includes(TYPE_LINK) ? undefined : def}
+              />
+            )}
             <CounterLine counters={counters} />
             <AttLine types={types} race={race} attribute={attribute} />
-            {/* TODO: 只有怪兽卡需要展示攻击防御 */}
             {/* TODO: 展示星级/LINK数 */}
-          </Space>
-        </Space>
-        <Divider style={{ margin: "0.875rem 0" }}></Divider>
+          </div>
+        </div>
+        <Divider style={{ margin: "0.625rem 0" }}></Divider>
+        {liveCard && <CardHints card={liveCard as CardType} />}
+        {summonIncomplete && (
+          <p
+            className={styles.summonIncomplete}
+            data-testid="card-summon-incomplete"
+          >
+            未正规登场
+          </p>
+        )}
         <Desc desc={desc} />
       </div>
     </Drawer>
@@ -116,8 +158,12 @@ const AttLine = (props: {
     .join("/");
   return (
     <div className={styles.attline}>
-      {attribute && <Tag>{attribute}</Tag>}
-      {race && <Tag>{race}</Tag>}
+      {(attribute || race) && (
+        <div className={styles.attributeRow}>
+          {attribute && <Tag>{attribute}</Tag>}
+          {race && <Tag>{race}</Tag>}
+        </div>
+      )}
       {types && <Tag>{types}</Tag>}
     </div>
   );
@@ -150,6 +196,8 @@ const AtkLine = (props: { atk?: number; def?: number }) => (
 );
 
 const CounterLine = (props: { counters: { [type: number]: number } }) => {
+  if (!Object.values(props.counters).some((count) => count > 0)) return null;
+
   return (
     <Space size={10} className={styles.counterLine} direction="vertical">
       {Object.entries(props.counters).map(
@@ -175,12 +223,23 @@ const CounterLine = (props: { counters: { [type: number]: number } }) => {
   );
 };
 
+/** 使用候选元数据预览；通过位置查找实时卡片时，需确认卡号一致。 */
 export const showCardModal = (
-  card: Partial<Pick<typeof store, "meta" | "counters">>,
+  card: Partial<Pick<typeof store, "meta" | "counters">> & {
+    uuid?: string;
+    location?: Parameters<typeof cardStore.find>[0];
+  },
 ) => {
+  if (isGraveInspectionBlocked(card.location, matStore)) return;
   store.isOpen = true;
   store.meta = card?.meta ?? defaultStore.meta;
   store.counters = card?.counters ?? defaultStore.counters;
+  // 选卡窗口可公开牌堆卡号，场上同一位置的数据可能仍是未知卡或旧卡。
+  const target = card.location ? cardStore.find(card.location) : undefined;
+  store.cardUuid =
+    card.uuid ??
+    (target?.meta.id === card.meta?.id ? target?.uuid : undefined) ??
+    null;
 };
 
 export const closeCardModal = () => {

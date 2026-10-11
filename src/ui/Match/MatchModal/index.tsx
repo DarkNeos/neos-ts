@@ -6,11 +6,11 @@ import { proxy, useSnapshot } from "valtio";
 
 import { sendChat } from "@/api";
 import { useConfig } from "@/config";
-import { WebSocketStream } from "@/infra";
+import { normalizeWebSocketAddress, WebSocketStream } from "@/infra";
 import { accountStore, roomStore } from "@/stores";
 import { Select } from "@/ui/Shared";
 
-import { connectSrvpro } from "../util";
+import { connectSrvpro, disconnectSession } from "../util";
 import styles from "./index.module.scss";
 
 const NeosConfig = useConfig();
@@ -19,6 +19,8 @@ const serverConfig = NeosConfig.servers;
 const KOISHI_INDEX = 0;
 const PRERELEASE_INDEX = 3;
 const ENV_408 = 4;
+const CUSTOM_SERVER = -1;
+const CUSTOM_SERVER_ADDRESS_KEY = "neos.customServerAddress";
 
 const {
   defaults: { defaultPlayer, defaultPassword },
@@ -43,15 +45,36 @@ export const MatchModal: React.FC = ({}) => {
   const [player, setPlayer] = useState(user?.name ?? defaultPlayer);
   const [passwd, setPasswd] = useState(defaultPassword);
   const [serverId, setServerId] = useState(0);
+  const [customAddress, setCustomAddress] = useState(() => {
+    try {
+      return localStorage.getItem(CUSTOM_SERVER_ADDRESS_KEY) ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const [addressError, setAddressError] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
   const { t: i18n } = useTranslation("MatchModal");
+  const isCustomServer = serverId === CUSTOM_SERVER;
+  const serverAddress = isCustomServer
+    ? customAddress
+    : normalizeWebSocketAddress(genServerAddress(serverId));
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CUSTOM_SERVER_ADDRESS_KEY, customAddress);
+    } catch {
+      // 浏览器禁用本地存储时，仍可填写地址并连接。
+    }
+  }, [customAddress]);
 
   const handlePlayerChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
   };
   const handleServerChange = (value: any) => {
     setServerId(value);
+    setAddressError("");
   };
   const handlePasswdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswd(event.target.value);
@@ -68,13 +91,31 @@ export const MatchModal: React.FC = ({}) => {
   };
 
   const handleSubmit = async () => {
+    let address: string;
+    try {
+      address = normalizeWebSocketAddress(serverAddress);
+      setAddressError("");
+    } catch (error) {
+      setAddressError(
+        error instanceof Error ? error.message : "服务器地址格式不正确",
+      );
+      return;
+    }
     setConfirmLoading(true);
-    await connectSrvpro({
-      player,
-      ip: genServerAddress(serverId),
-      passWd: passwd,
-      customOnConnected: serverId === ENV_408 ? send408Hint : undefined,
-    });
+    try {
+      await connectSrvpro({
+        player,
+        ip: address,
+        passWd: passwd,
+        customOnConnected: serverId === ENV_408 ? send408Hint : undefined,
+      });
+    } catch (error) {
+      message.error(
+        error instanceof Error ? error.message : "连接失败，请重试",
+      );
+    } finally {
+      setConfirmLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -104,7 +145,11 @@ export const MatchModal: React.FC = ({}) => {
     <Modal
       open={open}
       title={i18n("PleaseEnterCustomRoomInformation")}
-      onCancel={() => (matchStore.open = false)}
+      onCancel={() => {
+        disconnectSession();
+        setConfirmLoading(false);
+        matchStore.open = false;
+      }}
       footer={
         <Button
           data-testid="match-modal-join"
@@ -120,7 +165,10 @@ export const MatchModal: React.FC = ({}) => {
       <div className={styles["inputs-container"]}>
         <Select
           className={styles.select}
+          data-testid="match-modal-server"
           title={i18n("Server")}
+          aria-label={i18n("Server")}
+          disabled={confirmLoading}
           value={serverId}
           options={[
             {
@@ -135,9 +183,56 @@ export const MatchModal: React.FC = ({}) => {
               value: ENV_408,
               label: i18n("408"),
             },
+            {
+              value: CUSTOM_SERVER,
+              label: i18n("CustomServer"),
+            },
           ]}
           onChange={handleServerChange}
         />
+        <div className={styles["server-address"]}>
+          <label htmlFor="match-server-address">{i18n("ServerAddress")}</label>
+          <Input
+            id="match-server-address"
+            data-testid="match-modal-server-address"
+            value={serverAddress}
+            readOnly={!isCustomServer}
+            disabled={confirmLoading}
+            placeholder={i18n("ServerAddressPlaceholder")}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            status={addressError ? "error" : undefined}
+            aria-invalid={!!addressError}
+            aria-describedby={
+              addressError
+                ? "match-server-address-error"
+                : isCustomServer
+                ? "match-server-address-hint"
+                : undefined
+            }
+            onChange={(event) => {
+              setCustomAddress(event.target.value);
+              setAddressError("");
+            }}
+          />
+          {addressError ? (
+            <div
+              id="match-server-address-error"
+              className={styles["address-error"]}
+              role="alert"
+            >
+              {addressError}
+            </div>
+          ) : isCustomServer ? (
+            <div
+              id="match-server-address-hint"
+              className={styles["address-hint"]}
+            >
+              {i18n("CustomServerHint")}
+            </div>
+          ) : null}
+        </div>
         <Input
           className={styles.input}
           data-testid="match-modal-player"

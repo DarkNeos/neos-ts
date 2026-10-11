@@ -1,0 +1,114 @@
+.panel {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: clamp(136px, 14vw, 200px);
+  max-height: calc(100dvh - 300px);
+  display: flex;
+  flex-direction: column;
+  color: #edf2f7;
+  background: #1c2633ed;
+  border: 1px solid #526577;
+  border-radius: 6px;
+  font: 12px/1.4 var(--theme-font);
+}
+
+.heading {
+  padding: 7px 8px;
+  border-bottom: 1px solid #526577;
+  font-weight: 600;
+}
+
+.cards {
+  list-style: none;
+  padding: 6px;
+  margin: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 5px;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  background: #253849;
+  border: 1px solid #78a8cc;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+
+  &[data-controller="op"] {
+    border-color: #ba8383;
+  }
+  &[data-solved="true"] {
+    background: #232a32;
+  }
+  &:hover {
+    background: #354b5e;
+  }
+  &:focus-visible {
+    outline: 2px solid #a8e0ff;
+    outline-offset: 1px;
+  }
+}
+
+.thumbnail {
+  position: relative;
+  width: 48%;
+  flex-shrink: 0;
+
+  > .badge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 28px;
+    height: 28px;
+    --chain-number-size: 18px;
+  }
+}
+.info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.name {
+  overflow-wrap: anywhere;
+}
+.status {
+  color: #bfd0dd;
+}
+.target {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 5px;
+  border: 1px solid #c6a5f5;
+  border-radius: 4px;
+  background: #1c2633ed;
+  color: #e2d0fa;
+  font: 600 14px/1.2 var(--theme-font);
+}
+.card[data-negated] {
+  border-color: #d99292;
+  .status {
+    color: #f0aaaa;
+  }
+}
+
+@media (max-height: 600px) {
+  .panel {
+    left: auto;
+    right: max(12px, env(safe-area-inset-right));
+    max-height: calc(100dvh - 160px);
+  }
+}

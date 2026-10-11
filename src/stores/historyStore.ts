@@ -15,6 +15,7 @@ export enum HistoryOp {
   SP_SUMMON = 7,
   FLIP_SUMMON = 8,
   SET = 9,
+  HINT = 10,
 }
 
 export interface History {
@@ -22,7 +23,10 @@ export interface History {
   opponent: boolean;
   currentLocation?: ygopro.CardLocation;
   operation: HistoryOp;
-  target?: ygopro.CardZone;
+  target?: ygopro.CardLocation;
+  text?: string;
+  player?: number;
+  chainIndex?: number;
 }
 
 export class HistoryStore implements NeosStore {
@@ -32,15 +36,15 @@ export class HistoryStore implements NeosStore {
     context: Context,
     card: number,
     from: ygopro.CardLocation,
-    to: ygopro.CardZone,
+    to: ygopro.CardLocation,
   ) {
     // TODO: Refinement
     this.historys.push({
       card,
       opponent: !context.matStore.isMe(from.controller),
-      currentLocation: from,
+      currentLocation: new ygopro.CardLocation(from.toObject()),
       operation: HistoryOp.MOVE,
-      target: to,
+      target: new ygopro.CardLocation(to.toObject()),
     });
   }
 
@@ -53,12 +57,28 @@ export class HistoryStore implements NeosStore {
     });
   }
 
-  putTargeted(context: Context, card: number, location: ygopro.CardLocation) {
+  putTargeted(
+    context: Context,
+    card: number,
+    location: ygopro.CardLocation,
+    chainIndex?: number,
+  ) {
     this.historys.push({
       card,
       opponent: !context.matStore.isMe(location.controller),
       currentLocation: location,
       operation: HistoryOp.TARGETED,
+      chainIndex,
+    });
+  }
+
+  putHint(context: Context, player: number, text: string, card = 0) {
+    this.historys.push({
+      card,
+      player,
+      text,
+      operation: HistoryOp.HINT,
+      opponent: !context.matStore.isMe(player),
     });
   }
 
@@ -100,7 +120,8 @@ export class HistoryStore implements NeosStore {
       card,
       opponent: !context.matStore.isMe(location.controller),
       operation: HistoryOp.SET,
-      target: location.zone,
+      // 保存盖放当时的位置，后续移位、洗切或翻开不会改写历史。
+      target: new ygopro.CardLocation(location.toObject()),
     });
   }
 

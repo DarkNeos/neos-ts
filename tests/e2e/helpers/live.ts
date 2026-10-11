@@ -264,7 +264,11 @@ export async function completeDuelStartSelections(
 
 export async function expectDuelStarted(page: Page) {
   await expect(page).toHaveURL(/\/duel/, { timeout: 60000 });
-  await expect(page.getByTestId("duel-card").first()).toBeVisible({
+  await expect(
+    page
+      .locator('[data-testid="duel-card"][data-card-details-visible="true"]')
+      .first(),
+  ).toBeVisible({
     timeout: 60000,
   });
 }

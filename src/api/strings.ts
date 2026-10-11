@@ -1,4 +1,5 @@
 import { useConfig } from "@/config";
+import { pfetch } from "@/infra/pfetch";
 
 import { fetchCard, getCardStr } from "./cards";
 
@@ -29,7 +30,7 @@ export async function initStrings() {
       break;
   }
 
-  const strings = await (await fetch(stringsUrl)).text();
+  const strings = await (await pfetch(stringsUrl)).text();
 
   const lineIter = strings.split("\n");
   for (const line of lineIter) {
@@ -38,8 +39,7 @@ export async function initStrings() {
       try {
         localStorage.setItem(`${region}_${code}`, value);
       } catch (error) {
-        alert(`set item in local storage error: ${error}`);
-        break;
+        throw new Error("无法保存卡片文案，请检查浏览器存储空间后重试");
       }
     }
   }

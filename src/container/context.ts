@@ -8,6 +8,7 @@ import {
   PlaceStore,
   RoomStore,
   SideStore,
+  TrainingStore,
 } from "@/stores";
 
 interface ContextInitInfo {
@@ -18,6 +19,8 @@ interface ContextInitInfo {
   chatStore?: ChatStore;
   sideStore?: SideStore;
   historyStore?: HistoryStore;
+  /** UI 连接传入共享状态；独立容器未传入时创建自己的训练状态。 */
+  trainingStore?: TrainingStore;
 }
 
 export class Context {
@@ -28,6 +31,8 @@ export class Context {
   public chatStore: ChatStore;
   public sideStore: SideStore;
   public historyStore: HistoryStore;
+  /** 服务端消息处理所使用的训练会话和准备状态。 */
+  public trainingStore: TrainingStore;
 
   constructor();
   constructor(initInfo: ContextInitInfo);
@@ -40,6 +45,7 @@ export class Context {
       chatStore,
       sideStore,
       historyStore,
+      trainingStore,
     } = initInfo ?? {};
     this.matStore = matStore ?? new MatStore();
     this.cardStore = cardStore ?? new CardStore();
@@ -48,5 +54,6 @@ export class Context {
     this.chatStore = chatStore ?? new ChatStore();
     this.sideStore = sideStore ?? new SideStore();
     this.historyStore = historyStore ?? new HistoryStore();
+    this.trainingStore = trainingStore ?? new TrainingStore();
   }
 }

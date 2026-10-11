@@ -1,0 +1,61 @@
+.hint {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.cards {
+  display: flex;
+  gap: 0.625rem;
+  width: max-content;
+  padding: 0.125rem 0.125rem 0.75rem;
+}
+
+.card {
+  position: relative;
+  flex-shrink: 0;
+  width: 6.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #0087e6;
+    outline-offset: 2px;
+  }
+
+  &.selected::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    z-index: 1;
+    border-radius: inherit;
+    box-shadow: 0 0 0 3px #0087e6 inset;
+    pointer-events: none;
+  }
+}
+
+.order {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.25rem;
+  border-radius: 0.25rem;
+  color: white;
+  background: #0087e6;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.progress {
+  margin: 0.5rem 0 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.875rem;
+}

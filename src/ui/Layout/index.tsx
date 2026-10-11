@@ -28,20 +28,14 @@ import {
 import { useConfig } from "@/config";
 import { useAdaptiveViewportScale } from "@/hook";
 import { accountStore } from "@/stores";
+import { deckLibraryStore } from "@/stores/deckLibraryStore";
+import { mdproDeckStore } from "@/stores/mdproDeckStore";
 
-import { updateMdproDeck } from "../BuildDeck/DeckDatabase/DeckResults";
 import { setCssProperties } from "../Duel/PlayMat/css";
 import { Setting } from "../Setting";
+import { ConnectionStatus } from "../Shared/ConnectionStatus";
 import styles from "./index.module.scss";
-import {
-  getLoginStatus,
-  handleSSOLogin,
-  initDeck,
-  initForbidden,
-  initI18N,
-  initSqlite,
-  initSuper,
-} from "./utils";
+import { getLoginStatus, handleSSOLogin, initializeApp } from "./utils";
 
 const NeosConfig = useConfig();
 const DEFAULT_VIEWPORT_SCALE = { designWidth: 1000, designHeight: 620 };
@@ -49,13 +43,9 @@ const DUEL_VIEWPORT_SCALE = { designWidth: 1000, designHeight: 920 };
 
 export const loader: LoaderFunction = async () => {
   getLoginStatus();
-  initDeck();
-  initSqlite();
-  initForbidden();
-  initI18N();
-  initSuper();
-  // TODO: should avoid reloading mdpro deck again
-  updateMdproDeck();
+  void initializeApp().catch(() => undefined);
+  mdproDeckStore.setAccount(accountStore.user);
+  void mdproDeckStore.load();
 
   // set some styles
   setCssProperties();
@@ -87,7 +77,11 @@ export const Component = () => {
   }, [routerLocation.search]);
 
   // 根据是否登录，显示内容
-  const logined = Boolean(useSnapshot(accountStore).user);
+  const { user } = useSnapshot(accountStore);
+  const logined = Boolean(user);
+  useEffect(() => {
+    void deckLibraryStore.setAccount(user);
+  }, [user]);
 
   const { pathname } = routerLocation;
   useAdaptiveViewportScale(
@@ -224,6 +218,7 @@ export const Component = () => {
         </nav>
       )}
       <main className={styles.main}>
+        <ConnectionStatus />
         <Outlet />
       </main>
     </>

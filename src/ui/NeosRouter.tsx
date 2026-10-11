@@ -1,12 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { Component, loader } from "./Layout";
+import { RouteError } from "./RouteError";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component,
     loader,
+    ErrorBoundary: RouteError,
     children: [
       {
         path: "/",

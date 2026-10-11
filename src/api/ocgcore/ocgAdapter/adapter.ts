@@ -1,124 +1,173 @@
+import * as wire from "ygopro-msg-encode";
+
 import { ygopro } from "../idl/ocgcore";
-import { YgoProPacket } from "./packet";
-import {
-  STOC_CHANGE_SIDE,
-  STOC_CHAT,
-  STOC_DECK_COUNT,
-  STOC_DUEL_END,
-  STOC_DUEL_START,
-  STOC_ERROR_MSG,
-  STOC_GAME_MSG,
-  STOC_HAND_RESULT,
-  STOC_HS_PLAYER_CHANGE,
-  STOC_HS_PLAYER_ENTER,
-  STOC_HS_WATCH_CHANGE,
-  STOC_JOIN_GAME,
-  STOC_SELECT_HAND,
-  STOC_SELECT_TP,
-  STOC_TIME_LIMIT,
-  STOC_TYPE_CHANGE,
-  STOC_WAITING_SIDE,
-} from "./protoDecl";
-import StocChangeSide from "./stoc/stocChangeSide";
-import StocChat from "./stoc/stocChat";
-import StocDeckCount from "./stoc/stocDeckCount";
-import StocDuelEnd from "./stoc/stocDuelEnd";
-import StocDuelStart from "./stoc/stocDuelStart";
-import StocErrorMsg from "./stoc/stocErrorMsg";
-import StocGameMsg from "./stoc/stocGameMsg/mod";
-import StocHandResult from "./stoc/stocHandResult";
-import StocHsPlayerChange from "./stoc/stocHsPlayerChange";
-import StocHsPlayerEnter from "./stoc/stocHsPlayerEnter";
-import StocHsWatchChange from "./stoc/stocHsWatchChange";
-import StocJoinGame from "./stoc/stocJoinGame";
-import StocSelectHand from "./stoc/stocSelectHand";
-import StocSelectTp from "./stoc/stocSelectTp";
-import StocTimeLimit from "./stoc/stocTimeLimit";
-import StocTypeChange from "./stoc/stocTypeChange";
-import StocWaitingSide from "./stoc/stocWaitingSide";
+import { decodeGame } from "./decodeGame";
+import { decodeHand } from "./handType";
+import type { YgoProPacket } from "./packet";
 
-/*
- * 将[`ygoProPacket`]对象转换成[`ygopro.YgoStocMsg`]对象
- *
- * @param packet - The ygoProPacket object
- * @returns The ygopro.YgoStocMsg object
- *
- * */
+function message<T extends wire.YGOProStocBase>(
+  Type: new () => T,
+  packet: YgoProPacket,
+): T {
+  return new Type().fromPayload(packet.exData);
+}
+
+/** 保留 Neos 的网络分包和业务对象，包体统一由编码库读取。 */
 export function adaptStoc(packet: YgoProPacket): ygopro.YgoStocMsg {
-  let pb = new ygopro.YgoStocMsg({});
   switch (packet.proto) {
-    case STOC_JOIN_GAME: {
-      pb = new StocJoinGame(packet).upcast();
-      break;
+    case wire.YGOProStocGameMsg.identifier:
+      return new ygopro.YgoStocMsg({
+        stoc_game_msg: decodeGame(packet.exData),
+      });
+    case wire.YGOProStocJoinGame.identifier: {
+      const info =
+        packet.exData.length >= 20
+          ? message(wire.YGOProStocJoinGame, packet).info
+          : undefined;
+      return new ygopro.YgoStocMsg({
+        stoc_join_game: new ygopro.StocJoinGame(
+          info
+            ? {
+                ...info,
+                no_check_deck: !!info.no_check_deck,
+                no_shuffle_deck: !!info.no_shuffle_deck,
+              }
+            : { time_limit: -1 },
+        ),
+      });
     }
-    case STOC_CHAT: {
-      pb = new StocChat(packet).upcast();
-      break;
+    case wire.YGOProStocChat.identifier: {
+      const m = message(wire.YGOProStocChat, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_chat: new ygopro.StocChat({ player: m.player_type, msg: m.msg }),
+      });
     }
-    case STOC_HS_PLAYER_ENTER: {
-      pb = new StocHsPlayerEnter(packet).upcast();
-      break;
+    case wire.YGOProStocHsPlayerEnter.identifier: {
+      const m = message(wire.YGOProStocHsPlayerEnter, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_hs_player_enter: new ygopro.StocHsPlayerEnter({
+          name: m.name,
+          pos: m.pos & 3,
+        }),
+      });
     }
-    case STOC_HS_PLAYER_CHANGE: {
-      pb = new StocHsPlayerChange(packet).upcast();
-      break;
+    case wire.YGOProStocHsPlayerChange.identifier: {
+      const { status } = message(wire.YGOProStocHsPlayerChange, packet);
+      const pos = status >> 4;
+      const state = status & 15;
+      const S = ygopro.StocHsPlayerChange.State;
+      return new ygopro.YgoStocMsg({
+        stoc_hs_player_change: new ygopro.StocHsPlayerChange({
+          pos,
+          state:
+            pos >= 4
+              ? S.UNKNOWN
+              : state < 8
+              ? S.MOVE
+              : (
+                  {
+                    8: S.TO_OBSERVER,
+                    9: S.READY,
+                    10: S.NO_READY,
+                    11: S.LEAVE,
+                  } as Record<number, ygopro.StocHsPlayerChange.State>
+                )[state] ?? S.UNKNOWN,
+          moved_pos: pos < 4 && state < 8 ? state : undefined,
+        }),
+      });
     }
-    case STOC_HS_WATCH_CHANGE: {
-      pb = new StocHsWatchChange(packet).upcast();
-      break;
+    case wire.YGOProStocHsWatchChange.identifier:
+      return new ygopro.YgoStocMsg({
+        stoc_hs_watch_change: new ygopro.StocHsWatchChange({
+          count: message(wire.YGOProStocHsWatchChange, packet).watch_count,
+        }),
+      });
+    case wire.YGOProStocTypeChange.identifier: {
+      const { type } = message(wire.YGOProStocTypeChange, packet);
+      const pos = type & 15;
+      return new ygopro.YgoStocMsg({
+        stoc_type_change: new ygopro.StocTypeChange({
+          is_host: type >> 4 !== 0,
+          self_type:
+            pos === 7
+              ? ygopro.StocTypeChange.SelfType.OBSERVER
+              : pos <= 5
+              ? pos + 1
+              : ygopro.StocTypeChange.SelfType.UNKNOWN,
+        }),
+      });
     }
-    case STOC_TYPE_CHANGE: {
-      pb = new StocTypeChange(packet).upcast();
-      break;
+    case wire.YGOProStocHandResult.identifier: {
+      const m = message(wire.YGOProStocHandResult, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_hand_result: new ygopro.StocHandResult({
+          meResult: decodeHand(m.res1),
+          opResult: decodeHand(m.res2),
+        }),
+      });
     }
-    case STOC_SELECT_HAND: {
-      pb = new StocSelectHand(packet).upcast();
-      break;
+    case wire.YGOProStocDeckCount.identifier: {
+      const m = message(wire.YGOProStocDeckCount, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_deck_count: new ygopro.StocDeckCount({
+          meMain: m.player0DeckCount.main,
+          meExtra: m.player0DeckCount.extra,
+          meSide: m.player0DeckCount.side,
+          opMain: m.player1DeckCount.main,
+          opExtra: m.player1DeckCount.extra,
+          opSide: m.player1DeckCount.side,
+        }),
+      });
     }
-    case STOC_SELECT_TP: {
-      pb = new StocSelectTp(packet).upcast();
-      break;
+    case wire.YGOProStocTimeLimit.identifier: {
+      const m = message(wire.YGOProStocTimeLimit, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_time_limit: new ygopro.StocTimeLimit({
+          player: m.player,
+          left_time: m.left_time,
+        }),
+      });
     }
-    case STOC_HAND_RESULT: {
-      pb = new StocHandResult(packet).upcast();
-      break;
+    case wire.YGOProStocErrorMsg.identifier: {
+      const m = message(wire.YGOProStocErrorMsg, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_error_msg: new ygopro.StocErrorMsg({
+          error_type: Number(m.msg),
+          error_code: m.code | 0,
+        }),
+      });
     }
-    case STOC_DECK_COUNT: {
-      pb = new StocDeckCount(packet).upcast();
-      break;
-    }
-    case STOC_DUEL_START: {
-      pb = new StocDuelStart(packet).upcast();
-      break;
-    }
-    case STOC_DUEL_END: {
-      pb = new StocDuelEnd(packet).upcast();
-      break;
-    }
-    case STOC_GAME_MSG: {
-      pb = new StocGameMsg(packet).upcast();
-      break;
-    }
-    case STOC_TIME_LIMIT: {
-      pb = new StocTimeLimit(packet).upcast();
-      break;
-    }
-    case STOC_ERROR_MSG: {
-      pb = new StocErrorMsg(packet).upcast();
-      break;
-    }
-    case STOC_CHANGE_SIDE: {
-      pb = new StocChangeSide(packet).upcast();
-      break;
-    }
-    case STOC_WAITING_SIDE: {
-      pb = new StocWaitingSide(packet).upcast();
-      break;
-    }
-    default: {
-      break;
-    }
+    case wire.YGOProStocSelectHand.identifier:
+      message(wire.YGOProStocSelectHand, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_select_hand: new ygopro.StocSelectHand({}),
+      });
+    case wire.YGOProStocSelectTp.identifier:
+      message(wire.YGOProStocSelectTp, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_select_tp: new ygopro.StocSelectTp({}),
+      });
+    case wire.YGOProStocDuelStart.identifier:
+      message(wire.YGOProStocDuelStart, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_duel_start: new ygopro.StocDuelStart({}),
+      });
+    case wire.YGOProStocDuelEnd.identifier:
+      message(wire.YGOProStocDuelEnd, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_duel_end: new ygopro.StocDuelEnd({}),
+      });
+    case wire.YGOProStocChangeSide.identifier:
+      message(wire.YGOProStocChangeSide, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_change_side: new ygopro.StocChangeSide({}),
+      });
+    case wire.YGOProStocWaitingSide.identifier:
+      message(wire.YGOProStocWaitingSide, packet);
+      return new ygopro.YgoStocMsg({
+        stoc_waiting_side: new ygopro.StocWaitingSide({}),
+      });
+    default:
+      return new ygopro.YgoStocMsg({});
   }
-
-  return pb;
 }

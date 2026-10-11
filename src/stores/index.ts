@@ -9,6 +9,7 @@ export * from "./placeStore";
 export * from "./replayStore";
 export * from "./roomStore";
 export * from "./sideStore";
+export * from "./trainingStore";
 
 import { devtools } from "valtio/utils";
 
@@ -18,6 +19,7 @@ import { accountStore } from "./accountStore";
 import { cardStore } from "./cardStore";
 import { chatStore } from "./chatStore";
 import { deckStore } from "./deckStore";
+import { resetDuelDialogs } from "./duelDialogs";
 import { historyStore } from "./historyStore";
 import { initStore } from "./initStore";
 import { matStore } from "./matStore";
@@ -25,6 +27,7 @@ import { placeStore } from "./placeStore";
 import { replayStore } from "./replayStore";
 import { roomStore } from "./roomStore";
 import { sideStore } from "./sideStore";
+import { trainingStore } from "./trainingStore";
 
 const { DEV } = useEnv();
 
@@ -41,6 +44,9 @@ devtools(sideStore, { name: "side", enabled: DEV });
 
 // 重置`Store`
 export const resetUniverse = () => {
+  // 先取消训练标记，后续清理和新连接不会继续自动准备。
+  trainingStore.reset();
+  resetDuelDialogs();
   roomStore.reset();
   cardStore.reset();
   chatStore.reset();
@@ -54,6 +60,7 @@ export const resetUniverse = () => {
 
 // 重置决斗相关的`Store`
 export const resetDuel = () => {
+  resetDuelDialogs();
   cardStore.reset();
   matStore.reset();
   placeStore.reset();

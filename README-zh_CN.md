@@ -51,6 +51,18 @@ NEOS现在开启公测啦，详情请移步[萌卡社区帖子](https://ygobbs.c
 ## 文档
 请移步[Neos文档](https://doc.neos.moe)。
 
+## 开发与场地图资源
+
+场地图由 [neos-filed](https://code.moenext.com/hex/neos-filed) 的 CI 从上游转换为 WebP，当前项目通过 Git submodule 固定图片和清单的版本。首次开发或构建前初始化该依赖：
+
+```sh
+npm run fields:init
+npm ci
+npm run dev
+```
+
+更新场地图时运行 `npm run fields:update`，验证后将 `neos-filed` 的新提交指针纳入主项目提交。主项目无需安装 WebP 转换器。开发和生产环境继续使用 `/neos-assets/fields/<卡号>.webp`，无法加载时仍回退到远程场地图。
+
 ## 部署站点
 * 在萌卡社区部署的站点：https://neos.moecube.com
 * 在[Cloudflare](https://www.cloudflare.com/)部署的站点：https://www.neos.moe

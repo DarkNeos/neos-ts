@@ -13,7 +13,7 @@ import {
 } from "@/api";
 import PlayerState = ygopro.StocHsPlayerChange.State;
 import SelfType = ygopro.StocTypeChange.SelfType;
-import { App, Avatar, Button, Skeleton, Space } from "antd";
+import { App, Avatar, Button, Skeleton, Space, Typography } from "antd";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,18 +23,20 @@ import { useSnapshot } from "valtio";
 import { useConfig } from "@/config";
 import { getUIContainer } from "@/container/compat";
 import { AudioActionType, changeScene } from "@/infra/audio";
-import { closeSocket } from "@/middleware/socket";
 import {
   accountStore,
-  deckStore,
   IDeck,
   Player,
   resetUniverse,
   RoomStage,
   roomStore,
   sideStore,
+  trainingStore,
 } from "@/stores";
-import { Background, IconFont, Select, SpecialButton } from "@/ui/Shared";
+import { deckLibraryStore } from "@/stores/deckLibraryStore";
+import { disconnectSession } from "@/ui/Match/util";
+import { Background, IconFont, SpecialButton } from "@/ui/Shared";
+import { DeckLibraryPicker } from "@/ui/Shared/DeckLibraryPicker";
 
 import { Chat } from "./Chat";
 import styles from "./index.module.scss";
@@ -51,17 +53,16 @@ export const loader: LoaderFunction = async () => {
 export const Component: React.FC = () => {
   const container = getUIContainer();
   const { t: i18n } = useTranslation("WaitRoom");
+  const { t: trainingText } = useTranslation("BuildDeck");
   const { message } = App.useApp();
   const { user } = useSnapshot(accountStore);
   const [collapsed, setCollapsed] = useState(false);
-  const { decks } = deckStore;
-  const defaultDeck =
-    decks.length > 0 ? JSON.parse(JSON.stringify(decks[0])) : undefined;
-  const [deck, setDeck] = useState<IDeck | undefined>(defaultDeck);
+  const { selectedDeck, selectingId } = useSnapshot(deckLibraryStore);
+  const deck = selectedDeck as IDeck | undefined;
   const room = useSnapshot(roomStore);
+  const { session: training } = useSnapshot(trainingStore);
   const { errorMsg } = room;
   const me = room.getMePlayer();
-  const op = room.getOpPlayer();
   const navigate = useNavigate();
 
   const updateDeck = (deck: IDeck) => {
@@ -70,18 +71,12 @@ export const Component: React.FC = () => {
     sideStore.setSideDeck(deck);
   };
 
-  const onDeckSelected = (deckName: string) => {
-    const newDeck = deckStore.get(deckName);
-    if (newDeck) {
-      sendHsNotReady(container.conn);
-      updateDeck(newDeck);
-      setDeck(newDeck);
-    } else {
-      message.error(`Deck ${deckName} not found`);
-    }
+  const onDeckSelected = () => {
+    sendHsNotReady(container.conn);
   };
 
   const onReady = () => {
+    if (deckLibraryStore.selectingId) return;
     if (me?.state === PlayerState.NO_READY) {
       if (deck) {
         updateDeck(deck);
@@ -95,15 +90,22 @@ export const Component: React.FC = () => {
   };
 
   useEffect(() => {
-    // 组件初始化时发一次更新卡组的包
-    //
-    // 否则娱乐匹配准备会有问题（原因不明）
-    if (deck) sendUpdateDeck(container.conn, deck);
-  }, []);
+    // 入场或切换卡组时同步服务端及换副卡组缓存。
+    // 训练卡组已由身份消息上传，不能再用大厅中已保存的卡组覆盖它。
+    if (
+      !training &&
+      deck &&
+      room.selfType !== SelfType.OBSERVER &&
+      room.stage === RoomStage.WAITING &&
+      me?.state === PlayerState.NO_READY
+    )
+      updateDeck(deck);
+  }, [deck, room.selfType, room.stage, me?.state, training]);
   useEffect(() => {
     if (room.stage === RoomStage.DUEL_START) {
       // 决斗开始，跳转决斗页面
-      navigate("/duel");
+      // 训练替换等待页记录，避免浏览器后退进入已经开始的房间。
+      navigate("/duel", { replace: !!trainingStore.session });
       // TODO: 重置房间状态(也可能是在这个页面的loader之中重置，就看是进房间重置还是离开时重置，可能需要考虑意外离开的情况)
     }
   }, [room.stage]);
@@ -131,7 +133,28 @@ export const Component: React.FC = () => {
           switchCollapse={() => setCollapsed(!collapsed)}
         />
         <div className={styles.wrap}>
-          <Controller onDeckChange={onDeckSelected} />
+          {/* 训练自动准备和选择先后攻，这里只显示规则摘要与返回编辑器入口。 */}
+          {training ? (
+            <Space
+              direction="vertical"
+              align="center"
+              data-testid="training-waitroom"
+            >
+              <Typography.Text>{training.deck.deckName}</Typography.Text>
+              <Typography.Text type="secondary">
+                {trainingText(
+                  training.first ? "TrainingFirst" : "TrainingSecond",
+                )}
+                {` · ${trainingText("TrainingHandSizeSummary", {
+                  count: training.handSize,
+                })}`}
+                {training.noShuffle &&
+                  ` · ${trainingText("TrainingNoShuffle")}`}
+              </Typography.Text>
+            </Space>
+          ) : (
+            <Controller onDeckChange={onDeckSelected} />
+          )}
           <div className={styles["both-side-container"]}>
             <PlayerZone
               who={Who.Me}
@@ -140,23 +163,28 @@ export const Component: React.FC = () => {
               ready={me?.state === PlayerState.READY}
               btn={
                 room.stage === RoomStage.WAITING ? (
-                  <Button
-                    data-testid="waitroom-ready-toggle"
-                    data-player-ready={me?.state === PlayerState.READY}
-                    size="large"
-                    className={styles["btn-join"]}
-                    onClick={onReady}
-                  >
-                    {me?.state === PlayerState.NO_READY
-                      ? i18n("DuelReady")
-                      : i18n("CancelReady")}
-                  </Button>
+                  training ? (
+                    <LoadingOutlined className={styles["btn-join"]} />
+                  ) : (
+                    <Button
+                      data-testid="waitroom-ready-toggle"
+                      data-player-ready={me?.state === PlayerState.READY}
+                      disabled={!!selectingId}
+                      size="large"
+                      className={styles["btn-join"]}
+                      onClick={onReady}
+                    >
+                      {me?.state === PlayerState.NO_READY
+                        ? i18n("DuelReady")
+                        : i18n("CancelReady")}
+                    </Button>
+                  )
                 ) : (
                   <MoraAvatar
                     mora={
                       me?.moraResult !== undefined &&
                       me.moraResult !== HandType.UNKNOWN
-                        ? Object.values(Mora)[me.moraResult - 1]
+                        ? moraByHand[me.moraResult]
                         : undefined
                     }
                   />
@@ -170,14 +198,14 @@ export const Component: React.FC = () => {
                   key={idx}
                   who={Who.Op}
                   player={player}
-                  ready={op?.state === PlayerState.READY}
+                  ready={player?.state === PlayerState.READY}
                   btn={
                     room.stage === RoomStage.WAITING ? null : (
                       <MoraAvatar
                         mora={
-                          op?.moraResult !== undefined &&
-                          op.moraResult !== HandType.UNKNOWN
-                            ? Object.values(Mora)[op.moraResult - 1]
+                          player?.moraResult !== undefined &&
+                          player.moraResult !== HandType.UNKNOWN
+                            ? moraByHand[player.moraResult]
                             : undefined
                         }
                       />
@@ -186,20 +214,48 @@ export const Component: React.FC = () => {
                 />
               ))}
           </div>
-          <ActionButton
-            onMoraSelect={(mora) => {
-              sendHandResult(container.conn, mora);
-              roomStore.stage = RoomStage.HAND_SELECTED;
-            }}
-            onTpSelect={(tp) => {
-              sendTpResult(container.conn, tp === Tp.First);
-              roomStore.stage = RoomStage.TP_SELECTED;
-            }}
-          />
+          {training ? (
+            <Space
+              direction="vertical"
+              align="center"
+              className={styles["btns-action"]}
+            >
+              <Typography.Text data-testid="training-auto-start">
+                <LoadingOutlined /> {trainingText("TrainingAutoStart")}
+              </Typography.Text>
+              <Button
+                data-testid="training-return-editor"
+                onClick={() => {
+                  disconnectSession();
+                  resetUniverse();
+                  navigate("/build", { replace: true });
+                }}
+              >
+                {trainingText("TrainingReturnToEditor")}
+              </Button>
+            </Space>
+          ) : (
+            <ActionButton
+              onMoraSelect={(mora) => {
+                sendHandResult(container.conn, mora);
+                roomStore.stage = RoomStage.HAND_SELECTED;
+              }}
+              onTpSelect={(tp) => {
+                sendTpResult(container.conn, tp === Tp.First);
+                roomStore.stage = RoomStage.TP_SELECTED;
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
   );
+};
+
+const moraByHand: Partial<Record<HandType, Mora>> = {
+  [HandType.ROCK]: Mora.Rock,
+  [HandType.SCISSORS]: Mora.Scissors,
+  [HandType.PAPER]: Mora.Paper,
 };
 
 enum Who {
@@ -256,7 +312,11 @@ const PlayerZone: React.FC<{
 
 // 展示猜拳结果的组件
 const MoraAvatar: React.FC<{ mora?: Mora }> = ({ mora }) => (
-  <div style={{ marginLeft: "auto" }}>
+  <div
+    data-testid="waitroom-mora-result"
+    data-hand={mora}
+    style={{ marginLeft: "auto" }}
+  >
     {mora ? (
       <Avatar
         style={{ marginLeft: "auto" }}
@@ -269,29 +329,23 @@ const MoraAvatar: React.FC<{ mora?: Mora }> = ({ mora }) => (
   </div>
 );
 
-const Controller: React.FC<{ onDeckChange: (deckName: string) => void }> = ({
+const Controller: React.FC<{ onDeckChange: () => void }> = ({
   onDeckChange,
 }) => {
   const container = getUIContainer();
   const { t: i18n } = useTranslation("WaitRoom");
-  const snapDeck = useSnapshot(deckStore);
   const snapRoom = useSnapshot(roomStore);
   return (
     <Space>
-      <Select
-        data-testid="waitroom-deck-select"
+      <DeckLibraryPicker
+        testId="waitroom-deck-select"
         title={i18n("Deck")}
-        showSearch
         style={{ width: "15.6rem" }}
-        defaultValue={snapDeck.decks[0].deckName}
-        options={snapDeck.decks.map((deck) => ({
-          value: deck.deckName,
-          title: deck.deckName,
-        }))}
-        onChange={
-          // @ts-ignore
-          (value) => onDeckChange(value)
+        disabled={
+          snapRoom.stage !== RoomStage.WAITING ||
+          snapRoom.selfType === SelfType.OBSERVER
         }
+        onSelected={onDeckChange}
       />
       <Button
         size="large"
@@ -337,12 +391,14 @@ const SideButtons: React.FC<{
           </span>
         }
         onClick={() => {
+          // 断开连接会清除训练状态，先保存返回目标再进行清理。
+          const destination = trainingStore.session ? "/build" : "/match";
           // 断开websocket🔗
-          closeSocket(getUIContainer().conn);
+          disconnectSession();
           // 重置stores
           resetUniverse();
           // 返回上一个路由
-          navigate("/match");
+          navigate(destination, { replace: destination === "/build" });
         }}
       />
       <Button

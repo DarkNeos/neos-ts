@@ -17,6 +17,8 @@ export interface MdproDeck {
   deckContributor: string;
   /* Name of the deck. */
   deckName: string;
+  /** MDPro3、YGOMobile 中的卡组分组。 */
+  deckType?: string;
   deckRank?: number;
   deckLike?: number;
   deckUploadDate?: number; // Changed to number (13-digit timestamp)

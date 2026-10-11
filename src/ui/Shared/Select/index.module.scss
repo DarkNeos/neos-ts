@@ -1,7 +1,10 @@
 .custom-select {
   display: flex;
   align-items: center;
+  min-width: 0;
   .prefix {
+    flex-shrink: 0;
+    white-space: nowrap;
     height: 2rem;
     line-height: 2rem;
     padding: 0 1rem;
@@ -11,8 +14,32 @@
     border-bottom-right-radius: 0;
     background-color: hsla(0, 0%, 100%, 0.1);
   }
+  .select {
+    min-width: 5rem;
+  }
   .select :global(.ant-select-selector) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+}
+
+.small {
+  align-items: stretch;
+  .prefix {
+    display: flex;
+    align-items: center;
+    height: auto;
+    line-height: normal;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+  }
+  .select {
+    min-width: 4rem;
+  }
+}
+
+.popup :global(.ant-select-item-option-content) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
 }

@@ -27,7 +27,10 @@ export default (container: Container, updateCounter: MsgUpdateCounter) => {
       }
       case ygopro.StocGameMessage.MsgUpdateCounter.ActionType.REMOVE: {
         if (counterType in target.counters) {
-          target.counters[counterType] -= count;
+          target.counters[counterType] = Math.max(
+            0,
+            target.counters[counterType] - count,
+          );
         }
         playEffect(AudioActionType.SOUND_COUNTER_REMOVE);
         break;

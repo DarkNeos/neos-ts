@@ -1,10 +1,6 @@
-import { useConfig } from "@/config";
-
-import { handleHttps } from "..";
 import { MdproResp } from "./schema";
-import { mdproHeaders } from "./util";
+import { mdproRequest } from "./util";
 
-const { mdproServer } = useConfig();
 const API_PATH = "api/mdpro3/sync/single";
 
 export interface SyncReq {
@@ -28,17 +24,6 @@ export interface SyncReq {
 export async function syncDeck(
   req: SyncReq,
   token: string,
-): Promise<MdproResp<boolean> | undefined> {
-  const myHeaders = mdproHeaders();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("token", token);
-
-  const resp = await fetch(`${mdproServer}/${API_PATH}`, {
-    method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(req),
-    redirect: "follow",
-  });
-
-  return await handleHttps(resp, API_PATH);
+): Promise<MdproResp<"true" | "false">> {
+  return mdproRequest(API_PATH, { token, body: req });
 }

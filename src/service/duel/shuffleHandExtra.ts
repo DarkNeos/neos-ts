@@ -11,7 +11,7 @@ const { FACEUP, FACEUP_ATTACK, FACEUP_DEFENSE } = ygopro.CardPosition;
 const emptyMeta = (): CardMeta => ({ id: 0, data: {}, text: {} });
 
 const setCardCode = (card: CardType, code: number) => {
-  if (card.code === code && (code === 0 || card.meta.id !== 0)) return;
+  if (card.code === code && card.meta.id === code) return;
 
   card.code = code;
   card.meta = code > 0 ? fetchCard(code) : emptyMeta();
@@ -34,6 +34,8 @@ export default async (
     .sort((a, b) => a.location.sequence - b.location.sequence);
   const targetCards =
     zone === EXTRA ? cards.filter((card) => !isFaceup(card)) : cards;
+  // 洗牌后不能再把发动记录对应到原来那个手牌位置。
+  context.matStore.clearChainBindings(targetCards.map((card) => card.uuid));
 
   await Promise.all(
     targetCards.map(async (card, index) => {
@@ -45,7 +47,9 @@ export default async (
         return;
       }
 
+      context.cardStore.resetFieldState(card);
       setCardCode(card, code);
+      card.descriptionHints = {};
       await callCardMove(card.uuid);
     }),
   );

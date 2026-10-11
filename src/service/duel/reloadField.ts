@@ -8,6 +8,11 @@ type MsgReloadField = ygopro.StocGameMessage.MsgReloadField;
 
 export default (container: Container, field: MsgReloadField) => {
   const context = container.context;
+  context.matStore.deckReserved = false;
+  context.matStore.chainCards = [];
+  context.matStore.chains = [];
+  context.matStore.playerHints = {};
+  context.matStore.hint.zones = [];
   // 重置
   context.cardStore.reset();
 

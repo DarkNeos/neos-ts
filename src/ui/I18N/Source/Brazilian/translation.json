@@ -39,13 +39,32 @@
     "WIPDesc": "Aguarde por outras funcionalidades."
   },
   "BuildDeck": {
+    "Environment": "Formato",
+    "Banlist": "Lista de restrições",
+    "NoBanlist": "Nenhuma lista disponível",
+    "SearchNameOnly": "Buscar apenas nomes",
+    "StartTraining": "Iniciar treino",
+    "TrainingSettings": "Configurações de treino",
+    "TrainingTurnOrder": "Ordem de jogo",
+    "TrainingFirst": "Jogar primeiro",
+    "TrainingSecond": "Jogar em segundo",
+    "TrainingHandSize": "Cartas na mão inicial",
+    "TrainingHandSizeRange": "{{min}}–{{max}} cartas",
+    "TrainingInvalidHandSize": "Digite um número inteiro de {{min}} a {{max}}.",
+    "TrainingHandSizeSummary": "{{count}} cartas iniciais",
+    "TrainingNoShuffle": "Não embaralhar no início",
+    "TrainingCurrentDeck": "Usa o deck atual do editor, incluindo alterações não salvas.",
+    "TrainingFailed": "Não foi possível iniciar o treino. Tente novamente.",
+    "TrainingAutoStart": "Preparação automática, aguardando o início do treino",
+    "TrainingReturnToEditor": "Voltar ao editor",
+    "TrainingRestart": "Reiniciar treino",
     "EnterTheDeckName": "Nome do deck",
     "Shuffle": "Embaralhar",
     "Sort": "Ordenar",
     "Clear": "Limpar",
     "Reset": "Redefinir",
     "Save": "Salvar",
-    "QuestionCircleTooltip": "Clique duas vezes para adicionar uma carta, clique com o botão direito para remover uma carta, pressione o botão do meio do mouse para alternar cartas entre o deck principal e o deck lateral.",
+    "QuestionCircleTooltip": "Arraste as cartas para alterar a ordem, clique duas vezes para adicionar uma carta, clique com o botão direito para remover uma carta, pressione o botão do meio do mouse para alternar cartas entre o deck principal e o deck lateral.",
     "Filter": "Filtrar",
     "SortBy": "Ordenar por ",
     "KeywordsPlaceholder": "Palavras-chave (separadas por espaços)",
@@ -159,6 +178,10 @@
     "PleaseEnterChatContent": "Por favor, insira o conteúdo do chat"
   },
   "MatchModal": {
+    "CustomServer": "Servidor personalizado",
+    "ServerAddress": "Endereço do servidor",
+    "ServerAddressPlaceholder": "Ex.: wss://example.com:443",
+    "CustomServerHint": "Digite host:porta ou um endereço wss:// completo. A última entrada é salva automaticamente.",
     "PleaseEnterCustomRoomInformation": "Por favor, insira as informações da sala personalizada",
     "Server": "Servidor",
     "KoishiServer": "Servidor Koishi",
@@ -170,7 +193,7 @@
   "ReplayModal": {
     "SelectReplay": "Selecionar Replay",
     "ClickOrDragFilesHereToUpload": "Clique ou arraste arquivos aqui para fazer upload",
-    "SupportsYrd3dExtension": "Apenas arquivos de replay com a extensão .yrp3d são suportados.",
+    "SupportsReplayExtensions": "Suporta arquivos de replay .yrp3d, .yrp e .yrp2.",
     "StartReplay": "Iniciar Replay",
     "PleaseUploadReplayFile": "Por favor, carregue o arquivo de replay primeiro."
   },
@@ -199,6 +222,7 @@
     "SwitchMusicAccordingToTheEnvironment": "Trocar música conforme o ambiente",
     "LanguageSettings": "Idioma",
     "AnimationSettings": "Animação",
+    "EnableAnimations": "Ativar animações",
     "AnimationSpeed": "Velocidade da animação"
   },
   "DeckResults": {

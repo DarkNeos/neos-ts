@@ -1,11 +1,10 @@
-// 暂时先简单实现攻击动画，后面有时间再慢慢优化
 import { easings } from "@react-spring/web";
 
 import { isMe } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { AttackFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, getDuration } from "./utils";
 
 const { BLOCK_WIDTH, BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, COL_GAP, ROW_GAP } =
   matConfig;
@@ -13,6 +12,7 @@ const { BLOCK_WIDTH, BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, COL_GAP, ROW_GAP } =
 export const attack: AttackFunc = async (props) => {
   const { card, api, options } = props;
   const current = api.current[0].get();
+  const duration = getDuration();
 
   let x = current.x;
   let y = current.y;
@@ -50,6 +50,11 @@ export const attack: AttackFunc = async (props) => {
   // 先浮空
   await asyncStart(api)({
     z: 200,
+    config: {
+      duration: duration / 4,
+      easing: easings.easeOutQuad,
+      clamp: true,
+    },
   });
   // 后撤半个卡位，并调整倾斜角
   await asyncStart(api)({
@@ -57,13 +62,20 @@ export const attack: AttackFunc = async (props) => {
       current.y +
       (BLOCK_HEIGHT_M / 2) * (isMe(card.location.controller) ? 1 : -1),
     rz,
+    config: {
+      duration: duration / 4,
+      easing: easings.easeInOutSine,
+      clamp: true,
+    },
   });
   // 加速前冲
   await asyncStart(api)({
     x,
     y,
     config: {
-      easing: easings.easeInOutSine,
+      duration: duration * 0.75,
+      easing: easings.easeInCubic,
+      clamp: true,
     },
   });
   // 减速归位
@@ -73,7 +85,9 @@ export const attack: AttackFunc = async (props) => {
     z: current.z,
     rz: current.rz,
     config: {
-      easing: easings.easeInOutQuad,
+      duration: duration * 0.75,
+      easing: easings.easeOutCubic,
+      clamp: true,
     },
   });
 };

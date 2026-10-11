@@ -1,6 +1,7 @@
 import { BufferReader } from "@/infra";
 
 import { ygopro } from "../../idl/ocgcore";
+import { decodeHand } from "../handType";
 import { StocAdapter, YgoProPacket } from "../packet";
 
 /*
@@ -17,8 +18,8 @@ export default class SelectHand implements StocAdapter {
 
   upcast(): ygopro.YgoStocMsg {
     const reader = new BufferReader(this.packet.exData);
-    const meResult = reader.readUint8();
-    const opResult = reader.readUint8();
+    const meResult = decodeHand(reader.readUint8());
+    const opResult = decodeHand(reader.readUint8());
     return new ygopro.YgoStocMsg({
       stoc_hand_result: new ygopro.StocHandResult({
         meResult,

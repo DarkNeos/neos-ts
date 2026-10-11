@@ -1,5 +1,6 @@
 import { fetchStrings, Region, type ygopro } from "@/api";
 import { CardMeta, fetchCard } from "@/api/cards";
+import { formatCardName } from "@/api/cardText";
 import { displayYesNoModal } from "@/ui/Duel/Message";
 
 type MsgSelectEffectYn = ygopro.StocGameMessage.MsgSelectEffectYn;
@@ -21,11 +22,19 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
             `[%ls]`,
             fetchStrings(Region.System, cardLocation.zone + 1000),
           );
-          const desc2 = desc1.replace(`[%ls]`, cardMeta.text.name || "[?]");
+          const desc2 = formatCardName(
+            desc1,
+            cardMeta.text.name || "?",
+            "[%ls]",
+          );
           return desc2;
         }
       : (desc: string, cardMeta: CardMeta, _: ygopro.CardLocation) => {
-          const desc1 = desc.replace(`[%ls]`, cardMeta.text.name || "[?]");
+          const desc1 = formatCardName(
+            desc,
+            cardMeta.text.name || "?",
+            "[%ls]",
+          );
           return desc1;
         };
 

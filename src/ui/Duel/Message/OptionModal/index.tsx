@@ -1,19 +1,12 @@
 import { CheckCard } from "@ant-design/pro-components";
-import { Button, Segmented } from "antd";
-import { chunk } from "lodash-es";
-import React, { useEffect, useState } from "react";
+import { Button } from "antd";
+import { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import {
-  type CardMeta,
-  fetchStrings,
-  getCardStr,
-  Region,
-  sendSelectIdleCmdResponse,
-  sendSelectOptionResponse,
-} from "@/api";
-import { Container } from "@/container";
+import { sendSelectOptionResponse } from "@/api";
 import { getUIContainer } from "@/container/compat";
+import { DuelChoice } from "@/stores/duelChoice";
+import { ScrollableArea } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
@@ -23,52 +16,40 @@ type Options = { info: string; response: number }[];
 const defaultStore = {
   title: "",
   isOpen: false,
+  requestId: 0,
   min: 1,
   options: [] satisfies Options as Options,
 };
-const store = proxy(defaultStore);
-
-// 一页最多4个选项
-const MAX_NUM_PER_PAGE = 4;
+const store = proxy({ ...defaultStore });
 
 export const OptionModal = () => {
-  const container = getUIContainer();
   const snap = useSnapshot(store);
-  const { title, isOpen, min, options } = snap;
-  // options可能太多，因此分页展示
-  const [page, setPage] = useState(0);
-  const maxPage = Math.ceil(options.length / MAX_NUM_PER_PAGE);
-  const [selecteds, setSelecteds] = useState<number[][]>([]);
-  const grouped = chunk(options, MAX_NUM_PER_PAGE);
+  const { title, isOpen, min, options, requestId } = snap;
+  const [selecteds, setSelecteds] = useState<number[]>([]);
 
   const onSummit = () => {
-    const responses = selecteds.flat();
-    if (responses.length > 0) {
-      const response = responses.reduce((res, current) => res | current, 0); // 多个选择求或
-      sendSelectOptionResponse(container.conn, response);
-      rs();
-    }
+    // eslint-disable-next-line valtio/state-snapshot-rule -- 旧事件必须携带原请求编号。
+    choice.submit(selecteds, requestId);
   };
 
   useEffect(() => {
-    setSelecteds(Array.from({ length: maxPage }).map((_) => []));
-  }, [options]);
+    setSelecteds([]);
+  }, [requestId]);
 
   const onQuickSelect = (response: number) => {
-    if (store.min === 1) {
-      sendSelectOptionResponse(container.conn, response);
-      rs();
-    }
+    // eslint-disable-next-line valtio/state-snapshot-rule -- 旧事件必须携带原请求编号。
+    if (store.min === 1) choice.submit([response], requestId);
   };
 
   return (
     <NeosModal
+      movable
       title={title}
       open={isOpen}
       footer={
         <Button
           data-testid="duel-option-submit"
-          disabled={selecteds.flat().length !== min}
+          disabled={selecteds.length !== min}
           onClick={onSummit}
         >
           确定
@@ -76,106 +57,103 @@ export const OptionModal = () => {
       }
     >
       <div data-testid="duel-option-modal" data-option-min={min}>
-        <Selector page={page} maxPage={maxPage} onChange={setPage as any} />
-        {grouped.map(
-          (options, i) =>
-            i === page && (
-              <div className={styles.container} key={i}>
-                <CheckCard.Group
-                  bordered
-                  multiple
-                  value={selecteds[i]}
-                  className={styles["check-card-group"]}
-                  onChange={(values: any) => {
-                    const v = selecteds.map((x, i) =>
-                      i === page ? values : x,
-                    );
-                    setSelecteds(v);
-                  }}
-                >
-                  {options.map((option, idx) => (
-                    <div
-                      key={idx}
-                      data-testid="duel-option-item"
-                      data-option-response={option.response}
-                      data-option-text={option.info}
-                      onDoubleClick={() => onQuickSelect(option.response)}
-                    >
-                      <CheckCard
-                        className={styles["check-card"]}
-                        description={option.info}
-                        value={option.response}
-                      />
-                    </div>
-                  ))}
-                </CheckCard.Group>
+        <ScrollableArea maxHeight="50vh" className={styles.container}>
+          <CheckCard.Group
+            bordered
+            multiple
+            value={selecteds}
+            className={styles["check-card-group"]}
+            onChange={(values) => setSelecteds(values as number[])}
+          >
+            {options.map((option) => (
+              <div
+                key={option.response}
+                data-testid="duel-option-item"
+                data-option-response={option.response}
+                data-option-text={option.info}
+                onDoubleClick={() => onQuickSelect(option.response)}
+              >
+                <CheckCard
+                  className={styles["check-card"]}
+                  description={option.info}
+                  value={option.response}
+                />
               </div>
-            ),
-        )}
+            ))}
+          </CheckCard.Group>
+        </ScrollableArea>
       </div>
     </NeosModal>
   );
 };
 
-/* 选择区域 */
-const Selector: React.FC<{
-  page: number;
-  maxPage: number;
-  onChange: (value: number) => void;
-}> = ({ page, maxPage, onChange }) =>
-  maxPage > 1 ? (
-    <Segmented
-      block
-      options={Array.from({ length: maxPage }).map((_, idx) => idx)}
-      style={{ margin: "0.625rem 0" }}
-      value={page}
-      onChange={onChange as any}
-    ></Segmented>
-  ) : (
-    <></>
-  );
+const choice = new DuelChoice<number[]>(() => {
+  store.isOpen = false;
+  store.title = "";
+  store.options = [];
+});
 
-let rs: (v?: any) => void = () => {};
-export const displayOptionModal = async (
+const responseOf = (values: number[]) =>
+  values.reduce((result, value) => result | value, 0);
+
+function presentOptions(
   title: string,
   options: Options,
   min: number,
-) => {
+  adapter: {
+    respond(response: number): boolean;
+    eligible?(): boolean;
+    signal?: AbortSignal;
+  },
+  autoSelect = false,
+) {
+  const request = choice.open({
+    ...adapter,
+    respond: (values) => adapter.respond(responseOf(values)),
+    validate: (values) =>
+      values.length === min &&
+      new Set(values).size === values.length &&
+      values.every((value) =>
+        options.some((option) => option.response === value),
+      ),
+  });
+  if (!request) return Promise.resolve(undefined);
+  if (
+    autoSelect &&
+    min === 1 &&
+    options.length === 1 &&
+    choice.submit([options[0].response], request.id)
+  )
+    return request.result.then((values) => values && responseOf(values));
   store.title = title;
   store.options = options;
   store.min = min;
+  store.requestId = request.id;
   store.isOpen = true;
-  await new Promise((resolve) => (rs = resolve));
-  store.isOpen = false;
+  return request.result.then((values) => values && responseOf(values));
+}
+
+export const displayOptionModal = (
+  title: string,
+  options: Options,
+  min: number,
+  presentation: { autoSelect?: boolean } = {},
+) => {
+  const conn = getUIContainer().conn;
+  return presentOptions(
+    title,
+    options,
+    min,
+    {
+      eligible: () => getUIContainer().conn === conn,
+      respond: (response) => sendSelectOptionResponse(conn, response),
+    },
+    presentation.autoSelect,
+  );
 };
 
-export const handleEffectActivation = async (
-  container: Container,
-  meta: CardMeta,
-  effectInteractivies: {
-    desc: string;
-    response: number;
-    effectCode: number | undefined;
-  }[],
-) => {
-  if (!effectInteractivies.length) {
-    return;
-  }
-  if (effectInteractivies.length === 1) {
-    // 如果只有一个效果，点击直接触发
-    sendSelectIdleCmdResponse(container.conn, effectInteractivies[0].response);
-  } else {
-    // optionsModal
-    const options = effectInteractivies.map((effect) => {
-      const effectMsg =
-        meta && effect.effectCode
-          ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
-          : "[:?]";
-      return {
-        info: effectMsg,
-        response: effect.response,
-      };
-    });
-    await displayOptionModal(fetchStrings(Region.System, 556), options, 1); // 主动发动效果，所以不需要await，但是以后可能要留心
-  }
-};
+export const chooseOption = (
+  title: string,
+  options: Options,
+  signal: AbortSignal,
+) => presentOptions(title, options, 1, { respond: () => true, signal });

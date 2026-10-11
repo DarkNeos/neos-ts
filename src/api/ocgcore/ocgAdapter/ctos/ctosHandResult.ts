@@ -19,12 +19,12 @@ export default class CtosHandResultPacket extends YgoProPacket {
 
     switch (hand) {
       case ygopro.HandType.SCISSORS: {
-        dataView.setUint8(0, 2);
+        dataView.setUint8(0, 1);
 
         break;
       }
       case ygopro.HandType.ROCK: {
-        dataView.setUint8(0, 1);
+        dataView.setUint8(0, 2);
 
         break;
       }

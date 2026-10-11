@@ -7,6 +7,7 @@ import {
   placeStore,
   roomStore,
   sideStore,
+  trainingStore,
 } from "@/stores";
 
 import { CONTAINERS } from ".";
@@ -24,6 +25,8 @@ export function initUIContainer(conn: WebSocketStream) {
     chatStore,
     sideStore,
     historyStore,
+    // 连接处理与界面使用同一个训练状态，规则错误能直接显示到页面。
+    trainingStore,
   });
   const container = new Container(context, conn);
 

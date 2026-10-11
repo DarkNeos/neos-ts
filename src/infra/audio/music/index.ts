@@ -1,5 +1,6 @@
 import { subscribe } from "valtio";
 
+import { replayPresentation } from "@/infra/replayPresentation";
 import { settingStore } from "@/stores/settingStore";
 
 import { audioContextManger } from "../core/manager";
@@ -23,6 +24,7 @@ subscribe(settingStore.audio, (opts) => {
 
 // 切换场景
 export function changeScene(scene: AudioActionType) {
+  if (replayPresentation.seeking) return;
   if (
     // 场景切换
     audioContextManger.scene !== scene &&

@@ -1,5 +1,6 @@
 import { fetchStrings, Region, ygopro } from "@/api";
 import { sleep } from "@/infra";
+import { replayDuration } from "@/infra/replayPresentation";
 import MsgToss = ygopro.StocGameMessage.MsgToss;
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
@@ -30,6 +31,6 @@ export default async (container: Container, toss: MsgToss) => {
     }
 
     // 等待1s，不然多个结果刷新太快了
-    await sleep(1000);
+    await sleep(replayDuration(1000));
   }
 };

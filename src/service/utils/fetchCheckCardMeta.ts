@@ -1,14 +1,16 @@
 import type { ygopro } from "@/api";
-import { fetchCard, getCardStr } from "@/api/cards";
+import { fetchCard } from "@/api/cards";
+import { getStrings } from "@/api/strings";
 import { Context } from "@/container";
 import { isCardDisabled } from "@/stores";
-import type { Option } from "@/ui/Duel/Message";
+import type { CardSelectionOption as Option } from "@/stores/cardSelectionTypes";
 
 const helper = async (
   context: Context,
   {
     code,
     location,
+    tributeValue,
     level1,
     level2,
     response,
@@ -16,6 +18,7 @@ const helper = async (
   }: {
     code: number;
     location: ygopro.CardLocation;
+    tributeValue?: number;
     level1?: number;
     level2?: number;
     response: number;
@@ -27,11 +30,9 @@ const helper = async (
   selected?: boolean,
   mustSelect?: boolean,
 ) => {
-  const { controller, zone, sequence } = location;
-  const target = context.cardStore.at(zone, controller, sequence);
+  const target = context.cardStore.find(location);
 
-  // 这里可能直接用target.meta即可，不用再查一遍DB
-  // 但是ygopro后端传回来了code，感觉这里会有些坑，因此求稳这样写
+  // 选卡消息的卡号优先于场上缓存；未提供卡号时使用当前已知身份，未知卡保持 0。
   const newID =
     code !== 0
       ? code
@@ -42,16 +43,19 @@ const helper = async (
       : 0;
   const meta = fetchCard(newID);
 
+  // 完整描述编号包含效果来源卡号；被赋予的效果可能来自另一张卡。
   const effectDesc = effect_description
-    ? getCardStr(meta, effect_description & 0xf)
+    ? getStrings(effect_description)
     : undefined;
   const newOption: Option = {
     meta,
     location,
+    tributeValue,
     level1,
     level2,
     effectDesc,
     response,
+    selected: !!selected,
     targeted: target?.targeted,
     disabled: target ? isCardDisabled(target) : false,
   };
@@ -70,6 +74,7 @@ export const fetchCheckCardMeta = async (
   cards: {
     code: number;
     location: ygopro.CardLocation;
+    tributeValue?: number;
     level1?: number;
     level2?: number;
     response: number;

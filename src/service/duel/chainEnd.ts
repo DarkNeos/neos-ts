@@ -7,6 +7,7 @@ export default (
 ) => {
   console.info(`<ChainEnd>chain has been end`);
   const context = container.context;
+  context.matStore.chainCards = [];
 
   while (true) {
     const chain = context.matStore.chains.pop();
@@ -22,8 +23,7 @@ export default (
     }
   }
 
-  // 目前selected字段只会涉及连锁过程某些卡成为效果对象，
-  // 因此在连锁结束的时候把selected标记清掉。
+  // targeted 表示本次连锁的效果对象，连锁结束时清除，独立于玩家选卡的蓝框。
   //
   // TODO: 这里每次都要全部遍历一遍，后续可以优化下
   for (const card of context.cardStore.inner) {

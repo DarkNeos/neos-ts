@@ -1,61 +1,81 @@
 import { animated, to, useSpring } from "@react-spring/web";
 import { Dropdown, type MenuProps } from "antd";
 import classnames from "classnames";
-import React, { type CSSProperties, useEffect, useRef, useState } from "react";
+import React, {
+  type CSSProperties,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSnapshot } from "valtio";
 
-import {
-  type CardMeta,
-  Region,
-  sendSelectBattleCmdResponse,
-  sendSelectMultiResponse,
-} from "@/api";
-import {
-  fetchStrings,
-  getCardStr,
-  sendSelectIdleCmdResponse,
-  ygopro,
-} from "@/api";
-import { Container } from "@/container";
+import { getCardImgUrl, ygopro } from "@/api";
+import { isExtraDeckCard } from "@/common";
 import { getUIContainer } from "@/container/compat";
 import { eventbus, Task } from "@/infra";
 import {
   cardStore,
   CardType,
-  Interactivity,
   InteractType,
   isCardDisabled,
+  matStore,
 } from "@/stores";
+import { appearanceStore, sleeveUrl } from "@/stores/appearanceStore";
+import { fieldInspection } from "@/stores/fieldInspection";
+import { fieldSelection, toggleFieldSelection } from "@/stores/fieldSelection";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
-import {
-  displayCardListModal,
-  displayOptionModal,
-  displaySimpleSelectCardsModal,
-} from "../../Message";
-import {
-  clearAllIdleInteractivities,
-  clearSelectInfo,
-  interactTypeToIcon,
-  interactTypeToString,
-} from "../../utils";
+import { displayCardListModal } from "../../Message";
+import { interactTypeToIcon, interactTypeToString } from "../../utils";
+import { CardChainMarkers } from "../ChainCards";
+import { matConfig } from "../css";
+import { FieldCardInfo } from "./FieldCardInfo";
+import { LinkArrows } from "./FieldSigns";
 import styles from "./index.module.scss";
 import {
   attack,
   type AttackOptions,
+  confirm,
+  type ConfirmOptions,
   focus,
   move,
   type MoveOptions,
+  shuffle,
+  type ShuffleOptions,
 } from "./springs";
 import type { SpringApiProps } from "./springs/types";
 
-const { HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } = ygopro.CardZone;
+const { DECK, HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } =
+  ygopro.CardZone;
+const CARD_HEIGHT = matConfig.DECK_CARD_HEIGHT;
 
-export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
+interface CardProps {
+  idx: number;
+  extraStackIndex?: number;
+  relationActive: boolean;
+  visible: boolean;
+}
+
+export const Card: React.FC<CardProps> = React.memo((props) => {
+  const { idx, extraStackIndex, relationActive, visible } = props;
   const container = getUIContainer();
   const card = cardStore.inner[idx];
   const snap = useSnapshot(card);
+  const appearance = useSnapshot(appearanceStore);
+  const mat = useSnapshot(matStore);
+  mat.selfType;
+  const sleeveSide = matStore.isMe(snap.sleeveOwner ?? snap.location.controller)
+    ? "me"
+    : "op";
+  const sleeveDeck =
+    snap.sleeveType === "extra" || isExtraDeckCard(snap.meta.data.type ?? 0)
+      ? "Extra"
+      : "Main";
+  const backSrc = sleeveUrl(appearance[`${sleeveSide}${sleeveDeck}`]);
+  const selecting = useSnapshot(fieldSelection).active;
+  const [presenting, setPresenting] = useState(false);
 
   const [spring, api] = useSpring<SpringApiProps>(
     () =>
@@ -77,27 +97,60 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   );
 
   // 每张卡都需要移动到初始位置
-  useEffect(() => {
-    addToAnimation(() => move({ card, api }));
+  useLayoutEffect(() => {
+    addToAnimation(() => move({ card, api }), false);
   }, []);
 
-  const [glowing, setGrowing] = useState(false);
   const [classFocus, setClassFocus] = useState(false);
+  const outsideSequence =
+    [GRAVE, REMOVED].includes(snap.location.zone) && !snap.location.is_overlay
+      ? snap.location.sequence
+      : undefined;
+  // 其他卡进出时只更新叠放层级，发动展示结束后再恢复正常顺序。
+  useEffect(() => {
+    if (outsideSequence !== undefined && !classFocus)
+      api.set({ zIndex: outsideSequence });
+  }, [api, outsideSequence, classFocus]);
+
+  const [glowing, setGrowing] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [shuffling, setShuffling] = useState(false);
+  const [overlayAnimation, setOverlayAnimation] =
+    useState<MoveOptions["overlayAnimation"]>();
+
+  // 其他卡插入或离开额外卡组后，同步保留下来的卡片，展示动画结束后恢复层级。
+  useEffect(() => {
+    if (
+      extraStackIndex !== undefined &&
+      !classFocus &&
+      !confirming &&
+      !shuffling
+    )
+      api.set({ z: extraStackIndex, zIndex: extraStackIndex });
+  }, [api, extraStackIndex, classFocus, confirming, shuffling]);
 
   // >>> 动画 >>>
   /** 动画序列的promise */
   const animationQueue = useRef(new Promise<void>((rs) => rs()));
 
-  const addToAnimation = (p: () => Promise<void>) =>
-    new Promise((rs) => {
-      animationQueue.current = animationQueue.current.then(p).then(rs);
+  const addToAnimation = (p: () => Promise<void>, present = true) => {
+    const animation = animationQueue.current.then(async () => {
+      if (present) setPresenting(true);
+      try {
+        await p();
+      } finally {
+        if (present) setPresenting(false);
+      }
     });
+    animationQueue.current = animation;
+    return animation;
+  };
 
   const register = <T extends any[]>(
     task: Task,
     fn: (...args: T) => Promise<unknown>,
   ) => {
-    eventbus.register(task, async (uuid, ...rest: T) => {
+    return eventbus.register(task, async (uuid, ...rest: T) => {
       if (uuid === card.uuid) {
         await fn(...rest);
         return true;
@@ -106,18 +159,57 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   };
 
   useEffect(() => {
-    register(Task.Move, async (options?: MoveOptions) => {
-      await addToAnimation(() => move({ card, api, options }));
-    });
-
-    register(Task.Focus, async () => {
-      setClassFocus(true);
-      await focus({ card, api });
-    });
-
-    register(Task.Attack, async (options: AttackOptions) => {
-      await addToAnimation(() => attack({ card, api, options }));
-    });
+    const unregister = [
+      register(Task.Move, async (options?: MoveOptions) => {
+        await addToAnimation(async () => {
+          setOverlayAnimation(options?.overlayAnimation);
+          try {
+            await move({ card, api, options });
+          } finally {
+            setOverlayAnimation(undefined);
+          }
+        });
+      }),
+      register(Task.Focus, async () => {
+        // 发动展示进入公共动画队列；结束或中断后释放临时置顶状态。
+        await addToAnimation(async () => {
+          setClassFocus(true);
+          try {
+            await focus({ card, api });
+          } finally {
+            setClassFocus(false);
+          }
+        });
+      }),
+      register(Task.Confirm, async (options?: ConfirmOptions) => {
+        await addToAnimation(async () => {
+          if (options?.signal?.aborted) return;
+          setConfirming(true);
+          try {
+            await confirm({ card, api, options });
+          } finally {
+            setConfirming(false);
+          }
+        });
+      }),
+      register(Task.Attack, async (options: AttackOptions) => {
+        await addToAnimation(() => attack({ card, api, options }));
+      }),
+      register(Task.Shuffle, async (options?: ShuffleOptions) => {
+        await addToAnimation(async () => {
+          if (options?.signal?.aborted) return;
+          setShuffling(true);
+          try {
+            await shuffle({ card, api, options });
+          } finally {
+            setShuffling(false);
+          }
+        });
+      }),
+    ];
+    return () => {
+      unregister.forEach((remove) => remove());
+    };
   }, []);
 
   // <<< 动画 <<<
@@ -142,159 +234,36 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   // 1. 下拉菜单里面选择[召唤 / 特殊召唤 /.../效果发动]
   // 2. 如果是非效果发动，那么直接选择哪张卡(单张卡直接选择那张)
   // 3. 如果是效果发动，那么选择哪张卡，然后选择效果
-  const handleDropdownMenu = (cards: CardType[], isField: boolean) => {
-    const map = new Map<Interactivity<number>["interactType"], CardType[]>();
-    cards.forEach((card) => {
-      card.idleInteractivities.forEach(({ interactType }) => {
-        if (!map.has(interactType)) {
-          map.set(interactType, []);
-        }
-        map.get(interactType)?.push(card);
-      });
-    });
-
-    if (!map.size) {
-      setDropdownMenuDisabled(true);
-      return;
-    } else {
-      setDropdownMenuDisabled(false);
-    }
-    const actions = [...map.entries()];
-    const nonEffectActions = actions.filter(
-      ([action]) => action !== InteractType.ACTIVATE,
-    );
-    const getNonEffectInteractivity = (action: InteractType, card: CardType) =>
-      card.idleInteractivities.find((item) => item.interactType === action)!;
-    const sendInteractionResponse = (interactivity: Interactivity<number>) => {
-      if (interactivity.responseSource === "battle") {
-        sendSelectBattleCmdResponse(container.conn, interactivity.response);
-      } else {
-        sendSelectIdleCmdResponse(container.conn, interactivity.response);
-      }
-    };
-    const nonEffectItem: DropdownItem[] = nonEffectActions.map(
-      ([action, cards], key) => ({
-        key,
-        "data-testid": `duel-action-${InteractType[action].toLowerCase()}`,
-        "data-action-type": InteractType[action],
-        "data-action-card-count": cards.length,
-        "data-action-response":
-          cards.length === 1
-            ? getNonEffectInteractivity(action, cards[0]).response
-            : undefined,
-        "data-action-response-source":
-          cards.length === 1
-            ? getNonEffectInteractivity(action, cards[0]).responseSource
-            : undefined,
-        label: interactTypeToString(action),
-        icon: interactTypeToIcon(action),
-        onClick: async () => {
-          if (!isField) {
-            // 单卡: 直接召唤/特殊召唤/...
-            const card = cards[0];
-            sendInteractionResponse(getNonEffectInteractivity(action, card));
-            clearAllIdleInteractivities();
-          } else {
-            // 场地: 选择卡片
-            // TODO: hint
-            const option = await displaySimpleSelectCardsModal({
-              selectables: cards.map((card) => ({
-                meta: card.meta,
-                location: card.location,
-                response: getNonEffectInteractivity(action, card).response,
-                card,
-              })),
-            });
-            if (option.length > 0) {
-              sendInteractionResponse(
-                getNonEffectInteractivity(action, option[0].card as CardType),
-              );
-              clearAllIdleInteractivities();
-            }
-          }
-        },
-      }),
-    );
-    const hasEffect =
-      cards.reduce(
-        (prev, acc) => [
-          ...prev,
-          ...acc.idleInteractivities.filter(
-            ({ interactType }) => interactType === InteractType.ACTIVATE,
-          ),
-        ],
-        [] as Interactivity<number>[],
-      ).length > 0;
-    const effectItem: DropdownItem = {
-      key: nonEffectItem.length,
-      "data-testid": "duel-action-activate",
-      "data-action-type": InteractType[InteractType.ACTIVATE],
-      label: interactTypeToString(InteractType.ACTIVATE),
-      icon: interactTypeToIcon(InteractType.ACTIVATE),
-      onClick: async () => {
-        let tmpCard: CardType;
-        if (!isField) {
-          // 单卡: 直接发动这个卡的效果
-          tmpCard = cards[0];
-        } else {
-          // 场地: 选择卡片
-          // TODO: hint
-          const option = await displaySimpleSelectCardsModal({
-            selectables: cards
-              // 过滤掉不能发效果的卡
-              .filter(
-                (card) =>
-                  card.idleInteractivities.find(
-                    ({ interactType }) =>
-                      interactType === InteractType.ACTIVATE,
-                  ) !== undefined,
-              )
-              .map((card) => ({
-                meta: card.meta,
-                location: card.location,
-                card,
-              })),
-          });
-          tmpCard = option[0].card! as any; // 一定会有的，有输入则定有输出
-        }
-        // 选择发动哪个效果
-        handleEffectActivation(
-          container,
-          tmpCard.idleInteractivities
-            .filter(
-              ({ interactType }) => interactType === InteractType.ACTIVATE,
-            )
-            .map((x) => ({
-              desc: interactTypeToString(x.interactType),
-              response: x.response,
-              responseSource: x.responseSource,
-              effectCode: x.activateIndex,
-            })),
-          tmpCard.meta,
-        );
-      },
-    };
+  const handleDropdownMenu = (cards: CardType[]) => {
+    const choices = container.context.matStore.activeActions.options(cards);
+    setDropdownMenuDisabled(!choices.length);
     setDropdownMenu({
-      items: [...nonEffectItem, ...(hasEffect ? [effectItem] : [])],
+      items: choices.map((choice, key) => ({
+        key,
+        "data-testid": `duel-action-${InteractType[
+          choice.interactType
+        ].toLowerCase()}`,
+        "data-action-type": InteractType[choice.interactType],
+        "data-action-card-count": choice.cards.length,
+        "data-action-response": choice.response,
+        "data-action-response-source": choice.responseSource,
+        label: interactTypeToString(choice.interactType),
+        icon: interactTypeToIcon(choice.interactType),
+        onClick: () => {
+          void choice.choose();
+        },
+      })),
     });
   };
 
   const onClick = () => {
+    fieldInspection.pinned = card.uuid;
+    if (toggleFieldSelection(card, displayCardModal)) return;
     const onCardClick = (card: CardType) => {
-      const selectInfo = card.selectInfo;
-      if (selectInfo.selectable || selectInfo.selected) {
-        if (selectInfo.response !== undefined) {
-          sendSelectMultiResponse(container.conn, [selectInfo.response]);
-          clearSelectInfo();
-        } else {
-          console.error("card is selectable but the response is undefined!");
-        }
-      }
-
       // 中央弹窗展示选中卡牌信息
       // TODO: 同一张卡片，是否重复点击会关闭CardModal？
       displayCardModal(card);
-      handleDropdownMenu([card], false);
+      handleDropdownMenu([card]);
 
       // 侧边栏展示超量素材信息
       const overlayMaterials = cardStore.findOverlay(
@@ -318,7 +287,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       });
       // 收集这个zone的所有交互，并且在下拉菜单之中显示
       const cards = cardStore.at(card.location.zone, card.location.controller);
-      handleDropdownMenu(cards, true);
+      handleDropdownMenu(cards);
     };
 
     if ([MZONE, SZONE, HAND].includes(card.location.zone)) {
@@ -330,6 +299,19 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   // <<< 效果 <<<
 
   const location = snap.location;
+  const knownHand = location.zone === HAND && snap.code > 0;
+  const previewSetCard =
+    location.zone === SZONE &&
+    !location.is_overlay &&
+    [
+      ygopro.CardPosition.FACEDOWN,
+      ygopro.CardPosition.FACEDOWN_ATTACK,
+      ygopro.CardPosition.FACEDOWN_DEFENSE,
+    ].includes(location.position!) &&
+    snap.code > 0 &&
+    !confirming &&
+    !classFocus &&
+    !shuffling;
   const disabled = isCardDisabled(snap as CardType);
   const idleActions = snap.idleInteractivities
     .map(({ interactType }) => InteractType[interactType])
@@ -349,6 +331,20 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
   const attackInteractivity = snap.idleInteractivities.find(
     ({ interactType }) => interactType === InteractType.ATTACK,
   );
+  const showDetails = visible || presenting;
+  const showStack =
+    !showDetails &&
+    !location.is_overlay &&
+    [DECK, EXTRA, GRAVE, REMOVED].includes(location.zone);
+  const stackCode = snap.code === 0 ? snap.meta.id : snap.code;
+  const stackShowsBack =
+    stackCode === 0 ||
+    (![
+      ygopro.CardPosition.FACEUP,
+      ygopro.CardPosition.FACEUP_ATTACK,
+      ygopro.CardPosition.FACEUP_DEFENSE,
+    ].includes(location.position) &&
+      !(showStack && location.zone === DECK && mat.deckReserved));
 
   return (
     <animated.div
@@ -362,6 +358,11 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       data-card-position={ygopro.CardPosition[location.position]}
       data-card-position-value={location.position}
       data-card-is-overlay={location.is_overlay}
+      data-card-overlay-animation={overlayAnimation ?? "none"}
+      data-card-confirming={confirming}
+      data-card-focusing={classFocus}
+      data-card-shuffling={shuffling}
+      data-card-details-visible={showDetails}
       data-card-overlay-sequence={location.overlay_sequence}
       data-card-is-token={snap.isToken}
       data-card-status={snap.status}
@@ -369,6 +370,7 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
       data-card-selected={snap.selectInfo.selected}
       data-card-targeted={snap.targeted}
       data-card-disabled={disabled}
+      data-relation-active={relationActive}
       data-card-idle-actions={idleActions}
       data-card-idle-responses={idleActionResponses}
       data-card-idle-response-sources={idleActionSources}
@@ -377,103 +379,168 @@ export const Card: React.FC<{ idx: number }> = React.memo(({ idx }) => {
         /* 有可操作选项或者已被选中*/
         [styles.glowing]: glowing || snap.selectInfo.selected,
         [styles.shining]: snap.selectInfo.selectable, // 可以被选中
+        [styles["confirm-opponent-hand"]]:
+          (confirming || classFocus || knownHand) &&
+          location.zone === HAND &&
+          !container.context.matStore.isMe(location.controller),
       })}
       style={
         {
           transform: to(
-            [spring.x, spring.y, spring.z, spring.rx, spring.ry, spring.rz],
-            (x, y, z, rx, ry, rz) =>
-              `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg)`,
+            [spring.x, spring.y, spring.rx, spring.rz, spring.height],
+            (x, y, rx, rz, height) =>
+              `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${
+                height / CARD_HEIGHT
+              })`,
           ),
-          "--z": spring.z,
-          "--sub-z": spring.subZ.to([0, 50, 100], [0, 200, 0]), // 中间高，两边低
-          "--ry": spring.ry,
-          height: spring.height,
           zIndex: spring.zIndex,
-          "--focus-scale": spring.focusScale,
-          "--focus-display": spring.focusDisplay,
-          "--focus-opacity": spring.focusOpacity,
           opacity: spring.opacity,
+          visibility:
+            (!showDetails && !showStack) ||
+            (location.is_overlay && !overlayAnimation)
+              ? "hidden"
+              : "visible",
+          pointerEvents: showStack || location.is_overlay ? "none" : undefined,
         } as any as CSSProperties
       }
       onClick={onClick}
+      onMouseEnter={() => {
+        fieldInspection.hovered = card.uuid;
+      }}
+      onMouseLeave={() => {
+        if (fieldInspection.hovered === card.uuid)
+          fieldInspection.hovered = null;
+      }}
     >
-      <div className={styles.focus} />
-      <div className={styles.shadow} />
-      <Dropdown
-        menu={dropdownMenu}
-        placement="top"
-        overlayClassName={classnames(styles.dropdown, {
-          [styles["dropdown-disabled"]]: dropdownMenuDisabled,
-        })}
-        arrow
-        trigger={["click"]}
-      >
-        <div
-          className={classnames(styles["img-wrap"], {
-            [styles.focusing]: classFocus,
-          })}
-        >
-          <YgoCard
-            className={styles.cover}
-            code={snap.code === 0 ? snap.meta.id : snap.code}
-            disabled={disabled}
+      {showStack && (
+        <animated.img
+          data-testid="duel-stack-surface"
+          className={styles["stack-surface"]}
+          src={stackShowsBack ? backSrc : getCardImgUrl(stackCode)}
+          alt=""
+          aria-hidden
+          draggable={false}
+          decoding="async"
+          style={{
+            transform: to(
+              [spring.z, spring.subZ],
+              (z, subZ) =>
+                `translateZ(${z + Math.min(subZ, 100 - subZ) * 4 + 0.1}px)`,
+            ),
+            objectFit: stackShowsBack ? "fill" : "contain",
+          }}
+          onError={(event) => {
+            const defaultBack = getCardImgUrl(0, true);
+            if (
+              backSrc !== defaultBack &&
+              event.currentTarget.getAttribute("src") === backSrc
+            )
+              event.currentTarget.src = defaultBack;
+          }}
+        />
+      )}
+      {showDetails && (
+        <>
+          <animated.div
+            className={styles.focus}
+            style={{
+              transform: spring.focusScale.to((scale) => `scale(${scale})`),
+              display: spring.focusDisplay,
+              opacity: spring.focusOpacity,
+            }}
           />
-          <YgoCard className={styles.back} isBack />
-        </div>
-      </Dropdown>
-      {snap.targeted ? <div className={styles.streamer} /> : <></>}
+          <animated.div
+            className={styles.shadow}
+            style={{
+              transform: spring.z.to((z) => `translateZ(${z + 0.1}px)`),
+            }}
+          />
+          <Dropdown
+            disabled={selecting}
+            menu={dropdownMenu}
+            placement="top"
+            overlayClassName={classnames(styles.dropdown, {
+              [styles["dropdown-disabled"]]: dropdownMenuDisabled,
+            })}
+            arrow
+            trigger={["click"]}
+          >
+            <animated.div
+              className={classnames(styles["img-wrap"], {
+                [styles.focusing]: classFocus,
+              })}
+              style={{
+                transform: to(
+                  [spring.z, spring.subZ, spring.ry],
+                  (z, subZ, ry) =>
+                    `translateZ(${
+                      z + Math.min(subZ, 100 - subZ) * 4 + 0.1
+                    }px) rotateY(${
+                      knownHand && !confirming && !classFocus ? 0 : ry
+                    }deg)`,
+                ),
+              }}
+            >
+              <YgoCard
+                className={styles.cover}
+                code={snap.code === 0 ? snap.meta.id : snap.code}
+                disabled={disabled}
+                backSrc={backSrc}
+              />
+              <YgoCard className={styles.back} isBack backSrc={backSrc} />
+              {previewSetCard && (
+                <div
+                  className={styles["set-preview"]}
+                  data-testid="duel-set-card-preview"
+                  data-card-code={snap.code}
+                  aria-hidden
+                >
+                  <YgoCard code={snap.code} />
+                </div>
+              )}
+            </animated.div>
+          </Dropdown>
+          <animated.div
+            className={styles["chain-markers"]}
+            style={{
+              transform: to(
+                [spring.rz, spring.z, spring.subZ],
+                (rz, z, subZ) =>
+                  `translate(-50%, -50%) translateZ(${
+                    z + Math.min(subZ, 100 - subZ) * 4 + 4
+                  }px) rotateZ(${-rz}deg)`,
+              ),
+            }}
+          >
+            <CardChainMarkers card={snap as CardType} focusing={classFocus} />
+          </animated.div>
+          <LinkArrows card={snap as CardType} />
+          <animated.div
+            className={styles["field-info-anchor"]}
+            style={{
+              transform: to(
+                [spring.rz, spring.height],
+                (rz, height) =>
+                  `translate(-50%, -50%) rotateZ(${-rz}deg) scale(${
+                    CARD_HEIGHT / Math.max(height, 1)
+                  }) translateZ(2px)`,
+              ),
+            }}
+          >
+            <FieldCardInfo card={snap as CardType} />
+          </animated.div>
+          {snap.targeted ? <div className={styles.streamer} /> : <></>}
+        </>
+      )}
     </animated.div>
   );
 });
 
 // >>> 下拉菜单：点击动作 >>>
-interface Interactivy {
-  desc: string;
-  response: number;
-  responseSource?: "idle" | "battle";
-  effectCode: number | undefined;
-}
-
 type DropdownItem = NonNullable<MenuProps["items"]>[number] & {
   onClick: () => void;
   "data-testid"?: string;
   "data-action-type"?: string;
-};
-
-const handleEffectActivation = (
-  container: Container,
-  effectInteractivies: Interactivy[],
-  meta?: CardMeta,
-) => {
-  if (!effectInteractivies.length) return;
-  else if (effectInteractivies.length === 1) {
-    // 如果只有一个效果，点击直接触发
-    if (effectInteractivies[0].responseSource === "battle") {
-      sendSelectBattleCmdResponse(
-        container.conn,
-        effectInteractivies[0].response,
-      );
-    } else {
-      sendSelectIdleCmdResponse(
-        container.conn,
-        effectInteractivies[0].response,
-      );
-    }
-  } else {
-    // optionsModal
-    const options = effectInteractivies.map((effect) => {
-      const effectMsg =
-        meta && effect.effectCode
-          ? getCardStr(meta, effect.effectCode & 0xf) ?? "[:?]"
-          : "[:?]";
-      return {
-        info: effectMsg,
-        response: effect.response,
-      };
-    });
-    displayOptionModal(fetchStrings(Region.System, 556), options, 1); // 主动发动效果，所以不需要await，但是以后可能要留心
-  }
 };
 
 // <<< 下拉菜单 <<<
@@ -485,4 +552,6 @@ const call =
 
 export const callCardMove = call<MoveOptions>(Task.Move);
 export const callCardFocus = call(Task.Focus);
+export const callCardConfirm = call<ConfirmOptions>(Task.Confirm);
+export const callCardShuffle = call<ShuffleOptions>(Task.Shuffle);
 export const callCardAttack = call<AttackOptions>(Task.Attack);

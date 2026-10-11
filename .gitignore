@@ -15,6 +15,9 @@
 /build
 /builds
 /dist
+/.wrangler
+/wrangler.jsonc
+/wrangler.beta.jsonc
 /rust-src/target
 
 # misc
@@ -34,3 +37,9 @@ yarn-error.log*
 
 *.yrp3d
 !tests/e2e/fixtures/replays/**/*.yrp3d
+
+# 本地输出与对战参考文档
+/output/
+/docs/duel-animation-comparison.md
+/docs/duel-interaction-comparison.md
+/docs/duel-replay-and-appearance.md

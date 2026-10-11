@@ -29,6 +29,16 @@ const REPLAY_FIXTURE_MAX_STEPS = Number(
 const UPDATE_EXPECTED = process.env.UPDATE_EXPECTED === "1";
 const replayFixtureCases = listReplayFixtureCases(REPLAY_FIXTURE_ROOT);
 
+// 此套用例比较协议状态；动画节奏由专门的演出测试验证。
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "__neo_setting_config__",
+      JSON.stringify({ animation: { enabled: false, speed: 0.7 } }),
+    );
+  });
+});
+
 test.describe("managed replay fixtures", () => {
   for (const replayCase of replayFixtureCases) {
     test(`matches expected DOM snapshots: ${replayCase.name}`, async ({
@@ -38,6 +48,16 @@ test.describe("managed replay fixtures", () => {
 
       await uploadReplay(page, replayCase.replayPath);
       await pauseReplay(page);
+      // 资源加载耗时不固定；从重建后的开局状态开始逐步比较。
+      await page.getByTestId("replay-restart").click();
+      await expect(page.getByTestId("replay-toggle")).toHaveAttribute(
+        "data-replay-seeking",
+        "false",
+      );
+      await expect(page.getByTestId("replay-toggle")).toHaveAttribute(
+        "data-replay-index",
+        "0",
+      );
 
       await expectOrUpdateReplayExpected(page, replayCase.expectedPath, {
         maxSteps: REPLAY_FIXTURE_MAX_STEPS,

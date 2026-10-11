@@ -150,4 +150,9 @@ export default async function handleErrorMsg(
     default:
       break;
   }
+  // 自动准备没有手动修正步骤；训练卡组被服务器拒绝时结束消息处理。
+  if (container.context.trainingStore.session && roomStore.errorMsg) {
+    container.context.trainingStore.error = roomStore.errorMsg;
+    throw new Error(roomStore.errorMsg);
+  }
 }

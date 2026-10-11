@@ -66,6 +66,17 @@ img {
   box-sizing: border-box;
 }
 
+html[data-neos-animation="disabled"] {
+  *,
+  *::before,
+  *::after {
+    // 组件动画同时由 MotionProvider 关闭，避免弹窗等待结束事件。
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .duel-mat {
   position: absolute;
   width: 100%;
@@ -84,7 +95,8 @@ img {
 }
 
 .duel-mat-camera,
-.duel-mat-camera * {
+.duel-mat-plane,
+.duel-mat-card-container {
   transform-style: preserve-3d;
 }
 
@@ -101,4 +113,33 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+// 与对局弹窗保持一致，只让背景半透明。
+.duel-translucent-drawer {
+  .ant-drawer-content-wrapper {
+    box-shadow: none;
+  }
+
+  .ant-drawer-content {
+    background: rgba(30, 35, 48, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .ant-drawer-header {
+    background: transparent;
+  }
+}
+
+// 右侧侧栏为底部工具栏保留实际可点击区域，兼容场地缩放。
+.duel-side-drawer {
+  bottom: max(
+    0px,
+    calc(100vh - var(--duel-toolbar-top, calc(100vh - 88px)) + 12px)
+  ) !important;
+
+  .ant-drawer-content-wrapper {
+    max-height: 100%;
+  }
 }

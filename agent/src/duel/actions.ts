@@ -66,6 +66,9 @@ export async function collectPrivateActions(
     const phase = {
       visible: phaseSelect ? visible(phaseSelect) : false,
       enabled: phaseSelect ? !phaseSelect.hasAttribute("disabled") : false,
+      available: (phaseSelect?.getAttribute("data-available-phases") ?? "")
+        .split(/\s+/)
+        .filter(Boolean),
     };
 
     const zones = [
@@ -147,6 +150,7 @@ export async function collectPrivateActions(
     for (const phase of Object.keys(PHASE_DESCRIPTIONS) as NonNullable<
       AgentPrivateAction["phase"]
     >[]) {
+      if (!raw.phase.available.includes(phase)) continue;
       builder.add({
         kind: "phase",
         llmDescription: PHASE_DESCRIPTIONS[phase],

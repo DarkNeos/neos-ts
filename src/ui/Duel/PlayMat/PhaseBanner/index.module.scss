@@ -1,0 +1,42 @@
+.banner {
+  position: fixed;
+  z-index: 900;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: min(360px, 76vw);
+  padding: 14px 24px;
+  box-sizing: border-box;
+  color: #fff;
+  background: rgba(13, 23, 36, 0.9);
+  border-block: 1px solid rgba(137, 208, 255, 0.6);
+  pointer-events: none;
+  user-select: none;
+  animation: appear ease-in-out both;
+
+  strong {
+    color: #8bd8ff;
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1;
+  }
+
+  span {
+    font-size: clamp(14px, 2.4vw, 20px);
+    letter-spacing: 0.08em;
+  }
+}
+
+@keyframes appear {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+}

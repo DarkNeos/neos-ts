@@ -1,20 +1,16 @@
 import { ygopro } from "@/api";
 import { Container } from "@/container";
 
-// FIXME: 处理连锁会存在三种结果：
-// 1. Solved - 已处理；
-// 2. NEGATED - 被无效；
-// 3. DISABLED - 被禁用。
-//
-// 第一种MSG后端会在每一个连锁点处理完（不管是无效还是禁用）发给前端，
-// 第二第三种只会在特定情况下发，用于UI展示。
-// 这里暂时只处理第一种。
+// 处理结束与无效状态独立保存，无效反馈由辅助消息更新，编号保留到整条连锁结束。
 export default async (
   container: Container,
   chainSolved: ygopro.StocGameMessage.MsgChainSolved,
 ) => {
   console.info(`<ChainSolved>solved_index = ${chainSolved.solved_index}`);
   const context = container.context;
+  // solved_index 从 1 开始；仅标记列表项，保持原始编号直到整个连锁结束。
+  const entry = context.matStore.chainCards[chainSolved.solved_index - 1];
+  if (entry) entry.solved = true;
 
   const location = context.matStore.chains
     .splice(chainSolved.solved_index - 1, 1)

@@ -1,6 +1,8 @@
 import { ygopro } from "@/api/ocgcore/idl/ocgcore";
 import { BufferReader } from "@/infra";
 
+import { decodeHand } from "../../handType";
+
 /*
  * Msg Hand Result
  * @param - TODO
@@ -11,8 +13,8 @@ export default (data: Uint8Array) => {
   const reader = new BufferReader(data);
 
   const x = reader.readUint8();
-  const result1 = x & 0x3;
-  const result2 = (x >> 2) & 0x3;
+  const result1 = decodeHand(x & 0x3);
+  const result2 = decodeHand((x >> 2) & 0x3);
 
   return new ygopro.StocGameMessage.MsgHandResult({
     result1,

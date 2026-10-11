@@ -2,16 +2,16 @@
   position: fixed;
   display: flex;
   top: 0;
-  left: 0;
   bottom: 0;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  margin-left: 10px;
+  padding: max(12px, env(safe-area-inset-top)) 0
+    max(12px, env(safe-area-inset-bottom));
+  left: max(12px, env(safe-area-inset-left));
   pointer-events: none;
   z-index: 100;
   --bg-color: #323232;
-  width: 200px;
+  width: clamp(136px, 14vw, 200px);
 }
 
 .life-bar {
@@ -21,39 +21,80 @@
   color: white;
   background-color: var(--bg-color);
   font-family: var(--theme-font);
-  padding: 1rem;
-  padding-bottom: 0.6rem;
+  padding: 10px 12px;
   border-radius: 8px;
   // text-align: left;
   display: flex;
   flex-direction: column;
   gap: 8px;
   .name {
-    font-size: 0.8rem;
+    font-size: 12px;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .life {
-    font-size: 1.8rem;
+    font-size: clamp(20px, 2vw, 28px);
     font-variant-numeric: tabular-nums;
     line-height: 1;
     min-height: 1em;
   }
 }
 .timer-container {
-  background-color: var(--bg-color);
-  border-radius: 4px;
-  padding: 0.4rem 1rem;
-  font-size: 0.8rem;
-  font-weight: bold;
-  font-family: var(--theme-font);
-  width: fit-content;
-  color: white;
+  width: 100%;
+}
+.hints {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 5rem;
+  overflow-y: auto;
+  pointer-events: auto;
+  color: #d3dce3;
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.timer-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #ffffff26;
   overflow: hidden;
-  position: relative;
-  .timer-text {
-    min-width: 3.25em;
+
+  > div {
+    height: 100%;
+    background: #8ca7b6;
+  }
+}
+
+.timer-container[data-active="true"] {
+  .timer-track > div {
+    background: #59c9ef;
+  }
+}
+
+@media (max-height: 500px) {
+  .life-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    gap: 6px;
+    .name {
+      min-width: 0;
+    }
+    .life {
+      flex-shrink: 0;
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .hints {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      max-height: 3rem;
+    }
   }
 }

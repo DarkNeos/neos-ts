@@ -4,8 +4,10 @@
  * */
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
+import { STOC_REPLAY } from "@/api/ocgcore/ocgAdapter/protoDecl";
 import { Container } from "@/container";
 import { replayStore } from "@/stores";
+import { replayPlayback } from "@/stores/replayStore";
 
 import handleGameMsg from "./duel/gameMsg";
 import handleTimeLimit from "./duel/timeLimit";
@@ -31,115 +33,124 @@ import { handleWaitingSide } from "./side/waitingSide";
  *
  * */
 
-let animation: Promise<void> = Promise.resolve();
+// 每个容器维护自己的顺序队列，新连接不会等待旧对局尚未完成的弹窗或动画。
+const queues = new WeakMap<Container, Promise<void>>();
 
 export default async function handleSocketMessage(
   container: Container,
   e: MessageEvent,
 ) {
-  // 确保按序执行
-  animation = animation.then(() => _handle(container, e));
-  await animation;
+  // 动画和选卡处理需要等待完成，后续协议消息才能读取对应的最新状态。
+  const next = (queues.get(container) ?? Promise.resolve()).then(() =>
+    _handle(container, e),
+  );
+  queues.set(container, next);
+  await next;
 }
 
 // FIXME: 下面的所有`handler`中访问`Store`的时候都应该通过`Container`进行访问
 async function _handle(container: Container, e: MessageEvent) {
+  if (container.conn.cancelled) return;
   const packets = YgoProPacket.deserialize(e.data);
 
   for (const packet of packets) {
+    if (container.conn.cancelled) return;
+    // 原始录像已在接收时保存，不经过演出队列。
+    if (packet.proto === STOC_REPLAY) continue;
     const pb = adaptStoc(packet);
-    const isReplayGameMsg = replayStore.isReplay && pb.msg === "stoc_game_msg";
-    const replayGameMsg = isReplayGameMsg
-      ? pb.stoc_game_msg.gameMsg
-      : undefined;
-
-    if (isReplayGameMsg) {
-      await replayStore.waitForAdvance(replayGameMsg);
+    const dispatch = () => handlePacket(container, packet, pb);
+    if (replayStore.isReplay && pb.msg === "stoc_game_msg") {
+      const advanced = await replayPlayback.handleMessage(
+        pb.stoc_game_msg.gameMsg,
+        dispatch,
+        () => container.conn.cancelled,
+      );
+      if (!advanced) return;
+    } else {
+      await dispatch();
     }
+  }
+}
 
-    switch (pb.msg) {
-      case "stoc_join_game": {
-        handleJoinGame(container, pb);
-        break;
-      }
-      case "stoc_chat": {
-        handleChat(container, pb);
-        break;
-      }
-      case "stoc_hs_player_change": {
-        handleHsPlayerChange(container, pb);
-        break;
-      }
-      case "stoc_hs_watch_change": {
-        handleHsWatchChange(container, pb);
-        break;
-      }
-      case "stoc_hs_player_enter": {
-        handleHsPlayerEnter(container, pb);
-        break;
-      }
-      case "stoc_type_change": {
-        handleTypeChange(container, pb);
-        break;
-      }
-      case "stoc_select_hand": {
-        handleSelectHand(container, pb);
-        break;
-      }
-      case "stoc_hand_result": {
-        handleHandResult(container, pb);
-        break;
-      }
-      case "stoc_select_tp": {
-        handleSelectTp(container, pb);
-        break;
-      }
-      case "stoc_deck_count": {
-        handleDeckCount(container, pb);
-        break;
-      }
-      case "stoc_duel_start": {
-        handleDuelStart(container, pb);
-        break;
-      }
-      case "stoc_duel_end": {
-        handleDuelEnd(container, pb);
-        break;
-      }
-      case "stoc_game_msg": {
-        if (!replayStore.isReplay) {
-          // 如果不是回放模式，则记录回放数据
-          replayStore.record(packet);
-        }
-        await handleGameMsg(container, pb);
-
-        break;
-      }
-      case "stoc_time_limit": {
-        handleTimeLimit(container, pb.stoc_time_limit);
-        break;
-      }
-      case "stoc_error_msg": {
-        await handleErrorMsg(container, pb.stoc_error_msg);
-        break;
-      }
-      case "stoc_change_side": {
-        handleChangeSide(container, pb.stoc_change_side);
-        break;
-      }
-      case "stoc_waiting_side": {
-        handleWaitingSide(container, pb.stoc_waiting_side);
-        break;
-      }
-      default: {
-        console.log(packet);
-
-        break;
-      }
+async function handlePacket(
+  container: Container,
+  packet: YgoProPacket,
+  pb: ReturnType<typeof adaptStoc>,
+) {
+  switch (pb.msg) {
+    case "stoc_join_game": {
+      handleJoinGame(container, pb);
+      break;
     }
+    case "stoc_chat": {
+      handleChat(container, pb);
+      break;
+    }
+    case "stoc_hs_player_change": {
+      handleHsPlayerChange(container, pb);
+      break;
+    }
+    case "stoc_hs_watch_change": {
+      handleHsWatchChange(container, pb);
+      break;
+    }
+    case "stoc_hs_player_enter": {
+      handleHsPlayerEnter(container, pb);
+      break;
+    }
+    case "stoc_type_change": {
+      handleTypeChange(container, pb);
+      break;
+    }
+    case "stoc_select_hand": {
+      handleSelectHand(container, pb);
+      break;
+    }
+    case "stoc_hand_result": {
+      handleHandResult(container, pb);
+      break;
+    }
+    case "stoc_select_tp": {
+      handleSelectTp(container, pb);
+      break;
+    }
+    case "stoc_deck_count": {
+      handleDeckCount(container, pb);
+      break;
+    }
+    case "stoc_duel_start": {
+      handleDuelStart(container, pb);
+      break;
+    }
+    case "stoc_duel_end": {
+      handleDuelEnd(container, pb);
+      break;
+    }
+    case "stoc_game_msg": {
+      await handleGameMsg(container, pb);
 
-    if (isReplayGameMsg) {
-      replayStore.markAdvanced(replayGameMsg);
+      break;
+    }
+    case "stoc_time_limit": {
+      handleTimeLimit(container, pb.stoc_time_limit);
+      break;
+    }
+    case "stoc_error_msg": {
+      await handleErrorMsg(container, pb.stoc_error_msg);
+      break;
+    }
+    case "stoc_change_side": {
+      handleChangeSide(container, pb.stoc_change_side);
+      break;
+    }
+    case "stoc_waiting_side": {
+      handleWaitingSide(container, pb.stoc_waiting_side);
+      break;
+    }
+    default: {
+      console.log(packet);
+
+      break;
     }
   }
 }

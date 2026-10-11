@@ -1,0 +1,21 @@
+.status {
+  position: fixed;
+  z-index: 3000;
+  top: max(12px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, calc(100% - 24px));
+
+  :global(.ant-alert) {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 2999;
+  background: #0005;
+}

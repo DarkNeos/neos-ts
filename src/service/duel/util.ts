@@ -3,11 +3,12 @@ const { MZONE, SZONE, HAND } = ygopro.CardZone;
 import { fetchStrings } from "@/api";
 import { Region } from "@/api";
 import { fetchCard } from "@/api/cards";
+import { formatCardName } from "@/api/cardText";
 import { Context } from "@/container";
 
 export function isAllOnField(locations: ygopro.CardLocation[]): boolean {
   const isOnField = (location: ygopro.CardLocation) => {
-    return [MZONE, SZONE, HAND].includes(location.zone);
+    return !location.is_overlay && [MZONE, SZONE, HAND].includes(location.zone);
   };
 
   return locations.find((location) => !isOnField(location)) === undefined;
@@ -78,8 +79,9 @@ export const fetchEsHintMeta = async ({
 
   let esHint = newOriginMsg;
 
-  if (cardMeta?.text.name) {
-    esHint = esHint.replace("[?]", cardMeta.text.name);
+  const cardName = cardMeta?.text.name;
+  if (cardName) {
+    esHint = formatCardName(esHint, cardName, "[?]");
   }
 
   if (location) {
@@ -88,8 +90,10 @@ export const fetchEsHintMeta = async ({
       location.controller,
       location.sequence,
     );
-    if (fieldMeta?.meta.text.name) {
-      esHint = esHint.replace("[?]", fieldMeta.meta.text.name);
+    // 存在具体场上卡片时，再用其当前元数据替换提示中的占位卡名。
+    const fieldName = fieldMeta?.meta.text.name;
+    if (fieldName) {
+      esHint = formatCardName(esHint, fieldName, "[?]");
     }
   }
 

@@ -6,26 +6,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  padding: 2rem 1rem;
   .wrap {
+    margin: auto;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3.75rem;
+    gap: 2rem;
   }
 }
 
 .mode-select {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr); /* 自动调整行高 */
-  width: 55rem;
+  width: min(68rem, 100%);
+  grid-auto-rows: minmax(11rem, auto);
   // height: 33rem;
   gap: 1rem;
   .mode {
     height: 100%;
     background: hsla(0, 0%, 100%, 0.1);
     backdrop-filter: blur(10px);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 0.75rem;
     transition: 0.2s;
     cursor: pointer;
@@ -61,5 +65,19 @@
       color: hsla(0, 0%, 100%, 0.6);
       white-space: pre-wrap;
     }
+  }
+}
+
+@media (max-width: 1000px) {
+  .mode-select {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 540px) {
+  .mode-select {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mode-select .mode {
+    padding: 1rem;
   }
 }

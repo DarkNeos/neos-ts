@@ -2,6 +2,7 @@ import { sendSelectSingleResponse, ygopro } from "@/api";
 import { Container } from "@/container";
 import { ChainSetting, fetchSelectHintMeta } from "@/stores";
 import { displaySelectActionsModal } from "@/ui/Duel/Message/SelectActionsModal";
+import { displayYesNoModal } from "@/ui/Duel/Message/YesNoModal";
 
 import { fetchCheckCardMeta } from "../utils";
 
@@ -9,6 +10,7 @@ type MsgSelectChain = ygopro.StocGameMessage.MsgSelectChain;
 export default async (container: Container, selectChain: MsgSelectChain) => {
   const conn = container.conn;
   const context = container.context;
+  if (conn.cancelled || conn.isClosed()) return;
   const spCount = selectChain.special_count;
   const _hint0 = selectChain.hint0;
   const _hint1 = selectChain.hint1;
@@ -17,6 +19,13 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
 
   // 计算强制发动的卡片数量
   const forceCount = chains.filter((chain) => (chain as any).forced).length;
+
+  if (chains.length === 0 && chainSetting === ChainSetting.CHAIN_ALL) {
+    const confirmed = await displayYesNoModal("没有卡片可以连锁。", true);
+    if (confirmed && !conn.cancelled && !conn.isClosed())
+      sendSelectSingleResponse(conn, -1);
+    return;
+  }
 
   if (chainSetting === ChainSetting.CHAIN_IGNORE && forceCount === 0) {
     // 如果玩家配置了忽略连锁，且没有强制发动的卡，直接回应后端并返回
@@ -33,8 +42,11 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
         // 直接回答
         handle_flag = 0;
       } else {
-        if (chainSetting === ChainSetting.CHAIN_ALL) {
-          // 配置了全部连锁，则处理
+        if (
+          chainSetting === ChainSetting.CHAIN_ALL ||
+          chainSetting === ChainSetting.CHAIN_AVAILABLE
+        ) {
+          // 全部连锁或有可发动效果时询问，不依赖关键时点计数
           if (chains.length === 1) {
             handle_flag = 1;
           } else {
@@ -96,6 +108,7 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
         context,
         chains,
       );
+      if (container.conn.cancelled) return;
       await displaySelectActionsModal({
         isChain: true,
         cancelable: true,
@@ -121,6 +134,7 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
         context,
         chains,
       );
+      if (container.conn.cancelled) return;
       await displaySelectActionsModal({
         isChain: true,
         cancelable: false,
