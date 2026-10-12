@@ -1,6 +1,7 @@
 export * from "./attack";
 export * from "./confirm";
 export * from "./focus";
+export * from "./hit";
 export * from "./move";
 export * from "./shuffle";
 export * from "./types";

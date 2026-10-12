@@ -11,6 +11,7 @@ export enum Task {
   Confirm = "confirm", // 公开卡片
   Shuffle = "shuffle", // 卡组洗牌
   Attack = "attack", // 卡片攻击
+  Hit = "hit", // 卡片受击
   Mora = "mora", // 猜拳
   Tp = "tp", // 选边
 }

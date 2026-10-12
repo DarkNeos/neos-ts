@@ -871,6 +871,201 @@ for (const combined of [false, true]) {
   });
 }
 
+test("only the final defender shakes at impact, then returns without rendering other cards", async ({
+  page,
+}) => {
+  await trackCardRenders(page);
+  await setupBattle(page);
+  await send(page, declaration(1));
+  const result = await page.evaluate(
+    async (messages) => {
+      const attacker = document.querySelector<HTMLElement>(
+        '[data-card-uuid="hand"]',
+      )!;
+      const target = document.querySelector<HTMLElement>(
+        '[data-card-controller="0"][data-card-zone="MZONE"][data-card-sequence="2"]',
+      )!;
+      const others = [
+        ...document.querySelectorAll<HTMLElement>('[data-testid="duel-card"]'),
+      ].filter((element) => element !== attacker && element !== target);
+      const before = target.style.transform;
+      const origin = new DOMMatrix(before);
+      const from = new DOMMatrix(attacker.style.transform);
+      const dx = origin.m41 - from.m41,
+        dy = origin.m42 - from.m42;
+      const distance = Math.hypot(dx, dy);
+      const otherTransforms = others.map((element) => element.style.transform);
+      let othersStable = true;
+      const offsets: number[] = [];
+      let impact: { x: number; y: number; damage: boolean } | undefined;
+      let impactRenders = 0;
+      const uuid = target.dataset.cardUuid!;
+      const observer = new MutationObserver(() => {
+        othersStable &&= others.every(
+          (element, index) =>
+            element.style.transform === otherTransforms[index],
+        );
+        if (target.style.transform === before) return;
+        const pose = new DOMMatrix(target.style.transform);
+        offsets.push(
+          ((pose.m41 - origin.m41) * dx + (pose.m42 - origin.m42) * dy) /
+            distance,
+        );
+        if (!impact) {
+          const pose = new DOMMatrix(attacker.style.transform);
+          impact = {
+            x: pose.m41,
+            y: pose.m42,
+            damage: !!document.querySelector(
+              '[data-testid="duel-life-change"]',
+            ),
+          };
+          impactRenders = window.__cardRenders[uuid] ?? 0;
+        }
+      });
+      observer.observe(target, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
+      others.forEach((element) =>
+        observer.observe(element, {
+          attributes: true,
+          attributeFilter: ["style"],
+        }),
+      );
+      window.__cardRenders = {};
+      await Promise.all(messages.map((message) => window.__chainSend(message)));
+      observer.disconnect();
+      return {
+        before,
+        after: target.style.transform,
+        offsets,
+        impact,
+        impactRenders,
+        finalRenders: window.__cardRenders[uuid] ?? 0,
+        othersStable,
+        unrelatedRenders: others.map(
+          (element) => window.__cardRenders[element.dataset.cardUuid!] ?? 0,
+        ),
+      };
+    },
+    [battleMessage(2), [91, 0, ...u32(1000)], [114]],
+  );
+  expect(result.impact).toBeDefined();
+  expect(result.impact!.x).toBeCloseTo(0);
+  expect(result.impact!.y).toBeCloseTo(130);
+  expect(result.impact!.damage).toBe(true);
+  expect(Math.max(...result.offsets)).toBeGreaterThan(8);
+  expect(Math.min(...result.offsets)).toBeLessThan(-5);
+  expect(Math.max(...result.offsets.map(Math.abs))).toBeLessThanOrEqual(12.01);
+  expect(result.after).toBe(result.before);
+  expect(result.finalRenders).toBe(result.impactRenders);
+  expect(result.othersStable).toBe(true);
+  expect(result.unrelatedRenders.every((count) => count === 0)).toBe(true);
+});
+
+for (const skip of ["disabled", "background", "reset"]) {
+  test(`defender shake clears immediately when ${skip} interrupts impact`, async ({
+    page,
+  }) => {
+    await setupBattle(page);
+    const target = page.locator(
+      '[data-card-controller="0"][data-card-zone="MZONE"][data-card-sequence="1"]',
+    );
+    const before = await target.evaluate((element) => element.style.transform);
+    // 在首次受击位移时中断，避免测试轮询错过短暂抖动。
+    await target.evaluate(async (element, skip) => {
+      const { settingStore } = await import(
+        "/src/stores/settingStore/index.ts"
+      );
+      const { resetDuelDialogs } = await import("/src/stores/duelDialogs.ts");
+      const before = element.style.transform;
+      element.dataset.hitInterrupted = "false";
+      const observer = new MutationObserver(() => {
+        if (element.style.transform === before) return;
+        observer.disconnect();
+        element.dataset.hitInterrupted = "true";
+        if (skip === "disabled") settingStore.animation.enabled = false;
+        else if (skip === "reset") resetDuelDialogs();
+        else {
+          Object.defineProperty(document, "hidden", {
+            configurable: true,
+            value: true,
+          });
+          document.dispatchEvent(new Event("visibilitychange"));
+        }
+      });
+      observer.observe(element, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
+    }, skip);
+    await queueBattle(page, [battleMessage(), [114]]);
+    await expect
+      .poll(() => page.evaluate(() => window.__battleDone))
+      .toBe(true);
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-attacking",
+      "false",
+    );
+    await expect(target).toHaveAttribute("data-hit-interrupted", "true");
+    expect(await target.evaluate((element) => element.style.transform)).toBe(
+      before,
+    );
+    await send(page, [94, 0, ...u32(7500)]);
+    await expect(
+      page.locator('[data-testid="duel-player-life-value"][data-player="me"]'),
+    ).toHaveText("7500");
+  });
+}
+
+for (const mode of ["direct", "disabled", "seeking"]) {
+  test(`defenders stay still during ${mode} battles`, async ({ page }) => {
+    await setupBattle(page);
+    const result = await page.evaluate(
+      async ({ mode, messages }) => {
+        const { settingStore } = await import(
+          "/src/stores/settingStore/index.ts"
+        );
+        const { replayPresentation } = await import(
+          "/src/infra/replayPresentation.ts"
+        );
+        settingStore.animation.enabled = mode !== "disabled";
+        replayPresentation.seeking = mode === "seeking";
+        const defenders = [
+          ...document.querySelectorAll<HTMLElement>(
+            '[data-card-controller="0"][data-card-zone="MZONE"]',
+          ),
+        ];
+        const before = defenders.map((element) => element.style.transform);
+        let moved = false;
+        const observer = new MutationObserver(() => {
+          moved ||= defenders.some(
+            (element, index) => element.style.transform !== before[index],
+          );
+        });
+        defenders.forEach((element) =>
+          observer.observe(element, {
+            attributes: true,
+            attributeFilter: ["style"],
+          }),
+        );
+        try {
+          await Promise.all(
+            messages.map((message) => window.__chainSend(message)),
+          );
+        } finally {
+          replayPresentation.seeking = false;
+          observer.disconnect();
+        }
+        return moved;
+      },
+      { mode, messages: [battleMessage(1, 3000, mode === "direct"), [114]] },
+    );
+    expect(result).toBe(false);
+  });
+}
+
 test("zero-damage battle animates and holds the following move until return", async ({
   page,
 }) => {

@@ -26,8 +26,7 @@ export const DeckLibraryPicker = ({
     <Select
       title={title}
       data-testid={testId}
-      showSearch
-      optionFilterProp="label"
+      showSearch={false}
       style={style}
       value={snap.selectedEntry?.id ?? (snap.selectedId || undefined)}
       disabled={disabled}

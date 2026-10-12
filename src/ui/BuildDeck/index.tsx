@@ -259,7 +259,8 @@ export const DeckEditor: React.FC<{
   onShuffle,
   onSort,
 }) => {
-  const snapEditDeck = useSnapshot(editDeckStore);
+  // 同步回写受控输入框，避免旧值打断中文输入法的组合输入。
+  const snapEditDeck = useSnapshot(editDeckStore, { sync: true });
   const { environment: env, selected, revision } = useSnapshot(banlistStore);
   const selectedBanlist = env === "408" ? forbidden_408 : forbidden;
   const banlistOptions = useMemo(

@@ -129,6 +129,47 @@ async function setup(page: Page) {
   return state;
 }
 
+for (const id of ["local:同名卡组", "cloud:12345:alpha"]) {
+  test(`Chinese IME can rename a deck without interrupting composition (${id})`, async ({
+    page,
+  }) => {
+    await setup(page);
+    await entry(page, id)
+      .getByRole("button", { name: "同名卡组", exact: true })
+      .click();
+    const input = nameInput(page);
+    await input.fill("");
+    const session = await page.context().newCDPSession(page);
+    // 使用浏览器原生组合输入，直接 fill 中文无法复现候选词被重置的问题。
+    for (const text of ["huo", "huoshan", "火山"]) {
+      await session.send("Input.imeSetComposition", {
+        text,
+        selectionStart: text.length,
+        selectionEnd: text.length,
+      });
+      await expect(input).toHaveValue(text, { timeout: 1_000 });
+      await expect(input).toBeFocused();
+    }
+    await session.send("Input.insertText", { text: "火山" });
+    await session.detach();
+    await expect(input).toHaveValue("火山");
+    await expect
+      .poll(() =>
+        page.evaluate(async () => {
+          const { editDeckStore } = await import("/src/ui/BuildDeck/store.ts");
+          return { name: editDeckStore.deckName, edited: editDeckStore.edited };
+        }),
+      )
+      .toEqual({ name: "火山", edited: true });
+    await page.getByTestId("deck-save").click();
+    await expect(page.getByTestId("deck-save-status")).toHaveText(
+      id.startsWith("cloud:") ? "云端卡组 · 已保存" : "本地卡组",
+    );
+    await page.reload();
+    await expect(nameInput(page)).toHaveValue("火山");
+  });
+}
+
 test("personal decks appear automatically, preserve identity and restore selection, pins and groups offline", async ({
   page,
 }) => {
@@ -199,6 +240,9 @@ test("a cloud deck is directly selectable in match and room and sends its exact 
   await page.goto("/match");
   await expect(page.getByTestId("match-deck-select")).toContainText("同名卡组");
   await page.getByTestId("match-deck-select").click();
+  await expect(
+    page.getByTestId("match-deck-select").getByRole("combobox"),
+  ).toHaveJSProperty("readOnly", true);
   await page.getByTitle("云端备用卡组", { exact: true }).click();
   await expect(page.getByTestId("match-deck-select")).toContainText(
     "云端备用卡组",
@@ -266,6 +310,9 @@ test("a cloud deck is directly selectable in match and room and sends its exact 
   });
   state.decks[1].deckYdk = "#main\n1000002\n1000002\n1000001\n#extra\n!side\n";
   await page.getByTestId("waitroom-deck-select").click();
+  await expect(
+    page.getByTestId("waitroom-deck-select").getByRole("combobox"),
+  ).toHaveJSProperty("readOnly", true);
   await page.getByRole("button", { name: "刷新云卡组", exact: true }).click();
   await expect
     .poll(() =>

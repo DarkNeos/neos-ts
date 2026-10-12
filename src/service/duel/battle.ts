@@ -3,7 +3,7 @@ import type { DuelEvent } from "@/api/ocgcore/ocgAdapter/duelEvent";
 import type { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
 import { replayPresentation } from "@/infra/replayPresentation";
-import { callCardAttack } from "@/ui/Duel/PlayMat/Card";
+import { callCardAttack, callCardHit } from "@/ui/Duel/PlayMat/Card";
 
 export default async function battle(
   container: Container,
@@ -40,6 +40,7 @@ export default async function battle(
       : AudioActionType.SOUND_DIRECT_ATTACK,
   );
   await matStore.battlePresentation.play((signal, impact) => {
+    let targetHit = Promise.resolve();
     const onImpact = () => {
       // 使用身份判断，旧演出结束时不能清除新一次攻击的指向。
       if (
@@ -55,7 +56,16 @@ export default async function battle(
         : ({ directAttack: true } as const)),
       attack: event.attacker.attack,
       signal,
-      onImpact,
-    }).finally(onImpact);
+      onImpact: () => {
+        if (target && !signal.aborted)
+          targetHit = callCardHit(target.uuid, {
+            origin: event.attacker.location,
+            signal,
+          });
+        onImpact();
+      },
+    })
+      .then(() => targetHit)
+      .finally(onImpact);
   });
 }

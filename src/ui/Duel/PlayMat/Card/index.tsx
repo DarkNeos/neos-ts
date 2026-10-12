@@ -43,6 +43,8 @@ import {
   type ConfirmOptions,
   focus,
   type FocusOptions,
+  hit,
+  type HitOptions,
   move,
   type MoveOptions,
   shuffle,
@@ -53,7 +55,7 @@ import type { SpringApiProps } from "./springs/types";
 const { DECK, HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 const CARD_HEIGHT = matConfig.DECK_CARD_HEIGHT;
-const mountedAttacks = new Set<string>();
+const mountedCards = new Set<string>();
 
 interface CardProps {
   card: CardType;
@@ -101,6 +103,8 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
         opacity: 1,
       }) satisfies SpringApiProps,
   );
+
+  const [hitSpring, hitApi] = useSpring(() => ({ x: 0, y: 0 }));
 
   // 每张卡都需要移动到初始位置
   useLayoutEffect(() => {
@@ -165,7 +169,7 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
   };
 
   useEffect(() => {
-    mountedAttacks.add(card.uuid);
+    mountedCards.add(card.uuid);
     const activeAnimations = new Set<AbortController>();
     const unregister = [
       register(Task.Move, async (options?: MoveOptions) => {
@@ -240,6 +244,27 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
           activeAnimations.delete(controller);
         }
       }),
+      register(Task.Hit, async (options: HitOptions) => {
+        const controller = new AbortController();
+        const cancel = () => controller.abort();
+        activeAnimations.add(controller);
+        options.signal?.addEventListener("abort", cancel, { once: true });
+        if (options.signal?.aborted) cancel();
+        try {
+          await addToAnimation(
+            () =>
+              hit({
+                card,
+                api: hitApi,
+                options: { ...options, signal: controller.signal },
+              }),
+            false,
+          );
+        } finally {
+          options.signal?.removeEventListener("abort", cancel);
+          activeAnimations.delete(controller);
+        }
+      }),
       register(Task.Shuffle, async (options?: ShuffleOptions) => {
         await addToAnimation(async () => {
           if (options?.signal?.aborted) return;
@@ -253,7 +278,7 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
       }),
     ];
     return () => {
-      mountedAttacks.delete(card.uuid);
+      mountedCards.delete(card.uuid);
       activeAnimations.forEach((controller) => controller.abort());
       unregister.forEach((remove) => remove());
     };
@@ -435,9 +460,19 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
       style={
         {
           transform: to(
-            [spring.x, spring.y, spring.rx, spring.rz, spring.height],
-            (x, y, rx, rz, height) =>
-              `translate(${x}px, ${y}px) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${
+            [
+              spring.x,
+              spring.y,
+              spring.rx,
+              spring.rz,
+              spring.height,
+              hitSpring.x,
+              hitSpring.y,
+            ],
+            (x, y, rx, rz, height, hitX, hitY) =>
+              `translate(${x + hitX}px, ${
+                y + hitY
+              }px) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${
                 height / CARD_HEIGHT
               })`,
           ),
@@ -610,6 +645,10 @@ export const callCardFocus = call<FocusOptions>(Task.Focus);
 export const callCardConfirm = call<ConfirmOptions>(Task.Confirm);
 export const callCardShuffle = call<ShuffleOptions>(Task.Shuffle);
 export const callCardAttack = (uuid: string, options: AttackOptions) =>
-  mountedAttacks.has(uuid)
+  mountedCards.has(uuid)
     ? eventbus.callWithSignal(Task.Attack, options.signal, uuid, options)
+    : Promise.resolve();
+export const callCardHit = (uuid: string, options: HitOptions) =>
+  mountedCards.has(uuid)
+    ? eventbus.callWithSignal(Task.Hit, options.signal, uuid, options)
     : Promise.resolve();

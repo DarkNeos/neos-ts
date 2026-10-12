@@ -18,6 +18,7 @@ export const duelAnimation = {
     powerfulPrepare: 400,
     rush: 100,
     powerfulRush: 150,
+    hit: 180,
     hold: 200,
     leave: 250,
   },
