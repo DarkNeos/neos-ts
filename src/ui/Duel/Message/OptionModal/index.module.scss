@@ -1,3 +1,40 @@
+.hint {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.content {
+  width: 100%;
+  min-width: 0;
+}
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  > div:first-child {
+    flex-shrink: 0;
+  }
+
+  span,
+  strong {
+    display: block;
+  }
+
+  span {
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+}
+
+.description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .container {
   :global(.ant-pro-checkcard-description) {
     font-family: var(--theme-font);

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test, type TestContext } from "node:test";
+
 import { proxy, subscribe } from "valtio";
 
 import {
@@ -25,7 +26,11 @@ async function until(condition: () => boolean) {
   assert.fail("回放状态未按预期完成转换");
 }
 
-function fixture(t: TestContext, messages = ["start", "new_turn", "draw"]) {
+function fixture(
+  t: TestContext,
+  messages = ["start", "new_turn", "draw"],
+  cancelPresentation?: () => void,
+) {
   const state = proxy<ReplayPlaybackState>({
     isReplay: false,
     paused: false,
@@ -43,7 +48,12 @@ function fixture(t: TestContext, messages = ["start", "new_turn", "draw"]) {
     turns: [],
   });
   const presentation = { seeking: false, speed: 1 };
-  const playback = new ReplayPlayback(state, presentation, tick);
+  const playback = new ReplayPlayback(
+    state,
+    presentation,
+    tick,
+    cancelPresentation,
+  );
   playback.begin();
   playback.setTimeline(messages);
   const events: string[] = [];
@@ -67,6 +77,33 @@ function fixture(t: TestContext, messages = ["start", "new_turn", "draw"]) {
     });
   return { state, presentation, playback, session, execute, board, events };
 }
+
+test("seeking cancels an active presentation before rebuilding and keeps battle keyframes", async (t) => {
+  let cancel = () => {};
+  const f = fixture(t, ["start", "attack", "battle", "update_hp"], () =>
+    cancel(),
+  );
+  assert.deepEqual([...f.state.keyframes], [0, 1, 2, 3]);
+  let cancelled = false;
+  const running = f.execute(async (index) => {
+    if (index === 1 && !f.presentation.seeking)
+      await new Promise<void>((resolve) => {
+        cancel = () => {
+          cancelled = true;
+          resolve();
+        };
+      });
+  });
+  await until(() => f.board.includes(1));
+  const seek = f.playback.seek(0);
+  assert.equal(cancelled, true);
+  await until(() => f.state.renderPending);
+  f.playback.finishRender(f.state.revision);
+  assert.equal(await seek, true);
+  assert.deepEqual(f.board, [0]);
+  f.session.close();
+  await running;
+});
 
 test("paused advancement executes through the requested key message and then waits", async (t) => {
   const { playback, state, execute, board, session } = fixture(t, [

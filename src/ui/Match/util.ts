@@ -111,6 +111,7 @@ export const connectSrvpro = async (params: {
   replay?: boolean;
   replayData?: ArrayBuffer;
   customOnConnected?: (conn: WebSocketStream) => void;
+  singlePlayer?: boolean;
   training?: TrainingSession;
   signal?: AbortSignal;
 }): Promise<boolean> => {
@@ -126,6 +127,8 @@ export const connectSrvpro = async (params: {
     if (token === attempt) disconnectSession();
   };
   params.signal?.addEventListener("abort", abort, { once: true });
+  roomStore.isSinglePlayer = params.singlePlayer ?? false;
+  roomStore.mode = null;
   roomStore.joined = false;
   roomStore.timeLimit = null;
   roomStore.errorMsg = undefined;

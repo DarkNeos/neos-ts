@@ -84,6 +84,25 @@ export default async function handleGameMsg(
   pb: ygopro.YgoStocMsg,
 ): Promise<void> {
   const msg = pb.stoc_game_msg as DuelGameMessage;
+  const mat = container.context.matStore;
+  if (
+    ["start", "reload_field", "win", "attack_disable", "new_turn"].includes(
+      msg.gameMsg,
+    )
+  )
+    mat.clearAttack();
+  await mat.battlePresentation.beforeMessage(
+    msg.gameMsg === "update_data",
+    msg.gameMsg === "update_hp" &&
+      !msg.hpSource &&
+      msg.update_hp.type_ ===
+        ygopro.StocGameMessage.MsgUpdateHp.ActionType.DAMAGE,
+  );
+  if (container.conn.cancelled) return;
+  if (
+    ["new_phase", "select_battle_cmd", "select_idle_cmd"].includes(msg.gameMsg)
+  )
+    mat.clearAttack();
   if (msg.duelEvent) {
     await onDuelEvent(container, msg.duelEvent);
     return;
@@ -206,7 +225,7 @@ export default async function handleGameMsg(
       break;
     }
     case "update_hp": {
-      await onMsgUpdateHp(container, msg.update_hp);
+      await onMsgUpdateHp(container, msg.update_hp, msg.hpSource);
 
       break;
     }
@@ -290,7 +309,7 @@ export default async function handleGameMsg(
       break;
     }
     case "summoning": {
-      onMsgSummoning(container, msg.summoning);
+      await onMsgSummoning(container, msg.summoning);
 
       break;
     }
@@ -300,7 +319,7 @@ export default async function handleGameMsg(
       break;
     }
     case "flip_summoning": {
-      onMsgFlipSummoning(container, msg.flip_summoning);
+      await onMsgFlipSummoning(container, msg.flip_summoning);
 
       break;
     }
@@ -310,7 +329,7 @@ export default async function handleGameMsg(
       break;
     }
     case "sp_summoning": {
-      onMsgSpSummoning(container, msg.sp_summoning);
+      await onMsgSpSummoning(container, msg.sp_summoning);
 
       break;
     }
@@ -339,7 +358,7 @@ export default async function handleGameMsg(
       break;
     }
     case "toss": {
-      onMsgToss(container, msg.toss);
+      await onMsgToss(container, msg.toss);
 
       break;
     }

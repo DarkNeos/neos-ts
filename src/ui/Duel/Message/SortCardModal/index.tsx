@@ -36,17 +36,17 @@ export const SortCardModal = () => {
     setSelecteds([]);
   }, [options, isOpen]);
 
-  const onFinish = () => {
+  const onFinish = (order = selecteds) => {
     if (
       !localStore.isOpen ||
-      selecteds.length === 0 ||
-      selecteds.length !== localStore.options.length
+      order.length === 0 ||
+      order.length !== localStore.options.length
     )
       return;
     // 协议按原候选顺序返回排序后的位置，不能直接发送玩家的点击顺序。
     // 例如点击顺序 [2, 0, 1] 应转换为位置数组 [1, 2, 0]。
     const ranks = new Array<number>(localStore.options.length);
-    selecteds.forEach((response, position) => {
+    order.forEach((response, position) => {
       ranks[response] = position;
     });
     sendSortCardResponse(container.conn, ranks);
@@ -69,10 +69,25 @@ export const SortCardModal = () => {
             重选
           </Button>
           <Button
+            data-testid="duel-sort-card-quick-select"
+            disabled={options.length === 0}
+            title="保留已选顺序，按列表顺序补齐并确认"
+            onClick={() =>
+              onFinish([
+                ...selecteds,
+                ...options
+                  .map((option) => option.response)
+                  .filter((response) => !selecteds.includes(response)),
+              ])
+            }
+          >
+            快速选择
+          </Button>
+          <Button
             data-testid="duel-sort-card-submit"
             type="primary"
             disabled={!complete}
-            onClick={onFinish}
+            onClick={() => onFinish()}
           >
             确认顺序
           </Button>

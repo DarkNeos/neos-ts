@@ -1,21 +1,16 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Avatar, Button, Checkbox, Input, List } from "antd";
+import { Button, Checkbox, Input, List } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { proxy, useSnapshot } from "valtio";
 
-import {
-  CardMeta,
-  getCardImgUrl,
-  searchCards,
-  sendSelectOptionResponse,
-} from "@/api";
+import { CardMeta, searchCards, sendSelectOptionResponse } from "@/api";
 import { quoteCardName } from "@/api/cardText";
 import { isDeclarable, isToken } from "@/common";
 import { getUIContainer } from "@/container/compat";
 import { emptySearchConditions } from "@/middleware/sqlite/fts";
 import { DuelChoice } from "@/stores/duelChoice";
-import { ScrollableArea } from "@/ui/Shared";
+import { ScrollableArea, YgoCard } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
@@ -140,7 +135,7 @@ export const AnnounceModal: React.FC = () => {
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={getCardImgUrl(item.id)} />}
+                  avatar={<YgoCard className={styles.card} code={item.id} />}
                   title={<a>{quoteCardName(item.text.name)}</a>}
                   description={
                     item.text.desc?.substring(0, MAX_DESC_LEN) + "..."

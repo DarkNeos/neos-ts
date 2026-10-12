@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { proxy, useSnapshot } from "valtio";
+import { proxy, subscribe, useSnapshot } from "valtio";
 
 import { ygopro } from "@/api";
-import { replayDuration, replayPresentation } from "@/infra/replayPresentation";
+import { duelAnimation, presentationDuration } from "@/infra/duelAnimation";
+import { replayPresentation } from "@/infra/replayPresentation";
 import { createDuelDialog } from "@/stores/duelDialogs";
 import { settingStore } from "@/stores/settingStore";
 
@@ -28,7 +29,7 @@ const phases: Partial<Record<PhaseType, [string, string]>> = {
   [PhaseType.END]: ["EP", endPhase],
 };
 
-export const PHASE_BANNER_DURATION = 650;
+export const PHASE_BANNER_DURATION = duelAnimation.phase;
 const state = proxy<{ phase: PhaseType | null }>({ phase: null });
 let timer: ReturnType<typeof setTimeout> | undefined;
 const dialog = createDuelDialog(() => {
@@ -50,18 +51,26 @@ export function displayPhaseBanner(phase: PhaseType): Promise<void> {
   const finished = dialog.wait();
   timer = setTimeout(
     () => dialog.finish(),
-    replayDuration(PHASE_BANNER_DURATION),
+    presentationDuration(PHASE_BANNER_DURATION),
   );
   return finished;
 }
 
 export const PhaseBanner = () => {
-  const { enabled } = useSnapshot(settingStore.animation);
+  useSnapshot(settingStore.animation);
   const { phase } = useSnapshot(state);
-  useEffect(() => () => dialog.finish(), []);
   useEffect(() => {
-    if (!enabled) dialog.finish();
-  }, [enabled]);
+    const skip = () => {
+      if (document.hidden || !settingStore.animation.enabled) dialog.finish();
+    };
+    document.addEventListener("visibilitychange", skip);
+    const unsubscribe = subscribe(settingStore.animation, skip, true);
+    return () => {
+      document.removeEventListener("visibilitychange", skip);
+      unsubscribe();
+      dialog.finish();
+    };
+  }, []);
   const label = phase === null ? undefined : phases[phase];
   if (!label) return null;
   return createPortal(
@@ -72,7 +81,7 @@ export const PhaseBanner = () => {
       data-phase={label[0]}
       className={styles.banner}
       style={{
-        animationDuration: `${replayDuration(PHASE_BANNER_DURATION)}ms`,
+        animationDuration: `${presentationDuration(PHASE_BANNER_DURATION)}ms`,
       }}
     >
       <strong>{label[0]}</strong>

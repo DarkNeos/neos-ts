@@ -124,7 +124,7 @@ const card = (page: Page, uuid: string) =>
   page.locator(`[data-testid="duel-card"][data-card-uuid="${uuid}"]`);
 const done = (page: Page) => page.evaluate(() => window.__confirmDone);
 
-test("enabled animations ignore system reduced motion and reveal hands in order", async ({
+test("enabled animations ignore system reduced motion and stagger overlapping hand reveals", async ({
   page,
 }, info) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -174,7 +174,7 @@ test("enabled animations ignore system reduced motion and reveal hands in order"
   expect(revealedTransform.angle).toBeCloseTo(initialTransform.angle, 3);
   expect(revealedTransform.y - initialTransform.y).toBeGreaterThan(30);
   expect(revealedTransform.y - initialTransform.y).toBeLessThan(80);
-  await expect(second).toHaveAttribute("data-card-confirming", "false");
+  await expect(second).toHaveAttribute("data-card-confirming", "true");
   expect(await done(page)).toBe(false);
   await expect(second).toHaveAttribute("data-card-confirming", "true");
   await expect(first).toHaveAttribute("data-card-confirming", "false");
@@ -186,8 +186,9 @@ test("enabled animations ignore system reduced motion and reveal hands in order"
   await expect.poll(() => done(page)).toBe(true);
   await expectCardFace(second, true);
   expect(await page.evaluate(() => window.__confirmElapsed)).toBeGreaterThan(
-    1100,
+    600,
   );
+  expect(await page.evaluate(() => window.__confirmElapsed)).toBeLessThan(1100);
   expect(await page.evaluate(() => window.__sent)).toEqual([]);
 });
 
@@ -232,7 +233,10 @@ for (const mode of ["watch", "replay"]) {
     ).not.toBeVisible();
     await expect.poll(() => done(page)).toBe(true);
     expect(await page.evaluate(() => window.__confirmElapsed)).toBeGreaterThan(
-      2300,
+      800,
+    );
+    expect(await page.evaluate(() => window.__confirmElapsed)).toBeLessThan(
+      1400,
     );
     expect(await page.evaluate(() => window.__sent)).toEqual([]);
   });

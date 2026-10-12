@@ -52,7 +52,6 @@ export const loader: LoaderFunction = () => {
 
 export const Component: React.FC = () => {
   const { message, modal } = App.useApp();
-  const server = `${serverList[0].ip}:${serverList[0].port}`;
   const user = accountStore.user;
   const { joined } = useSnapshot(roomStore);
   const { phase: connectionPhase } = useSnapshot(connectionStore);
@@ -64,13 +63,17 @@ export const Component: React.FC = () => {
       setWatchLoading(false);
     }
   }, [connectionPhase]);
-  const [singleLoading, setSingleLoading] = useState(false); // 单人模式的loading状态
+  const [singleLoading, setSingleLoading] = useState<
+    "koishi" | "pre-release" | false
+  >(false);
+  const [singleOpen, setSingleOpen] = useState(false);
   const [appearanceOpen, setAppearanceOpen] = useState(false);
   const [athleticMatchLoading, setAthleticMatchLoading] = useState(false); // 竞技匹配的loading状态
   const [entertainMatchLoading, setEntertainMatchLoading] = useState(false); // 娱乐匹配的loading状态
   const [watchLoading, setWatchLoading] = useState(false); // 观战模式的loading状态
   const navigate = useNavigate();
   const { t: i18n } = useTranslation("Match");
+  const { t: roomI18n } = useTranslation("MatchModal");
 
   // 匹配
   const onMatch = async (arena: "athletic" | "entertain") => {
@@ -252,15 +255,19 @@ export const Component: React.FC = () => {
   };
 
   // 单人模式
-  const onAIMatch = async () => {
-    setSingleLoading(true);
+  const onAIMatch = async (serverName: "koishi" | "pre-release") => {
+    if (singleLoading) return;
+    setSingleLoading(serverName);
 
     // 初始化，然后等待后端通知成功加入房间后跳转页面
     try {
+      const server = serverList.find((server) => server.name === serverName);
+      if (!server) throw new Error("未配置所选服务器，请检查服务器配置");
       await connectSrvpro({
-        ip: server,
+        ip: `${server.ip}:${server.port}`,
         player: user?.username ?? "Guest",
         passWd: "AI",
+        singlePlayer: true,
       });
     } catch (error) {
       message.error(
@@ -277,6 +284,7 @@ export const Component: React.FC = () => {
   useEffect(() => {
     if (joined) {
       setSingleLoading(false);
+      setSingleOpen(false);
       setAthleticMatchLoading(false);
       setEntertainMatchLoading(false);
       setWatchLoading(false);
@@ -354,7 +362,8 @@ export const Component: React.FC = () => {
                   <IconFont type="icon-chip" size={26} />
                 )
               }
-              onClick={onAIMatch}
+              testId="match-mode-single-player"
+              onClick={() => setSingleOpen(true)}
             />
             <Mode
               title={i18n("CustomRoomTitle")}
@@ -381,6 +390,43 @@ export const Component: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={singleOpen}
+        title={i18n("SinglePlayerModeTitle")}
+        width="24rem"
+        centered
+        onCancel={() => {
+          disconnectSession();
+          setSingleLoading(false);
+          setSingleOpen(false);
+        }}
+        footer={null}
+      >
+        <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+          <Button
+            data-testid="single-player-server"
+            data-server="koishi"
+            block
+            size="large"
+            disabled={!!singleLoading}
+            loading={singleLoading === "koishi"}
+            onClick={() => onAIMatch("koishi")}
+          >
+            {roomI18n("KoishiServer")} (7210)
+          </Button>
+          <Button
+            data-testid="single-player-server"
+            data-server="pre-release"
+            block
+            size="large"
+            disabled={!!singleLoading}
+            loading={singleLoading === "pre-release"}
+            onClick={() => onAIMatch("pre-release")}
+          >
+            {roomI18n("UltraPreemptiveServer")}
+          </Button>
+        </Space>
+      </Modal>
       <MatchModal />
       <ReplayModal />
       <Appearance

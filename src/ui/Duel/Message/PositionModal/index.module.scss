@@ -1,17 +1,21 @@
 .container {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 9rem));
+  grid-auto-flow: column;
+  grid-auto-columns: 10.5rem;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem 0;
+  justify-content: safe center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  padding: 1rem 0.125rem;
+  overflow-x: auto;
 
   button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 9rem;
-    height: 9rem;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    aspect-ratio: 1;
     padding: 0.5rem;
     background: transparent;
     border-color: #ffffff40;
@@ -24,7 +28,8 @@
   }
 
   img {
-    width: 5.5rem;
+    width: 6.25rem;
+    flex-shrink: 0;
     aspect-ratio: 59 / 86;
     object-fit: contain;
     pointer-events: none;

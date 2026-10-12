@@ -42,7 +42,7 @@
       transform: translateZ(0.5px);
     }
     &.focusing .cover {
-      animation: focus 0.6s ease-in-out;
+      animation: focus var(--focus-duration, 600ms) ease-in-out;
     }
     .back {
       z-index: 0;

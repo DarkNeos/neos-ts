@@ -57,6 +57,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
       title={
         <>
           <span>{preHintMsg}</span>
+          {preHintMsg && " "}
           <span>{selectHintMsg}</span>
           <span>
             ({i18n("PleaseSelect")} {minMaxText} {i18n("Cards")})

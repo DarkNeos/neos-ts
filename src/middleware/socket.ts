@@ -5,6 +5,7 @@
  *
  * */
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
+import { duelMessageName } from "@/api/ocgcore/ocgAdapter/duelEvent";
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 import { CTOS_RESPONSE } from "@/api/ocgcore/ocgAdapter/protoDecl";
 import { yrp3dToStocGameMsgBuffers } from "@/api/ocgcore/replay";
@@ -47,9 +48,10 @@ export function initReplaySocket(replayInfo: {
   const { data } = replayInfo;
   const messages = yrp3dToStocGameMsgBuffers(data);
   replayStore.setTimeline(
-    messages.map(
-      (buffer) =>
-        adaptStoc(YgoProPacket.deserialize(buffer)[0]).stoc_game_msg.gameMsg,
+    messages.map((buffer) =>
+      duelMessageName(
+        adaptStoc(YgoProPacket.deserialize(buffer)[0]).stoc_game_msg,
+      ),
     ),
   );
   return new LocalReplayStream(messages, () => {

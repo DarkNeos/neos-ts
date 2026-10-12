@@ -145,7 +145,8 @@ interface Session {
 /** 根据客户端消息推进入房、准备、猜拳与开局，模拟完整训练握手。 */
 async function mockServer(page: Page, rules: ServerRules = {}) {
   const sessions: Session[] = [];
-  await page.routeWebSocket("wss://koishi.momobako.com:889/", (socket) => {
+  const address = /^wss:\/\/koishi\.momobako\.com:(?:7211|889)\/$/;
+  await page.routeWebSocket(address, (socket) => {
     const session = { socket, packets: [] as Buffer[], closed: false };
     sessions.push(session);
     socket.onClose(() => {
@@ -231,6 +232,11 @@ async function connectTraining(page: Page) {
       return getUIContainer().conn.ws.url;
     }),
   ).toBe("wss://koishi.momobako.com:889/");
+}
+
+async function connectSinglePlayer(page: Page) {
+  await page.getByTestId("match-mode-single-player").click();
+  await page.getByRole("button", { name: "超先行服", exact: true }).click();
 }
 
 /** 按包头的协议号筛选该次会话发送的消息。 */
@@ -724,29 +730,217 @@ test("browser back from training closes the session and preserves the editor", a
   await expect.poll(() => sessions[0].closed).toBe(true);
 });
 
-test("ordinary AI rooms still use manual deck selection, readiness and turn selection", async ({
+for (const [server, address] of [
+  ["Koishi服 (7210)", "wss://koishi.momobako.com:7211/"],
+  ["超先行服", "wss://koishi.momobako.com:889/"],
+] as const) {
+  test(`single-player mode enters ${server} with one click and keeps manual preparation`, async ({
+    page,
+  }, info) => {
+    const sessions = await mockServer(page);
+    await setupEditor(page);
+    await page.goto("/match");
+    await page.getByTestId("match-mode-single-player").click();
+    const dialog = page.getByRole("dialog", { name: "单人模式" });
+    const servers = dialog.getByTestId("single-player-server");
+    await expect(servers).toHaveCount(2);
+    await expect(
+      dialog.getByRole("button", { name: "Koishi服 (7210)", exact: true }),
+    ).toBeVisible();
+    await expect(
+      dialog.getByRole("button", { name: "超先行服", exact: true }),
+    ).toBeVisible();
+    await expect(dialog.getByRole("combobox")).toHaveCount(0);
+    await expect(dialog.getByRole("button", { name: "开始对战" })).toHaveCount(
+      0,
+    );
+    if (server === "Koishi服 (7210)") {
+      await expect(dialog).toHaveCSS("opacity", "1");
+      await page.screenshot({
+        path: info.outputPath("single-player-servers.png"),
+        animations: "disabled",
+      });
+    }
+    expect(sessions).toHaveLength(0);
+    await expect(page).toHaveURL(/\/match$/);
+    await dialog.getByRole("button", { name: server, exact: true }).click();
+    await expect(page).toHaveURL(/\/waitroom$/);
+    await expect(dialog).toHaveCount(0);
+    expect(sessions).toHaveLength(1);
+    expect(sessions[0].socket.url()).toBe(address);
+    expect(password(sessions[0])).toBe("AI");
+    await expect(page.getByTestId("waitroom-deck-select")).toBeVisible();
+    await expect(page.getByTestId("waitroom-ready-toggle")).toBeVisible();
+    expect(sent(sessions[0], CTOS_HS_READY)).toHaveLength(0);
+    sessions[0].socket.send(packet(STOC_SELECT_HAND));
+    await expect(
+      page.getByText("请猜拳", { exact: true }).first(),
+    ).toBeVisible();
+    expect(sent(sessions[0], CTOS_HAND_RESULT)).toHaveLength(0);
+    sessions[0].socket.send(packet(STOC_SELECT_TP));
+    expect(sent(sessions[0], CTOS_TP_RESULT)).toHaveLength(0);
+  });
+}
+
+test("single-player server selection can be cancelled before and during connection", async ({
   page,
 }) => {
-  const sessions = await mockServer(page);
+  const sessions = await mockServer(page, { confirmRoom: false });
+  await page.goto("/match");
+  await page.getByTestId("match-mode-single-player").click();
+  const dialog = page.getByRole("dialog", { name: "单人模式" });
+  await dialog.locator(".ant-modal-close").click();
+  await expect(dialog).not.toBeVisible();
+  expect(sessions).toHaveLength(0);
+  await page.getByTestId("match-mode-single-player").click();
+  await dialog
+    .getByRole("button", { name: "Koishi服 (7210)", exact: true })
+    .click();
+  await expect.poll(() => sessions.length).toBe(1);
+  const servers = dialog.getByTestId("single-player-server");
+  await expect(servers.first()).toBeDisabled();
+  await expect(servers.last()).toBeDisabled();
+  await dialog.locator(".ant-modal-close").click();
+  await expect(dialog).not.toBeVisible();
+  await expect.poll(() => sessions[0].closed).toBe(true);
+  await expect(page).toHaveURL(/\/match$/);
+});
+
+for (const ending of ["duel-end", "server-close", "open-connection"] as const) {
+  test(`single-player discard exits without a route loading error after ${ending}`, async ({
+    page,
+  }) => {
+    const failures = new Set<string>();
+    page.on("pageerror", (error) => failures.add(error.message));
+    page.on("console", (message) => {
+      if (message.text().includes("页面加载失败")) failures.add(message.text());
+    });
+    const sessions = await mockServer(page);
+    await setupEditor(page);
+    await page.goto("/match");
+    await connectSinglePlayer(page);
+    await expect(page).toHaveURL(/\/waitroom$/);
+    const start = Buffer.alloc(18);
+    start[0] = MSG_START;
+    start.writeInt32LE(8000, 2);
+    start.writeInt32LE(8000, 6);
+    start.writeInt16LE(40, 10);
+    start.writeInt16LE(40, 14);
+    sessions[0].socket.send(packet(STOC_GAME_MSG, start));
+    await expect(page.getByTestId("duel-toolbar")).toBeVisible();
+    sessions[0].socket.send(
+      Buffer.concat([
+        packet(STOC_GAME_MSG, [MSG_WIN, 0, 0]),
+        ...(ending === "duel-end" ? [packet(STOC_DUEL_END)] : []),
+      ]),
+    );
+    await expect(page.getByTestId("duel-end-modal")).toBeVisible();
+    if (ending === "server-close") await sessions[0].socket.close();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "不保存", exact: true })
+      .click();
+    try {
+      await expect(page.getByTestId("match-deck-select")).toBeVisible({
+        timeout: 5000,
+      });
+    } finally {
+      expect([...failures]).toEqual([]);
+    }
+    await expect(
+      page.getByRole("heading", { name: "页面加载失败" }),
+    ).toHaveCount(0);
+    await expect(page.getByTestId("duel-player-life")).toHaveCount(0);
+    await expect.poll(() => sessions[0].closed).toBe(true);
+    if (ending === "open-connection") {
+      await connectSinglePlayer(page);
+      await expect(page).toHaveURL(/\/waitroom$/);
+      await expect(page.getByTestId("waitroom-ready-toggle")).toBeVisible();
+      expect(sessions).toHaveLength(2);
+    }
+  });
+}
+
+test("custom single-game discard exits before a delayed server end notification", async ({
+  page,
+}) => {
+  const sessions = await mockServer(page, { mode: 0 });
   await setupEditor(page);
+  await page.goto("/match");
+  await page.getByTestId("match-mode-custom-room").click();
+  await page.getByTestId("match-modal-server").click();
+  await page.getByText("超先行服", { exact: true }).click();
+  await page.getByTestId("match-modal-player").fill("Test");
+  await page.getByTestId("match-modal-password").fill("NC#exit-test");
+  await page.getByTestId("match-modal-join").click();
+  await expect(page).toHaveURL(/\/waitroom$/);
+  const start = Buffer.alloc(18);
+  start[0] = MSG_START;
+  start.writeInt32LE(8000, 2);
+  start.writeInt32LE(8000, 6);
+  start.writeInt16LE(40, 10);
+  start.writeInt16LE(40, 14);
+  sessions[0].socket.send(packet(STOC_GAME_MSG, start));
+  await expect(page.getByTestId("duel-toolbar")).toBeVisible();
+  // 超先行服可能在结果后十余秒才发送结束通知，这期间连接仍然可用。
+  sessions[0].socket.send(packet(STOC_GAME_MSG, [MSG_WIN, 0, 0]));
+  await expect(page.getByTestId("duel-end-modal")).toBeVisible();
+  expect(sessions[0].closed).toBe(false);
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "不保存", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/match$/, { timeout: 2000 });
+  await expect(page.getByTestId("duel-player-life")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "页面加载失败" })).toHaveCount(
+    0,
+  );
+  await expect.poll(() => sessions[0].closed).toBe(true);
+});
+
+test("multiplayer results keep the connection available for the next game", async ({
+  page,
+}) => {
+  const sessions = await mockServer(page, { mode: 1 });
+  await setupEditor(page);
+  await page.goto("/match");
   await page.evaluate(async () => {
     const { connectSrvpro } = await import("/src/ui/Match/util.ts");
     await connectSrvpro({
       ip: "koishi.momobako.com:889",
       player: "Test",
-      passWd: "AI#Rainbow",
+      passWd: "M",
     });
-    history.pushState({}, "", "/waitroom");
-    dispatchEvent(new PopStateEvent("popstate"));
   });
-  await expect(page.getByTestId("waitroom-deck-select")).toBeVisible();
-  await expect(page.getByTestId("waitroom-ready-toggle")).toBeVisible();
-  expect(sent(sessions[0], CTOS_HS_READY)).toHaveLength(0);
-  sessions[0].socket.send(packet(STOC_SELECT_HAND));
-  await expect(page.getByText("请猜拳", { exact: true }).first()).toBeVisible();
-  expect(sent(sessions[0], CTOS_HAND_RESULT)).toHaveLength(0);
-  sessions[0].socket.send(packet(STOC_SELECT_TP));
-  expect(sent(sessions[0], CTOS_TP_RESULT)).toHaveLength(0);
+  await expect(page).toHaveURL(/\/waitroom$/);
+  const start = Buffer.alloc(18);
+  start[0] = MSG_START;
+  start.writeInt32LE(8000, 2);
+  start.writeInt32LE(8000, 6);
+  start.writeInt16LE(40, 10);
+  start.writeInt16LE(40, 14);
+  sessions[0].socket.send(packet(STOC_GAME_MSG, start));
+  await expect(page.getByTestId("duel-toolbar")).toBeVisible();
+  const cardCount = await page.getByTestId("duel-card").count();
+  sessions[0].socket.send(packet(STOC_GAME_MSG, [MSG_WIN, 0, 0]));
+  await expect(page.getByTestId("duel-end-modal")).toBeVisible();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "不保存", exact: true })
+    .click();
+  // 等待下一局或换副卡组时保留结算场地，不能提前显示生命值 -1 的空场。
+  await expect(
+    page.locator('[data-testid="duel-player-life"][data-player="me"]'),
+  ).toHaveAttribute("data-life", "8000");
+  // 第二局使用不同的起始生命值，确认已收到新消息，而非停留在上一局画面。
+  start.writeInt32LE(6000, 2);
+  sessions[0].socket.send(packet(STOC_GAME_MSG, start));
+  await expect(
+    page.locator('[data-testid="duel-player-life"][data-player="me"]'),
+  ).toHaveAttribute("data-life", "6000");
+  await expect(page.getByTestId("duel-card")).toHaveCount(cardCount);
+  await expect(page).toHaveURL(/\/duel$/);
+  expect(sessions[0].closed).toBe(false);
 });
 
 test("stops when the server ignores the fixed AI hand instead of repeating tied rounds", async ({

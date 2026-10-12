@@ -89,10 +89,20 @@ function legacySemantic(message: any) {
   const event = message.duelEvent;
   if (!event) return semantic(message);
   const command =
-    event.kind === "card-hint"
+    event.kind === "battle"
+      ? 111
+      : event.kind === "damage-step"
+      ? event.start
+        ? 113
+        : 114
+      : event.kind === "card-hint"
       ? 160
       : event.kind === "player-hint"
       ? 165
+      : event.kind === "chain-stage"
+      ? event.stage === "built"
+        ? 71
+        : 72
       : event.result === "activation"
       ? 75
       : 76;
@@ -102,6 +112,91 @@ function legacySemantic(message: any) {
     }),
   );
 }
+
+test("decodes final battle positions, stats, direct attacks, damage steps and LP cost source", () => {
+  const i32 = (value: number) => {
+    const bytes = Buffer.alloc(4);
+    bytes.writeInt32LE(value);
+    return [...bytes];
+  };
+  const decode = (bytes: number[]) =>
+    adaptStoc(new YgoProPacket(bytes.length + 1, 1, Uint8Array.from(bytes)))
+      .stoc_game_msg;
+  const message = decode([
+    111,
+    0,
+    4,
+    3,
+    1,
+    ...i32(3100),
+    ...i32(2100),
+    1,
+    1,
+    4,
+    5,
+    4,
+    ...i32(1800),
+    ...i32(2800),
+    0,
+  ]);
+  assert.equal(message.duelEvent.kind, "battle");
+  assert.deepEqual(message.duelEvent.attacker, {
+    location: new ygopro.CardLocation({
+      controller: 0,
+      zone: ygopro.CardZone.MZONE,
+      sequence: 3,
+      is_overlay: false,
+      position: ygopro.CardPosition.FACEUP_ATTACK,
+    }),
+    attack: 3100,
+    defense: 2100,
+    battleState: 1,
+  });
+  assert.equal(message.duelEvent.defender.location.sequence, 5);
+  assert.equal(
+    message.duelEvent.defender.location.position,
+    ygopro.CardPosition.FACEUP_DEFENSE,
+  );
+  assert.equal(message.duelEvent.defender.defense, 2800);
+  assert.equal(message.duelEvent.defender.battleState, 0);
+  assert.equal(
+    decode([
+      111,
+      0,
+      4,
+      3,
+      1,
+      ...i32(3100),
+      ...i32(2100),
+      1,
+      0,
+      0,
+      0,
+      0,
+      ...i32(0),
+      ...i32(0),
+      0,
+    ]).duelEvent.defender,
+    undefined,
+  );
+  assert.deepEqual(decode([113]).duelEvent, {
+    kind: "damage-step",
+    start: true,
+  });
+  assert.deepEqual(decode([114]).duelEvent, {
+    kind: "damage-step",
+    start: false,
+  });
+  const cost = decode([100, 1, ...i32(800)]);
+  assert.equal(cost.hpSource, "cost");
+  assert.equal(cost.update_hp.player, 1);
+  assert.equal(cost.update_hp.value, 800);
+  assert.equal(decode([91, 1, ...i32(800)]).hpSource, undefined);
+  assert.equal(
+    decode([92, 1, ...i32(800)]).update_hp.type_,
+    ygopro.StocGameMessage.MsgUpdateHp.ActionType.RECOVER,
+  );
+});
 
 // 迁移前适配器生成的业务结果摘要，覆盖所有真实录像消息与扩展字段。
 const golden = {
@@ -197,6 +292,16 @@ test("preserves card hints, player hints and distinct chain results through the 
       kind: "chain-result",
       index: 2,
       result,
+    });
+  }
+  for (const [command, stage] of [
+    [71, "built"],
+    [72, "solving"],
+  ] as const) {
+    assert.deepEqual(decode([command, 2]).duelEvent, {
+      kind: "chain-stage",
+      index: 2,
+      stage,
     });
   }
   assert.equal(decode([74]).gameMsg, "chain_end");

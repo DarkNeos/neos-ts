@@ -19,6 +19,7 @@ interface ActionAdapter<T> {
     actions: ActiveAction<T>[],
     signal: AbortSignal,
   ) => Promise<number | undefined>;
+  confirmSingleAction?: (action: ActiveAction<T>) => boolean;
   clear: () => void;
 }
 interface CurrentRequest<T> extends ActionRequest<T> {
@@ -120,7 +121,8 @@ export class ActiveActionProcess<T> {
     const choices = actions.filter((action) => action.card === card);
     if (!choices.length) return false;
     const response =
-      choices.length === 1
+      choices.length === 1 &&
+      !(cards.length === 1 && request.adapter.confirmSingleAction?.(choices[0]))
         ? choices[0].response
         : await request.adapter.chooseEffect(choices, signal);
     if (

@@ -30,7 +30,7 @@
     "MCSpectatorListTitle": "MC观战列表",
     "MCSpectatorListDesc": "观看萌卡MyCard上正在进行的决斗",
     "SinglePlayerModeTitle": "单人模式",
-    "SinglePlayerModeDesc": "在Koishi 7210服务器上开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。",
+    "SinglePlayerModeDesc": "选择 Koishi 7210 或超先行服，与 AI 对战并测试卡组。",
     "CustomRoomTitle": "自定义房间",
     "CustomRoomDesc": "创建自定义规则的房间，与好友约战。",
     "ReplayTitle": "录像回放",

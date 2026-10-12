@@ -120,13 +120,9 @@ export default async (container: Container, selectChain: MsgSelectChain) => {
       });
       break;
     }
-    case 3: {
-      // 一张强制发动的卡，直接回应
-      sendSelectSingleResponse(conn, chains[0].response);
-      break;
-    }
+    case 3:
     case 4: {
-      // 多张强制发动的卡，弹窗选择
+      // 强制效果始终展示卡片和效果，唯一候选也等待确认。
       fetchSelectHintMeta({
         selectHintData: 203,
       });

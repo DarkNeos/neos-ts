@@ -31,6 +31,7 @@ export default function handleJoinGame(
   }
   const seconds = pb.stoc_join_game.time_limit;
   context.roomStore.timeLimit = seconds >= 0 ? seconds : null;
+  context.roomStore.mode = info.mode;
   context.roomStore.lflist = info.lflist >>> 0;
   context.roomStore.joined = true;
 }

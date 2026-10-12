@@ -2,18 +2,19 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { proxy, subscribe, useSnapshot } from "valtio";
 
-import { replayDuration, replayPresentation } from "@/infra/replayPresentation";
+import { duelAnimation, presentationDuration } from "@/infra/duelAnimation";
+import { replayPresentation } from "@/infra/replayPresentation";
 import { createDuelDialog } from "@/stores/duelDialogs";
 import { settingStore } from "@/stores/settingStore";
 
 import styles from "./index.module.scss";
 
-// ygopro2 的生命值变化数字显示约 1 秒，前 180ms 从小到大出现。
-export const LIFE_CHANGE_DURATION = 1000;
+export const LIFE_CHANGE_DURATION = duelAnimation.life.change;
 interface LifeChangeInfo {
   id: number;
   player: "me" | "op";
   amount: number;
+  source?: "cost";
 }
 const state = proxy<{ change: LifeChangeInfo | null }>({ change: null });
 let sequence = 0;
@@ -27,6 +28,7 @@ const dialog = createDuelDialog(() => {
 export function displayLifeChange(
   isMe: boolean,
   amount: number,
+  source?: "cost",
 ): Promise<void> {
   dialog.finish();
   if (
@@ -38,17 +40,18 @@ export function displayLifeChange(
   )
     return Promise.resolve();
 
-  state.change = { id: ++sequence, player: isMe ? "me" : "op", amount };
+  state.change = { id: ++sequence, player: isMe ? "me" : "op", amount, source };
   const finished = dialog.wait();
   timer = setTimeout(
     () => dialog.finish(),
-    replayDuration(LIFE_CHANGE_DURATION),
+    presentationDuration(LIFE_CHANGE_DURATION),
   );
   return finished;
 }
 
 export const LifeChange = () => {
   const { change } = useSnapshot(state);
+  useSnapshot(settingStore.animation);
   useEffect(() => {
     mounted = true;
     const finishWhenSkipped = () => {
@@ -76,12 +79,24 @@ export const LifeChange = () => {
       className={styles.effect}
       data-testid="duel-life-change"
       data-player={change.player}
-      data-kind={recovering ? "recover" : "damage"}
+      data-kind={
+        change.source === "cost" ? "cost" : recovering ? "recover" : "damage"
+      }
       data-amount={change.amount}
-      style={{ animationDuration: `${replayDuration(LIFE_CHANGE_DURATION)}ms` }}
+      style={{
+        animationDuration: `${presentationDuration(LIFE_CHANGE_DURATION)}ms`,
+      }}
     >
-      {!recovering && (
-        <div className={styles.impact} data-testid="duel-life-damage-flash" />
+      {!recovering && change.source !== "cost" && (
+        <div
+          className={styles.impact}
+          data-testid="duel-life-damage-flash"
+          style={{
+            animationDuration: `${presentationDuration(
+              duelAnimation.life.flash,
+            )}ms`,
+          }}
+        />
       )}
       <div className={styles.anchor}>
         <strong className={styles.number} role="status">

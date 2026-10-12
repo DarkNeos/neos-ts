@@ -5,7 +5,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
 import { getUIContainer } from "@/container/compat";
-import { replayStore, resetDuel, resetUniverse, trainingStore } from "@/stores";
+import { replayStore, resetUniverse, roomStore, trainingStore } from "@/stores";
 import { createDuelDialog } from "@/stores/duelDialogs";
 import { disconnectSession } from "@/ui/Match/util";
 
@@ -45,7 +45,14 @@ export const EndModal: React.FC = () => {
       navigate("/build", { replace: true });
       return;
     }
-    resetDuel();
+    // 单局无需等待下一局，主动退出以免被延迟的服务器结束通知留在场上。
+    if (roomStore.isSinglePlayer || roomStore.mode === 0) {
+      disconnectSession();
+      resetUniverse();
+      navigate("/match", { replace: true });
+      return;
+    }
+    // 多局保留结算场地，直到换副卡组、整场结束或下一局开局。
     rs();
 
     if (container.conn.isClosed()) {

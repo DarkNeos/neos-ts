@@ -1,6 +1,7 @@
 import { easings } from "@react-spring/web";
 
 import { ygopro } from "@/api";
+import { duelAnimation, duelDuration } from "@/infra/duelAnimation";
 import { isMe } from "@/stores";
 
 import { matConfig } from "../../css";
@@ -112,12 +113,18 @@ export const moveToGround: MoveFunc = async (props) => {
         ry,
         rz,
         config: {
-          duration: getDuration() + 180 + index * 35,
+          duration: duelDuration(
+            duelAnimation.overlay.absorb +
+              index * duelAnimation.overlay.stagger,
+          ),
           easing: easings.easeInOutCubic,
           clamp: true,
         },
       });
-      await asyncStart(api)({ opacity: 0, config: { duration: 100 } });
+      await asyncStart(api)({
+        opacity: 0,
+        config: { duration: duelDuration(duelAnimation.overlay.fade) },
+      });
     }
     // 静态同步不重播吸入动画；保留宿主坐标供取除时使用。
     api.set({ x, y, height, z: 0, subZ: 0, ry, rz, zIndex: 1 });
@@ -158,7 +165,9 @@ export const moveToGround: MoveFunc = async (props) => {
     zIndex: 3,
     config: {
       easing: easings.easeInQuad,
-      duration: 100,
+      duration: duelDuration(
+        isToken ? duelAnimation.summon.token : duelAnimation.land,
+      ),
       clamp: true,
     },
   });

@@ -14,6 +14,7 @@ import { getCardImgUrl, ygopro } from "@/api";
 import { isExtraDeckCard } from "@/common";
 import { getUIContainer } from "@/container/compat";
 import { eventbus, Task } from "@/infra";
+import { duelAnimation, presentationDuration } from "@/infra/duelAnimation";
 import {
   cardStore,
   CardType,
@@ -24,6 +25,7 @@ import {
 import { appearanceStore, sleeveUrl } from "@/stores/appearanceStore";
 import { fieldInspection } from "@/stores/fieldInspection";
 import { fieldSelection, toggleFieldSelection } from "@/stores/fieldSelection";
+import { settingStore } from "@/stores/settingStore";
 import { showCardModal as displayCardModal } from "@/ui/Duel/Message/CardModal";
 import { YgoCard } from "@/ui/Shared";
 
@@ -40,6 +42,7 @@ import {
   confirm,
   type ConfirmOptions,
   focus,
+  type FocusOptions,
   move,
   type MoveOptions,
   shuffle,
@@ -50,20 +53,22 @@ import type { SpringApiProps } from "./springs/types";
 const { DECK, HAND, GRAVE, REMOVED, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 const CARD_HEIGHT = matConfig.DECK_CARD_HEIGHT;
+const mountedAttacks = new Set<string>();
 
 interface CardProps {
-  idx: number;
+  card: CardType;
   extraStackIndex?: number;
   relationActive: boolean;
   visible: boolean;
 }
 
 export const Card: React.FC<CardProps> = React.memo((props) => {
-  const { idx, extraStackIndex, relationActive, visible } = props;
+  const { card, extraStackIndex, relationActive, visible } = props;
   const container = getUIContainer();
-  const card = cardStore.inner[idx];
+  // 清空场地后，组件卸载前仍可能重绘，使用传入的卡片引用完成订阅清理。
   const snap = useSnapshot(card);
   const appearance = useSnapshot(appearanceStore);
+  useSnapshot(settingStore.animation);
   const mat = useSnapshot(matStore);
   mat.selfType;
   const sleeveSide = matStore.isMe(snap.sleeveOwner ?? snap.location.controller)
@@ -76,6 +81,7 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
   const backSrc = sleeveUrl(appearance[`${sleeveSide}${sleeveDeck}`]);
   const selecting = useSnapshot(fieldSelection).active;
   const [presenting, setPresenting] = useState(false);
+  const [attacking, setAttacking] = useState(false);
 
   const [spring, api] = useSpring<SpringApiProps>(
     () =>
@@ -159,6 +165,8 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
   };
 
   useEffect(() => {
+    mountedAttacks.add(card.uuid);
+    const activeAnimations = new Set<AbortController>();
     const unregister = [
       register(Task.Move, async (options?: MoveOptions) => {
         await addToAnimation(async () => {
@@ -170,16 +178,31 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
           }
         });
       }),
-      register(Task.Focus, async () => {
+      register(Task.Focus, async (options?: FocusOptions) => {
+        const controller = new AbortController();
+        const cancel = () => controller.abort();
+        activeAnimations.add(controller);
+        options?.signal?.addEventListener("abort", cancel, { once: true });
+        if (options?.signal?.aborted) cancel();
         // 发动展示进入公共动画队列；结束或中断后释放临时置顶状态。
-        await addToAnimation(async () => {
-          setClassFocus(true);
-          try {
-            await focus({ card, api });
-          } finally {
-            setClassFocus(false);
-          }
-        });
+        try {
+          await addToAnimation(async () => {
+            if (controller.signal.aborted) return;
+            setClassFocus(true);
+            try {
+              await focus({
+                card,
+                api,
+                options: { ...options, signal: controller.signal },
+              });
+            } finally {
+              setClassFocus(false);
+            }
+          });
+        } finally {
+          options?.signal?.removeEventListener("abort", cancel);
+          activeAnimations.delete(controller);
+        }
       }),
       register(Task.Confirm, async (options?: ConfirmOptions) => {
         await addToAnimation(async () => {
@@ -193,7 +216,29 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
         });
       }),
       register(Task.Attack, async (options: AttackOptions) => {
-        await addToAnimation(() => attack({ card, api, options }));
+        const controller = new AbortController();
+        const cancel = () => controller.abort();
+        activeAnimations.add(controller);
+        options.signal?.addEventListener("abort", cancel, { once: true });
+        if (options.signal?.aborted) cancel();
+        try {
+          await addToAnimation(async () => {
+            if (controller.signal.aborted) return;
+            setAttacking(true);
+            try {
+              await attack({
+                card,
+                api,
+                options: { ...options, signal: controller.signal },
+              });
+            } finally {
+              setAttacking(false);
+            }
+          });
+        } finally {
+          options.signal?.removeEventListener("abort", cancel);
+          activeAnimations.delete(controller);
+        }
       }),
       register(Task.Shuffle, async (options?: ShuffleOptions) => {
         await addToAnimation(async () => {
@@ -208,6 +253,8 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
       }),
     ];
     return () => {
+      mountedAttacks.delete(card.uuid);
+      activeAnimations.forEach((controller) => controller.abort());
       unregister.forEach((remove) => remove());
     };
   }, []);
@@ -362,6 +409,7 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
       data-card-confirming={confirming}
       data-card-focusing={classFocus}
       data-card-shuffling={shuffling}
+      data-card-attacking={attacking}
       data-card-details-visible={showDetails}
       data-card-overlay-sequence={location.overlay_sequence}
       data-card-is-token={snap.isToken}
@@ -470,6 +518,13 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
                 [styles.focusing]: classFocus,
               })}
               style={{
+                ...({
+                  "--focus-duration": `${presentationDuration(
+                    duelAnimation.reveal.enter +
+                      duelAnimation.reveal.hold +
+                      duelAnimation.reveal.leave,
+                  )}ms`,
+                } as CSSProperties),
                 transform: to(
                   [spring.z, spring.subZ, spring.ry],
                   (z, subZ, ry) =>
@@ -551,7 +606,10 @@ const call =
     eventbus.call(task, uuid, options);
 
 export const callCardMove = call<MoveOptions>(Task.Move);
-export const callCardFocus = call(Task.Focus);
+export const callCardFocus = call<FocusOptions>(Task.Focus);
 export const callCardConfirm = call<ConfirmOptions>(Task.Confirm);
 export const callCardShuffle = call<ShuffleOptions>(Task.Shuffle);
-export const callCardAttack = call<AttackOptions>(Task.Attack);
+export const callCardAttack = (uuid: string, options: AttackOptions) =>
+  mountedAttacks.has(uuid)
+    ? eventbus.callWithSignal(Task.Attack, options.signal, uuid, options)
+    : Promise.resolve();

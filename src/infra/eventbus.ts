@@ -33,27 +33,40 @@ const register = <T extends unknown[]>(
 };
 
 /** 在service之中调用组件中的方法 */
-const call = (task: Task, ...args: any[]) =>
+const callWithSignal = (
+  task: Task,
+  signal: AbortSignal | undefined,
+  ...args: any[]
+) =>
   new Promise<void>((rs) => {
     // 定位重建时牌面暂时卸载，跳过演出等待，协议状态才能继续重建。
-    if (replayPresentation.seeking) {
+    if (replayPresentation.seeking || signal?.aborted) {
       rs();
       return;
     }
     const taskId = v4uuid();
+    const finish = () => {
+      eventEmitter.removeListener(getEnd(task), cb);
+      signal?.removeEventListener("abort", finish);
+      rs();
+    };
     const cb = (respTaskId: string) => {
       // 同类动画可以并行，只有本次任务的结束事件才能释放对应等待。
       if (respTaskId === taskId) {
-        eventEmitter.removeListener(getEnd(task), cb);
-        rs();
+        finish();
       }
     };
     eventEmitter.on(getEnd(task), cb);
+    signal?.addEventListener("abort", finish, { once: true });
     eventEmitter.emit(task, { taskId, args });
   });
 
+const call = (task: Task, ...args: any[]) =>
+  callWithSignal(task, undefined, ...args);
+
 export const eventbus = {
   call,
+  callWithSignal,
   register,
   on: eventEmitter.on.bind(eventEmitter),
   off: eventEmitter.off.bind(eventEmitter),

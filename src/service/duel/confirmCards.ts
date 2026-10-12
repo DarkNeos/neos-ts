@@ -1,6 +1,8 @@
 import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
+import { duelAnimation } from "@/infra/duelAnimation";
+import { presentationDelay } from "@/infra/presentationDelay";
 import { type CardType, replayStore } from "@/stores";
 import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { displayConfirmCardsModal } from "@/ui/Duel/Message/ConfirmCardsModal";
@@ -54,12 +56,19 @@ export default async (
       // 只等待本地确认，不向服务器发送选卡响应。
       await displayConfirmCardsModal(targets);
     } else {
-      for (const target of targets) {
-        if (controller.signal.aborted || container.conn.isClosed()) break;
-        playEffect(AudioActionType.SOUND_REVEAL);
-        await callCardConfirm(target.uuid, { signal: controller.signal });
-        if (target.code === 0) target.meta = { id: 0, data: {}, text: {} };
-      }
+      await Promise.all(
+        targets.map(async (target, index) => {
+          // 大批量观战/录像展示限制启动间隔总长，避免恢复逐张等待。
+          await presentationDelay(
+            Math.min(index * duelAnimation.reveal.stagger, 320),
+            controller.signal,
+          );
+          if (controller.signal.aborted || container.conn.isClosed()) return;
+          playEffect(AudioActionType.SOUND_REVEAL);
+          await callCardConfirm(target.uuid, { signal: controller.signal });
+          if (target.code === 0) target.meta = { id: 0, data: {}, text: {} };
+        }),
+      );
     }
   } finally {
     unregister();

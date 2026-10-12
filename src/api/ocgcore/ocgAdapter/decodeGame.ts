@@ -15,7 +15,7 @@ import G = ygopro.StocGameMessage;
 type GameFields = Exclude<
   NonNullable<ConstructorParameters<typeof G>[0]>,
   any[]
-> & { duelEvent?: DuelEvent };
+> & { duelEvent?: DuelEvent; hpSource?: "cost" };
 interface WireLocation {
   controller: number;
   location: number;
@@ -206,6 +206,12 @@ register(wire.YGOProMsgFlipSummoned, () => ({
 }));
 register(wire.YGOProMsgChaining, (m) => ({
   chaining: new G.MsgChaining({ code: m.code, location: cardLocation(m) }),
+}));
+register(wire.YGOProMsgChained, (m) => ({
+  duelEvent: { kind: "chain-stage", index: m.chainCount, stage: "built" },
+}));
+register(wire.YGOProMsgChainSolving, (m) => ({
+  duelEvent: { kind: "chain-stage", index: m.chainCount, stage: "solving" },
 }));
 register(wire.YGOProMsgChainSolved, (m) => ({
   chain_solved: new G.MsgChainSolved({ solved_index: m.chainCount }),
@@ -553,6 +559,7 @@ register(wire.YGOProMsgDamage, (m) => ({
   }),
 }));
 register(wire.YGOProMsgPayLpCost, (m) => ({
+  hpSource: "cost",
   update_hp: new G.MsgUpdateHp({
     player: m.player,
     value: m.cost,
@@ -576,6 +583,31 @@ register(wire.YGOProMsgAttack, (m) => ({
     target_location: m.defender.location ? cardLocation(m.defender) : undefined,
     direct_attack: !m.defender.location,
   }),
+}));
+register(wire.YGOProMsgBattle, (m) => ({
+  duelEvent: {
+    kind: "battle",
+    attacker: {
+      location: cardLocation(m.attacker.location),
+      attack: m.attacker.atk,
+      defense: m.attacker.def,
+      battleState: m.attackerBattleState,
+    },
+    defender: m.defender.location.location
+      ? {
+          location: cardLocation(m.defender.location),
+          attack: m.defender.atk,
+          defense: m.defender.def,
+          battleState: m.defenderBattleState,
+        }
+      : undefined,
+  },
+}));
+register(wire.YGOProMsgDamageStepStart, () => ({
+  duelEvent: { kind: "damage-step", start: true },
+}));
+register(wire.YGOProMsgDamageStepEnd, () => ({
+  duelEvent: { kind: "damage-step", start: false },
 }));
 for (const Type of [wire.YGOProMsgAddCounter, wire.YGOProMsgRemoveCounter])
   register(Type, (m) => ({
@@ -821,5 +853,6 @@ export function decodeGame(data: Uint8Array): DuelGameMessage {
   }
   const message: DuelGameMessage = new G(fields);
   if (fields.duelEvent) message.duelEvent = fields.duelEvent;
+  if (fields.hpSource) message.hpSource = fields.hpSource;
   return message;
 }

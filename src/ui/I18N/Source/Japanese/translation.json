@@ -30,7 +30,7 @@
     "MCSpectatorListTitle": "MC観戦リスト",
     "MCSpectatorListDesc": "MyCard MyCardで現在進行中のデュエルを観戦しましょう。",
     "SinglePlayerModeTitle": "シングルプレイヤーモード",
-    "SinglePlayerModeDesc": "Koishi 7210サーバーでAIとのデュエルを開始し、自分のデッキをテストしたり、ただ時間を潰したりします。",
+    "SinglePlayerModeDesc": "Koishi 7210または超先行サーバーを選び、AIとの対戦でデッキをテストできます。",
     "CustomRoomTitle": "カスタムルーム",
     "CustomRoomDesc": "カスタムルールの部屋を作成し、友達と対戦しましょう。",
     "ReplayTitle": "リプレイ",

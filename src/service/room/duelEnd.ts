@@ -5,6 +5,7 @@ export default function handleDuelEnd(
   container: Container,
   _pb: ygopro.YgoStocMsg,
 ) {
+  container.context.matStore.clearAttack();
   container.context.matStore.stopClock();
   container.context.matStore.duelEnd = true;
 }

@@ -45,5 +45,5 @@ export default async (selectEffectYn: MsgSelectEffectYn) => {
     effect_description === 0 ? 200 : effect_description,
   );
   const meta = fetchCard(code);
-  await displayYesNoModal(textGenerator(desc, meta, location));
+  await displayYesNoModal(textGenerator(desc, meta, location), false, code);
 };

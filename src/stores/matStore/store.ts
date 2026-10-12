@@ -4,6 +4,7 @@ import { proxy, ref } from "valtio";
 import { ygopro } from "@/api";
 
 import { ActiveActionProcess } from "../activeActionProcess";
+import { BattlePresentation } from "../battlePresentation";
 import type { CardType } from "../cardStore";
 import { registerDuelDialogReset } from "../duelDialogs";
 import { type NeosStore } from "../shared";
@@ -59,6 +60,7 @@ const initInfo: MatState["initInfo"] = proxy({
 
 const initialState: Omit<MatState, "reset" | "clearPhaseCommands"> = {
   chains: [],
+  attackDeclaration: null,
   chainCards: [],
   playerHints: {},
   timeLimits: {
@@ -116,6 +118,8 @@ const initialState: Omit<MatState, "reset" | "clearPhaseCommands"> = {
 
 export class MatStore implements MatState, NeosStore {
   readonly activeActions = ref(new ActiveActionProcess<CardType>());
+  readonly battlePresentation = ref(new BattlePresentation());
+  attackDeclaration: MatState["attackDeclaration"] = null;
   stopClock = initialState.stopClock;
   chains = initialState.chains;
   chainCards: MatState["chainCards"] = [];
@@ -137,6 +141,10 @@ export class MatStore implements MatState, NeosStore {
 
   // methods
   isMe = initialState.isMe;
+  clearAttack(): void {
+    this.attackDeclaration = null;
+    this.battlePresentation.cancel();
+  }
   /** 洗牌或身份隐藏后解除卡片绑定，保留连锁列表中的公开发动记录。 */
   clearChainBindings(uuids: readonly string[]): void {
     const hidden = new Set(uuids);
@@ -154,6 +162,7 @@ export class MatStore implements MatState, NeosStore {
     this.phase.enableEp = false;
   }
   reset(): void {
+    this.clearAttack();
     this.activeActions.reset();
     this.chains = [];
     this.chainCards = [];
@@ -192,6 +201,7 @@ export class MatStore implements MatState, NeosStore {
  */
 export const matStore = proxy<MatStore>(new MatStore());
 registerDuelDialogReset(() => {
+  matStore.clearAttack();
   matStore.clearPhaseCommands();
   matStore.chainCards = [];
   matStore.playerHints = {};

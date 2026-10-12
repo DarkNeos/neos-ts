@@ -374,7 +374,7 @@ test("card declaration shows every result without pagination and keeps declarati
 for (const kind of ["yesno", "position", "option", "announce"] as const) {
   test(`${kind} retains its choice after an offline send and completes once on retry`, async ({
     page,
-  }) => {
+  }, info) => {
     await setup(page);
     await page.evaluate(async (kind) => {
       const dialogs = await import("/src/ui/Duel/Message/index.ts");
@@ -385,7 +385,11 @@ for (const kind of ["yesno", "position", "option", "announce"] as const) {
           ? dialogs.displayYesNoModal("离线重试")
           : kind === "position"
           ? dialogs.displayPositionModal(
-              [ygopro.CardPosition.FACEUP_ATTACK],
+              [
+                ygopro.CardPosition.FACEUP_ATTACK,
+                ygopro.CardPosition.FACEUP_DEFENSE,
+                ygopro.CardPosition.FACEDOWN_DEFENSE,
+              ],
               1000001,
             )
           : kind === "option"
@@ -409,6 +413,29 @@ for (const kind of ["yesno", "position", "option", "announce"] as const) {
             .locator(".ant-modal:visible")
             .filter({ has: page.getByTestId("duel-yesno-modal") })
         : page.locator(`[data-testid="duel-${kind}-modal"]:visible`);
+    if (kind === "position") {
+      await expect(surface).toBeVisible();
+      console.log(
+        "Position card sizes:",
+        await surface.locator("img").evaluateAll((images) =>
+          images.map((image) => {
+            const style = getComputedStyle(image);
+            return { width: style.width, height: style.height };
+          }),
+        ),
+      );
+      await page.screenshot({ path: info.outputPath("position-desktop.png") });
+      await page.setViewportSize({ width: 375, height: 812 });
+      await expect
+        .poll(() =>
+          surface.evaluate((element) => {
+            const rect = element.closest(".ant-modal")!.getBoundingClientRect();
+            return rect.left >= 0 && rect.right <= innerWidth;
+          }),
+        )
+        .toBe(true);
+      await page.screenshot({ path: info.outputPath("position-mobile.png") });
+    }
     if (kind === "option")
       await surface.getByTestId("duel-option-item").click();
     if (kind === "announce") {
@@ -424,7 +451,7 @@ for (const kind of ["yesno", "position", "option", "announce"] as const) {
       kind === "yesno"
         ? page.getByTestId("duel-yesno-yes")
         : kind === "position"
-        ? page.getByTestId("duel-position-option")
+        ? page.getByTestId("duel-position-option").last()
         : page.getByTestId(`duel-${kind}-submit`);
     await submit.click();
     await expect(surface).toBeVisible();
@@ -459,7 +486,7 @@ for (const kind of ["yesno", "position", "option", "announce"] as const) {
   });
 }
 
-test("automatic single-option responses become retryable if sending is rejected", async ({
+test("single-option choices remain retryable if sending is rejected", async ({
   page,
 }) => {
   await setup(page);
@@ -475,6 +502,8 @@ test("automatic single-option responses become retryable if sending is rejected"
     void handle(getUIContainer(), { options: [{ code: 0, response: 7 }] });
   });
   await expect(page.getByTestId("duel-option-modal")).toBeVisible();
+  await page.getByTestId("duel-option-item").dblclick();
+  await expect(page.getByTestId("duel-option-modal")).toBeVisible();
   expect(await page.evaluate(() => window.__sent.length)).toBe(0);
   await page.evaluate(async () => {
     Object.defineProperty(navigator, "onLine", {
@@ -485,6 +514,220 @@ test("automatic single-option responses become retryable if sending is rejected"
     connectionStore.offline = false;
   });
   await page.getByTestId("duel-option-item").dblclick();
+  await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
+  expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
+    7, 0, 0, 0,
+  ]);
+});
+
+for (const [zone, source, command] of [
+  ["EXTRA", "idle", "sp_summon"],
+  ["GRAVE", "idle", "activate"],
+  ["REMOVED", "idle", "activate"],
+  ["GRAVE", "battle", "activate"],
+  ["REMOVED", "battle", "activate"],
+] as const) {
+  test(`single candidate ${zone} ${source} ${command} shows only the card image before responding`, async ({
+    page,
+  }, info) => {
+    await setup(page);
+    await page.evaluate(
+      async ({ zone, source, command }) => {
+        const { fetchCard, ygopro } = await import("/src/api/index.ts");
+        const { cardStore } = await import("/src/stores/index.ts");
+        const { getUIContainer } = await import("/src/container/compat.ts");
+        const { genCard } = await import("/src/service/utils/genCard.ts");
+        const { openActiveActions } = await import(
+          "/src/service/duel/activeActions.ts"
+        );
+        // 区域里保留另一张卡，验证判断依据是操作候选数。
+        cardStore.inner = [92472273, 1000001].map((code, sequence) =>
+          genCard({
+            uuid: `single-action-${sequence}`,
+            code,
+            meta: fetchCard(code),
+            location: new ygopro.CardLocation({
+              controller: 0,
+              zone: ygopro.CardZone[zone],
+              sequence,
+              position: ygopro.CardPosition.FACEUP_ATTACK,
+            }),
+            counters: {},
+            idleInteractivities: [],
+            selectInfo: { selectable: false, selected: false },
+            status: 0,
+            isToken: false,
+            targeted: false,
+          }),
+        );
+        const data = {
+          card_info: new ygopro.CardInfo({
+            location: ygopro.CardZone[zone],
+            sequence: 0,
+          }),
+          effect_description: command === "activate" ? 68831625 * 16 + 1 : 0,
+          response: source === "battle" ? 0 : command === "sp_summon" ? 1 : 5,
+        };
+        if (source === "idle") {
+          const G = ygopro.StocGameMessage.MsgSelectIdleCmd;
+          openActiveActions(getUIContainer(), {
+            source,
+            message: new G({
+              player: 0,
+              enable_ep: true,
+              idle_cmds: [
+                new G.IdleCmd({
+                  idle_type:
+                    command === "sp_summon"
+                      ? G.IdleCmd.IdleType.SPSUMMON
+                      : G.IdleCmd.IdleType.ACTIVATE,
+                  idle_datas: [new G.IdleCmd.IdleData(data)],
+                }),
+              ],
+            }),
+          });
+        } else {
+          const G = ygopro.StocGameMessage.MsgSelectBattleCmd;
+          openActiveActions(getUIContainer(), {
+            source,
+            message: new G({
+              player: 0,
+              enable_ep: true,
+              battle_cmds: [
+                new G.BattleCmd({
+                  battle_type: G.BattleCmd.BattleType.ACTIVATE,
+                  battle_datas: [new G.BattleCmd.BattleData(data)],
+                }),
+              ],
+            }),
+          });
+        }
+      },
+      { zone, source, command },
+    );
+    const pile = page.getByTestId("duel-card").last();
+    await clickCardAction(page, pile, command);
+    const modal = page.locator(
+      '[data-testid="duel-select-cards-modal"]:visible',
+    );
+    const option = modal.getByTestId("duel-select-card-option");
+    await expect(option).toHaveAttribute("data-card-code", "92472273");
+    await expect(option.locator("img")).toBeVisible();
+    await expect(option.locator("img")).toHaveAttribute(
+      "src",
+      /\/92472273\.webp(?:\?.*)?$/,
+    );
+    await expect(modal).not.toContainText("卡片 92472273");
+    await expect(modal).not.toContainText("破坏卡片并提升攻击力");
+    expect(await page.evaluate(() => window.__sent)).toEqual([]);
+    if (zone === "EXTRA") {
+      await expect(page.locator(".ant-modal").filter({ has: modal })).toHaveCSS(
+        "opacity",
+        "1",
+      );
+      await page.screenshot({
+        path: info.outputPath("single-summon.png"),
+        animations: "disabled",
+      });
+    }
+    await page.getByTestId("duel-select-card-cancel").click();
+    await expect(modal).toHaveCount(0);
+    expect(await page.evaluate(() => window.__sent)).toEqual([]);
+    await clickCardAction(page, pile, command);
+    await modal.getByTestId("duel-select-card-option").click();
+    await page.getByTestId("duel-select-card-submit").click();
+    await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
+    expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
+      source === "battle" ? 0 : command === "sp_summon" ? 1 : 5,
+      0,
+      0,
+      0,
+    ]);
+  });
+}
+
+test("a single effect option displays its source and description until confirmed", async ({
+  page,
+}, info) => {
+  await setup(page);
+  await page.evaluate(async () => {
+    const { default: handle } = await import(
+      "/src/service/duel/selectOption.ts"
+    );
+    const { getUIContainer } = await import("/src/container/compat.ts");
+    const { matStore } = await import("/src/stores/index.ts");
+    matStore.hint.esHint = "卡片 92472273 发动时";
+    void handle(getUIContainer(), {
+      options: [{ code: 68831625 * 16 + 1, response: 7 }],
+    });
+  });
+  const modal = page.getByTestId("duel-option-modal");
+  await expect(modal).toBeVisible();
+  await expect(modal).toContainText("卡片 92472273 发动时");
+  await expect(modal.getByTestId("duel-option-card")).toHaveAttribute(
+    "data-card-code",
+    "68831625",
+  );
+  await expect(modal).toContainText("卡片 68831625");
+  await expect(modal).toContainText("破坏卡片并提升攻击力");
+  expect(await page.evaluate(() => window.__sent)).toEqual([]);
+  await page.screenshot({
+    path: info.outputPath("single-effect-option.png"),
+    animations: "disabled",
+  });
+  await modal.getByTestId("duel-option-item").click();
+  await page.getByTestId("duel-option-submit").click();
+  await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
+  expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
+    7, 0, 0, 0,
+  ]);
+});
+
+test("a single forced effect displays only the activating card image without a decline action", async ({
+  page,
+}) => {
+  await setup(page);
+  await page.evaluate(async () => {
+    const { ChainSetting, matStore } = await import("/src/stores/index.ts");
+    const { ygopro } = await import("/src/api/index.ts");
+    const { getUIContainer } = await import("/src/container/compat.ts");
+    const { default: handle } = await import(
+      "/src/service/duel/selectChain.ts"
+    );
+    matStore.chainSetting = ChainSetting.CHAIN_IGNORE;
+    void handle(getUIContainer(), {
+      special_count: 0,
+      hint0: 0,
+      hint1: 0,
+      chains: [
+        {
+          code: 92472273,
+          effect_description: 68831625 * 16 + 1,
+          forced: true,
+          response: 7,
+          location: new ygopro.CardLocation({
+            controller: 0,
+            zone: ygopro.CardZone.GRAVE,
+            sequence: 0,
+          }),
+        },
+      ],
+    });
+  });
+  const modal = page.getByTestId("duel-select-cards-modal");
+  const option = modal.getByTestId("duel-select-card-option");
+  await expect(option).toHaveAttribute("data-card-code", "92472273");
+  await expect(option.locator("img")).toBeVisible();
+  await expect(option.locator("img")).toHaveAttribute(
+    "src",
+    /\/92472273\.webp(?:\?.*)?$/,
+  );
+  await expect(modal).not.toContainText("卡片 92472273");
+  await expect(modal).not.toContainText("破坏卡片并提升攻击力");
+  await expect(page.getByTestId("duel-select-card-cancel")).toHaveCount(0);
+  expect(await page.evaluate(() => window.__sent)).toEqual([]);
+  await modal.getByTestId("duel-select-card-option").click();
+  await page.getByTestId("duel-select-card-submit").click();
   await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
   expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
     7, 0, 0, 0,
@@ -784,9 +1027,16 @@ test("click sorting renumbers removed cards, supports reset and preserves origin
   const cards = surface.getByTestId("duel-sort-card-option");
   const submit = surface.getByTestId("duel-sort-card-submit");
   const reset = surface.getByTestId("duel-sort-card-reset");
+  const quick = surface.getByTestId("duel-sort-card-quick-select");
   await expect(cards).toHaveCount(3);
   await expect(submit).toBeDisabled();
   await expect(reset).toBeDisabled();
+  await expect(quick).toBeEnabled();
+  const footer = await Promise.all(
+    [reset, quick, submit].map((button) => button.boundingBox()),
+  );
+  expect(footer[0]!.x).toBeLessThan(footer[1]!.x);
+  expect(footer[1]!.x).toBeLessThan(footer[2]!.x);
   await cards.last().click();
   await expect(page.getByTestId("duel-card-detail")).toContainText(
     "候选 1000003 的效果文本",
@@ -835,6 +1085,29 @@ test("click sorting renumbers removed cards, supports reset and preserves origin
   await submit.click();
   await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(2);
   expect(await page.evaluate(() => window.__sent[1].slice(3))).toEqual([1, 0]);
+
+  // 未选择时按列表顺序提交，同名候选仍保留各自的位置；连续点击只响应一次。
+  await openSort([1000001, 1000001, 1000002]);
+  await expect(quick).toBeEnabled();
+  await quick.evaluate((button) => {
+    button.click();
+    button.click();
+  });
+  await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(3);
+  expect(await page.evaluate(() => window.__sent[2].slice(3))).toEqual([
+    0, 1, 2,
+  ]);
+  await expect(surface).toHaveCount(0);
+
+  // 手动选中的顺序作为前缀，快速选择只补齐剩余候选并立即确认。
+  await openSort([1000001, 1000002, 1000003]);
+  await cards.last().click();
+  await quick.click();
+  await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(4);
+  expect(await page.evaluate(() => window.__sent[3].slice(3))).toEqual([
+    1, 2, 0,
+  ]);
+  await expect(surface).toHaveCount(0);
 });
 
 test("mobile sorting keeps every card clickable after opening the detail panel", async ({
@@ -854,6 +1127,11 @@ test("mobile sorting keeps every card clickable after opening the detail panel",
   const cards = page.getByTestId("duel-sort-card-option");
   const submit = page.getByTestId("duel-sort-card-submit");
   await expect(cards).toHaveCount(8);
+  const quick = page.getByTestId("duel-sort-card-quick-select");
+  const quickBox = (await quick.boundingBox())!;
+  const submitBox = (await submit.boundingBox())!;
+  expect(quickBox.y).toBe(submitBox.y);
+  expect(quickBox.x + quickBox.width).toBeLessThanOrEqual(submitBox.x);
   await cards.last().click();
   await expect(page.getByTestId("duel-card-detail")).toHaveAttribute(
     "data-card-code",

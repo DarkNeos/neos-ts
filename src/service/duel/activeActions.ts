@@ -118,8 +118,33 @@ export function openActiveActions(
         });
         return selected[0]?.card as CardType | undefined;
       },
-      chooseEffect: (choices, signal) =>
-        chooseOption(
+      // 牌堆操作菜单没有指定具体卡片，唯一候选也需展示身份与效果。
+      confirmSingleAction: ({ card, interactType }) =>
+        (interactType === InteractType.SP_SUMMON &&
+          card.location.zone === ygopro.CardZone.EXTRA) ||
+        (interactType === InteractType.ACTIVATE &&
+          [ygopro.CardZone.GRAVE, ygopro.CardZone.REMOVED].includes(
+            card.location.zone,
+          )),
+      chooseEffect: async (choices, signal) => {
+        if (choices.length === 1) {
+          const { card, activateIndex, response } = choices[0];
+          const selected = await displaySimpleSelectCardsModal({
+            selectables: [
+              {
+                meta: card.meta,
+                location: card.location,
+                card,
+                effectDesc: activateIndex
+                  ? getStrings(activateIndex)
+                  : undefined,
+              },
+            ],
+            signal,
+          });
+          return selected.length ? response : undefined;
+        }
+        return chooseOption(
           fetchStrings(Region.System, 556),
           choices.map((choice) => ({
             info: choice.activateIndex
@@ -128,7 +153,8 @@ export function openActiveActions(
             response: choice.response,
           })),
           signal,
-        ),
+        );
+      },
       clear: () => {
         for (const card of cardStore.inner) card.idleInteractivities = [];
       },

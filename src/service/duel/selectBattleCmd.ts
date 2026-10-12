@@ -7,5 +7,6 @@ export default async (
   container: Container,
   message: ygopro.StocGameMessage.MsgSelectBattleCmd,
 ) => {
+  container.context.matStore.clearAttack();
   openActiveActions(container, { source: "battle", message });
 };

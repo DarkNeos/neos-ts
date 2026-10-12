@@ -1379,14 +1379,17 @@ test("available chain mode asks at non-hint timings and preserves forced effects
     await expect.poll(sent).toEqual([[5, 0, 1, 255, 255, 255, 255]]);
   }
   for (const mode of [1, 3]) {
-    await sendChain(mode, 1, true);
-    await expect.poll(sent).toEqual([[5, 0, 1, 7, 0, 0, 0]]);
-    await sendChain(mode, 2, true);
-    await expect(modal).toBeVisible();
-    await expect(
-      page.locator('[data-testid="duel-select-card-cancel"]:visible'),
-    ).not.toBeVisible();
-    expect(await sent()).toEqual([]);
+    for (const count of [1, 2]) {
+      await sendChain(mode, count, true);
+      await expect(modal).toBeVisible();
+      await expect(
+        page.locator('[data-testid="duel-select-card-cancel"]:visible'),
+      ).not.toBeVisible();
+      expect(await sent()).toEqual([]);
+      await modal.getByTestId("duel-select-card-option").first().click();
+      await page.getByTestId("duel-select-card-submit").click();
+      await expect.poll(sent).toEqual([[5, 0, 1, 7, 0, 0, 0]]);
+    }
   }
 });
 

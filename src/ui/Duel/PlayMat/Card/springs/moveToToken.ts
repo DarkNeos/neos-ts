@@ -6,6 +6,11 @@ export const moveToToken: MoveFunc = async (props) => {
   await asyncStart(api)({
     height: 0,
     opacity: 0,
+    config: {
+      duration: duelDuration(duelAnimation.tokenDisappear),
+      clamp: true,
+    },
   });
   api.set({ opacity: 1 });
 };
+import { duelAnimation, duelDuration } from "@/infra/duelAnimation";

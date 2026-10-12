@@ -1,4 +1,11 @@
-import { fetchStrings, getStrings, Region, type ygopro } from "@/api";
+import {
+  DESCRIPTION_LIMIT,
+  fetchCard,
+  fetchStrings,
+  getStrings,
+  Region,
+  type ygopro,
+} from "@/api";
 import { Container } from "@/container";
 import { displayOptionModal } from "@/ui/Duel/Message";
 
@@ -14,9 +21,10 @@ export default async (
       ? options.map(({ code, response }) => ({
           info: getStrings(code),
           response,
+          // 描述编号指向效果来源；被赋予的效果可能来自另一张卡。
+          card: code >= DESCRIPTION_LIMIT ? fetchCard(code >> 4) : undefined,
         }))
       : [{ info: fetchStrings(Region.System, 556), response: 0 }],
     1,
-    { autoSelect: true },
   );
 };

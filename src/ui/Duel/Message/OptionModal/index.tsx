@@ -3,15 +3,16 @@ import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { sendSelectOptionResponse } from "@/api";
+import { type CardMeta, sendSelectOptionResponse } from "@/api";
 import { getUIContainer } from "@/container/compat";
+import { matStore } from "@/stores";
 import { DuelChoice } from "@/stores/duelChoice";
-import { ScrollableArea } from "@/ui/Shared";
+import { ScrollableArea, YgoCard } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
 
-type Options = { info: string; response: number }[];
+type Options = { info: string; response: number; card?: CardMeta }[];
 
 const defaultStore = {
   title: "",
@@ -25,6 +26,7 @@ const store = proxy({ ...defaultStore });
 export const OptionModal = () => {
   const snap = useSnapshot(store);
   const { title, isOpen, min, options, requestId } = snap;
+  const hint = useSnapshot(matStore.hint);
   const [selecteds, setSelecteds] = useState<number[]>([]);
 
   const onSummit = () => {
@@ -57,6 +59,7 @@ export const OptionModal = () => {
       }
     >
       <div data-testid="duel-option-modal" data-option-min={min}>
+        {hint.esHint && <p className={styles.hint}>{hint.esHint}</p>}
         <ScrollableArea maxHeight="50vh" className={styles.container}>
           <CheckCard.Group
             bordered
@@ -75,7 +78,26 @@ export const OptionModal = () => {
               >
                 <CheckCard
                   className={styles["check-card"]}
-                  description={option.info}
+                  description={
+                    <div className={styles.content}>
+                      {option.card && (
+                        <div
+                          className={styles.source}
+                          data-testid="duel-option-card"
+                          data-card-code={option.card.id}
+                        >
+                          <YgoCard code={option.card.id} width="3.5rem" />
+                          <div>
+                            <span>效果来源</span>
+                            <strong>
+                              {option.card.text.name || option.card.id}
+                            </strong>
+                          </div>
+                        </div>
+                      )}
+                      <div className={styles.description}>{option.info}</div>
+                    </div>
+                  }
                   value={option.response}
                 />
               </div>
@@ -105,7 +127,6 @@ function presentOptions(
     eligible?(): boolean;
     signal?: AbortSignal;
   },
-  autoSelect = false,
 ) {
   const request = choice.open({
     ...adapter,
@@ -118,13 +139,6 @@ function presentOptions(
       ),
   });
   if (!request) return Promise.resolve(undefined);
-  if (
-    autoSelect &&
-    min === 1 &&
-    options.length === 1 &&
-    choice.submit([options[0].response], request.id)
-  )
-    return request.result.then((values) => values && responseOf(values));
   store.title = title;
   store.options = options;
   store.min = min;
@@ -137,19 +151,12 @@ export const displayOptionModal = (
   title: string,
   options: Options,
   min: number,
-  presentation: { autoSelect?: boolean } = {},
 ) => {
   const conn = getUIContainer().conn;
-  return presentOptions(
-    title,
-    options,
-    min,
-    {
-      eligible: () => getUIContainer().conn === conn,
-      respond: (response) => sendSelectOptionResponse(conn, response),
-    },
-    presentation.autoSelect,
-  );
+  return presentOptions(title, options, min, {
+    eligible: () => getUIContainer().conn === conn,
+    respond: (response) => sendSelectOptionResponse(conn, response),
+  });
 };
 
 export const chooseOption = (

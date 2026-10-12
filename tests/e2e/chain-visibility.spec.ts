@@ -1,5 +1,6 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+
+import { expect, type Locator, type Page, test } from "@playwright/test";
 import initSqlJs from "sql.js";
 
 import { trackCardRenders } from "./helpers/card-renders";
@@ -30,7 +31,9 @@ async function setup(page: Page, animations = false) {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
   await page.route("**/*.conf", (route) =>
-    route.fulfill({ body: "!system 1001 手牌\n!system 1004 墓地" }),
+    route.fulfill({
+      body: "!system 23 即将结束主要阶段\n!system 25 战斗阶段结束时\n!system 29 即将结束战斗步骤\n!system 203 是否要进行连锁？\n!system 1001 手牌\n!system 1004 墓地",
+    }),
   );
   await page.route("**/test-release-v2.json", (route) =>
     route.fulfill({ json: [] }),
@@ -119,6 +122,63 @@ const activate = (page: Page, code: number, zone: number) =>
   send(page, [70, ...u32(code), 1, zone, 0, 0, 1, zone, 0, ...u32(0), 1]);
 const source = (page: Page, uuid: string) =>
   page.locator(`[data-testid="duel-card"][data-card-uuid="${uuid}"]`);
+
+for (const forced of [false, true]) {
+  test(`phase-change response window retains timing hints for ${
+    forced ? "forced" : "optional"
+  } effects`, async ({ page }, info) => {
+    await setup(page);
+    await page.evaluate(async () => {
+      const { matStore, ChainSetting } = await import("/src/stores/index.ts");
+      matStore.currentPlayer = 1;
+      matStore.chainSetting = ChainSetting.CHAIN_AVAILABLE;
+    });
+    for (const [code, text] of [
+      [23, "即将结束主要阶段"],
+      [25, "战斗阶段结束时"],
+      [29, "即将结束战斗步骤"],
+    ] as const) {
+      await send(page, [2, 1, 0, ...u32(code)]);
+      expect(
+        await page.evaluate(async () => {
+          const { matStore } = await import("/src/stores/index.ts");
+          return matStore.hint.esHint;
+        }),
+      ).toBe(text);
+      await send(page, [
+        16,
+        0,
+        2,
+        1,
+        ...u32(0),
+        ...u32(0),
+        ...[0, 1].flatMap((index) => [
+          0,
+          Number(forced),
+          ...u32(1000002 + index),
+          1,
+          index === 0 ? 16 : 32,
+          0,
+          0,
+          ...u32(0),
+        ]),
+      ]);
+      const modal = page.getByTestId("duel-select-cards-modal");
+      await expect(modal).toBeVisible();
+      await expect(page.locator(".ant-modal-title:visible")).toContainText(
+        text,
+        { timeout: 2000 },
+      );
+      if (code === 23)
+        await page.screenshot({ path: info.outputPath("phase-response.png") });
+      if (forced) {
+        await modal.getByTestId("duel-select-card-option").first().click();
+        await page.getByTestId("duel-select-card-submit").click();
+      } else await page.getByTestId("duel-select-card-cancel").click();
+      await expect(modal).toHaveCount(0);
+    }
+  });
+}
 
 test("card and chain updates do not render unrelated cards", async ({
   page,
@@ -576,6 +636,324 @@ test("card size animation changes transforms while layout dimensions stay fixed"
   await expect(source(page, "hand")).toHaveAttribute("data-card-zone", "MZONE");
 });
 
+async function setupBattle(page: Page) {
+  await setup(page);
+  await send(page, [50, ...u32(1000001), 1, 2, 0, 2, 1, 4, 0, 1, ...u32(0)]);
+  for (const sequence of [1, 2])
+    await send(page, [
+      50,
+      ...u32(1000002),
+      0,
+      0,
+      0,
+      0,
+      0,
+      4,
+      sequence,
+      1,
+      ...u32(0),
+    ]);
+  await page.evaluate(async () => {
+    const { settingStore } = await import("/src/stores/settingStore/index.ts");
+    const { matStore } = await import("/src/stores/index.ts");
+    matStore.initInfo.set(0, { life: 8000 });
+    matStore.initInfo.set(1, { life: 8000 });
+    settingStore.saveAnimationConfig({ enabled: true, speed: 0.7 });
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+  });
+}
+const declaration = (sequence = 1) => [110, 1, 4, 0, 1, 0, 4, sequence, 1];
+const battleMessage = (sequence = 1, attack = 3000, direct = false) => [
+  111,
+  1,
+  4,
+  0,
+  1,
+  ...u32(attack),
+  ...u32(2000),
+  0,
+  ...(direct ? [0, 0, 0, 0] : [0, 4, sequence, 1]),
+  ...u32(2000),
+  ...u32(1500),
+  0,
+];
+const attackerToGrave = () => [
+  50,
+  ...u32(1000001),
+  1,
+  4,
+  0,
+  1,
+  1,
+  16,
+  0,
+  1,
+  ...u32(0),
+];
+
+async function queueBattle(page: Page, messages: number[][], combined = false) {
+  await page.evaluate(
+    async ({ messages, combined }) => {
+      const { default: handle } = await import(
+        "/src/service/onSocketMessage.ts"
+      );
+      const { getUIContainer } = await import("/src/container/compat.ts");
+      const frames = messages.map((payload) => {
+        const frame = new Uint8Array(payload.length + 3);
+        new DataView(frame.buffer).setUint16(0, payload.length + 1, true);
+        frame[2] = 1;
+        frame.set(payload, 3);
+        return frame;
+      });
+      const inputs = combined
+        ? [Uint8Array.from(frames.flatMap((frame) => [...frame]))]
+        : frames;
+      window.__battleDone = false;
+      void Promise.all(
+        inputs.map((frame) =>
+          handle(
+            getUIContainer(),
+            new MessageEvent("message", { data: frame.buffer }),
+          ),
+        ),
+      ).then(() => {
+        window.__battleDone = true;
+      });
+    },
+    { messages, combined },
+  );
+}
+
+test("attack declaration survives the response window and damage-step start without rushing", async ({
+  page,
+}, info) => {
+  await setupBattle(page);
+  const attacker = source(page, "hand");
+  const before = await attacker.evaluate((element) => element.style.transform);
+  await send(page, declaration());
+  const arrow = page.getByTestId("duel-attack-declaration");
+  await expect(arrow).toHaveAttribute(
+    "data-target",
+    await page
+      .locator(
+        '[data-card-controller="0"][data-card-zone="MZONE"][data-card-sequence="1"]',
+      )
+      .getAttribute("data-card-uuid"),
+  );
+  await expect(attacker).toHaveAttribute("data-card-attacking", "false");
+  await page.screenshot({ path: info.outputPath("attack-declaration.png") });
+  await send(page, [
+    16,
+    0,
+    1,
+    1,
+    ...u32(0),
+    ...u32(0),
+    0,
+    0,
+    ...u32(1000002),
+    0,
+    4,
+    1,
+    0,
+    ...u32(0),
+  ]);
+  await expect(page.getByTestId("duel-select-cards-modal")).toBeVisible();
+  await expect(arrow).toHaveCount(1);
+  expect(await attacker.evaluate((element) => element.style.transform)).toBe(
+    before,
+  );
+  await page.getByTestId("duel-select-card-cancel").click();
+  await send(page, [113]);
+  await expect(page.getByTestId("duel-phase-step")).toHaveText("02");
+  await expect(arrow).toHaveCount(1);
+  await expect(attacker).toHaveAttribute("data-card-attacking", "false");
+  await send(page, [112]);
+  await expect(arrow).toHaveCount(0);
+  expect(await attacker.evaluate((element) => element.style.transform)).toBe(
+    before,
+  );
+});
+
+for (const skip of ["disabled", "background"]) {
+  test(`battle and following movement finish when presentation becomes ${skip}`, async ({
+    page,
+  }) => {
+    await setupBattle(page);
+    await queueBattle(page, [battleMessage(), attackerToGrave()]);
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-attacking",
+      "true",
+    );
+    await page.evaluate(async (skip) => {
+      if (skip === "disabled") {
+        const { settingStore } = await import(
+          "/src/stores/settingStore/index.ts"
+        );
+        settingStore.animation.enabled = false;
+      } else {
+        Object.defineProperty(document, "hidden", {
+          configurable: true,
+          value: true,
+        });
+        document.dispatchEvent(new Event("visibilitychange"));
+      }
+    }, skip);
+    await expect
+      .poll(() => page.evaluate(() => window.__battleDone))
+      .toBe(true);
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-zone",
+      "GRAVE",
+    );
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-attacking",
+      "false",
+    );
+    await expect(page.getByTestId("duel-attack-declaration")).toHaveCount(0);
+  });
+}
+
+for (const combined of [false, true]) {
+  test(`final BATTLE target and damage synchronize at impact across ${
+    combined ? "one frame" : "separate frames"
+  }`, async ({ page }) => {
+    await setupBattle(page);
+    await send(page, declaration(1));
+    await page.evaluate(() => {
+      window.__impactPose = undefined;
+      const observer = new MutationObserver(() => {
+        if (!document.querySelector('[data-testid="duel-life-change"]')) return;
+        const card = document.querySelector('[data-card-uuid="hand"]')!;
+        const matrix = new DOMMatrix((card as HTMLElement).style.transform);
+        window.__impactPose = {
+          x: matrix.m41,
+          y: matrix.m42,
+          zone: card.getAttribute("data-card-zone"),
+        };
+        observer.disconnect();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+    await queueBattle(
+      page,
+      [
+        battleMessage(2, 4100),
+        // 普通 UpdateCard 查询不应破坏命中与后续 Damage 的衔接。
+        [7, 1, 4, 0, ...u32(12), ...u32(0x100), ...u32(4100)],
+        [91, 0, ...u32(1000)],
+        attackerToGrave(),
+      ],
+      combined,
+    );
+    const change = page.getByTestId("duel-life-change");
+    await expect(change).toHaveAttribute("data-amount", "-1000");
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-attacking",
+      "true",
+    );
+    const pose = await page.evaluate(() => window.__impactPose);
+    expect(pose.zone).toBe("MZONE");
+    expect(pose.x).toBeCloseTo(0);
+    expect(pose.y).toBeCloseTo(130);
+    await expect(
+      page.getByTestId("duel-player-life-value").filter({ hasText: "7000" }),
+    ).toHaveCount(1);
+    await expect(page.getByTestId("duel-attack-declaration")).toHaveCount(0);
+    await expect
+      .poll(() => page.evaluate(() => window.__battleDone))
+      .toBe(true);
+    await expect(source(page, "hand")).toHaveAttribute(
+      "data-card-zone",
+      "GRAVE",
+    );
+  });
+}
+
+test("zero-damage battle animates and holds the following move until return", async ({
+  page,
+}) => {
+  await setupBattle(page);
+  await send(page, declaration());
+  await queueBattle(page, [battleMessage(1, 2000), attackerToGrave()]);
+  await expect(source(page, "hand")).toHaveAttribute(
+    "data-card-attacking",
+    "true",
+  );
+  await expect(page.getByTestId("duel-attack-declaration")).toHaveCount(0);
+  await expect(source(page, "hand")).toHaveAttribute("data-card-zone", "MZONE");
+  await expect(page.getByTestId("duel-life-change")).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => window.__battleDone)).toBe(true);
+  await expect(source(page, "hand")).toHaveAttribute("data-card-zone", "GRAVE");
+});
+
+test("retargeting, phase changes and leaving cards clear declarations; missing defenders do not become direct attacks", async ({
+  page,
+}, info) => {
+  await setupBattle(page);
+  const arrow = page.getByTestId("duel-attack-declaration");
+  await send(page, declaration(1));
+  const first = await arrow.getAttribute("data-target");
+  await send(page, declaration(2));
+  await expect(arrow).not.toHaveAttribute("data-target", first!);
+  await send(page, [41, 4, 0]); // MAIN1
+  await expect(arrow).toHaveCount(0);
+  await send(page, declaration());
+  await send(page, attackerToGrave());
+  await expect(arrow).toHaveCount(0);
+  await send(page, [50, ...u32(1000001), 1, 16, 0, 1, 1, 4, 0, 1, ...u32(0)]);
+  await send(page, declaration());
+  await send(page, battleMessage(4)); // 不存在的防守卡
+  await expect(arrow).toHaveCount(0);
+  await expect(source(page, "hand")).toHaveAttribute(
+    "data-card-attacking",
+    "false",
+  );
+  await send(page, [110, 1, 4, 0, 1, 0, 0, 0, 0]);
+  await expect(arrow).toHaveAttribute("data-target", "direct");
+  await page.screenshot({ path: info.outputPath("direct-attack-arrow.png") });
+  await queueBattle(page, [
+    battleMessage(0, 3000, true),
+    [91, 0, ...u32(3000)],
+    [114],
+  ]);
+  await expect(page.getByTestId("duel-life-change")).toHaveAttribute(
+    "data-amount",
+    "-3000",
+  );
+  await expect(source(page, "hand")).toHaveAttribute(
+    "data-card-attacking",
+    "true",
+  );
+  await expect.poll(() => page.evaluate(() => window.__battleDone)).toBe(true);
+  await expect(page.getByTestId("duel-phase-step")).toHaveText("01");
+});
+
+test("reset during battle releases its wait, restores the card and allows subsequent messages", async ({
+  page,
+}) => {
+  await setupBattle(page);
+  const attacker = source(page, "hand");
+  const before = await attacker.evaluate((element) => element.style.transform);
+  await queueBattle(page, [battleMessage()]);
+  await expect(attacker).toHaveAttribute("data-card-attacking", "true");
+  await page.evaluate(async () => {
+    const { resetDuelDialogs } = await import("/src/stores/duelDialogs.ts");
+    resetDuelDialogs();
+  });
+  await expect.poll(() => page.evaluate(() => window.__battleDone)).toBe(true);
+  await expect(attacker).toHaveAttribute("data-card-attacking", "false");
+  await expect(page.getByTestId("duel-attack-declaration")).toHaveCount(0);
+  expect(await attacker.evaluate((element) => element.style.transform)).toBe(
+    before,
+  );
+  await send(page, [94, 0, ...u32(7500)]);
+  await expect(
+    page.locator('[data-testid="duel-player-life-value"][data-player="me"]'),
+  ).toHaveText("7500");
+});
+
 test("attack animations return to the same position after direct and targeted attacks", async ({
   page,
 }) => {
@@ -605,11 +983,22 @@ test("attack animations return to the same position after direct and targeted at
       },
     ]) {
       const before = element.style.transform;
+      const initialRotation = Number(
+        before.match(/rotateZ\(([-\d.]+)deg\)/)![1],
+      );
       const transforms = new Set<string>();
       let maxDepth = 0;
+      let maxRotation = 0;
       let frame: number;
       const sample = () => {
         transforms.add(element.style.transform);
+        const rotation = Number(
+          element.style.transform.match(/rotateZ\(([-\d.]+)deg\)/)![1],
+        );
+        maxRotation = Math.max(
+          maxRotation,
+          Math.abs(rotation - initialRotation),
+        );
         maxDepth = Math.max(
           maxDepth,
           new DOMMatrix(getComputedStyle(face).transform).m43,
@@ -625,6 +1014,7 @@ test("attack animations return to the same position after direct and targeted at
         after: element.style.transform,
         elapsed: performance.now() - started,
         maxDepth,
+        maxRotation,
         poses: transforms.size,
       });
     }
@@ -633,6 +1023,7 @@ test("attack animations return to the same position after direct and targeted at
   for (const result of results) {
     expect(result.after).toBe(result.before);
     expect(result.maxDepth).toBeGreaterThan(190);
+    expect(result.maxRotation).toBeLessThanOrEqual(90);
     expect(result.poses).toBeGreaterThan(3);
     expect(result.elapsed).toBeGreaterThanOrEqual(350);
     expect(result.elapsed).toBeLessThan(1200);
@@ -657,13 +1048,13 @@ test("attack stages use explicit durations, animation speed and replay speed", a
       for (const replaySpeed of [1, 2]) {
         settingStore.saveAnimationConfig({ enabled: true, speed });
         replayPresentation.speed = replaySpeed;
-        const initial = { x: 20, y: 100, z: 0, rz: 180 };
+        const initial = { x: 20, y: 100, z: 0, rz: 180, zIndex: 3 };
         let current = { ...initial };
         const durations = [];
         const api = {
-          current: [{ get: () => current }],
-          start: ({ config, immediate, ...values }) => {
-            durations.push(config?.duration);
+          current: [{ get: () => current, springs: {} }],
+          start: ({ config, immediate: _immediate, ...values }) => {
+            if (config?.duration !== undefined) durations.push(config.duration);
             current = { ...current, ...values };
             return [Promise.resolve()];
           },
@@ -675,13 +1066,13 @@ test("attack stages use explicit durations, animation speed and replay speed", a
         await attack({
           card: cardStore.inner[0],
           api,
-          options: { directAttack: true },
+          options: { directAttack: true, attack: 2500 },
         });
         results.push({
           durations,
           current,
           initial,
-          expected: (2 * (400 - speed * 300)) / replaySpeed,
+          expected: (800 * (400 - speed * 300)) / 190 / replaySpeed,
         });
       }
     }
@@ -947,3 +1338,419 @@ test("long chains remain scrollable and readable in a short viewport", async ({
   expect(box!.x + box!.width).toBeLessThanOrEqual(844);
   await page.screenshot({ path: info.outputPath("chain-cards-mobile.png") });
 });
+
+for (const zone of [2, 4, 16, 32]) {
+  test(`activation in zone ${zone} retains the same reading and return time`, async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+    await setup(page, true);
+    const uuid = zone === 2 ? "hand" : zone === 16 ? "grave" : "removed";
+    if (zone === 4)
+      await send(page, [
+        50,
+        ...u32(1000003),
+        1,
+        32,
+        0,
+        1,
+        1,
+        4,
+        2,
+        1,
+        ...u32(0),
+      ]);
+    await page.waitForTimeout(800);
+    await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+    await page.evaluate(async (uuid) => {
+      const { callCardFocus } = await import(
+        "/src/ui/Duel/PlayMat/Card/index.tsx"
+      );
+      window.__pacingReturned = false;
+      window.__pacingFinished = false;
+      const start = performance.now();
+      void callCardFocus(uuid, {
+        onReturnStart: () => {
+          window.__pacingReturned = true;
+        },
+      }).then(() => {
+        window.__pacingElapsed = performance.now() - start;
+        window.__pacingFinished = true;
+      });
+    }, uuid);
+    await page.clock.runFor(400);
+    expect(await page.evaluate(() => window.__pacingReturned)).toBe(false);
+    await expect(source(page, uuid)).toHaveAttribute(
+      "data-card-focusing",
+      "true",
+    );
+    await page.clock.runFor(130);
+    expect(await page.evaluate(() => window.__pacingReturned)).toBe(true);
+    expect(await page.evaluate(() => window.__pacingFinished)).toBe(false);
+    await page.clock.runFor(200);
+    expect(await page.evaluate(() => window.__pacingFinished)).toBe(true);
+    expect(
+      await page.evaluate(() => window.__pacingElapsed),
+    ).toBeGreaterThanOrEqual(600);
+    expect(await page.evaluate(() => window.__pacingElapsed)).toBeLessThan(700);
+    await expect(source(page, uuid)).toHaveAttribute(
+      "data-card-focusing",
+      "false",
+    );
+  });
+}
+
+test("chain building overlaps return and solving highlights before the result is applied", async ({
+  page,
+}, info) => {
+  await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+  await setup(page, true);
+  await page.waitForTimeout(800);
+  await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+  await page.evaluate(
+    (payload) => {
+      window.__pacingOrder = [];
+      void window
+        .__chainSend(payload)
+        .then(() => window.__pacingOrder.push(70));
+      void window
+        .__chainSend([71, 1])
+        .then(() => window.__pacingOrder.push(71));
+    },
+    [70, ...u32(1000002), 1, 16, 0, 0, 1, 16, 0, ...u32(0), 1],
+  );
+  await page.clock.runFor(520);
+  const entry = page.getByTestId("duel-chain-card");
+  await expect(entry).toHaveAttribute("data-building", "true");
+  await expect(source(page, "grave")).toHaveAttribute(
+    "data-card-focusing",
+    "true",
+  );
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([70, 71]);
+  await page.clock.runFor(180);
+  await expect(entry).toHaveAttribute("data-building", "false");
+  await expect(source(page, "grave")).toHaveAttribute(
+    "data-card-focusing",
+    "false",
+  );
+  await page.evaluate(() => {
+    void window.__chainSend([72, 1]).then(() => window.__pacingOrder.push(72));
+    void window.__chainSend([73, 1]).then(() => window.__pacingOrder.push(73));
+  });
+  await page.clock.runFor(100);
+  await expect(entry).toHaveAttribute("data-resolving", "true");
+  await expect(entry).toHaveAttribute("data-solved", "false");
+  await expect(entry).toContainText("处理中");
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([70, 71]);
+  await page.screenshot({ path: info.outputPath("chain-solving.png") });
+  await page.clock.runFor(150);
+  await expect(entry).toHaveAttribute("data-solved", "true");
+  await expect(entry).toHaveAttribute("data-resolving", "false");
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+    70, 71, 72, 73,
+  ]);
+});
+
+for (const [command, kind, duration] of [
+  [60, "normal", 120],
+  [62, "special", 220],
+  [64, "flip", 120],
+] as const) {
+  test(`${kind} summon keeps its presentation before the following server message without a chain window`, async ({
+    page,
+  }, info) => {
+    await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+    await setup(page, true);
+    await page.waitForTimeout(800);
+    await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+    await page.evaluate(
+      ({ payload, command }) => {
+        window.__pacingOrder = [];
+        void window
+          .__chainSend(payload)
+          .then(() => window.__pacingOrder.push(command));
+        void window
+          .__chainSend([command + 1])
+          .then(() => window.__pacingOrder.push(command + 1));
+      },
+      { payload: [command, ...u32(1000001), 1, 4, 2, 1], command },
+    );
+    await page.clock.runFor(duration / 2);
+    const effect = page.getByTestId("duel-summon-effect");
+    await expect(effect).toHaveAttribute("data-kind", kind);
+    expect(await page.evaluate(() => window.__pacingOrder)).toEqual([]);
+    await effect.evaluate((element) => {
+      // Playwright 的时钟控制协议计时器，截图时固定 CSS 演出的可见帧。
+      for (const animation of element.getAnimations({ subtree: true })) {
+        animation.pause();
+        animation.currentTime =
+          Number(animation.effect!.getTiming().duration) / 2;
+      }
+    });
+    await page.screenshot({ path: info.outputPath(`summon-${kind}.png`) });
+    await page.clock.runFor(duration / 2 + 20);
+    await expect(effect).toHaveCount(0);
+    expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+      command,
+      command + 1,
+    ]);
+  });
+}
+
+test("summon, chain solving, phase and life presentations share animation and replay speeds", async ({
+  page,
+}) => {
+  await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+  await setup(page, true);
+  await page.waitForTimeout(800);
+  await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+  await page.evaluate(async () => {
+    const { settingStore } = await import("/src/stores/settingStore/index.ts");
+    const { replayPresentation } = await import(
+      "/src/infra/replayPresentation.ts"
+    );
+    const { matStore } = await import("/src/stores/index.ts");
+    settingStore.saveAnimationConfig({ enabled: true, speed: 0 });
+    replayPresentation.speed = 2;
+    matStore.initInfo.set(0, { life: 8000 });
+    matStore.initInfo.set(1, { life: 8000 });
+    window.__pacingOrder = [];
+    void window
+      .__chainSend([62, 65, 66, 15, 0, 1, 4, 2, 1])
+      .then(() => window.__pacingOrder.push("summon"));
+  });
+  const scaled = (duration: number) => (duration * 400) / 190 / 2;
+  await page.clock.runFor(100);
+  await expect
+    .poll(() =>
+      page
+        .getByTestId("duel-summon-effect")
+        .locator("i")
+        .first()
+        .evaluate(
+          (element) =>
+            parseFloat(getComputedStyle(element).animationDuration) * 1000,
+        ),
+    )
+    .toBeCloseTo(scaled(220), 2);
+  await page.clock.runFor(150);
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual(["summon"]);
+  await page.evaluate(async () => {
+    const { matStore } = await import("/src/stores/index.ts");
+    matStore.chainCards = [{ code: 1000001, controller: 1, solved: false }];
+    void window
+      .__chainSend([72, 1])
+      .then(() => window.__pacingOrder.push("solving"));
+  });
+  await page.clock.runFor(100);
+  await expect(page.getByTestId("duel-chain-card")).toHaveAttribute(
+    "data-resolving",
+    "true",
+  );
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual(["summon"]);
+  await page.clock.runFor(150);
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+    "summon",
+    "solving",
+  ]);
+  await page.evaluate(() => {
+    void window
+      .__chainSend([41, 4, 0])
+      .then(() => window.__pacingOrder.push("phase"));
+  });
+  await page.clock.runFor(100);
+  await expect
+    .poll(() =>
+      page
+        .getByTestId("duel-phase-banner")
+        .evaluate(
+          (element) =>
+            parseFloat(getComputedStyle(element).animationDuration) * 1000,
+        ),
+    )
+    .toBeCloseTo(scaled(500), 2);
+  await page.clock.runFor(450);
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+    "summon",
+    "solving",
+    "phase",
+  ]);
+  await page.evaluate(
+    (payload) => {
+      void window
+        .__chainSend(payload)
+        .then(() => window.__pacingOrder.push("life"));
+    },
+    [91, 0, ...u32(1000)],
+  );
+  await page.clock.runFor(100);
+  await expect
+    .poll(() =>
+      page
+        .getByTestId("duel-life-change")
+        .evaluate(
+          (element) =>
+            parseFloat(getComputedStyle(element).animationDuration) * 1000,
+        ),
+    )
+    .toBeCloseTo(scaled(800), 2);
+  await page.clock.runFor(350);
+  await expect(
+    page.locator('[data-testid="duel-player-life-value"][data-player="me"]'),
+  ).toHaveText("7000");
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+    "summon",
+    "solving",
+    "phase",
+  ]);
+  await page.clock.runFor(450);
+  expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+    "summon",
+    "solving",
+    "phase",
+    "life",
+  ]);
+});
+
+for (const skip of ["disabled", "hidden", "reset"] as const) {
+  test(`a ${skip} presentation releases the summon wait immediately`, async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+    await setup(page, true);
+    await page.waitForTimeout(800);
+    await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+    await page.evaluate(() => {
+      window.__pacingFinished = false;
+      void window.__chainSend([62, 65, 66, 15, 0, 1, 4, 2, 1]).then(() => {
+        window.__pacingFinished = true;
+      });
+    });
+    await page.clock.runFor(50);
+    await expect(page.getByTestId("duel-summon-effect")).toBeVisible();
+    await page.evaluate(async (skip) => {
+      if (skip === "disabled") {
+        const { settingStore } = await import(
+          "/src/stores/settingStore/index.ts"
+        );
+        settingStore.saveAnimationConfig({ enabled: false });
+      } else if (skip === "hidden") {
+        Object.defineProperty(document, "hidden", {
+          configurable: true,
+          get: () => true,
+        });
+        document.dispatchEvent(new Event("visibilitychange"));
+      } else {
+        const { resetDuelDialogs } = await import("/src/stores/duelDialogs.ts");
+        resetDuelDialogs();
+      }
+    }, skip);
+    await expect(page.getByTestId("duel-summon-effect")).toHaveCount(0);
+    expect(await page.evaluate(() => window.__pacingFinished)).toBe(true);
+  });
+}
+
+test("drawing several cards staggers their movement and waits for the last card", async ({
+  page,
+}) => {
+  await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+  await setup(page, true);
+  await page.evaluate(async () => {
+    const { cardStore } = await import("/src/stores/index.ts");
+    const { ygopro } = await import("/src/api/index.ts");
+    const { genCard } = await import("/src/service/utils/genCard.ts");
+    for (let sequence = 0; sequence < 3; sequence++)
+      cardStore.inner.push(
+        genCard({
+          uuid: `draw-${sequence}`,
+          code: 0,
+          meta: { id: 0, data: {}, text: {} },
+          location: new ygopro.CardLocation({
+            controller: 0,
+            zone: ygopro.CardZone.DECK,
+            sequence,
+            position: ygopro.CardPosition.FACEDOWN_ATTACK,
+          }),
+          idleInteractivities: [],
+          counters: {},
+          isToken: false,
+          targeted: false,
+          selectInfo: { selectable: false, selected: false },
+          status: 0,
+        }),
+      );
+  });
+  await expect(source(page, "draw-2")).toBeAttached();
+  await page.waitForTimeout(800);
+  await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+  const initial = await Promise.all(
+    [0, 1, 2].map((i) => source(page, `draw-${i}`).getAttribute("style")),
+  );
+  await page.evaluate(
+    (payload) => {
+      window.__pacingFinished = false;
+      void window.__chainSend(payload).then(() => {
+        window.__pacingFinished = true;
+      });
+    },
+    [90, 0, 3, ...u32(1000001), ...u32(1000002), ...u32(1000003)],
+  );
+  await page.clock.runFor(40);
+  expect(await source(page, "draw-0").getAttribute("style")).not.toBe(
+    initial[0],
+  );
+  expect(await source(page, "draw-1").getAttribute("style")).toBe(initial[1]);
+  expect(await source(page, "draw-2").getAttribute("style")).toBe(initial[2]);
+  await page.clock.runFor(60);
+  expect(await source(page, "draw-1").getAttribute("style")).not.toBe(
+    initial[1],
+  );
+  expect(await source(page, "draw-2").getAttribute("style")).toBe(initial[2]);
+  await page.clock.runFor(60);
+  expect(await source(page, "draw-2").getAttribute("style")).not.toBe(
+    initial[2],
+  );
+  expect(await page.evaluate(() => window.__pacingFinished)).toBe(false);
+  await page.clock.runFor(220);
+  expect(await page.evaluate(() => window.__pacingFinished)).toBe(true);
+  for (let i = 0; i < 3; i++)
+    await expect(source(page, `draw-${i}`)).toHaveAttribute(
+      "data-card-zone",
+      "HAND",
+    );
+});
+
+for (const [command, results] of [
+  [130, [0, 1]],
+  [131, [3, 6]],
+] as const) {
+  test(`toss message ${command} keeps each result for 650ms and blocks the following message`, async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date("2026-10-12T00:00:00Z") });
+    await setup(page, true);
+    await page.waitForTimeout(800);
+    await page.clock.pauseAt(new Date("2026-10-12T00:00:30Z"));
+    await page.evaluate(
+      (payload) => {
+        window.__pacingOrder = [];
+        void window
+          .__chainSend(payload)
+          .then(() => window.__pacingOrder.push("toss"));
+        void window
+          .__chainSend([63])
+          .then(() => window.__pacingOrder.push("following"));
+      },
+      [command, 0, 2, ...results],
+    );
+    await page.clock.runFor(600);
+    expect(await page.evaluate(() => window.__pacingOrder)).toEqual([]);
+    await page.clock.runFor(600);
+    expect(await page.evaluate(() => window.__pacingOrder)).toEqual([]);
+    await page.clock.runFor(110);
+    expect(await page.evaluate(() => window.__pacingOrder)).toEqual([
+      "toss",
+      "following",
+    ]);
+  });
+}

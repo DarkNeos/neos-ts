@@ -11,6 +11,7 @@ import type { ReplayDeck } from "@/api/ocgcore/replayDecks";
 import { replayPresentation } from "@/infra/replayPresentation";
 import { sleep } from "@/infra/sleep";
 
+import { resetDuelDialogs } from "./duelDialogs";
 import { DEFAULT_REPLAY_ADVANCE_MASK, ReplayPlayback } from "./replayPlayback";
 import { type NeosStore } from "./shared";
 
@@ -227,4 +228,5 @@ export const replayPlayback = new ReplayPlayback(
   async (duration) => {
     await sleep(duration);
   },
+  resetDuelDialogs,
 );

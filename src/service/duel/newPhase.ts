@@ -9,6 +9,7 @@ export default async (
   newPhase: ygopro.StocGameMessage.MsgNewPhase,
 ) => {
   if (container.conn.cancelled) return;
+  container.context.matStore.clearAttack();
   playEffect(AudioActionType.SOUND_PHASE);
   // ts本身还没有这么智能，所以需要手动指定类型
   container.context.matStore.phase.currentPhase = newPhase.phase_type;

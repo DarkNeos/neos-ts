@@ -6,18 +6,22 @@ import { sendSelectEffectYnResponse } from "@/api";
 import { getUIContainer } from "@/container/compat";
 import { matStore } from "@/stores";
 import { DuelChoice } from "@/stores/duelChoice";
+import { YgoCard } from "@/ui/Shared";
 
 import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 interface YesNoModalProps {
   isOpen: boolean;
   msg: string;
+  code: number;
   confirmOnly: boolean;
   requestId: number;
 }
 const defaultProps = {
   isOpen: false,
   msg: "",
+  code: 0,
   confirmOnly: false,
   requestId: 0,
 };
@@ -25,7 +29,7 @@ const defaultProps = {
 const localStore = proxy<YesNoModalProps>({ ...defaultProps });
 
 export const YesNoModal: React.FC = () => {
-  const { isOpen, msg, confirmOnly, requestId } = useSnapshot(localStore);
+  const { isOpen, msg, code, confirmOnly, requestId } = useSnapshot(localStore);
   const hint = useSnapshot(matStore.hint);
 
   const preHintMsg = hint?.esHint || "";
@@ -43,6 +47,7 @@ export const YesNoModal: React.FC = () => {
       afterClose={() => {
         if (localStore.isOpen) return;
         localStore.msg = "";
+        localStore.code = 0;
         matStore.hint.esHint = undefined;
       }}
       footer={
@@ -62,7 +67,17 @@ export const YesNoModal: React.FC = () => {
         </>
       }
     >
-      <div data-testid="duel-yesno-modal" />
+      <div data-testid="duel-yesno-modal">
+        {code > 0 && (
+          <div
+            className={styles.card}
+            data-testid="duel-yesno-card"
+            data-card-code={code}
+          >
+            <YgoCard code={code} />
+          </div>
+        )}
+      </div>
     </NeosModal>
   );
 };
@@ -72,7 +87,11 @@ const choice = new DuelChoice<boolean>(() => {
   // 退出动画期间保留标题，动画结束后再清理消息。
 });
 
-export const displayYesNoModal = async (msg: string, confirmOnly = false) => {
+export const displayYesNoModal = async (
+  msg: string,
+  confirmOnly = false,
+  code = 0,
+) => {
   const conn = getUIContainer().conn;
   const request = choice.open({
     eligible: () => getUIContainer().conn === conn,
@@ -80,6 +99,7 @@ export const displayYesNoModal = async (msg: string, confirmOnly = false) => {
   });
   if (!request) return false;
   localStore.msg = msg;
+  localStore.code = code;
   localStore.confirmOnly = confirmOnly;
   localStore.requestId = request.id;
   localStore.isOpen = true;

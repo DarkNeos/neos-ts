@@ -1,13 +1,14 @@
 .container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, 6.25rem);
+  justify-content: center;
+  gap: 0.625rem;
 
   .card {
-    width: 100px;
+    width: 6.25rem;
   }
 
   .input-number {
-    width: 100px;
+    width: 6.25rem;
   }
 }

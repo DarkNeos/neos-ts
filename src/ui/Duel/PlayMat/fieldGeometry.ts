@@ -98,3 +98,14 @@ export function fieldPoint(
         y: sign * (2 * (h + row) - (h - s) / 2),
       };
 }
+
+/** 直接攻击指向防守方场地外缘，随双方视角翻转。 */
+export function directAttackPoint(controller: number) {
+  const { BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, ROW_GAP } = matConfig;
+  return {
+    x: 0,
+    y:
+      (isMe(controller) ? -1 : 1) *
+      (BLOCK_HEIGHT_M * 1.5 + BLOCK_HEIGHT_S + ROW_GAP * 2),
+  };
+}

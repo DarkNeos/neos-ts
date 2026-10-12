@@ -151,6 +151,8 @@ for (const selfType of [2, 3]) {
     const side = selfType === 2 ? "op" : "me";
     await send(page, 100, 0, 1000);
     await expect(change).toHaveAttribute("data-player", side);
+    await expect(change).toHaveAttribute("data-kind", "cost");
+    await expect(page.getByTestId("duel-life-damage-flash")).toHaveCount(0);
     await expect(change.getByRole("status")).toHaveText("−1000");
     await page.clock.runFor(250);
     const box = (await change.getByRole("status").boundingBox())!;
@@ -161,6 +163,7 @@ for (const selfType of [2, 3]) {
     await page.clock.runFor(800);
     await expect(life(page, side)).toHaveText("7000");
     await send(page, 91, 0, 9000);
+    await expect(change).toHaveAttribute("data-kind", "damage");
     await expect(change.getByRole("status")).toHaveText("−9000");
     await page.clock.runFor(1050);
     await expect(life(page, side)).toHaveText("0");

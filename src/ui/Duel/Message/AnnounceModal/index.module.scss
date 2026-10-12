@@ -3,6 +3,11 @@
   flex-direction: column;
 
   .input {
-    display: flex;   
+    display: flex;
   }
+}
+
+.card {
+  width: 6.25rem;
+  flex-shrink: 0;
 }

@@ -1,13 +1,16 @@
-import { ygopro } from "@/api";
+import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
+import { AudioActionType, playEffect } from "@/infra/audio";
+import { displaySummonEffect } from "@/ui/Duel/PlayMat/SummonEffect";
 
 import { fetchEsHintMeta } from "./util";
 
-export default (
+export default async (
   container: Container,
   flipSummoning: ygopro.StocGameMessage.MsgFlipSummoning,
 ) => {
-  // playEffect(AudioActionType.SOUND_FILP);
+  if (container.conn.cancelled) return;
+  playEffect(AudioActionType.SOUND_FILP);
 
   const context = container.context;
   fetchEsHintMeta({
@@ -20,5 +23,10 @@ export default (
     context,
     flipSummoning.code,
     flipSummoning.location,
+  );
+  await displaySummonEffect(
+    flipSummoning.location,
+    fetchCard(flipSummoning.code).data.type ?? 0,
+    "flip",
   );
 };

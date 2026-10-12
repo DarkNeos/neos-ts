@@ -79,6 +79,7 @@ const GAME_MSG_ADVANCE_FLAGS: Record<string, number> = {
   chain_solved: ReplayAdvanceFlag.CHAIN_SOLVED,
   chain_end: ReplayAdvanceFlag.CHAIN_END,
   attack: ReplayAdvanceFlag.ATTACK,
+  battle: ReplayAdvanceFlag.ATTACK,
   pos_change: ReplayAdvanceFlag.POS_CHANGE,
   update_hp: ReplayAdvanceFlag.UPDATE_HP,
   win: ReplayAdvanceFlag.WIN,
@@ -148,15 +149,18 @@ export class ReplayPlayback {
     resolve: (completed: boolean) => void;
   };
   private seekRequest?: SeekRequest;
+  private cancelPresentation: () => void;
 
   constructor(
     state: ReplayPlaybackState,
     presentation: { seeking: boolean; speed: number },
     delay: (duration: number) => Promise<void>,
+    cancelPresentation: () => void = () => {},
   ) {
     this.state = state;
     this.presentation = presentation;
     this.delay = delay;
+    this.cancelPresentation = cancelPresentation;
   }
 
   begin() {
@@ -214,6 +218,7 @@ export class ReplayPlayback {
     this.state.seeking = true;
     this.state.ended = false;
     this.presentation.seeking = true;
+    this.cancelPresentation();
     this.state.revision += 1;
     this.activeAdvanceMask = undefined;
     const promise = new Promise<boolean>((resolve) => {
@@ -264,6 +269,7 @@ export class ReplayPlayback {
   }
 
   cancel() {
+    this.cancelPresentation();
     if (this.session) {
       this.session.closed = true;
       this.session.wake?.();

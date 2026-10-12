@@ -1,6 +1,7 @@
 import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 import { fetchEsHintMeta } from "./util";
@@ -52,7 +53,24 @@ export default async (
     context.historyStore.putEffect(context, meta.id, location);
 
     // 发动效果动画
-    await callCardFocus(target.uuid);
+    const controller = new AbortController();
+    const unregister = registerDuelDialogReset(() => controller.abort());
+    // 收回开始后即可处理 CHAINED；卡片自身的队列继续等收回结束。
+    await new Promise<void>((resolve, reject) => {
+      void callCardFocus(target.uuid, {
+        signal: controller.signal,
+        onReturnStart: resolve,
+      }).then(
+        () => {
+          unregister();
+          resolve();
+        },
+        (error) => {
+          unregister();
+          reject(error);
+        },
+      );
+    });
     console.color("blue")(`${target.meta.text.name} chaining`);
     console.info(
       `<Chaining>chain stack length = ${context.matStore.chains.length}`,

@@ -1,13 +1,12 @@
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
   gap: 1rem;
   padding: 0.5rem;
 }
 
 .card {
-  width: 100%;
-  max-width: 8rem;
+  width: 6.25rem;
   justify-self: center;
   padding: 0;
   border: 0;

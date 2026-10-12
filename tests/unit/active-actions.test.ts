@@ -22,6 +22,7 @@ function setup() {
     actions: ActiveAction<string>[],
     _signal: AbortSignal,
   ) => actions[0].response;
+  let confirmSingleAction = (_action: ActiveAction<string>) => false;
   const open = (
     actions: ActiveAction<string>[] = [action("A", 0), action("B", 1)],
     source: ActionSource = "idle",
@@ -36,6 +37,7 @@ function setup() {
         },
         chooseCard: (cards, signal) => chooseCard(cards, signal),
         chooseEffect: (actions, signal) => chooseEffect(actions, signal),
+        confirmSingleAction: (action) => confirmSingleAction(action),
         clear: () => {},
       },
     );
@@ -54,6 +56,9 @@ function setup() {
     },
     setChooseEffect: (fn: typeof chooseEffect) => {
       chooseEffect = fn;
+    },
+    setConfirmSingleAction: (fn: typeof confirmSingleAction) => {
+      confirmSingleAction = fn;
     },
   };
 }
@@ -149,5 +154,45 @@ test("effect lists do not duplicate cards and presentation cannot submit an unkn
   assert.deepEqual(choice.cards, ["A"]);
   setChooseEffect(async () => 12345);
   assert.equal(await choice.choose(), false);
+  assert.deepEqual(sent, []);
+});
+
+test("a single action can require presentation before submitting its response", async () => {
+  const { process, sent, open, setChooseEffect, setConfirmSingleAction } =
+    setup();
+  let confirm!: (response: number) => void;
+  setConfirmSingleAction(() => true);
+  setChooseEffect(
+    () =>
+      new Promise((resolve) => {
+        confirm = resolve;
+      }),
+  );
+  open([action("A", 5, 6)]);
+  const choosing = process.options(["A"])[0].choose();
+  assert.deepEqual(sent, []);
+  confirm(5);
+  assert.equal(await choosing, true);
+  assert.deepEqual(sent, [["idle", 5]]);
+});
+
+test("replacing a request cancels its pending single-action confirmation", async () => {
+  const { process, sent, open, setChooseEffect, setConfirmSingleAction } =
+    setup();
+  let confirm!: (response: number) => void;
+  let signal!: AbortSignal;
+  setConfirmSingleAction(() => true);
+  setChooseEffect((_actions, active) => {
+    signal = active;
+    return new Promise((resolve) => {
+      confirm = resolve;
+    });
+  });
+  open([action("A", 5, 6)]);
+  const choosing = process.options(["A"])[0].choose();
+  open([action("A", 5, 6)]);
+  assert.equal(signal.aborted, true);
+  confirm(5);
+  assert.equal(await choosing, false);
   assert.deepEqual(sent, []);
 });

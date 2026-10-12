@@ -5,6 +5,7 @@ import { ygopro } from "@/api";
 import { cardStore, replayStore } from "@/stores";
 import { fieldInspection } from "@/stores/fieldInspection";
 
+import { AttackDeclaration } from "../AttackDeclaration";
 import { Bg } from "../Bg";
 import { Card } from "../Card";
 import { getExtraDeckStackIndex } from "../Card/springs/moveToDeck";
@@ -14,6 +15,7 @@ import {
   useFieldRelations,
 } from "../FieldRelationsProvider";
 import { FieldControls } from "../Menu";
+import { SummonEffect } from "../SummonEffect";
 import { ZoneCounts } from "../ZoneCounts";
 import styles from "./index.module.scss";
 
@@ -35,6 +37,8 @@ export const Mat: React.FC = () => {
               <Cards />
             </div>
             <FieldConnections />
+            <AttackDeclaration />
+            <SummonEffect />
           </FieldRelationsProvider>
           <FieldControls />
           <ZoneCounts />
@@ -82,7 +86,7 @@ const Cards: React.FC = () => {
         return (
           <Card
             key={card.uuid}
-            idx={i}
+            card={cardStore.inner[i]}
             relationActive={activeCards.has(card.uuid)}
             visible={visible}
             extraStackIndex={extraStackIndex}

@@ -105,6 +105,34 @@
   }
 }
 
+.card[data-building="true"],
+.marker[data-building="true"] {
+  animation: chain-built var(--chain-flash-duration) ease-out both;
+}
+
+.card[data-resolving="true"] {
+  border-color: #ffe19a;
+  background: #4d4933;
+  box-shadow: 0 0 8px #ffe19a80;
+  .status {
+    color: #ffe6b0;
+  }
+}
+
+.marker[data-resolving="true"] {
+  filter: drop-shadow(0 0 7px #ffe19a);
+}
+
+@keyframes chain-built {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  45% {
+    filter: brightness(1.8);
+  }
+}
+
 @media (max-height: 600px) {
   .panel {
     left: auto;

@@ -10,6 +10,9 @@ import { fieldSelection } from "@/stores/fieldSelection";
 
 import {
   battlePhase,
+  battleStep,
+  damage,
+  damageCalc,
   drawPhase,
   endPhase,
   mainPhase1,
@@ -47,6 +50,11 @@ const battleSteps: Partial<Record<Phase, string>> = {
   [Phase.BATTLE_STEP]: "01",
   [Phase.DAMAGE]: "02",
   [Phase.DAMAGE_GAL]: "03",
+};
+const stepLabels: Partial<Record<Phase, string>> = {
+  [Phase.BATTLE_STEP]: battleStep,
+  [Phase.DAMAGE]: damage,
+  [Phase.DAMAGE_GAL]: damageCalc,
 };
 
 export const PhaseControl = () => {
@@ -114,7 +122,7 @@ export const PhaseControl = () => {
           }，选择阶段`}
           aria-haspopup="dialog"
           aria-expanded={open && active}
-          title={current?.label ?? unknown}
+          title={stepLabels[phase.currentPhase] ?? current?.label ?? unknown}
           disabled={!active}
           onClick={() => {
             if (active) setOpen(true);

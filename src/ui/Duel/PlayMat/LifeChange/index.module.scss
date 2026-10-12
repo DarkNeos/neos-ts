@@ -10,6 +10,10 @@
     color: #65ee95;
   }
 
+  &[data-kind="cost"] {
+    color: #e7d8a1;
+  }
+
   &[data-player="me"] {
     .anchor {
       bottom: clamp(64px, 15vh, 140px);
@@ -66,7 +70,7 @@
   position: absolute;
   width: 100%;
   height: 50%;
-  animation: damage-flash 550ms ease-out both;
+  animation: damage-flash 400ms ease-out both;
 }
 
 @keyframes number-pop {

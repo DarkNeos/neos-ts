@@ -16,8 +16,9 @@ export default async (
   start: ygopro.StocGameMessage.MsgStart,
 ) => {
   const context = container.context;
+  // 下一局开局时才清理上一局，结算后等待服务器期间保留最终场地。
+  if (context.cardStore.inner.length) resetDuel();
   if (replayStore.isReplay) {
-    if (context.cardStore.inner.length) resetDuel();
     replayStore.game += 1;
   }
   context.matStore.chainSetting = settingStore.duel.initialChain;

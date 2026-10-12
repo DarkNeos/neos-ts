@@ -111,6 +111,12 @@ export default async (container: Container, move: MsgMove) => {
   }
 
   // 在更新目标位置前确定附属素材，避免将刚叠放的卡自身误认为附属素材。
+  const declaration = context.matStore.attackDeclaration;
+  if (
+    declaration &&
+    [declaration.attackerUuid, declaration.targetUuid].includes(target.uuid)
+  )
+    context.matStore.clearAttack();
   const attachedMaterials =
     !fromEmpty && !from.is_overlay && !to.is_overlay
       ? context.cardStore.findOverlay(from.zone, from.controller, from.sequence)

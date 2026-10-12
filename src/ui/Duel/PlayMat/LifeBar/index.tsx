@@ -4,13 +4,13 @@ import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
 
 import { descriptionHintText } from "@/api/duelHints";
+import { duelAnimation, presentationDuration } from "@/infra/duelAnimation";
+import { replayPresentation } from "@/infra/replayPresentation";
 import { matStore, replayStore, roomStore } from "@/stores";
 import { remainingTime } from "@/stores/matStore/clock";
 import { settingStore } from "@/stores/settingStore";
 
 import styles from "./index.module.scss";
-
-const LIFE_ANIMATION_DURATION = 500;
 
 export const LifeBar: React.FC = () => {
   const snapInitInfo = useSnapshot(matStore.initInfo);
@@ -190,7 +190,7 @@ const LifeBarItem: React.FC<{
 };
 
 const useAnimatedLifeNumber = (life: number) => {
-  const { enabled } = useSnapshot(settingStore.animation);
+  const { enabled, speed } = useSnapshot(settingStore.animation);
   const [displayLife, setDisplayLife] = useState(life);
   const displayLifeRef = React.useRef(life);
 
@@ -199,7 +199,7 @@ const useAnimatedLifeNumber = (life: number) => {
     const to = life;
 
     if (from === to) return;
-    if (document.hidden || !enabled) {
+    if (document.hidden || !enabled || replayPresentation.seeking) {
       displayLifeRef.current = to;
       setDisplayLife(to);
       return;
@@ -215,8 +215,9 @@ const useAnimatedLifeNumber = (life: number) => {
       if (document.hidden) finish();
     };
     const start = performance.now();
+    const duration = presentationDuration(duelAnimation.life.roll);
     const animate = (now: number) => {
-      const progress = Math.min(1, (now - start) / LIFE_ANIMATION_DURATION);
+      const progress = Math.min(1, (now - start) / duration);
       const easedProgress = 1 - Math.pow(1 - progress, 3);
       const next = Math.round(from + (to - from) * easedProgress);
 
@@ -235,7 +236,7 @@ const useAnimatedLifeNumber = (life: number) => {
       cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", finishWhenHidden);
     };
-  }, [life, enabled]);
+  }, [life, enabled, speed]);
 
   return displayLife;
 };

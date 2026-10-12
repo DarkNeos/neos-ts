@@ -1,10 +1,11 @@
 import { easings } from "@react-spring/web";
 
+import { duelAnimation, duelDuration } from "@/infra/duelAnimation";
 import type { CardType } from "@/stores";
 import { settingStore } from "@/stores/settingStore";
 
 import type { SpringApi } from "./types";
-import { asyncStart, getDuration } from "./utils";
+import { asyncStart, setImmediate } from "./utils";
 
 export interface ShuffleOptions {
   signal?: AbortSignal;
@@ -31,11 +32,11 @@ export const shuffle = async ({
   );
   const cancel = () => {
     api.stop();
-    api.set(current);
+    setImmediate(api, current);
   };
   signal?.addEventListener("abort", cancel, { once: true });
   const config = {
-    duration: getDuration() / 3,
+    duration: duelDuration(duelAnimation.shuffle) / 3,
     easing: easings.easeInOutCubic,
     clamp: true,
   };
@@ -57,7 +58,9 @@ export const shuffle = async ({
     await asyncStart(api)({ x: current.x, rz: current.rz, config });
   } finally {
     signal?.removeEventListener("abort", cancel);
-    api.set({ x: current.x, rz: current.rz });
-    void api.start({ config: (key) => configs[key] });
+    setImmediate(api, current);
+    await Promise.all(
+      api.start({ ...current, immediate: true, config: (key) => configs[key] }),
+    );
   }
 };

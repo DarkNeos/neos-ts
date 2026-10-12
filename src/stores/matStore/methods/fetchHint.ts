@@ -36,6 +36,7 @@ export const fetchSelectHintMeta = ({
     matStore.hint.msg = selectHintMeta;
   } else {
     matStore.hint.esSelectHint = selectHintMeta;
-    matStore.hint.esHint = esHint;
+    // 连锁询问保留服务器给出的当前时点；明确传入空字符串时才清除。
+    if (esHint !== undefined) matStore.hint.esHint = esHint;
   }
 };

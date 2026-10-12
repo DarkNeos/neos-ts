@@ -107,6 +107,7 @@ export const PositionModal = () => {
       movable
       title={(translations[language] ?? translations.cn).Title}
       open={isOpen}
+      width="min(38.25rem, calc(100vw - 2rem))"
       centered
       footer={<></>}
     >

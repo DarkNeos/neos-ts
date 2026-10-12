@@ -1,7 +1,11 @@
+import { ygopro } from "@/api";
 import type { DuelEvent } from "@/api/ocgcore/ocgAdapter/duelEvent";
 import type { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
-import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
+import { duelAnimation } from "@/infra/duelAnimation";
+import { presentationDelay } from "@/infra/presentationDelay";
+
+import battle from "./battle";
 
 /** ADD/REMOVE 带引用计数；重复添加后移除一次不能提前隐藏提示。 */
 function updateDescription(
@@ -36,7 +40,29 @@ export default async (container: Container, event: DuelEvent) => {
       event.type,
       event.value,
     );
-  } else {
+  } else if (event.kind === "battle") {
+    await battle(container, event);
+  } else if (event.kind === "damage-step") {
+    matStore.phase.currentPhase = event.start
+      ? ygopro.StocGameMessage.MsgNewPhase.PhaseType.DAMAGE
+      : ygopro.StocGameMessage.MsgNewPhase.PhaseType.BATTLE_STEP;
+    if (!event.start) matStore.clearAttack();
+  } else if (event.kind === "chain-stage") {
+    const entry = matStore.chainCards[event.index - 1];
+    if (!entry || entry.solved) return;
+    if (event.stage === "built") {
+      entry.building = true;
+      // 短闪与发动收回并行，不另加协议等待。
+      void presentationDelay(duelAnimation.chain.built).then(() => {
+        entry.building = false;
+      });
+    } else {
+      for (const item of matStore.chainCards) item.resolving = false;
+      entry.building = false;
+      entry.resolving = true;
+      await presentationDelay(duelAnimation.chain.solving);
+    }
+  } else if (event.kind === "chain-result") {
     const entry = matStore.chainCards[event.index - 1];
     if (!entry || entry.negated === event.result) return;
     entry.negated = event.result;
@@ -46,12 +72,8 @@ export default async (container: Container, event: DuelEvent) => {
     matStore.hint.esHint = text;
     historyStore.putHint(container.context, entry.controller, text, entry.code);
     playEffect(AudioActionType.SOUND_INFO);
-    if (
-      entry.cardUuid &&
-      cardStore.inner.some(
-        (card) => card.uuid === entry.cardUuid && card.code === entry.code,
-      )
-    )
-      await callCardFocus(entry.cardUuid);
+    const wasResolving = entry.resolving;
+    entry.resolving = true;
+    if (!wasResolving) await presentationDelay(duelAnimation.chain.solving);
   }
 };

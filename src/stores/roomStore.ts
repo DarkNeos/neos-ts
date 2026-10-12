@@ -36,7 +36,9 @@ export enum RoomStage {
 export class RoomStore implements NeosStore {
   lflist: number | null = null;
   timeLimit: number | null = null; // null 表示尚未收到房间时限，0 表示不限时
+  mode: number | null = null; // 服务端确认的模式，0 为单局，1 为多局比赛
   joined: boolean = false; // 是否已经加入房间
+  isSinglePlayer: boolean = false; // 从单人模式入口建立的 AI 对局
   players: (Player | undefined)[] = Array.from({ length: 4 }).map(
     (_) => undefined,
   ); // 进入房间的玩家列表
@@ -59,7 +61,9 @@ export class RoomStore implements NeosStore {
   reset(): void {
     this.lflist = null;
     this.timeLimit = null;
+    this.mode = null;
     this.joined = false;
+    this.isSinglePlayer = false;
     this.players = [];
     this.observerCount = 0;
     this.isHost = false;

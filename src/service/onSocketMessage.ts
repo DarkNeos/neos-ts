@@ -3,6 +3,7 @@
  *
  * */
 import { adaptStoc } from "@/api/ocgcore/ocgAdapter/adapter";
+import { duelMessageName } from "@/api/ocgcore/ocgAdapter/duelEvent";
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 import { STOC_REPLAY } from "@/api/ocgcore/ocgAdapter/protoDecl";
 import { Container } from "@/container";
@@ -61,7 +62,7 @@ async function _handle(container: Container, e: MessageEvent) {
     const dispatch = () => handlePacket(container, packet, pb);
     if (replayStore.isReplay && pb.msg === "stoc_game_msg") {
       const advanced = await replayPlayback.handleMessage(
-        pb.stoc_game_msg.gameMsg,
+        duelMessageName(pb.stoc_game_msg),
         dispatch,
         () => container.conn.cancelled,
       );

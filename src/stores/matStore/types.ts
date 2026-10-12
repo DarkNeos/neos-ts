@@ -18,11 +18,19 @@ export interface MatState {
 
   chains: ygopro.CardLocation[]; // 连锁的卡片位置
 
+  attackDeclaration: {
+    attackerUuid: string;
+    targetUuid?: string;
+    directAttack: boolean;
+  } | null;
+
   // 保留发动时的公开卡号，不随移卡、洗牌或单段结算改变。
   chainCards: {
     code: number;
     controller: number;
     solved: boolean;
+    building?: boolean;
+    resolving?: boolean;
     cardUuid?: string;
     targets?: string[];
     negated?: "activation" | "effect";

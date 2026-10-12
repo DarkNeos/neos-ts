@@ -10,7 +10,11 @@ export default async (
   const context = container.context;
   // solved_index 从 1 开始；仅标记列表项，保持原始编号直到整个连锁结束。
   const entry = context.matStore.chainCards[chainSolved.solved_index - 1];
-  if (entry) entry.solved = true;
+  if (entry) {
+    entry.solved = true;
+    entry.building = false;
+    entry.resolving = false;
+  }
 
   const location = context.matStore.chains
     .splice(chainSolved.solved_index - 1, 1)

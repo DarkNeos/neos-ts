@@ -1,7 +1,9 @@
+import { type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
 
 import { fetchCard, ygopro } from "@/api";
+import { duelAnimation, presentationDuration } from "@/infra/duelAnimation";
 import { cardStore, type CardType, matStore } from "@/stores";
 import { ChainIcon, YgoCard } from "@/ui/Shared";
 
@@ -33,6 +35,8 @@ export const ChainCards = () => {
               : "效果无效"
             : entry.solved
             ? "已处理"
+            : entry.resolving
+            ? "处理中"
             : "待处理";
           return (
             <li key={index}>
@@ -43,6 +47,15 @@ export const ChainCards = () => {
                 data-chain-index={index + 1}
                 data-card-code={entry.code}
                 data-solved={entry.solved}
+                data-building={entry.building ?? false}
+                data-resolving={entry.resolving ?? false}
+                style={
+                  {
+                    "--chain-flash-duration": `${presentationDuration(
+                      duelAnimation.chain.built,
+                    )}ms`,
+                  } as CSSProperties
+                }
                 data-negated={entry.negated}
                 data-controller={isMe ? "me" : "op"}
                 aria-label={`连锁 ${index + 1}：${name}，${status}`}
@@ -121,6 +134,16 @@ export const CardChainMarkers = ({
               data-chain-zone={ygopro.CardZone[location.zone]}
               data-chain-sequence={location.sequence}
               data-solved={entry.solved}
+              data-building={entry.building ?? false}
+              data-resolving={entry.resolving ?? false}
+              className={styles.marker}
+              style={
+                {
+                  "--chain-flash-duration": `${presentationDuration(
+                    duelAnimation.chain.built,
+                  )}ms`,
+                } as CSSProperties
+              }
               data-negated={entry.negated}
               title={
                 entry.negated
