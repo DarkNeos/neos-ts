@@ -41,7 +41,7 @@ export default async (container: Container, shuffleDeck: DeckMessage) => {
     card.originalData = { ...card.meta.data };
     card.location.position = operation.faceup
       ? ygopro.CardPosition.FACEUP_ATTACK
-      : ygopro.CardPosition.FACEDOWN_ATTACK;
+      : ygopro.CardPosition.FACEDOWN_DEFENSE;
     await callCardMove(card.uuid);
     if (operation.code > 0)
       await confirmCards(
@@ -68,7 +68,7 @@ export default async (container: Container, shuffleDeck: DeckMessage) => {
     card.code = 0;
     card.meta = { id: 0, data: {}, text: {} };
     card.originalData = undefined;
-    card.location.position = ygopro.CardPosition.FACEDOWN_ATTACK;
+    card.location.position = ygopro.CardPosition.FACEDOWN_DEFENSE;
   }
   const controller = new AbortController();
   const unregister = registerDuelDialogReset(() => controller.abort());

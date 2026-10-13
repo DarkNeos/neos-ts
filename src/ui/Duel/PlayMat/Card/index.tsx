@@ -128,16 +128,21 @@ export const Card: React.FC<CardProps> = React.memo((props) => {
   const [overlayAnimation, setOverlayAnimation] =
     useState<MoveOptions["overlayAnimation"]>();
 
-  // 其他卡插入或离开额外卡组后，同步保留下来的卡片，展示动画结束后恢复层级。
+  const stackIndex =
+    snap.location.zone === DECK && !snap.location.is_overlay
+      ? snap.location.sequence
+      : extraStackIndex;
+  // 卡片进出牌堆后直接同步剩余卡的层级，正在演出的卡片在结束后恢复。
   useEffect(() => {
     if (
-      extraStackIndex !== undefined &&
+      stackIndex !== undefined &&
+      !presenting &&
       !classFocus &&
       !confirming &&
       !shuffling
     )
-      api.set({ z: extraStackIndex, zIndex: extraStackIndex });
-  }, [api, extraStackIndex, classFocus, confirming, shuffling]);
+      api.set({ z: stackIndex, zIndex: stackIndex });
+  }, [api, stackIndex, presenting, classFocus, confirming, shuffling]);
 
   // >>> 动画 >>>
   /** 动画序列的promise */

@@ -110,7 +110,10 @@ export default async (
               ygopro.CardZone.TZONE,
             ][i % 3],
             sequence,
-            position: ygopro.CardPosition.FACEDOWN,
+            position:
+              i % 3 === 2
+                ? ygopro.CardPosition.FACEDOWN
+                : ygopro.CardPosition.FACEDOWN_DEFENSE,
           }),
           counters: {},
           idleInteractivities: [],
