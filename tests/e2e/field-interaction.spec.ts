@@ -1366,6 +1366,83 @@ test("field markers use live queries and Link highlights respect both players an
   ).toHaveAttribute("data-changed", "false");
 });
 
+for (const layout of ["horizontal", "reverse", "opponent", "vertical"]) {
+  test(`adjacent chain relation avoids card faces (${layout})`, async ({
+    page,
+  }, info) => {
+    await setup(page);
+    await page.evaluate(async (layout) => {
+      const { cardStore, matStore } = await import("/src/stores/index.ts");
+      const { ygopro } = await import("/src/api/index.ts");
+      const controller = layout === "opponent" ? 1 : 0;
+      const target = window.__make(
+        "relation-target",
+        layout === "vertical" ? 2 : 1,
+        controller,
+      );
+      const source = window.__make(
+        "relation-source",
+        2,
+        controller,
+        layout === "vertical" ? ygopro.CardZone.SZONE : ygopro.CardZone.MZONE,
+      );
+      if (layout === "horizontal" || layout === "opponent")
+        source.location.position = ygopro.CardPosition.FACEUP_DEFENSE;
+      if (layout === "reverse")
+        target.location.position = ygopro.CardPosition.FACEUP_DEFENSE;
+      matStore.selfType = ygopro.StocTypeChange.SelfType.PLAYER1;
+      cardStore.inner = [target, source];
+      matStore.chainCards = [
+        {
+          code: source.code,
+          controller,
+          cardUuid: source.uuid,
+          targets: [target.uuid],
+          solved: false,
+        },
+      ];
+    }, layout);
+    await card(page, "relation-source")
+      .getByTestId("field-card-chain-relation")
+      .click();
+    await page.mouse.move(0, 0);
+    const relation = page.getByTestId("field-relation");
+    await expect(relation).toHaveAttribute("data-source", "relation-source");
+    await expect(relation).toHaveAttribute("data-target", "relation-target");
+    const result = await relation.evaluate((node) => {
+      const element = node as SVGPathElement;
+      const transform = element.getScreenCTM()!;
+      const cards = ["relation-source", "relation-target"].map((uuid) => ({
+        uuid,
+        bounds: document
+          .querySelector(`[data-card-uuid="${uuid}"] [class*="img-wrap"]`)!
+          .getBoundingClientRect(),
+      }));
+      const crossed = new Set<string>();
+      const length = element.getTotalLength();
+      for (let i = 0; i <= 100; ++i) {
+        const point = element
+          .getPointAtLength((length * i) / 100)
+          .matrixTransform(transform);
+        for (const { uuid, bounds } of cards) {
+          if (
+            point.x > bounds.left + 2 &&
+            point.x < bounds.right - 2 &&
+            point.y > bounds.top + 2 &&
+            point.y < bounds.bottom - 2
+          )
+            crossed.add(uuid);
+        }
+      }
+      return { path: element.getAttribute("d"), crossed: [...crossed] };
+    });
+    await page.screenshot({
+      path: info.outputPath("adjacent-chain-relation.png"),
+    });
+    expect(result.crossed, `Relation path: ${result.path}`).toEqual([]);
+  });
+}
+
 test("equipment and persistent target events draw distinct relations and clear on cancel or leaving the field", async ({
   page,
 }, info) => {

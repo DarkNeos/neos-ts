@@ -79,7 +79,9 @@ export const FieldConnections = () => {
             ? "#c6a5f5"
             : "#6bdfff";
         // 相邻上下行之间空间很小，沿卡片侧边走线，留出数值和方向箭头的位置。
-        const close = Math.hypot(to.x - from.x, to.y - from.y) < 36;
+        const close =
+          Math.abs(dy) > Math.abs(dx) &&
+          Math.hypot(to.x - from.x, to.y - from.y) < 36;
         const side = kind === "equip" ? 1 : -1;
         const sideFrom = close ? cardEdge(source, side, 0) : from;
         const sideTo = close ? cardEdge(target, side, 0) : to;
