@@ -1,350 +1,76 @@
 import {
-  ArrowRightOutlined,
-  CheckOutlined,
   CloseCircleFilled,
+  FastForwardOutlined,
   FileSearchOutlined,
   MessageFilled,
   PauseCircleFilled,
   PlayCircleFilled,
+  QuestionCircleOutlined,
+  ReloadOutlined,
+  StepBackwardFilled,
   StepForwardFilled,
+  SwapOutlined,
 } from "@ant-design/icons";
 import {
+  App,
   Button,
   Divider,
   Dropdown,
   type DropdownProps,
   type MenuProps,
+  Select,
   Space,
   theme,
   Tooltip,
 } from "antd";
-import classNames from "classnames";
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
-import {
-  sendSelectBattleCmdResponse,
-  sendSelectIdleCmdResponse,
-  sendSelectSingleResponse,
-  sendSurrender,
-  ygopro,
-} from "@/api";
+import { sendSurrender, ygopro } from "@/api";
+import { getUIContainer } from "@/container/compat";
 import {
   ChainSetting,
   DEFAULT_REPLAY_ADVANCE_MASK,
   matStore,
   replayStore,
+  roomStore,
+  trainingStore,
 } from "@/stores";
+import { disconnectSession } from "@/ui/Match/util";
 import { IconFont } from "@/ui/Shared";
-
-import styles from "./index.module.scss";
-import PhaseType = ygopro.StocGameMessage.MsgNewPhase.PhaseType;
-import { useTranslation } from "react-i18next";
-
-import { getUIContainer } from "@/container/compat";
+import { openReplayDecks, ReplayDecks } from "@/ui/Shared/ReplayDecks";
+import { TrainingExitButton } from "@/ui/Training/ExitButton";
+import { startTraining } from "@/ui/Training/util";
 
 import { displayActionHistory } from "../../Message";
-import { clearAllIdleInteractivities, clearSelectInfo } from "../../utils";
 import { openChatBox } from "../ChatBox";
+import { allChain, availableChain, ignoreChain, smartChain } from "../labels";
+import { PhaseControl } from "../PhaseControl";
+import styles from "./index.module.scss";
 
 const { useToken } = theme;
 
-const FINISH_CANCEL_RESPONSE = -1;
 const REPLAY_ADVANCE_EVENT = "neos:replay-advance";
 
 interface ReplayAdvanceEventDetail {
   advanceMask?: number;
 }
 
-// Define the possible language codes (I18N)
-type Language = "en" | "br" | "pt" | "fr" | "ja" | "ko" | "es" | "cn";
-
-// Define the structure for the messages (I18N)
-const messages: Record<
-  Language,
-  {
-    drawPhase: string;
-    standbyPhase: string;
-    mainPhase1: string;
-    battlePhase: string;
-    battleStart: string;
-    battleStep: string;
-    damage: string;
-    damageCalc: string;
-    mainPhase2: string;
-    endPhase: string;
-    allChain?: string;
-    ignoreChain?: string;
-    smartChain?: string;
-    unknown: string;
-  }
-> = {
-  en: {
-    drawPhase: "Draw",
-    standbyPhase: "Standhy Phase",
-    mainPhase1: "Main Phase 1",
-    battlePhase: "Battle Phase",
-    battleStart: "Battle Start",
-    battleStep: "Battle Step",
-    damage: "Damage Step",
-    damageCalc: "Damage Step (Damage Calculation)",
-    mainPhase2: "Main Phase 2",
-    endPhase: "End Phase",
-    allChain: "All Chain",
-    ignoreChain: "Ignore Chain",
-    smartChain: "Smart Chain",
-    unknown: "Unknown",
-  },
-  br: {
-    drawPhase: "Compra",
-    standbyPhase: "Fase de Espera",
-    mainPhase1: "Fase Principal 1",
-    battlePhase: "Fase de Batalha",
-    battleStart: "Início da Batalha",
-    battleStep: "Fase da Batalha",
-    damage: "Fase de Dano",
-    damageCalc: "Fase de Dano (Cálculo de Dano)",
-    mainPhase2: "Fase Principal 2",
-    endPhase: "Fase Final",
-    unknown: "Desconhecido",
-  },
-  pt: {
-    drawPhase: "Compra",
-    standbyPhase: "Fase de Espera",
-    mainPhase1: "Fase Principal 1",
-    battlePhase: "Fase de Batalha",
-    battleStart: "Início da Batalha",
-    battleStep: "Fase da Batalha",
-    damage: "Fase de Dano",
-    damageCalc: "Fase de Dano (Cálculo de Dano)",
-    mainPhase2: "Fase Principal 2",
-    endPhase: "Fase Final",
-    unknown: "Desconhecido",
-  },
-  fr: {
-    drawPhase: "Pioche",
-    standbyPhase: "Phase de Standby",
-    mainPhase1: "Phase Principale 1",
-    battlePhase: "Phase de Bataille",
-    battleStart: "Début de la Bataille",
-    battleStep: "Étape de Bataille",
-    damage: "Étape de Dégâts",
-    damageCalc: "Étape de Dégâts (Calcul des Dégâts)",
-    mainPhase2: "Phase Principale 2",
-    endPhase: "Phase Finale",
-    unknown: "Inconnu",
-  },
-  ja: {
-    drawPhase: "ドロー",
-    standbyPhase: "スタンバイフェイズ",
-    mainPhase1: "メインフェイズ 1",
-    battlePhase: "バトルフェイズ",
-    battleStart: "バトル開始",
-    battleStep: "バトルステップ",
-    damage: "ダメージステップ",
-    damageCalc: "ダメージステップ（ダメージ計算）",
-    mainPhase2: "メインフェイズ 2",
-    endPhase: "エンドフェイズ",
-    unknown: "未知",
-  },
-  ko: {
-    drawPhase: "드로우",
-    standbyPhase: "대기 페이즈",
-    mainPhase1: "메인 페이즈 1",
-    battlePhase: "배틀 페이즈",
-    battleStart: "배틀 시작",
-    battleStep: "배틀 스텝",
-    damage: "데미지 스텝",
-    damageCalc: "데미지 스텝 (데미지 계산)",
-    mainPhase2: "메인 페이즈 2",
-    endPhase: "엔드 페이즈",
-    unknown: "알 수 없음",
-  },
-  es: {
-    drawPhase: "Robo",
-    standbyPhase: "Fase de Espera",
-    mainPhase1: "Fase Principal 1",
-    battlePhase: "Fase de Batalla",
-    battleStart: "Inicio de Batalla",
-    battleStep: "Paso de Batalla",
-    damage: "Paso de Daño",
-    damageCalc: "Paso de Daño (Cálculo de Daño)",
-    mainPhase2: "Fase Principal 2",
-    endPhase: "Fase Final",
-    unknown: "Desconocido",
-  },
-  cn: {
-    drawPhase: "抽卡阶段",
-    standbyPhase: "准备阶段",
-    mainPhase1: "主要阶段 1",
-    battlePhase: "战斗阶段",
-    battleStart: "战斗开始",
-    battleStep: "战斗步骤",
-    damage: "伤害步骤",
-    damageCalc: "伤害步骤（伤害计算）",
-    mainPhase2: "主要阶段 2",
-    endPhase: "结束阶段",
-    allChain: "全部连锁",
-    ignoreChain: "忽略连锁",
-    smartChain: "智能连锁",
-    unknown: "未知阶段",
-  },
-};
-
-// Get the language from localStorage or default to 'cn' (I18N)
-const language = (localStorage.getItem("language") || "cn") as Language;
-const drawPhase = messages[language].drawPhase;
-const standbyPhase = messages[language].standbyPhase;
-const mainPhase1 = messages[language].mainPhase1;
-const battlePhase = messages[language].battlePhase;
-const battleStart = messages[language].battleStart;
-const battleStep = messages[language].battleStep;
-const damage = messages[language].damage;
-const damageCalc = messages[language].damageCalc;
-const mainPhase2 = messages[language].mainPhase2;
-const endPhase = messages[language].endPhase;
-const allChain = messages[language].allChain ?? "All Chain";
-const ignoreChain = messages[language].ignoreChain ?? "Ignore Chain";
-const smartChain = messages[language].smartChain ?? "Smart Chain";
-const unknown = messages[language].unknown;
-/* End of definition (I18N) */
-
-const phaseTestId = (phase: PhaseType) => {
-  switch (phase) {
-    case PhaseType.DRAW:
-      return "draw";
-    case PhaseType.STANDBY:
-      return "standby";
-    case PhaseType.MAIN1:
-      return "main1";
-    case PhaseType.BATTLE:
-      return "battle";
-    case PhaseType.BATTLE_START:
-      return "battle-start";
-    case PhaseType.BATTLE_STEP:
-      return "battle-step";
-    case PhaseType.DAMAGE:
-      return "damage";
-    case PhaseType.DAMAGE_GAL:
-      return "damage-calc";
-    case PhaseType.MAIN2:
-      return "main2";
-    case PhaseType.END:
-      return "end";
-    case PhaseType.UNKNOWN:
-    default:
-      return "unknown";
-  }
-};
-
-const isBattleCommandPhase = (phase: PhaseType) =>
-  [
-    PhaseType.BATTLE,
-    PhaseType.BATTLE_START,
-    PhaseType.BATTLE_STEP,
-    PhaseType.DAMAGE,
-    PhaseType.DAMAGE_GAL,
-  ].includes(phase);
-
-// PhaseType, 中文, response, 是否显示，是否禁用
-const initialPhaseBind: [
-  phase: PhaseType,
-  label: string,
-  response: number,
-  show: boolean,
-  disabled: boolean,
-][] = [
-  [PhaseType.DRAW, drawPhase, -1, true, true],
-  [PhaseType.STANDBY, standbyPhase, -1, true, true],
-  [PhaseType.MAIN1, mainPhase1, -1, true, true],
-  [PhaseType.BATTLE, battlePhase, 6, true, false],
-  [PhaseType.BATTLE_START, battleStart, 3, false, true],
-  [PhaseType.BATTLE_STEP, battleStep, 3, false, true],
-  [PhaseType.DAMAGE, damage, 3, false, true],
-  [PhaseType.DAMAGE_GAL, damageCalc, 3, false, true],
-  [PhaseType.MAIN2, mainPhase2, 2, true, false],
-  [PhaseType.END, endPhase, 7, true, false],
-  [PhaseType.UNKNOWN, unknown, -1, false, true],
-];
-
-export const Menu = () => {
-  const container = getUIContainer();
-  const { t: i18n } = useTranslation("Menu");
-  const {
-    currentPlayer,
-    chainSetting,
-    phase: { enableBp, enableM2, enableEp, currentPhase },
-  } = useSnapshot(matStore);
-  const [phaseBind, setPhaseBind] = useState(initialPhaseBind);
-  const [phaseSwitchItems, setPhaseSwitchItems] = useState<MenuProps["items"]>(
-    [],
-  );
-
-  useEffect(() => {
-    const endResponse = [
-      PhaseType.BATTLE_START,
-      PhaseType.BATTLE_STEP,
-      PhaseType.DAMAGE,
-      PhaseType.DAMAGE_GAL,
-      PhaseType.BATTLE,
-    ].includes(currentPhase)
-      ? 3
-      : 7;
-
-    setPhaseBind((prev) => {
-      const newItems = [...prev];
-
-      // FIXME: 由于不断有玩家反馈说进不了战阶和主2，修改几次实现都解决不了问题，
-      // 因此这里不进行限制。当存在无法进入战阶的自肃时，由后端（srvpro）判断
-      for (const item of newItems) {
-        const [phase, , , ,] = item;
-        if (phase === PhaseType.BATTLE) {
-          // item[4] = !enableBp;
-        } else if (phase === PhaseType.MAIN2) {
-          // item[4] = !enableM2;
-        } else if (phase === PhaseType.END) {
-          // item[4] = !enableEp;
-          item[2] = endResponse;
-        }
-      }
-
-      return newItems;
-    });
-  }, [enableBp, enableM2, enableEp, currentPhase]);
-
-  useEffect(() => {
-    const newPhaseSwitchItems = phaseBind
-      .filter(([, , , show]) => show)
-      .map(([phase, label, response, _, disabled], key) => ({
-        key,
-        label,
-        disabled: disabled,
-        onClick: () => {
-          if (isBattleCommandPhase(currentPhase)) {
-            sendSelectBattleCmdResponse(container.conn, response);
-          } else {
-            sendSelectIdleCmdResponse(container.conn, response);
-          }
-          clearAllIdleInteractivities();
-        },
-        "data-testid": `duel-phase-${phaseTestId(phase)}`,
-        "data-phase": phaseTestId(phase),
-        icon: disabled ? <CheckOutlined /> : <ArrowRightOutlined />,
-        danger: phase === PhaseType.END,
-      }));
-
-    setPhaseSwitchItems(newPhaseSwitchItems);
-  }, [container.conn, currentPhase, phaseBind]);
-
+export const FieldControls = () => {
+  const { chainSetting } = useSnapshot(matStore);
   const chainSettingTexts = [
     [ChainSetting.CHAIN_ALL, allChain],
     [ChainSetting.CHAIN_IGNORE, ignoreChain],
     [ChainSetting.CHAIN_SMART, smartChain],
+    [ChainSetting.CHAIN_AVAILABLE, availableChain],
   ] as const;
   const chainSettingTestIds = {
     [ChainSetting.CHAIN_ALL]: "all",
     [ChainSetting.CHAIN_IGNORE]: "ignore",
     [ChainSetting.CHAIN_SMART]: "smart",
+    [ChainSetting.CHAIN_AVAILABLE]: "available",
   };
   const chainSettingItems: MenuProps["items"] = chainSettingTexts.map(
     ([key, text]) => ({
@@ -358,6 +84,78 @@ export const Menu = () => {
       },
     }),
   );
+  return (
+    <>
+      <PhaseControl />
+      <div className={styles["chain-control"]}>
+        <DropdownWithTitle
+          menu={{
+            items: chainSettingItems,
+          }}
+        >
+          <Button
+            className={styles["chain-button"]}
+            aria-label={
+              chainSettingTexts.find(([key]) => key === chainSetting)?.[1]
+            }
+            title={chainSettingTexts.find(([key]) => key === chainSetting)?.[1]}
+            data-testid="duel-chain-setting"
+            data-chain-setting={chainSettingTestIds[chainSetting]}
+            icon={<ChainIcon chainSetting={chainSetting} />}
+            type="text"
+          ></Button>
+        </DropdownWithTitle>
+      </div>
+    </>
+  );
+};
+
+export const Menu = () => {
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const top = toolbarRef.current?.getBoundingClientRect().top;
+        if (top !== undefined)
+          document.documentElement.style.setProperty(
+            "--duel-toolbar-top",
+            `${top}px`,
+          );
+      });
+    };
+    const observer = new ResizeObserver(update);
+    if (toolbarRef.current) observer.observe(toolbarRef.current);
+    const root = document.getElementById("root");
+    if (root) observer.observe(root);
+    window.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
+    update();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--duel-toolbar-top");
+    };
+  }, []);
+  const container = getUIContainer();
+  const { t: i18n } = useTranslation("Menu");
+  const { t: trainingText } = useTranslation("BuildDeck");
+  const { message } = App.useApp();
+  const navigate = useNavigate();
+  const { selfType } = useSnapshot(matStore);
+  const room = useSnapshot(roomStore);
+  const { isReplay } = useSnapshot(replayStore);
+  const { session: training } = useSnapshot(trainingStore);
+  const watching =
+    selfType === ygopro.StocGameMessage.MsgStart.PlayerType.Observer ||
+    room.selfType === ygopro.StocTypeChange.SelfType.OBSERVER;
+  const leave = () => {
+    disconnectSession();
+    navigate("/match");
+  };
   const surrenderMenuItems: MenuProps["items"] = [
     {
       label: i18n("Cancel"),
@@ -372,39 +170,39 @@ export const Menu = () => {
     },
   ].map((item, i) => ({ key: i, ...item }));
 
-  const globalDisable = !matStore.isMe(currentPlayer);
-
   return (
-    <div className={styles["menu-container"]}>
-      <SelectManager />
+    <div
+      ref={toolbarRef}
+      data-testid="duel-toolbar"
+      className={styles["menu-container"]}
+    >
       <ReplayControl />
-      <DropdownWithTitle
-        title={i18n("SelectPhase")}
-        menu={{ items: phaseSwitchItems }}
-        disabled={globalDisable}
-      >
-        <Button
-          data-testid="duel-phase-select"
-          data-current-phase={phaseTestId(currentPhase)}
-          icon={<StepForwardFilled style={{ transform: "scale(1.5)" }} />}
-          type="text"
-          disabled={globalDisable}
-        >
-          {phaseBind.find(([key]) => key === currentPhase)?.[1]}
-        </Button>
-      </DropdownWithTitle>
-      <DropdownWithTitle
-        menu={{
-          items: chainSettingItems,
-        }}
-      >
-        <Button
-          data-testid="duel-chain-setting"
-          data-chain-setting={chainSettingTestIds[chainSetting]}
-          icon={<ChainIcon chainSetting={chainSetting} />}
-          type="text"
-        ></Button>
-      </DropdownWithTitle>
+      {isReplay && <ReplayDecks />}
+      {training && (
+        <>
+          <Button
+            data-testid="training-restart"
+            icon={<ReloadOutlined />}
+            type="text"
+            onClick={() => {
+              const session = trainingStore.session;
+              if (!session) return;
+              // 重开使用保存的训练快照，连接入口负责结束旧局并重新自动准备。
+              void startTraining(session).catch((error) => {
+                message.error(
+                  error instanceof Error
+                    ? error.message
+                    : trainingText("TrainingFailed"),
+                );
+              });
+              navigate("/waitroom", { replace: true });
+            }}
+          >
+            {trainingText("TrainingRestart")}
+          </Button>
+          <TrainingExitButton />
+        </>
+      )}
       <Tooltip title={i18n("History")}>
         <Button
           icon={<FileSearchOutlined />}
@@ -419,23 +217,36 @@ export const Menu = () => {
           type="text"
         ></Button>
       </Tooltip>
-      <DropdownWithTitle
-        title={i18n("DoYouSurrunder")}
-        menu={{ items: surrenderMenuItems }}
-      >
+      {/* 训练使用上方专属退出入口，普通观战和对局保留原退出方式。 */}
+      {training ? null : watching || isReplay ? (
         <Button
-          aria-label={i18n("DoYouSurrunder")}
-          data-testid="duel-surrender"
+          data-testid="duel-leave"
+          onClick={leave}
           icon={<CloseCircleFilled />}
           type="text"
-        ></Button>
-      </DropdownWithTitle>
+        >
+          {isReplay ? "退出回放" : "退出观战"}
+        </Button>
+      ) : (
+        <DropdownWithTitle
+          title={i18n("DoYouSurrunder")}
+          menu={{ items: surrenderMenuItems }}
+        >
+          <Button
+            aria-label={i18n("DoYouSurrunder")}
+            data-testid="duel-surrender"
+            icon={<CloseCircleFilled />}
+            type="text"
+          ></Button>
+        </DropdownWithTitle>
+      )}
     </div>
   );
 };
 
 const ReplayControl: React.FC = () => {
-  const { isReplay, paused, waiting, currentIndex } = useSnapshot(replayStore);
+  const { isReplay, paused, waiting, currentIndex, seeking, ended, speed } =
+    useSnapshot(replayStore);
 
   useEffect(() => {
     const advanceReplay = (event: Event) => {
@@ -465,6 +276,24 @@ const ReplayControl: React.FC = () => {
 
   return (
     <>
+      <Button
+        aria-label="重播"
+        title="重播"
+        data-testid="replay-restart"
+        icon={<ReloadOutlined />}
+        disabled={seeking}
+        onClick={() => replayStore.restart()}
+        type="text"
+      />
+      <Button
+        aria-label="上一步"
+        title="上一步"
+        data-testid="replay-previous"
+        icon={<StepBackwardFilled />}
+        disabled={seeking || currentIndex <= (replayStore.keyframes[0] ?? 0)}
+        onClick={() => replayStore.previous()}
+        type="text"
+      />
       <Tooltip title={paused ? "Resume replay" : "Pause replay"}>
         <Button
           aria-label={paused ? "Resume replay" : "Pause replay"}
@@ -472,6 +301,9 @@ const ReplayControl: React.FC = () => {
           data-replay-index={currentIndex}
           data-replay-paused={paused}
           data-replay-waiting={waiting}
+          data-replay-seeking={seeking}
+          data-replay-ended={ended}
+          disabled={seeking || ended}
           icon={paused ? <PlayCircleFilled /> : <PauseCircleFilled />}
           onClick={togglePaused}
           type="text"
@@ -484,12 +316,53 @@ const ReplayControl: React.FC = () => {
           data-replay-default-advance-mask={DEFAULT_REPLAY_ADVANCE_MASK}
           data-replay-index={currentIndex}
           data-replay-waiting={waiting}
-          disabled={!paused || !waiting}
+          disabled={!paused || !waiting || seeking || ended}
           icon={<StepForwardFilled />}
           onClick={() => replayStore.advance()}
           type="text"
         />
       </Tooltip>
+      <Button
+        aria-label="下一回合"
+        title="下一回合"
+        data-testid="replay-next-turn"
+        icon={<FastForwardOutlined />}
+        disabled={seeking || ended}
+        onClick={() => replayStore.nextTurn()}
+        type="text"
+      />
+      <Button
+        aria-label="切换视角"
+        title="切换视角"
+        data-testid="replay-swap"
+        icon={<SwapOutlined />}
+        disabled={seeking}
+        onClick={() => replayStore.swapView()}
+        type="text"
+      />
+      <Select
+        aria-label="录像速度"
+        data-testid="replay-speed"
+        value={speed}
+        onChange={(value) => replayStore.setSpeed(value)}
+        options={[0.5, 1, 1.5, 2, 4].map((value) => ({
+          value,
+          label: `${value}×`,
+        }))}
+        style={{ width: 76 }}
+      />
+      {(seeking || ended) && (
+        <span className={styles.replayStatus} role="status">
+          {seeking ? "正在定位…" : "播放结束"}
+        </span>
+      )}
+      <Button
+        data-testid="replay-extract-decks"
+        onClick={openReplayDecks}
+        type="text"
+      >
+        提取卡组
+      </Button>
     </>
   );
 };
@@ -538,31 +411,12 @@ const ChainIcon: React.FC<{ chainSetting: ChainSetting }> = ({
   switch (chainSetting) {
     case ChainSetting.CHAIN_ALL:
       return <IconFont type="icon-chain-all" />;
+    case ChainSetting.CHAIN_AVAILABLE:
+      return <QuestionCircleOutlined style={{ fontSize: "inherit" }} />;
     case ChainSetting.CHAIN_SMART:
       return <IconFont type="icon-chain" />;
     case ChainSetting.CHAIN_IGNORE:
     default:
       return <IconFont type="icon-chain-broken" />;
   }
-};
-
-const SelectManager: React.FC = () => {
-  const container = getUIContainer();
-  const { t: i18n } = useTranslation("Menu");
-  const { finishable, cancelable } = useSnapshot(matStore.selectUnselectInfo);
-  const onFinishOrCancel = () => {
-    sendSelectSingleResponse(container.conn, FINISH_CANCEL_RESPONSE);
-    clearSelectInfo();
-  };
-  return (
-    <div className={styles["select-manager"]}>
-      <Button
-        className={classNames(styles.btn, { [styles.cancle]: cancelable })}
-        disabled={!cancelable && !finishable}
-        onClick={onFinishOrCancel}
-      >
-        {finishable ? i18n("SelectionComplete") : i18n("Deselect")}
-      </Button>
-    </div>
-  );
 };

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { type CardMeta, fetchCard, fetchStrings, Region } from "@/api";
+import { splitPendulumDescription } from "@/api/cardText";
 import {
   Attribute2StringCodeMap,
   extraCardTypes,
@@ -24,6 +25,7 @@ export const CardDetail: React.FC<{
 }> = ({ code, open, onClose }) => {
   const { t: i18n } = useTranslation("CardDetails");
   const [card, setCard] = useState<CardMeta>();
+  const text = card?.text ?? {};
   useEffect(() => {
     setCard(fetchCard(code));
   }, [code]);
@@ -37,9 +39,9 @@ export const CardDetail: React.FC<{
   const desc = useMemo(
     () =>
       isPendulumMonster(card?.data.type ?? 0)
-        ? processPendulumString(card?.text.desc ?? "")
-        : [card?.text.desc],
-    [card?.text.desc],
+        ? splitPendulumDescription(text.desc ?? "")
+        : [text.desc],
+    [text.desc, card?.data.type],
   );
 
   const items = useMemo(() => {
@@ -106,7 +108,11 @@ export const CardDetail: React.FC<{
   }, [card]);
 
   return (
-    <div className={classNames(styles.detail, { [styles.open]: open })}>
+    <div
+      className={classNames(styles.detail, { [styles.open]: open })}
+      data-testid="deck-card-detail"
+      data-card-code={code}
+    >
       <div className={styles.container}>
         <Button
           className={styles["btn-close"]}
@@ -118,37 +124,35 @@ export const CardDetail: React.FC<{
           <YgoCard className={styles.card} code={code} />
         </a>
         <div className={styles.title}>
-          <span>{card?.text.name}</span>
+          <span data-testid="deck-card-detail-name">{text.name}</span>
         </div>
         <ScrollableArea>
           <Descriptions layout="vertical" size="small" items={items} />
           <Descriptions
             layout="vertical"
             size="small"
-            items={desc.filter(Boolean).map((d, i) => ({
-              label:
-                desc.length > 1
-                  ? i
-                    ? i18n("MonsterEffect")
-                    : i18n("PendulumEffect")
-                  : i18n("CardEffect"),
-              span: 3,
-              children: <CardEffectText desc={d} />,
-            }))}
+            items={
+              // 保留段落原始索引，缺少灵摆效果时仍正确标注怪兽效果。
+              desc.flatMap((d, i) =>
+                d
+                  ? [
+                      {
+                        label:
+                          desc.length > 1
+                            ? i
+                              ? i18n("MonsterEffect")
+                              : i18n("PendulumEffect")
+                            : i18n("CardEffect"),
+                        span: 3,
+                        children: <CardEffectText desc={d} />,
+                      },
+                    ]
+                  : [],
+              )
+            }
           ></Descriptions>
         </ScrollableArea>
       </div>
     </div>
   );
 };
-
-function processPendulumString(input: string): string[] {
-  // 删除形如“← ... →”的结构
-  const withoutArrows = input.replace(/←.*?→/g, "");
-
-  // 以 "【怪兽效果】" 作为分隔符切割字符串
-  const splitStrings = withoutArrows.split("【怪兽效果】");
-
-  // 返回切割后的字符串列表
-  return splitStrings.map((s) => s.trim());
-}

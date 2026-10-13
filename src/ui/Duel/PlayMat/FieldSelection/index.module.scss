@@ -1,0 +1,20 @@
+.bar {
+  position: fixed;
+  z-index: 950;
+  left: 50%;
+  bottom: max(64px, calc(100vh - var(--duel-toolbar-top, 100vh) + 12px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 85vw;
+  width: max-content;
+  padding: 10px 16px;
+  border: 1px solid #6088a3;
+  background: #122131ed;
+  color: white;
+  border-radius: 8px;
+  > span:first-child { max-width: 45vw; }
+}

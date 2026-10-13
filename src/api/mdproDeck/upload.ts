@@ -14,14 +14,17 @@ export interface UploadReq {
   };
 }
 
-export async function uploadDeck(
-  req: UploadReq,
-): Promise<MdproResp<void> | undefined> {
+export async function uploadDeck(req: UploadReq): Promise<MdproResp<void>> {
   const generateResp = await generateDeck();
-  if (generateResp === undefined) return undefined;
-
-  if (generateResp.code !== 0 || generateResp.data === undefined)
-    return { code: generateResp.code, message: generateResp.message };
+  if (
+    generateResp.code !== 0 ||
+    typeof generateResp.data !== "string" ||
+    !generateResp.data.trim()
+  )
+    return {
+      code: generateResp.code || -1,
+      message: generateResp.message?.trim() || "云端未返回卡组 ID，请重试",
+    };
 
   const deckId = generateResp.data;
 
@@ -46,20 +49,23 @@ export async function uploadDeck(
     req.token,
   );
 
-  if (syncRes === undefined) return undefined;
+  if (syncRes.code !== 0 || syncRes.data !== "true")
+    return {
+      code: syncRes.code || -1,
+      message: syncRes.message?.trim() || "云端未确认上传，请重试",
+    };
 
-  if (syncRes.code === 0 && syncRes.data === true) {
-    // succeed in syncing
-
-    return await updatePublic(
-      {
-        userId: req.userId,
-        deckId,
-        isPublic: true,
-      },
-      req.token,
-    );
-  } else {
-    return { code: syncRes.code, message: syncRes.message };
-  }
+  const publicRes = await updatePublic(
+    { userId: req.userId, deckId, isPublic: true },
+    req.token,
+  );
+  if (publicRes.code !== 0 || publicRes.message !== "true")
+    return {
+      code: publicRes.code || -1,
+      message:
+        publicRes.code !== 0 && publicRes.message?.trim()
+          ? `卡组已保存到云端，但公开失败：${publicRes.message}`
+          : "卡组已保存到云端，但公开状态未更新，请稍后重试",
+    };
+  return { code: 0, message: "" };
 }

@@ -30,7 +30,7 @@
     "MCSpectatorListTitle": "Spectator List",
     "MCSpectatorListDesc": "Watch the duels currently taking place on MyCard MyCard.",
     "SinglePlayerModeTitle": "Single Player Mode",
-    "SinglePlayerModeDesc": "Start a duel against AI on Koishi 7210 server to test your deck or just pass the time.",
+    "SinglePlayerModeDesc": "Choose Koishi 7210 or the prerelease server to test your deck against AI.",
     "CustomRoomTitle": "Custom Room",
     "CustomRoomDesc": "Create a room with custom rules and challenge friends.",
     "ReplayTitle": "Replay",
@@ -41,6 +41,24 @@
     "PleaseSelectTheRoomToSpectate": "Please select the room to spectate"
   },
   "BuildDeck": {
+    "Banlist": "Banlist",
+    "NoBanlist": "No banlist available",
+    "SearchNameOnly": "Search card names only",
+    "StartTraining": "Start training",
+    "TrainingSettings": "Training settings",
+    "TrainingTurnOrder": "Turn order",
+    "TrainingFirst": "Go first",
+    "TrainingSecond": "Go second",
+    "TrainingHandSize": "Starting hand size",
+    "TrainingHandSizeRange": "{{min}}–{{max}} cards",
+    "TrainingInvalidHandSize": "Enter a whole number from {{min}} to {{max}}.",
+    "TrainingHandSizeSummary": "{{count}} starting cards",
+    "TrainingNoShuffle": "Do not shuffle at the start",
+    "TrainingCurrentDeck": "Use the deck currently in the editor, including unsaved changes.",
+    "TrainingFailed": "Could not start training. Please try again.",
+    "TrainingAutoStart": "Preparing automatically, waiting for training to start",
+    "TrainingReturnToEditor": "Return to editor",
+    "TrainingRestart": "Restart training",
     "EnterTheDeckName": "Deck name",
     "Environment": "Environment",
     "Shuffle": "Shuffle",
@@ -48,7 +66,7 @@
     "Clear": "Clear",
     "Reset": "Reset",
     "Save": "Save",
-    "QuestionCircleTooltip": "Double-click to add a card, right-click to remove a card, press the mouse wheel to switch cards between the main deck and the side deck.",
+    "QuestionCircleTooltip": "Drag cards to change their order, double-click to add a card, right-click to remove a card, press the mouse wheel to switch cards between the main deck and the side deck.",
     "Filter": "Filter",
     "SortBy": "Sort By ",
     "KeywordsPlaceholder": "Keywords (separated by spaces)",
@@ -162,6 +180,10 @@
     "PleaseEnterChatContent": "Please enter chat"
   },
   "MatchModal": {
+    "CustomServer": "Custom server",
+    "ServerAddress": "Server address",
+    "ServerAddressPlaceholder": "e.g. wss://example.com:443",
+    "CustomServerHint": "Enter host:port or a full wss:// address. Your last entry is saved automatically.",
     "PleaseEnterCustomRoomInformation": "Please enter custom room information",
     "Server": "Server",
     "KoishiServer": "Koishi Server",
@@ -174,7 +196,7 @@
   "ReplayModal": {
     "SelectReplay": "Select Replay",
     "ClickOrDragFilesHereToUpload": "Click or drag files here to upload",
-    "SupportsYrd3dExtension": "Only replay files with the .yrp3d extension are supported.",
+    "SupportsReplayExtensions": "Supports .yrp3d, .yrp and .yrp2 replay files.",
     "StartReplay": "Start Replay",
     "PleaseUploadReplayFile": "Please upload the replay file first."
   },
@@ -204,6 +226,7 @@
     "SwitchMusicAccordingToTheEnvironment": "Switch music according to the environment",
     "LanguageSettings": "Language",
     "AnimationSettings": "Animation",
+    "EnableAnimations": "Enable animations",
     "AnimationSpeed": "Animation speed"
   },
   "DeckResults": {

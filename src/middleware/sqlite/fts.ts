@@ -31,6 +31,8 @@ export const emptySearchConditions: FtsConditions = {
 export interface FtsParams {
   query: string; // 用于全文检索的query
   conditions: FtsConditions; // 过滤条件
+  /** 只检索卡名；默认仍同时匹配卡名和效果描述。 */
+  namesOnly?: boolean;
 }
 
 export function invokeFts(db: Database, params: FtsParams): CardMeta[] {
@@ -40,11 +42,15 @@ export function invokeFts(db: Database, params: FtsParams): CardMeta[] {
   const queryList = query.trim().split(" ");
 
   const filterConditions = getFtsCondtions(conditions);
+  // 按搜索范围选择原数据库字段，空字段不影响另一个字段的匹配。
+  const original = params.namesOnly
+    ? "COALESCE(texts.name, '')"
+    : "(COALESCE(texts.name, '') || COALESCE(texts.desc, ''))";
   const stmt = db.prepare(`
     SELECT datas.*, texts.*
     FROM datas
     INNER JOIN texts ON datas.id = texts.id
-    WHERE (texts.name || texts.desc) LIKE $query
+    WHERE (${original} LIKE $query)
     ${filterConditions ? `AND ${filterConditions}` : ""}
   `);
 
@@ -55,6 +61,8 @@ export function invokeFts(db: Database, params: FtsParams): CardMeta[] {
 
     ftsMetas.push(constructCardMeta(row.id!, row, row));
   }
+  // 反复搜索会创建语句，读取完成后释放对应的 SQLite 资源。
+  stmt.free();
 
   return ftsMetas;
 }

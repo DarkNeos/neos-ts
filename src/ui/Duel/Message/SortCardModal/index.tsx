@@ -1,30 +1,16 @@
-// 卡牌排序弹窗
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { Button, Card } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button } from "antd";
+import classNames from "classnames";
+import { useEffect, useState } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { sendSortCardResponse } from "@/api";
-import { CardMeta, getCardImgUrl } from "@/api/cards";
+import { type CardMeta, sendSortCardResponse } from "@/api";
 import { getUIContainer } from "@/container/compat";
+import { createDuelDialog } from "@/stores/duelDialogs";
+import { ScrollableArea, YgoCard } from "@/ui/Shared";
 
+import { showCardModal } from "../CardModal";
 import { NeosModal } from "../NeosModal";
+import styles from "./index.module.scss";
 
 interface SortOption {
   meta: CardMeta;
@@ -34,106 +20,148 @@ interface SortCardModalProps {
   isOpen: boolean;
   options: SortOption[];
 }
-const defaultProps = {
+
+const localStore = proxy<SortCardModalProps>({
   isOpen: false,
   options: [],
-};
-
-const localStore = proxy<SortCardModalProps>(defaultProps);
+});
 
 export const SortCardModal = () => {
   const container = getUIContainer();
   const { isOpen, options } = useSnapshot(localStore);
-  const [items, setItems] = useState(options);
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  const onFinish = () => {
-    sendSortCardResponse(
-      container.conn,
-      items.map((item) => item.response),
-    );
-    rs();
-  };
-  const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (active.id !== over?.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.response === active.id);
-        const newIndex = items.findIndex((item) => item.response === over?.id);
-        // @ts-ignore
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-  };
+  const [selecteds, setSelecteds] = useState<number[]>([]);
+  const complete = options.length > 0 && selecteds.length === options.length;
 
   useEffect(() => {
-    setItems(options);
-  }, [options]);
+    setSelecteds([]);
+  }, [options, isOpen]);
+
+  const onFinish = (order = selecteds) => {
+    if (
+      !localStore.isOpen ||
+      order.length === 0 ||
+      order.length !== localStore.options.length
+    )
+      return;
+    // 协议按原候选顺序返回排序后的位置，不能直接发送玩家的点击顺序。
+    // 例如点击顺序 [2, 0, 1] 应转换为位置数组 [1, 2, 0]。
+    const ranks = new Array<number>(localStore.options.length);
+    order.forEach((response, position) => {
+      ranks[response] = position;
+    });
+    sendSortCardResponse(container.conn, ranks);
+    rs();
+  };
 
   return (
     <NeosModal
-      title="请为下列卡牌排序"
+      movable
+      title="请为卡片排序"
+      width="38.25rem"
       open={isOpen}
-      footer={<Button onClick={onFinish}>finish</Button>}
+      footer={
+        <>
+          <Button
+            data-testid="duel-sort-card-reset"
+            disabled={selecteds.length === 0}
+            onClick={() => setSelecteds([])}
+          >
+            重选
+          </Button>
+          <Button
+            data-testid="duel-sort-card-quick-select"
+            disabled={options.length === 0}
+            title="保留已选顺序，按列表顺序补齐并确认"
+            onClick={() =>
+              onFinish([
+                ...selecteds,
+                ...options
+                  .map((option) => option.response)
+                  .filter((response) => !selecteds.includes(response)),
+              ])
+            }
+          >
+            快速选择
+          </Button>
+          <Button
+            data-testid="duel-sort-card-submit"
+            type="primary"
+            disabled={!complete}
+            onClick={() => onFinish()}
+          >
+            确认顺序
+          </Button>
+        </>
+      }
     >
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-      >
-        <SortableContext
-          items={items.map((item) => item.response)}
-          strategy={verticalListSortingStrategy}
+      <div data-testid="duel-sort-card-modal">
+        <p className={styles.hint}>
+          按顺序点击卡片，标记 1、2、3…；再次点击可取消并重新排序。
+        </p>
+        <ScrollableArea
+          className={styles.cards}
+          scrollProps={{
+            tabIndex: 0,
+            options: {
+              overflow: { x: "scroll", y: "hidden" },
+              scrollbars: { autoHide: "never", theme: "os-theme-light" },
+            },
+          }}
         >
-          {items.map((item) => (
-            <SortableItem
-              key={item.response}
-              id={item.response}
-              meta={item.meta}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
+          {options.map((option) => {
+            const order = selecteds.indexOf(option.response) + 1;
+            return (
+              <button
+                key={option.response}
+                type="button"
+                className={classNames(styles.card, {
+                  [styles.selected]: order > 0,
+                })}
+                data-testid="duel-sort-card-option"
+                data-card-code={option.meta.id}
+                data-card-response={option.response}
+                data-card-order={order || undefined}
+                aria-label={`${option.meta.text.name || "卡片"}，${
+                  order > 0 ? `顺序 ${order}` : "未排序"
+                }`}
+                aria-pressed={order > 0}
+                onClick={() => {
+                  showCardModal(option);
+                  setSelecteds((current) =>
+                    current.includes(option.response)
+                      ? current.filter(
+                          (response) => response !== option.response,
+                        )
+                      : [...current, option.response],
+                  );
+                }}
+              >
+                <YgoCard code={option.meta.id} width="100%" />
+                {order > 0 && (
+                  <span className={styles.order} aria-hidden>
+                    {order}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </ScrollableArea>
+        <p className={styles.progress} aria-live="polite">
+          已排序 {selecteds.length} / {options.length}
+        </p>
+      </div>
     </NeosModal>
   );
 };
 
-const SortableItem = (props: { id: number; meta: CardMeta }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: props.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Card
-        style={{ width: "6.25rem" }}
-        cover={
-          <img
-            alt={props.meta.id.toString()}
-            src={getCardImgUrl(props.meta.id)}
-          />
-        }
-      />
-    </div>
-  );
-};
-
-let rs: (arg?: any) => void = () => {};
+const dialog = createDuelDialog(() => {
+  localStore.isOpen = false;
+  localStore.options = [];
+}, undefined);
+const rs = dialog.finish;
 
 export const displaySortCardModal = async (options: SortOption[]) => {
   localStore.options = options;
   localStore.isOpen = true;
-  await new Promise<void>((resolve) => (rs = resolve));
-  localStore.isOpen = false;
-  localStore.options = [];
+  await dialog.wait();
 };

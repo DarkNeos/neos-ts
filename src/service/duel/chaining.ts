@@ -1,6 +1,7 @@
 import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { callCardFocus } from "@/ui/Duel/PlayMat/Card";
 
 import { fetchEsHintMeta } from "./util";
@@ -9,6 +10,7 @@ export default async (
   container: Container,
   chaining: ygopro.StocGameMessage.MsgChaining,
 ) => {
+  if (container.conn.cancelled) return;
   playEffect(AudioActionType.SOUND_ACTIVATE);
   const context = container.context;
   fetchEsHintMeta({
@@ -18,11 +20,20 @@ export default async (
   });
 
   const location = chaining.location;
+  const target = context.cardStore.find(location);
 
   // 将`location`添加到连锁栈
   context.matStore.chains.push(location);
+  // 独立保存发动时的卡号和 UUID；卡片移动后列表仍能显示，场上编号也能跟随。
+  // 此列表保留已处理项直到连锁结束，数组位置对应服务器的连锁编号。
+  context.matStore.chainCards.push({
+    code: chaining.code,
+    controller: location.controller,
+    solved: false,
+    cardUuid: target?.uuid,
+    targets: [],
+  });
 
-  const target = context.cardStore.find(location);
   if (target) {
     // 设置连锁序号
     const block = context.placeStore.of(context, location);
@@ -33,21 +44,33 @@ export default async (
     }
 
     const meta = fetchCard(chaining.code);
-    // 这里不能设置`code`，因为存在一个场景：
-    // 对方的`魔神仪-曼德拉护肤草`发动效果后，后端会发一次`MSG_SHUFFLE_HAND`，
-    // 但传给前端的codes全是0，如果这里设置了`code`的话，
-    // 在后面的`MSG_SHUFFLE_HAND`处理就会有问题。
-    // target.code = meta.id;
-
-    // 设置`Meta`信息，让对手发动效果的卡也能展示正面卡图
-    if (target.code === 0) {
+    // 发动消息公开卡片身份；之后的洗手牌消息会重新隐藏未知卡。
+    if (chaining.code > 0 && target.code !== chaining.code) {
+      target.code = chaining.code;
       target.meta = meta;
     }
 
     context.historyStore.putEffect(context, meta.id, location);
 
     // 发动效果动画
-    await callCardFocus(target.uuid);
+    const controller = new AbortController();
+    const unregister = registerDuelDialogReset(() => controller.abort());
+    // 收回开始后即可处理 CHAINED；卡片自身的队列继续等收回结束。
+    await new Promise<void>((resolve, reject) => {
+      void callCardFocus(target.uuid, {
+        signal: controller.signal,
+        onReturnStart: resolve,
+      }).then(
+        () => {
+          unregister();
+          resolve();
+        },
+        (error) => {
+          unregister();
+          reject(error);
+        },
+      );
+    });
     console.color("blue")(`${target.meta.text.name} chaining`);
     console.info(
       `<Chaining>chain stack length = ${context.matStore.chains.length}`,

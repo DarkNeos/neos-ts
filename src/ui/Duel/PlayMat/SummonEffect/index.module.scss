@@ -1,0 +1,56 @@
+.effect {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  margin: -80px;
+  z-index: 8;
+  pointer-events: none;
+  transform: translateZ(6px);
+}
+
+.ring,
+.glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: summon-ring var(--summon-duration) ease-out both;
+}
+
+.ring {
+  border: 3px solid currentColor;
+  box-shadow:
+    0 0 14px currentColor,
+    inset 0 0 10px currentColor;
+}
+
+.glow {
+  inset: 24px;
+  background: radial-gradient(circle, currentColor, transparent 70%);
+  animation-name: summon-glow;
+}
+
+@keyframes summon-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes summon-glow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  35% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+}

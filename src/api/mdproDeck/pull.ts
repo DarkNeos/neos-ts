@@ -1,10 +1,6 @@
-import { useConfig } from "@/config";
-
-import { handleHttps } from "..";
 import { MdproDeckLike, MdproResp } from "./schema";
-import { mdproHeaders } from "./util";
+import { mdproRequest } from "./util";
 
-const { mdproServer } = useConfig();
 const API_PATH = "api/mdpro3/deck/list";
 
 export interface PullReq {
@@ -31,9 +27,7 @@ interface RespData {
 
 export async function pullDecks(
   req: PullReq = defaultPullReq,
-): Promise<MdproResp<RespData> | undefined> {
-  const myHeaders = mdproHeaders();
-
+): Promise<MdproResp<RespData>> {
   const params = new URLSearchParams();
   Object.entries(req).forEach(([key, value]) => {
     if (value !== undefined) {
@@ -41,14 +35,5 @@ export async function pullDecks(
     }
   });
 
-  const url = new URL(`${mdproServer}/${API_PATH}`);
-  url.search = params.toString();
-
-  const resp = await fetch(url.toString(), {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  });
-
-  return await handleHttps(resp, API_PATH);
+  return mdproRequest(`${API_PATH}?${params.toString()}`);
 }

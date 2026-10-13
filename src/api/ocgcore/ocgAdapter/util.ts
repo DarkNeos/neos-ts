@@ -328,6 +328,7 @@ export function readUpdateAction(
   let lscale = mask;
   let rscale = mask;
   let link = mask;
+  let linkMarkers: number | undefined;
 
   if (flag & QUERY_CODE) {
     code = reader.inner.readInt32();
@@ -408,6 +409,7 @@ export function readUpdateAction(
   }
   if (flag & QUERY_LINK) {
     link = reader.inner.readInt32();
+    linkMarkers = reader.inner.readInt32();
   }
 
   const action = new MsgUpdateData.Action({
@@ -438,6 +440,9 @@ export function readUpdateAction(
   (
     action as MsgUpdateData.Action & { updatesPosition?: boolean }
   ).updatesPosition = updatesPosition;
+  (action as MsgUpdateData.Action & { queryFlags?: number }).queryFlags = flag;
 
+  (action as MsgUpdateData.Action & { linkMarkers?: number }).linkMarkers =
+    linkMarkers;
   return action;
 }

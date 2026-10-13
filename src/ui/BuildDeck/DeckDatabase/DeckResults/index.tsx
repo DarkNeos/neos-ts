@@ -1,62 +1,33 @@
-import { App, Dropdown, message, Pagination } from "antd";
-import { MessageInstance } from "antd/es/message/interface";
-import Fuse from "fuse.js";
-import React, { memo, useEffect } from "react";
+import { App, Dropdown, Pagination } from "antd";
+import React, { memo, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { type INTERNAL_Snapshot as Snapshot, proxy, useSnapshot } from "valtio";
-import YGOProDeck from "ygopro-deck-encode";
+import { type INTERNAL_Snapshot as Snapshot, useSnapshot } from "valtio";
 
-import { deleteDeck, getPersonalList, mgetDeck, pullDecks } from "@/api";
 import { MdproDeckLike } from "@/api/mdproDeck/schema";
 import { useConfig } from "@/config";
 import { accountStore } from "@/stores";
+import { deckDraftStore } from "@/stores/deckDraftStore";
+import { mdproDeckStore } from "@/stores/mdproDeckStore";
 import { IconFont, Loading } from "@/ui/Shared";
 
-import { setSelectedDeck } from "../..";
-import { editDeckStore } from "../../store";
-import { iDeckToEditingDeck } from "../../utils";
 import styles from "./index.module.scss";
 
 const { assetsPath } = useConfig();
 
-interface Props {
-  query: string;
-  page: number;
-  decks: MdproDeckLike[];
-  total: number;
-  onlyMine: boolean;
-  loaded: boolean;
-}
-
-// TODO: useConfig
-const PAGE_SIZE = 30;
-const SORT_LIKE = true;
-
-const store = proxy<Props>({
-  query: "",
-  page: 1,
-  decks: [],
-  total: 0,
-  onlyMine: false,
-  loaded: false,
-});
-
 export const DeckResults: React.FC = memo(() => {
-  const snap = useSnapshot(store);
+  const snap = useSnapshot(mdproDeckStore.state);
+  const { user } = useSnapshot(accountStore);
   const { message } = App.useApp();
   const { t: i18n } = useTranslation("DeckResults");
   useEffect(() => {
-    resetLoaded();
-    if (snap.onlyMine) {
-      // show only decks uploaded by myself
+    mdproDeckStore.setAccount(user);
+    if (!mdproDeckStore.state.loaded) void mdproDeckStore.load();
+  }, [user]);
+  useEffect(() => {
+    if (snap.error) message.error(snap.error);
+  }, [snap.errorRevision, snap.error, message]);
 
-      updatePersonalList(message);
-    } else {
-      updateMdproDeck();
-    }
-  }, [snap.query, snap.page, snap.onlyMine]);
-
-  const onChangePage = (page: number) => (store.page = page);
+  const onChangePage = (page: number) => void mdproDeckStore.setPage(page);
 
   return (
     <>
@@ -77,7 +48,7 @@ export const DeckResults: React.FC = memo(() => {
                 current={snap.page}
                 onChange={onChangePage}
                 total={snap.total}
-                pageSize={PAGE_SIZE}
+                pageSize={mdproDeckStore.pageSize}
                 showLessItems
                 hideOnSinglePage
               />
@@ -102,38 +73,53 @@ const MdproDeckBlock: React.FC<{
   deck: Snapshot<MdproDeckLike>;
   onlyMine: boolean;
 }> = ({ deck, onlyMine }) => {
-  const { message } = App.useApp();
-  const user = accountStore.user;
+  const { message, modal } = App.useApp();
+  const deleting = useRef(false);
 
-  const onDelete = async () => {
-    if (user) {
-      const resp = await deleteDeck(
-        user.id,
-        user.token,
-        deck.deckId,
-        user.username,
-      );
-
-      if (resp?.code === 0 && resp.data === true) {
-        message.success(
-          "删除卡组成功，由于缓存的原因请稍等片刻后重新刷新页面。",
-        );
-
-        // fresh when deletion succeed
-        await updatePersonalList(message);
-      } else if (resp !== undefined && resp.message !== "") {
-        message.error(resp.message);
-      } else {
-        message.error("删除卡组失败，请检查自己的网络状况。");
-      }
-    } else {
-      message.error("需要先登录萌卡才能删除卡组。");
+  const onDelete = async (ownerId: number | undefined) => {
+    if (deleting.current) return;
+    const owner = accountStore.user;
+    if (!owner || owner.id !== ownerId) {
+      const text = "账号已切换，请重新打开删除确认";
+      message.error(text);
+      throw new Error(text);
+    }
+    deleting.current = true;
+    try {
+      mdproDeckStore.setAccount(owner);
+      const result = await mdproDeckStore.delete(deck.deckId);
+      message[result.ok ? "success" : "error"](result.message);
+      if (!result.ok) throw new Error(result.message);
+    } finally {
+      deleting.current = false;
     }
   };
 
   const items = [];
   if (onlyMine) {
-    items.push({ key: 0, label: "删除", danger: true, onClick: onDelete });
+    items.push({
+      key: 0,
+      label: "删除",
+      danger: true,
+      onClick: () => {
+        const ownerId = accountStore.user?.id;
+        modal.confirm({
+          title: "删除云卡组",
+          content: (
+            <>
+              <p>将删除云端保存的卡组：{deck.deckName}。</p>
+              <p>
+                删除会同步到其他设备，无法撤销。该卡组未保存的修改也会被放弃，已另存的本地副本不受影响。
+              </p>
+            </>
+          ),
+          okText: "删除云端卡组",
+          cancelText: "取消",
+          okButtonProps: { danger: true },
+          onOk: () => onDelete(ownerId),
+        });
+      },
+    });
   }
 
   return (
@@ -144,13 +130,34 @@ const MdproDeckBlock: React.FC<{
       trigger={["contextMenu"]}
     >
       <div
+        data-testid="mdpro-online-deck"
+        data-deck-id={deck.deckId}
         className={styles["mdpro-deck"]}
-        onClick={async () => await copyMdproDeckToEditing(deck)}
+        onClick={() => {
+          const select = async (discard = false) => {
+            try {
+              const result = await deckDraftStore.preview(deck.deckId, discard);
+              if (result === "confirm")
+                modal.confirm({
+                  title: "当前卡组有未保存的修改",
+                  content: "打开另一套卡组会放弃这些修改。",
+                  okText: "放弃修改并打开",
+                  cancelText: "继续编辑",
+                  onOk: () => select(true),
+                });
+            } catch (error) {
+              message.error(
+                error instanceof Error ? error.message : "加载卡组失败，请重试",
+              );
+            }
+          };
+          void select();
+        }}
       >
         <img
-          src={`${assetsPath}/deck-cases/DeckCase${deck.deckCase
-            .toString()
-            .slice(-4)}_L.png`}
+          src={`${assetsPath}/deck-cases/DeckCase${
+            deck.deckCase === 0 ? "0001" : deck.deckCase.toString().slice(-4)
+          }_L.png`}
         />
         <div className={styles.text}>
           <div>{truncateString(deck.deckName, 8)}</div>
@@ -159,111 +166,6 @@ const MdproDeckBlock: React.FC<{
       </div>
     </Dropdown>
   );
-};
-
-export const updateMdproDeck = async () => {
-  const resp = await pullDecks({
-    page: store.page,
-    size: PAGE_SIZE,
-    keyWord: store.query !== "" ? store.query : undefined,
-    sortLike: SORT_LIKE,
-  });
-
-  if (resp?.data) {
-    const { total, records: newDecks } = resp.data;
-    store.total = total;
-    store.decks = newDecks;
-  } else {
-    store.decks = [];
-  }
-
-  finishLoaded();
-};
-
-const updatePersonalList = async (message: MessageInstance) => {
-  const user = accountStore.user;
-  if (user) {
-    const resp = await getPersonalList({
-      userID: user.id,
-      token: user.token,
-    });
-
-    if (resp) {
-      if (resp.code !== 0 || resp.data === undefined) {
-        message.error(resp.message);
-      } else {
-        let decks = resp.data;
-
-        if (store.query !== "") {
-          // use `fuse.js` to search
-          const fuse = new Fuse(decks, {
-            keys: ["deckName"],
-            includeScore: true,
-            threshold: 0.3,
-          });
-          const results = fuse.search(store.query);
-          decks = results.map((result) => result.item);
-        }
-
-        const total = decks.length;
-        store.total = total;
-        if (total === 0) {
-          store.page = 1;
-          store.decks = [];
-        } else {
-          if (total <= (store.page - 1) * PAGE_SIZE)
-            store.page = Math.floor((total - 1) / PAGE_SIZE) + 1;
-          store.decks = decks.slice(
-            (store.page - 1) * PAGE_SIZE,
-            store.page * PAGE_SIZE,
-          );
-        }
-      }
-    } else {
-      message.error("获取个人卡组列表失败，请检查自己的网络状况。");
-    }
-  } else {
-    message.error("需要先登录萌卡账号才能查看自己的在线卡组");
-    // set to default
-    store.page = 1;
-    store.decks = [];
-    store.total = 0;
-  }
-
-  finishLoaded();
-};
-
-const resetLoaded = () => (store.loaded = false);
-const finishLoaded = () => (store.loaded = true);
-
-const copyMdproDeckToEditing = async (mdproDeck: MdproDeckLike) => {
-  // currently the content of the deck, which we named `Ydk`,
-  // haven't been downloaded, so we need to fetch from server again by `mgetDeck`
-  // API.
-
-  const deckID = mdproDeck.deckId;
-  const resp = await mgetDeck(deckID);
-
-  if (resp?.code !== 0) {
-    message.error(resp?.message);
-  } else if (resp.data?.deckYdk !== undefined) {
-    // 服务端返回的 YDK 可能包含转义的换行符（如 "\\r\\n"），需要转换为标准换行符
-    const ydkString = resp.data.deckYdk.replace(/\\r\\n|\\r|\\n/g, "\n");
-    const deck = YGOProDeck.fromYdkString(ydkString);
-
-    if (!(deck.main.length + deck.extra.length + deck.side.length === 0)) {
-      const deckName = mdproDeck.deckName;
-      const ideck = { deckName, ...deck };
-      const editingDeck = await iDeckToEditingDeck(ideck);
-
-      setSelectedDeck(ideck);
-      editDeckStore.set(editingDeck);
-    } else {
-      message.error("卡组解析失败，请联系技术人员解决：<ccc@neos.moe>");
-    }
-  } else {
-    message.error("卡组复制失败，请联系技术人员结局：<ccc@neos.moe>");
-  }
 };
 
 function truncateString(str: string, maxLen: number): string {
@@ -278,9 +180,3 @@ function truncateString(str: string, maxLen: number): string {
 
   return `${start}...${end}`;
 }
-
-export const freshMdrpoDecks = (query: string, onlyMine?: boolean) => {
-  store.query = query;
-
-  if (onlyMine !== undefined) store.onlyMine = onlyMine;
-};

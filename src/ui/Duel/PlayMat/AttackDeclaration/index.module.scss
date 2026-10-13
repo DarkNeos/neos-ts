@@ -1,0 +1,36 @@
+.arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  overflow: visible;
+  z-index: 9;
+  color: #ffba69;
+  pointer-events: none;
+  transform: translateZ(8px);
+  filter: drop-shadow(0 2px 3px #0009);
+}
+
+.outline,
+.line {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.outline {
+  stroke: #522c18;
+  stroke-width: 9;
+}
+
+.line {
+  stroke: currentColor;
+  stroke-width: 4;
+}
+
+.label {
+  fill: #ffe0b6;
+  font-size: 17px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #24140d;
+  stroke-width: 4;
+}

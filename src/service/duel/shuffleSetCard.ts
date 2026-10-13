@@ -25,7 +25,7 @@ export default async (
 
   const count = from_locations.length;
 
-  Promise.all(
+  await Promise.all(
     Array.from({ length: count }).map(async (_, i) => {
       const from = from_locations[i];
       const target = context.cardStore.at(
@@ -34,10 +34,14 @@ export default async (
         from.sequence,
       );
       if (target) {
+        // 盖卡洗切后不再对应原位置，解除编号绑定，避免连锁标识暴露卡片身份。
+        context.matStore.clearChainBindings([target.uuid]);
+        context.cardStore.resetFieldState(target);
+        target.descriptionHints = {};
         // 设置code为0，洗切后的code会由`UpdateData`指定
         target.code = 0;
-        target.meta.id = 0;
-        target.meta.text.id = 0;
+        target.meta = { id: 0, data: {}, text: {} };
+        target.originalData = undefined;
       } else {
         console.warn(`<ShuffleSetCard>target from ${from} is null`);
       }

@@ -1,10 +1,5 @@
-import { useConfig } from "@/config";
-import { pfetch } from "@/infra";
-
-import { handleHttps } from "..";
 import { MdproDeck, MdproResp } from "./schema";
-import { mdproHeaders } from "./util";
-const { mdproServer } = useConfig();
+import { mdproRequest } from "./util";
 
 const API_PATH = "api/mdpro3/sync";
 
@@ -17,19 +12,8 @@ export interface PersonalListReq {
 
 export async function getPersonalList(
   req: PersonalListReq,
-  progressCallback?: (progress: number) => void,
-): Promise<MdproResp<MdproDeck[]> | undefined> {
-  const myHeaders = mdproHeaders();
-  myHeaders.append("token", req.token);
-
-  const resp = await pfetch(`${mdproServer}/${API_PATH}/${req.userID}/nodel`, {
-    init: {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    },
-    progressCallback,
+): Promise<MdproResp<MdproDeck[]>> {
+  return mdproRequest(`${API_PATH}/${req.userID}/nodel`, {
+    token: req.token,
   });
-
-  return await handleHttps(resp, API_PATH);
 }

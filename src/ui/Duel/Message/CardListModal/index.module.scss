@@ -1,0 +1,28 @@
+.drawer :global(.ant-drawer-content) {
+  background: rgba(30, 35, 48, 0.94);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 6.25rem;
+  padding: 0;
+  color: #edf2f7;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  font: 12px/1.4 var(--theme-font);
+  cursor: pointer;
+  &:focus-visible {
+    outline: 2px solid #a8e0ff;
+    outline-offset: 3px;
+  }
+}
+.name {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.renamed {
+  color: #efd987;
+  overflow-wrap: anywhere;
+}

@@ -1,10 +1,6 @@
-import { useConfig } from "@/config";
-
-import { handleHttps } from "..";
 import { MdproResp } from "./schema";
-import { mdproHeaders } from "./util";
+import { mdproRequest } from "./util";
 
-const { mdproServer } = useConfig();
 const API_PATH = "api/mdpro3/deck/public";
 
 export interface UpdatePublicReq {
@@ -16,17 +12,7 @@ export interface UpdatePublicReq {
 export async function updatePublic(
   req: UpdatePublicReq,
   token: string,
-): Promise<MdproResp<void> | undefined> {
-  const myHeaders = mdproHeaders();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("token", token);
-
-  const resp = await fetch(`${mdproServer}/${API_PATH}`, {
-    method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(req),
-    redirect: "follow",
-  });
-
-  return await handleHttps(resp, API_PATH);
+): Promise<MdproResp<void>> {
+  // 此接口用 message 的字符串 true/false 表示是否更新成功。
+  return mdproRequest(API_PATH, { token, body: req });
 }

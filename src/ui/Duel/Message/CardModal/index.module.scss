@@ -1,52 +1,153 @@
-.root {
-  :global(.ant-drawer-content-wrapper) {
-    box-shadow: none;
-  }
-}
-
 .drawer {
-  width: 20vw !important;
-  left: 10%;
-  --height: 40rem;
-  top: calc((100% - var(--height)) / 2);
+  width: clamp(164px, 19vw, 240px) !important;
+  left: 12px;
+  --height: calc(100dvh - 216px);
+  top: 108px;
   height: var(--height) !important;
   position: relative;
   border-radius: 0.375rem;
-  background: #242424;
+  :global(.ant-drawer-body) {
+    padding: 10px;
+    scrollbar-gutter: stable;
+  }
   :global(.ant-drawer-header) {
-    padding: 1rem 0;
+    padding: 10px;
     :global(.ant-drawer-header-title) {
       flex-direction: row-reverse;
-      padding-left: 1.5rem;
+      gap: 4px;
+    }
+    :global(.ant-drawer-title) {
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+    :global(.ant-drawer-close) {
+      margin: 0;
     }
   }
 }
+
 .container {
   position: relative;
   height: 100%;
 }
 
+// 原名与现名同时展示，窄屏下保持自然换行。
+.renamedName {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.85em;
+  font-weight: normal;
+}
+.cardName[data-renamed="true"] {
+  color: #fff000;
+}
+
+.summonIncomplete {
+  margin: 0 0 0.5rem;
+  color: #0fff0f;
+}
+
 .atkLine,
-.counterLine
-{
+.counterLine {
   .title,
   .number {
     font-family: var(--theme-font);
   }
   .number {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
+    font-size: 1.375rem;
+    line-height: 1.5rem;
   }
 }
 
 .attline {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+
+  :global(.ant-tag) {
+    margin-inline-end: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.attributeRow {
+  display: flex;
   flex-wrap: wrap;
-  row-gap: 0.625rem;
+  align-items: flex-start;
+  gap: 0.375rem;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 0.5rem;
 }
 
 .info {
-  justify-content: space-between;
-  position: relative;
-  height: 15rem; // TODO - fix this
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+@media (min-width: 1200px) {
+  .drawer {
+    width: clamp(240px, 22vw, 280px) !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  // 场上选卡时利用牌面上方的空间，避免详情挡住左侧候选。
+  .drawer.field-selection {
+    top: 108px;
+    height: max(
+      96px,
+      calc(50dvh - 310px * var(--neos-adaptive-scale) - 120px)
+    ) !important;
+  }
+}
+
+@media (max-height: 500px) {
+  .drawer {
+    top: 72px;
+    --height: calc(100dvh - 144px);
+    :global(.ant-drawer-title) {
+      font-size: 12px;
+    }
+  }
+  .summary {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .info {
+    gap: 4px;
+  }
+  .atkLine,
+  .counterLine {
+    gap: 2px !important;
+    :global(.ant-space-item) > div {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .title {
+      font-size: 10px;
+    }
+    .number {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+  }
+  .attline,
+  .attributeRow {
+    gap: 2px;
+    :global(.ant-tag) {
+      padding: 0 3px;
+      font-size: 10px;
+      line-height: 14px;
+    }
+  }
 }

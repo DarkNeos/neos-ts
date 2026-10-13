@@ -80,7 +80,7 @@ export class PlaceStore implements NeosStore {
       sequence: number;
     },
   ): BlockState | undefined {
-    return this.inner[location.zone][
+    return this.inner[location.zone]?.[
       context.matStore.isMe(location.controller) ? "me" : "op"
     ][location.sequence];
   }

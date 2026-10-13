@@ -4,9 +4,9 @@ import React, { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
-import { Phase2StringCodeMap } from "@/common";
 import { useConfig } from "@/config";
 import { HandResult, matStore } from "@/stores";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { useChat } from "@/ui/Shared";
 
 import styles from "./index.module.scss";
@@ -19,7 +19,6 @@ export const HintNotification = () => {
   const hintState = matSnap.hint;
   const toss = matSnap.tossResult;
   const handResults = matSnap.handResults;
-  const currentPhase = matSnap.phase.currentPhase;
   const error = matSnap.error;
 
   const { dialogs } = useChat(true);
@@ -31,6 +30,17 @@ export const HintNotification = () => {
   });
 
   globalMsgApi = msgApi;
+  useEffect(
+    () =>
+      registerDuelDialogReset(() => {
+        clearTimeout(destoryTimer);
+        destoryTimer = undefined;
+        isWaiting = false;
+        msgApi.destroy();
+        notiApi.destroy();
+      }),
+    [msgApi, notiApi],
+  );
   useEffect(() => {
     if (hintState && hintState.msg) {
       msgApi.info(`${hintState.msg}`);
@@ -55,19 +65,6 @@ export const HintNotification = () => {
       );
     }
   }, [handResults]);
-
-  useEffect(() => {
-    if (currentPhase) {
-      const message = fetchStrings(
-        Region.System,
-        Phase2StringCodeMap.get(currentPhase) ?? 0,
-      );
-      msgApi.info(message);
-      console.color("DeepPink")(
-        `${message}(${matStore.isMe(matStore.currentPlayer) ? "me" : "op"})`,
-      );
-    }
-  }, [currentPhase]);
 
   useEffect(() => {
     if (error !== "") {

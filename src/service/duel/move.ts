@@ -6,7 +6,7 @@ import { AudioActionType, playEffect } from "@/infra/audio";
 import { CardType } from "@/stores";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
-import { REASON_DESTROY, REASON_MATERIAL, TYPE_TOKEN } from "../../common";
+import { REASON_DESTROY, TYPE_TOKEN } from "../../common";
 import { genCard } from "../utils";
 
 type MsgMove = ygopro.StocGameMessage.MsgMove;
@@ -14,19 +14,10 @@ const { EMPTY, HAND, GRAVE, REMOVED, DECK, EXTRA, MZONE, SZONE, TZONE } =
   ygopro.CardZone;
 const { FACEDOWN, FACEDOWN_ATTACK, FACEDOWN_DEFENSE } = ygopro.CardPosition;
 
-const overlayStack: ygopro.CardLocation[] = [];
-
 /*
- * * 超量素材的`Location`：
- * - 位置是跟随超量怪兽的，通过`is_overlay`字段判断是否是超量素材，`overlay_sequence`是在某个超量怪兽下面的超量序列；
- * - 超量怪兽移动，超量素材需要跟着移动，并且需要前端自己维护这个关系，因为当超量怪兽移动时，
- *   后端不会针对超量素材传`MSG_MOVE`；
- * - 某个超量怪兽下面的超量素材的`overlay_sequence`也需要前端自己维护；
- * - 当进行超量召唤时，超量素材会临时移动到某个位置，玩家选择完超量怪兽的位置后，超量怪兽会从`EXTRA ZONE`
- *   move到`MZONE`，这之后超量素材应该移动到超量怪兽的位置，但是后端会传这部分的`MSG_MOVE`信息，
- *   因此前端需要自己维护，现在的做法采用了`入栈-出栈`的方式。
- * - 当场上的超量怪兽离开`MZONE`，比如送墓/除外时，超量素材会跟着超量怪兽移动，这时候它们的`sequence`还是一样的，
- *   然后后端会传`MSG_MOVE`，对超量素材的位置进行修正。
+ * 超量素材的位置记录宿主的区域、控制方和序号。
+ * 召唤前宿主还在额外卡组，素材也保留这个地址；宿主移动时一起更新。
+ * 素材之间的转移由各自的 MSG_MOVE 处理，不随成为素材的旧宿主提前转移。
  *
  * * 衍生物的`Location`
  * - 在neos视角中，衍生物放在`TZONE`区域；
@@ -119,45 +110,17 @@ export default async (container: Container, move: MsgMove) => {
     }
   }
 
-  // 超量
-  if (to.is_overlay && from.zone === MZONE) {
-    // 准备超量召唤，超量素材入栈
-    if ((reason & REASON_MATERIAL) > 0) {
-      to.zone = MZONE;
-      overlayStack.push(to);
-    }
-  } else if (to.zone === MZONE && overlayStack.length) {
-    // 超量召唤
-    console.color("grey")(`超量召唤！overlayStack=${overlayStack}`);
-
-    // 超量素材出栈
-    const xyzLocations = overlayStack.splice(0, overlayStack.length);
-    for (const location of xyzLocations) {
-      const overlayMaterial = context.cardStore.at(
-        location.zone,
-        location.controller,
-        location.sequence,
-        location.overlay_sequence,
-      );
-      if (overlayMaterial) {
-        // 超量素材的位置应该和超量怪兽保持一致
-        overlayMaterial.location.controller = to.controller;
-        overlayMaterial.location.zone = to.zone;
-        overlayMaterial.location.sequence = to.sequence;
-
-        await callCardMove(overlayMaterial.uuid);
-      } else {
-        console.warn(
-          `<Move>overlayMaterial from
-            zone=${location.zone},
-            controller=${location.controller},
-            sequence=${location.sequence},
-            overlay_sequence=${location.overlay_sequence}
-          is null`,
-        );
-      }
-    }
-  }
+  // 在更新目标位置前确定附属素材，避免将刚叠放的卡自身误认为附属素材。
+  const declaration = context.matStore.attackDeclaration;
+  if (
+    declaration &&
+    [declaration.attackerUuid, declaration.targetUuid].includes(target.uuid)
+  )
+    context.matStore.clearAttack();
+  const attachedMaterials =
+    !fromEmpty && !from.is_overlay && !to.is_overlay
+      ? context.cardStore.findOverlay(from.zone, from.controller, from.sequence)
+      : [];
 
   // 维护sequence
   const fromCards = fromEmpty
@@ -165,17 +128,40 @@ export default async (container: Container, move: MsgMove) => {
     : context.cardStore.at(from.zone, from.controller);
   const toCards = toEmpty ? [] : context.cardStore.at(to.zone, to.controller);
 
+  // 卡组等区域的序号变化也会改变仍在该区域的宿主地址。
+  const shiftSequences = (cards: CardType[], delta: number) => {
+    // 先按旧地址收集所有素材，再统一移动，避免新旧序号重合时匹配到错误宿主。
+    const groups = cards.map((card) => ({
+      card,
+      materials: context.cardStore.findOverlay(
+        card.location.zone,
+        card.location.controller,
+        card.location.sequence,
+      ),
+    }));
+    for (const { card, materials } of groups) {
+      card.location.sequence += delta;
+      for (const material of materials)
+        material.location.sequence = card.location.sequence;
+    }
+  };
   if (
     !fromEmpty &&
     [HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(from.zone) &&
     !from.is_overlay
   )
-    fromCards.forEach(
-      (c) => c.location.sequence > from.sequence && c.location.sequence--,
+    shiftSequences(
+      fromCards.filter((c) => c.location.sequence > from.sequence),
+      -1,
     );
-  if (!toEmpty && [HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(to.zone))
-    toCards.forEach(
-      (c) => c.location.sequence >= to.sequence && c.location.sequence++,
+  if (
+    !toEmpty &&
+    !to.is_overlay &&
+    [HAND, GRAVE, REMOVED, DECK, EXTRA, TZONE].includes(to.zone)
+  )
+    shiftSequences(
+      toCards.filter((c) => c !== target && c.location.sequence >= to.sequence),
+      1,
     );
   if (!fromEmpty && from.is_overlay) {
     // 超量素材的序号也需要维护
@@ -191,8 +177,26 @@ export default async (container: Container, move: MsgMove) => {
     }
   }
 
-  // 更新信息
+  // 消失、身份变为未知或进入牌堆后解除场上连锁编号，列表保留发动时的公开卡号。
+  if (toEmpty || code === 0 || [DECK, EXTRA].includes(to.zone)) {
+    context.matStore.clearChainBindings([target.uuid]);
+  }
+  target.hint = undefined;
+  if (code === 0 || toEmpty || [DECK, EXTRA].includes(to.zone))
+    target.descriptionHints = {};
+  if (to.is_overlay && [MZONE, SZONE].includes(to.zone)) {
+    const host = context.cardStore.at(to.zone, to.controller, to.sequence);
+    if (host) to.position = host.location.position;
+  }
   target.code = code;
+  // 区域变化、成为或脱离素材、盖放时重置旧状态；同区移位或换控制方保留。
+  if (
+    !fromEmpty &&
+    (from.zone !== to.zone ||
+      from.is_overlay !== to.is_overlay ||
+      [FACEDOWN, FACEDOWN_ATTACK, FACEDOWN_DEFENSE].includes(to.position))
+  )
+    context.cardStore.resetFieldState(target);
   target.location = to;
   if (fromEmpty) {
     context.cardStore.inner.push(target);
@@ -204,8 +208,7 @@ export default async (container: Container, move: MsgMove) => {
     return;
   }
   if (!(from.zone === MZONE && to.zone === MZONE)) {
-    // if the card is moved, it no longer being targeted
-    // unless it move over the monster zone.
+    // 怪兽区域内移位保留取对象标记，其他移动清除本次对象状态。
     target.targeted = false;
   }
 
@@ -213,7 +216,14 @@ export default async (container: Container, move: MsgMove) => {
     (to.zone !== MZONE && to.zone !== SZONE) ||
     (to.zone === MZONE && reason !== 0)
   )
-    context.historyStore.putMove(context, code, from, to.zone);
+    context.historyStore.putMove(context, code, from, to);
+
+  for (const material of attachedMaterials) {
+    material.location.zone = to.zone;
+    material.location.controller = to.controller;
+    material.location.sequence = to.sequence;
+    material.location.position = to.position;
+  }
 
   // 维护完了之后，开始播放音效和动画
 
@@ -230,9 +240,30 @@ export default async (container: Container, move: MsgMove) => {
     playEffect(AudioActionType.SOUND_DESTROYED);
   }
 
-  const p = fromEmpty
+  const overlayAnimation = to.is_overlay
+    ? [MZONE, SZONE].includes(to.zone)
+      ? "attach"
+      : !from.is_overlay
+      ? "prepare"
+      : undefined
+    : undefined;
+  const enteringWithMaterials =
+    to.zone === MZONE && from.zone !== MZONE && attachedMaterials.length > 0;
+  const targetMove = fromEmpty
     ? Promise.resolve()
-    : callCardMove(target.uuid, { fromZone: from.zone });
+    : callCardMove(target.uuid, { fromZone: from.zone, overlayAnimation });
+  const moveMaterials = () =>
+    Promise.all(
+      attachedMaterials.map((material) =>
+        callCardMove(material.uuid, {
+          overlayAnimation: enteringWithMaterials ? "summon" : undefined,
+        }),
+      ),
+    );
+  // 先让宿主落场，再让素材一起滑入卡底，避免素材逐张往返或遮住宿主。
+  const p = enteringWithMaterials
+    ? targetMove.then(moveMaterials)
+    : Promise.all([targetMove, moveMaterials()]);
   // 如果from或者to是手卡，那么需要刷新除了这张卡之外，这个玩家的所有手卡
   if ([from.zone, to.zone].includes(HAND)) {
     const pHands = context.cardStore
@@ -242,21 +273,5 @@ export default async (container: Container, move: MsgMove) => {
     await Promise.all([p, ...pHands]);
   } else {
     await p;
-  }
-
-  // 超量素材位置跟随超量怪兽移动
-  if (from.zone === MZONE && !from.is_overlay) {
-    for (const overlay of context.cardStore.findOverlay(
-      from.zone,
-      from.controller,
-      from.sequence,
-    )) {
-      overlay.location.zone = to.zone;
-      overlay.location.controller = to.controller;
-      overlay.location.sequence = to.sequence;
-      overlay.location.position = to.position;
-
-      await callCardMove(overlay.uuid);
-    }
   }
 };

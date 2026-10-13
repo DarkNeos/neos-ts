@@ -8,8 +8,8 @@ export default async (mora: ygopro.StocGameMessage.MsgRockPaperScissors) => {
   await displayOptionModal(
     "请选择猜拳",
     [
-      { info: "石头", response: 1 },
-      { info: "剪刀", response: 2 },
+      { info: "石头", response: 2 },
+      { info: "剪刀", response: 1 },
       { info: "布", response: 3 },
     ],
     1,

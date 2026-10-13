@@ -1,16 +1,16 @@
-import { ygopro } from "@/api";
+import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
+import { AudioActionType, playEffect } from "@/infra/audio";
+import { displaySummonEffect } from "@/ui/Duel/PlayMat/SummonEffect";
 
 import { fetchEsHintMeta } from "./util";
 
-export default (
+export default async (
   container: Container,
   summoning: ygopro.StocGameMessage.MsgSummoning,
 ) => {
-  /* 因为现在Neos动画架构的问题，这里播放音效的话会滞后于移动动画，
-   * 因此这里先注释掉，等解决掉上述问题后再加上召唤的音效。
-   * */
-  // playEffect(AudioActionType.SOUND_SUMMON);
+  if (container.conn.cancelled) return;
+  playEffect(AudioActionType.SOUND_SUMMON);
 
   const context = container.context;
   fetchEsHintMeta({
@@ -20,4 +20,9 @@ export default (
   });
 
   context.historyStore.putSummon(context, summoning.code, summoning.location);
+  await displaySummonEffect(
+    summoning.location,
+    fetchCard(summoning.code).data.type ?? 0,
+    "normal",
+  );
 };

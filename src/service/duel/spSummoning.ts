@@ -1,18 +1,22 @@
-import { ygopro } from "@/api";
+import { fetchCard, ygopro } from "@/api";
+import { TYPE_TOKEN } from "@/common";
 import { Container } from "@/container";
+import { AudioActionType, playEffect } from "@/infra/audio";
+import { displaySummonEffect } from "@/ui/Duel/PlayMat/SummonEffect";
 
 import { fetchEsHintMeta } from "./util";
 
-export default (
+export default async (
   container: Container,
   spSummoning: ygopro.StocGameMessage.MsgSpSummoning,
 ) => {
-  // const card = fetchCard(spSummoning.code);
-  // if (card.data.type && card.data.type & TYPE_TOKEN) {
-  //   playEffect(AudioActionType.SOUND_TOKEN);
-  // } else {
-  //   playEffect(AudioActionType.SOUND_SPECIAL_SUMMON);
-  // }
+  if (container.conn.cancelled) return;
+  const type = fetchCard(spSummoning.code).data.type ?? 0;
+  playEffect(
+    type & TYPE_TOKEN
+      ? AudioActionType.SOUND_TOKEN
+      : AudioActionType.SOUND_SPECIAL_SUMMON,
+  );
 
   const context = container.context;
   fetchEsHintMeta({
@@ -26,4 +30,5 @@ export default (
     spSummoning.code,
     spSummoning.location,
   );
+  await displaySummonEffect(spSummoning.location, type, "special");
 };

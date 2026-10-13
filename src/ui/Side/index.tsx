@@ -29,7 +29,7 @@ export const Component: React.FC = () => {
   const { message } = App.useApp();
   const initialDeck = sideStore.getSideDeck();
   const { stage } = useSnapshot(sideStore);
-  const { errorMsg } = useSnapshot(roomStore);
+  const { errorMsg, lflist } = useSnapshot(roomStore);
   const [deck, setDeck] = useState<IDeck>(initialDeck);
   const [selectedCard, setSelectedCard] = useState(0);
   const navigate = useNavigate();
@@ -127,6 +127,7 @@ export const Component: React.FC = () => {
                   canAdd={canAdd}
                   onChange={onChange}
                   onElementMouseUp={(event) => setSelectedCard(event.card.id)}
+                  banlistHash={lflist}
                 />
               ))}
             </ScrollableArea>

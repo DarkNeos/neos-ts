@@ -41,32 +41,19 @@ export class YgoProPacket {
    *
    * */
   static deserialize(array: ArrayBuffer): YgoProPacket[] {
-    try {
-      if (array.byteLength < PACKET_MIN_LEN) {
-        throw new Error(
-          "Packet length too short, length = " + array.byteLength,
-        );
-      }
-    } catch (e) {
-      console.error(e);
-    }
-
-    // 由于srvpro实现问题，目前可能出现粘包的情况，因此这里做下解包
+    // 一个 WebSocket 消息可能包含多个协议包，逐包读取并检查完整边界。
     const packets = [];
-
+    const dataView = new DataView(array);
     let offset = 0;
-    while (true) {
-      const buffer = array.slice(offset);
-
-      if (buffer.byteLength < PACKET_MIN_LEN) {
-        // 解包结束
-        break;
-      }
-
-      const dataView = new DataView(buffer);
-      const packetLen = dataView.getInt16(0, littleEndian);
-      const proto = dataView.getInt8(2);
-      const exData = buffer.slice(3, packetLen + 2);
+    while (offset < array.byteLength) {
+      if (array.byteLength - offset < PACKET_MIN_LEN)
+        throw new Error("对局数据包头不完整");
+      const packetLen = dataView.getUint16(offset, littleEndian);
+      // 长度包含 1 字节协议标识和数据，不包含前面的 2 字节长度字段。
+      if (packetLen < 1 || offset + packetLen + 2 > array.byteLength)
+        throw new Error("对局数据包长度无效");
+      const proto = dataView.getUint8(offset + 2);
+      const exData = array.slice(offset + 3, offset + packetLen + 2);
 
       packets.push(new YgoProPacket(packetLen, proto, new Uint8Array(exData)));
 

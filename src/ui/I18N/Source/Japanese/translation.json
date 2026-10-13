@@ -30,7 +30,7 @@
     "MCSpectatorListTitle": "MC観戦リスト",
     "MCSpectatorListDesc": "MyCard MyCardで現在進行中のデュエルを観戦しましょう。",
     "SinglePlayerModeTitle": "シングルプレイヤーモード",
-    "SinglePlayerModeDesc": "Koishi 7210サーバーでAIとのデュエルを開始し、自分のデッキをテストしたり、ただ時間を潰したりします。",
+    "SinglePlayerModeDesc": "Koishi 7210または超先行サーバーを選び、AIとの対戦でデッキをテストできます。",
     "CustomRoomTitle": "カスタムルーム",
     "CustomRoomDesc": "カスタムルールの部屋を作成し、友達と対戦しましょう。",
     "ReplayTitle": "リプレイ",
@@ -39,6 +39,24 @@
     "WIPDesc": "他の機能をお楽しみに。"
   },
   "BuildDeck": {
+    "Banlist": "禁止・制限リスト",
+    "NoBanlist": "リストなし",
+    "SearchNameOnly": "カード名のみ検索",
+    "StartTraining": "練習を開始",
+    "TrainingSettings": "練習設定",
+    "TrainingTurnOrder": "先攻・後攻",
+    "TrainingFirst": "先攻",
+    "TrainingSecond": "後攻",
+    "TrainingHandSize": "初期手札枚数",
+    "TrainingHandSizeRange": "{{min}}～{{max}} 枚",
+    "TrainingInvalidHandSize": "{{min}}～{{max}} の整数を入力してください。",
+    "TrainingHandSizeSummary": "初期手札 {{count}} 枚",
+    "TrainingNoShuffle": "開始時にシャッフルしない",
+    "TrainingCurrentDeck": "編集中のデッキを使用します。未保存の変更も練習に反映されます。",
+    "TrainingFailed": "練習を開始できませんでした。再試行してください。",
+    "TrainingAutoStart": "自動で準備中です。練習の開始を待っています",
+    "TrainingReturnToEditor": "エディターに戻る",
+    "TrainingRestart": "練習をやり直す",
     "EnterTheDeckName": "デッキ名を入力",
     "Environment": "環境",
     "Shuffle": "シャッフル",
@@ -46,7 +64,7 @@
     "Clear": "クリア",
     "Reset": "リセット",
     "Save": "保存",
-    "QuestionCircleTooltip": "カードを追加するにはダブルクリック、カードを削除するには右クリック、メインデッキとサイドデッキの間でカードを切り替えるにはホイールボタンを押します。",
+    "QuestionCircleTooltip": "ドラッグでカードの順番を変更、ダブルクリックでカードを追加、右クリックでカードを削除、ホイールボタンでメインデッキとサイドデッキの間でカードを移動します。",
     "Filter": "フィルター",
     "SortBy": "並び替え ",
     "KeywordsPlaceholder": "キーワード（スペースで区切る）",
@@ -160,6 +178,10 @@
     "PleaseEnterChatContent": "チャット内容を入力してください"
   },
   "MatchModal": {
+    "CustomServer": "カスタムサーバー",
+    "ServerAddress": "サーバーアドレス",
+    "ServerAddressPlaceholder": "例: wss://example.com:443",
+    "CustomServerHint": "ホスト:ポートまたは完全な wss:// アドレスを入力してください。前回の入力は自動保存されます。",
     "PleaseEnterCustomRoomInformation": "カスタムルーム情報を入力してください",
     "Server": "サーバー",
     "KoishiServer": "コイシサーバー",
@@ -172,7 +194,7 @@
   "ReplayModal": {
     "SelectReplay": "リプレイを選択",
     "ClickOrDragFilesHereToUpload": "ここをクリックまたはファイルをドラッグしてアップロード",
-    "SupportsYrd3dExtension": ".yrp3d拡張子のリプレイファイルのみサポートされています。",
+    "SupportsReplayExtensions": ".yrp3d、.yrp、.yrp2 のリプレイファイルに対応しています。",
     "StartReplay": "リプレイを開始",
     "PleaseUploadReplayFile": "まずリプレイファイルをアップロードしてください。"
   },
@@ -201,6 +223,7 @@
     "SwitchMusicAccordingToTheEnvironment": "環境に応じて音楽を切り替える",
     "LanguageSettings": "言語",
     "AnimationSettings": "アニメーション",
+    "EnableAnimations": "アニメーションを有効にする",
     "AnimationSpeed": "アニメーション速度"
   },
   "DeckResults": {

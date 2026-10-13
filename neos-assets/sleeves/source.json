@@ -1,0 +1,9 @@
+{
+  "repository": "https://code.moenext.com/sherry_chaos/mdpro3-assetbundles",
+  "revision": "b36a95a24ff1a2f77ca6b9f9e0c30bc3e1cfa4d7",
+  "path": "StandaloneWindows64/MasterDuel/Protector",
+  "protectors": 256,
+  "textures": 269,
+  "format": "WebP",
+  "quality": 88
+}

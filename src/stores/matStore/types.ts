@@ -18,11 +18,39 @@ export interface MatState {
 
   chains: ygopro.CardLocation[]; // 连锁的卡片位置
 
+  attackDeclaration: {
+    attackerUuid: string;
+    targetUuid?: string;
+    directAttack: boolean;
+  } | null;
+
+  // 保留发动时的公开卡号，不随移卡、洗牌或单段结算改变。
+  chainCards: {
+    code: number;
+    controller: number;
+    solved: boolean;
+    building?: boolean;
+    resolving?: boolean;
+    cardUuid?: string;
+    targets?: string[];
+    negated?: "activation" | "effect";
+  }[];
+
+  playerHints: Record<number, Record<number, number>>;
+
   chainSetting: ChainSetting; // 连锁类型
+
+  deckReserved: boolean; // 双方卡组是否反转
 
   timeLimits: BothSide<number> & {
     set: (controller: number, time: number) => void;
+    activePlayer: number | null;
+    receivedAt: number;
+    limit: number;
   }; // 双方的时间限制
+
+  stopClock: () => void;
+  clearPhaseCommands: () => void;
 
   hint: HintState;
 
@@ -33,13 +61,6 @@ export interface MatState {
   unimplemented: number; // 未处理的`Message`
 
   tossResult?: string; // 骰子/硬币结果
-
-  selectUnselectInfo: {
-    finishable: boolean; // 是否可以完成选择
-    cancelable: boolean; // 是否可以取消当前选择
-    selectableList: ygopro.CardLocation[]; // 记录当前可以选择的卡列表
-    selectedList: ygopro.CardLocation[]; // 记录当前已经选择的卡列表
-  };
 
   handResults: BothSide<HandResult> & {
     set: (controller: number, result: HandResult) => void;
@@ -100,10 +121,13 @@ export interface HintState {
   msg?: string;
   esHint?: string;
   esSelectHint?: string;
+  zones?: { controller: number; zone: ygopro.CardZone; sequence: number }[];
+  zoneHintAt?: number;
 }
 
 export interface PhaseState {
   currentPhase: ygopro.StocGameMessage.MsgNewPhase.PhaseType;
+  command: { id: number; type: "idle" | "battle"; player: number } | null;
   enableBp: boolean; // 允许进入战斗阶段
   enableM2: boolean; // 允许进入M2阶段
   enableEp: boolean; // 允许回合结束
@@ -120,5 +144,6 @@ export enum ChainSetting {
   CHAIN_ALL = 0, // 打开全部时点
   CHAIN_IGNORE = 1, // 关闭连锁时点
   CHAIN_SMART = 2, // 只打开关键时点
+  CHAIN_AVAILABLE = 3, // 有合法可发动效果时询问，不受关键时点限制
 }
 // <<< play mat state <<<

@@ -1,5 +1,6 @@
 import { fetchStrings, Region, ygopro } from "@/api";
-import { sleep } from "@/infra";
+import { duelAnimation } from "@/infra/duelAnimation";
+import { presentationDelay } from "@/infra/presentationDelay";
 import MsgToss = ygopro.StocGameMessage.MsgToss;
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
@@ -15,6 +16,7 @@ export default async (container: Container, toss: MsgToss) => {
   );
 
   for (const x of toss.res) {
+    if (container.conn.cancelled || container.conn.isClosed()) return;
     if (tossType === MsgToss.TossType.DICE) {
       playEffect(AudioActionType.SOUND_DICE);
       context.matStore.tossResult =
@@ -29,7 +31,6 @@ export default async (container: Container, toss: MsgToss) => {
       console.log(`Unknown tossType = ${tossType}`);
     }
 
-    // 等待1s，不然多个结果刷新太快了
-    await sleep(1000);
+    await presentationDelay(duelAnimation.toss);
   }
 };

@@ -7,20 +7,7 @@ import { sendSocketData } from "@/middleware/socket";
 import { IDeck } from "@/stores";
 
 import { ygopro } from "./idl/ocgcore";
-import Chat from "./ocgAdapter/ctos/ctosChat";
-import GameMsgResponse from "./ocgAdapter/ctos/ctosGameMsgResponse/mod";
-import HandResult from "./ocgAdapter/ctos/ctosHandResult";
-import HsNotReadyAdapter from "./ocgAdapter/ctos/ctosHsNotReady";
-import HsReadyAdapter from "./ocgAdapter/ctos/ctosHsReady";
-import HsStartAdapter from "./ocgAdapter/ctos/ctosHsStart";
-import HsToDuelListAdapter from "./ocgAdapter/ctos/ctosHsToDuelList";
-import HsToObserverAdapter from "./ocgAdapter/ctos/ctosHsToObserver";
-import JoinGameAdapter from "./ocgAdapter/ctos/ctosJoinGame";
-import PlayerInfoAdapter from "./ocgAdapter/ctos/ctosPlayerInfo";
-import Surrender from "./ocgAdapter/ctos/ctosSurrender";
-import TimeConfirm from "./ocgAdapter/ctos/ctosTimeConfirm";
-import TpResult from "./ocgAdapter/ctos/ctosTpResult";
-import UpdateDeckAdapter from "./ocgAdapter/ctos/ctosUpdateDeck";
+import { encodeCtos } from "./ocgAdapter/encodeCtos";
 
 interface SelectPlaceResponseValue {
   controller: number;
@@ -37,8 +24,7 @@ export function sendUpdateDeck(conn: WebSocketStream, deck: IDeck) {
     }),
   });
 
-  // FIXME: 如果要实现UI层和Adapter层解耦，这里应该不感知具体Adapter类型
-  const payload = new UpdateDeckAdapter(updateDeck).serialize();
+  const payload = encodeCtos(updateDeck);
 
   sendSocketData(conn, payload);
 }
@@ -47,7 +33,7 @@ export function sendHsReady(conn: WebSocketStream) {
   const hasReady = new ygopro.YgoCtosMsg({
     ctos_hs_ready: new ygopro.CtosHsReady({}),
   });
-  const payload = new HsReadyAdapter(hasReady).serialize();
+  const payload = encodeCtos(hasReady);
 
   sendSocketData(conn, payload);
 }
@@ -56,7 +42,7 @@ export function sendHsNotReady(conn: WebSocketStream) {
   const hasNotReady = new ygopro.YgoCtosMsg({
     ctos_hs_not_ready: new ygopro.CtosHsNotReady({}),
   });
-  const payload = new HsNotReadyAdapter(hasNotReady).serialize();
+  const payload = encodeCtos(hasNotReady);
 
   sendSocketData(conn, payload);
 }
@@ -65,7 +51,7 @@ export function sendHsToObserver(conn: WebSocketStream) {
   const hasToObserver = new ygopro.YgoCtosMsg({
     ctos_hs_to_observer: new ygopro.CtosHsToObserver({}),
   });
-  const payload = new HsToObserverAdapter(hasToObserver).serialize();
+  const payload = encodeCtos(hasToObserver);
 
   sendSocketData(conn, payload);
 }
@@ -74,7 +60,7 @@ export function sendHsToDuelList(conn: WebSocketStream) {
   const hasToDuelList = new ygopro.YgoCtosMsg({
     ctos_hs_to_duel_list: new ygopro.CtosHsToDuelList({}),
   });
-  const payload = new HsToDuelListAdapter(hasToDuelList).serialize();
+  const payload = encodeCtos(hasToDuelList);
 
   sendSocketData(conn, payload);
 }
@@ -83,7 +69,7 @@ export function sendHsStart(conn: WebSocketStream) {
   const hasStart = new ygopro.YgoCtosMsg({
     ctos_hs_start: new ygopro.CtosHsStart({}),
   });
-  const payload = new HsStartAdapter(hasStart).serialize();
+  const payload = encodeCtos(hasStart);
 
   sendSocketData(conn, payload);
 }
@@ -94,9 +80,7 @@ export function sendPlayerInfo(ws: WebSocket, player: string) {
       name: player,
     }),
   });
-  const packet = new PlayerInfoAdapter(playerInfo);
-
-  ws.send(packet.serialize());
+  ws.send(encodeCtos(playerInfo));
 }
 
 export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
@@ -107,9 +91,7 @@ export function sendJoinGame(ws: WebSocket, version: number, passWd: string) {
       passwd: passWd,
     }),
   });
-  const packet = new JoinGameAdapter(joinGame);
-
-  ws.send(packet.serialize());
+  ws.send(encodeCtos(joinGame));
 }
 
 export function sendHandResult(conn: WebSocketStream, result: string) {
@@ -127,7 +109,7 @@ export function sendHandResult(conn: WebSocketStream, result: string) {
       hand,
     }),
   });
-  const payload = new HandResult(handResult).serialize();
+  const payload = encodeCtos(handResult);
 
   sendSocketData(conn, payload);
 }
@@ -145,7 +127,7 @@ export function sendTpResult(conn: WebSocketStream, isFirst: boolean) {
       tp,
     }),
   });
-  const payload = new TpResult(tpResult).serialize();
+  const payload = encodeCtos(tpResult);
 
   sendSocketData(conn, payload);
 }
@@ -154,7 +136,7 @@ export function sendTimeConfirm(conn: WebSocketStream) {
   const timeConfirm = new ygopro.YgoCtosMsg({
     ctos_time_confirm: new ygopro.CtosTimeConfirm({}),
   });
-  const payload = new TimeConfirm(timeConfirm).serialize();
+  const payload = encodeCtos(timeConfirm);
 
   sendSocketData(conn, payload);
 }
@@ -163,7 +145,7 @@ export function sendSurrender(conn: WebSocketStream) {
   const surrender = new ygopro.YgoCtosMsg({
     ctos_surrender: new ygopro.CtosSurrender({}),
   });
-  const payload = new Surrender(surrender).serialize();
+  const payload = encodeCtos(surrender);
 
   sendSocketData(conn, payload);
 }
@@ -172,7 +154,7 @@ export function sendChat(conn: WebSocketStream, message: string) {
   const chat = new ygopro.YgoCtosMsg({
     ctos_chat: new ygopro.CtosChat({ message }),
   });
-  const payload = new Chat(chat).serialize();
+  const payload = encodeCtos(chat);
 
   sendSocketData(conn, payload);
 }
@@ -188,9 +170,9 @@ export function sendSelectIdleCmdResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
-  sendSocketData(conn, payload);
+  return sendSocketData(conn, payload);
 }
 
 export function sendSelectPlaceResponse(
@@ -216,7 +198,7 @@ export function sendSelectPlaceResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
   sendSocketData(conn, payload);
 }
@@ -232,7 +214,7 @@ export function sendSelectMultiResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
   sendSocketData(conn, payload);
 }
@@ -245,7 +227,7 @@ export function sendSelectSingleResponse(conn: WebSocketStream, value: number) {
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
   sendSocketData(conn, payload);
 }
@@ -261,9 +243,9 @@ export function sendSelectEffectYnResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
-  sendSocketData(conn, payload);
+  return sendSocketData(conn, payload);
 }
 
 export function sendSelectPositionResponse(
@@ -277,9 +259,9 @@ export function sendSelectPositionResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
-  sendSocketData(conn, payload);
+  return sendSocketData(conn, payload);
 }
 
 export function sendSelectOptionResponse(conn: WebSocketStream, value: number) {
@@ -290,9 +272,9 @@ export function sendSelectOptionResponse(conn: WebSocketStream, value: number) {
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
-  sendSocketData(conn, payload);
+  return sendSocketData(conn, payload);
 }
 
 export function sendSelectBattleCmdResponse(
@@ -308,9 +290,9 @@ export function sendSelectBattleCmdResponse(
       ),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
-  sendSocketData(conn, payload);
+  return sendSocketData(conn, payload);
 }
 
 export function sendSelectCounterResponse(
@@ -325,7 +307,7 @@ export function sendSelectCounterResponse(
         }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
   sendSocketData(conn, payload);
 }
@@ -341,7 +323,7 @@ export function sendSortCardResponse(
       }),
     }),
   });
-  const payload = new GameMsgResponse(response).serialize();
+  const payload = encodeCtos(response);
 
   sendSocketData(conn, payload);
 }

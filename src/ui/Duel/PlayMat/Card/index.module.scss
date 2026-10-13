@@ -1,10 +1,20 @@
 .mat-card {
   position: absolute;
-  --card-height: 100px;
+  --card-height: var(--deck-card-height);
   width: auto !important;
   height: var(--card-height);
   aspect-ratio: var(--card-ratio);
   transform-style: preserve-3d;
+  .stack-surface {
+    display: block;
+    position: relative;
+    margin: auto;
+    top: 2%;
+    width: 96%;
+    height: 96%;
+    background-color: #313746;
+    pointer-events: none;
+  }
   .img-wrap {
     transform-style: preserve-3d;
     position: relative;
@@ -12,12 +22,11 @@
     top: 2%;
     height: 96%;
     width: 96%;
-    transform: translateZ(calc((var(--z) + var(--sub-z)) * 1px + 0.1px))
-      rotateY(calc(var(--ry) * 1deg));
     transition: 0.2s scale;
     cursor: pointer;
     .cover,
-    .back {
+    .back,
+    .set-preview {
       width: 100% !important;
       height: 100%;
       position: absolute;
@@ -25,17 +34,33 @@
       top: 0;
       // border-radius: 2px; // 这里好像会导致卡片分辨率降低
       overflow: hidden;
+      // 正面和背面各自只向外绘制，避免翻转后显示镜像卡面。
+      backface-visibility: hidden;
     }
     .cover {
       z-index: 1;
       transform: translateZ(0.5px);
     }
     &.focusing .cover {
-      animation: focus 0.6s ease-in-out;
+      animation: focus var(--focus-duration, 600ms) ease-in-out;
     }
     .back {
       z-index: 0;
-      transform: translateZ(0px);
+      transform: rotateY(180deg);
+    }
+    .set-preview {
+      // 叠在朝外的卡背上，保留盖放状态与卡套，卡面不会被反向绘制。
+      z-index: 2;
+      transform: rotateY(180deg) translateZ(0.5px);
+      pointer-events: none;
+      opacity: 0.7;
+      filter: brightness(0.7);
+      // MDPro3 同时调制透明度和亮度，系数为 0.7 + 0.2 * sin(2t)。
+      animation: set-card-reveal 3.14s ease-in-out infinite;
+      > div {
+        width: 100% !important;
+        height: 100%;
+      }
     }
   }
   .shadow {
@@ -91,34 +116,61 @@
 
   .focus {
     position: absolute;
-    width: calc(100% * var(--focus-scale));
-    height: calc(100% * var(--focus-scale));
-    left: calc((var(--focus-scale) - 1) * -50%);
-    top: calc((var(--focus-scale) - 1) * -50%);
+    inset: 0;
     outline: 3px solid #ddd;
-    filter: blur(calc(2px * 1.3 * var(--focus-scale)));
-    display: var(--focus-display);
-    opacity: var(--focus-opacity);
+    filter: blur(2.6px);
   }
+}
+
+.confirm-opponent-hand .img-wrap .cover {
+  transform: translateZ(0.5px) rotateZ(180deg);
+}
+
+@keyframes set-card-reveal {
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: brightness(0.5);
+  }
+  50% {
+    opacity: 0.9;
+    filter: brightness(0.9);
+  }
+}
+
+.chain-markers {
+  --chain-number-size: 32px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  width: 90%;
+  pointer-events: none;
 }
 
 .frame {
   display: block !important;
   background: var(--shadow-color) !important;
   border-radius: 5px;
-  transform: translateZ(calc((var(--z)) * 1px + 0.1px));
   animation: shadow-fadding 2s infinite ease-in-out;
 }
 
 @keyframes shadow-fadding {
   0% {
-    box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
+    box-shadow:
+      0 0 4px 0 var(--shadow-color),
+      0 0 25px 2px #0099ff87;
   }
   50% {
     box-shadow: none;
   }
   100% {
-    box-shadow: 0 0 4px 0 var(--shadow-color), 0 0 25px 2px #0099ff87;
+    box-shadow:
+      0 0 4px 0 var(--shadow-color),
+      0 0 25px 2px #0099ff87;
   }
 }
 
@@ -130,6 +182,18 @@
 .mat-card.shining {
   --shadow-color: #f4ff00;
   @extend .frame;
+}
+
+.mat-card[data-relation-active="true"] .img-wrap {
+  outline: 2px solid #c6a5f5;
+  outline-offset: 2px;
+}
+
+.relation-signs [data-kind="chain"] {
+  color: #c6a5f5;
+}
+.chain-markers [data-negated] {
+  filter: sepia(1) saturate(5) hue-rotate(315deg);
 }
 
 @keyframes focus {
@@ -153,4 +217,230 @@
 
 .dropdown-disabled {
   display: none;
+}
+
+.field-info-anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--block-width);
+  height: var(--block-height-m);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.field-info {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  font-family: var(--theme-font);
+  font-size: 18px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    -1px -1px 2px #13212d,
+    1px 1px 2px #13212d,
+    0 0 4px #000;
+
+  [data-change="up"] {
+    color: #59d8ff;
+  }
+  [data-change="down"] {
+    color: #ff7979;
+  }
+
+  &[data-opponent="true"] {
+    .field-badges {
+      top: 22px;
+      bottom: auto;
+      left: 4px;
+      right: auto;
+    }
+    .field-stats {
+      top: 0;
+      bottom: auto;
+    }
+  }
+}
+
+.field-badges {
+  position: absolute;
+  bottom: 22px;
+  right: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+  }
+  .field-counter {
+    color: #fff;
+  }
+}
+
+.stat-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px #000);
+}
+
+.field-stats {
+  position: absolute;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 2px;
+  white-space: nowrap;
+  font-size: 19px;
+  line-height: 1;
+  [data-emphasis="false"],
+  .stat-separator {
+    font-size: 15px;
+  }
+  [data-emphasis="false"][data-change="normal"],
+  .stat-separator {
+    color: #c0c6cd;
+  }
+}
+
+.field-signs {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  right: 3px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  color: #eee4c0;
+  > span {
+    display: inline-flex;
+    align-items: center;
+  }
+  [data-changed="true"] {
+    color: #59d8ff;
+    border-bottom: 2px solid #59d8ff;
+  }
+}
+.field-info[data-opponent="true"] .field-signs {
+  top: auto;
+  bottom: 2px;
+}
+.relation-signs {
+  position: absolute;
+  top: 25px;
+  right: -10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  gap: 3px;
+  max-height: 66px;
+  pointer-events: auto;
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    width: 33px;
+    height: 20px;
+    padding: 2px;
+    border: 1px solid #a6905a;
+    border-radius: 10px;
+    background: #101e2be8;
+    color: #efd68f;
+    font: 600 11px/1 var(--theme-font);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    box-shadow: 0 1px 2px #0006;
+    transition:
+      background 120ms,
+      border-color 120ms;
+    &[data-kind="target"] {
+      color: #8cdbed;
+      border-color: #548fa1;
+    }
+    &[data-active="true"] {
+      background: #263747;
+      border-color: currentColor;
+    }
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+    }
+  }
+  button {
+    position: relative;
+  }
+  .stat-icon {
+    width: 12px;
+    height: 12px;
+    filter: none;
+  }
+}
+.relation-direction {
+  width: 8px;
+  height: 8px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.field-info[data-opponent="true"] .relation-signs {
+  top: auto;
+  bottom: 25px;
+}
+.attribute-sign {
+  width: 18px;
+  height: 18px;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 50%;
+  background: #202834e8;
+  border: 1px solid currentColor;
+}
+.pendulum-scale {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  font-size: 23px;
+  color: #c0e9ff;
+}
+.field-info[data-opponent="true"] .pendulum-scale {
+  top: 2px;
+  bottom: auto;
+}
+.link-arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translateZ(3px);
+  fill: #65deff;
+  stroke: #0d354b;
+  stroke-width: 1;
+  filter: drop-shadow(0 0 2px #061822);
+}
+
+.field-signs > span,
+.field-badges > span,
+.pendulum-scale {
+  pointer-events: auto;
 }

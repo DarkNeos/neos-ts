@@ -1,11 +1,13 @@
 import { App } from "antd";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { proxy, useSnapshot } from "valtio";
 
 import { fetchStrings, Region } from "@/api";
 import { getUIContainer } from "@/container/compat";
-import { replayStore, resetDuel } from "@/stores";
+import { replayStore, resetUniverse, roomStore, trainingStore } from "@/stores";
+import { createDuelDialog } from "@/stores/duelDialogs";
+import { disconnectSession } from "@/ui/Match/util";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
@@ -21,17 +23,36 @@ const defaultProps: EndProps = {
   isWin: false,
 };
 
-const localStore = proxy(defaultProps);
+export const endModalStore = proxy({ ...defaultProps });
 
 export const EndModal: React.FC = () => {
   const container = getUIContainer();
   const { message } = App.useApp();
-  const { isOpen, isWin, reason } = useSnapshot(localStore);
+  const { isOpen, isWin, reason } = useSnapshot(endModalStore);
   const { isReplay } = useSnapshot(replayStore);
+  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
   const onReturn = () => {
-    resetDuel();
+    if (isReplay) {
+      rs();
+      return;
+    }
+    // 训练结果页退出时清理连接并回编辑器，未保存卡组由编辑器状态保留。
+    if (trainingStore.session) {
+      disconnectSession();
+      resetUniverse();
+      navigate("/build", { replace: true });
+      return;
+    }
+    // 单局无需等待下一局，主动退出以免被延迟的服务器结束通知留在场上。
+    if (roomStore.isSinglePlayer || roomStore.mode === 0) {
+      disconnectSession();
+      resetUniverse();
+      navigate("/match", { replace: true });
+      return;
+    }
+    // 多局保留结算场地，直到换副卡组、整场结束或下一局开局。
     rs();
 
     if (container.conn.isClosed()) {
@@ -45,29 +66,26 @@ export const EndModal: React.FC = () => {
     <NeosModal
       title={fetchStrings(Region.System, 1500)}
       open={isOpen}
-      onOk={() => {
-        if (!isReplay) {
-          const replayBuffers = replayStore.encode();
-          const blob = new Blob(replayBuffers, {
-            type: "application/octet-stream",
-          });
-          const url = URL.createObjectURL(blob);
-
-          const anchorElement = document.createElement("a");
-          document.body.appendChild(anchorElement);
-          anchorElement.style.display = "none";
-
-          anchorElement.href = url;
-          anchorElement.download =
-            new Date().toLocaleString() + ".neos" + ".yrp3d";
-          anchorElement.click();
-
-          // download the replay file
-          window.URL.revokeObjectURL(url);
-
-          document.body.removeChild(anchorElement);
+      zIndex={3100}
+      okText={isReplay ? "继续查看" : "保存录像"}
+      cancelText={isReplay ? "关闭" : "不保存"}
+      confirmLoading={saving}
+      onOk={async () => {
+        setSaving(true);
+        try {
+          if (!isReplay) {
+            const complete = container.conn.isClosed()
+              ? replayStore.serverReplays >= replayStore.recordedGames
+              : await replayStore.waitForServerReplay();
+            if (!endModalStore.isOpen) return;
+            if (!complete)
+              message.info("服务器尚未提供完整卡组，已保存对局过程录像");
+            replayStore.download();
+          }
+          onReturn();
+        } finally {
+          setSaving(false);
         }
-        onReturn();
       }}
       onCancel={onReturn}
     >
@@ -90,14 +108,20 @@ export const EndModal: React.FC = () => {
   );
 };
 
-let rs: (arg?: any) => void = () => {};
+const dialog = createDuelDialog(
+  () => {
+    endModalStore.isOpen = false;
+    endModalStore.isWin = false;
+    endModalStore.reason = undefined;
+  },
+  undefined,
+  true,
+);
+const rs = dialog.finish;
 
 export const displayEndModal = async (isWin: boolean, reason?: string) => {
-  localStore.isWin = isWin;
-  localStore.reason = reason;
-  localStore.isOpen = true;
-  await new Promise<void>((resolve) => (rs = resolve)); // 等待在组件内resolve
-  localStore.isOpen = false;
-  localStore.isWin = false;
-  localStore.reason = undefined;
+  endModalStore.isWin = isWin;
+  endModalStore.reason = reason;
+  endModalStore.isOpen = true;
+  await dialog.wait();
 };

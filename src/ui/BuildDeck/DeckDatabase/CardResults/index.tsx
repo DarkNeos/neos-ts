@@ -1,8 +1,10 @@
 import { message, Pagination } from "antd";
 import React, { memo, useEffect, useState } from "react";
+import { useSnapshot } from "valtio";
 
 import { CardMeta } from "@/api";
 import { isExtraDeckCard } from "@/common";
+import { banlistStore } from "@/stores/banlistStore";
 import { DeckCard, DeckCardMouseUpEvent, IconFont } from "@/ui/Shared";
 
 import { selectedCard } from "../..";
@@ -14,6 +16,7 @@ export const CardResults: React.FC<{
   results: CardMeta[];
   scrollToTop: () => void;
 }> = memo(({ results, scrollToTop }) => {
+  const { environment } = useSnapshot(banlistStore);
   const itemsPerPage = 196; // 每页显示的数据数量
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -82,6 +85,7 @@ export const CardResults: React.FC<{
                 value={card}
                 key={card.id}
                 source="search"
+                is408={environment === "408"}
                 onMouseUp={handleMouseUp}
                 onMouseEnter={() => showSelectedCard(card)}
               />

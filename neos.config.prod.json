@@ -28,6 +28,12 @@
     }
   ],
   "assetsPath": "/neos-assets",
+  "localReplay": {
+    "scripts": [
+      "https://cdn02.moecube.com:444/koishipro/script-zip/script.zip",
+      "https://cdntx.moecube.com/koishipro/script-zip/script.zip"
+    ]
+  },
   "releaseResource": {
     "img": "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN",
     "cdb": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/cards.cdb",
@@ -36,6 +42,8 @@
   "preReleaseResource": {
     "img": "https://cdn02.moecube.com:444/ygopro-super-pre/data/pics",
     "cdb": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release.cdb",
+    "scripts": "https://cdn02.moecube.com:444/ygopro-super-pre/data/script/",
+    "version": "https://cdn02.moecube.com:444/ygopro-super-pre/data/version.txt",
     "lflist": "https://cdn02.moecube.com:444/ygopro-database/zh-CN/lflist.conf",
     "config": "https://cdn02.moecube.com:444/ygopro-super-pre/data/test-release-v2.json"
   },

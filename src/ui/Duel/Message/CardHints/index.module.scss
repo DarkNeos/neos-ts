@@ -1,0 +1,22 @@
+.hints {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #c5d1dc;
+  font: 12px/1.4 var(--theme-font);
+  overflow-wrap: anywhere;
+  margin: 6px 0;
+
+  &:empty {
+    display: none;
+  }
+  [data-complete="true"] {
+    color: #9cd5b0;
+  }
+  [data-complete="false"] {
+    color: #e9c98c;
+  }
+  [data-chain-index] {
+    color: #cbb8f0;
+  }
+}

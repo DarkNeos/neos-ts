@@ -12,6 +12,14 @@ export default async (container: Container, posChange: MsgPosChange) => {
   const target = context.cardStore.at(location, controller, sequence);
   if (target) {
     target.location.position = posChange.cur_position;
+    if (
+      ![
+        ygopro.CardPosition.FACEUP,
+        ygopro.CardPosition.FACEUP_ATTACK,
+        ygopro.CardPosition.FACEUP_DEFENSE,
+      ].includes(posChange.cur_position)
+    )
+      context.cardStore.resetFieldState(target);
 
     // TODO: 暂时用`Move`动画，后续可以单独实现一个改变表示形式的动画
     await callCardMove(target.uuid);

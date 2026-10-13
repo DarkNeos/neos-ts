@@ -19,8 +19,39 @@
   }
 }
 
-.hidden {
-  visibility: hidden;
+.movable {
+  :global(.ant-modal-content) {
+    background: rgba(30, 35, 48, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  :global(.ant-modal-header) {
+    background: transparent;
+  }
+}
+
+.drag-handle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 1.5rem;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+  &:focus-visible {
+    outline: 2px solid #53baff;
+    outline-offset: 4px;
+  }
+}
+
+.grip {
+  color: rgba(255, 255, 255, 0.55);
+  flex-shrink: 0;
 }
 
 .wrap {

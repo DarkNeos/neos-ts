@@ -19,8 +19,7 @@ section.mat {
     perspective: var(--perspective);
   }
   .camera,
-  .camera * {
-    // 所有元素加入同一个三维渲染上下文：https://acgtofe.com/posts/2013/09/css-3d-transform
+  .plane {
     transform-style: preserve-3d;
   }
   .plane {
@@ -31,6 +30,7 @@ section.mat {
 }
 
 .container {
+  transform-style: preserve-3d;
   position: absolute;
   top: 50%;
   left: 50%;

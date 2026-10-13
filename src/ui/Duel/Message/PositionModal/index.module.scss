@@ -1,12 +1,41 @@
 .container {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 10.5rem;
   align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 5rem;
+  justify-content: safe center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  padding: 1rem 0.125rem;
+  overflow-x: auto;
+
   button {
-    width: 7rem;
-    height: 3rem;
-    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    background: transparent;
+    border-color: #ffffff40;
+
+    &:hover,
+    &:focus-visible {
+      border-color: #13a1ff;
+      background: #13a1ff20;
+    }
+  }
+
+  img {
+    width: 6.25rem;
+    flex-shrink: 0;
+    aspect-ratio: 59 / 86;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .defense {
+    transform: rotate(-90deg);
   }
 }

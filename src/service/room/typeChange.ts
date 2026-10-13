@@ -1,4 +1,4 @@
-import { ygopro } from "@/api";
+import { sendHsReady, sendUpdateDeck, ygopro } from "@/api";
 import SelfType = ygopro.StocTypeChange.SelfType;
 import { Container } from "@/container";
 
@@ -41,5 +41,20 @@ export default function handleTypeChange(
       }
       break;
     }
+  }
+
+  // 确认入房且取得玩家席位后，只上传一次编辑中卡组并自动准备。
+  const training = context.trainingStore;
+  if (
+    training.session &&
+    !training.readySent &&
+    context.roomStore.joined &&
+    (selfType === SelfType.PLAYER1 || selfType === SelfType.PLAYER2)
+  ) {
+    training.readySent = true;
+    const deck = training.session.deck;
+    context.sideStore.setSideDeck(deck);
+    sendUpdateDeck(container.conn, deck);
+    sendHsReady(container.conn);
   }
 }

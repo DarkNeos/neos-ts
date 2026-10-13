@@ -3,21 +3,21 @@ import {
   PlayCircleOutlined,
   TranslationOutlined,
 } from "@ant-design/icons";
-import { ConfigProvider, Modal, Tabs, TabsProps } from "antd";
-import zhCN from "antd/locale/zh_CN";
+import { Modal, Tabs, TabsProps } from "antd";
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { useTranslation } from "react-i18next";
 
 import { I18NSelector } from "../I18N";
-import { theme } from "../theme";
+import { NeosConfigProvider } from "../NeosConfigProvider";
 import { AnimationSetting } from "./Animation";
 import { AudioSetting } from "./Audio";
+import { DuelSetting } from "./Duel";
 
 /** 设置面板属性 */
 export interface SettingProps {
   /** 默认设置页 */
-  defaultKey?: "audio" | "other";
+  defaultKey?: "audio" | "other" | "language" | "animation" | "duel";
 }
 
 export const Setting = (props: SettingProps) => {
@@ -25,6 +25,7 @@ export const Setting = (props: SettingProps) => {
   const { t: i18n } = useTranslation("SystemSettings");
 
   const items: TabsProps["items"] = [
+    { key: "duel", label: "对战设置", children: <DuelSetting /> },
     {
       key: "audio",
       label: (
@@ -70,11 +71,11 @@ export function openSettingPanel(props: SettingProps) {
     }
   };
   render(
-    <ConfigProvider theme={theme} locale={zhCN}>
+    <NeosConfigProvider>
       <Modal open centered footer={null} onCancel={destroy} closeIcon={null}>
         <Setting {...props} />
       </Modal>
-    </ConfigProvider>,
+    </NeosConfigProvider>,
     div,
   );
 }

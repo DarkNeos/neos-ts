@@ -1,85 +1,89 @@
-import { isNil } from "lodash-es";
+import { YGOProLFList, type YGOProLFListItem } from "ygopro-lflist-encode";
 
-import { CardMeta } from "./cards";
+import { pfetch } from "@/infra/pfetch";
+import { banlistStore, type DeckEnvironment } from "@/stores/banlistStore";
 
-class Forbidden {
-  private data: Map<number, number> = new Map<number, number>();
-  public time: string = "?";
+import type { CardMeta } from "./cards";
 
-  public async init(lflist: string): Promise<void> {
-    const text = await (await fetch(lflist)).text();
-    const { time, forbiddens } = this.extractForbiddensFromText(text);
-    this.time = time;
-    this.setForbiddens(forbiddens);
+export class Forbidden {
+  private tables = new Map<string, Map<number, number>>();
+  private byKey = new Map<string, YGOProLFListItem>();
+  private keys = new WeakMap<YGOProLFListItem, string>();
+  items: YGOProLFListItem[] = [];
+
+  constructor(readonly environment: DeckEnvironment) {}
+
+  key(item: YGOProLFListItem) {
+    let key = this.keys.get(item);
+    if (!key) {
+      key = `${item.getHash()}:${item.name}`;
+      this.keys.set(item, key);
+    }
+    return key;
   }
 
-  public set(cardId: number, limitCount: number): void {
-    this.data.set(cardId, limitCount);
+  itemsFor(environment: DeckEnvironment = this.environment) {
+    if (environment === "408") return this.items;
+    // 正式资源用名称中的 TCG 标记区分两种环境，未标记的表属于 OCG。
+    return this.items.filter(
+      (item) => /\bTCG\b/i.test(item.name) === (environment === "tcg"),
+    );
   }
 
-  public get(card: CardMeta): number | undefined {
-    let cardForbiddenById = this.data.get(card.id);
-    if (isNil(cardForbiddenById) && !isNil(card.data.alias)) {
-      cardForbiddenById = this.data.get(card.data.alias);
-    }
-    return cardForbiddenById;
+  selectedFor(environment: DeckEnvironment = this.environment) {
+    const items = this.itemsFor(environment);
+    const preferred = this.byKey.get(banlistStore.selected[environment]);
+    return preferred && items.includes(preferred) ? preferred : items[0];
   }
 
-  private setForbiddens(forbiddens: Map<number, number>): void {
-    this.data.clear();
-    for (const [cardId, limitCount] of forbiddens) {
-      this.data.set(cardId, limitCount);
-    }
+  get selected() {
+    return this.selectedFor();
   }
 
-  private extractForbiddensFromText(text: string): {
-    time: string;
-    forbiddens: Map<number, number>;
-  } {
-    // 解析文本行中的卡片信息
-    function parseCardInfo(
-      input: string,
-    ): { cardId: number; limitCount: number } | null {
-      const match = input.match(/^(\d+)\s+(\d+)/);
-      if (match) {
-        const cardId = parseInt(match[1]);
-        const limitCount = parseInt(match[2]);
-        return { cardId, limitCount };
-      }
-      return null;
-    }
+  get time() {
+    return this.selected?.name ?? "?";
+  }
 
-    const lines = text.split("\n");
-    const forbiddens = new Map<number, number>();
-    let time = "?";
+  async init(url: string): Promise<void> {
+    this.load(await (await pfetch(url)).text());
+  }
 
-    // 移除第一行标题
-    lines.shift();
+  load(text: string) {
+    this.items = new YGOProLFList().fromText(text).items;
+    this.keys = new WeakMap();
+    this.byKey = new Map(this.items.map((item) => [this.key(item), item]));
+    this.tables = new Map(
+      this.items.map((item) => [
+        this.key(item),
+        new Map(item.entries.map(({ code, limit }) => [code, limit])),
+      ]),
+    );
+    banlistStore.revision += 1;
+  }
 
-    for (const line of lines) {
-      if (line.startsWith("#")) {
-        // 忽略注释行
-      } else if (line.startsWith("!")) {
-        // 如果时间已经设置，退出循环
-        if (time !== "?") {
-          break;
-        } else {
-          // 提取时间信息
-          time = line.substring(1).trim();
-        }
-      } else {
-        const cardInfo = parseCardInfo(line);
-        if (cardInfo) {
-          // 将卡片信息添加到禁限表
-          forbiddens.set(cardInfo.cardId, cardInfo.limitCount);
-        }
-      }
-    }
+  select(key: string, environment: DeckEnvironment = this.environment) {
+    if (this.itemsFor(environment).some((item) => this.key(item) === key))
+      banlistStore.selected[environment] = key;
+  }
 
-    // 返回时间和禁限表
-    return { time, forbiddens };
+  set(cardId: number, limitCount: number) {
+    const item = this.selected;
+    if (item) this.tables.get(this.key(item))?.set(cardId, limitCount);
+  }
+
+  get(
+    card: CardMeta,
+    hash?: number,
+    environment: DeckEnvironment = this.environment,
+  ): number | undefined {
+    const item =
+      hash === undefined
+        ? this.selectedFor(environment)
+        : this.items.find((item) => item.getHash() === hash >>> 0);
+    const entries = item && this.tables.get(this.key(item));
+    return entries?.get(card.id) ?? entries?.get(card.data.alias ?? 0);
   }
 }
 
-export const forbidden = new Forbidden();
-export const forbidden_408 = new Forbidden();
+export const forbidden = new Forbidden("ocg");
+export const forbidden_408 = new Forbidden("408");

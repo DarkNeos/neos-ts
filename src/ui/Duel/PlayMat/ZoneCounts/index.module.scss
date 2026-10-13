@@ -1,0 +1,67 @@
+.counts {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+  transform: translateZ(1px);
+
+  [data-player] {
+    --direction: 1;
+  }
+  [data-player="op"] {
+    --direction: -1;
+  }
+}
+
+.number {
+  --outside-x: calc(
+    2.5 * var(--block-width) + 2 * var(--col-gap) +
+      var(--block-outside-offset-x) + var(--card-height-o) * var(--card-ratio)
+  );
+  --outside-y: calc(
+    var(--row-gap) + var(--block-height-m) +
+      (var(--block-height-m) - var(--card-height-o)) / 2
+  );
+  --x: calc(var(--outside-x) + 24px);
+  --y: var(--outside-y);
+  position: absolute;
+  left: calc(var(--direction) * var(--x));
+  top: calc(var(--direction) * var(--y));
+  transform: translate(-50%, -50%);
+  color: #e7eef6;
+  font-size: max(20px, calc(13px / var(--neos-adaptive-scale)));
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 2ch;
+  text-shadow:
+    0 1px 3px #020813,
+    0 0 6px #020813;
+  user-select: none;
+
+  &[data-empty="true"] {
+    color: #8593a5;
+  }
+  &[data-zone="REMOVED"] {
+    --y: calc(var(--outside-y) - var(--row-gap) - var(--card-height-o));
+  }
+  &[data-zone="DECK"],
+  &[data-zone="EXTRA"] {
+    --deck-x: calc(
+      var(--deck-offset-x) + 2 * (var(--block-width) + var(--col-gap)) +
+        var(--deck-card-height) * 0.5 + 10px
+    );
+    --x: var(--deck-x);
+    --y: calc(
+      var(--deck-offset-y) + 2 * (var(--block-height-m) + var(--row-gap)) - var(
+          --deck-card-height
+        ) / 3
+    );
+  }
+  &[data-zone="EXTRA"] {
+    --x: calc(-1 * var(--deck-x));
+  }
+}

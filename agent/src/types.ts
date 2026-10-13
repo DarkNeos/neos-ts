@@ -170,6 +170,7 @@ export interface RawActionSnapshot {
   phase: {
     visible: boolean;
     enabled: boolean;
+    available: string[];
   };
   zones: RawActionZone[];
   options: RawActionOption[];

@@ -5,6 +5,12 @@ stages:
   - build
   - deploy
 
+variables:
+  # 生成的 protobuf 已包含在源码中；构建只需初始化固定版本的场地图子模块。
+  GIT_SUBMODULE_STRATEGY: normal
+  GIT_SUBMODULE_PATHS: neos-filed
+  GIT_SUBMODULE_DEPTH: "1"
+
 npm_ci:
   stage: install
   tags:
@@ -51,5 +57,4 @@ deploy:
   dependencies:
     - npm_build
   script:
-    - mv neos-assets dist/
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/neos

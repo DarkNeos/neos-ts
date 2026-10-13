@@ -1,35 +1,30 @@
 import {
+  DESCRIPTION_LIMIT,
+  fetchCard,
   fetchStrings,
   getStrings,
   Region,
-  sendSelectOptionResponse,
   type ygopro,
 } from "@/api";
 import { Container } from "@/container";
 import { displayOptionModal } from "@/ui/Duel/Message";
 
 export default async (
-  container: Container,
+  _container: Container,
   selectOption: ygopro.StocGameMessage.MsgSelectOption,
 ) => {
-  const conn = container.conn;
   const options = selectOption.options;
-  if (options.length === 0) {
-    sendSelectOptionResponse(conn, 0);
-    return;
-  }
-
-  if (options.length === 1) {
-    sendSelectOptionResponse(conn, options[0].response);
-    return;
-  }
 
   await displayOptionModal(
     fetchStrings(Region.System, 556),
-    options.map(({ code, response }) => ({
-      info: getStrings(code),
-      response,
-    })),
+    options.length
+      ? options.map(({ code, response }) => ({
+          info: getStrings(code),
+          response,
+          // 描述编号指向效果来源；被赋予的效果可能来自另一张卡。
+          card: code >= DESCRIPTION_LIMIT ? fetchCard(code >> 4) : undefined,
+        }))
+      : [{ info: fetchStrings(Region.System, 556), response: 0 }],
     1,
   );
 };

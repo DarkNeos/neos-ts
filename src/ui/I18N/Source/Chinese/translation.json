@@ -30,7 +30,7 @@
     "MCSpectatorListTitle": "MC观战列表",
     "MCSpectatorListDesc": "观看萌卡MyCard上正在进行的决斗",
     "SinglePlayerModeTitle": "单人模式",
-    "SinglePlayerModeDesc": "在Koishi 7210服务器上开启一场与AI的决斗，验证自己的卡组，或者只是打发时间。",
+    "SinglePlayerModeDesc": "选择 Koishi 7210 或超先行服，与 AI 对战并测试卡组。",
     "CustomRoomTitle": "自定义房间",
     "CustomRoomDesc": "创建自定义规则的房间，与好友约战。",
     "ReplayTitle": "录像回放",
@@ -41,6 +41,24 @@
     "PleaseSelectTheRoomToSpectate": "请选择观战的房间"
   },
   "BuildDeck": {
+    "Banlist": "禁限表",
+    "NoBanlist": "暂无禁限表",
+    "SearchNameOnly": "仅搜索卡名",
+    "StartTraining": "开始训练",
+    "TrainingSettings": "训练设置",
+    "TrainingTurnOrder": "先后攻",
+    "TrainingFirst": "先攻",
+    "TrainingSecond": "后攻",
+    "TrainingHandSize": "起手手牌数量",
+    "TrainingHandSizeRange": "可设置 {{min}}–{{max}} 张",
+    "TrainingInvalidHandSize": "请输入 {{min}}–{{max}} 的整数",
+    "TrainingHandSizeSummary": "起手 {{count}} 张",
+    "TrainingNoShuffle": "开局不洗牌",
+    "TrainingCurrentDeck": "使用当前编辑的卡组，未保存的修改也会用于训练。",
+    "TrainingFailed": "训练启动失败，请重试",
+    "TrainingAutoStart": "正在自动准备，等待训练开始",
+    "TrainingReturnToEditor": "返回编辑器",
+    "TrainingRestart": "重新训练",
     "EnterTheDeckName": "请输入卡组名字",
     "Environment": "环境",
     "Shuffle": "打乱",
@@ -48,7 +66,7 @@
     "Clear": "清空",
     "Reset": "重置",
     "Save": "保存",
-    "QuestionCircleTooltip": "双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片",
+    "QuestionCircleTooltip": "拖拽调整卡片顺序，双击添加卡片，单击右键删除卡片，按下滑轮在主卡组和副卡组之间切换卡片",
     "Filter": "筛选",
     "SortBy": "排列 ",
     "KeywordsPlaceholder": "关键词(空格分隔)",
@@ -68,7 +86,7 @@
     "OnlyShowDecksIUploaded": "只显示我上传的卡组",
     "ShowAllOnlineDecks": "显示全部在线卡组",
     "CardDatabase": "卡片数据库",
-    "MDProOnlineDeck": "Mdpro在线卡组"
+    "MDProOnlineDeck": "MDPro在线卡组"
   },
   "Filter": {
     "CardFilter": "卡片筛选",
@@ -162,6 +180,10 @@
     "PleaseEnterChatContent": "请输入聊天内容"
   },
   "MatchModal": {
+    "CustomServer": "自定义服务器",
+    "ServerAddress": "服务器地址",
+    "ServerAddressPlaceholder": "例如 wss://example.com:443",
+    "CustomServerHint": "支持域名:端口或完整的 wss:// 地址，自动记住上次输入。",
     "PleaseEnterCustomRoomInformation": "请输入自定义房间信息",
     "Server": "服务器",
     "KoishiServer": "Koishi服",
@@ -174,7 +196,7 @@
   "ReplayModal": {
     "SelectReplay": "选择回放",
     "ClickOrDragFilesHereToUpload": "单击或拖动文件到此区域进行上传",
-    "SupportsYrd3dExtension": "仅支持后缀名为yrp3d的录像文件。",
+    "SupportsReplayExtensions": "支持 .yrp3d、.yrp 和 .yrp2 录像。",
     "StartReplay": "开始回放",
     "PleaseUploadReplayFile": "请先上传录像文件"
   },
@@ -204,6 +226,7 @@
     "SwitchMusicAccordingToTheEnvironment": "根据环境切换音乐",
     "LanguageSettings": "语言",
     "AnimationSettings": "动画",
+    "EnableAnimations": "启用动画",
     "AnimationSpeed": "动画速度",
     "RecoverDefault": "恢复默认设置"
   },

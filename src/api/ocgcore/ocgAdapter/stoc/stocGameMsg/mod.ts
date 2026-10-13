@@ -12,8 +12,10 @@ import MsgAnnounceCard from "./announceCard";
 import MsgAnnounceNumber from "./announceNumber";
 import MsgAnnounceRace from "./announceRace";
 import MsgAttack from "./attack";
+import cardRelation from "./cardRelation";
 import MsgConfirmCardsAdapter from "./confirmCards";
 import MsgDamage from "./damage";
+import MsgDeckAdapter from "./deck";
 import MsgDrawAdapter from "./draw";
 import MsgFieldDisabledAdapter from "./fieldDisabled";
 import MsgHandResultAdapter from "./handResult";
@@ -72,6 +74,18 @@ export default class GameMsgAdapter implements StocAdapter {
 
     if (!PENETRATE.penetrate(func, gameMsg, gameData)) {
       switch (func) {
+        case GAME_MSG.MSG_REFRESH_DECK: {
+          gameMsg.shuffle_deck = MsgDeckAdapter(gameData, "refresh");
+          break;
+        }
+        case GAME_MSG.MSG_REVERSE_DECK: {
+          gameMsg.shuffle_deck = MsgDeckAdapter(gameData, "reverse");
+          break;
+        }
+        case GAME_MSG.MSG_DECK_TOP: {
+          gameMsg.shuffle_deck = MsgDeckAdapter(gameData, "top");
+          break;
+        }
         case GAME_MSG.MSG_START: {
           gameMsg.start = MsgStartAdapter(gameData);
           break;
@@ -148,6 +162,23 @@ export default class GameMsgAdapter implements StocAdapter {
         }
         case GAME_MSG.MSG_WAITING: {
           gameMsg.wait = MsgWaitAdapter(gameData);
+          break;
+        }
+        case 93:
+        case 95:
+        case 96:
+        case 97: {
+          gameMsg.update_data = cardRelation(
+            gameData,
+            (
+              {
+                93: "equip",
+                95: "unequip",
+                96: "target",
+                97: "cancel-target",
+              } as const
+            )[func],
+          );
           break;
         }
         case GAME_MSG.MSG_UPDATE_DATA: {

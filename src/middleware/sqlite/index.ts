@@ -5,16 +5,17 @@
  *
  * */
 
-import initSqlJs, { Database } from "sql.js";
+import initSqlJs from "sql.js";
+import sqlWasmUrl from "sql.js/dist/sql-wasm.wasm?url";
 
 import { isSuperReleaseCard } from "@/api";
 import { CardData, CardMeta, CardText } from "@/api/cards";
-import { useConfig } from "@/config";
+import { CardSources } from "@/api/ocgcore/cardSources";
+import { TYPE_LINK } from "@/common";
 import { pfetch } from "@/infra";
+import { cachedBinary } from "@/infra/resourceCache";
 
 import { FtsParams, invokeFts } from "./fts";
-
-const NeosConfig = useConfig();
 
 export enum sqliteCmd {
   // 初始化
@@ -44,23 +45,36 @@ export interface sqliteResult {
   ftsResult?: CardMeta[];
 }
 
-const sqlPromise = initSqlJs({
-  locateFile: (file) => `${NeosConfig.assetsPath}/${file}`,
-});
+let sqlPromise: ReturnType<typeof initSqlJs> | undefined;
+let sqlWasm: ArrayBuffer | undefined;
+let cardSources: CardSources | undefined;
+
+export function getReplaySqlResources() {
+  if (!sqlWasm || !cardSources) throw new Error("卡片数据库尚未加载完成");
+  return { sqlWasm, databases: cardSources.resources };
+}
+// 多个初始化共用 WASM 加载，失败时清除缓存，让重新加载资源能够再次请求。
+const loadSql = () => {
+  if (!sqlPromise) {
+    sqlPromise = pfetch(sqlWasmUrl)
+      .then((response) => response.arrayBuffer())
+      .then((wasmBinary) => {
+        sqlWasm = wasmBinary;
+        return initSqlJs({ wasmBinary });
+      })
+      .catch((error) => {
+        sqlPromise = undefined;
+        throw error;
+      });
+  }
+  return sqlPromise;
+};
 
 export default function <T extends sqliteCmd>(
   action: sqliteAction<T>,
 ): T extends sqliteCmd.INIT ? Promise<void> : sqliteResult {
   return helper(action) as any;
 }
-
-// TODO: may defining a class be better?
-interface YgoDbs {
-  release: Database | null;
-  preRelease: Database | null;
-}
-
-let YGODBS: YgoDbs = { release: null, preRelease: null };
 
 //It currently only supports en-US, es-ES, ja-JP, ko-KR, zh-CN
 // Function to update URLs based on the language
@@ -90,50 +104,51 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
         // Update URLs based on the language
         updateDbUrls(info, language);
 
-        const releasePromise = pfetch(info.releaseDbUrl, {
-          progressCallback: action.initInfo?.progressCallback,
-        }).then((res) => res.arrayBuffer()); // TODO: i18n
-        const preReleasePromise = pfetch(info.preReleaseDbUrl, {
-          progressCallback: action.initInfo?.progressCallback,
-        }).then((res) => res.arrayBuffer());
+        const download = (url: string) =>
+          cachedBinary(url, {
+            progress: action.initInfo?.progressCallback,
+            validate: (bytes) => {
+              if (
+                new TextDecoder().decode(
+                  new Uint8Array(bytes, 0, Math.min(16, bytes.byteLength)),
+                ) !== "SQLite format 3\0"
+              )
+                throw new Error("卡片数据库格式无效，请重试");
+            },
+          });
+        const releasePromise = download(info.releaseDbUrl);
+        const preReleasePromise = download(info.preReleaseDbUrl);
 
-        return Promise.all([
-          sqlPromise,
-          releasePromise,
-          preReleasePromise,
-        ]).then(([SQL, releaseBuffer, preReleaseBuffer]) => {
-          YGODBS.release = new SQL.Database(new Uint8Array(releaseBuffer));
-          YGODBS.preRelease = new SQL.Database(
-            new Uint8Array(preReleaseBuffer),
-          );
+        // 等 WASM 和两份数据库全部下载完成再替换，避免下载失败时只加载了其中一份。
+        return Promise.all([loadSql(), releasePromise, preReleasePromise]).then(
+          ([SQL, releaseBuffer, preReleaseBuffer]) => {
+            const next = new CardSources(SQL, {
+              release: releaseBuffer,
+              preRelease: preReleaseBuffer,
+            });
+            const previous = cardSources;
+            cardSources = next;
+            previous?.close();
 
-          console.log("YGODB inited!");
-        });
+            console.log("YGODB inited!");
+          },
+        );
       } else {
         console.warn("init YGODB action without initInfo");
         return {};
       }
     }
     case sqliteCmd.SELECT: {
-      if (
-        YGODBS.release &&
-        YGODBS.preRelease &&
-        action.payload &&
-        action.payload.id
-      ) {
+      if (cardSources && action.payload && action.payload.id) {
         const code = action.payload.id;
 
-        const db = isSuperReleaseCard(code)
-          ? YGODBS.preRelease
-          : YGODBS.release;
-
-        const dataStmt = db.prepare("SELECT * FROM datas WHERE ID = $id");
-        const dataResult = dataStmt.getAsObject({ $id: code });
-        const textStmt = db.prepare("SELECT * FROM texts WHERE ID = $id");
-        const textResult = textStmt.getAsObject({ $id: code });
+        const { data, text } = cardSources.readDisplayCard(
+          code,
+          isSuperReleaseCard(code),
+        );
 
         return {
-          selectResult: constructCardMeta(code, dataResult, textResult),
+          selectResult: constructCardMeta(code, data, text),
         };
       } else {
         if (action.payload?.id !== 0) {
@@ -145,22 +160,9 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
       return {};
     }
     case sqliteCmd.FTS: {
-      if (
-        YGODBS.release &&
-        YGODBS.preRelease &&
-        action.payload &&
-        action.payload.ftsParams
-      ) {
-        const releaseMetas = invokeFts(
-          YGODBS.release,
-          action.payload.ftsParams,
-        );
-        const preReleaseMetas = invokeFts(
-          YGODBS.preRelease,
-          action.payload.ftsParams,
-        );
-
-        const metas = releaseMetas.concat(preReleaseMetas);
+      if (cardSources && action.payload && action.payload.ftsParams) {
+        const params = action.payload.ftsParams;
+        const metas = cardSources.search((db) => invokeFts(db, params));
 
         return { ftsResult: metas };
       } else {
@@ -184,6 +186,10 @@ export function constructCardMeta(
 ): CardMeta {
   const level = data.level ?? 0;
   data.level = level & 0xff;
+  if ((data.type ?? 0) & TYPE_LINK) {
+    data.link = data.level;
+    data.linkMarkers = data.def ?? 0;
+  }
   data.lscale = (level >> 24) & 0xff;
   data.rscale = (level >> 16) & 0xff;
 

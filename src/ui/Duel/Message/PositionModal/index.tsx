@@ -3,19 +3,22 @@ import { Button } from "antd";
 import React from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { sendSelectPositionResponse, ygopro } from "@/api";
+import { getCardImgUrl, sendSelectPositionResponse, ygopro } from "@/api";
 import { getUIContainer } from "@/container/compat";
+import { DuelChoice } from "@/stores/duelChoice";
 
 import { NeosModal } from "../NeosModal";
 import styles from "./index.module.scss";
 
 interface PositionModalProps {
   isOpen: boolean;
+  code: number;
   positions: ygopro.CardPosition[];
+  requestId: number;
 }
-const defaultProps = { isOpen: false, positions: [] };
+const defaultProps = { isOpen: false, positions: [], code: 0, requestId: 0 };
 
-const localStore = proxy<PositionModalProps>(defaultProps);
+const localStore = proxy<PositionModalProps>({ ...defaultProps });
 
 // Define a type for translations with an index signature (I18N)
 interface Translations {
@@ -92,18 +95,19 @@ const translations: Translations = {
 };
 
 export const PositionModal = () => {
-  const container = getUIContainer();
-  const { isOpen, positions } = useSnapshot(localStore);
+  const { isOpen, positions, code, requestId } = useSnapshot(localStore);
 
   const onSummit = (position: ygopro.CardPosition) => {
-    sendSelectPositionResponse(container.conn, position);
-    rs();
+    // eslint-disable-next-line valtio/state-snapshot-rule -- 旧事件必须携带原请求编号。
+    choice.submit(position, requestId);
   };
 
   return (
     <NeosModal
-      title={translations[language].Title}
+      movable
+      title={(translations[language] ?? translations.cn).Title}
       open={isOpen}
+      width="min(38.25rem, calc(100vw - 2rem))"
       centered
       footer={<></>}
     >
@@ -114,9 +118,25 @@ export const PositionModal = () => {
             data-testid="duel-position-option"
             data-position={ygopro.CardPosition[position]}
             data-position-value={position}
+            aria-label={cardPosition(position)}
+            title={cardPosition(position)}
             onClick={() => onSummit(position)}
           >
-            {cardPosition(position)}
+            <img
+              src={getCardImgUrl(
+                code,
+                position === ygopro.CardPosition.FACEDOWN_ATTACK ||
+                  position === ygopro.CardPosition.FACEDOWN_DEFENSE,
+              )}
+              alt={cardPosition(position)}
+              draggable={false}
+              className={
+                position === ygopro.CardPosition.FACEUP_DEFENSE ||
+                position === ygopro.CardPosition.FACEDOWN_DEFENSE
+                  ? styles.defense
+                  : undefined
+              }
+            />
           </Button>
         ))}
       </div>
@@ -126,7 +146,7 @@ export const PositionModal = () => {
 
 // Function to get card position based on language
 function cardPosition(position: ygopro.CardPosition): string {
-  const messages = translations[language];
+  const messages = translations[language] ?? translations.cn;
 
   switch (position) {
     case ygopro.CardPosition.FACEUP_ATTACK: {
@@ -147,14 +167,26 @@ function cardPosition(position: ygopro.CardPosition): string {
   }
 }
 
-let rs: (arg?: any) => void = () => {};
+const choice = new DuelChoice<ygopro.CardPosition>(() => {
+  localStore.isOpen = false;
+  localStore.positions = [];
+  localStore.code = 0;
+});
 
 export const displayPositionModal = async (
   positions: ygopro.CardPosition[],
+  code = 0,
 ) => {
+  const conn = getUIContainer().conn;
+  const request = choice.open({
+    eligible: () => getUIContainer().conn === conn,
+    validate: (position) => positions.includes(position),
+    respond: (position) => sendSelectPositionResponse(conn, position),
+  });
+  if (!request) return;
+  localStore.code = code;
   localStore.positions = positions;
+  localStore.requestId = request.id;
   localStore.isOpen = true;
-  await new Promise<void>((resolve) => (rs = resolve));
-  localStore.isOpen = false;
-  localStore.positions = [];
+  await request.result;
 };

@@ -100,23 +100,36 @@ export const editDeckStore = proxy({
   edited: false,
 
   // 方法
+  /** 新卡追加到末尾，保留用户为不洗牌训练安排的现有顺序。 */
   add(type: Type, card: CardMeta) {
     editDeckStore[type].push(card);
-    editDeckStore[type].sort(compareCards);
     editDeckStore.edited = true;
   },
-  remove(type: Type, card: CardMeta) {
-    const index = editDeckStore[type].findIndex((item) => item.id === card.id);
-    if (index !== -1) {
-      editDeckStore[type].splice(index, 1);
+  /** 优先按位置删除指定副本，兼容没有索引的搜索和旧调用入口。 */
+  remove(type: Type, card: CardMeta, index?: number) {
+    const removeIndex =
+      index ?? editDeckStore[type].findIndex((item) => item.id === card.id);
+    if (editDeckStore[type][removeIndex]?.id === card.id) {
+      editDeckStore[type].splice(removeIndex, 1);
       editDeckStore.edited = true;
     }
+  },
+  /** before 是删除源卡前的插入位置；向后移动时需扣除源卡占用的位置。 */
+  reorder(type: Type, from: number, before: number) {
+    const cards = editDeckStore[type];
+    if (from < 0 || from >= cards.length || before < 0 || before > cards.length)
+      return;
+    const destination = before > from ? before - 1 : before;
+    if (from === destination) return;
+    const [card] = cards.splice(from, 1);
+    cards.splice(destination, 0, card);
+    editDeckStore.edited = true;
   },
   set(deck: EditingDeck) {
     editDeckStore.deckName = deck.deckName;
     editDeckStore.main = deck.main;
-    editDeckStore.extra = deck.extra.sort(compareCards);
-    editDeckStore.side = deck.side.sort(compareCards);
+    editDeckStore.extra = deck.extra;
+    editDeckStore.side = deck.side;
     editDeckStore.edited = false;
   },
   clear() {

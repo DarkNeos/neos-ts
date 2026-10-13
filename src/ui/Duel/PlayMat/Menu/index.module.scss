@@ -1,6 +1,9 @@
 .menu-container {
   position: fixed;
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: calc(100vw - 170px);
   // flex-direction: column;
   gap: 0.375rem;
   bottom: 1.25rem;
@@ -12,16 +15,71 @@
   overflow: hidden;
 }
 
+.replayStatus {
+  font-size: 11px;
+  white-space: nowrap;
+  color: #c8d4df;
+  padding-inline: 4px;
+}
+
 :global(.ant-dropdown-menu-item) {
   gap: 0.5rem;
 }
 
-.select-manager {
-  .btn {
-    font-size: 0.9rem;
+// 与场地共用坐标系，缩放时保持按钮和区域的相对位置。
+.chain-control {
+  position: absolute;
+  z-index: 20;
+  transform: translateY(-50%) translateZ(1px);
+}
+
+.chain-control {
+  left: calc(
+    50% + var(--deck-offset-x) + 2 * (var(--block-width) + var(--col-gap)) +
+      var(--deck-card-height) * var(--card-ratio) / 2 - 6px
+  );
+  top: calc(
+    50% + var(--deck-offset-y) + 2 * (var(--block-height-m) + var(--row-gap)) - var(
+        --deck-card-height
+      ) / 2 - 32px
+  );
+}
+
+.chain-button {
+  color: #fff;
+  background: #25384b;
+  border: 1px solid #7194b8;
+  box-shadow: 0 3px 12px #0006;
+  touch-action: manipulation;
+
+  &:hover:not(:disabled) {
+    background: #365775 !important;
+    border-color: #a5d8ff;
+  }
+}
+
+.chain-control button.chain-button {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0;
+
+  :global(.ant-btn-icon) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .cancle {
-    color: red;
+  &[data-chain-setting="all"] {
+    background: #205d83;
+    border-color: #63c6ff;
+  }
+
+  &[data-chain-setting="ignore"] {
+    background: #3e4147;
+    border-color: #747b84;
   }
 }

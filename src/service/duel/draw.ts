@@ -1,6 +1,9 @@
 import { fetchCard, ygopro } from "@/api";
 import { Container } from "@/container";
 import { AudioActionType, playEffect } from "@/infra/audio";
+import { duelAnimation } from "@/infra/duelAnimation";
+import { presentationDelay } from "@/infra/presentationDelay";
+import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { callCardMove } from "@/ui/Duel/PlayMat/Card";
 
 import { fetchEsHintMeta } from "./util";
@@ -37,9 +40,24 @@ export default async (
   playEffect(AudioActionType.SOUND_DRAW);
 
   // 抽卡动画
-  await Promise.all(
-    context.cardStore
-      .at(ygopro.CardZone.HAND, draw.player)
-      .map((card) => callCardMove(card.uuid)),
-  );
+  const controller = new AbortController();
+  const unregister = registerDuelDialogReset(() => controller.abort());
+  try {
+    await Promise.all(
+      context.cardStore
+        .at(ygopro.CardZone.HAND, draw.player)
+        .map(async (card) => {
+          const index = newHands.findIndex((drawn) => drawn.uuid === card.uuid);
+          if (index > 0)
+            await presentationDelay(
+              index * duelAnimation.drawStagger,
+              controller.signal,
+            );
+          if (!controller.signal.aborted && !container.conn.isClosed())
+            await callCardMove(card.uuid);
+        }),
+    );
+  } finally {
+    unregister();
+  }
 };

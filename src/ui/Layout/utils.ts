@@ -13,26 +13,40 @@ import { accountStore, deckStore, initStore, type User } from "@/stores";
 
 const { releaseResource, preReleaseResource, env408Resource } = useConfig();
 
-/** 加载ygodb */
-export const initSqlite = async () => {
-  if (!initStore.sqlite.progress) {
-    const { sqlite } = initStore;
-    const progressCallback = (progress: number) =>
-      (sqlite.progress = progress * 0.9);
-    sqlite.progress = 0.01;
-    await sqliteMiddleWare({
-      cmd: sqliteCmd.INIT,
-      initInfo: {
-        releaseDbUrl: releaseResource.cdb,
-        preReleaseDbUrl: preReleaseResource.cdb,
-        progressCallback,
+let sqliteTask: Promise<void> | undefined;
+let initialization: Promise<void> | undefined;
+
+/** 同一轮加载共用任务，失败后可重新下载。 */
+export const initSqlite = (): Promise<void> => {
+  if (initStore.sqlite.progress === 1) return Promise.resolve();
+  if (sqliteTask) return sqliteTask;
+  initStore.sqlite.progress = 0.01;
+  sqliteTask = sqliteMiddleWare({
+    cmd: sqliteCmd.INIT,
+    initInfo: {
+      releaseDbUrl: releaseResource.cdb,
+      preReleaseDbUrl: preReleaseResource.cdb,
+      progressCallback: (progress) => {
+        initStore.sqlite.progress = Math.max(
+          initStore.sqlite.progress,
+          progress * 0.9,
+        );
       },
+    },
+  })
+    .then(() => {
+      initStore.sqlite.progress = 1;
+    })
+    .catch((error) => {
+      initStore.sqlite.progress = 0;
+      throw error;
+    })
+    .finally(() => {
+      sqliteTask = undefined;
     });
-    sqlite.progress = 1;
-  }
+  return sqliteTask;
 };
 
-/** 加载卡组 */
 export const initDeck = async () => {
   if (!initStore.decks) {
     await deckStore.initialize();
@@ -40,16 +54,16 @@ export const initDeck = async () => {
   }
 };
 
-/** 加载禁限卡表 */
 export const initForbidden = async () => {
   if (!initStore.forbidden) {
-    await forbidden.init(releaseResource.lflist);
-    await forbidden_408.init(env408Resource.lflist);
+    await Promise.all([
+      forbidden.init(releaseResource.lflist),
+      forbidden_408.init(env408Resource.lflist),
+    ]);
     initStore.forbidden = true;
   }
 };
 
-/** 加载I18N文案 */
 export const initI18N = async () => {
   if (!initStore.i18n) {
     await initStrings();
@@ -57,12 +71,42 @@ export const initI18N = async () => {
   }
 };
 
-/** 加载超先行服配置 */
 export const initSuper = async () => {
   if (!initStore.superprerelease) {
     await initSuperPrerelease();
     initStore.superprerelease = true;
   }
+};
+
+export const initializeApp = (): Promise<void> => {
+  if (initStore.ready) return Promise.resolve();
+  if (initialization) return initialization;
+  initStore.loading = true;
+  initStore.error = "";
+  // 等所有任务结束再允许重试，防止旧任务仍写入状态时开始新一轮初始化。
+  // 已成功的资源保留完成标记，下一轮只重试尚未完成的部分。
+  initialization = Promise.allSettled([
+    initDeck(),
+    initSqlite(),
+    initForbidden(),
+    initI18N(),
+    initSuper(),
+  ])
+    .then((results) => {
+      const failure = results.find((result) => result.status === "rejected");
+      if (failure?.status === "rejected") throw failure.reason;
+      initStore.ready = true;
+    })
+    .catch((error) => {
+      initStore.error =
+        error instanceof Error ? error.message : "初始化失败，请重试";
+      throw error;
+    })
+    .finally(() => {
+      initStore.loading = false;
+      initialization = undefined;
+    });
+  return initialization;
 };
 
 /** sso登录跳转回来 */

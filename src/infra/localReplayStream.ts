@@ -1,50 +1,46 @@
-import { sleep } from "./sleep";
+import type { ReplayInputSession } from "@/stores/replayPlayback";
+import { replayPlayback } from "@/stores/replayStore";
 
-const DEFAULT_REPLAY_INTERVAL_MS = 10;
-
+// 复用协议处理函数所需的 Socket 接口，录像中的选卡等响应无需发送到服务器。
 class LocalReplaySocket {
   binaryType: BinaryType = "arraybuffer";
   readyState: number = WebSocket.OPEN;
-
   send(_data: Parameters<WebSocket["send"]>[0]) {
     return undefined;
   }
-
   close() {
     this.readyState = WebSocket.CLOSED;
   }
 }
 
+/** 将文件消息包装为 MessageEvent，播放进度和关闭等待统一交给 ReplayPlayback。 */
 export class LocalReplayStream {
-  public ws: WebSocket;
-  stream: ReadableStream;
+  public ws = new LocalReplaySocket() as unknown as WebSocket;
+  stream = new ReadableStream();
+  private session: ReplayInputSession;
+  private messages: ArrayBuffer[];
 
-  constructor(
-    private readonly messages: ArrayBuffer[],
-    private readonly intervalMs = DEFAULT_REPLAY_INTERVAL_MS,
-  ) {
-    this.ws = new LocalReplaySocket() as unknown as WebSocket;
-    this.stream = new ReadableStream();
+  constructor(messages: ArrayBuffer[], reset: () => void) {
+    this.messages = messages;
+    this.session = replayPlayback.open(messages.length, reset);
   }
 
-  async execute(onMessage: (event: MessageEvent) => Promise<void>) {
-    for (const data of this.messages) {
-      if (this.isClosed()) return;
+  get cancelled() {
+    return this.session.isClosed();
+  }
 
-      await sleep(this.intervalMs);
-      if (this.isClosed()) return;
-
-      await onMessage(new MessageEvent("message", { data }));
-    }
-
-    this.close();
+  execute(onMessage: (event: MessageEvent) => Promise<void>) {
+    return this.session.execute((index) =>
+      onMessage(new MessageEvent("message", { data: this.messages[index] })),
+    );
   }
 
   close() {
     this.ws.close();
+    this.session.close();
   }
 
-  isClosed(): boolean {
-    return this.ws.readyState === WebSocket.CLOSED;
+  isClosed() {
+    return this.cancelled;
   }
 }

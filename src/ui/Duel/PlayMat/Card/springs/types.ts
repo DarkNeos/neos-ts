@@ -32,12 +32,18 @@ type OptionsToFunc<Options> = (props: {
 
 export interface MoveOptions {
   fromZone?: ygopro.CardZone;
+  overlayAnimation?: "prepare" | "attach" | "summon";
 }
 export type MoveFunc = OptionsToFunc<MoveOptions>;
 
-export type AttackOptions =
+export type AttackOptions = (
   | {
       directAttack: true;
     }
-  | { directAttack: false; target: ygopro.CardLocation };
+  | { directAttack: false; target: ygopro.CardLocation }
+) & {
+  attack?: number;
+  signal?: AbortSignal;
+  onImpact?: () => void;
+};
 export type AttackFunc = OptionsToFunc<AttackOptions>;

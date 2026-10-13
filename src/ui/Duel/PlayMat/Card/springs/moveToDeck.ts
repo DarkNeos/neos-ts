@@ -1,5 +1,5 @@
 import { ygopro } from "@/api";
-import { isMe } from "@/stores";
+import { cardStore, isMe, matStore } from "@/stores";
 
 import { matConfig } from "../../css";
 import type { MoveFunc } from "./types";
@@ -18,6 +18,39 @@ const {
 
 const { DECK, EXTRA } = ygopro.CardZone;
 
+const isFaceup = (position: ygopro.CardPosition) =>
+  [
+    ygopro.CardPosition.FACEUP,
+    ygopro.CardPosition.FACEUP_ATTACK,
+    ygopro.CardPosition.FACEUP_DEFENSE,
+  ].includes(position);
+
+interface StackCard {
+  location: Pick<
+    ygopro.CardLocation,
+    "zone" | "controller" | "sequence" | "position" | "is_overlay"
+  >;
+}
+
+export const getExtraDeckStackIndex = (
+  card: StackCard,
+  cards: readonly StackCard[],
+) => {
+  const { zone, controller, sequence, position, is_overlay } = card.location;
+  if (zone !== EXTRA || is_overlay) return undefined;
+  const faceup = isFaceup(position);
+  // 显示顺序独立于协议序号，表侧卡始终叠在里侧卡上方。
+  return cards.filter(
+    ({ location }) =>
+      location.zone === EXTRA &&
+      location.controller === controller &&
+      !location.is_overlay &&
+      (isFaceup(location.position) === faceup
+        ? location.sequence < sequence
+        : faceup),
+  ).length;
+};
+
 export const moveToDeck: MoveFunc = async (props) => {
   const { card, api } = props;
   // report
@@ -35,14 +68,16 @@ export const moveToDeck: MoveFunc = async (props) => {
   }
   let rz = zone === EXTRA ? DECK_ROTATE_Z : -DECK_ROTATE_Z;
   rz += isMe(controller) ? 0 : 180;
-  const z = sequence;
+  const z = getExtraDeckStackIndex(card, cardStore.inner) ?? sequence;
+  const faceup =
+    (zone === DECK && matStore.deckReserved) || isFaceup(location.position);
 
   await asyncStart(api)({
     x,
     y,
     z,
     rz,
-    ry: isMe(controller) ? (zone === DECK ? 180 : 0) : 180,
+    ry: faceup ? 0 : 180,
     zIndex: z,
     height: DECK_CARD_HEIGHT,
 

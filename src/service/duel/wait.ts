@@ -1,5 +1,6 @@
 import { ygopro } from "@/api";
 import { Container } from "@/container";
+import { replayStore } from "@/stores/replayStore";
 import { showWaiting } from "@/ui/Duel/Message";
 
 export default (
@@ -9,5 +10,5 @@ export default (
   for (const card of container.context.cardStore.inner) {
     card.idleInteractivities = [];
   }
-  showWaiting(true);
+  if (!replayStore.isReplay) showWaiting(true);
 };

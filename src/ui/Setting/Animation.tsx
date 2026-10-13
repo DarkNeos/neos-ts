@@ -1,4 +1,4 @@
-import { Form, Slider } from "antd";
+import { Checkbox, Form, Slider } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSnapshot } from "valtio";
@@ -15,9 +15,15 @@ export const AnimationSetting: React.FC = () => {
       onValuesChange={(config) => settingStore.saveAnimationConfig(config)}
       labelAlign="left"
     >
+      <Form.Item name="enabled" valuePropName="checked">
+        <Checkbox data-testid="animation-enabled">
+          {i18n("EnableAnimations")}
+        </Checkbox>
+      </Form.Item>
       <Form.Item label={i18n("AnimationSpeed")}>
         <Form.Item name="speed" noStyle>
           <Slider
+            disabled={!animation.enabled}
             style={{ width: 200 }}
             min={0}
             max={1}

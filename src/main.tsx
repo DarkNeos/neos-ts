@@ -20,12 +20,11 @@ import "@/styles/core.scss";
 import "@/styles/inject.scss";
 
 import { ProConfigProvider } from "@ant-design/pro-provider";
-import { App, ConfigProvider } from "antd";
-import zhCN from "antd/locale/zh_CN";
+import { App } from "antd";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { theme } from "@/ui/theme";
+import { NeosConfigProvider } from "@/ui/NeosConfigProvider";
 
 import { I18NProvider } from "./ui/I18N";
 import { NeosRouter } from "./ui/NeosRouter";
@@ -36,12 +35,12 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <I18NProvider>
-    <ConfigProvider theme={theme} locale={zhCN}>
+    <NeosConfigProvider>
       <App>
         <ProConfigProvider dark>
           <NeosRouter />
         </ProConfigProvider>
       </App>
-    </ConfigProvider>
+    </NeosConfigProvider>
   </I18NProvider>,
 );

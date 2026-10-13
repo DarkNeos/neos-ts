@@ -1,79 +1,99 @@
-// 暂时先简单实现攻击动画，后面有时间再慢慢优化
 import { easings } from "@react-spring/web";
 
-import { isMe } from "@/stores";
+import { duelAnimation, duelDuration } from "@/infra/duelAnimation";
+import { presentationDelay } from "@/infra/presentationDelay";
+import { replayPresentation } from "@/infra/replayPresentation";
+import { settingStore } from "@/stores/settingStore";
 
-import { matConfig } from "../../css";
+import { directAttackPoint, fieldPoint } from "../../fieldGeometry";
 import type { AttackFunc } from "./types";
-import { asyncStart } from "./utils";
+import { asyncStart, setImmediate } from "./utils";
 
-const { BLOCK_WIDTH, BLOCK_HEIGHT_M, BLOCK_HEIGHT_S, COL_GAP, ROW_GAP } =
-  matConfig;
-
-export const attack: AttackFunc = async (props) => {
-  const { card, api, options } = props;
-  const current = api.current[0].get();
-
-  let x = current.x;
-  let y = current.y;
-  let rz = current.rz;
-  if (options?.directAttack) {
-    // 直接攻击
-    y = BLOCK_HEIGHT_M + BLOCK_HEIGHT_S;
-
-    if (isMe(card.location.controller)) {
-      y = -y;
-    }
-  } else if (options?.target) {
-    // 攻击`target`
-    const { controller, sequence } = options.target;
-    if (sequence > 4) {
-      // 额外怪兽区
-      x = (sequence > 5 ? 1 : -1) * (BLOCK_WIDTH + COL_GAP);
-      y = 0;
-    } else {
-      x = (sequence - 2) * (BLOCK_WIDTH + COL_GAP);
-      y = BLOCK_HEIGHT_M + ROW_GAP;
-    }
-
-    if (!isMe(controller)) {
-      x = -x;
-      y = -y;
-    }
-
-    rz += -Math.atan((x - current.x) / (y - current.y)) / (Math.PI / 180);
-  } else {
-    console.error(`<Spring/Attack>directAttack is false and target is null.`);
+export const attack: AttackFunc = async ({ card, api, options }) => {
+  if (!options || options.signal?.aborted) return;
+  if (
+    document.hidden ||
+    replayPresentation.seeking ||
+    !settingStore.animation.enabled
+  ) {
+    options.onImpact?.();
     return;
   }
-
-  // 先浮空
-  await asyncStart(api)({
-    z: 200,
-  });
-  // 后撤半个卡位，并调整倾斜角
-  await asyncStart(api)({
-    y:
-      current.y +
-      (BLOCK_HEIGHT_M / 2) * (isMe(card.location.controller) ? 1 : -1),
-    rz,
-  });
-  // 加速前冲
-  await asyncStart(api)({
-    x,
-    y,
-    config: {
-      easing: easings.easeInOutSine,
-    },
-  });
-  // 减速归位
-  await asyncStart(api)({
-    x: current.x,
-    y: current.y,
-    z: current.z,
-    rz: current.rz,
-    config: {
-      easing: easings.easeInOutQuad,
-    },
-  });
+  const current = { ...api.current[0].get() };
+  const configs = Object.fromEntries(
+    Object.entries(api.current[0].springs).map(([key, spring]) => [
+      key,
+      { ...spring.animation.config },
+    ]),
+  );
+  const target = options.directAttack
+    ? directAttackPoint(card.location.controller)
+    : fieldPoint(options.target);
+  const dx = target.x - current.x,
+    dy = target.y - current.y;
+  const distance = Math.hypot(dx, dy);
+  const angle = distance ? (Math.atan2(dx, -dy) * 180) / Math.PI : current.rz;
+  // 取离当前朝向最近的等价角度，避免跨过 ±180° 时转近一整圈。
+  const rz = current.rz + ((((angle - current.rz) % 360) + 540) % 360) - 180;
+  // 普通移卡速度仍可调；高攻击力保留稍长的蓄力与冲刺。
+  const powerful = (options.attack ?? card.meta.data.atk ?? 0) >= 2000;
+  const timing = duelAnimation.attack;
+  const prepare = duelDuration(
+    powerful ? timing.powerfulPrepare : timing.prepare,
+  );
+  const rush = duelDuration(powerful ? timing.powerfulRush : timing.rush);
+  const signal = options.signal;
+  const cancel = () => {
+    api.stop();
+    setImmediate(api, current);
+  };
+  signal?.addEventListener("abort", cancel, { once: true });
+  const start = asyncStart(api);
+  try {
+    api.set({ zIndex: 100 });
+    await start({
+      z: 200,
+      config: {
+        duration: prepare / 2,
+        easing: easings.easeOutQuad,
+        clamp: true,
+      },
+    });
+    if (signal?.aborted) return;
+    await start({
+      x: current.x - (distance ? dx / distance : 0) * 40,
+      y: current.y - (distance ? dy / distance : 0) * 40,
+      rz,
+      config: {
+        duration: prepare / 2,
+        easing: easings.easeInOutSine,
+        clamp: true,
+      },
+    });
+    if (signal?.aborted) return;
+    await start({
+      ...target,
+      config: { duration: rush, easing: easings.easeInCubic, clamp: true },
+    });
+    if (signal?.aborted) return;
+    // 此刻释放战斗消息等待；真实 DAMAGE 可显示数字，卡片仍占用自己的动画队列。
+    options.onImpact?.();
+    await presentationDelay(timing.hold, signal);
+    if (signal?.aborted) return;
+    await start({
+      ...current,
+      zIndex: 100,
+      config: {
+        duration: duelDuration(timing.leave),
+        easing: easings.easeOutCubic,
+        clamp: true,
+      },
+    });
+  } finally {
+    signal?.removeEventListener("abort", cancel);
+    setImmediate(api, current);
+    await Promise.all(
+      api.start({ ...current, immediate: true, config: (key) => configs[key] }),
+    );
+  }
 };

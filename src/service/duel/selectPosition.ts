@@ -8,5 +8,5 @@ export default async (selectPosition: MsgSelectPosition) => {
   const positions = selectPosition.positions.map(
     (position) => position.position,
   );
-  await displayPositionModal(positions);
+  await displayPositionModal(positions, selectPosition.code);
 };

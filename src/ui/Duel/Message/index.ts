@@ -4,6 +4,7 @@ export * from "./AnnounceModal";
 export * from "./CardListModal";
 export * from "./CardModal";
 export * from "./CheckCounterModal";
+export * from "./ConfirmCardsModal";
 export * from "./EndModal";
 export * from "./HintNotification";
 export * from "./OptionModal";

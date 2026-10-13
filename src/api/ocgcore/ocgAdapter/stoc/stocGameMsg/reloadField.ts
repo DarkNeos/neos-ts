@@ -89,17 +89,19 @@ export default (data: Uint8Array) => {
     }
 
     const extra_size = reader.inner.readUint8();
+    const extra_p_size = reader.inner.readUint8();
     for (let sequence = 0; sequence < extra_size; sequence++) {
       zone_actions.push(
         new MsgReloadField.ZoneAction({
           zone: ygopro.CardZone.EXTRA,
           sequence,
-          position: ygopro.CardPosition.FACEDOWN_ATTACK,
+          position:
+            sequence >= extra_size - extra_p_size
+              ? ygopro.CardPosition.FACEUP_ATTACK
+              : ygopro.CardPosition.FACEDOWN_ATTACK,
         }),
       );
     }
-
-    const _extra_p_size = reader.inner.readUint8();
 
     // const chain_size = reader.inner.readUint8();
     // const chain_actions = [];
