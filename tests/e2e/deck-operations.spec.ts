@@ -145,6 +145,121 @@ const uint32 = (value: number) => [
   ...new Uint8Array(new Uint32Array([value]).buffer),
 ];
 
+test("deck searches sync stack heights without replaying hidden position updates", async ({
+  page,
+}) => {
+  await setup(page);
+  await page.evaluate(async () => {
+    const { cardStore } = await import("/src/stores/index.ts");
+    // 兼容旧录像中的里侧攻击，不能只靠改初始状态绕开这个场景。
+    cardStore.inner.push(
+      ...Array.from({ length: 27 }, (_, i) =>
+        window.__makeCard(
+          `deck-0-${i + 3}`,
+          0,
+          0,
+          i + 3,
+          1000001,
+          i % 2 ? 5 : 1,
+        ),
+      ),
+    );
+  });
+  await expectCardDepth(card(page, "deck-0-29"), 29);
+  await wire(page, [
+    50,
+    ...uint32(1000001),
+    0,
+    1,
+    0,
+    2,
+    0,
+    2,
+    0,
+    2,
+    ...uint32(0),
+  ]);
+  await expect.poll(() => done(page)).toBe(true);
+  const top = card(page, "deck-0-29");
+  // 检索移走卡片后，层级必须独立于后续 UPDATE_DATA 恢复。
+  const depthAfterMove = await top
+    .locator('[class*="img-wrap"]')
+    .evaluate(
+      (element) => new DOMMatrix(getComputedStyle(element).transform).m43 - 0.1,
+    );
+  const query = [
+    6,
+    0,
+    1,
+    ...Array.from({ length: 29 }, (_, sequence) => [
+      ...uint32(16),
+      ...uint32(3),
+      ...uint32(1000001),
+      0,
+      1,
+      sequence,
+      8,
+    ]).flat(),
+  ];
+  const elapsed = await page.evaluate(async (payload) => {
+    const start = performance.now();
+    await window.__wire(payload);
+    return performance.now() - start;
+  }, query);
+  expect(elapsed, "里侧表示同步不应累加整副卡组的动画时间").toBeLessThan(1000);
+  expect(depthAfterMove).toBeCloseTo(28, 4);
+  await expectCardDepth(top, 28);
+  await expect(top).toHaveCSS("z-index", "28");
+  await expect(top).toHaveAttribute("data-card-position", "FACEDOWN_DEFENSE");
+  await expectCardFace(top, false);
+  await expect(card(page, "deck-0-0")).toHaveAttribute(
+    "data-card-zone",
+    "HAND",
+  );
+
+  // 表里翻转仍是可见变化，必须等待动画并正确显示正面。
+  const flipElapsed = await page.evaluate(
+    async (payload) => {
+      const start = performance.now();
+      await window.__wire(payload);
+      return performance.now() - start;
+    },
+    [7, 0, 1, 28, ...uint32(12), ...uint32(2), 0, 1, 28, 1],
+  );
+  expect(flipElapsed).toBeGreaterThan(100);
+  await expectCardFace(top, true);
+});
+
+test("duel start initializes both decks face-down in defense", async ({
+  page,
+}) => {
+  await setup(page);
+  await wire(page, [
+    4,
+    0,
+    ...uint32(8000),
+    ...uint32(8000),
+    3,
+    0,
+    1,
+    0,
+    3,
+    0,
+    1,
+    0,
+  ]);
+  await expect.poll(() => done(page)).toBe(true);
+  const decks = page.locator(
+    '[data-testid="duel-card"][data-card-zone="DECK"], [data-testid="duel-card"][data-card-zone="EXTRA"]',
+  );
+  await expect(decks).toHaveCount(8);
+  expect(
+    await decks.evaluateAll((cards) =>
+      cards.map((card) => card.getAttribute("data-card-position")),
+    ),
+  ).toEqual(Array(8).fill("FACEDOWN_DEFENSE"));
+});
+
 test("face-up Pendulum cards stay on top when the Extra Deck changes", async ({
   page,
 }) => {
@@ -260,6 +375,10 @@ for (const message of [32, 34]) {
     await wire(page, [message, 0]);
     await expect(first).toHaveAttribute("data-card-shuffling", "true");
     await expect(first).toHaveAttribute("data-card-code", "0");
+    await expect(first).toHaveAttribute(
+      "data-card-position",
+      "FACEDOWN_DEFENSE",
+    );
     await expect(card(page, "deck-1-0")).toHaveAttribute(
       "data-card-code",
       "1000001",

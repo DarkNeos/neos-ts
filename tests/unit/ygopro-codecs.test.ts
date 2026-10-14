@@ -33,6 +33,14 @@ const { outputFiles } = await build({
         builder.onResolve({ filter: /^@\/infra$/ }, () => ({
           path: path.join(root, "src/infra/buffer.ts"),
         }));
+        // Node 测试不启动 Worker，由浏览器回归验证 Vite 生成的入口。
+        builder.onResolve({ filter: /\?worker&url$/ }, ({ path }) => ({
+          path,
+          namespace: "worker-url",
+        }));
+        builder.onLoad({ filter: /.*/, namespace: "worker-url" }, () => ({
+          contents: 'export default "replayYrp.worker.js";',
+        }));
       },
     },
   ],

@@ -20,6 +20,12 @@ type UpdateAction = MsgUpdateData.Action &
     updatesPosition?: boolean;
   };
 
+const facedownPositions = [
+  ygopro.CardPosition.FACEDOWN,
+  ygopro.CardPosition.FACEDOWN_ATTACK,
+  ygopro.CardPosition.FACEDOWN_DEFENSE,
+];
+
 export default async (container: Container, updateData: MsgUpdateData) => {
   const { player: controller, zone, actions } = updateData;
   if (controller !== undefined && zone !== undefined && actions !== undefined) {
@@ -64,7 +70,10 @@ export default async (container: Container, updateData: MsgUpdateData) => {
 
           if (updateAction.updatesPosition && action.location !== undefined) {
             if (target.location.position !== action.location.position) {
-              // Currently only update position
+              const hiddenDeckUpdate =
+                zone === ygopro.CardZone.DECK &&
+                facedownPositions.includes(target.location.position) &&
+                facedownPositions.includes(action.location.position);
               target.location.position = action.location.position;
               if (
                 ![
@@ -74,8 +83,8 @@ export default async (container: Container, updateData: MsgUpdateData) => {
                 ].includes(action.location.position)
               )
                 store.resetFieldState(target);
-              // animation
-              await callCardMove(target.uuid);
+              // 卡组中的里侧攻守不改变画面，层级由卡片组件随序号同步。
+              if (!hiddenDeckUpdate) await callCardMove(target.uuid);
             }
           }
           const meta = target.meta;

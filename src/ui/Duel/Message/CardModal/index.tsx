@@ -2,10 +2,11 @@ import { LeftOutlined } from "@ant-design/icons";
 import { Divider, Drawer, Space, Tag } from "antd";
 import classnames from "classnames";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { proxy, useSnapshot } from "valtio";
 
 import { type CardMeta, fetchStrings, getCardDisplayName, Region } from "@/api";
-import { quoteCardName } from "@/api/cardText";
+import { quoteCardName, splitPendulumDescription } from "@/api/cardText";
 import { isGraveInspectionBlocked } from "@/api/duelHints";
 import {
   cardStore,
@@ -20,6 +21,7 @@ import { YgoCard } from "@/ui/Shared";
 import {
   Attribute2StringCodeMap,
   extraCardTypes,
+  isPendulumMonster,
   Race2StringCodeMap,
   TYPE_LINK,
   Type2StringCodeMap,
@@ -51,6 +53,7 @@ const store = proxy({ ...defaultStore });
 registerDuelDialogReset(() => Object.assign(store, defaultStore));
 
 export const CardModal = () => {
+  const { t: i18n } = useTranslation("CardDetails");
   const snap = useSnapshot(store);
   const { active: selectingOnField } = useSnapshot(fieldSelection);
   const cards = useSnapshot(cardStore);
@@ -75,7 +78,9 @@ export const CardModal = () => {
   const types = extraCardTypes(meta?.data.type ?? 0);
   const race = meta?.data.race;
   const attribute = meta?.data.attribute;
-  const desc = text.desc;
+  const desc = isPendulumMonster(meta.data.type ?? 0)
+    ? splitPendulumDescription(text.desc ?? "")
+    : [text.desc];
   const atk = meta?.data.atk;
   const def = meta?.data.def;
 
@@ -133,7 +138,27 @@ export const CardModal = () => {
             未正规登场
           </p>
         )}
-        <Desc desc={desc} />
+        {desc.length > 1 && (
+          <p className={styles.effectHeading}>
+            {i18n("PendulumScale")}：← {meta.data.lscale ?? 0} -{" "}
+            {meta.data.rscale ?? 0} →
+          </p>
+        )}
+        {desc.map((effect, index) =>
+          effect ? (
+            <React.Fragment key={index}>
+              {index > 0 && desc[0] && (
+                <Divider style={{ margin: "0.625rem 0" }} />
+              )}
+              {desc.length > 1 && (
+                <p className={styles.effectHeading}>
+                  {i18n(index ? "MonsterEffect" : "PendulumEffect")}
+                </p>
+              )}
+              <Desc desc={effect} />
+            </React.Fragment>
+          ) : null,
+        )}
       </div>
     </Drawer>
   );
