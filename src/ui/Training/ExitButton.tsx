@@ -8,6 +8,7 @@ import { useSnapshot } from "valtio";
 import { sendSurrender } from "@/api";
 import { getUIContainer } from "@/container/compat";
 import { matStore, replayStore, resetUniverse, trainingStore } from "@/stores";
+import { cancelOnRightClick } from "@/ui/Duel/cancelOnRightClick";
 import { endModalStore } from "@/ui/Duel/Message/EndModal";
 import { disconnectSession } from "@/ui/Match/util";
 
@@ -67,6 +68,11 @@ export const TrainingExitButton = () => {
         maskClosable={!savingReplay}
         keyboard={!savingReplay}
         onCancel={() => setOpen(false)}
+        wrapProps={{
+          onContextMenu: cancelOnRightClick(
+            open && !savingReplay ? () => setOpen(false) : undefined,
+          ),
+        }}
         footer={[
           <Button
             key="continue"

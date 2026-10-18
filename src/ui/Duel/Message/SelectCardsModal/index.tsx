@@ -2,6 +2,7 @@ import { LockOutlined } from "@ant-design/icons";
 import { CheckCard } from "@ant-design/pro-components";
 import { Button, Card, Space, Tooltip } from "antd";
 import classnames from "classnames";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnapshot } from "valtio";
 
@@ -29,6 +30,20 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
   const state = useSnapshot(process.state);
   const hint = useSnapshot(matStore.hint);
   const { t: i18n } = useTranslation("SelectCardModal");
+  useEffect(() => {
+    const { request, selected } = process.state;
+    const option = request?.selectables[0];
+    // 每次打开请求只预选一次，保留手动取消勾选；累计已选卡可能代表撤销操作。
+    if (
+      request?.selectables.length === 1 &&
+      option &&
+      !option.disabled &&
+      !option.selected &&
+      selected.length === 0 &&
+      process.canChoose(0)
+    )
+      process.toggle(0);
+  }, [process, state.request]);
   if (!state.active || !state.request) return null;
   const {
     min,
@@ -70,6 +85,7 @@ export const SelectCardsModal: React.FC<SelectCardsModalProps> = ({
         disabled: !state.valid,
       }}
       open={state.active}
+      onRightClickCancel={cancelable ? () => process.cancel() : undefined}
       footer={
         <>
           {cancelable && (

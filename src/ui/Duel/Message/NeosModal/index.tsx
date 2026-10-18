@@ -3,12 +3,12 @@ import { Modal, type ModalProps } from "antd";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import styles from "./index.module.scss";
 
-export const NeosModal: React.FC<ModalProps & { movable?: boolean }> = ({
-  movable = false,
-  ...props
-}) => {
+export const NeosModal: React.FC<
+  ModalProps & { movable?: boolean; onRightClickCancel?: () => void }
+> = ({ movable = false, onRightClickCancel, ...props }) => {
   const [mini, setMini] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const surface = useRef<HTMLDivElement>(null);
@@ -68,6 +68,14 @@ export const NeosModal: React.FC<ModalProps & { movable?: boolean }> = ({
       wrapClassName={classNames({ [styles.wrap]: mini })}
       closable={true}
       {...props}
+      wrapProps={{
+        ...props.wrapProps,
+        onContextMenu: cancelOnRightClick(
+          props.open && !props.cancelButtonProps?.disabled
+            ? onRightClickCancel
+            : undefined,
+        ),
+      }}
       className={classNames(styles.modal, props.className, {
         [styles.mini]: mini,
         [styles.movable]: movable,

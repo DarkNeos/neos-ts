@@ -47,7 +47,10 @@ test.beforeAll(async () => {
 });
 
 async function setup(page: Page) {
-  await page.route("**/*.cdb", (route) =>
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
     route.fulfill({
       body: route.request().url().includes("test-release.cdb")
         ? preReleaseDatabase
@@ -59,7 +62,7 @@ async function setup(page: Page) {
       body: "!system 212 已选择的卡\n!system 1211 确认\n!system 1295 取消\n!system 1004 墓地",
     }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route(/\/\d+\.webp(?:\?.*)?$/, (route) =>
@@ -277,8 +280,19 @@ test("all effect options remain accessible and reopening with fewer options rese
   await options.first().click();
   await expect(submit).toBeEnabled();
   await options.last().click();
-  await expect(submit).toBeDisabled();
-  await options.last().click();
+  await expect(submit).toBeEnabled();
+  await expect(surface.locator(".ant-pro-checkcard-checked")).toHaveCount(1);
+  await expect(
+    options.first().locator(".ant-pro-checkcard-checked"),
+  ).toHaveCount(0);
+  await expect(
+    options.last().locator(".ant-pro-checkcard-checked"),
+  ).toHaveCount(1);
+  await options.first().click();
+  await expect(submit).toBeEnabled();
+  await expect(
+    options.last().locator(".ant-pro-checkcard-checked"),
+  ).toHaveCount(0);
   await submit.click();
   await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(2);
   // 第一个选项的协议值为 0，仍应作为有效选择发送。
@@ -634,8 +648,17 @@ for (const [zone, source, command] of [
     await expect(modal).toHaveCount(0);
     expect(await page.evaluate(() => window.__sent)).toEqual([]);
     await clickCardAction(page, pile, command);
-    await modal.getByTestId("duel-select-card-option").click();
-    await page.getByTestId("duel-select-card-submit").click();
+    const submit = page.getByTestId("duel-select-card-submit");
+    await expect(option.locator(".ant-pro-checkcard")).toHaveClass(/checked/);
+    await expect(submit).toBeEnabled();
+    await option.click();
+    await expect(submit).toBeDisabled();
+    await expect(option.locator(".ant-pro-checkcard")).not.toHaveClass(
+      /checked/,
+    );
+    await option.click();
+    await expect(submit).toBeEnabled();
+    await submit.click();
     await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
     expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
       source === "battle" ? 0 : command === "sp_summon" ? 1 : 5,
@@ -726,7 +749,8 @@ test("a single forced effect displays only the activating card image without a d
   await expect(modal).not.toContainText("破坏卡片并提升攻击力");
   await expect(page.getByTestId("duel-select-card-cancel")).toHaveCount(0);
   expect(await page.evaluate(() => window.__sent)).toEqual([]);
-  await modal.getByTestId("duel-select-card-option").click();
+  await expect(option.locator(".ant-pro-checkcard")).toHaveClass(/checked/);
+  await expect(page.getByTestId("duel-select-card-submit")).toBeEnabled();
   await page.getByTestId("duel-select-card-submit").click();
   await expect.poll(() => page.evaluate(() => window.__sent.length)).toBe(1);
   expect(await page.evaluate(() => window.__sent[0].slice(-4))).toEqual([
@@ -1198,6 +1222,8 @@ test("sum popup displays locked mandatory cards and submits them once", async ({
   await expect(mandatory).toHaveCount(1);
   await expect(mandatory).toHaveAttribute("data-card-code", "1000001");
   await expect(mandatory.locator(".ant-pro-checkcard")).toHaveClass(/checked/);
+  await expect(submit).toBeEnabled();
+  await surface.getByTestId("duel-select-card-option").click();
   await expect(submit).toBeDisabled();
   await mandatory.click();
   await expect(mandatory.locator(".ant-pro-checkcard")).toHaveClass(/checked/);

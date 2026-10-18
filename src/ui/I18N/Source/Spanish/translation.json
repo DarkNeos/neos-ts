@@ -19,6 +19,17 @@
     "LoginToGame": "Iniciar sesión en el juego"
   },
   "Match": {
+    "AIOpponent": "Oponente IA",
+    "RandomAI": "IA aleatoria",
+    "RandomAIHint": "El servidor elige un oponente. Selecciona una IA para ver su deck.",
+    "AINotFound": "No se encontró ninguna IA ni deck",
+    "AIDeckPreview": "Vista previa del deck",
+    "AIDeckZone_main": "Deck principal",
+    "AIDeckZone_extra": "Extra Deck",
+    "AIDeckZone_side": "Side Deck",
+    "AIPreviewCard": "Carta {{code}}",
+    "AIDeckPreviewNote": "Vista de referencia; el deck puede variar según la versión del servidor.",
+    "AIChooseServer": "Elige un servidor para jugar contra la IA seleccionada.",
     "Deck": "Mazo",
     "DeckEdit": "Edición de mazo",
     "MCCompetitiveMatchmakingTitle": "Combate competitivo en MC",

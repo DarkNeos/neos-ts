@@ -40,9 +40,14 @@ test.beforeAll(async () => {
 });
 
 test.beforeEach(async ({ page }) => {
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   // 所有卡组请求都由模拟接口处理，删除回归不改动真实云端数据。

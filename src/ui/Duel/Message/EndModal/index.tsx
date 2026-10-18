@@ -88,6 +88,7 @@ export const EndModal: React.FC = () => {
         }
       }}
       onCancel={onReturn}
+      onRightClickCancel={onReturn}
     >
       <div
         className={styles["end-container"]}

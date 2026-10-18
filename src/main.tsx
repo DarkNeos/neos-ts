@@ -29,6 +29,33 @@ import { NeosConfigProvider } from "@/ui/NeosConfigProvider";
 import { I18NProvider } from "./ui/I18N";
 import { NeosRouter } from "./ui/NeosRouter";
 
+const browserDefaults = new AbortController();
+const browserEventOptions = {
+  capture: true,
+  passive: false,
+  signal: browserDefaults.signal,
+};
+
+// 只取消浏览器默认行为，继续传递游戏需要的右键和触摸事件。
+for (const type of ["contextmenu", "gesturestart", "gesturechange"]) {
+  window.addEventListener(
+    type,
+    (event) => event.preventDefault(),
+    browserEventOptions,
+  );
+}
+
+window.addEventListener(
+  "wheel",
+  (event) => {
+    // Chromium 将触控板捏合转换为带 Ctrl 的滚轮事件，普通滚动保持可用。
+    if (event.ctrlKey) event.preventDefault();
+  },
+  browserEventOptions,
+);
+
+import.meta.hot?.dispose(() => browserDefaults.abort());
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );

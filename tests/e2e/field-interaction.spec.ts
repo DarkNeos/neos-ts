@@ -21,13 +21,18 @@ test.beforeAll(async () => {
 });
 async function setup(page: Page) {
   page.on("pageerror", (error) => console.log("Browser error:", error.stack));
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) =>
     route.fulfill({
       body: "!system 1211 确认\n!system 1295 取消\n!system 1001 手牌\n!system 1002 怪兽区\n!system 1004 墓地\n",
     }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.goto("/match");

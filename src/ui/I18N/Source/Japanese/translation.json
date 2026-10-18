@@ -19,6 +19,17 @@
     "LoginToGame": "ゲームにログインする"
   },
   "Match": {
+    "AIOpponent": "AI 対戦相手",
+    "RandomAI": "ランダム AI",
+    "RandomAIHint": "サーバーが対戦相手を選びます。AI を選択するとデッキを確認できます。",
+    "AINotFound": "該当する AI・デッキがありません",
+    "AIDeckPreview": "デッキプレビュー",
+    "AIDeckZone_main": "メインデッキ",
+    "AIDeckZone_extra": "エクストラデッキ",
+    "AIDeckZone_side": "サイドデッキ",
+    "AIPreviewCard": "カード {{code}}",
+    "AIDeckPreviewNote": "参考用のプレビューです。実際のデッキはサーバーのバージョンにより異なります。",
+    "AIChooseServer": "サーバーを選択して対戦を開始します。",
     "Deck": "デッキ",
     "DeckEdit": "デッキ編集",
     "MCCompetitiveMatchmakingTitle": "MC競技マッチメイキング",

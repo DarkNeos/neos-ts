@@ -1,12 +1,21 @@
 @charset "utf-8";
 @import url("https://fonts.font.im/css2?family=Electrolize&family=Noto+Serif+SC:wght@700&display=swap");
 
+// 在页面边界关闭下拉刷新等手势，保留内部列表的正常滚动传递。
+html,
+body {
+  overscroll-behavior: none;
+}
+
 /* 默认字体大小，适用于PC端 */
 html {
   font-size: 16px;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  // 保留列表的单指横向、纵向滚动，关闭双击和双指缩放。
+  touch-action: pan-x pan-y;
+  -webkit-touch-callout: none;
   --neos-adaptive-scale: 1;
   --neos-adaptive-width: 100vw;
   --neos-adaptive-height: 100vh;

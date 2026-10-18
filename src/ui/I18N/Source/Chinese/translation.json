@@ -19,6 +19,17 @@
     "LoginToGame": "登录游戏"
   },
   "Match": {
+    "AIOpponent": "AI 对手",
+    "RandomAI": "随机 AI",
+    "RandomAIHint": "由服务器随机选择对手。选择指定 AI 可预览卡组。",
+    "AINotFound": "没有找到对应的 AI 或卡组",
+    "AIDeckPreview": "卡组预览",
+    "AIDeckZone_main": "主卡组",
+    "AIDeckZone_extra": "额外卡组",
+    "AIDeckZone_side": "副卡组",
+    "AIPreviewCard": "卡片 {{code}}",
+    "AIDeckPreviewNote": "预览仅供参考，实际卡组以服务器版本为准。",
+    "AIChooseServer": "选择服务器，开始与所选 AI 对战。",
     "Deck": "卡组",
     "DeckEdit": "卡组编辑",
     "MCCompetitiveMatchmakingTitle": "MC竞技匹配",

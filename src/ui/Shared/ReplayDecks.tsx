@@ -3,13 +3,14 @@ import { proxy, useSnapshot } from "valtio";
 
 import { deckStore, replayStore } from "@/stores";
 import { downloadDeckAsYDK } from "@/ui/BuildDeck/utils";
+import { cancelOnRightClick } from "@/ui/Duel/cancelOnRightClick";
 
 const state = proxy({ open: false });
 export const openReplayDecks = () => {
   state.open = true;
 };
 
-export const ReplayDecks = () => {
+export const ReplayDecks = ({ rightClickCancelable = false }) => {
   const { open } = useSnapshot(state);
   const { decks, deckError } = useSnapshot(replayStore);
   const { message } = App.useApp();
@@ -20,6 +21,15 @@ export const ReplayDecks = () => {
       onCancel={() => {
         state.open = false;
       }}
+      wrapProps={
+        rightClickCancelable
+          ? {
+              onContextMenu: cancelOnRightClick(
+                open ? () => (state.open = false) : undefined,
+              ),
+            }
+          : undefined
+      }
       footer={null}
       width={600}
       centered

@@ -34,7 +34,10 @@ test.beforeAll(async () => {
 });
 
 async function mockResources(page: Page) {
-  await page.route("**/*.cdb", (route) =>
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
     route.fulfill({
       body: Buffer.from(
         resources.databases[
@@ -53,7 +56,7 @@ async function mockResources(page: Page) {
   await page.route("**/env408-zh-CN/**/lflist.conf", (route) =>
     route.fulfill({ body: "!408 A\n89631139 1\n!408 B\n89631139 0\n" }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route("**/api/mdpro3/deck/list?*", (route) =>

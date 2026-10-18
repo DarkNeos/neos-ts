@@ -8,6 +8,7 @@ import {
   CTOS_SURRENDER,
   CTOS_TP_RESULT,
   CTOS_UPDATE_DECK,
+  MSG_SIBYL_NAME,
   MSG_START,
   MSG_WIN,
   STOC_DUEL_END,
@@ -70,11 +71,16 @@ test.beforeEach(async ({ page }) => {
       }),
     );
   });
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) =>
     route.fulfill({ body: "!system 1211 确认" }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route("**/api/mdpro3/deck/list?*", (route) =>
@@ -466,7 +472,7 @@ test("training exit can resume or save the server replay before returning to the
       decks: await extractReplayDecks(data),
     };
   }, bytes);
-  expect(saved.records).toEqual([MSG_START, MSG_WIN, 231]);
+  expect(saved.records).toEqual([MSG_START, MSG_SIBYL_NAME, MSG_WIN, 231]);
   for (let index = 0; index < 2; index++) {
     expect(saved.decks[index]).toMatchObject({
       complete: true,
@@ -750,7 +756,15 @@ for (const [server, address] of [
     await expect(
       dialog.getByRole("button", { name: "超先行服", exact: true }),
     ).toBeVisible();
-    await expect(dialog.getByRole("combobox")).toHaveCount(0);
+    await expect(
+      dialog.getByRole("combobox", { name: "AI 对手" }),
+    ).toBeVisible();
+    await expect(dialog.getByTestId("single-player-ai-select")).toContainText(
+      "随机 AI",
+    );
+    await expect(dialog.getByTestId("single-player-deck-preview")).toHaveCount(
+      0,
+    );
     await expect(dialog.getByRole("button", { name: "开始对战" })).toHaveCount(
       0,
     );
@@ -782,6 +796,103 @@ for (const [server, address] of [
   });
 }
 
+for (const server of ["Koishi服 (7210)", "超先行服"]) {
+  test(`single-player AI selection previews the chosen deck and joins ${server}`, async ({
+    page,
+  }, info) => {
+    const sessions = await mockServer(page);
+    await page.goto("/match");
+    await page.getByTestId("match-mode-single-player").click();
+    const dialog = page.getByRole("dialog", { name: "单人模式" });
+    const select = dialog.getByRole("combobox", { name: "AI 对手" });
+    await select.fill("有栖川蓝子");
+    await page
+      .getByTitle("有栖川蓝子 · 悠悠王 (MokeyMokeyKing)", { exact: true })
+      .click();
+    const preview = dialog.getByTestId("single-player-deck-preview");
+    await expect(preview).toContainText("悠悠王");
+    await expect(
+      dialog.getByTestId("single-player-deck-main").locator("img"),
+    ).toHaveCount(60);
+    await expect(
+      dialog.getByTestId("single-player-deck-extra").locator("img"),
+    ).toHaveCount(15);
+    await expect(preview.locator("img").first()).toHaveAttribute(
+      "src",
+      /\/59546797\.webp$/,
+    );
+    expect(sessions).toHaveLength(0);
+    if (server === "超先行服") {
+      await page.setViewportSize({ width: 390, height: 844 });
+      const bounds = await dialog.boundingBox();
+      expect(bounds).not.toBeNull();
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+      await expect(
+        dialog.getByRole("button", { name: server, exact: true }),
+      ).toBeInViewport();
+      await page.screenshot({
+        path: info.outputPath("single-player-ai-mobile.png"),
+        animations: "disabled",
+      });
+    }
+    await dialog.getByRole("button", { name: server, exact: true }).click();
+    await expect(page).toHaveURL(/\/waitroom$/);
+    expect(password(sessions[0])).toBe("AI#MokeyMokeyKing");
+    expect(sent(sessions[0], CTOS_HS_READY)).toHaveLength(0);
+  });
+}
+
+test("single-player preview switches decks, clears to random, and preserves long AI identifiers", async ({
+  page,
+}) => {
+  const sessions = await mockServer(page);
+  await page.goto("/match");
+  await page.getByTestId("match-mode-single-player").click();
+  const dialog = page.getByRole("dialog", { name: "单人模式" });
+  const select = dialog.getByRole("combobox", { name: "AI 对手" });
+  await select.fill("Rainbow");
+  await page
+    .getByTitle("梦前菜菜 · 通常怪兽 (Rainbow)", { exact: true })
+    .click();
+  await expect(
+    dialog.getByTestId("single-player-deck-preview").locator("img").first(),
+  ).toHaveAttribute("src", /\/18108166\.webp$/);
+  await select.fill("不存在的 AI");
+  await expect(
+    page.getByText("没有找到对应的 AI 或卡组", { exact: true }),
+  ).toBeVisible();
+  await select.fill("随机");
+  await page.getByTitle("随机 AI", { exact: true }).click();
+  await expect(dialog.getByTestId("single-player-deck-preview")).toHaveCount(0);
+  await select.fill("光道影依恐龙");
+  await page
+    .getByTitle("晴海夏佳 · 光道影依恐龙 (LightswornShaddoldinosour)", {
+      exact: true,
+    })
+    .click();
+  await expect(dialog.getByTestId("single-player-deck-preview")).toContainText(
+    "光道影依恐龙",
+  );
+  // 所有目录项都必须能用完整密码指定唯一 AI，避免静默截断后变成随机对手。
+  const passwords = await page.evaluate(async () => {
+    const { aiBots, getAIPassword } = await import("/src/config/aiBots.ts");
+    return aiBots.map((bot) => ({
+      deck: bot.deck,
+      password: getAIPassword(bot),
+    }));
+  });
+  expect(new Set(passwords.map((entry) => entry.password)).size).toBe(
+    passwords.length,
+  );
+  expect(passwords.every((entry) => entry.password.length <= 19)).toBe(true);
+  await dialog
+    .getByRole("button", { name: "Koishi服 (7210)", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/waitroom$/);
+  expect(password(sessions[0])).toBe("AI#晴海夏佳");
+});
+
 test("single-player server selection can be cancelled before and during connection", async ({
   page,
 }) => {
@@ -800,6 +911,9 @@ test("single-player server selection can be cancelled before and during connecti
   const servers = dialog.getByTestId("single-player-server");
   await expect(servers.first()).toBeDisabled();
   await expect(servers.last()).toBeDisabled();
+  await expect(
+    dialog.getByRole("combobox", { name: "AI 对手" }),
+  ).toBeDisabled();
   await dialog.locator(".ant-modal-close").click();
   await expect(dialog).not.toBeVisible();
   await expect.poll(() => sessions[0].closed).toBe(true);

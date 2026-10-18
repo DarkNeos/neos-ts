@@ -29,13 +29,18 @@ test.beforeAll(async () => {
 
 async function setup(page: Page, animations = false) {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) =>
     route.fulfill({
       body: "!system 23 即将结束主要阶段\n!system 25 战斗阶段结束时\n!system 29 即将结束战斗步骤\n!system 203 是否要进行连锁？\n!system 1001 手牌\n!system 1004 墓地",
     }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route(/\/100000[1-5]\.(webp|jpg)(\?.*)?$/, (route) =>

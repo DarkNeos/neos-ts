@@ -13,7 +13,13 @@ import { AudioActionType, changeScene } from "@/infra/audio";
 import { IDeck, roomStore, SideStage, sideStore } from "@/stores";
 
 import { CardDetail } from "../BuildDeck/CardDetail";
-import { Background, DeckZone, ScrollableArea, Type } from "../Shared";
+import {
+  Background,
+  DeckCardMouseUpEvent,
+  DeckZone,
+  ScrollableArea,
+  Type,
+} from "../Shared";
 import { Chat } from "../WaitRoom/Chat";
 import styles from "./index.module.scss";
 import { TpModal } from "./TpModal";
@@ -48,19 +54,35 @@ export const Component: React.FC = () => {
     card: CardMeta,
     source: Type | "search",
     destination: Type,
+    sourceIndex?: number,
   ) => {
+    if (source === "search" || source === destination) return;
     setDeck((prev) => {
-      const deck = { ...prev };
-      if (source !== "search") {
-        const removeIndex = deck[source].findIndex((id) => id === card.id);
-        if (removeIndex !== -1) {
-          deck[source].splice(removeIndex, 1);
-        }
-      }
-      deck[destination].push(card.id);
+      const removeIndex =
+        sourceIndex ?? prev[source].findIndex((id) => id === card.id);
+      if (prev[source][removeIndex] !== card.id) return prev;
 
-      return deck;
+      return {
+        ...prev,
+        [source]: prev[source].filter((_, index) => index !== removeIndex),
+        [destination]: [...prev[destination], card.id],
+      };
     });
+  };
+  const onCardMouseUp = (
+    source: Type,
+    { event, card, index }: DeckCardMouseUpEvent,
+  ) => {
+    setSelectedCard(card.id);
+    if (event.button !== 2) return;
+    event.preventDefault();
+    const destination =
+      source === "side"
+        ? isExtraDeckCard(card.data.type ?? 0)
+          ? "extra"
+          : "main"
+        : "side";
+    onChange(card, source, destination, index);
   };
   const onReset = () => {
     setDeck(initialDeck);
@@ -97,7 +119,7 @@ export const Component: React.FC = () => {
         <div className={styles.content}>
           <div className={styles["deck-container"]}>
             <Space className={styles.title}>
-              <div>请拖动更换副卡组</div>
+              <div>拖动或右键卡片更换副卡组</div>
               <Space style={{ marginRight: 6 }}>
                 <Button
                   type="text"
@@ -126,7 +148,7 @@ export const Component: React.FC = () => {
                   cards={[...deck[type]].map((id) => fetchCard(id))}
                   canAdd={canAdd}
                   onChange={onChange}
-                  onElementMouseUp={(event) => setSelectedCard(event.card.id)}
+                  onElementMouseUp={(event) => onCardMouseUp(type, event)}
                   banlistHash={lflist}
                 />
               ))}

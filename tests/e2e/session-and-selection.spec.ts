@@ -18,13 +18,18 @@ test.beforeAll(async () => {
 });
 
 async function resources(page: Page) {
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) =>
     route.fulfill({
       body: "!system 1211 确认\n!system 1295 取消\n!system 1000 卡组\n!system 1001 手牌\n!system 1002 怪兽区\n!system 1003 魔陷区\n!system 1004 墓地\n!system 1153 盖放",
     }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
 }
@@ -1342,7 +1347,10 @@ test("available chain mode asks at non-hint timings and preserves forced effects
   // Waiting past the phase animation duration must never decline an effect.
   await page.waitForTimeout(800);
   expect(await sent()).toEqual([]);
-  await page.locator('[data-testid="duel-select-card-option"]:visible').click();
+  await expect(modal.locator(".ant-pro-checkcard-checked")).toHaveCount(1);
+  await expect(
+    page.locator('[data-testid="duel-select-card-submit"]:visible'),
+  ).toBeEnabled();
   await page.locator('[data-testid="duel-select-card-submit"]:visible').click();
   expect((await sent()).at(-1).slice(2)).toEqual([1, 7, 0, 0, 0]);
   for (const mode of [1, 2, 3]) {
@@ -1386,7 +1394,10 @@ test("available chain mode asks at non-hint timings and preserves forced effects
         page.locator('[data-testid="duel-select-card-cancel"]:visible'),
       ).not.toBeVisible();
       expect(await sent()).toEqual([]);
-      await modal.getByTestId("duel-select-card-option").first().click();
+      if (count > 1)
+        await modal.getByTestId("duel-select-card-option").first().click();
+      await expect(modal.locator(".ant-pro-checkcard-checked")).toHaveCount(1);
+      await expect(page.getByTestId("duel-select-card-submit")).toBeEnabled();
       await page.getByTestId("duel-select-card-submit").click();
       await expect.poll(sent).toEqual([[5, 0, 1, 7, 0, 0, 0]]);
     }

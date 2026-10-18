@@ -43,6 +43,7 @@ export const YesNoModal: React.FC = () => {
       movable
       title={[preHintMsg, msg].filter(Boolean).join(" ")}
       open={isOpen}
+      onRightClickCancel={confirmOnly ? undefined : () => submit(false)}
       width={"25rem"}
       afterClose={() => {
         if (localStore.isOpen) return;

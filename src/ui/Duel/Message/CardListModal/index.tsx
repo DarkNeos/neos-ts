@@ -8,6 +8,7 @@ import { cardStore, CardType, matStore } from "@/stores";
 import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { YgoCard } from "@/ui/Shared";
 
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import { CardHints } from "../CardHints";
 import { showCardModal } from "../CardModal";
 import styles from "./index.module.scss";
@@ -70,6 +71,14 @@ export const CardListModal = () => {
       data-testid="duel-card-list-drawer"
       open={isOpen}
       onClose={handleOkOrCancel}
+      drawerRender={(node) => (
+        <div
+          style={{ display: "contents" }}
+          onContextMenu={cancelOnRightClick(handleOkOrCancel)}
+        >
+          {node}
+        </div>
+      )}
       // headerStyle={{ display: "none" }}
       width={DRAWER_WIDTH}
       style={{ maxHeight: "100%" }}

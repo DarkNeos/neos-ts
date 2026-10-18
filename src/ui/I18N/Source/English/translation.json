@@ -19,6 +19,17 @@
     "LoginToGame": "Start game"
   },
   "Match": {
+    "AIOpponent": "AI opponent",
+    "RandomAI": "Random AI",
+    "RandomAIHint": "The server chooses an opponent. Select an AI to preview its deck.",
+    "AINotFound": "No matching AI or deck",
+    "AIDeckPreview": "Deck preview",
+    "AIDeckZone_main": "Main Deck",
+    "AIDeckZone_extra": "Extra Deck",
+    "AIDeckZone_side": "Side Deck",
+    "AIPreviewCard": "Card {{code}}",
+    "AIDeckPreviewNote": "Preview for reference; the server may use a different deck version.",
+    "AIChooseServer": "Choose a server to play against the selected AI.",
     "Deck": "Deck",
     "DeckEdit": "Deck Edit",
     "MCCompetitiveMatchmakingTitle": "Competitive Matchmaking",
