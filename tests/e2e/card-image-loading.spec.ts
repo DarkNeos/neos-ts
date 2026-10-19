@@ -27,7 +27,10 @@ test("search images load near the viewport without changing card geometry or mou
   page,
 }, info) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.route("**/*.cdb", (route) =>
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
     route.fulfill({
       body: route.request().url().includes("test-release.cdb")
         ? emptyDatabase
@@ -37,7 +40,7 @@ test("search images load near the viewport without changing card geometry or mou
   await page.route("**/*.conf", (route) =>
     route.fulfill({ body: "!system 1211 确认" }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route("**/api/mdpro3/deck/list?*", (route) =>

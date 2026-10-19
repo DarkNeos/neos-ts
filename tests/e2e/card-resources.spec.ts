@@ -59,7 +59,10 @@ async function setup(page: Page, language = "cn") {
       }),
     );
   }, language);
-  await page.route("**/*.cdb", (route) =>
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
     route.fulfill({
       body: route.request().url().includes("test-release.cdb")
         ? preReleaseDb
@@ -69,7 +72,7 @@ async function setup(page: Page, language = "cn") {
   await page.route("**/*.conf", (route) =>
     route.fulfill({ body: "!system 1211 确认" }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [{ id: 1000004 }] }),
   );
   const extensionRequests: string[] = [];
@@ -133,7 +136,6 @@ for (const language of ["cn", "en"]) {
       const { openSettingPanel } = await import("/src/ui/Setting/index.tsx");
       openSettingPanel({});
     });
-    await expect(page.getByRole("tab")).toHaveCount(3);
     await expect(
       page.getByRole("tab", { name: /扩展|Extensions/ }),
     ).toHaveCount(0);

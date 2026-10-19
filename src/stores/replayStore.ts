@@ -1,11 +1,20 @@
 import { proxy, ref, subscribe } from "valtio";
+import {
+  YGOProStocHsPlayerChange,
+  YGOProStocHsPlayerEnter,
+  YGOProStocTypeChange,
+} from "ygopro-msg-encode";
 import { writeYrp3dPackets } from "ygopro-yrp3d-encode";
 
 import { YgoProPacket } from "@/api/ocgcore/ocgAdapter/packet";
 import {
+  MSG_SIBYL_NAME,
   MSG_START,
   STOC_GAME_MSG,
+  STOC_HS_PLAYER_CHANGE,
+  STOC_HS_PLAYER_ENTER,
   STOC_REPLAY,
+  STOC_TYPE_CHANGE,
 } from "@/api/ocgcore/ocgAdapter/protoDecl";
 import type { ReplayDeck } from "@/api/ocgcore/replayDecks";
 import { replayPresentation } from "@/infra/replayPresentation";
@@ -34,6 +43,8 @@ interface ReplayPacket {
 // 保存对局回放数据的`Store`
 class ReplayStore implements NeosStore {
   private recordingFilename?: string;
+  private recordingPlayers: (string | undefined)[] = [];
+  private recordingSeat?: number;
   recordedCount = 0;
   recordedGames = 0;
   serverReplays = 0;
@@ -150,6 +161,36 @@ class ReplayStore implements NeosStore {
 
   /** 在网络接收时保存原始消息，记录不受动画、选卡等待或结算弹窗影响。 */
   record(ygoPacket: YgoProPacket) {
+    // 房间消息和开局可能在同一批到达，不能依赖尚未处理完的界面状态。
+    if (ygoPacket.proto === STOC_HS_PLAYER_ENTER) {
+      const { pos, name } = new YGOProStocHsPlayerEnter().fromPayload(
+        ygoPacket.exData,
+      );
+      this.recordingPlayers[pos & 3] = name;
+      return;
+    }
+    if (ygoPacket.proto === STOC_TYPE_CHANGE) {
+      this.recordingSeat = new YGOProStocTypeChange().fromPayload(
+        ygoPacket.exData,
+      ).playerPosition;
+      return;
+    }
+    if (ygoPacket.proto === STOC_HS_PLAYER_CHANGE) {
+      const { status } = new YGOProStocHsPlayerChange().fromPayload(
+        ygoPacket.exData,
+      );
+      const from = status >> 4;
+      const to = status & 15;
+      if (from < 4 && to < 4) {
+        const name = this.recordingPlayers[from];
+        this.recordingPlayers[from] = undefined;
+        this.recordingPlayers[to] = name;
+        if (this.recordingSeat === from) this.recordingSeat = to;
+      } else if (to === 8 || to === 11) {
+        this.recordingPlayers[from] = undefined;
+      }
+      return;
+    }
     if (![STOC_GAME_MSG, STOC_REPLAY].includes(ygoPacket.proto)) return;
     if (ygoPacket.proto === STOC_GAME_MSG && ygoPacket.exData[0] === MSG_START)
       this.recordedGames += 1;
@@ -157,6 +198,28 @@ class ReplayStore implements NeosStore {
     this.recordedCount += 1;
     this.inner.push({
       packet: ygoPacket2replayPacket(ygoPacket),
+    });
+    if (ygoPacket.proto === STOC_GAME_MSG && ygoPacket.exData[0] === MSG_START)
+      this.recordPlayerNames(ygoPacket.exData[1]);
+  }
+
+  private recordPlayerNames(playerType: number) {
+    // 名称记录按先后攻排列；观战开局的低位表示首个席位的先后攻。
+    const seat = playerType & 0xf0 ? 0 : this.recordingSeat;
+    if (seat !== 0 && seat !== 1) return;
+    const first = seat ^ (playerType & 1);
+    const host = this.recordingPlayers[first];
+    const client = this.recordingPlayers[1 - first];
+    if (!host || !client) return;
+    // 复用 YRP3D 的姓名消息，开局之后恢复名字；退出时清空房间不影响已录内容。
+    const payload = new Uint8Array(600);
+    const view = new DataView(payload.buffer);
+    [host, "", host, client, "", client].forEach((name, index) => {
+      for (let i = 0; i < Math.min(name.length, 49); i++)
+        view.setUint16(index * 100 + i * 2, name.charCodeAt(i), true);
+    });
+    this.inner.push({
+      packet: { func: MSG_SIBYL_NAME, extraData: payload.buffer },
     });
   }
 
@@ -202,6 +265,8 @@ class ReplayStore implements NeosStore {
     this.ended = false;
     this.swapped = false;
     this.recordingFilename = undefined;
+    this.recordingPlayers = [];
+    this.recordingSeat = undefined;
     this.inner.splice(0);
     this.isReplay = false;
     this.playbackReady = false;

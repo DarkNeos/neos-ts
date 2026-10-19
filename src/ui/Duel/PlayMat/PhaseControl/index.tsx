@@ -8,6 +8,7 @@ import { connectionStore } from "@/stores/connectionStore";
 import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { fieldSelection } from "@/stores/fieldSelection";
 
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import {
   battlePhase,
   battleStep,
@@ -143,6 +144,11 @@ export const PhaseControl = () => {
       <Modal
         open={open && active}
         onCancel={() => setOpen(false)}
+        wrapProps={{
+          onContextMenu: cancelOnRightClick(
+            open && active ? () => setOpen(false) : undefined,
+          ),
+        }}
         footer={null}
         closable={false}
         width="min(940px, calc(100vw - 24px))"

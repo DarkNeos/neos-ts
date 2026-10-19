@@ -1,7 +1,7 @@
 import type { ScriptReaderFn } from "koishipro-core.js";
 
-import { pfetch } from "../../infra/pfetch";
 import { cachedBinary } from "../../infra/resourceCache";
+import { readResourceVersion } from "../../infra/resourceVersion";
 
 /** 内核只能同步读取脚本；收集缺失文件，下载后由调用方重新演算。 */
 export function createPreReleaseScriptReader(
@@ -56,19 +56,7 @@ export function createPreReleaseScriptReader(
         versionChecked = true;
         if (versionUrl) {
           progress("正在检查超先行脚本版本");
-          try {
-            const response = await pfetch(versionUrl, {
-              init: { cache: "no-cache" },
-              timeoutMs: 5_000,
-            });
-            const bytes = await response.arrayBuffer();
-            const value = new TextDecoder().decode(bytes).trim();
-            if (bytes.byteLength > 64 || !/^\d{1,20}$/.test(value))
-              throw new Error("超先行资源版本号无效");
-            version = value;
-          } catch {
-            // 检查失败时沿用原缓存策略，下一次演算再检查。
-          }
+          version = await readResourceVersion(versionUrl);
         }
       }
       const filenames = [...pending];

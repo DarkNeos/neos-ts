@@ -20,6 +20,7 @@ import {
   match,
 } from "@/api";
 import { useConfig } from "@/config";
+import { type AIBot, getAIPassword } from "@/config/aiBots";
 import { AudioActionType, changeScene } from "@/infra/audio";
 import { accountStore, resetUniverse, roomStore } from "@/stores";
 import { connectionStore } from "@/stores/connectionStore";
@@ -36,6 +37,7 @@ import {
 import styles from "./index.module.scss";
 import { MatchModal, matchStore } from "./MatchModal";
 import { ReplayModal, replayOpen } from "./ReplayModal";
+import { SinglePlayerContent } from "./SinglePlayerContent";
 import { connectSrvpro, disconnectSession } from "./util";
 import { WatchContent, watchStore } from "./WatchContent";
 
@@ -67,6 +69,7 @@ export const Component: React.FC = () => {
     "koishi" | "pre-release" | false
   >(false);
   const [singleOpen, setSingleOpen] = useState(false);
+  const [selectedAI, setSelectedAI] = useState<AIBot>();
   const [appearanceOpen, setAppearanceOpen] = useState(false);
   const [athleticMatchLoading, setAthleticMatchLoading] = useState(false); // 竞技匹配的loading状态
   const [entertainMatchLoading, setEntertainMatchLoading] = useState(false); // 娱乐匹配的loading状态
@@ -266,7 +269,7 @@ export const Component: React.FC = () => {
       await connectSrvpro({
         ip: `${server.ip}:${server.port}`,
         player: user?.username ?? "Guest",
-        passWd: "AI",
+        passWd: getAIPassword(selectedAI),
         singlePlayer: true,
       });
     } catch (error) {
@@ -393,7 +396,7 @@ export const Component: React.FC = () => {
       <Modal
         open={singleOpen}
         title={i18n("SinglePlayerModeTitle")}
-        width="24rem"
+        width="40rem"
         centered
         onCancel={() => {
           disconnectSession();
@@ -402,6 +405,11 @@ export const Component: React.FC = () => {
         }}
         footer={null}
       >
+        <SinglePlayerContent
+          selected={selectedAI}
+          disabled={!!singleLoading}
+          onChange={setSelectedAI}
+        />
         <Space direction="vertical" size="middle" style={{ width: "100%" }}>
           <Button
             data-testid="single-player-server"

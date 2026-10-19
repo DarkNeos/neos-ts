@@ -177,7 +177,7 @@ export const Menu = () => {
       className={styles["menu-container"]}
     >
       <ReplayControl />
-      {isReplay && <ReplayDecks />}
+      {isReplay && <ReplayDecks rightClickCancelable />}
       {training && (
         <>
           <Button

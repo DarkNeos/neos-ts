@@ -14,8 +14,14 @@ interface SuperPreInfo {
 
 let superPreList: SuperPreInfo[] = [];
 
-export async function initSuperPrerelease() {
-  const json = await (await pfetch(config)).text();
+export async function initSuperPrerelease(version?: string) {
+  const url = new URL(config);
+  if (version !== undefined) url.searchParams.set("v", version);
+  const json = await (
+    await pfetch(url.href, {
+      init: { cache: version === undefined ? undefined : "no-cache" },
+    })
+  ).text();
   const list: SuperPreInfo[] = JSON.parse(json);
   superPreList = list;
 }

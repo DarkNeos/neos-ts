@@ -20,9 +20,14 @@ async function setup(page: Page, selfType = 1) {
       JSON.stringify({ animation: { enabled: true, speed: 0.7 } }),
     );
   });
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.goto("/match");

@@ -6,6 +6,7 @@ import { proxy, useSnapshot } from "valtio";
 
 import { IconFont, ScrollableArea, useChat } from "@/ui/Shared";
 
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import styles from "./index.module.scss";
 
 const store = proxy({ open: false });
@@ -28,6 +29,14 @@ export const ChatBox: React.FC = () => {
       mask={false}
       className={styles.chatbox}
       onClose={onClose}
+      drawerRender={(node) => (
+        <div
+          style={{ display: "contents" }}
+          onContextMenu={cancelOnRightClick(onClose)}
+        >
+          {node}
+        </div>
+      )}
       maskClosable
       closeIcon={<DownOutlined />}
     >

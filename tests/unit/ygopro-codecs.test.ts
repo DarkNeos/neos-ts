@@ -396,6 +396,98 @@ test("a saved replay contains only the written records and retains its embedded 
   replayStore.reset();
 });
 
+function recordRoomPlayer(pos: number, name: string) {
+  const payload = Buffer.alloc(41);
+  payload.write(name, 0, 40, "utf16le");
+  payload[40] = pos;
+  replayStore.record(new YgoProPacket(42, 32, payload));
+}
+
+function recordGameStart(playerType: number) {
+  const payload = new Uint8Array(18);
+  payload[0] = 4;
+  payload[1] = playerType;
+  replayStore.record(new YgoProPacket(19, 1, payload));
+}
+
+function savedPlayerNames(buffers: ArrayBuffer[]) {
+  return readYrp3dPackets(Buffer.concat(buffers.map((b) => Buffer.from(b))))
+    .filter(({ type }) => type === 235)
+    .map(({ payload }) => {
+      const message = adaptStoc(
+        new YgoProPacket(602, 1, Uint8Array.of(235, ...payload)),
+      ).stoc_game_msg.sibyl_name;
+      return [message.name_0, message.name_1];
+    });
+}
+
+for (const [seat, playerType, expected] of [
+  [0, 0, ["先攻测试者", "后攻测试者"]],
+  [0, 1, ["后攻测试者", "先攻测试者"]],
+  [1, 0, ["后攻测试者", "先攻测试者"]],
+  [1, 1, ["先攻测试者", "后攻测试者"]],
+  [7, 0x10, ["先攻测试者", "后攻测试者"]],
+  [7, 0x11, ["后攻测试者", "先攻测试者"]],
+] as const) {
+  test(`saved replay retains names without a server attachment (seat ${seat}, start ${playerType})`, () => {
+    replayStore.reset();
+    recordRoomPlayer(0, "先攻测试者");
+    recordRoomPlayer(1, "后攻测试者");
+    replayStore.record(new YgoProPacket(2, 19, Uint8Array.of(0x10 | seat)));
+    recordGameStart(playerType);
+    replayStore.archive();
+    replayStore.reset();
+    assert.deepEqual(savedPlayerNames(replayStore.lastReplay.buffers), [
+      [...expected],
+    ]);
+  });
+}
+
+test("saved replay snapshots names per game and clears them between rooms", () => {
+  replayStore.reset();
+  recordRoomPlayer(0, "甲");
+  recordRoomPlayer(1, "乙");
+  replayStore.record(new YgoProPacket(2, 19, Uint8Array.of(0)));
+  recordGameStart(0);
+  recordGameStart(1);
+  // 后续离开房间不应丢失已经录下的名字。
+  replayStore.record(new YgoProPacket(2, 33, Uint8Array.of(0x0b)));
+  replayStore.record(new YgoProPacket(2, 33, Uint8Array.of(0x1b)));
+  assert.deepEqual(savedPlayerNames(replayStore.encode()), [
+    ["甲", "乙"],
+    ["乙", "甲"],
+  ]);
+  assert.deepEqual(
+    readYrp3dPackets(new Uint8Array(replayStore.encode()[0])).map(
+      (p) => p.type,
+    ),
+    [4, 235, 4, 235],
+  );
+  replayStore.reset();
+  recordGameStart(0);
+  assert.deepEqual(savedPlayerNames(replayStore.encode()), []);
+  replayStore.reset();
+});
+
+test("saved replay follows room seat changes and replacement players", () => {
+  replayStore.reset();
+  recordRoomPlayer(0, "甲");
+  recordRoomPlayer(1, "乙");
+  replayStore.record(new YgoProPacket(2, 19, Uint8Array.of(0)));
+  // 通过空席交换位置，本机玩家仍是甲。
+  for (const change of [0x02, 0x10, 0x21])
+    replayStore.record(new YgoProPacket(2, 33, Uint8Array.of(change)));
+  recordGameStart(0);
+  replayStore.record(new YgoProPacket(2, 33, Uint8Array.of(0x08)));
+  recordRoomPlayer(0, "丙");
+  recordGameStart(1);
+  assert.deepEqual(savedPlayerNames(replayStore.encode()), [
+    ["甲", "乙"],
+    ["丙", "甲"],
+  ]);
+  replayStore.reset();
+});
+
 test("parses all banlist sections, resolves aliases, and separates editor and room selection", () => {
   const lists = new Forbidden("ocg");
   lists.load("!Current\n100 0\n200 1\n!Historical\n100 2\n300 1\n");

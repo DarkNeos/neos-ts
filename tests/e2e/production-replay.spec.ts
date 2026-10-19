@@ -59,7 +59,10 @@ for (const cdn of [false, true]) {
     const replay = await finishedReplayFixture(resources, { yrp2: true });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    await page.route("**/*.cdb", (route) =>
+    await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+      route.fulfill({ body: "1792173550" }),
+    );
+    await page.route(/\.cdb(?:\?.*)?$/, (route) =>
       route.fulfill({
         body: Buffer.from(
           route.request().url().includes("test-release")
@@ -69,7 +72,7 @@ for (const cdn of [false, true]) {
       }),
     );
     await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-    await page.route("**/test-release-v2.json", (route) =>
+    await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
       route.fulfill({ json: [] }),
     );
     await page.route("**/api/mdpro3/deck/list?*", (route) =>

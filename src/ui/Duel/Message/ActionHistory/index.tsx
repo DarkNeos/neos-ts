@@ -10,6 +10,7 @@ import { History, HistoryOp, historyStore, matStore } from "@/stores";
 import { registerDuelDialogReset } from "@/stores/duelDialogs";
 import { ScrollableArea, YgoCard } from "@/ui/Shared";
 
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import styles from "./index.module.scss";
 
 const { assetsPath } = useConfig();
@@ -54,6 +55,14 @@ export const ActionHistory: React.FC = () => {
       mask={false}
       closeIcon={<RightOutlined />}
       onClose={() => (store.isOpen = false)}
+      drawerRender={(node) => (
+        <div
+          style={{ display: "contents" }}
+          onContextMenu={cancelOnRightClick(() => (store.isOpen = false))}
+        >
+          {node}
+        </div>
+      )}
       afterOpenChange={(open) => {
         if (open) scrollToBottom();
       }}

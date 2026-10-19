@@ -32,6 +32,7 @@ export interface sqliteAction<T extends sqliteCmd> {
   initInfo?: {
     releaseDbUrl: string;
     preReleaseDbUrl: string;
+    preReleaseDbVersion?: string;
     progressCallback?: (progress: number) => void; // 用于获取读取进度
   };
   payload?: {
@@ -104,8 +105,9 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
         // Update URLs based on the language
         updateDbUrls(info, language);
 
-        const download = (url: string) =>
+        const download = (url: string, version?: string) =>
           cachedBinary(url, {
+            version,
             progress: action.initInfo?.progressCallback,
             validate: (bytes) => {
               if (
@@ -117,7 +119,10 @@ function helper<T extends sqliteCmd>(action: sqliteAction<T>) {
             },
           });
         const releasePromise = download(info.releaseDbUrl);
-        const preReleasePromise = download(info.preReleaseDbUrl);
+        const preReleasePromise = download(
+          info.preReleaseDbUrl,
+          info.preReleaseDbVersion,
+        );
 
         // 等 WASM 和两份数据库全部下载完成再替换，避免下载失败时只加载了其中一份。
         return Promise.all([loadSql(), releasePromise, preReleasePromise]).then(

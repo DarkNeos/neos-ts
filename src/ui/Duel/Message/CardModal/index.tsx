@@ -26,6 +26,7 @@ import {
   TYPE_LINK,
   Type2StringCodeMap,
 } from "../../../../common";
+import { cancelOnRightClick } from "../../cancelOnRightClick";
 import { CardHints } from "../CardHints";
 import { Desc } from "./Desc";
 import styles from "./index.module.scss";
@@ -89,6 +90,14 @@ export const CardModal = () => {
       open={isOpen && !graveBlocked}
       placement="left"
       onClose={() => (store.isOpen = false)}
+      drawerRender={(node) => (
+        <div
+          style={{ display: "contents" }}
+          onContextMenu={cancelOnRightClick(() => (store.isOpen = false))}
+        >
+          {node}
+        </div>
+      )}
       rootClassName="duel-translucent-drawer"
       className={classnames(styles.drawer, {
         [styles["field-selection"]]: selectingOnField,

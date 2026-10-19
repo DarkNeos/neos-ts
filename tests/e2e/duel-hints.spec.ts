@@ -32,13 +32,18 @@ test.beforeAll(async () => {
 
 async function setup(page: Page) {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) =>
     route.fulfill({
       body: "!system 1020 战士族\n!system 1021 魔法师族\n!system 1045 幻想魔族\n!system 1014 光\n!system 1015 暗\n!system 1004 墓地\n!system 1001 手牌\n!system 100 选项说明",
     }),
   );
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route(/\/100000[1-3]\.(webp|jpg)(\?.*)?$/, (route) =>

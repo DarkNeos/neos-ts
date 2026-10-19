@@ -63,10 +63,18 @@ export const OptionModal = () => {
         <ScrollableArea maxHeight="50vh" className={styles.container}>
           <CheckCard.Group
             bordered
-            multiple
-            value={selecteds}
+            multiple={min !== 1}
+            value={min === 1 ? selecteds[0] : selecteds}
             className={styles["check-card-group"]}
-            onChange={(values) => setSelecteds(values as number[])}
+            onChange={(value) =>
+              setSelecteds(
+                Array.isArray(value)
+                  ? (value as number[])
+                  : typeof value === "number"
+                  ? [value]
+                  : [],
+              )
+            }
           >
             {options.map((option) => (
               <div

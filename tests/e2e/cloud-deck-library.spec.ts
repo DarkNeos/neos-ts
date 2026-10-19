@@ -55,9 +55,14 @@ async function setup(page: Page) {
     writes: [] as { path: string; body: any }[],
   };
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.route("**/*.cdb", (route) => route.fulfill({ body: database }));
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
+    route.fulfill({ body: database }),
+  );
   await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   // 个人数据与所有写请求均使用隔离的模拟接口，不修改真实账号。

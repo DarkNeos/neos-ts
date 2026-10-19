@@ -8,6 +8,7 @@ import {
   setCookie,
 } from "@/api";
 import { useConfig } from "@/config";
+import { readResourceVersion } from "@/infra/resourceVersion";
 import sqliteMiddleWare, { sqliteCmd } from "@/middleware/sqlite";
 import { accountStore, deckStore, initStore, type User } from "@/stores";
 
@@ -15,9 +16,10 @@ const { releaseResource, preReleaseResource, env408Resource } = useConfig();
 
 let sqliteTask: Promise<void> | undefined;
 let initialization: Promise<void> | undefined;
+let preReleaseVersion: Promise<string | undefined> | undefined;
 
 /** 同一轮加载共用任务，失败后可重新下载。 */
-export const initSqlite = (): Promise<void> => {
+export const initSqlite = (version?: string): Promise<void> => {
   if (initStore.sqlite.progress === 1) return Promise.resolve();
   if (sqliteTask) return sqliteTask;
   initStore.sqlite.progress = 0.01;
@@ -26,6 +28,7 @@ export const initSqlite = (): Promise<void> => {
     initInfo: {
       releaseDbUrl: releaseResource.cdb,
       preReleaseDbUrl: preReleaseResource.cdb,
+      preReleaseDbVersion: version,
       progressCallback: (progress) => {
         initStore.sqlite.progress = Math.max(
           initStore.sqlite.progress,
@@ -71,9 +74,9 @@ export const initI18N = async () => {
   }
 };
 
-export const initSuper = async () => {
+export const initSuper = async (version?: string) => {
   if (!initStore.superprerelease) {
-    await initSuperPrerelease();
+    await initSuperPrerelease(version);
     initStore.superprerelease = true;
   }
 };
@@ -85,13 +88,19 @@ export const initializeApp = (): Promise<void> => {
   initStore.error = "";
   // 等所有任务结束再允许重试，防止旧任务仍写入状态时开始新一轮初始化。
   // 已成功的资源保留完成标记，下一轮只重试尚未完成的部分。
-  initialization = Promise.allSettled([
-    initDeck(),
-    initSqlite(),
-    initForbidden(),
-    initI18N(),
-    initSuper(),
-  ])
+  // 卡库和分类列表共用一次版本检查，资源重试也保持同一版本。
+  initialization = (preReleaseVersion ??= readResourceVersion(
+    preReleaseResource.version,
+  ))
+    .then((version) =>
+      Promise.allSettled([
+        initDeck(),
+        initSqlite(version),
+        initForbidden(),
+        initI18N(),
+        initSuper(version),
+      ]),
+    )
     .then((results) => {
       const failure = results.find((result) => result.status === "rejected");
       if (failure?.status === "rejected") throw failure.reason;

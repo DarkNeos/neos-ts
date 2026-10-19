@@ -25,6 +25,14 @@
 
 卡图通过 `getCardImgUrl` 按显示需要逐张加载。音乐和音效默认关闭；开启后按播放需要加载，并缓存到 IndexedDB。首次加载不会下载整个卡图库、全部卡盒图片或全部音频。预设卡组已经编入程序，初始化时从 IndexedDB 读取或保存。
 
+## 超先行卡库更新
+
+页面启动后，使用本地配置中的固定 CDN，先请求超先行资源的 `version.txt`。卡库 `test-release.cdb` 和分类列表 `test-release-v2.json` 使用同一版本号；下载地址附加 `v` 参数，并通过 `cache: no-cache` 重新验证 HTTP 缓存。这样新增卡片的资料和超先行分类都能更新。
+
+完整卡库保存在 IndexedDB 中，缓存有效期为 24 小时。超先行版本变化时立即重新下载，不等待缓存过期；升级前没有版本号的缓存也会更新。相同版本且未过期时复用缓存，正式卡库仍沿用原有的 24 小时缓存策略。
+
+版本检查每次页面加载只执行一次，最多等待 5 秒；失败或内容无效时沿用原有缓存策略。卡库下载失败时保留上一份完整缓存，不将其标记为新版本，刷新页面后继续尝试更新。页面内跳转不会重新初始化卡库，获取后续更新需要刷新页面。超先行 Lua 脚本仍在录像演算需要时单独检查版本和下载。
+
 ## 5 MB 分段下载
 
 `src/middleware/sqlite/index.ts` 为两份卡库启用 `pfetch` 的 `chunkSize: 5_000_000`。其他初始化配置、WebAssembly、程序和图片保持现有请求方式。
@@ -42,7 +50,7 @@ Range: bytes=5000000-8087551
 
 服务器忽略 Range 并返回 `200 OK` 时，直接使用该完整响应。如果浏览器不能读取 Content-Range，或响应声明使用压缩表示，则重新完整下载。HTTP 允许服务器忽略 Range，详见 [RFC 9110 第 14 节](https://www.rfc-editor.org/rfc/rfc9110.html#name-range-requests)。当前 CDN 已开放 Range 请求和 Content-Range 等响应头，真实 Chrome 请求已验证可用。
 
-分段不会降低总下载量。sql.js 仍需拿到完整卡库才能初始化。本次不保存未完成分段，刷新页面后重新下载，是否命中 HTTP 缓存由浏览器和 CDN 决定。
+分段不会降低总下载量。sql.js 仍需拿到完整卡库才能初始化。不保存未完成分段，下载完成后才写入 IndexedDB；刷新页面时按上述缓存和版本规则决定是否重新下载。
 
 ## 验证
 
@@ -51,6 +59,7 @@ npx tsc --noEmit
 npx eslint src/infra/pfetch.ts src/middleware/sqlite/index.ts
 npm run build
 npx playwright test tests/e2e/resource-download.spec.ts --workers=1
+npx playwright test tests/e2e/pre-release-database.spec.ts tests/e2e/pre-release-scripts.spec.ts --workers=1
 ```
 
 9 项下载测试覆盖真实 5 MB 分段边界、拼接后的 SHA-256、服务器忽略 Range、缺失 Content-Range、当前段重试、错误偏移、截断内容、文件版本变化、响应体超时、取消和首页卡库初始化。现有自定义服务器的 2 项兼容性测试也已通过。

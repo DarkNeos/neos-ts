@@ -221,7 +221,10 @@ test("initializes the app from card databases downloaded in 5 MB ranges", async 
   const release = Buffer.from(db.export());
   db.close();
   const requests: { file: string; range: string }[] = [];
-  await page.route("**/*.cdb", (route) => {
+  await page.route("**/ygopro-super-pre/data/version.txt", (route) =>
+    route.fulfill({ body: "1792173550" }),
+  );
+  await page.route(/\.cdb(?:\?.*)?$/, (route) => {
     const file = new URL(route.request().url()).pathname.split("/").pop()!;
     const body = file === "cards.cdb" ? release : preRelease;
     const range = route.request().headers().range;
@@ -240,7 +243,7 @@ test("initializes the app from card databases downloaded in 5 MB ranges", async 
     });
   });
   await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [] }),
   );
   await page.route("**/api/mdpro3/deck/list?*", (route) =>

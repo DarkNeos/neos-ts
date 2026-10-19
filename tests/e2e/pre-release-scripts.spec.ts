@@ -23,7 +23,7 @@ async function initialize(page: Page, version = () => "1791556715") {
     versionChecks.push(route.request().url());
     return route.fulfill({ body: `${version()}\n` });
   });
-  await page.route("**/*.cdb", (route) =>
+  await page.route(/\.cdb(?:\?.*)?$/, (route) =>
     route.fulfill({
       body: Buffer.from(
         fixture.resources.databases[
@@ -35,7 +35,7 @@ async function initialize(page: Page, version = () => "1791556715") {
     }),
   );
   await page.route("**/*.conf", (route) => route.fulfill({ body: "" }));
-  await page.route("**/test-release-v2.json", (route) =>
+  await page.route(/\/test-release-v2\.json(?:\?.*)?$/, (route) =>
     route.fulfill({ json: [1, 2, 3, 4].map((id) => ({ id: 100000000 + id })) }),
   );
   await page.route("**/api/mdpro3/deck/list?*", (route) =>
@@ -112,7 +112,7 @@ test("browsing, deck extraction and normal replays do not download prerelease Lu
   });
   expect((await render(page, preNormal)).error).toBe("");
   expect(downloads).toEqual([]);
-  expect(versionChecks).toEqual([]);
+  expect(versionChecks).toHaveLength(1); // 页面初始化检查卡库版本。
 });
 
 test("loads an override, a Lua dependency and a generated card on demand, then reuses IndexedDB", async ({
@@ -127,10 +127,10 @@ test("loads an override, a Lua dependency and a generated card on demand, then r
   });
   const versionChecks = await initialize(page);
   expect(downloads).toEqual([]);
-  expect(versionChecks).toEqual([]);
+  expect(versionChecks).toHaveLength(1);
   const first = await render(page);
   expect(first.error).toBe("");
-  expect(versionChecks).toHaveLength(1);
+  expect(versionChecks).toHaveLength(2);
   expect(first.lpUpdates).toContainEqual({ player: 1, lp: 7999 });
   expect(downloads).not.toContain("c100000004.lua");
   for (const filename of [
@@ -150,7 +150,7 @@ test("loads an override, a Lua dependency and a generated card on demand, then r
   });
   expect(await render(page)).toEqual(first);
   expect(downloads).toEqual(previous);
-  expect(versionChecks).toHaveLength(2);
+  expect(versionChecks).toHaveLength(4); // 刷新页面和再次演算各检查一次。
 });
 
 test("checks once per replay and refreshes only used scripts when the version changes", async ({
@@ -170,13 +170,13 @@ test("checks once per replay and refreshes only used scripts when the version ch
   const first = await render(page);
   expect(first.error).toBe("");
   expect(first.lpUpdates).toContainEqual({ player: 1, lp: 7999 });
-  expect(versionChecks).toHaveLength(1);
+  expect(versionChecks).toHaveLength(2);
   expect(downloads.every((url) => url.searchParams.get("v") === version)).toBe(
     true,
   );
   const firstCount = downloads.length;
   expect(await render(page)).toEqual(first);
-  expect(versionChecks).toHaveLength(2);
+  expect(versionChecks).toHaveLength(3);
   expect(downloads).toHaveLength(firstCount);
 
   version = "1791556716";
@@ -188,7 +188,7 @@ test("checks once per replay and refreshes only used scripts when the version ch
   const updated = await render(page);
   expect(updated.error).toBe("");
   expect(updated.lpUpdates).toContainEqual({ player: 1, lp: 7998 });
-  expect(versionChecks).toHaveLength(3);
+  expect(versionChecks).toHaveLength(5);
   const refreshed = downloads.slice(firstCount);
   expect(refreshed.length).toBeGreaterThan(0);
   expect(refreshed.every((url) => url.searchParams.get("v") === version)).toBe(
